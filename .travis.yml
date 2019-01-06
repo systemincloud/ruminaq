@@ -1,7 +1,15 @@
-language: java   
+language: java
+
+jdk:
+  - openjdk8
+
 before_install:  
   - cd releng/org.ruminaq.p2repo
   - mvn p2:site
   
 script:
   - mvn clean 
+
+cache:
+  directories:
+  - $HOME/.m2
