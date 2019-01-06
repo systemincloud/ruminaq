@@ -6,6 +6,7 @@ jdk:
 jobs:
   include:
     - stage: "Build JavaTask Client"
+      install: skip
       script:
         - cd libs/org.ruminaq.tasks.javatask.client
         - mvn install
