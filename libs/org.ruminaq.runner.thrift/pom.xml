@@ -5,7 +5,7 @@
 
   <groupId>org.ruminaq.runner</groupId>
   <artifactId>org.ruminaq.runner.thrift</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0-SNAPSHOTS</version>
   <name>Ruminaq - Runner - Thrift</name>
 
   <dependencies>
