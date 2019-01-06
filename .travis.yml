@@ -4,5 +4,6 @@ before_install:
   - mvn p2:site
   - jetty:run
   - cd ../..
+  
 script:
-  - mvn clean verify
+  - mvn clean
