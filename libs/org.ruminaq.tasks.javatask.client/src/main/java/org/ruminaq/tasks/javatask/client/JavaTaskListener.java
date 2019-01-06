@@ -1,25 +1,45 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.tasks.javatask.client;
 
 import org.ruminaq.tasks.javatask.client.data.Data;
 import org.slf4j.Logger;
 
+/**
+ *
+ * @author Marek Jagielski
+ */
 public interface JavaTaskListener {
 
-    // JavaTask
-    void    externalData(int i);
-    void    sleep(long l);
-    void    generatorPause();
-    boolean generatorIsPaused();
-    void    generatorResume();
-    void    generatorEnd();
-    void    exitRunner();
-    String  getParameter(String key);
-    Object  runExpression(String expression);
-    Logger  log();
+	// JavaTask
+	void externalData(int i);
 
-    // InputPort
-    <T extends Data> T    getData(InputPort ip, Class<T> type);
-                     void cleanQueue(InputPort ip);
-    // OutputPort
-                     void putData(OutputPort outputPort, Data data, boolean copy);
+	void sleep(long l);
+
+	void generatorPause();
+
+	boolean generatorIsPaused();
+
+	void generatorResume();
+
+	void generatorEnd();
+
+	void exitRunner();
+
+	String getParameter(String key);
+
+	Object runExpression(String expression);
+
+	Logger log();
+
+
+	// InputPort
+	<T extends Data> T getData(InputPort ip, Class<T> type);
+
+	void cleanQueue(InputPort ip);
+
+
+	// OutputPort
+	void putData(OutputPort outputPort, Data data, boolean copy);
 }

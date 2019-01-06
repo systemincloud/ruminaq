@@ -3,7 +3,7 @@
 
   <groupId>org.ruminaq.tasks.javatask</groupId>
   <artifactId>org.ruminaq.tasks.javatask.client</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0-SNAPSHOT</version>
   <name>Ruminaq - Tasks - Java Task - Client</name>
 
   <dependencies>
