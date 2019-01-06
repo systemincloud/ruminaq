@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin>
+  <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+    <propertyTabs 
+        contributorId="Ruminaq.PropertyContributor">
+      <propertyTab 
+          label="Console" 
+          id="org.ruminaq.tasks.consoleTab" 
+          afterTab="org.ruminaq.common.mainTab" 
+          category="Graphiti" />
+    </propertyTabs>
+  </extension>
+  <extension 
+      point="org.eclipse.ui.views.properties.tabbed.propertySections">
+    <propertySections 
+        contributorId="Ruminaq.PropertyContributor">
+      <propertySection 
+          tab="org.ruminaq.tasks.consoleTab"          
+          class="org.ruminaq.tasks.console.ui.properties.PropertySection"
+          id="org.ruminaq.tasks.consoleTab.Section" 
+          filter="org.ruminaq.tasks.console.ui.properties.PropertyFilter" />
+    </propertySections>
+  </extension>
+  <extension point="org.eclipse.ui.views">
+    <view
+        id="org.ruminaq.tasks.console.views.ConsoleView"
+        allowMultiple="true"
+        class="org.modeler.tasks.console.ui.views.ConsoleViewPart"
+        icon="icons/diagram.console.png"
+        name="My Console">
+      </view>
+  </extension>
+</plugin>

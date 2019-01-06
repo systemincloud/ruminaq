@@ -1,0 +1,67 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+</head>
+<body>
+<div>
+	<div><h2><b>Sipo</b></h2></div>
+	<div style="position: absolute; top: 15px; right: 15px;"><img src="img/icon.png" alt=""/></div>
+	<hr>
+	<div style="text-align:center;">
+		<img src="img/diagram.png" alt=""/>
+	</div>
+	<br>
+	<p>Sipo is a single input - parallel output register.</p>
+
+	<div class="task-ports">
+		<h3>Input Ports:</h3>
+		<ul>
+			<li><b>In</b> <em>data type = Any</em><br>
+			    Input port.
+			</li>
+			<li><b>Idx</b> <em>data type = Int32, opt=true</em><br>
+			    Select output to shown on Out port.
+			</li>
+			<li><b>CLK</b> <em>data type = Control, opt=true</em><br>
+			    Register shift only on clock.
+			</li>
+			<li><b>T</b> <em>data type = Control, opt=true</em><br>
+			    Data put on output ports on trigger.
+			</li>
+		</ul>
+		<h3>Output Ports:</h3>
+		<ul>
+			<li><b>Out</b> <em>data type = Any</em><br>
+			    Output port on index.
+			</li>
+			<li><b>Out X</b> <em>data type = Any</em><br>
+			    Output port of X index data.
+			</li>
+		</ul>
+	</div>
+	
+	<div>
+		<h3>Properties:</h3>
+		<div style="text-align:center;">
+			<img src="img/properties.png" alt=""/>
+		</div>
+		<br>
+		<ul>
+			<li><b>Size:</b> <em>&lt;integer&gt;</em><br>
+				Register size.
+			</li>
+			<li><b>Index:</b><br>
+				If selected, there would be only one output port showing data depending on value on Index input.
+			</li>
+			<li><b>Clock:</b><br>
+				Shift right data in register on clock signal.
+			</li>
+			<li><b>Trigger:</b><br>
+				Put data on output only on trigger.
+			</li>
+		</ul>
+	</div>
+	
+</div>
+</body>
+</html>

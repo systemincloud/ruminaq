@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="4.3"?>
+<plugin>
+
+   <extension point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            name="%ruminaq.launch.type.name"
+      		delegateDescription="%ruminaq.launch.type.description"
+            id="org.ruminaq.RuminaqLaunchConfigurationType"
+            delegate="org.ruminaq.launch.RuminaqLaunchDelegate"
+            sourceLocatorId="org.ruminaq.debug.model.sourceLocator"
+            modes="run,debug" public="true"/>
+   </extension>
+
+   <extension point="org.eclipse.ui.commands">
+     <command id="org.ruminaq.actions.testFileAction.run"
+              categoryId="org.eclipse.debug.ui.category.run"
+              name="%ruminaq.shortcut.description.run"
+              description="%ruminaq.shortcut.description.run"/>
+   </extension>
+
+</plugin>

@@ -1,0 +1,80 @@
+<plugin>
+  <extension
+      point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+    <propertyTabs
+        contributorId="Ruminaq.PropertyContributor">
+      <propertyTab
+          label="Embedded Task"
+          id="org.ruminaq.tasks.embeddedtaskTab"
+          afterTab="org.ruminaq.common.mainTab"
+          category="Graphiti" />
+    </propertyTabs>
+    <propertyTabs
+        contributorId="Ruminaq.PropertyContributor">
+      <propertyTab
+          label="Parameters"
+          id="org.ruminaq.tasks.embeddedTaskParametersTab"
+          afterTab="org.ruminaq.tasks.embeddedtaskTab"
+          category="Graphiti" />
+    </propertyTabs>
+  </extension>
+  <extension
+      point="org.eclipse.ui.views.properties.tabbed.propertySections">
+    <propertySections
+        contributorId="Ruminaq.PropertyContributor">
+      <propertySection
+          tab="org.ruminaq.tasks.embeddedtaskTab"
+          class="org.ruminaq.tasks.embeddedtask.ui.properties.PropertySection"
+          id="org.ruminaq.tasks.embeddedtaskTab.Section"
+          filter="org.ruminaq.tasks.embeddedtask.ui.properties.PropertyFilter" />
+      <propertySection
+          tab="org.ruminaq.tasks.embeddedTaskParametersTab"
+          class="org.ruminaq.tasks.embeddedtask.ui.properties.ParametersSection"
+          id="org.ruminaq.tasks.embeddedTaskParametersTab.Section"
+          filter="org.ruminaq.tasks.embeddedtask.ui.properties.PropertyFilter" />
+    </propertySections>
+  </extension>
+  <extension
+      point="org.eclipse.ui.commands">
+    <command
+        defaultHandler="org.ruminaq.tasks.embeddedtask.ui.cmd.CreateTestDiagramCmd"
+        id="org.ruminaq.tasks.embeddedtask.ui.cmd.CreateTestDiagramCmd"
+        name="Create Test Diagram">
+    </command>
+  </extension>
+  <extension
+      point="org.eclipse.ui.commandImages">
+    <image
+        commandId="org.ruminaq.tasks.embeddedtask.ui.cmd.CreateTestDiagramCmd"
+        icon="icons/test.png"/>
+  </extension>
+  <extension
+      point="org.eclipse.ui.menus">
+    <menuContribution
+        locationURI="popup:org.ruminaq.eclipse.popup.ProjectExplorer?after=additions">
+      <command
+          commandId="org.ruminaq.tasks.embeddedtask.ui.cmd.CreateTestDiagramCmd"
+          label="New Test Diagram">
+        <visibleWhen
+            checkEnabled="true">
+          <and>
+            <with
+                variable="activeMenuSelection">
+              <count
+                  value="1"/>
+              <iterate
+                  operator="and">
+                <test
+                    property="org.eclipse.core.resources.projectNature"
+                    value="org.ruminaq.eclipse.nature.SicProjectNature"/>
+                <test
+                    property="org.eclipse.core.resources.extension"
+                    value="sic"/>
+              </iterate>
+            </with>
+          </and>
+        </visibleWhen>
+      </command>
+    </menuContribution>
+  </extension>
+</plugin>

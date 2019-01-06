@@ -1,0 +1,23 @@
+<plugin>
+  <extension 
+      point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+    <propertyTabs contributorId="Ruminaq.PropertyContributor">
+      <propertyTab 
+          label="Gate" 
+          id="org.ruminaq.tasks.gateOrTab" 
+          afterTab="org.ruminaq.common.mainTab" 
+          category="Graphiti" />
+    </propertyTabs>
+  </extension>
+  <extension 
+      point="org.eclipse.ui.views.properties.tabbed.propertySections">
+    <propertySections 
+        contributorId="Ruminaq.PropertyContributor">
+      <propertySection 
+          tab="org.ruminaq.tasks.gateOrTab"
+          class="org.ruminaq.tasks.gate.or.ui.properties.PropertySection"
+          id="org.ruminaq.tasks.gateOrTab.Section" 
+          filter="org.ruminaq.tasks.gate.or.ui.properties.PropertyFilter" />
+      </propertySections>
+   </extension>
+</plugin>

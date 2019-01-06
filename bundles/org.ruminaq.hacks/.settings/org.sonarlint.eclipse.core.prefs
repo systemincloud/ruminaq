@@ -1,0 +1,8 @@
+autoEnabled=true
+eclipse.preferences.version=1
+extraProperties=
+fileExclusions=
+idePrefixKey=
+projectKey=org.ruminaq\:org.ruinaq.root
+serverId=localhost
+sqPrefixKey=bundles/org.ruminaq.hacks

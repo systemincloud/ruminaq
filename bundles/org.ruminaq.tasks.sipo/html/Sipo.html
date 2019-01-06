@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>Sipo</h3>
+<hr>
+<p>Sipo is a single input - parallel output register</p>
+
+<b>Input Ports</b><br>
+		<ul>
+			<li><b>In</b> <em>data type = Any</em><br>
+			    Input port.
+			</li>
+			<li><b>Idx</b> <em>data type = Int32, opt=true</em><br>
+			    Select output to shown on Out port.
+			</li>
+			<li><b>CLK</b> <em>data type = Control, opt=true</em><br>
+			    Register shift only on clock.
+			</li>
+			<li><b>T</b> <em>data type = Control, opt=true</em><br>
+			    Data put on output ports on trigger.
+			</li>
+		</ul>
+<br>
+<b>Output Ports</b><br>
+		<ul>
+			<li><b>Out</b> <em>data type = Any</em><br>
+			    Output port on index.
+			</li>
+			<li><b>Out X</b> <em>data type = Any</em><br>
+			    Output port of X index data.
+			</li>
+		</ul>
+</body>
+</html>

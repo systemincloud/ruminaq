@@ -1,0 +1,127 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+</head>
+<body>
+<div>
+  <div><h2><b>Java Task</b></h2></div>
+  <div style="position: absolute; top: 15px; right: 15px;"><img src="img/icon.png" alt=""/></div>
+  <hr>
+  <div style="text-align:center;">
+    <img src="img/diagram.png" alt=""/>
+  </div>
+  <br>
+  <p>With Java Task you can define your own task with Java programming language.</p>
+
+  <div class="task-ports">
+    <h3>Input Ports:</h3>
+    <ul>
+      <li>Ports are defined by User.</li>
+    </ul>
+    <h3>Output Ports:</h3>
+    <ul>
+      <li>Ports are defined by User.</li>
+    </ul>
+  </div>
+
+  <div>
+    <h3>Properties:</h3>
+    <div style="text-align:center;">
+      <img src="img/properties.png" alt=""/>
+    </div>
+    <br>
+    <ul>
+      <li><b>Java Task Class:</b> <em>&lt;fully qualified name&gt;</em><br>
+        You can use search window to find the class. You can also open a wizard
+        to create a new Java Task Class either by clicking here or on right clicking
+        in Package Explorer (New -&gt; Other... -&gt; System in Cloud -&gt; Commons -&gt; Java Task Class).
+      </li>
+    </ul>
+    Some properties are set inside annotation in Java Task Class implementation. They are:
+    <ul>
+      <li><b>atomic:</b> <em><b>true</b>|false</em><br>
+        You can set if the task will be atomic or not (see User Guide).
+      </li>
+      <li><b>generator:</b> <em>true|<b>false</b></em><br>
+        You can indicate that this Task will be generating data periodically
+        even if it doesn't receive any.
+      </li>
+      <li><b>external source:</b> <em>true|<b>false</b></em><br>
+        This Task can be activated in any moment depending on external conditions.
+        (e.g. receiving data from Internet).
+      </li>
+      <li><b>constant:</b> <em>true|<b>false</b></em><br>
+        This task is run only once when the parent module is activated synchronously.
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <h3>Java Task Class:</h3>
+<div style='background:#FFFFFF; font-family: Courier New, Courier; font-size: 10pt; COLOR: #000000; padding-bottom: 0px; padding-left: 0px; padding-right: 0px; padding-top: 0px;'><strong><font color='#7f0055'>package</font></strong>&nbsp;com.test;
+<br/>
+<br/><strong><font color='#7f0055'>import</font></strong>&nbsporg.ruminaq.tasks.javatask.api.InputPort;
+<br/><strong><font color='#7f0055'>import</font></strong>&nbsporg.ruminaq.tasks.javatask.api.JavaTask;
+<br/><strong><font color='#7f0055'>import</font></strong>&nbsporg.ruminaq.tasks.javatask.api.OutputPort;
+<br/><strong><font color='#7f0055'>import</font></strong>&nbsporg.ruminaq.tasks.javatask.api.annotations.InputPortInfo;
+<br/><strong><font color='#7f0055'>import</font></strong>&nbsporg.ruminaq.tasks.javatask.api.annotations.JavaTaskInfo;
+<br/><strong><font color='#7f0055'>import</font></strong>&nbsporg.ruminaq.tasks.javatask.api.annotations.OutputPortInfo;
+<br/><strong><font color='#7f0055'>import</font></strong>&nbsporg.ruminaq.tasks.javatask.api.data.Int64;
+<br/><strong><font color='#7f0055'>import</font></strong>&nbsporg.ruminaq.tasks.javatask.api.data.Bool;
+<br/>
+<br/><font color='#646464'>@JavaTaskInfo</font>(atomic=<strong><font color='#7f0055'>true</font></strong>,&nbsp;generator=<strong><font color='#7f0055'>true</font></strong>,&nbsp;externalSource=<strong><font color='#7f0055'>true</font></strong>)
+<br/><strong><font color='#7f0055'>public</font></strong>&nbsp;<strong><font color='#7f0055'>class</font></strong>&nbsp;MyJavaTaskClass&nbsp;<strong><font color='#7f0055'>extends</font></strong>&nbsp;JavaTask&nbsp;{
+<br/>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<font color='#646464'>@InputPortInfo</font>(name&nbsp;=&nbsp;<font color='#2a00ff'>"RST"</font>,&nbsp;dataType&nbsp;=&nbsp;Int64.<strong><font color='#7f0055'>class</font></strong>,&nbsp;asynchronous=<strong><font color='#7f0055'>true</font></strong>)
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<strong><font color='#7f0055'>public</font></strong>&nbsp;InputPort&nbsp;rst;
+<br/>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<font color='#646464'>@InputPortInfo</font>(name&nbsp;=&nbsp;<font color='#2a00ff'>"In1"</font>,&nbsp;dataType&nbsp;=&nbsp;Int64.<strong><font color='#7f0055'>class</font></strong>)
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<strong><font color='#7f0055'>public</font></strong>&nbsp;InputPort&nbsp;in1;
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<font color='#646464'>@InputPortInfo</font>(name&nbsp;=&nbsp;<font color='#2a00ff'>"In2"</font>,&nbsp;dataType&nbsp;=&nbsp;Int64.<strong><font color='#7f0055'>class</font></strong>)
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<strong><font color='#7f0055'>public</font></strong>&nbsp;InputPort&nbsp;in2;
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<font color='#646464'>@OutputPortInfo</font>(name&nbsp;=&nbsp;<font color='#2a00ff'>"Out"</font>,&nbsp;dataType&nbsp;=&nbsp;Bool.<strong><font color='#7f0055'>class</font></strong>)
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<strong><font color='#7f0055'>public</font></strong>&nbsp;OutputPort&nbsp;out;
+<br/>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<font color='#646464'>@Override</font>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<strong><font color='#7f0055'>public</font></strong>&nbsp;<strong><font color='#7f0055'>void</font></strong>&nbsp;execute(<strong><font color='#7f0055'>int</font></strong>&nbsp;grp)&nbsp;{
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='#3f7f5f'>/*
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Here&nbsp;you&nbsp;define&nbsp;what's
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;happen&nbsp;when&nbsp;all&nbsp;synchronous&nbsp;ports&nbsp;from&nbsp;group
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;received&nbsp;data&nbsp;or&nbsp;your&nbsp;generator&nbsp;code
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;is&nbsp;ready&nbsp;to&nbsp;action.
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+<br/>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<font color='#646464'>@Override</font>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<strong><font color='#7f0055'>public</font></strong>&nbsp;<strong><font color='#7f0055'>void</font></strong>&nbsp;executeAsync(InputPort&nbsp;asyncIn)&nbsp;{
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='#3f7f5f'>/*
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Here&nbsp;you&nbsp;define&nbsp;what's
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;happen&nbsp;when&nbsp;a&nbsp;asynchronous&nbsp;port
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;received&nbsp;data.&nbsp;Port&nbsp;is&nbsp;in&nbsp;argument
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+<br/>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<font color='#646464'>@Override</font>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<strong><font color='#7f0055'>public</font></strong>&nbsp;<strong><font color='#7f0055'>void</font></strong>&nbsp;executeExtSrc()&nbsp;{
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='#3f7f5f'>/*
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Here&nbsp;is&nbsp;made&nbsp;an&nbsp;action&nbsp;after&nbsp;you
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;notify&nbsp;Modeler&nbsp;that&nbsp;this&nbsp;Task&nbsp;is
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;ready&nbsp;to&nbsp;run
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+<br/>}
+<br/>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<font color='#646464'>@Override</font>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;<strong><font color='#7f0055'>public</font></strong>&nbsp;<strong><font color='#7f0055'>void</font></strong>&nbsp;generate()&nbsp;{
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color='#3f7f5f'>/*
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;Here&nbsp;is&nbsp;made&nbsp;a&nbsp;periodical&nbsp;action
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;as&nbsp;part&nbsp;of&nbsp;generator
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</font>
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;}
+<br/>}
+<br/><div style='text-align:right;BORDER-TOP: #ccc 1px dashed'><a href="http://www.togotutor.com/code-to-html/java-to-html.php" target="_blank">Code Formatted by ToGoTutor</a></div></div>
+</div>
+
+</div>
+</body>
+</html>

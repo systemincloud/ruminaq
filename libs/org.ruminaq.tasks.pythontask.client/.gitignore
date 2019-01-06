@@ -1,0 +1,8 @@
+/**/__pycache__
+/setuptools-*
+/**.pyc
+/*.egg-info
+target
+.pydevproject
+.project
+dist

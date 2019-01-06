@@ -1,0 +1,23 @@
+Automatic-Module-Name: org.ruminaq.tasks.constant.ui
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq - Tasks - Constant UI
+Bundle-Vendor: System in Cloud
+Bundle-SymbolicName: org.ruminaq.tasks.constant.ui;singleton:=true
+Bundle-Version: 0.9.0.qualifier
+Import-Package: org.eclipse.core.runtime,
+ org.eclipse.graphiti,
+ org.eclipse.graphiti.mm.pictograms,
+ org.eclipse.graphiti.ui.platform,
+ org.eclipse.jdt.launching,
+ org.eclipse.jface.viewers,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui.plugin,
+ org.eclipse.ui.views.properties.tabbed,
+ org.osgi.framework,
+ org.ruminaq.launch,
+ org.ruminaq.tasks,
+ org.ruminaq.tasks.api,
+ org.ruminaq.util,
+ org.ruminaq.runner.dirmi
+Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

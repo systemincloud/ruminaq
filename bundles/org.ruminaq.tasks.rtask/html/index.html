@@ -1,0 +1,90 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+</head>
+<body>
+<div>
+  <div><h2><b>R Task</b></h2></div>
+  <div style="position: absolute; top: 15px; right: 15px;"><img src="img/icon.png" alt=""/></div>
+  <hr>
+  <div style="text-align:center;">
+    <img src="img/diagram.png" alt=""/>
+  </div>
+  <br>
+  <p>With R Task you can define your own task with R programming language.</p>
+
+  <div class="task-ports">
+    <h3>Input Ports:</h3>
+    <ul>
+      <li>Ports are defined by User.</li>
+    </ul>
+    <h3>Output Ports:</h3>
+    <ul>
+      <li>Ports are defined by User.</li>
+    </ul>
+  </div>
+
+  <div>
+    <h3>Properties:</h3>
+    <div style="text-align:center;">
+      <img src="img/properties.png" alt=""/>
+    </div>
+    <br>
+    <ul>
+      <li><b>Python Task Class:</b> <em>&lt;fully qualified name&gt;</em><br>
+        You can use search window to find the class. You can also open a wizard
+        to create a new Python Task Class either by clicking here or on right clicking
+        in Package Explorer (New -&gt; Other... -&gt; System in Cloud -&gt; Commons -&gt; Python Task Class).
+      </li>
+    </ul>
+    Some properties are set inside annotation in Python Task Class implementation. They are:
+    <ul>
+      <li><b>atomic:</b> <em><b>True</b>|False</em><br>
+        You can set if the task will be atomic or not (see User Guide).
+      </li>
+      <li><b>generator:</b> <em>True|<b>False</b></em><br>
+        You can indicate that this Task will be generating data periodically
+        even if it doesn't receive any.
+      </li>
+      <li><b>external source:</b> <em>True|<b>False</b></em><br>
+        This Task can be activated in any moment depending on external conditions.
+        (e.g. receiving data from Internet).
+      </li>
+      <li><b>constant:</b> <em>True|<b>False</b></em><br>
+        This task is run only once when the parent module is activated synchronously.
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <h3>Python Task Class:</h3>
+<div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #555555; font-weight: bold">@PythonTaskInfo</span>(generator<span style="color: #333333">=</span><span style="color: #007020">True</span>, external_source<span style="color: #333333">=</span><span style="color: #007020">True</span>)
+<span style="color: #555555; font-weight: bold">@SicParameter</span>(name<span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;param&quot;</span>)
+<span style="color: #008800; font-weight: bold">class</span> <span style="color: #BB0066; font-weight: bold">MyPythonTask</span>(PythonTask):
+
+    <span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">__init_ports__</span>(<span style="color: #007020">self</span>):
+        <span style="color: #007020">self</span><span style="color: #333333">.</span>in1 <span style="color: #333333">=</span> InputPort(name<span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;in1&quot;</span>, data_type<span style="color: #333333">=</span>Bool)
+        <span style="color: #007020">self</span><span style="color: #333333">.</span>in2 <span style="color: #333333">=</span> InputPort(name<span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;in2&quot;</span>, data_type<span style="color: #333333">=</span>Bool, asynchronous<span style="color: #333333">=</span><span style="color: #007020">True</span>)
+        <span style="color: #007020">self</span><span style="color: #333333">.</span>out <span style="color: #333333">=</span> OutputPort(name<span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;out&quot;</span>, data_type<span style="color: #333333">=</span>Bool)
+
+    <span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">execute_async</span>(<span style="color: #007020">self</span>, async_in):
+        <span style="color: #DD4422">&quot;&quot;&quot; this will run when asynchronous port</span>
+<span style="color: #DD4422">            receive data &quot;&quot;&quot;</span>
+
+    <span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">execute_ext_src</span>(<span style="color: #007020">self</span>):
+        <span style="color: #DD4422">&quot;&quot;&quot; this will run after internal</span>
+<span style="color: #DD4422">            request &quot;&quot;&quot;</span>
+
+    <span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">generate</span>(<span style="color: #007020">self</span>):
+        <span style="color: #DD4422">&quot;&quot;&quot; this will run periodicaly &quot;&quot;&quot;</span>
+
+    <span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">execute</span>(<span style="color: #007020">self</span>, grp):
+        <span style="color: #DD4422">&quot;&quot;&quot; this will run when all synchronous ports </span>
+<span style="color: #DD4422">            from group receive data &quot;&quot;&quot;</span>
+
+</pre></div>
+</div>
+
+</div>
+</body>
+</html>

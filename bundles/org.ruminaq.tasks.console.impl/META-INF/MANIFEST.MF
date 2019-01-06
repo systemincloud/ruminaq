@@ -1,0 +1,25 @@
+Automatic-Module-Name: org.ruminaq.tasks.console.impl
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq - Tasks - Console
+Bundle-Vendor: Ruminaq
+Bundle-SymbolicName: org.ruminaq.tasks.console.impl
+Bundle-Version: 1.0.0.qualifier
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: ch.qos.logback.classic,
+ ch.qos.logback.core.spi,
+ org.apache.commons.lang3,
+ org.eclipse.emf.ecore,
+ org.ruminaq.model.desc,
+ org.ruminaq.model.model.dt,
+ org.ruminaq.model.model.ruminaq,
+ org.ruminaq.runner,
+ org.ruminaq.runner.dirmi,
+ org.ruminaq.runner.impl,
+ org.ruminaq.runner.impl.data,
+ org.ruminaq.runner.service,
+ org.ruminaq.runner.util,
+ org.ruminaq.tasks.console.model.console,
+ org.ruminaq.util,
+ org.slf4j
+Export-Package: org.ruminaq.tasks.console.impl

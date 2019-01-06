@@ -1,0 +1,19 @@
+Automatic-Module-Name: org.ruminaq.logs
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq - Logs
+Bundle-Vendor: Marek Jagielski
+Bundle-SymbolicName: org.ruminaq.logs;singleton:=true
+Bundle-Version: 0.9.0.qualifier
+Import-Package: ch.qos.logback.classic,
+ ch.qos.logback.classic.encoder,
+ ch.qos.logback.classic.spi,
+ ch.qos.logback.core,
+ ch.qos.logback.core.encoder,
+ ch.qos.logback.core.pattern,
+ ch.qos.logback.core.spi,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.ruminaq.prefs,
+ org.slf4j
+Export-Package: org.ruminaq.logs
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

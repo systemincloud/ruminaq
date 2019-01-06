@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description name="Ruminaq Update Site" url="http://ruminaq.org/update">
+      Ruminaq Update Site
+   </description>
+   <feature url="features/org.ruminaq.feature_0.9.0-SNAPSHOT.jar" id="org.ruminaq.feature" version="0.9.0.qualifier">
+      <category name="ruminaq"/>
+   </feature>
+   <category-def name="ruminaq" label="Ruminaq"/>
+</site>

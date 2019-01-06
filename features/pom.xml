@@ -1,0 +1,17 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.ruminaq</groupId>
+  <artifactId>org.ruminaq.features</artifactId>
+  <version>0.9.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>org.ruminaq</groupId>
+    <artifactId>org.ruminaq.root</artifactId>
+    <version>0.9.0-SNAPSHOT</version>
+  </parent>
+
+  <modules>
+    <module>org.ruminaq.feature</module>
+  </modules>
+</project>

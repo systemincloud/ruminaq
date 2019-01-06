@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs contributorId="Ruminaq.PropertyContributor">
+         <propertyTab label="R Task" id="org.ruminaq.tasks.rTaskTab" afterTab="org.ruminaq.common.mainTab" category="Graphiti" />
+      </propertyTabs>
+   </extension>
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs contributorId="Ruminaq.PropertyContributor">
+         <propertyTab label="Parameters" id="org.ruminaq.tasks.rTaskParametersTab" afterTab="org.ruminaq.tasks.rTaskTab" category="Graphiti" />
+      </propertyTabs>
+   </extension>
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections contributorId="Ruminaq.PropertyContributor">
+         <propertySection tab="org.ruminaq.tasks.rTaskTab"                    class="org.ruminaq.tasks.rtask.ui.properties.PropertySection"
+                           id="org.ruminaq.tasks.rTaskTab.Section"           filter="org.ruminaq.tasks.rtask.ui.properties.PropertyFilter" />
+         <propertySection tab="org.ruminaq.tasks.rTaskParametersTab"          class="org.ruminaq.tasks.rtask.ui.properties.ParametersSection"
+                           id="org.ruminaq.tasks.rTaskParametersTab.Section" filter="org.ruminaq.tasks.rtask.ui.properties.PropertyFilter" />
+      </propertySections>
+   </extension>
+
+   <!--
+    | Wizards
+    -->
+   <extension point="org.eclipse.ui.newWizards">
+      <wizard name="R Task Class"
+              id="org.ruminaq.tasks.rtask.ui.wizards.CreateRTaskWizard"
+              category="org.ruminaq.eclipse.newWizards.category/commons"
+              class="org.ruminaq.tasks.rtask.ui.wizards.CreateRTaskWizard"
+              finalPerspective="org.ruminaq.eclipse.perspective.RuminaqPerspective"
+              icon="icons/rtask.png">
+         <description>Create R Task Class</description>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.debug.ui.debugModelPresentations">
+      <debugModelPresentation class="org.ruminaq.tasks.rtask.ui.debug.RTasksDebugModelPresentation"
+                                 id="org.ruminaq.tasks.rtask.ui.debug.RTasksDebugModelPresentation">
+      </debugModelPresentation>
+   </extension>
+
+</plugin>

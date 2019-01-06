@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.ruminaq.tasks.pythontask</groupId>
+  <artifactId>org.ruminaq.tasks.pythontask.client</artifactId>
+  <version>1.0.2</version>
+  <packaging>pom</packaging>
+  <name>Ruminaq - Tasks - Python Task - Client</name>
+
+ <properties>
+   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   <maven.deploy.skip>true</maven.deploy.skip>
+ </properties>
+ 
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}</directory>
+        <includes>
+          <include>ruminaq/**/*.py</include>
+          <include>setup.py</include>
+          <include>README.md</include>
+          <include>__main__.py</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>${basedir}/ruminaq.egg-info</directory>
+        <includes>
+          <include>*</include>
+        </includes>
+        <targetPath>EGG-INFO</targetPath>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <configuration>
+          <executable>python3</executable>
+          <workingdirectory>${basedir}/target</workingdirectory>
+          <environmentVariables>
+            <PYTHONPATH>${basedir}/target</PYTHONPATH>
+          </environmentVariables>
+        </configuration>
+        <executions>
+          <execution>
+            <id>setuptools clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <arguments>
+                <argument>setup.py</argument>
+                <argument>clean</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>setuptools install</id>
+            <phase>build</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <arguments>
+                <argument>setup.py</argument>
+                <argument>develop</argument>
+                <argument>--install-dir=${basedir}/target</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>setuptools test</id>
+            <phase>test</phase>
+            <goals><goal>exec</goal></goals>
+            <configuration>
+              <arguments>
+                <argument>setup.py</argument>
+                <argument>test</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>setuptools deploy</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <arguments>
+                <argument>setup.py</argument>
+                <argument>register</argument>
+                <argument>sdist</argument>
+                <argument>upload</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001 XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.ruminaq</groupId>
+    <artifactId>org.ruminaq.releng</artifactId>
+    <version>0.9.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>org.ruminaq.p2repo</artifactId>
+  <packaging>pom</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>install</phase>
+            <configuration>
+              <target>
+                <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+                <for param="file">
+                  <path>
+                    <fileset dir="lib" includes="*.jar"/>
+                  </path>
+                  <sequential>
+                    <local name="name"/>
+                    <exec executable="mvn">
+                      <arg value="install:install-file"/>
+                      <arg value="-Dfile=@{file}"/>
+                      <arg value="-Dpackaging=jar"/>
+                    </exec>
+                    <echo message="@{file}, ${name}"/>
+                  </sequential>
+                </for>
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <extensions>false</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.reficio</groupId>
+        <artifactId>p2-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-cli</id>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <id>org.ruminaq.tasks.javatask:org.ruminaq.tasks.javatask.client:1.0.0</id>
+                </artifact>
+                <artifact>
+                  <id>org.ruminaq.runner:org.ruminaq.runner.thrift:1.0.0</id>
+                  <instructions>
+                    <Require-Capability><![CDATA[osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))]]></Require-Capability>
+                  </instructions>
+<!-- 			      <instructions> -->
+<!-- 			        <Export-Package>org.ruminaq.runner.thrift</Export-Package> -->
+<!-- 			      </instructions> -->
+                </artifact>
+                <artifact>
+                  <id>com.googlecode.json-simple:json-simple:1.1.1</id>
+                </artifact>
+                <artifact>
+                  <id>commons-io:commons-io:2.6</id>
+                </artifact>
+                <artifact>
+                  <id>commons-cli:commons-cli:1.4</id>
+                </artifact>
+                <artifact>
+                  <id>org.apache.commons:commons-math3:3.6.1</id>
+                </artifact>
+                <artifact>
+                  <id>com.google.guava:guava:26.0-jre</id>
+                </artifact>
+                <artifact>
+                  <id>org.javatuples:javatuples:1.2</id>
+                </artifact>
+                <artifact>
+                  <id>org.sonatype.aether:aether-connector-wagon:1.13.1</id>
+                </artifact>
+                <artifact>
+                  <id>org.apache.maven.wagon:wagon-http:3.1.0</id>
+                </artifact>
+                <artifact>
+                  <id>org.slf4j:slf4j-api:1.7.25</id>
+                </artifact>
+                <artifact>
+                  <id>org.jdom:jdom2:2.0.6</id>
+                </artifact>
+                <artifact>
+                  <id>org.apache.ivy:ivy:2.4.0</id>
+                </artifact>
+                <artifact>
+                  <id>org.cojen:dirmi:1.1.4</id>
+                </artifact>
+                <artifact>
+                  <id>org.apache.thrift:libthrift:0.11.0</id>
+                </artifact>
+                <artifact>
+                  <id>org.rythmengine:rythm-engine:1.3.0</id>
+                </artifact>
+                <artifact>
+                  <id>org.python:jython-standalone:2.7.1</id>
+                </artifact>
+                <artifact>
+                  <id>com.esotericsoftware:kryo:4.0.2</id>
+                </artifact>
+                <artifact>
+                  <id>org.apache.xmlgraphics:batik-util:1.10</id>
+                </artifact>
+                <artifact>
+                  <id>ch.qos.logback:logback-classic:1.2.3</id>
+                </artifact>
+                <artifact>
+                  <id>org.apache.maven:maven-embedder:jar:3.5.4</id>
+			      <instructions>
+			        <Import-Package>*;resolution:=optional</Import-Package>
+			        <Export-Package>org.apache.maven.*</Export-Package>
+			      </instructions>
+                </artifact>
+                <artifact>
+                  <id>com.google.inject:guice:4.2.0</id>
+                </artifact>
+
+                <aritfact>
+                  <id>org.junit.jupiter:junit-jupiter-api:5.3.1</id>
+                </aritfact>
+                <artifact>
+                  <id>org.mockito:mockito-all:jar:1.10.19</id>
+                </artifact>
+
+                <artifact>
+                  <id>de.walware.rj:de.walware.rj.client:2.1.0-SNAPSHOT</id>
+                </artifact>
+                <artifact>
+                  <id>de.walware.rj:de.walware.rj.servi:2.1.0-SNAPSHOT</id>
+                </artifact>
+                <artifact>
+                  <id>de.walware.rj:de.walware.rj.server:2.1.0-SNAPSHOT</id>
+                </artifact>
+                <artifact>
+                  <id>de.walware.rj:de.walware.rj.data:2.1.0-SNAPSHOT</id>
+                </artifact>
+                <artifact>
+                  <id>de.walware.rj:de.walware.rj.services.eruntime:1.4.0-SNAPSHOT</id>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <configuration>
+          <scanIntervalSeconds>10</scanIntervalSeconds>
+          <webAppSourceDirectory>${basedir}/target/repository/</webAppSourceDirectory>
+          <webApp>
+            <contextPath>/site</contextPath>
+          </webApp>
+          <supportedPackagings>
+            <supportedPackaging>pom</supportedPackaging>
+          </supportedPackagings>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

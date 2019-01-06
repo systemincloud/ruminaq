@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs contributorId="Ruminaq.PropertyContributor">
+         <propertyTab label="Demux" id="org.ruminaq.tasks.demuxTab" afterTab="org.ruminaq.common.mainTab" category="Graphiti" />
+      </propertyTabs>
+   </extension>
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections contributorId="Ruminaq.PropertyContributor">
+         <propertySection tab="org.ruminaq.tasks.demuxTab"          class="org.ruminaq.tasks.demux.ui.properties.PropertySection"
+                           id="org.ruminaq.tasks.demuxTab.Section" filter="org.ruminaq.tasks.demux.ui.properties.PropertyFilter" />
+      </propertySections>
+   </extension>
+
+</plugin>

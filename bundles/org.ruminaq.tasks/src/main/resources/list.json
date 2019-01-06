@@ -1,0 +1,28 @@
+{
+   "categories":[
+      {  "key"   : "commons",
+         "name"  : "Commons",
+         "tasks" : [
+            {  "name" : "Console",          "key" : "console",         "m2" : "org.ruminaq:org.ruminaq.tasks.console:0.2.0:jar" },
+            {  "name" : "Constant",         "key" : "constant",        "m2" : "org.ruminaq:org.ruminaq.tasks.constant:1.0.0:jar" },
+            {  "name" : "Demux",            "key" : "demux",           "m2" : "org.ruminaq:org.ruminaq.tasks.demux:0.4.0:jar" },
+            {  "name" : "Embedded Task",    "key" : "embeddedtask",    "m2" : "org.ruminaq:org.ruminaq.tasks.embeddedtask:0.4.0:jar" },
+            {  "name" : "And",              "key" : "and",             "m2" : "org.ruminaq:org.ruminaq.tasks.gate.and:0.2.0:jar" },
+            {  "name" : "Or",               "key" : "or",              "m2" : "org.ruminaq:org.ruminaq.tasks.gate.or:0.2.0:jar" },
+            {  "name" : "Xor",              "key" : "xor",             "m2" : "org.ruminaq:org.ruminaq.tasks.gate.xor:0.2.0:jar" },
+            {  "name" : "Not",              "key" : "not",             "m2" : "org.ruminaq:org.ruminaq.tasks.gate.not:0.2.0:jar" },
+            {  "name" : "Inspect",          "key" : "inspect",         "m2" : "org.ruminaq:org.ruminaq.tasks.inspect:0.2.0:jar" },
+            {  "name" : "Java Task",        "key" : "javatask",        "m2" : "org.ruminaq:org.ruminaq.tasks.javatask:0.5.0:jar" },
+            {  "name" : "Mux",              "key" : "mux",             "m2" : "org.ruminaq:org.ruminaq.tasks.mux:0.3.0:jar" },
+            {  "name" : "Python Task",      "key" : "pythontask",      "m2" : "org.ruminaq:org.ruminaq.tasks.pythontask:0.2.0:jar" },
+            {  "name" : "Random Generator", "key" : "randomgenerator", "m2" : "org.ruminaq:org.ruminaq.tasks.randomgenerator:0.3.0:jar" },
+            {  "name" : "R Task",           "key" : "rtask",           "m2" : "org.ruminaq:org.ruminaq.tasks.rtask:0.1.0:jar" },
+            {  "name" : "Sipo",             "key" : "sipo",            "m2" : "org.ruminaq:org.ruminaq.tasks.sipo:0.2.0:jar" }
+         ]
+      },
+      {  "key" : "vip",
+         "name": "Video and Image Processing",
+         "ext" : "org.ruminaq.ext.vip.modeler:org.ruminaq.ext.vip.modeler.tasks:0.3.7:jar"
+      }
+   ]
+}

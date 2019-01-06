@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.ruminaq.tasks.constant.impl
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq Task Constant API
+Bundle-Vendor: Marek Jagielski
+Bundle-SymbolicName: org.ruminaq.tasks.constant.impl
+Bundle-Version: 1.0.0.qualifier
+Export-Package: org.ruminaq.tasks.constant.impl,
+ org.ruminaq.tasks.constant.impl.strategy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: ch.qos.logback.classic,
+ ch.qos.logback.core,
+ org.apache.commons.math3.complex;version="3.6.1",
+ org.eclipse.emf.ecore,
+ org.ruminaq.model.desc,
+ org.ruminaq.model.model.dt,
+ org.ruminaq.model.model.ruminaq,
+ org.ruminaq.runner,
+ org.ruminaq.runner.impl,
+ org.ruminaq.runner.impl.data,
+ org.ruminaq.runner.service,
+ org.ruminaq.tasks.constant.model.constant,
+ org.ruminaq.util,
+ org.slf4j

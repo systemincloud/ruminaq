@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="dt" nsURI="http://ruminaq.org/dt" nsPrefix="dt">
+  <eClassifiers xsi:type="ecore:EClass" name="Control" eSuperTypes="ruminaq.ecore#//DataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Bool" eSuperTypes="ruminaq.ecore#//DataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Numeric" abstract="true" eSuperTypes="ruminaq.ecore#//DataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Text" eSuperTypes="ruminaq.ecore#//DataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Int32" eSuperTypes="#//Numeric"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Int64" eSuperTypes="#//Numeric"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Float64" eSuperTypes="#//Numeric"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Float32" eSuperTypes="#//Numeric"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Decimal" eSuperTypes="#//Numeric"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Complex32" eSuperTypes="#//Numeric"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Raw" eSuperTypes="ruminaq.ecore#//DataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Complex64" eSuperTypes="#//Numeric"/>
+</ecore:EPackage>

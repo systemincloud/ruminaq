@@ -1,0 +1,35 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.ruminaq.tasks.rtask.impl
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq - Tasks - RTask - Impl
+Bundle-Vendor: Marek Jagielski
+Bundle-SymbolicName: org.ruminaq.tasks.rtask.impl
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: ch.qos.logback.classic,
+ ch.qos.logback.core.spi,
+ de.walware.ecommons,
+ de.walware.ecommons.net,
+ de.walware.rj.data,
+ de.walware.rj.server.srvImpl,
+ de.walware.rj.server.srvext,
+ de.walware.rj.servi,
+ de.walware.rj.servi.internal,
+ de.walware.rj.servi.pool,
+ de.walware.rj.services,
+ org.apache.thrift,
+ org.apache.thrift.server,
+ org.apache.thrift.transport,
+ org.eclipse.core.runtime,
+ org.ruminaq.model.desc,
+ org.ruminaq.model.model.ruminaq,
+ org.ruminaq.runner,
+ org.ruminaq.runner.impl,
+ org.ruminaq.runner.impl.data,
+ org.ruminaq.runner.thrift,
+ org.ruminaq.runner.util,
+ org.ruminaq.tasks.rtask.model.rtask,
+ org.ruminaq.tasks.rtask.service,
+ org.ruminaq.tasks.rtask.ui.debug,
+ org.ruminaq.util
+Require-Bundle: slf4j.api

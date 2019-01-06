@@ -1,0 +1,28 @@
+Automatic-Module-Name: org.ruminaq.model.model
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq - Model - Model
+Bundle-Vendor: Marek Jagielski
+Bundle-SymbolicName: org.ruminaq.model.model;singleton:=true
+Bundle-Version: 0.9.0.qualifier
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.ruminaq.model.model.ruminaq,
+ org.ruminaq.model.model.ruminaq.debug,
+ org.ruminaq.model.model.ruminaq.debug.impl,
+ org.ruminaq.model.model.ruminaq.debug.util,
+ org.ruminaq.model.model.ruminaq.impl,
+ org.ruminaq.model.model.ruminaq.util,
+ org.ruminaq.model.model.dt,
+ org.ruminaq.model.model.dt.impl,
+ org.ruminaq.model.model.dt.util
+Import-Package: org.eclipse.emf.common,
+ org.eclipse.emf.common.notify,
+ org.eclipse.emf.common.notify.impl,
+ org.eclipse.emf.common.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.impl,
+ org.eclipse.emf.ecore.plugin,
+ org.eclipse.emf.ecore.resource,
+ org.eclipse.emf.ecore.resource.impl,
+ org.eclipse.emf.ecore.util,
+ org.eclipse.emf.ecore.xmi.impl

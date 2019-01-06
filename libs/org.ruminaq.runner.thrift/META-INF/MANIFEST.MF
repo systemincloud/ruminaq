@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.ruminaq.runner.thrift
+Bundle-ManifestVersion: 2
+Bundle-Name: System in Cloud Modeler - Runner Thrift
+Bundle-Vendor: System in Cloud
+Bundle-SymbolicName: org.ruminaq.runner.thrift;singleton:=true
+Export-Package: org.ruminaq.runner.thrift,
+ org.ruminaq.runner.thrift
+

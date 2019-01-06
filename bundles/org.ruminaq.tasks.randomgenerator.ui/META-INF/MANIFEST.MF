@@ -1,0 +1,22 @@
+Automatic-Module-Name: org.ruminaq.modeler.tasks.randomgenerator.ui
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq - Tasks - RandomGenerator UI
+Bundle-Vendor: Ruminaq
+Bundle-SymbolicName: org.ruminaq.modeler.tasks.randomgenerator.ui;singleton:=true
+Bundle-Version: 0.9.0.qualifier
+Bundle-Activator: org.ruminaq.tasks.randomgenerator.ui.Activator
+Import-Package: org.eclipse.core.runtime,
+ org.eclipse.graphiti,
+ org.eclipse.graphiti.mm.pictograms,
+ org.eclipse.graphiti.ui.platform,
+ org.eclipse.jdt.launching,
+ org.eclipse.jface.viewers,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui.plugin,
+ org.eclipse.ui.views.properties.tabbed,
+ org.osgi.framework,
+ org.ruminaq.launch,
+ org.ruminaq.tasks,
+ org.ruminaq.util
+Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

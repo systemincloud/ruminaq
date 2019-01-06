@@ -1,0 +1,51 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+</head>
+<body>
+<div>
+	<div><h2><b>Mux</b></h2></div>
+	<div style="position: absolute; top: 15px; right: 15px;"><img src="img/icon.png" alt=""/></div>
+	<hr>
+	<div style="text-align:center;">
+		<img src="img/diagram.png" alt=""/>
+	</div>
+	<br>
+	<p>Mux is an asynchronous time multiplexer.</p>
+
+	<div class="task-ports">
+		<h3>Input Ports:</h3>
+		<ul>
+			<li><b>In X</b> <em>data type = Any, n >= 2</em><br>
+			    Input ports.
+			</li>
+			<li><b>Idx</b> <em>data type = Int32</em><br>
+			    Index of input.
+			</li>
+		</ul>
+		<h3>Output Ports:</h3>
+		<ul>
+			<li><b>Out</b> <em>data type = Any</em><br>
+			    Output port.
+			</li>
+		</ul>
+	</div>
+	
+	<div>
+		<h3>Properties:</h3>
+		<div style="text-align:center;">
+			<img src="img/properties.png" alt=""/>
+		</div>
+		<br>
+		<ul>
+			<li><b>Number of inputs:</b> <em>&lt;integer&gt;</em><br>
+			</li>
+			<li><b>Input port buffer:</b> <em>&lt;integer&gt;</em><br>
+				Data coming to inactive port can be cached and send when you activate port.
+			</li>
+		</ul>
+	</div>
+	
+</div>
+</body>
+</html>

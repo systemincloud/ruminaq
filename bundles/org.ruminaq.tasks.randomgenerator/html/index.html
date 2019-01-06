@@ -1,0 +1,57 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+</head>
+<body>
+<div>
+	<div><h2><b>Random Generator</b></h2></div>
+	<div style="position: absolute; top: 15px; right: 15px;"><img src="img/icon.png" alt=""/></div>
+	<hr>
+	<div style="text-align:center;">
+		<img src="img/diagram.png" alt=""/>
+	</div>
+	<br>
+	<p>Random Generator is generates random value of chosen data type periodically or randomly depending on configuration.</p>
+	   
+	<div class="task-ports">
+		<h3>Output Ports:</h3>
+		<ul>
+			<li><b>Out</b> <em>optional = false, data type = Text|Decimal|Int32|Int64|Float32|Float64|Bool|Complex32|Complex64|&lt;extensions contributed&gt;</em><br>
+			    Output port where the random value is showing up.
+			</li>
+		</ul>
+	</div>
+	
+	<div>
+		<h3>Properties:</h3>
+		<div style="text-align:center;">
+			<img src="img/properties.png" alt=""/>
+		</div>
+		<br>
+		<ul>
+			<li><b>Type:</b> <em><b>Bool</b>|Text|Decimal|Int32|Int64|Float32|Float64|Complex32|Complex64|&lt;extensions dependent&gt;</em><br>
+				Data type of random value. Extensions can contribute also.
+			</li>
+			<li><b>Dimensions:</b> <em>&lt;depends on data type&gt;</em><br>
+				Dimensions of random value.
+			</li>
+			<li><b>Interval:</b> <em>&lt;depends on data type&gt;</em><br>
+				Interval time between data generation. Use combination of literals to express time:
+				<ul>
+					<li>ms - milliseconds</li>
+					<li>s  - seconds</li>
+					<li>m  - minutes</li>
+					<li>h  - hours</li>
+					<li>d  - days</li>
+					<li>inf - only one generation at the beginning</li>
+				</ul>
+				Examples: '5ms', '6  ms', '7 s', '7.5s', '1h1s', '1 d 20h'<br>
+				To express random value use '%' sign. For example with '%n[4,1] s' Random Generator will
+				generate a value stochastically accordingly to normal distribution. 
+			</li>
+		</ul>
+		Properties can also contain other properties depending on chosen data type.
+	</div>
+</div>
+</body>
+</html>

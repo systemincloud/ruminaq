@@ -1,0 +1,24 @@
+Automatic-Module-Name: org.ruminaq.prefs
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq - Prefs
+Bundle-Vendor: System in Cloud
+Bundle-SymbolicName: org.ruminaq.prefs;singleton:=true
+Bundle-Version: 0.9.0.qualifier
+Bundle-Activator: org.ruminaq.prefs.Activator
+Import-Package: ch.qos.logback.classic,
+ org.apache.commons.codec,
+ org.apache.commons.io,
+ org.eclipse.core.commands.common,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.core.runtime.preferences,
+ org.eclipse.equinox.security.storage,
+ org.eclipse.jface.preference,
+ org.eclipse.ui.plugin,
+ org.eclipse.ui.preferences,
+ org.eclipse.ui.views.properties.tabbed,
+ org.osgi.framework,
+ org.osgi.service.prefs,
+ org.ruminaq.consts
+Export-Package: org.ruminaq.prefs
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

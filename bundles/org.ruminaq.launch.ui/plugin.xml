@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="4.3"?>
+<plugin>
+
+   <extension point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage icon="icons/ruminaq.logo.16x16.png"
+                                    configTypeID="org.ruminaq.ruminaqLaunchConfigurationType"
+                                    id="org.ruminaq.launch.ui.RuminaqLaunchConfigurationTypeImage"/>
+   </extension>
+
+   <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup id="org.ruminaq.LaunchConfigurationTabGroup"
+                                   type="org.ruminaq.ruminaqLaunchConfigurationType"
+                                   class="org.ruminaq.launch.ui.RuminaqLaunchConfigurationTabGroup">
+         <launchMode description="%ruminaq.launch.group.description.run"
+                     mode="run" />
+         <launchMode description="%ruminaq.launch.group.description.run"
+                     perspective="org.eclipse.debug.ui.DebugPerspective"
+                     mode="debug" />
+      </launchConfigurationTabGroup>
+   </extension>
+
+   <extension point="org.eclipse.core.expressions.propertyTesters">
+     <propertyTester id="org.ruminaq.property.inTestDir"
+                   type="org.eclipse.core.resources.IFile"
+              namespace="org.ruminaq.property"
+             properties="inTestDir"
+                  class="org.ruminaq.launch.ui.InTestDirectoryPropertyTester">
+   </propertyTester>
+   </extension>
+
+   <extension point="org.eclipse.debug.ui.launchShortcuts">
+      <shortcut id="org.ruminaq.actions.testFileAction"
+                class="org.ruminaq.launch.ui.actions.ExecuteTestAction"
+                icon="icons/ruminaq.logo.16x16.png"
+                label="%ruminaq.popup.testFile.label"
+                modes="run, debug">
+         <contextualLaunch>
+           <contextLabel label="%ruminaq.popup.testFile.label" mode="run,debug"/>
+           <enablement>
+              <count value="1"/>
+              <iterate>
+              	<adapt type="org.eclipse.core.resources.IFile">
+              		<and>
+              			<test property="org.eclipse.core.resources.name" value="*.rumi"/>
+              			<test property="org.ruminaq.property.inTestDir" forcePluginActivation="true"/>
+              		</and>
+              	</adapt>
+              </iterate>
+           </enablement>
+         </contextualLaunch>
+     </shortcut>
+     <shortcut id="org.ruminaq.actions.testFileActionWithDialog"
+               class="org.ruminaq.launch.ui.actions.ExecuteTestAction:WITH_DIALOG"
+               icon="icons/ruminaq.logo.16x16.png"
+               label="%ruminaq.popup.testFileWithDialog.label"
+               modes="run, debug">
+        <contextualLaunch>
+           <contextLabel label="%ruminaq.popup.testFileWithDialog.label" mode="run"/>
+           <contextLabel label="%ruminaq.popup.testFileWithDialog.label" mode="debug"/>
+           <enablement>
+              <count value="1"/>
+              <iterate>
+              	<adapt type="org.eclipse.core.resources.IFile">
+              		<and>
+              			<test property="org.eclipse.core.resources.name" value="*.rumi"/>
+              			<test property="org.ruminaq.property.inTestDir" forcePluginActivation="true"/>
+              		</and>
+              	</adapt>
+              </iterate>
+           </enablement>
+        </contextualLaunch>
+     </shortcut>
+  </extension>
+
+  <extension point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="*">
+         <actionSet id="org.eclipse.debug.ui.launchActionSet"/>
+      </perspectiveExtension>
+   </extension>
+</plugin>

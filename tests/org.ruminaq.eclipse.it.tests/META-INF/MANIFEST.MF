@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.ruminaq.eclipse.it.tests
+Eclipse-RegisterBuddy: org.apache.log4j
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq - Eclipse - Integration Tests
+Bundle-Vendor: Marek Jagielski
+Bundle-SymbolicName: org.ruminaq.eclipse.it.tests
+Bundle-Version: 0.9.0.qualifier
+Fragment-Host: org.ruminaq.eclipse
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.swtbot.eclipse.finder,
+ org.eclipse.swtbot.junit4_x,
+ org.junit,
+ org.eclipse.jdt.junit4.runtime,
+ org.eclipse.swt,
+ org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.equinox.console,
+ org.eclipse.equinox.event,
+ org.eclipse.equinox.ds,
+ org.hamcrest.core,
+ org.hamcrest.library
+Import-Package: org.apache.commons.lang3

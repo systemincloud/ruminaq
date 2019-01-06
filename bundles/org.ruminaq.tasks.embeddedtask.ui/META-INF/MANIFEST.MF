@@ -1,0 +1,35 @@
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq - Tasks - Embedded UI
+Bundle-Vendor: System in Cloud
+Bundle-SymbolicName: org.ruminaq.tasks.embeddedtask.ui;singleton:=true
+Bundle-Version: 0.9.0.qualifier
+Import-Package: org.apache.commons.io,
+ org.eclipse.core.commands,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.common.util,
+ org.eclipse.graphiti,
+ org.eclipse.graphiti.mm.pictograms,
+ org.eclipse.graphiti.services;version="0.13.2",
+ org.eclipse.graphiti.ui.platform,
+ org.eclipse.jdt.launching,
+ org.eclipse.jface.viewers,
+ org.eclipse.swt.widgets,
+ org.eclipse.ui,
+ org.eclipse.ui.handlers,
+ org.eclipse.ui.ide,
+ org.eclipse.ui.plugin,
+ org.eclipse.ui.views.properties.tabbed,
+ org.osgi.framework,
+ org.ruminaq.consts,
+ org.ruminaq.eclipse.wizards.project,
+ org.ruminaq.launch,
+ org.ruminaq.prefs,
+ org.ruminaq.tasks,
+ org.ruminaq.tasks.api,
+ org.ruminaq.tasks.userdefined.properties,
+ org.ruminaq.util,
+ org.ruminaq.runner.dirmi
+Export-Package: org.ruminaq.tasks.embeddedtask.ui
+Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

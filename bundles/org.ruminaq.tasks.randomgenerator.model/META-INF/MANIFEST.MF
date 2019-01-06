@@ -1,0 +1,27 @@
+Automatic-Module-Name: org.ruminaq.tasks.randomgenerator.model
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq - Tasks - RandomGenerator - Model
+Bundle-Vendor: Marek Jagielski
+Bundle-SymbolicName: org.ruminaq.tasks.randomgenerator.model
+Bundle-Version: 1.0.0.qualifier
+Import-Package: org.eclipse.emf.common,
+ org.eclipse.emf.common.notify,
+ org.eclipse.emf.common.notify.impl,
+ org.eclipse.emf.common.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.impl,
+ org.eclipse.emf.ecore.plugin,
+ org.eclipse.emf.ecore.resource,
+ org.eclipse.emf.ecore.resource.impl,
+ org.eclipse.emf.ecore.util,
+ org.eclipse.emf.ecore.xmi.impl,
+ org.ruminaq.model.model.ruminaq,
+ org.ruminaq.model.model.ruminaq.debug,
+ org.ruminaq.model.model.ruminaq.debug.impl,
+ org.ruminaq.model.model.ruminaq.impl,
+ org.ruminaq.tasks.gate.model.gate,
+ org.ruminaq.tasks.gate.model.gate.impl
+Export-Package: org.ruminaq.tasks.randomgenerator.model.randomgenerator
+Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+

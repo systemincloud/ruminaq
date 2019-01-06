@@ -1,0 +1,188 @@
+/*
+ * (C) Copyright 2018 Marek Jagielski.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.ruminaq.util;
+
+import java.io.ByteArrayInputStream;
+import java.util.List;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Assert;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.layout.PixelConverter;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
+
+public class EclipseUtil {
+
+    public static IProject getWorkspaceProjectFromEObject(EObject eobject) {
+        URI uri = getModelPathFromEObject(eobject);
+
+        IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+        IProject project = null;
+
+        // try to get project from whole uri resource
+        IResource resource = workspaceRoot.findMember(uri.toString());
+        if (resource != null) project = resource.getProject();
+
+        // another try,by first segment with project name
+        if (project == null && uri.segmentCount() > 0) {
+            String projectName = uri.segment(0);
+            IResource projectResource = workspaceRoot.findMember(projectName);
+            if (projectResource != null) {
+                project = projectResource.getProject();
+            }
+        }
+
+        return project;
+    }
+
+    public static URI getModelPathFromEObject(EObject eobject) {
+        URI uri = EcoreUtil.getURI(eobject);
+        uri = uri.trimFragment();
+        if (uri.isPlatform()) uri = URI.createURI(uri.toPlatformString(true));
+        return uri;
+    }
+
+    public static URI removeFristSegments(URI uri, int nb) {
+        nb++;
+        String[] segs = uri.segments();
+        String tmp = "";
+        int i = 0;
+        for(String s : segs) {
+            i++;
+            if(i < nb) continue;
+            if(i > nb) tmp += "/";
+            tmp += s;
+        }
+        return URI.createURI(tmp);
+    }
+
+    public static String getProjectNameFromDiagram(Diagram diagram) {
+        return URI.decode(diagram.eResource().getURI().segment(1));
+    }
+
+    public static String getProjectNameFromPe(PictogramElement pe) {
+        return URI.decode(pe.eResource().getURI().segment(1));
+    }
+
+    public static void setButtonDimensionHint(Button button) {
+        Assert.isNotNull(button);
+        Object gd= button.getLayoutData();
+        if (gd instanceof GridData) {
+            ((GridData)gd).widthHint= getButtonWidthHint(button);
+            ((GridData)gd).horizontalAlignment = GridData.FILL;
+        }
+    }
+
+    public static int getButtonWidthHint(Button button) {
+        button.setFont(JFaceResources.getDialogFont());
+        PixelConverter converter= new PixelConverter(button);
+        int widthHint= converter.convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
+        return Math.max(widthHint, button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
+    }
+
+    public static void setEnabledRecursive(final Composite composite, final boolean enabled, List<Control> notChanged) {
+        if(composite == null) return;
+
+        for(Control c : composite.getChildren()) {
+            if (c instanceof Composite) setEnabledRecursive((Composite) c, enabled, notChanged);
+            else {
+                if(c.isEnabled() == enabled) notChanged.add(c);
+                c.setEnabled(enabled);
+            }
+        }
+        if(composite.isEnabled() == enabled) notChanged.add(composite);
+        composite.setEnabled(enabled);
+    }
+
+    public static void closeAllViews(final Class<? extends ViewPart> viewType) {
+        final IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+
+        // for all workbench windows
+        for (int w = 0; w < windows.length; w++) {
+            final IWorkbenchPage[] pages = windows[w].getPages();
+
+            // for all workbench pages
+            // of a given workbench window
+            for (int p = 0; p < pages.length; p++) {
+                final IWorkbenchPage page = pages[p];
+                final IViewReference[] viewRefs = page.getViewReferences();
+
+                // for all view references
+                // of a given workbench page
+                // of a given workbench window
+                for (int v = 0; v < viewRefs.length; v++) {
+                    final IViewReference viewRef = viewRefs[v];
+                    final IWorkbenchPart viewPart = viewRef.getPart(false);
+                    final Class<?> partType = (viewPart != null) ? viewPart.getClass() : null;
+
+                    if (viewType == null || viewType.equals(partType)) page.hideView(viewRef);
+                }
+            }
+        }
+    }
+
+    public static IResource emfResourceToIResource(Resource resource) {
+        URI eUri = resource.getURI();
+        if(eUri.isPlatformResource()) {
+            String platformString = eUri.toPlatformString(true);
+            return ResourcesPlugin.getWorkspace().getRoot().findMember(platformString);
+        }
+        return null;
+    }
+
+    public static void createFolderWithParents(IProject project, String path) throws CoreException {
+        String[] tree = path.split("/");
+        for(int i = 0; i < tree.length; i++) {
+            StringBuilder tmpPath = new StringBuilder();
+            for(int j = 0; j <= i; j++) tmpPath.append(tree[j]).append("/");
+            IFolder tmpFolder = project.getFolder(tmpPath.toString());
+            if(!tmpFolder.exists()) tmpFolder.create(true, true, new NullProgressMonitor());
+        }
+    }
+
+    public static void createPlaceholderInFolder(IProject project, String path) throws CoreException {
+        createPlaceholderInFolder(project, path, "");
+    }
+
+    public static void createPlaceholderInFolder(IProject project, String path, String suffix) throws CoreException {
+        IFile file = project.getFile(path + "/PLACEHOLDER" + suffix);
+        if(!file.exists()) file.create(new ByteArrayInputStream(new byte[0]), true, new NullProgressMonitor());
+    }
+}

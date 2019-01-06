@@ -1,0 +1,9 @@
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq - Tasks - JavaTask Client
+Bundle-Vendor: System in Cloud
+Automatic-Module-Name: org.ruminaq.tasks.javatask.client
+Bundle-SymbolicName: org.ruminaq.tasks.javatask.client;singleton:=true
+Export-Package: org.ruminaq.tasks.javatask.client,
+ org.ruminaq.tasks.javatask.client.annotations,
+ org.ruminaq.tasks.javatask.client.data
+

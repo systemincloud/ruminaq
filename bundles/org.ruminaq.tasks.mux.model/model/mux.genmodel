@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.ruminaq.tasks.mux.model/target/generated-sources/emf/src/main/java"
+    modelPluginID="" modelName="Mux" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" complianceLevel="8.0"
+    copyrightFields="false" language="en" importOrganizing="true">
+  <foreignModel>mux.ecore</foreignModel>
+  <genPackages prefix="Mux" basePackage="org.ruminaq.tasks.mux.model" resource="XMI"
+      disposableProviderFactory="true" ecorePackage="mux.ecore#/">
+    <genClasses ecoreClass="mux.ecore#//Mux">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mux.ecore#//Mux/size"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute mux.ecore#//Mux/portBuffer"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Ruminaq" basePackage="org.ruminaq.model.model" ecorePackage="../../org.ruminaq.model.model/model/ruminaq.ecore#/">
+    <genClasses image="false" ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//BaseElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//BaseElement/id"/>
+    </genClasses>
+    <genClasses ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//MainTask">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//MainTask/inputPort"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//MainTask/outputPort"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//MainTask/task"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//MainTask/connection"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//MainTask/atomic"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//MainTask/initialized"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//MainTask/version"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//MainTask/parameters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//MainTask/onlyLocal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//MainTask/preventLosts"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalPort">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalPort/id"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalPort/dataType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalPort/parent"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//Task">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//Task/atomic"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//Task/looped"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//Task/outputPort"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//Task/inputPort"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//Task/bundleName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//Task/version"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//Task/onlyLocal"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//Task/onlyLocalDefault"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//Task/onlyLocalUser"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//Port"/>
+    <genClasses ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalInputPort">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalInputPort/asynchronous"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalInputPort/ignoreLossyCast"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalInputPort/queueSize"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalInputPort/holdLast"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalInputPort/defaultQueueSize"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalInputPort/defaultHoldLast"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalInputPort/debug"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalInputPort/preventLostDefault"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalInputPort/preventLost"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalInputPort/group"/>
+    </genClasses>
+    <genClasses ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalOutputPort">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalOutputPort/synchronization"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalOutputPort/loop"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalOutputPort/resetPort"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//InternalOutputPort/debug"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//FlowSource"/>
+    <genClasses image="false" ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//FlowTarget"/>
+    <genClasses image="false" ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//Connection">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//Connection/sourceRef"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//Connection/targetRef"/>
+    </genClasses>
+    <genClasses ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//SimpleConnection"/>
+    <genClasses image="false" ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//DataType"/>
+    <genClasses ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//OutputPort"/>
+    <genClasses ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//InputPort">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InputPort/asynchronous"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InputPort/queueSize"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InputPort/holdLast"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//InputPort/group"/>
+    </genClasses>
+    <genClasses ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//EmbeddedTask">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//EmbeddedTask/implementationTask"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//UserDefinedTask">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//UserDefinedTask/parameters"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//UserDefinedTask/defaultParameters"/>
+    </genClasses>
+    <genClasses ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//StringToStringMapEntry">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//StringToStringMapEntry/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//StringToStringMapEntry/value"/>
+    </genClasses>
+    <genClasses ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//Synchronization">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//Synchronization/waitForPort"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//Synchronization/waitForTicks"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//Synchronization/group"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//Synchronization/skipFirst"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//Synchronization/loop"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ../../org.ruminaq.model.model/model/ruminaq.ecore#//Synchronization/parent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ../../org.ruminaq.model.model/model/ruminaq.ecore#//Synchronization/skipLoop"/>
+    </genClasses>
+    <nestedGenPackages prefix="Debug" disposableProviderFactory="true" ecorePackage="../../org.ruminaq.model.model/model/ruminaq.ecore#//debug">
+      <genClasses image="false" ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//debug/Debug"/>
+      <genClasses image="false" ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//debug/InternalPortDebug"/>
+      <genClasses ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//debug/InternalInputPortDebug"/>
+      <genClasses ecoreClass="../../org.ruminaq.model.model/model/ruminaq.ecore#//debug/InternalOutputPortDebug"/>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

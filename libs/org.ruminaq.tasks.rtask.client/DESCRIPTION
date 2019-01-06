@@ -1,0 +1,31 @@
+Package: sicrtask
+Type: Package
+Title: RTask API
+Version: 0.1.0
+Date: 2016-01-20
+Author: Marek Jagielski
+Maintainer: Marek Jagielski <marek.jagielski@gmail.com>
+Description: Package sicrtask is used for R integration in System in Cloud
+    Modeler. It is installed automatically if not already at the beginning of flow
+    execution.
+License: file LICENSE
+Copyright: System in Cloud. All rights reserved.
+URL: http://ruminaq.org
+BugReports: https://groups.google.com/forum/#!forum/system-in-cloud-modeler
+Depends:
+    R6
+RoxygenNote: 5.0.1
+Collate:
+    'Data.R'
+    'Bool.R'
+    'Complex32.R'
+    'Complex64.R'
+    'Decimal.R'
+    'Float32.R'
+    'Float64.R'
+    'Int32.R'
+    'Int64.R'
+    'RTask.R'
+    'Raw.R'
+    'SicControl.R'
+    'Text.R'

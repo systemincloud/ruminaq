@@ -1,0 +1,29 @@
+Automatic-Module-Name: org.ruminaq.tasks.inspect.impl
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq Task - Inspect - Impl
+Bundle-Vendor: Marek Jagielski
+Bundle-SymbolicName: org.ruminaq.tasks.inspect.impl
+Bundle-Version: 1.0.0.qualifier
+Export-Package: org.ruminaq.tasks.inspect.impl
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: ch.qos.logback.classic,
+ ch.qos.logback.core,
+ org.eclipse.emf.ecore,
+ org.ruminaq.model.desc,
+ org.ruminaq.model.model.dt,
+ org.ruminaq.model.model.ruminaq,
+ org.ruminaq.runner,
+ org.ruminaq.runner.dirmi,
+ org.ruminaq.runner.impl,
+ org.ruminaq.runner.impl.data,
+ org.ruminaq.runner.service,
+ org.ruminaq.runner.util,
+ org.ruminaq.tasks.debug.model,
+ org.ruminaq.tasks.gate,
+ org.ruminaq.tasks.gate.model.gate,
+ org.ruminaq.tasks.gate.not.model.not,
+ org.ruminaq.tasks.gate.xor.model.xor,
+ org.ruminaq.tasks.inspect.model.inspect,
+ org.ruminaq.util,
+ org.slf4j
+Bundle-ActivationPolicy: lazy

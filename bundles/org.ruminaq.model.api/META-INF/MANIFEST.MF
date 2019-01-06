@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.ruminaq.model.api
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq Model API
+Bundle-Vendor: Marek Jagielski
+Bundle-SymbolicName: org.ruminaq.model.api;singleton:=true
+Bundle-Version: 0.9.0.qualifier
+Export-Package: org.ruminaq.model.api
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: org.ruminaq.model.model.ruminaq
+
