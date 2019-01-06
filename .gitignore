@@ -1,3 +1,4 @@
 target/
 .polyglot.build.properties
+.settings/
 screenshots/
