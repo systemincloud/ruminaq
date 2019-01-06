@@ -1,8 +1,7 @@
 language: java   
 before_install:  
-  - cd relang/org.ruminaq.p2repo
+  - cd releng/org.ruminaq.p2repo
   - mvn p2:site
-  - jetty:run
   
 script:
-  - mvn clean
+  - mvn clean 
