@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.ruminaq.runner</groupId>
@@ -18,9 +20,9 @@
       <version>3.8</version>
     </dependency>
     <dependency>
-        <groupId>javax.annotation</groupId>
-        <artifactId>javax.annotation-api</artifactId>
-        <version>1.3.2</version>
+      <groupId>javax.annotation</groupId>
+      <artifactId>javax.annotation-api</artifactId>
+      <version>1.3.2</version>
     </dependency>
   </dependencies>
 
@@ -42,51 +44,59 @@
             <phase>generate-sources</phase>
             <configuration>
               <tasks>
-                <mkdir dir="${basedir}/target/generated-sources/thrift"/>
+                <mkdir
+                  dir="${basedir}/target/generated-sources/thrift" />
                 <exec executable="thrift" failonerror="true">
-                  <arg line="--gen java -r -out ${basedir}/target/generated-sources/thrift ${basedir}/src/main/thrift/RunnerSideServer.thrift"/>
+                  <arg
+                    line="--gen java -r -out ${basedir}/target/generated-sources/thrift ${basedir}/src/main/thrift/RunnerSideServer.thrift" />
                 </exec>
                 <exec executable="thrift" failonerror="true">
-                  <arg line="--gen java -r -out ${basedir}/target/generated-sources/thrift ${basedir}/src/main/thrift/ProcessSideServer.thrift"/>
+                  <arg
+                    line="--gen java -r -out ${basedir}/target/generated-sources/thrift ${basedir}/src/main/thrift/ProcessSideServer.thrift" />
                 </exec>
-                <copy todir="${basedir}/../../bundles/org.ruminaq.launch/src/main/resources/org/ruminaq/launch">
-                  <fileset dir="src/main/thrift" includes="**"/>
+                <copy
+                  todir="${basedir}/../../bundles/org.ruminaq.launch/src/main/resources/org/ruminaq/launch">
+                  <fileset dir="src/main/thrift" includes="**" />
                 </copy>
-<!--                 <mkdir dir="target/generated-sources/python"/> -->
-<!--                 <ac:for param="file" xmlns:ac="antlib:net.sf.antcontrib"> -->
-<!--                   <path><fileset dir="src/main/thrift" includes="*.thrift"/></path> -->
-<!--                   <sequential> -->
-<!--                     <local name="fname"/> -->
-<!--                     <basename file="@{file}" property="fname" /> -->
-<!--                     <echo message="@{file}, ${fname}"/> -->
-<!--                     <exec executable="thrift" > -->
-<!--                       <arg value="- -gen" /><arg value="py"/><arg value="-v"/><arg value="-strict"/> -->
-<!--                       <arg value="-o"/><arg value="target/generated-sources/python"/> -->
-<!--                       <arg value="@{file}"/> -->
-<!--                     </exec> -->
-<!--                   </sequential> -->
-<!--                 </ac:for> -->
-<!--                 <exec executable="thrift" > -->
-<!--                   <arg value="- -gen" /><arg value="py"/><arg value="-v"/><arg value="-strict"/> -->
-<!--                   <arg value="-o"/><arg value="target/generated-sources/python"/> -->
-<!--                   <arg value="src/main/thrift/Data.thrift"/> -->
-<!--                 </exec> -->
-<!--                 <copy todir="${basedir}/../org.ruminaq.runner.thrift.python/sicthrift"> -->
-<!--                   <fileset dir="target/generated-sources/python/gen-py/sicthrift" includes="**"/> -->
-<!--                 </copy> -->
-<!--                 <ac:for param="file" xmlns:ac="antlib:net.sf.antcontrib"> -->
-<!--                   <path><fileset dir="${basedir}/../org.ruminaq.runner.thrift.python/sicthrift" includes="*.py"/></path> -->
-<!--                   <sequential> -->
-<!--                     <local name="fname"/> -->
-<!--                     <basename file="@{file}" property="fname" /> -->
-<!--                     <replace file="@{file}" token="from ttypes import *"> -->
-<!--                       <replacevalue> -->
-<!-- <![CDATA[from sicthrift.ttypes import * -->
-<!-- import sicthrift]]> -->
-<!--                       </replacevalue> -->
-<!--                     </replace> -->
-<!--                   </sequential> -->
-<!--                 </ac:for> -->
+                <!-- <mkdir dir="target/generated-sources/python"/> -->
+                <!-- <ac:for param="file" xmlns:ac="antlib:net.sf.antcontrib"> -->
+                <!-- <path><fileset dir="src/main/thrift" includes="*.thrift"/></path> -->
+                <!-- <sequential> -->
+                <!-- <local name="fname"/> -->
+                <!-- <basename file="@{file}" property="fname" /> -->
+                <!-- <echo message="@{file}, ${fname}"/> -->
+                <!-- <exec executable="thrift" > -->
+                <!-- <arg value="- -gen" /><arg value="py"/><arg value="-v"/><arg
+                  value="-strict"/> -->
+                <!-- <arg value="-o"/><arg value="target/generated-sources/python"/> -->
+                <!-- <arg value="@{file}"/> -->
+                <!-- </exec> -->
+                <!-- </sequential> -->
+                <!-- </ac:for> -->
+                <!-- <exec executable="thrift" > -->
+                <!-- <arg value="- -gen" /><arg value="py"/><arg value="-v"/><arg
+                  value="-strict"/> -->
+                <!-- <arg value="-o"/><arg value="target/generated-sources/python"/> -->
+                <!-- <arg value="src/main/thrift/Data.thrift"/> -->
+                <!-- </exec> -->
+                <!-- <copy todir="${basedir}/../org.ruminaq.runner.thrift.python/sicthrift"> -->
+                <!-- <fileset dir="target/generated-sources/python/gen-py/sicthrift"
+                  includes="**"/> -->
+                <!-- </copy> -->
+                <!-- <ac:for param="file" xmlns:ac="antlib:net.sf.antcontrib"> -->
+                <!-- <path><fileset dir="${basedir}/../org.ruminaq.runner.thrift.python/sicthrift"
+                  includes="*.py"/></path> -->
+                <!-- <sequential> -->
+                <!-- <local name="fname"/> -->
+                <!-- <basename file="@{file}" property="fname" /> -->
+                <!-- <replace file="@{file}" token="from ttypes import *"> -->
+                <!-- <replacevalue> -->
+                <!-- <![CDATA[from sicthrift.ttypes import * -->
+                <!-- import sicthrift]]> -->
+                <!-- </replacevalue> -->
+                <!-- </replace> -->
+                <!-- </sequential> -->
+                <!-- </ac:for> -->
               </tasks>
             </configuration>
             <goals>
@@ -127,22 +137,37 @@
       <plugins>
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId><version>1.0.0</version>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
           <configuration>
             <lifecycleMappingMetadata>
               <pluginExecutions>
-                <pluginExecution><pluginExecutionFilter>
-                    <groupId>org.apache.thrift.tools</groupId><artifactId>maven-thrift-plugin</artifactId><versionRange>[0.1.11,)</versionRange>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.apache.thrift.tools</groupId>
+                    <artifactId>maven-thrift-plugin</artifactId>
+                    <versionRange>[0.1.11,)</versionRange>
                     <goals>
                       <goal>compile</goal>
                       <goal>testCompile</goal>
                     </goals>
-                  </pluginExecutionFilter><action><ignore/></action>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
                 </pluginExecution>
-                <pluginExecution><pluginExecutionFilter>
-                    <groupId>org.apache.maven.plugins</groupId><artifactId>maven-antrun-plugin</artifactId><versionRange>[1.3,)</versionRange>
-                    <goals><goal>run</goal></goals>
-                  </pluginExecutionFilter><action><ignore/></action>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <versionRange>[1.3,)</versionRange>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
                 </pluginExecution>
               </pluginExecutions>
             </lifecycleMappingMetadata>
@@ -157,10 +182,10 @@
       <id>${distributionManagement.release.id}</id>
       <url>${distributionManagement.release.url}</url>
     </repository>
-     <snapshotRepository>
+    <snapshotRepository>
       <id>${distributionManagement.snapshot.id}</id>
       <url>${distributionManagement.snapshot.url}</url>
-     </snapshotRepository>
+    </snapshotRepository>
   </distributionManagement>
 
 </project>
