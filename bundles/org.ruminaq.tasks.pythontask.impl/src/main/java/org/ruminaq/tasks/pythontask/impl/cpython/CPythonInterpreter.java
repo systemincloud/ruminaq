@@ -13,6 +13,7 @@ import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
+import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.tasks.pythontask.impl.PyInterpreter;
 import org.ruminaq.tasks.pythontask.impl.PythonTaskI;
 import org.ruminaq.tasks.pythontask.impl.rmi.Server;
