@@ -3,16 +3,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.tasks.javatask.client;
 
-import org.ruminaq.tasks.javatask.client.data.Data;
 import org.slf4j.Logger;
 
 /**
  *
  * @author Marek Jagielski
  */
-public interface JavaTaskListener {
+public interface JavaTaskListener extends InputPortListener, OutputPortListener {
 
-	// JavaTask
 	void externalData(int i);
 
 	void sleep(long l);
@@ -32,14 +30,4 @@ public interface JavaTaskListener {
 	Object runExpression(String expression);
 
 	Logger log();
-
-
-	// InputPort
-	<T extends Data> T getData(InputPort ip, Class<T> type);
-
-	void cleanQueue(InputPort ip);
-
-
-	// OutputPort
-	void putData(OutputPort outputPort, Data data, boolean copy);
 }
