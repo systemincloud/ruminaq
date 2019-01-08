@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="4.3"?>
 <plugin>
-
-   <!--
-    | Commands
-    -->
-   <extension point="org.eclipse.ui.commands">
-      <command defaultHandler="org.ruminaq.tasks.userdefined.cmd.UpdateDiagramCmd"
-                           id="org.ruminaq.tasks.userdefined.cmd.UpdateDiagramCmd"
-               name="Create Test Diagram">
+   <extension
+       point="org.eclipse.ui.commands">
+     <command
+         defaultHandler="org.ruminaq.tasks.userdefined.cmd.UpdateDiagramCmd"
+         id="org.ruminaq.tasks.userdefined.cmd.UpdateDiagramCmd"
+         name="Create Test Diagram">
       </command>
    </extension>
-
-   <!--
-    | Menus
-    -->
    <extension point="org.eclipse.ui.menus">
       <menuContribution locationURI="popup:org.ruminaq.eclipse.popup.ProjectExplorer?after=additions">
          <command commandId="org.ruminaq.tasks.userdefined.cmd.UpdateDiagramCmd" label="Update User Defined Tasks">
@@ -32,13 +25,5 @@
             </visibleWhen>
          </command>
       </menuContribution>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated userdefined -->
-      <package
-            uri="http://ruminaq.org/tasks/userdefined"
-            class="org.ruminaq.tasks.uesrdefined.model.userdefined.UserdefinedPackage"
-            genModel="model/userdefined.genmodel"/>
    </extension>
 </plugin>
