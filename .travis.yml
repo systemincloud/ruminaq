@@ -13,8 +13,8 @@ jobs:
     - stage: "Build Thrift"
       install: skip
       script:
-        - cd libs/org.ruminaq.runner.thrift
-        - mvn install
+        - cd releng/org.ruminaq.p2repo
+        - mvn p2:site
 
 #before_install:  
 #  - cd releng/org.ruminaq.p2repo

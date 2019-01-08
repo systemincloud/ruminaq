@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.ruminaq</groupId>
     <artifactId>org.ruminaq.root</artifactId>
-    <version>0.9.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
 
   <modules>
@@ -31,6 +31,7 @@
     <module>org.ruminaq.model.model</module>
     <module>org.ruminaq.prefs</module>
     <module>org.ruminaq.runner</module>
+    <module>org.ruminaq.runner.thrift</module>
     <module>org.ruminaq.tasks</module>
     <module>org.ruminaq.tasks.api</module>
     <module>org.ruminaq.tasks.console</module>

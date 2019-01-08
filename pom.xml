@@ -6,13 +6,13 @@
   <parent>
     <groupId>org.ruminaq</groupId>
     <artifactId>org.ruminaq.configuration</artifactId>
-    <version>0.9.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <relativePath>./releng/org.ruminaq.configuration</relativePath>
   </parent>
 
   <artifactId>org.ruminaq.root</artifactId>
   <packaging>pom</packaging>
- 
+
   <modules>
     <module>bundles</module>
     <module>features</module>

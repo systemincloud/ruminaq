@@ -5,15 +5,14 @@
   <parent>
     <groupId>org.ruminaq</groupId>
     <artifactId>org.ruminaq.root</artifactId>
-    <version>0.9.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
-  
+
   <artifactId>org.ruminaq.libs</artifactId>
   <packaging>pom</packaging>
 
   <modules>
     <module>org.ruminaq.tools</module>
-    <module>org.ruminaq.runner.thrift</module>
     <module>org.ruminaq.tasks.javatask.client</module>
     <module>org.ruminaq.tasks.pythontask.client</module>
     <module>org.ruminaq.tasks.rtask.client</module>
