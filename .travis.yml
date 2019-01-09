@@ -17,7 +17,10 @@ jobs:
         - mvn install --toolchains=../../.travis-toolchains.xml
         - mvn p2:site
         - sh -c "mvn jetty:run --toolchains=../../.travis-toolchains.xml &"
-
+    - stage: "Build plugins"
+      install: skip
+      script:
+        - mvn validate
 #before_install:  
 #  - cd releng/org.ruminaq.p2repo
 #  - mvn p2:site
