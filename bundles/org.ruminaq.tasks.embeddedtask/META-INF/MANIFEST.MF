@@ -1,10 +1,9 @@
 Automatic-Module-Name: org.ruminaq.tasks.embeddedtask
 Bundle-ManifestVersion: 2
-Bundle-Name: System in Cloud Modeler - Tasks - EmbeddedTask
-Bundle-Vendor: System in Cloud
+Bundle-Name: Ruminaq - Tasks - EmbeddedTask
+Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.embeddedtask
-Bundle-Version: 0.4.0.qualifier
-Bundle-Activator: org.ruminaq.tasks.embeddedtask.Activator
+Bundle-Version: 1.0.0.qualifier
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.apache.commons.cli,

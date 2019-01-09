@@ -2,7 +2,7 @@
 <feature
       id="org.ruminaq.feature"
       label="Ruminaq"
-      version="0.9.0.qualifier"
+      version="1.0.0.qualifier"
       provider-name="Marek Jagielski">
 
    <description url="http://ruminaq.org">
@@ -98,59 +98,59 @@
       <import plugin="org.eclipse.jdt.junit.core"/-->
    </requires>
 
-   <plugin id="org.ruminaq.logs"             download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.logs.logback.xml" download-size="0" install-size="0" version="0.9.0.qualifier" fragment="true"/>
-   <plugin id="org.ruminaq.gui"              download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.gui.features"     download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.hacks"            download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.eclipse"          download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.validation"       download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.util"             download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.prefs"            download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.consts"           download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.debug"            download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.launch"           download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.runner"           download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.launch.ui"        download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.model"            download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.builder"          download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks"            download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.debug"      download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.debug.ui"   download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.upgrade"          download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.logs"             download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.logs.logback.xml" download-size="0" install-size="0" version="1.0.0.qualifier" fragment="true"/>
+   <plugin id="org.ruminaq.gui"              download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.gui.features"     download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.hacks"            download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.eclipse"          download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.validation"       download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.util"             download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.prefs"            download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.consts"           download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.debug"            download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.launch"           download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.runner"           download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.launch.ui"        download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.model"            download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.builder"          download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks"            download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.debug"      download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.debug.ui"   download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.upgrade"          download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
 
-   <plugin id="org.ruminaq.tasks.console"            download-size="0" install-size="0" version="0.2.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.console.ui"         download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.console"            download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.console.ui"         download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.constant"           download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.constant.ui"        download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.constant.ui"        download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.demux"              download-size="0" install-size="0" version="0.4.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.demux.ui"           download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.demux.ui"           download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.embeddedtask"       download-size="0" install-size="0" version="0.4.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.embeddedtask.ui"    download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.gate"               download-size="0" install-size="0" version="0.2.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.embeddedtask.ui"    download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.gate"               download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.gate.and"           download-size="0" install-size="0" version="0.2.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.gate.and.ui"        download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.gate.and.ui"        download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.gate.or"            download-size="0" install-size="0" version="0.2.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.gate.or.ui"         download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.gate.or.ui"         download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.gate.xor"           download-size="0" install-size="0" version="0.2.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.gate.xor.ui"        download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.gate.xor.ui"        download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.gate.not"           download-size="0" install-size="0" version="0.2.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.gate.not.ui"        download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.gate.not.ui"        download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.inspect"            download-size="0" install-size="0" version="0.2.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.inspect.ui"         download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.inspect.ui"         download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.javatask"           download-size="0" install-size="0" version="0.5.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.javatask.ui"        download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.javatask.ui"        download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.mux"                download-size="0" install-size="0" version="0.3.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.mux.ui"             download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.mux.ui"             download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.pythontask"         download-size="0" install-size="0" version="0.2.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.pythontask.ui"      download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.pythontask.ui"      download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.randomgenerator"    download-size="0" install-size="0" version="0.3.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.randomgenerator.ui" download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.randomgenerator.ui" download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.rtask"              download-size="0" install-size="0" version="0.1.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.rtask.ui"           download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.rtask.ui"           download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.tasks.sipo"               download-size="0" install-size="0" version="0.2.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.sipo.ui"            download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.userdefined"        download-size="0" install-size="0" version="0.9.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.sipo.ui"            download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+   <plugin id="org.ruminaq.tasks.userdefined"        download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
 
    <!--plugin id="org.apache.commons.lang3" download-size="0" install-size="0" version="3.3.2" unpack="false"/-->
 
