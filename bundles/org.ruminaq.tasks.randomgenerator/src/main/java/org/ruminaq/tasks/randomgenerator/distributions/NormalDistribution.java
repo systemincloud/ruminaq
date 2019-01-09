@@ -1,3 +1,6 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.tasks.randomgenerator.distributions;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -10,7 +13,7 @@ public class NormalDistribution implements Distributon {
 
 	float mean;
 	float stdDev;
-	
+
 	public NormalDistribution(String textDistribution) {
         Matcher matcher = Pattern.compile(RandomUtil.NORMAL).matcher(textDistribution);
         if(matcher.find()) {

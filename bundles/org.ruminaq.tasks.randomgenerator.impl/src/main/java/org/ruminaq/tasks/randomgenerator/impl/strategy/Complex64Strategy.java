@@ -38,8 +38,4 @@ public class Complex64Strategy extends RandomGeneratorComplexStrategy {
 
 		task.putData(Port.OUT, new Complex64I(real, imag, dims));
 	}
-
-	public static PropertySpecificComposite createSpecificComposite(ValueSaveListener listener, Composite specificRoot, PictogramElement pe, TransactionalEditingDomain ed) {
-		return new PropertySpecificComplexComposite(listener, specificRoot, pe, ed);
-	}
 }

@@ -1,3 +1,6 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.tasks.randomgenerator;
 
 import java.util.Arrays;
@@ -13,11 +16,13 @@ import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.osgi.framework.Version;
 import org.ruminaq.eclipse.api.EclipseExtension;
-import org.ruminaq.model.sic.Task;
+import org.ruminaq.model.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.randomgenerator.features.AddFeature;
 import org.ruminaq.tasks.randomgenerator.features.CreateFeature;
 import org.ruminaq.tasks.randomgenerator.features.UpdateFeature;
+import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
+import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomgeneratorPackage;
 
 public class TaskApi implements ITaskApi, EclipseExtension {
 

@@ -9,7 +9,7 @@ import org.ruminaq.util.NumericUtil;
 public abstract class RandomGeneratorComplexStrategy extends RandomGeneratorStrategy {
 
 	private boolean rect = true;
-	
+
 	private Distributon aDistribution;
 	private double      aValue;
 	private Distributon bDistribution;
@@ -18,7 +18,7 @@ public abstract class RandomGeneratorComplexStrategy extends RandomGeneratorStra
 	private double      mValue;
 	private Distributon gDistribution;
 	private double      gValue;
-	
+
 	public RandomGeneratorComplexStrategy(RandomGeneratorI task, EMap<String, String> eMap) {
 		super(task);
 		String rep = eMap.get(PropertySpecificComplexComposite.COMPLEX_REPRESENTATION);

@@ -1,3 +1,6 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.tasks.randomgenerator;
 
 import java.util.HashMap;
@@ -30,6 +33,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.model.dt.Bool;
 import org.ruminaq.model.model.dt.Complex32;
 import org.ruminaq.model.model.dt.Complex64;
@@ -38,26 +42,28 @@ import org.ruminaq.model.model.dt.Float32;
 import org.ruminaq.model.model.dt.Float64;
 import org.ruminaq.model.model.dt.Int32;
 import org.ruminaq.model.model.dt.Int64;
+import org.ruminaq.model.model.ruminaq.DataType;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.randomgenerator.extension.RandomGeneratorExtensionManager;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.tasks.randomgenerator.properties.Complex32Property;
+import org.ruminaq.tasks.randomgenerator.properties.Complex64Property;
 import org.ruminaq.util.GlobalUtil;
 
 public class PropertySection implements IPropertySection, ValueSaveListener {
 
-	private Composite   root;
-	private CLabel      lblType;
-	private Combo       cmbType;
+	private Composite root;
+	private CLabel lblType;
+	private Combo cmbType;
 
-	private CLabel      lblDims;
-	private Text        txtDims;
+	private CLabel lblDims;
+	private Text txtDims;
 
-	private CLabel      lblInterval;
-	private Text        txtInterval;
+	private CLabel lblInterval;
+	private Text txtInterval;
 
-	private Composite   specificRoot;
+	private Composite specificRoot;
 	private StackLayout specificStack;
 
 	private Map<String, PropertySpecificComposite> specificComposites = new HashMap<>();
@@ -67,8 +73,10 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
 	private PictogramElement pe;
 	private IDiagramTypeProvider dtp;
 
-	public PropertySection(Composite parent, PictogramElement pe, TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
-		this.pe = pe; this.dtp = dtp;
+	public PropertySection(Composite parent, PictogramElement pe, TransactionalEditingDomain ed,
+			IDiagramTypeProvider dtp) {
+		this.pe = pe;
+		this.dtp = dtp;
 		initLayout(parent);
 		initActions(ed);
 		initComponents(ed);
