@@ -16,13 +16,11 @@ jobs:
         - cd releng/org.ruminaq.p2repo
         - mvn install --toolchains=../../.travis-toolchains.xml
         - mvn p2:site
+        - mvn jetty:run
 
 #before_install:  
 #  - cd releng/org.ruminaq.p2repo
 #  - mvn p2:site
-  
-#script:
-#  - mvn clean 
 
 cache:
   directories:
