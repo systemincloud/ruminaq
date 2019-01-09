@@ -1,4 +1,4 @@
-Manifest-Version: 1.0
+Automatic-Module-Name: org.ruminaq.tasks.randomgenerator
 Bundle-ManifestVersion: 2
 Bundle-Name: System in Cloud Modeler - Tasks - RandomGenerator
 Bundle-Vendor: System in Cloud
@@ -46,7 +46,9 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.consts,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui.features.doubleclick,
- org.ruminaq.model.sic,
+ org.ruminaq.model.model.dt,
+ org.ruminaq.model.model.ruminaq,
+ org.ruminaq.model.util,
  org.ruminaq.runner,
  org.ruminaq.runner.impl,
  org.ruminaq.runner.impl.data,
@@ -54,10 +56,10 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks,
  org.ruminaq.tasks.api,
  org.ruminaq.tasks.features,
+ org.ruminaq.tasks.randomgenerator.model.randomgenerator,
  org.ruminaq.tasks.util,
  org.ruminaq.util,
  org.slf4j
-Export-Package: org.ruminaq.tasks.randomgenerator.features,
- org.ruminaq.tasks.randomgenerator.impl
+Export-Package: org.ruminaq.tasks.randomgenerator.features
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

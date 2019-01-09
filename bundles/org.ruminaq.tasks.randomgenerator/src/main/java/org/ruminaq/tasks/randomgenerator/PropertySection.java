@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle.Control;
 
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -29,29 +30,19 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.ruminaq.model.DataTypeManager;
-import org.ruminaq.model.dt.Bool;
-import org.ruminaq.model.dt.Complex32;
-import org.ruminaq.model.dt.Complex64;
-import org.ruminaq.model.dt.Control;
-import org.ruminaq.model.dt.Decimal;
-import org.ruminaq.model.dt.Float32;
-import org.ruminaq.model.dt.Float64;
-import org.ruminaq.model.dt.Int32;
-import org.ruminaq.model.dt.Int64;
-import org.ruminaq.model.sic.DataType;
+import org.ruminaq.model.model.dt.Bool;
+import org.ruminaq.model.model.dt.Complex32;
+import org.ruminaq.model.model.dt.Complex64;
+import org.ruminaq.model.model.dt.Decimal;
+import org.ruminaq.model.model.dt.Float32;
+import org.ruminaq.model.model.dt.Float64;
+import org.ruminaq.model.model.dt.Int32;
+import org.ruminaq.model.model.dt.Int64;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.randomgenerator.extension.RandomGeneratorExtensionManager;
-import org.ruminaq.tasks.randomgenerator.strategy.Complex32Strategy;
-import org.ruminaq.tasks.randomgenerator.strategy.Complex64Strategy;
-import org.ruminaq.tasks.randomgenerator.strategy.ControlStrategy;
-import org.ruminaq.tasks.randomgenerator.strategy.DecimalStrategy;
-import org.ruminaq.tasks.randomgenerator.strategy.Float32Strategy;
-import org.ruminaq.tasks.randomgenerator.strategy.Float64Strategy;
-import org.ruminaq.tasks.randomgenerator.strategy.Int32Strategy;
-import org.ruminaq.tasks.randomgenerator.strategy.Int64Strategy;
-import org.ruminaq.tasks.randomgenerator.strategy.TextStrategy;
+import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
+import org.ruminaq.tasks.randomgenerator.properties.Complex32Property;
 import org.ruminaq.util.GlobalUtil;
 
 public class PropertySection implements IPropertySection, ValueSaveListener {
@@ -130,7 +121,7 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
 		types.add(Float64  .class.getSimpleName());
 		types.add(Int32    .class.getSimpleName());
 		types.add(Int64    .class.getSimpleName());
-		types.add(org.ruminaq.model.dt.Text.class.getSimpleName());
+		types.add(org.ruminaq.model.model.dt.Text.class.getSimpleName());
 		for(Class<? extends DataType> clazz : RandomGeneratorExtensionManager.INSTANCE.getDataTypes())
 			types.add(clazz.getSimpleName());
 
@@ -148,15 +139,15 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
 			@Override public void refresh(EMap<String, String> eMap)    { }
 		};
 
-		specificComposites.put(Complex32.class.getSimpleName(), Complex32Strategy.createSpecificComposite(this, specificRoot, pe, ed));
-		specificComposites.put(Complex64.class.getSimpleName(), Complex64Strategy.createSpecificComposite(this, specificRoot, pe, ed));
-		specificComposites.put(Control  .class.getSimpleName(), ControlStrategy  .createSpecificComposite(this, specificRoot, pe, ed));
-		specificComposites.put(Decimal  .class.getSimpleName(), DecimalStrategy  .createSpecificComposite(this, specificRoot, pe, ed));
-		specificComposites.put(Float32  .class.getSimpleName(), Float32Strategy  .createSpecificComposite(this, specificRoot, pe, ed));
-		specificComposites.put(Float64  .class.getSimpleName(), Float64Strategy  .createSpecificComposite(this, specificRoot, pe, ed));
-		specificComposites.put(Int32    .class.getSimpleName(), Int32Strategy    .createSpecificComposite(this, specificRoot, pe, ed));
-		specificComposites.put(Int64    .class.getSimpleName(), Int64Strategy    .createSpecificComposite(this, specificRoot, pe, ed));
-		specificComposites.put(Text     .class.getSimpleName(), TextStrategy     .createSpecificComposite(this, specificRoot, pe, ed));
+		specificComposites.put(Complex32.class.getSimpleName(), Complex32Property.createSpecificComposite(this, specificRoot, pe, ed));
+		specificComposites.put(Complex64.class.getSimpleName(), Complex64Property.createSpecificComposite(this, specificRoot, pe, ed));
+		specificComposites.put(Control  .class.getSimpleName(), ControlProperty  .createSpecificComposite(this, specificRoot, pe, ed));
+		specificComposites.put(Decimal  .class.getSimpleName(), DecimalProperty  .createSpecificComposite(this, specificRoot, pe, ed));
+		specificComposites.put(Float32  .class.getSimpleName(), Float32Property  .createSpecificComposite(this, specificRoot, pe, ed));
+		specificComposites.put(Float64  .class.getSimpleName(), Float64Property  .createSpecificComposite(this, specificRoot, pe, ed));
+		specificComposites.put(Int32    .class.getSimpleName(), Int32Property    .createSpecificComposite(this, specificRoot, pe, ed));
+		specificComposites.put(Int64    .class.getSimpleName(), Int64Property    .createSpecificComposite(this, specificRoot, pe, ed));
+		specificComposites.put(Text     .class.getSimpleName(), TextProperty     .createSpecificComposite(this, specificRoot, pe, ed));
 		specificComposites.putAll(RandomGeneratorExtensionManager.INSTANCE.getComposites(this, specificRoot, pe, ed));
 	}
 

@@ -1,0 +1,25 @@
+Automatic-Module-Name: org.ruminaq.tasks.randomgenerator.impl
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq Task Demux API
+Bundle-Vendor: Marek Jagielski
+Bundle-SymbolicName: org.ruminaq.tasks.randomgenerator.impl
+Bundle-Version: 1.0.0.qualifier
+Export-Package: org.ruminaq.tasks.randomgenerator.impl
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: ch.qos.logback.classic,
+ ch.qos.logback.core,
+ org.eclipse.emf.common.util,
+ org.eclipse.emf.ecore,
+ org.ruminaq.model.desc,
+ org.ruminaq.model.model.dt,
+ org.ruminaq.model.model.ruminaq,
+ org.ruminaq.runner,
+ org.ruminaq.runner.impl,
+ org.ruminaq.runner.impl.data,
+ org.ruminaq.runner.service,
+ org.ruminaq.tasks.demux.model.demux,
+ org.ruminaq.tasks.randomgenerator.model,
+ org.ruminaq.tasks.randomgenerator.model.randomgenerator,
+ org.ruminaq.util,
+ org.slf4j
+Bundle-ActivationPolicy: lazy
