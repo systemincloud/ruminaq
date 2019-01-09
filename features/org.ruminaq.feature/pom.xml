@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.ruminaq</groupId>
 		<artifactId>org.ruminaq.features</artifactId>
-		<version>0.9.0-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>org.ruminaq.feature</artifactId>
