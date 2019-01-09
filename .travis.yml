@@ -14,6 +14,7 @@ jobs:
       install: skip
       script:
         - cd releng/org.ruminaq.p2repo
+        - mvn install
         - mvn p2:site
 
 #before_install:  
