@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Model
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.model;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  com.google.common.base;version="21.0.0",

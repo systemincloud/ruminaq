@@ -2,7 +2,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: System in Cloud Modeler - Tasks - JavaTask UI
 Bundle-Vendor: System in Cloud
 Bundle-SymbolicName: org.ruminaq.tasks.javatask.ui;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.ruminaq.tasks.javatask.ui.Activator
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core.spi,

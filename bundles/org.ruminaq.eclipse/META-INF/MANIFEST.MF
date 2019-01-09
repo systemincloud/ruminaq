@@ -5,7 +5,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Eclipse
 Bundle-Vendor: System in Cloud
 Bundle-SymbolicName: org.ruminaq.eclipse;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.ruminaq.eclipse.Activator
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.m2e.maven.runtime,

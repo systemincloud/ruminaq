@@ -3,7 +3,7 @@ Automatic-Module-Name: org.ruminaq.tasks
 Bundle-Name: Ruminaq - Tasks
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.apache.commons.lang3,

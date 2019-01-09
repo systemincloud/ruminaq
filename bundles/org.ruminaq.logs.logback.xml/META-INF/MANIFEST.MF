@@ -3,6 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Logback
 Bundle-Vendor: System in Cloud
 Bundle-SymbolicName: org.ruminaq.logs.logback.xml
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Fragment-Host: org.ruminaq.logs
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

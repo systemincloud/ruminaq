@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: System in Cloud Modeler - Hacks
 Bundle-Vendor: System in Cloud
 Bundle-SymbolicName: org.ruminaq.hacks;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Import-Package: org.aspectj.lang,
  org.aspectj.lang.annotation,
  org.eclipse.core.runtime,

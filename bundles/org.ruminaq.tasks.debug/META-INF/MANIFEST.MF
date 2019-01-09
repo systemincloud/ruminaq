@@ -4,7 +4,7 @@ Bundle-Name: System in Cloud Modeler - Tasks - Debug
 Bundle-Vendor: System in Cloud
 Bundle-SymbolicName: org.ruminaq.tasks.debug;singleton:=true
 Bundle-Activator: org.ruminaq.tasks.debug.Activator
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.eclipse.core.resources,

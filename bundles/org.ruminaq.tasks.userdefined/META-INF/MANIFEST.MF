@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - UserDefined
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.userdefined;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Eclipse-RegisterBuddy: org.ruminaq.tasks
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,

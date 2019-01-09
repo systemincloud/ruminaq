@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - Demux UI
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.demux.ui;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Import-Package: org.eclipse.core.runtime,
  org.eclipse.graphiti,
  org.eclipse.graphiti.mm.pictograms,

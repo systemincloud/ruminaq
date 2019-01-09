@@ -2,7 +2,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: System in Cloud Modeler - Tasks - Debug UI
 Bundle-Vendor: System in Cloud
 Bundle-SymbolicName: org.ruminaq.tasks.debug.ui;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.ruminaq.tasks.debug.ui.Activator
 Require-Bundle: org.eclipse.jface
 Import-Package: org.eclipse.core.resources,

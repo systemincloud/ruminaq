@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - Console UI
 Bundle-Vendor: System in Cloud
 Bundle-SymbolicName: org.ruminaq.tasks.console.ui;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui
 Import-Package: org.eclipse.core.runtime,
  org.eclipse.graphiti,

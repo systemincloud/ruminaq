@@ -4,6 +4,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Consts
 Bundle-Vendor: System in Cloud
 Bundle-SymbolicName: org.ruminaq.consts;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Export-Package: org.ruminaq.consts
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

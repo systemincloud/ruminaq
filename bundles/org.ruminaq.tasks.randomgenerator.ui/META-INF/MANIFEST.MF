@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - RandomGenerator UI
 Bundle-Vendor: Ruminaq
 Bundle-SymbolicName: org.ruminaq.modeler.tasks.randomgenerator.ui;singleton:=true
-Bundle-Version: 0.9.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.ruminaq.tasks.randomgenerator.ui.Activator
 Import-Package: org.eclipse.core.runtime,
  org.eclipse.graphiti,
