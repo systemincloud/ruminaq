@@ -59,7 +59,7 @@
             <configuration>
               <artifacts>
                 <artifact>
-                  <id>org.ruminaq.tasks.javatask:org.ruminaq.tasks.javatask.client:1.0.0</id>
+                  <id>org.ruminaq.tasks.javatask:org.ruminaq.tasks.javatask.client:1.0.0-SNAPSHOT</id>
                 </artifact>
                 <artifact>
                   <id>com.googlecode.json-simple:json-simple:1.1.1</id>
