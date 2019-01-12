@@ -4,7 +4,12 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.ruminaq.model.sic.Task;
+import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.runner.RunnerLoggerFactory;
+import org.ruminaq.runner.impl.EmbeddedTaskI;
+import org.ruminaq.runner.impl.GeneratorI;
+import org.ruminaq.runner.impl.PortMap;
+import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.tasks.javatask.client.InputPort;
 import org.ruminaq.tasks.javatask.client.JavaTask;
 import org.ruminaq.tasks.javatask.client.JavaTaskListener;

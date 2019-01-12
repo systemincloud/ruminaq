@@ -1,8 +1,12 @@
-package org.ruminaq.tasks.javatask;
+package org.ruminaq.tasks.javatask.impl;
 
-import org.ruminaq.model.sic.Task;
+import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.TaskI;
+import org.ruminaq.runner.service.AbstractRunnerService;
 import org.ruminaq.tasks.javatask.impl.JavaTaskI;
+import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
+import org.ruminaq.tasks.javatask.model.javatask.JavataskPackage;
 
 public final class RunnerServiceProvider extends AbstractRunnerService {
 	@Override

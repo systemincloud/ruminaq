@@ -73,6 +73,7 @@
     <module>org.ruminaq.tasks.inspect.model</module>
     <module>org.ruminaq.tasks.inspect.ui</module>
     <module>org.ruminaq.tasks.javatask</module>
+    <module>org.ruminaq.tasks.javatask.api</module>
     <module>org.ruminaq.tasks.javatask.impl</module>
     <module>org.ruminaq.tasks.javatask.model</module>
     <module>org.ruminaq.tasks.javatask.ui</module>
@@ -81,6 +82,7 @@
     <module>org.ruminaq.tasks.mux.model</module>
     <module>org.ruminaq.tasks.mux.ui</module>
     <module>org.ruminaq.tasks.pythontask</module>
+    <module>org.ruminaq.tasks.pythontask.api</module>
     <module>org.ruminaq.tasks.pythontask.impl</module>
     <module>org.ruminaq.tasks.pythontask.model</module>
     <module>org.ruminaq.tasks.pythontask.ui</module>
@@ -89,6 +91,7 @@
     <module>org.ruminaq.tasks.randomgenerator.model</module>
     <module>org.ruminaq.tasks.randomgenerator.ui</module>
     <module>org.ruminaq.tasks.rtask</module>
+    <module>org.ruminaq.tasks.rtask.api</module>
     <module>org.ruminaq.tasks.rtask.impl</module>
     <module>org.ruminaq.tasks.rtask.model</module>
     <module>org.ruminaq.tasks.rtask.ui</module>
