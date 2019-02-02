@@ -1,9 +1,13 @@
-package org.ruminaq.tasks.pythontask;
+package org.ruminaq.tasks.pythontask.impl;
 
 import org.apache.commons.cli.Options;
-import org.ruminaq.model.sic.Task;
-import org.ruminaq.tasks.pythontask.impl.PythonTaskI;
+import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.runner.impl.EmbeddedTaskI;
+import org.ruminaq.runner.impl.TaskI;
+import org.ruminaq.runner.service.AbstractRunnerService;
 import org.ruminaq.tasks.pythontask.impl.jython.JythonProgramArguments;
+import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
+import org.ruminaq.tasks.pythontask.model.pythontask.PythontaskPackage;
 
 public final class RunnerServiceProvider extends AbstractRunnerService {
     @Override public void  initModelPackages()                                { PythontaskPackage.eINSTANCE.getClass(); }

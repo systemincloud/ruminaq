@@ -26,8 +26,8 @@ public enum JythonProgramArguments {
                           IInterpreterManager im,
                           IInterpreterInfo ii) {
         try {
-            for(IResource r : pythonPathNature.getProjectSourcePathFolderSet())
-                if(r instanceof IFolder)
+            for (IResource r : pythonPathNature.getProjectSourcePathFolderSet())
+                if (r instanceof IFolder)
                     for(IResource m : ((IFolder) r).members())
                         if(m instanceof IFolder) {
                             String ph = r.getFullPath().toOSString();

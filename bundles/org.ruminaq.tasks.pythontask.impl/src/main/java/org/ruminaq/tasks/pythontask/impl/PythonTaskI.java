@@ -6,7 +6,15 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.ruminaq.model.sic.Task;
+import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.runner.Runner;
+import org.ruminaq.runner.RunnerLoggerFactory;
+import org.ruminaq.runner.impl.EmbeddedTaskI;
+import org.ruminaq.runner.impl.GeneratorI;
+import org.ruminaq.runner.impl.PortMap;
+import org.ruminaq.runner.impl.data.DataI;
+import org.ruminaq.runner.util.Util;
+import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.util.GroovyExpressionUtil;
 import org.slf4j.Logger;
 
