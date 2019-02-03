@@ -168,6 +168,7 @@
           <supportedPackagings>
             <supportedPackaging>pom</supportedPackaging>
           </supportedPackagings>
+          <daemon>true</daemon>
         </configuration>
       </plugin>
     </plugins>

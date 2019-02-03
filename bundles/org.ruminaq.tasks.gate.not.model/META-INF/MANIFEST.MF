@@ -1,8 +1,8 @@
-Automatic-Module-Name: org.ruminaq.tasks.gate.and.model
+Automatic-Module-Name: org.ruminaq.tasks.gate.not.model
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Tasks - Gate - And - Model
+Bundle-Name: Ruminaq - Tasks - Gate - Not - Model
 Bundle-Vendor: Marek Jagielski
-Bundle-SymbolicName: org.ruminaq.tasks.gate.and.model
+Bundle-SymbolicName: org.ruminaq.tasks.gate.not.model
 Bundle-Version: 1.0.0.qualifier
 Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.common.notify,
