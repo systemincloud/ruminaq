@@ -1,16 +1,16 @@
-Automatic-Module-Name: org.ruminaq.tasks.mux.impl
+Automatic-Module-Name: org.ruminaq.tasks.pythontask.impl
 Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq Task - PythonTask - Impl
 Bundle-Vendor: Marek Jagielski
-Bundle-SymbolicName: org.ruminaq.tasks.mux.impl
+Bundle-SymbolicName: org.ruminaq.tasks.pythontask.impl
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.ruminaq.tasks.pythontask.impl
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.apache.commons.cli,
- org.apache.thrift;version="0.11.0",
- org.apache.thrift.protocol;version="0.11.0",
+ org.apache.thrift,
+ org.apache.thrift.protocol,
  org.apache.thrift.server,
  org.apache.thrift.transport,
  org.eclipse.core.resources,
