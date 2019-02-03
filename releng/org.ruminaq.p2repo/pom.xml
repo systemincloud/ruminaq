@@ -65,6 +65,9 @@
                   <id>com.googlecode.json-simple:json-simple:1.1.1</id>
                 </artifact>
                 <artifact>
+                  <id>org.apache.commons:commons-lang3:3.8.1</id>
+                </artifact>
+                <artifact>
                   <id>commons-io:commons-io:2.6</id>
                 </artifact>
                 <artifact>
