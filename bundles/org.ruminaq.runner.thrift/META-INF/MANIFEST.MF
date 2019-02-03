@@ -1,9 +1,17 @@
-Manifest-Version: 1.0
 Automatic-Module-Name: org.ruminaq.runner.thrift
 Bundle-ManifestVersion: 2
 Bundle-Name: System in Cloud Modeler - Runner Thrift
-Bundle-Vendor: System in Cloud
+Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.runner.thrift;singleton:=true
-Export-Package: org.ruminaq.runner.thrift,
- org.ruminaq.runner.thrift
-
+Bundle-Version: 1.0.0.qualifier
+Import-Package: javax.annotation,
+ org.apache.thrift,
+ org.apache.thrift.async,
+ org.apache.thrift.meta_data,
+ org.apache.thrift.protocol,
+ org.apache.thrift.scheme,
+ org.apache.thrift.server,
+ org.apache.thrift.transport,
+ org.slf4j
+Export-Package: org.ruminaq.runner.thrift
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
