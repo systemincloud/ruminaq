@@ -17,7 +17,7 @@ jobs:
         - mvn install --toolchains=../../.travis-toolchains.xml
         - mvn p2:site
         - mvn jetty:run --toolchains=../../.travis-toolchains.xml &
-        - sleep 180
+        - sleep 60
         - cd ../..
         - mvn validate
         
