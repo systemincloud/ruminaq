@@ -1,0 +1,13 @@
+Automatic-Module-Name: org.ruminaq.tasks.rtask.api
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq Task RTask API
+Bundle-Vendor: Marek Jagielski
+Bundle-SymbolicName: org.ruminaq.tasks.rtask.api
+Bundle-Version: 1.0.0.qualifier
+Export-Package: org.ruminaq.tasks.rtask.api
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: org.eclipse.emf.transaction,
+ org.eclipse.graphiti.mm.pictograms,
+ org.eclipse.swt.widgets,
+ org.ruminaq.model.model.ruminaq
+
