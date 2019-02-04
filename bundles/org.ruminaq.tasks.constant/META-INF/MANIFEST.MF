@@ -4,7 +4,6 @@ Bundle-Name: Ruminaq - Tasks - Constant
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.constant
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.ruminaq.tasks.constant.Activator
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.apache.commons.cli,

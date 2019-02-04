@@ -88,6 +88,7 @@
     <module>org.ruminaq.tasks.pythontask.model</module>
     <module>org.ruminaq.tasks.pythontask.ui</module>
     <module>org.ruminaq.tasks.randomgenerator</module>
+    <module>org.ruminaq.tasks.randomgenerator.api</module>
     <module>org.ruminaq.tasks.randomgenerator.impl</module>
     <module>org.ruminaq.tasks.randomgenerator.model</module>
     <module>org.ruminaq.tasks.randomgenerator.ui</module>

@@ -1,10 +1,9 @@
-Manifest-Version: 1.0
 Automatic-Module-Name: org.ruminaq.tasks.pythontask
 Bundle-ManifestVersion: 2
-Bundle-Name: System in Cloud Modeler - Tasks - PythonTask
-Bundle-Vendor: System in Cloud
+Bundle-Name: Ruminaq - Tasks - PythonTask
+Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.pythontask
-Bundle-Version: 0.2.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.ruminaq.tasks.pythontask.Activator
 Require-Bundle: org.eclipse.jgit,
  org.eclipse.m2e.maven.runtime,

@@ -10,6 +10,5 @@
 
   <artifactId>org.ruminaq.feature</artifactId>
   <packaging>eclipse-feature</packaging>
-  <name>System in Cloud Modeler - Feature</name>
 
 </project>
