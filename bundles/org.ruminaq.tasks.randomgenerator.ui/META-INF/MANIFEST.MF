@@ -1,10 +1,9 @@
-Automatic-Module-Name: org.ruminaq.modeler.tasks.randomgenerator.ui
+Automatic-Module-Name: org.ruminaq.tasks.randomgenerator.ui
 Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - RandomGenerator UI
 Bundle-Vendor: Ruminaq
-Bundle-SymbolicName: org.ruminaq.modeler.tasks.randomgenerator.ui;singleton:=true
+Bundle-SymbolicName: org.ruminaq.tasks.randomgenerator.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.ruminaq.tasks.randomgenerator.ui.Activator
 Import-Package: org.eclipse.core.runtime,
  org.eclipse.graphiti,
  org.eclipse.graphiti.mm.pictograms,

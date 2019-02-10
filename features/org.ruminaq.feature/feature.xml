@@ -553,19 +553,85 @@
       download-size="0"
       install-size="0"
       unpack="false"/>
+  <plugin
+      id="org.ruminaq.tasks.randomgenerator.impl"
+      version="1.0.0.qualifier"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+  <plugin
+      id="org.ruminaq.tasks.randomgenerator.model"
+      version="1.0.0.qualifier"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.randomgenerator.ui"
+      download-size="0"
+      install-size="0"
+      version="1.0.0.qualifier"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.rtask"
+      download-size="0"
+      install-size="0"
+      version="1.0.0.qualifier"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.rtask.api"
+      download-size="0"
+      install-size="0"
+      version="1.0.0.qualifier"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.rtask.impl"
+      download-size="0"
+      install-size="0"
+      version="1.0.0.qualifier"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.rtask.model"
+      download-size="0"
+      install-size="0"
+      version="1.0.0.qualifier"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.rtask.ui"
+      download-size="0"
+      install-size="0"
+      version="1.0.0.qualifier"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.sipo"
+      download-size="0"
+      install-size="0"
+      version="1.0.0.qualifier"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.sipo.impl"
+      download-size="0"
+      install-size="0"
+      version="1.0.0.qualifier"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.sipo.model"
+      download-size="0"
+      install-size="0"
+      version="1.0.0.qualifier"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.sipo.ui"
+      download-size="0"
+      install-size="0"
+      version="1.0.0.qualifier"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.userdefined"
+      download-size="0"
+      install-size="0"
+      version="1.0.0.qualifier"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.userdefined.model"
+      download-size="0"
+      install-size="0"
+      version="1.0.0.qualifier"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.debug"      download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
+  <plugin id="org.ruminaq.tasks.debug.ui"   download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
 
    <plugin id="org.ruminaq.validation"       download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.util"             download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.debug"      download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.debug.ui"   download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
    <plugin id="org.ruminaq.upgrade"          download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
 
-   <plugin id="org.ruminaq.tasks.randomgenerator.ui" download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.rtask"              download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.rtask.ui"           download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.sipo"               download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.sipo.ui"            download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
-   <plugin id="org.ruminaq.tasks.userdefined"        download-size="0" install-size="0" version="1.0.0.qualifier" unpack="false"/>
 
    <!--plugin id="org.apache.commons.lang3" download-size="0" install-size="0" version="3.3.2" unpack="false"/-->
 

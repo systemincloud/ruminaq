@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - RTask
 Bundle-Vendor: System in Cloud
 Bundle-SymbolicName: org.ruminaq.tasks.rtask
-Bundle-Version: 0.1.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.ruminaq.tasks.rtask.Activator
 Require-Bundle: org.eclipse.xtext.xbase.lib
 Import-Package: ch.qos.logback.classic,
