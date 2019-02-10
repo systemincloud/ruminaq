@@ -7,8 +7,7 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.ruminaq.tasks.not.model</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <artifactId>org.ruminaq.tasks.gate.not.model</artifactId>
   <packaging>eclipse-plugin</packaging>
 
   <build>
