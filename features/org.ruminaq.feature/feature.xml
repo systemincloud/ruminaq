@@ -18,13 +18,17 @@
       <discovery label="Local" url="http://localhost:8080/site"/>
    </url>
 
-   <requires>
-      <import feature="org.eclipse.graphiti.feature"/>
-   </requires>
-
    <includes
          id="org.ruminaq.tasks.console.feature"
          version="0.0.0"/>
+
+   <includes
+         id="org.ruminaq.tasks.constant.feature"
+         version="0.0.0"/>
+
+   <requires>
+      <import feature="org.eclipse.graphiti.feature"/>
+   </requires>
 
    <plugin
          id="org.ruminaq.builder"
@@ -182,41 +186,6 @@
 
    <plugin
          id="org.ruminaq.tasks.api"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.constant"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.constant.api"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.constant.impl"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.constant.model"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.constant.ui"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"

@@ -1,8 +1,8 @@
-Automatic-Module-Name: org.ruminaq.tasks.constant
+Automatic-Module-Name: org.ruminaq.tasks.constant.gui
 Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - Constant
 Bundle-Vendor: Marek Jagielski
-Bundle-SymbolicName: org.ruminaq.tasks.constant
+Bundle-SymbolicName: org.ruminaq.tasks.constant.gui
 Bundle-Version: 1.0.0.qualifier
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,

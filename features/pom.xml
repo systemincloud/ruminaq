@@ -14,5 +14,6 @@
   <modules>
     <module>org.ruminaq.feature</module>
     <module>org.ruminaq.tasks.console.feature</module>
+    <module>org.ruminaq.tasks.constant.feature</module>
   </modules>
 </project>

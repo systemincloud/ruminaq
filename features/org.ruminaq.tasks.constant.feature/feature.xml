@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+    id="org.ruminaq.tasks.constant.feature"
+    label="Ruminaq"
+    version="1.0.0.qualifier"
+    provider-name="Marek Jagielski">
+
+  <description url="http://ruminaq.org">
+    Task: Constant
+  </description>
+
+  <url>
+  </url>
+
+  <requires>
+  </requires>
+
+  <plugin
+      id="org.ruminaq.tasks.constant.api"
+      version="0.0.0"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+  <plugin
+      id="org.ruminaq.tasks.constant.gui"
+      version="0.0.0"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+  <plugin
+      id="org.ruminaq.tasks.constant.impl"
+      version="0.0.0"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+  <plugin
+      id="org.ruminaq.tasks.constant.model"
+      version="0.0.0"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.constant.ui"
+      version="0.0.0"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+
+</feature>
