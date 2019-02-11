@@ -26,6 +26,10 @@
          id="org.ruminaq.tasks.constant.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.ruminaq.tasks.demux.feature"
+         version="0.0.0"/>
+
    <requires>
       <import feature="org.eclipse.graphiti.feature"/>
    </requires>
@@ -186,34 +190,6 @@
 
    <plugin
          id="org.ruminaq.tasks.api"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.demux"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.demux.impl"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.demux.model"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.demux.ui"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"

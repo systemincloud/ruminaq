@@ -1,50 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <artifactId>org.ruminaq.tasks.demux</artifactId>
+  <packaging>pom</packaging>
+
   <parent>
     <groupId>org.ruminaq</groupId>
     <artifactId>org.ruminaq.bundles</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>org.ruminaq.tasks.demux</artifactId>
-  <packaging>eclipse-plugin</packaging>
-
-  <build>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.gmavenplus</groupId>
-        <artifactId>gmavenplus-plugin</artifactId>
-        <executions>
-          <execution>
-            <?m2e ignore?>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>execute</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <properties>
-            <property>
-              <name>xcfs</name>
-              <value>{ "dir"  : "${basedir}", "xcfs" : [ {"demux.xcf" : ["diagram", "palette-white", "icon"]} ] }</value>
-            </property>
-          </properties>
-          <scripts>
-            <script>
-              <![CDATA[new org.ruminaq.tools.img.PrepareIcons().execute(xcfs)]]>
-            </script>
-          </scripts>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
+  <modules>
+    <module>org.ruminaq.tasks.demux.gui</module>
+    <module>org.ruminaq.tasks.demux.impl</module>
+    <module>org.ruminaq.tasks.demux.model</module>
+    <module>org.ruminaq.tasks.demux.ui</module>
+  </modules>
 </project>

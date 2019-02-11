@@ -39,9 +39,6 @@
     <module>org.ruminaq.tasks.debug</module>
     <module>org.ruminaq.tasks.debug.ui</module>
     <module>org.ruminaq.tasks.demux</module>
-    <module>org.ruminaq.tasks.demux.impl</module>
-    <module>org.ruminaq.tasks.demux.model</module>
-    <module>org.ruminaq.tasks.demux.ui</module>
     <module>org.ruminaq.tasks.embeddedtask</module>
     <module>org.ruminaq.tasks.embeddedtask.ui</module>
     <module>org.ruminaq.tasks.gate</module>

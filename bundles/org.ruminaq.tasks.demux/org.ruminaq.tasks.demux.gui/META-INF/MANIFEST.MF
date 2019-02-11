@@ -1,8 +1,8 @@
-Automatic-Module-Name: org.ruminaq.tasks.demux
+Automatic-Module-Name: org.ruminaq.tasks.demux.gui
 Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - Demux
 Bundle-Vendor: Marek Jagielski
-Bundle-SymbolicName: org.ruminaq.tasks.demux
+Bundle-SymbolicName: org.ruminaq.tasks.demux.gui
 Bundle-Version: 1.0.0.qualifier
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
