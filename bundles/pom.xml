@@ -35,9 +35,6 @@
     <module>org.ruminaq.tasks</module>
     <module>org.ruminaq.tasks.api</module>
     <module>org.ruminaq.tasks.console</module>
-    <module>org.ruminaq.tasks.console.impl</module>
-    <module>org.ruminaq.tasks.console.model</module>
-    <module>org.ruminaq.tasks.console.ui</module>
     <module>org.ruminaq.tasks.constant</module>
     <module>org.ruminaq.tasks.constant.api</module>
     <module>org.ruminaq.tasks.constant.impl</module>

@@ -13,5 +13,6 @@
 
   <modules>
     <module>org.ruminaq.feature</module>
+    <module>org.ruminaq.tasks.console.feature</module>
   </modules>
 </project>

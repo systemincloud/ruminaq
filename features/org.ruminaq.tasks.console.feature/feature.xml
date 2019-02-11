@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+    id="org.ruminaq.tasks.console.feature"
+    label="Ruminaq"
+    version="1.0.0.qualifier"
+    provider-name="Marek Jagielski">
+
+  <description url="http://ruminaq.org">
+    Task: Console
+  </description>
+
+  <url>
+  </url>
+
+  <requires>
+  </requires>
+
+  <plugin
+      id="org.ruminaq.tasks.console.gui"
+      version="1.0.0.qualifier"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+  <plugin
+      id="org.ruminaq.tasks.console.impl"
+      version="1.0.0.qualifier"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+  <plugin
+      id="org.ruminaq.tasks.console.model"
+      version="1.0.0.qualifier"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.console.ui"
+      version="1.0.0.qualifier"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+
+</feature>
