@@ -403,6 +403,22 @@
                   </sources>
                 </configuration>
               </execution>
+              <execution>
+                <id>attach-artifacts</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>attach-artifact</goal>
+                </goals>
+                <configuration>
+                  <artifacts>
+                    <artifact>
+                      <file>org.ruminaq.target.targer</file>
+                      <type>target</type>
+                      <classifier>org.ruminaq.target</classifier>
+                    </artifact>
+                  </artifacts>
+                </configuration>
+              </execution>
             </executions>
           </plugin>
         </plugins>
