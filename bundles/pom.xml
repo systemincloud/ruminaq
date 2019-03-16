@@ -42,23 +42,6 @@
     <module>org.ruminaq.tasks.embeddedtask</module>
     <module>org.ruminaq.tasks.embeddedtask.ui</module>
     <module>org.ruminaq.tasks.gate</module>
-    <module>org.ruminaq.tasks.gate.model</module>
-    <module>org.ruminaq.tasks.gate.and</module>
-    <module>org.ruminaq.tasks.gate.and.impl</module>
-    <module>org.ruminaq.tasks.gate.and.model</module>
-    <module>org.ruminaq.tasks.gate.and.ui</module>
-    <module>org.ruminaq.tasks.gate.not</module>
-    <module>org.ruminaq.tasks.gate.not.impl</module>
-    <module>org.ruminaq.tasks.gate.not.model</module>
-    <module>org.ruminaq.tasks.gate.not.ui</module>
-    <module>org.ruminaq.tasks.gate.or</module>
-    <module>org.ruminaq.tasks.gate.or.impl</module>
-    <module>org.ruminaq.tasks.gate.or.model</module>
-    <module>org.ruminaq.tasks.gate.or.ui</module>
-    <module>org.ruminaq.tasks.gate.xor</module>
-    <module>org.ruminaq.tasks.gate.xor.impl</module>
-    <module>org.ruminaq.tasks.gate.xor.model</module>
-    <module>org.ruminaq.tasks.gate.xor.ui</module>
     <module>org.ruminaq.tasks.inspect</module>
     <module>org.ruminaq.tasks.inspect.impl</module>
     <module>org.ruminaq.tasks.inspect.model</module>

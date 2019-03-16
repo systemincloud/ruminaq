@@ -30,6 +30,10 @@
          id="org.ruminaq.tasks.demux.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.ruminaq.tasks.gate.feature"
+         version="0.0.0"/>
+
    <requires>
       <import feature="org.eclipse.graphiti.feature"/>
    </requires>
@@ -204,132 +208,6 @@
 
    <plugin
          id="org.ruminaq.tasks.embeddedtask.ui"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.and"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.and.impl"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.and.model"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.and.ui"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.model"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.not"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.not.impl"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.not.model"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.not.ui"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.or"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.or.impl"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.or.model"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.or.ui"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.xor"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.xor.impl"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.xor.model"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.xor.ui"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"

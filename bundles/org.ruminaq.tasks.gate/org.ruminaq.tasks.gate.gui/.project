@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>org.ruminaq.tasks.gate</name>
+	<name>org.ruminaq.tasks.gate.gui</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -31,15 +31,4 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<filteredResources>
-		<filter>
-			<id>1552773476320</id>
-			<name></name>
-			<type>10</type>
-			<matcher>
-				<id>org.eclipse.ui.ide.multiFilter</id>
-				<arguments>1.0-name-matches-false-false-org.ruminaq.tasks.gate.*</arguments>
-			</matcher>
-		</filter>
-	</filteredResources>
 </projectDescription>
