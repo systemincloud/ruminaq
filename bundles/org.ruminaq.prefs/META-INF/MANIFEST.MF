@@ -1,10 +1,9 @@
 Automatic-Module-Name: org.ruminaq.prefs
 Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Prefs
-Bundle-Vendor: System in Cloud
+Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.prefs;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.ruminaq.prefs.Activator
 Import-Package: ch.qos.logback.classic,
  org.apache.commons.codec,
  org.apache.commons.io,
