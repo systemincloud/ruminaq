@@ -207,14 +207,19 @@
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>target-platform-configuration</artifactId>
         <configuration>
+          <resolver>p2</resolver>
+          <dependency-resolution>
+            <optionalDependencies>ignore</optionalDependencies>
+          </dependency-resolution>
 	      <target>
             <artifact>
               <groupId>org.ruminaq</groupId>
               <artifactId>org.ruminaq.target</artifactId>
               <version>1.0.0-SNAPSHOT</version>
-              <classifier>org.ruminaq.target</classifier>
+<!--               <classifier>org.ruminaq.target</classifier> -->
             </artifact>
           </target>
+          <ignoreTychoRepositories>true</ignoreTychoRepositories>
           <environments>
             <environment>
               <os>linux</os>
@@ -401,22 +406,6 @@
                   <sources>
                     <source>${project.build.directory}/generated-sources/emf/java</source>
                   </sources>
-                </configuration>
-              </execution>
-              <execution>
-                <id>attach-artifacts</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>attach-artifact</goal>
-                </goals>
-                <configuration>
-                  <artifacts>
-                    <artifact>
-                      <file>org.ruminaq.target.targer</file>
-                      <type>target</type>
-                      <classifier>org.ruminaq.target</classifier>
-                    </artifact>
-                  </artifacts>
                 </configuration>
               </execution>
             </executions>
