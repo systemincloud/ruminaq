@@ -25,4 +25,5 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.ecore.resource,
  org.eclipse.emf.ecore.resource.impl,
  org.eclipse.emf.ecore.util,
- org.eclipse.emf.ecore.xmi.impl
+ org.eclipse.emf.ecore.xmi.impl,
+ org.eclipse.emf.ecore.xmi.util
