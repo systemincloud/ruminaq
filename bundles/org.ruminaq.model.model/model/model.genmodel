@@ -1,26 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="dt/src/main/java/" modelPluginID="org.ruminaq.model.model"
-    modelName="Datatype" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
-    importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" complianceLevel="8.0"
-    copyrightFields="false" importOrganizing="true">
-  <foreignModel>datatype.ecore</foreignModel>
-  <genPackages prefix="Datatype" basePackage="org.ruminaq.model.model" resource="XMI"
-      disposableProviderFactory="true" ecorePackage="datatype.ecore#/">
-    <genClasses ecoreClass="datatype.ecore#//Control"/>
-    <genClasses ecoreClass="datatype.ecore#//Bool"/>
-    <genClasses ecoreClass="datatype.ecore#//Numeric"/>
-    <genClasses ecoreClass="datatype.ecore#//Text"/>
-    <genClasses ecoreClass="datatype.ecore#//Int32"/>
-    <genClasses ecoreClass="datatype.ecore#//Int64"/>
-    <genClasses ecoreClass="datatype.ecore#//Float64"/>
-    <genClasses ecoreClass="datatype.ecore#//Float32"/>
-    <genClasses ecoreClass="datatype.ecore#//Decimal"/>
-    <genClasses ecoreClass="datatype.ecore#//Complex32"/>
-    <genClasses ecoreClass="datatype.ecore#//Raw"/>
-    <genClasses ecoreClass="datatype.ecore#//Complex64"/>
-  </genPackages>
-  <genPackages prefix="Ruminaq" ecorePackage="model.ecore#/">
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="&lt;copyright>&#xD;&#xA;&#xD;&#xA;Copyright (c) 2013 Marek Jagielski.&#xD;&#xA;&#xD;&#xA;&lt;/copyright>"
+    modelDirectory="model/src/main/java" editDirectory="/org.ruminaq.model.edit/src/main/java/"
+    editorDirectory="/org.ruminaq.model.editor/target" modelPluginID="org.ruminaq.model.model"
+    modelName="Ruminaq" modelPluginClass="" editPluginClass="org.ruminaq.model.provider.RuminaqEditPlugin"
+    editorPluginClass="org.ruminaq.model.presentation.RuminaqEditorPlugin" updateClasspath="false"
+    suppressEMFTypes="true" codeFormatting="true" importerID="org.eclipse.emf.importer.ecore"
+    bundleManifest="false" complianceLevel="8.0" copyrightFields="false" providerRootExtendsClass=""
+    editPluginID="org.ruminaq.model.edit" cleanup="true">
+  <foreignModel>model.ecore</foreignModel>
+  <genPackages prefix="Ruminaq" basePackage="org.ruminaq.model.model" resource="XMI"
+      disposableProviderFactory="true" contentTypeIdentifier="" ecorePackage="model.ecore#/">
     <genClasses image="false" ecoreClass="model.ecore#//BaseElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//BaseElement/id"/>
     </genClasses>
@@ -36,12 +26,12 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//MainTask/onlyLocal"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//MainTask/preventLosts"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="model.ecore#//InternalPort">
+    <genClasses ecoreClass="model.ecore#//InternalPort">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//InternalPort/id"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//InternalPort/dataType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EReference model.ecore#//InternalPort/dataType"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//InternalPort/parent"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="model.ecore#//Task">
+    <genClasses ecoreClass="model.ecore#//Task">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Task/atomic"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Task/looped"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Task/outputPort"/>
@@ -52,7 +42,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Task/onlyLocalDefault"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Task/onlyLocalUser"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="model.ecore#//Port"/>
+    <genClasses ecoreClass="model.ecore#//Port"/>
     <genClasses ecoreClass="model.ecore#//InternalInputPort">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//InternalInputPort/asynchronous"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//InternalInputPort/ignoreLossyCast"/>
@@ -73,7 +63,7 @@
     </genClasses>
     <genClasses image="false" ecoreClass="model.ecore#//FlowSource"/>
     <genClasses image="false" ecoreClass="model.ecore#//FlowTarget"/>
-    <genClasses image="false" ecoreClass="model.ecore#//Connection">
+    <genClasses ecoreClass="model.ecore#//Connection">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Connection/sourceRef"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Connection/targetRef"/>
     </genClasses>

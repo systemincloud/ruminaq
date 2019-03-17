@@ -18,19 +18,6 @@
         <executions>
           <execution>
             <?m2e ignore?>
-            <id>ruminaq</id>
-            <goals>
-              <goal>eclipse-run</goal>
-            </goals>
-            <phase>generate-sources</phase>
-            <configuration>
-              <appArgLine>
-                <![CDATA[-data target/workspace -application org.eclipse.emf.codegen.ecore.Generator -projects ${basedir} -model ${basedir}/model/ruminaq.genmodel target/generated-sources/emf]]>
-              </appArgLine>
-            </configuration>
-          </execution>
-          <execution>
-            <?m2e ignore?>
             <id>datatype</id>
             <goals>
               <goal>eclipse-run</goal>
@@ -38,7 +25,7 @@
             <phase>generate-sources</phase>
             <configuration>
               <appArgLine>
-                <![CDATA[-data target/workspace -application org.eclipse.emf.codegen.ecore.Generator -projects ${basedir} -model ${basedir}/model/datatype.genmodel target/generated-sources/emf]]>
+                <![CDATA[-data target/workspace -application ${generator.emf} -projects ${basedir} -model ${basedir}/model/datatype.genmodel ${target.emf}-dt]]>
               </appArgLine>
             </configuration>
           </execution>
@@ -51,11 +38,11 @@
           <execution>
             <phase>generate-sources</phase>
             <goals>
-                <goal>add-source</goal>
+              <goal>add-source</goal>
             </goals>
             <configuration>
               <sources>
-                <source>${project.build.directory}/generated-sources/emf/java</source>
+                <source>${target.emf}-dt/src/main/java</source>
               </sources>
             </configuration>
           </execution>

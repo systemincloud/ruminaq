@@ -10,6 +10,9 @@
   <properties>
     <tycho.version>1.3.0</tycho.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <source.emf>${basedir}/model/model.genmodel</source.emf>
+    <target.emf>${project.build.directory}/generated-sources/emf</target.emf>
+    <generator.emf>org.eclipse.emf.codegen.ecore.Generator</generator.emf>
     <!-- Skip the deployment here, submodules can override this property -->
     <!--maven.deploy.skip>true</maven.deploy.skip-->
 <!--     <sonar.projectName>Ruminaq</sonar.projectName> -->
@@ -127,6 +130,31 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>3.0.0</version>
+        </plugin>
+        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.eclipse.tycho.extras</groupId>
+                    <artifactId>tycho-eclipserun-plugin</artifactId>
+                    <versionRange>[1.3.0,)</versionRange>
+                    <goals>
+                      <goal>eclipse-run</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore></ignore>
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -367,10 +395,10 @@
 
   <profiles>
     <profile>
-      <id>generate-task-model</id>
+      <id>generate-model</id>
       <activation>
         <file>
-          <exists>model/task.genmodel</exists>
+          <exists>model/model.genmodel</exists>
         </file>
       </activation>
       <build>
@@ -378,13 +406,13 @@
           <plugin>
             <groupId>org.eclipse.tycho.extras</groupId>
             <artifactId>tycho-eclipserun-plugin</artifactId>
-            <configuration>
-              <appArgLine>
-                <![CDATA[-data target/workspace -application org.eclipse.emf.codegen.ecore.Generator -projects ${basedir} -model ${basedir}/model/task.genmodel target/generated-sources/emf]]>
-              </appArgLine>
-            </configuration>
             <executions>
               <execution>
+                <configuration>
+                  <appArgLine>
+                <![CDATA[-data target/workspace -application ${generator.emf} -projects ${basedir} -model ${source.emf} ${target.emf}]]>
+                  </appArgLine>
+                </configuration>
                 <?m2e ignore?>
                 <goals>
                   <goal>eclipse-run</goal>
@@ -404,7 +432,7 @@
                 </goals>
                 <configuration>
                   <sources>
-                    <source>${project.build.directory}/generated-sources/emf/java</source>
+                    <source>${target.emf}/src/main/java</source>
                   </sources>
                 </configuration>
               </execution>
