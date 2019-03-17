@@ -20,7 +20,7 @@ public class ModelerLoggerFactory {
 
 	static {
 		File logFile = new File(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "/.metadata/modeler.log");
-		if(logFile.exists()) {
+		if (logFile.exists()) {
 		    logFile.delete();
 		}
 
