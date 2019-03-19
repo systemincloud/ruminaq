@@ -38,6 +38,10 @@
          id="org.ruminaq.tasks.inspect.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.ruminaq.tasks.javatask.feature"
+         version="0.0.0"/>
+
    <requires>
       <import feature="org.eclipse.graphiti.feature"/>
    </requires>
@@ -212,41 +216,6 @@
 
    <plugin
          id="org.ruminaq.tasks.embeddedtask.ui"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.javatask"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.javatask.api"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.javatask.impl"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.javatask.model"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.javatask.ui"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"

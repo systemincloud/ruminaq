@@ -1,8 +1,8 @@
-Automatic-Module-Name: org.ruminaq.tasks.javatask
+Automatic-Module-Name: org.ruminaq.tasks.javatask.gui
 Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - JavaTask
 Bundle-Vendor: Marek Jagielski
-Bundle-SymbolicName: org.ruminaq.tasks.javatask
+Bundle-SymbolicName: org.ruminaq.tasks.javatask.gui
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.ruminaq.tasks.javatask.Activator
 Import-Package: ch.qos.logback.classic,
