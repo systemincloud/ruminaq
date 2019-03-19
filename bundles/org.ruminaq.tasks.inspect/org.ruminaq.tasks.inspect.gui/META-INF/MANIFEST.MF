@@ -1,8 +1,8 @@
-Automatic-Module-Name: org.ruminaq.tasks.inspect
+Automatic-Module-Name: org.ruminaq.tasks.inspect.gui
 Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - Inspect
 Bundle-Vendor: Marek Jagielski
-Bundle-SymbolicName: org.ruminaq.tasks.inspect
+Bundle-SymbolicName: org.ruminaq.tasks.inspect.gui
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.cojen,
  org.cojen.dirmi

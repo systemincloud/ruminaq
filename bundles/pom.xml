@@ -44,9 +44,6 @@
     <module>org.ruminaq.tasks.embeddedtask.ui</module>
     <module>org.ruminaq.tasks.gate</module>
     <module>org.ruminaq.tasks.inspect</module>
-    <module>org.ruminaq.tasks.inspect.impl</module>
-    <module>org.ruminaq.tasks.inspect.model</module>
-    <module>org.ruminaq.tasks.inspect.ui</module>
     <module>org.ruminaq.tasks.javatask</module>
     <module>org.ruminaq.tasks.javatask.api</module>
     <module>org.ruminaq.tasks.javatask.impl</module>

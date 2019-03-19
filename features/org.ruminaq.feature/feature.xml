@@ -34,6 +34,10 @@
          id="org.ruminaq.tasks.gate.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.ruminaq.tasks.inspect.feature"
+         version="0.0.0"/>
+
    <requires>
       <import feature="org.eclipse.graphiti.feature"/>
    </requires>
@@ -208,34 +212,6 @@
 
    <plugin
          id="org.ruminaq.tasks.embeddedtask.ui"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.inspect"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.inspect.impl"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.inspect.model"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.inspect.ui"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"
