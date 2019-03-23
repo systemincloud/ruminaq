@@ -40,18 +40,6 @@ public final class Constants {
         }
     }
 
-    public static final String ECLIPSE_CORE_RUNTIME_PLUGIN_ID = "org.eclipse.core.runtime";
-    public static final String ECLIPSE_CORE_RESOURCES_PLUGIN_ID = "org.eclipse.core.resources";
-    public static final String ECLIPSE_CORE_JOBS_PLUGIN_ID = "org.eclipse.core.jobs";
-    public static final String ECLIPSE_EQUINOX_COMMON_PLUGIN_ID = "org.eclipse.equinox.common";
-    public static final String ECLIPSE_OSGI_PLUGIN_ID = "org.eclipse.osgi";
-
-    public static final String EMF_ECORE_PLUGIN_ID       = "org.eclipse.emf.ecore";       //$NON-NLS-1$
-    public static final String EMF_COMMON_PLUGIN_ID      = "org.eclipse.emf.common";      //$NON-NLS-1$
-    public static final String EMF_TRANSACTION_PLUGIN_ID = "org.eclipse.emf.transaction"; //$NON-NLS-1$
-    public static final String EMF_XMI_PLUGIN_ID         = "org.eclipse.emf.ecore.xmi";   //$NON-NLS-1$
-    public static final String GRAPHITI_MM_PLUGIN_ID     = "org.eclipse.graphiti.mm";     //$NON-NLS-1$
-
     public static final String VALIDATION_MARKER = "org.ruminaq.validation.marker"; //$NON-NLS-1$
 
     public static final String MAIN_PYTHON          = "src/main/py";                                 //$NON-NLS-1$

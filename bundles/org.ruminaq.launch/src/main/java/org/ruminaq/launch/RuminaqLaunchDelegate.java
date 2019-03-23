@@ -45,7 +45,6 @@ import org.eclipse.m2e.core.MavenPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.builder.ProjectBuilder;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.consts.Constants.SicPlugin;
 import org.ruminaq.debug.DebuggerService;
 import org.ruminaq.debug.model.RuminaqDebugTarget;
@@ -67,6 +66,18 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate implements Registr
 
     private final Logger logger = ModelerLoggerFactory.getLogger(RuminaqLaunchDelegate.class);
 
+    public static final String ECLIPSE_CORE_RUNTIME_PLUGIN_ID = "org.eclipse.core.runtime";
+    public static final String ECLIPSE_CORE_RESOURCES_PLUGIN_ID = "org.eclipse.core.resources";
+    public static final String ECLIPSE_CORE_JOBS_PLUGIN_ID = "org.eclipse.core.jobs";
+    public static final String ECLIPSE_EQUINOX_COMMON_PLUGIN_ID = "org.eclipse.equinox.common";
+    public static final String ECLIPSE_OSGI_PLUGIN_ID = "org.eclipse.osgi";
+
+    public static final String EMF_ECORE_PLUGIN_ID       = "org.eclipse.emf.ecore";
+    public static final String EMF_COMMON_PLUGIN_ID      = "org.eclipse.emf.common";
+    public static final String EMF_TRANSACTION_PLUGIN_ID = "org.eclipse.emf.transaction";
+    public static final String EMF_XMI_PLUGIN_ID         = "org.eclipse.emf.ecore.xmi";
+    public static final String GRAPHITI_MM_PLUGIN_ID     = "org.eclipse.graphiti.mm";
+    
     @Reference
     private DebugExtensionHandler debugExtensions;
 
@@ -298,16 +309,16 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate implements Registr
 
             for (String id : launchExtensions.getPluginIdsToRunnerClasspath()) extendedClasspath.add(id);
 
-            extendedClasspath.add(pluginIdToJarPath(Constants.ECLIPSE_CORE_RUNTIME_PLUGIN_ID));
-            extendedClasspath.add(pluginIdToJarPath(Constants.ECLIPSE_CORE_RESOURCES_PLUGIN_ID));
-            extendedClasspath.add(pluginIdToJarPath(Constants.ECLIPSE_CORE_JOBS_PLUGIN_ID));
-            extendedClasspath.add(pluginIdToJarPath(Constants.ECLIPSE_EQUINOX_COMMON_PLUGIN_ID));
-            extendedClasspath.add(pluginIdToJarPath(Constants.ECLIPSE_OSGI_PLUGIN_ID));
-            extendedClasspath.add(pluginIdToJarPath(Constants.EMF_ECORE_PLUGIN_ID));
-            extendedClasspath.add(pluginIdToJarPath(Constants.EMF_COMMON_PLUGIN_ID));
-            extendedClasspath.add(pluginIdToJarPath(Constants.EMF_TRANSACTION_PLUGIN_ID));
-            extendedClasspath.add(pluginIdToJarPath(Constants.EMF_XMI_PLUGIN_ID));
-            extendedClasspath.add(pluginIdToJarPath(Constants.GRAPHITI_MM_PLUGIN_ID));
+            extendedClasspath.add(pluginIdToJarPath(ECLIPSE_CORE_RUNTIME_PLUGIN_ID));
+            extendedClasspath.add(pluginIdToJarPath(ECLIPSE_CORE_RESOURCES_PLUGIN_ID));
+            extendedClasspath.add(pluginIdToJarPath(ECLIPSE_CORE_JOBS_PLUGIN_ID));
+            extendedClasspath.add(pluginIdToJarPath(ECLIPSE_EQUINOX_COMMON_PLUGIN_ID));
+            extendedClasspath.add(pluginIdToJarPath(ECLIPSE_OSGI_PLUGIN_ID));
+            extendedClasspath.add(pluginIdToJarPath(EMF_ECORE_PLUGIN_ID));
+            extendedClasspath.add(pluginIdToJarPath(EMF_COMMON_PLUGIN_ID));
+            extendedClasspath.add(pluginIdToJarPath(EMF_TRANSACTION_PLUGIN_ID));
+            extendedClasspath.add(pluginIdToJarPath(EMF_XMI_PLUGIN_ID));
+            extendedClasspath.add(pluginIdToJarPath(GRAPHITI_MM_PLUGIN_ID));
 
         } catch (IOException e) { throw new CoreException(new Status(IStatus.ERROR, SicPlugin.LAUNCH_ID.s(), IStatus.OK, "Failed to compose classpath!", e)); }
         return extendedClasspath.toArray(new String[extendedClasspath.size()]);
