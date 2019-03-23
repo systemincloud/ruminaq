@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+    id="org.ruminaq.tasks.pythontask.feature"
+    label="Ruminaq"
+    version="1.0.0.qualifier"
+    provider-name="Marek Jagielski">
+
+  <description url="http://ruminaq.org">
+    Task: Python Task
+  </description>
+
+  <url>
+  </url>
+
+  <requires>
+  </requires>
+
+  <plugin
+      id="org.ruminaq.tasks.pythontask.api"
+      version="0.0.0"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+  <plugin
+      id="org.ruminaq.tasks.pythontask.gui"
+      version="0.0.0"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+  <plugin
+      id="org.ruminaq.tasks.pythontask.impl"
+      version="0.0.0"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+  <plugin
+      id="org.ruminaq.tasks.pythontask.model"
+      version="0.0.0"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+  <plugin id="org.ruminaq.tasks.pythontask.ui"
+      version="0.0.0"
+      download-size="0"
+      install-size="0"
+      unpack="false"/>
+
+</feature>

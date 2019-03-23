@@ -47,24 +47,9 @@
     <module>org.ruminaq.tasks.javatask</module>
     <module>org.ruminaq.tasks.mux</module>
     <module>org.ruminaq.tasks.pythontask</module>
-    <module>org.ruminaq.tasks.pythontask.api</module>
-    <module>org.ruminaq.tasks.pythontask.impl</module>
-    <module>org.ruminaq.tasks.pythontask.model</module>
-    <module>org.ruminaq.tasks.pythontask.ui</module>
     <module>org.ruminaq.tasks.randomgenerator</module>
-    <module>org.ruminaq.tasks.randomgenerator.api</module>
-    <module>org.ruminaq.tasks.randomgenerator.impl</module>
-    <module>org.ruminaq.tasks.randomgenerator.model</module>
-    <module>org.ruminaq.tasks.randomgenerator.ui</module>
     <module>org.ruminaq.tasks.rtask</module>
-    <module>org.ruminaq.tasks.rtask.api</module>
-    <module>org.ruminaq.tasks.rtask.impl</module>
-    <module>org.ruminaq.tasks.rtask.model</module>
-    <module>org.ruminaq.tasks.rtask.ui</module>
     <module>org.ruminaq.tasks.sipo</module>
-    <module>org.ruminaq.tasks.sipo.impl</module>
-    <module>org.ruminaq.tasks.sipo.model</module>
-    <module>org.ruminaq.tasks.sipo.ui</module>
     <module>org.ruminaq.tasks.userdefined</module>
     <module>org.ruminaq.tasks.userdefined.model</module>
     <module>org.ruminaq.upgrade</module>

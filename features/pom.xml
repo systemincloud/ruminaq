@@ -20,5 +20,9 @@
     <module>org.ruminaq.tasks.inspect.feature</module>
     <module>org.ruminaq.tasks.javatask.feature</module>
     <module>org.ruminaq.tasks.mux.feature</module>
+    <module>org.ruminaq.tasks.pythontask.feature</module>
+    <module>org.ruminaq.tasks.randomgenerator.feature</module>
+    <module>org.ruminaq.tasks.rtask.feature</module>
+    <module>org.ruminaq.tasks.sipo.feature</module>
   </modules>
 </project>
