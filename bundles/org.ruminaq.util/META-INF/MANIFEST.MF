@@ -7,7 +7,6 @@ Bundle-SymbolicName: org.ruminaq.util;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui
 Import-Package: com.google.common.base,
- groovy.lang,
  org.apache.commons.lang3,
  org.eclipse.core.resources,
  org.eclipse.core.runtime,
@@ -31,7 +30,8 @@ Import-Package: com.google.common.base,
  org.eclipse.swt.graphics,
  org.eclipse.swt.layout,
  org.eclipse.swt.widgets,
- org.osgi.framework
+ org.osgi.framework,
+ groovy.lang
 Export-Package: org.ruminaq.util,
  org.ruminaq.util.platform
 Bundle-ClassPath: .
