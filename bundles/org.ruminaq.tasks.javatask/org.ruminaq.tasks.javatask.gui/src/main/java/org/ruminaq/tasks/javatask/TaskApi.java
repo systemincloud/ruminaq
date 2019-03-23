@@ -37,6 +37,9 @@ import org.ruminaq.tasks.javatask.wizards.CreateProjectWizard;
 
 public class TaskApi implements ITaskApi, EclipseExtension {
 
+    public static final String MAIN_JAVA = "src/main/java";
+    public static final String TEST_JAVA = "src/test/java";
+    
     private String  symbolicName;
     private Version version;
 

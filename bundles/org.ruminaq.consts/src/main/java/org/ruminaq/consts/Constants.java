@@ -54,8 +54,6 @@ public final class Constants {
 
     public static final String VALIDATION_MARKER = "org.ruminaq.validation.marker"; //$NON-NLS-1$
 
-    public static final String MAIN_JAVA = "src/main/java";                               //$NON-NLS-1$
-    public static final String TEST_JAVA = "src/test/java";                               //$NON-NLS-1$
     public static final String MAIN_PYTHON          = "src/main/py";                                 //$NON-NLS-1$
     public static final String TEST_PYTHON          = "src/test/py";                                 //$NON-NLS-1$
     public static final String MAIN_R               = "src/main/r";                                  //$NON-NLS-1$
