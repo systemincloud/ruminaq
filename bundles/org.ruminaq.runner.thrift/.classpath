@@ -7,12 +7,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="src" path="src/main/thrift"/>
-	<classpathentry kind="src" output="target/classes" path="target/generated-sources/thrift">
-		<attributes>
-			<attribute name="optional" value="true"/>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="src" path="src/main/thrift/"/>
+	<classpathentry kind="src" path="target/generated-sources/thrift/"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

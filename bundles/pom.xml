@@ -46,9 +46,6 @@
     <module>org.ruminaq.tasks.inspect</module>
     <module>org.ruminaq.tasks.javatask</module>
     <module>org.ruminaq.tasks.mux</module>
-    <module>org.ruminaq.tasks.mux.impl</module>
-    <module>org.ruminaq.tasks.mux.model</module>
-    <module>org.ruminaq.tasks.mux.ui</module>
     <module>org.ruminaq.tasks.pythontask</module>
     <module>org.ruminaq.tasks.pythontask.api</module>
     <module>org.ruminaq.tasks.pythontask.impl</module>

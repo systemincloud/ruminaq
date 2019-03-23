@@ -19,5 +19,6 @@
     <module>org.ruminaq.tasks.gate.feature</module>
     <module>org.ruminaq.tasks.inspect.feature</module>
     <module>org.ruminaq.tasks.javatask.feature</module>
+    <module>org.ruminaq.tasks.mux.feature</module>
   </modules>
 </project>

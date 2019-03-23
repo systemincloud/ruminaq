@@ -42,6 +42,10 @@
          id="org.ruminaq.tasks.javatask.feature"
          version="0.0.0"/>
 
+   <includes
+         id="org.ruminaq.tasks.mux.feature"
+         version="0.0.0"/>
+         
    <requires>
       <import feature="org.eclipse.graphiti.feature"/>
    </requires>
@@ -216,34 +220,6 @@
 
    <plugin
          id="org.ruminaq.tasks.embeddedtask.ui"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.mux"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.mux.impl"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.mux.model"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.mux.ui"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"
