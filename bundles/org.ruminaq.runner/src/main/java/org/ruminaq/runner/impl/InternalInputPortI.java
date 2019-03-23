@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.locks.Condition;
 
 import org.ruminaq.consts.Constants;
-import org.ruminaq.model.model.ruminaq.InternalInputPort;
+import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.cmd.Command;
 import org.ruminaq.runner.impl.data.DataI;

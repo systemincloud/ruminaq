@@ -15,8 +15,8 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.features.add.AddElementFeature;
 import org.ruminaq.model.ModelHandler;
-import org.ruminaq.model.model.ruminaq.MainTask;
-import org.ruminaq.model.model.ruminaq.OutputPort;
+import org.ruminaq.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.OutputPort;
 
 public class PasteOutputPortFeature extends SicPasteFeature implements PasteAnchorTracker {
 

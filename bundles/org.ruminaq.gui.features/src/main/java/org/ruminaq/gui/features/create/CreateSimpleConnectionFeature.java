@@ -9,11 +9,11 @@ import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.model.ModelHandler;
-import org.ruminaq.model.model.ruminaq.FlowSource;
-import org.ruminaq.model.model.ruminaq.FlowTarget;
-import org.ruminaq.model.model.ruminaq.MainTask;
-import org.ruminaq.model.model.ruminaq.RuminaqFactory;
-import org.ruminaq.model.model.ruminaq.SimpleConnection;
+import org.ruminaq.model.ruminaq.FlowSource;
+import org.ruminaq.model.ruminaq.FlowTarget;
+import org.ruminaq.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.RuminaqFactory;
+import org.ruminaq.model.ruminaq.SimpleConnection;
 
 public class CreateSimpleConnectionFeature extends AbstractCreateConnectionFeature {
 

@@ -15,7 +15,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.SameShellProvider;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.PropertyDialogAction;
-import org.ruminaq.model.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.tasks.debug.ui.InternalPortBreakpoint;
 import org.ruminaq.util.EclipseUtil;
 

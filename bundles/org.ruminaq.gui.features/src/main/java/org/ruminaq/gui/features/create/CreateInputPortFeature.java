@@ -5,9 +5,9 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.ruminaq.gui.features.CreateElementFeature;
 import org.ruminaq.gui.features.Images;
 import org.ruminaq.model.ModelHandler;
-import org.ruminaq.model.model.ruminaq.InputPort;
-import org.ruminaq.model.model.ruminaq.MainTask;
-import org.ruminaq.model.model.ruminaq.RuminaqFactory;
+import org.ruminaq.model.ruminaq.InputPort;
+import org.ruminaq.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.RuminaqFactory;
 
 public class CreateInputPortFeature extends CreateElementFeature {
 

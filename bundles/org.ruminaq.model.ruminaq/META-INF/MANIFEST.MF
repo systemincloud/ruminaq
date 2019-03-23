@@ -1,17 +1,17 @@
-Automatic-Module-Name: org.ruminaq.model.model
 Bundle-ManifestVersion: 2
+Automatic-Module-Name: org.ruminaq.model.ruminaq
+Bundle-SymbolicName: org.ruminaq.model.ruminaq;singleton:=true
 Bundle-Name: Ruminaq - Model - Model
 Bundle-Vendor: Marek Jagielski
-Bundle-SymbolicName: org.ruminaq.model.model;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: org.ruminaq.model.model.ruminaq,
- org.ruminaq.model.model.ruminaq.debug,
- org.ruminaq.model.model.ruminaq.debug.impl,
- org.ruminaq.model.model.ruminaq.debug.util,
- org.ruminaq.model.model.ruminaq.impl,
- org.ruminaq.model.model.ruminaq.util
+Export-Package: org.ruminaq.model.ruminaq,
+ org.ruminaq.model.ruminaq.debug,
+ org.ruminaq.model.ruminaq.debug.impl,
+ org.ruminaq.model.ruminaq.debug.util,
+ org.ruminaq.model.ruminaq.impl,
+ org.ruminaq.model.ruminaq.util
 Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.common.notify,
  org.eclipse.emf.common.notify.impl,

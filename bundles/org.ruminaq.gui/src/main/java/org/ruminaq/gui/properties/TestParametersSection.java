@@ -33,7 +33,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ModelHandler;
-import org.ruminaq.model.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.util.GlobalUtil;
 import org.slf4j.Logger;

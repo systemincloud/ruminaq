@@ -16,7 +16,7 @@
 package org.ruminaq.tasks.constant.impl.service;
 
 import java.util.Optional;
-import org.ruminaq.model.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.tasks.constant.impl.AbstractConstantStrategy;
 
 public interface ConstantService {

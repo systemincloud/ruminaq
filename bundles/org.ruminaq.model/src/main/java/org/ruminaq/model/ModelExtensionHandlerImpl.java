@@ -11,7 +11,7 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.ruminaq.model.api.ModelExtension;
 import org.ruminaq.model.api.ModelExtensionHandler;
-import org.ruminaq.model.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.DataType;
 
 @Component(immediate = true)
 public class ModelExtensionHandlerImpl implements ModelExtensionHandler {

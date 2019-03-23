@@ -1,7 +1,7 @@
 package org.ruminaq.model.config;
 
 import org.javatuples.Quartet;
-import org.ruminaq.model.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.BaseElement;
 
 public class ConfigEntry {
 	public Quartet<Class<? extends BaseElement>, ConfigCategory, Boolean, Boolean> entry;

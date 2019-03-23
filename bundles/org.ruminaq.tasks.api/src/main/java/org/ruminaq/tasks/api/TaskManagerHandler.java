@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.swt.widgets.Composite;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 
 public interface TaskManagerHandler {
 

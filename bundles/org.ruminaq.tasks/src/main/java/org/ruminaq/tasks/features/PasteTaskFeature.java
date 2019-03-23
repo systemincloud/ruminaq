@@ -20,9 +20,9 @@ import org.ruminaq.gui.features.paste.PasteAnchorTracker;
 import org.ruminaq.gui.features.paste.PasteDefaultElementFeature;
 import org.ruminaq.gui.features.paste.SicPasteFeature;
 import org.ruminaq.model.ModelHandler;
-import org.ruminaq.model.model.ruminaq.InternalPort;
-import org.ruminaq.model.model.ruminaq.MainTask;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.util.TasksUtil;
 
 public class PasteTaskFeature extends SicPasteFeature implements PasteAnchorTracker {

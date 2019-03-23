@@ -23,7 +23,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.osgi.framework.Version;
 import org.ruminaq.consts.Constants.SicPlugin;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.TaskCategory;
 import org.ruminaq.tasks.constant.Images;
 import org.ruminaq.tasks.constant.impl.Port;

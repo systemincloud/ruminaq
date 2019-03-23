@@ -12,7 +12,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.features.CreateElementFeature;
 import org.ruminaq.gui.features.add.AddElementFeature;
-import org.ruminaq.model.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.util.GraphicsUtil;
 
 public class PasteDefaultElementFeature extends SicPasteFeature {

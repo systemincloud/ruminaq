@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.ruminaq.model.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.DataType;
 
 public class ModelUtil {
 

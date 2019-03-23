@@ -186,7 +186,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.ruminaq.model.model"
+         id="org.ruminaq.model.ruminaq"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"

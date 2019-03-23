@@ -2,7 +2,7 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="rtask" nsURI="http://ruminaq.org/tasks/rtask/1_0_0"
     nsPrefix="rtask_1_0_0">
-  <eClassifiers xsi:type="ecore:EClass" name="RTask" eSuperTypes="../../org.ruminaq.model.model/model/ruminaq.ecore#//UserDefinedTask">
+  <eClassifiers xsi:type="ecore:EClass" name="RTask" eSuperTypes="../../org.ruminaq.model.ruminaq/model/ruminaq.ecore#//UserDefinedTask">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="implementation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral=""/>
   </eClassifiers>

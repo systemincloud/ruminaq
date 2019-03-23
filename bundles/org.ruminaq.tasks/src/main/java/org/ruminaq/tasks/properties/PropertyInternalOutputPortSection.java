@@ -13,8 +13,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.ruminaq.model.model.ruminaq.DataType;
-import org.ruminaq.model.model.ruminaq.InternalOutputPort;
+import org.ruminaq.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.util.ModelUtil;
 
 public class PropertyInternalOutputPortSection extends GFPropertySection implements ITabbedPropertyConstants {

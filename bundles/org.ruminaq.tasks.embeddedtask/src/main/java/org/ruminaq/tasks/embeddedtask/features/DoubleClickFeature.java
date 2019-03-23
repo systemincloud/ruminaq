@@ -12,7 +12,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
-import org.ruminaq.model.model.ruminaq.EmbeddedTask;
+import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.util.EclipseUtil;
 
 public class DoubleClickFeature extends AbstractCustomFeature {

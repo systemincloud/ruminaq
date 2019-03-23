@@ -42,7 +42,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.model.model.ruminaq.InputPort;
+import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.util.GlobalUtil;
 import org.ruminaq.util.NumericUtil;

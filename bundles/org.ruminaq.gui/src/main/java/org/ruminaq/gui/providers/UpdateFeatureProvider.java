@@ -30,8 +30,8 @@ import org.ruminaq.gui.features.update.UpdateMainTaskFeature;
 import org.ruminaq.gui.features.util.FeatureUtil;
 import org.ruminaq.gui.label.UpdateLabelFeature;
 import org.ruminaq.model.config.CommonConfig;
-import org.ruminaq.model.model.ruminaq.BaseElement;
-import org.ruminaq.model.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.tasks.TaskProvider;
 
 public class UpdateFeatureProvider extends FeatureProvider {

@@ -7,7 +7,7 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramLink;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.ruminaq.model.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.util.ModelUtil;
 
 public abstract class CreateElementFeature extends AbstractCreateFeature {

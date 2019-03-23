@@ -26,8 +26,8 @@ import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.api.GuiExtensionHandler;
 import org.ruminaq.gui.features.move.MoveElementFeature;
 import org.ruminaq.gui.features.move.MoveLabelFeature;
-import org.ruminaq.model.model.ruminaq.BaseElement;
-import org.ruminaq.model.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.tasks.features.MoveInternalPortFeature;
 
 public class MoveShapeFeatureProvider extends FeatureProvider {

@@ -2,7 +2,7 @@ package org.ruminaq.runner.util;
 
 import java.nio.ByteBuffer;
 
-import org.ruminaq.model.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.runner.impl.data.DataI;
 
 public class DataIUtil {

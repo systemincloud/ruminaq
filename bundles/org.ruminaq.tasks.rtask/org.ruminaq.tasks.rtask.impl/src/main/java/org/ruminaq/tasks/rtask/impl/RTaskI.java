@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.CoreException;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.GeneratorI;

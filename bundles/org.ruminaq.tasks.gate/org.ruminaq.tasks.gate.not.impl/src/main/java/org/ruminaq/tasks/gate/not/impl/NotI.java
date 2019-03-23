@@ -1,6 +1,6 @@
 package org.ruminaq.tasks.gate.not.impl;
 
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.impl.BasicTaskI;
 import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.PortMap;

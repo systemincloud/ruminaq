@@ -39,16 +39,16 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.model.DataTypeManager;
-import org.ruminaq.model.model.dt.Bool;
-import org.ruminaq.model.model.dt.Complex32;
-import org.ruminaq.model.model.dt.Complex64;
-import org.ruminaq.model.model.dt.Control;
-import org.ruminaq.model.model.dt.Decimal;
-import org.ruminaq.model.model.dt.Float32;
-import org.ruminaq.model.model.dt.Float64;
-import org.ruminaq.model.model.dt.Int32;
-import org.ruminaq.model.model.dt.Int64;
-import org.ruminaq.model.model.ruminaq.DataType;
+import org.ruminaq.model.dt.Bool;
+import org.ruminaq.model.dt.Complex32;
+import org.ruminaq.model.dt.Complex64;
+import org.ruminaq.model.dt.Control;
+import org.ruminaq.model.dt.Decimal;
+import org.ruminaq.model.dt.Float32;
+import org.ruminaq.model.dt.Float64;
+import org.ruminaq.model.dt.Int32;
+import org.ruminaq.model.dt.Int64;
+import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.constant.api.ConstantExtensionHandler;
@@ -131,7 +131,7 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
         types.add(Float64.class.getSimpleName());
         types.add(Int32.class.getSimpleName());
         types.add(Int64.class.getSimpleName());
-        types.add(org.ruminaq.model.model.dt.Text.class.getSimpleName());
+        types.add(org.ruminaq.model.dt.Text.class.getSimpleName());
         for (Class<? extends DataType> clazz : extensions.getDataTypes()) {
             types.add(clazz.getSimpleName());
         }

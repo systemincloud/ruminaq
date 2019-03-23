@@ -2,7 +2,7 @@ package org.ruminaq.tasks.randomgenerator.model;
 
 import org.ruminaq.model.desc.OUT;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.model.model.dt.Int32;
+import org.ruminaq.model.dt.Int32;
 
 public enum Port implements PortsDescr {
 	@OUT(name="Out", type=Int32.class, label=false) OUT;

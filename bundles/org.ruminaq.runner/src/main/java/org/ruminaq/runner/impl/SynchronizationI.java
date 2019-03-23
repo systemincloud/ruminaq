@@ -3,8 +3,8 @@ package org.ruminaq.runner.impl;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.ruminaq.model.model.ruminaq.InternalPort;
-import org.ruminaq.model.model.ruminaq.Synchronization;
+import org.ruminaq.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.Synchronization;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.util.GroovyExpressionUtil;
 import org.slf4j.Logger;

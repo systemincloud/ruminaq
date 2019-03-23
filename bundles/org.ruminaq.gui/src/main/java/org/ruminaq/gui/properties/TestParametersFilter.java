@@ -20,7 +20,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 import org.ruminaq.eclipse.util.ConstantsUtil;
-import org.ruminaq.model.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.util.EclipseUtil;
 
 public class TestParametersFilter extends AbstractPropertySectionFilter {

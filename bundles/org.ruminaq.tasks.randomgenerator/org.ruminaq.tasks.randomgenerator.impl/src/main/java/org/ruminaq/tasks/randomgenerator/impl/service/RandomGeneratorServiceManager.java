@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.ServiceLoader;
 
 import org.eclipse.emf.common.util.EMap;
-import org.ruminaq.model.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorStrategy;
 
 /**

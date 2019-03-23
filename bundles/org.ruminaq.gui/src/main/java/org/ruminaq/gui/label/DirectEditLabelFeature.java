@@ -24,7 +24,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.model.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.BaseElement;
 
 public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
 

@@ -18,8 +18,8 @@ package org.ruminaq.tasks.constant.impl;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
-import org.ruminaq.model.model.ruminaq.DataType;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.BasicTaskI;
 import org.ruminaq.runner.impl.EmbeddedTaskI;

@@ -12,7 +12,7 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.ruminaq.gui.features.add.AddElementFeature;
 import org.ruminaq.gui.features.styles.PortStyle;
-import org.ruminaq.model.model.ruminaq.Port;
+import org.ruminaq.model.ruminaq.Port;
 
 public abstract class AddPortFeature extends AddElementFeature {
 

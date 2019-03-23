@@ -6,7 +6,7 @@ package org.ruminaq.model.api;
 import java.util.Collection;
 import java.util.Optional;
 
-import org.ruminaq.model.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.DataType;
 
 /**
  *

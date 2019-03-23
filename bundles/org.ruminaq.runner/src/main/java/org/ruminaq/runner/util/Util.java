@@ -6,7 +6,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.osgi.framework.util.FilePath;
-import org.ruminaq.model.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.BaseElement;
 
 @SuppressWarnings("restriction")
 public class Util {

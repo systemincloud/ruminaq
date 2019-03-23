@@ -25,7 +25,7 @@ import org.eclipse.graphiti.tb.IDecorator;
 import org.osgi.framework.Version;
 import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
 import org.ruminaq.gui.features.tools.IContextButtonPadTool;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 
 public interface ITaskApi {
 

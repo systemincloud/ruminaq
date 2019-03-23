@@ -7,7 +7,7 @@ import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
-import org.ruminaq.model.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.tasks.Images;
 import org.ruminaq.tasks.debug.ui.InternalPortBreakpoint;
 import org.ruminaq.util.EclipseUtil;

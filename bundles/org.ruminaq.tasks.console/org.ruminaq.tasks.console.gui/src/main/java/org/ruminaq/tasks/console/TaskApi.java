@@ -24,7 +24,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.ruminaq.launch.LaunchListener;
 import org.ruminaq.launch.RuminaqLaunchDelegate;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.dirmi.DirmiServer;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.console.features.AddFeature;

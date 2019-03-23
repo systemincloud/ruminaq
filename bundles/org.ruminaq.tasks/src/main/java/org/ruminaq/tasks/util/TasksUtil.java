@@ -6,10 +6,10 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.desc.PortsDescrUtil;
-import org.ruminaq.model.model.ruminaq.InternalInputPort;
-import org.ruminaq.model.model.ruminaq.InternalOutputPort;
-import org.ruminaq.model.model.ruminaq.InternalPort;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.InternalInputPort;
+import org.ruminaq.model.ruminaq.InternalOutputPort;
+import org.ruminaq.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.Task;
 
 public class TasksUtil {
 

@@ -1,6 +1,6 @@
 package org.ruminaq.runner.impl.debug.events.debugger;
 
-import org.ruminaq.model.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.runner.impl.SynchronizationI;
 import org.ruminaq.runner.impl.debug.events.AbstractPortEvent;
 import org.ruminaq.runner.impl.debug.events.AbstractPortEventListener;

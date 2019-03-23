@@ -20,7 +20,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.model.model.ruminaq.InputPort;
+import org.ruminaq.model.ruminaq.InputPort;
 
 public class PropertyInputPortFilter extends AbstractPropertySectionFilter {
 

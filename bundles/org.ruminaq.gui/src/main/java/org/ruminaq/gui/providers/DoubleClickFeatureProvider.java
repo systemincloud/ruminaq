@@ -25,7 +25,7 @@ import org.ruminaq.gui.features.doubleclick.DoubleClickBaseElementFeature;
 import org.ruminaq.gui.features.doubleclick.DoubleClickFeature;
 import org.ruminaq.gui.features.util.FeatureUtil;
 import org.ruminaq.model.config.CommonConfig;
-import org.ruminaq.model.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.TaskProvider;
 
 public class DoubleClickFeatureProvider extends FeatureProvider {

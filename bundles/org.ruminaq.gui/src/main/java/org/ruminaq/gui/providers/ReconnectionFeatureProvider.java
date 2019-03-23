@@ -22,7 +22,7 @@ import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.gui.api.GuiExtensionHandler;
 import org.ruminaq.gui.features.reconnection.ReconnectionSimpleConnectionFeature;
-import org.ruminaq.model.model.ruminaq.SimpleConnection;
+import org.ruminaq.model.ruminaq.SimpleConnection;
 
 public class ReconnectionFeatureProvider extends FeatureProvider {
 

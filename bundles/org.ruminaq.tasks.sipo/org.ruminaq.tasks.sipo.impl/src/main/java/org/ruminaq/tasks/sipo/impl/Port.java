@@ -4,9 +4,9 @@ import org.ruminaq.model.desc.IN;
 import org.ruminaq.model.desc.OUT;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.desc.Position;
-import org.ruminaq.model.model.dt.Control;
-import org.ruminaq.model.model.dt.Int32;
-import org.ruminaq.model.model.ruminaq.DataType;
+import org.ruminaq.model.dt.Control;
+import org.ruminaq.model.dt.Int32;
+import org.ruminaq.model.ruminaq.DataType;
 
 public enum Port implements PortsDescr {
 	@IN (name="In",  type=DataType.class, group=0)                               IN,

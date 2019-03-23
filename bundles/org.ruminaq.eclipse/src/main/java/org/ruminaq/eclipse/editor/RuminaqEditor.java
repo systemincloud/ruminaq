@@ -49,7 +49,7 @@ import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.api.EclipseExtensionHandler;
 import org.ruminaq.eclipse.util.ConstantsUtil;
 import org.ruminaq.model.ModelHandler;
-import org.ruminaq.model.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.prefs.ProjectProps;
 import org.ruminaq.validation.MarkerChangeListener;

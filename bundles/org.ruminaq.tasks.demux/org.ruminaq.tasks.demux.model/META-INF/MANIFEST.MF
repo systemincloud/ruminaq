@@ -15,10 +15,10 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.ecore.resource.impl,
  org.eclipse.emf.ecore.util,
  org.eclipse.emf.ecore.xmi.impl,
- org.ruminaq.model.model.ruminaq,
- org.ruminaq.model.model.ruminaq.debug,
- org.ruminaq.model.model.ruminaq.debug.impl,
- org.ruminaq.model.model.ruminaq.impl
+ org.ruminaq.model.ruminaq,
+ org.ruminaq.model.ruminaq.debug,
+ org.ruminaq.model.ruminaq.debug.impl,
+ org.ruminaq.model.ruminaq.impl
 Export-Package: org.ruminaq.tasks.demux.model.demux
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

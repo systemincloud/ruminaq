@@ -6,9 +6,9 @@ import static java.lang.Boolean.FALSE;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ruminaq.model.model.ruminaq.InputPort;
-import org.ruminaq.model.model.ruminaq.OutputPort;
-import org.ruminaq.model.model.ruminaq.SimpleConnection;
+import org.ruminaq.model.ruminaq.InputPort;
+import org.ruminaq.model.ruminaq.OutputPort;
+import org.ruminaq.model.ruminaq.SimpleConnection;
 
 public final class CommonConfig extends Config {
 

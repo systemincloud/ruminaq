@@ -21,7 +21,7 @@ import java.util.Map;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.swt.widgets.Composite;
-import org.ruminaq.model.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.DataType;
 
 public interface ConstantExtensionHandler {
     List<Class<? extends DataType>> getDataTypes();

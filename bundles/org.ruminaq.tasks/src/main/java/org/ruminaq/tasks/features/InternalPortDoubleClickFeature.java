@@ -10,7 +10,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.ruminaq.model.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.InternalPort;
 
 public class InternalPortDoubleClickFeature extends AbstractCustomFeature {
 

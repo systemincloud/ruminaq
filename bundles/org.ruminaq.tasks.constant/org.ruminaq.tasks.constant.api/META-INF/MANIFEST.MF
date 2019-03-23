@@ -10,5 +10,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.eclipse.emf.transaction,
  org.eclipse.graphiti.mm.pictograms,
  org.eclipse.swt.widgets,
- org.ruminaq.model.model.ruminaq
+ org.ruminaq.model.ruminaq
 

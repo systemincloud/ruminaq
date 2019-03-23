@@ -2,9 +2,9 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="randomgenerator" nsURI="http://ruminaq.org/tasks/randomgenerator/1_0_0"
     nsPrefix="randomgenerator_1_0_0">
-  <eClassifiers xsi:type="ecore:EClass" name="RandomGenerator" eSuperTypes="../../org.ruminaq.model.model/model/ruminaq.ecore#//Task">
+  <eClassifiers xsi:type="ecore:EClass" name="RandomGenerator" eSuperTypes="../../org.ruminaq.model.ruminaq/model/ruminaq.ecore#//Task">
     <eStructuralFeatures xsi:type="ecore:EReference" name="dataType" lowerBound="1"
-        eType="ecore:EClass ../../org.ruminaq.model.model/model/ruminaq.ecore#//DataType"
+        eType="ecore:EClass ../../org.ruminaq.model.ruminaq/model/ruminaq.ecore#//DataType"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dimensions" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="interval" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"

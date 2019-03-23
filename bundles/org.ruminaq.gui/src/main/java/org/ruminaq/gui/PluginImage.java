@@ -15,7 +15,7 @@
  */
 package org.ruminaq.gui;
 
-import org.ruminaq.model.model.ruminaq.SimpleConnection;
+import org.ruminaq.model.ruminaq.SimpleConnection;
 
 public enum PluginImage {
 

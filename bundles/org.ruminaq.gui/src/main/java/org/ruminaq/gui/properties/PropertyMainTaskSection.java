@@ -33,7 +33,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.eclipse.util.ConstantsUtil;
-import org.ruminaq.model.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.util.ModelUtil;
 
 public class PropertyMainTaskSection extends GFPropertySection implements ITabbedPropertyConstants {

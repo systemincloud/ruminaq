@@ -19,8 +19,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.validation.model.IClientSelector;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.model.model.ruminaq.BaseElement;
-import org.ruminaq.model.model.ruminaq.RuminaqPackage;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.RuminaqPackage;
 
 public class Selector implements IClientSelector {
 

@@ -29,7 +29,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.api.GuiExtensionHandler;
 import org.ruminaq.gui.features.create.CreateSimpleConnectionPointFeature;
-import org.ruminaq.model.model.ruminaq.SimpleConnection;
+import org.ruminaq.model.ruminaq.SimpleConnection;
 import org.ruminaq.tasks.TaskProvider;
 import org.ruminaq.util.GraphicsUtil;
 

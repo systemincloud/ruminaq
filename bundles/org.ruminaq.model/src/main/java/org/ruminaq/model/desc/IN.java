@@ -6,8 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import org.eclipse.emf.ecore.EFactory;
-import org.ruminaq.model.model.dt.DatatypeFactory;
-import org.ruminaq.model.model.ruminaq.DataType;
+import org.ruminaq.model.dt.DatatypeFactory;
+import org.ruminaq.model.ruminaq.DataType;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

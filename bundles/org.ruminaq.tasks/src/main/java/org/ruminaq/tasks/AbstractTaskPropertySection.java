@@ -14,7 +14,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.osgi.framework.Version;
 import org.osgi.service.component.annotations.Reference;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.api.ITaskUiApi;
 import org.ruminaq.tasks.api.TasksUiManagerHandler;

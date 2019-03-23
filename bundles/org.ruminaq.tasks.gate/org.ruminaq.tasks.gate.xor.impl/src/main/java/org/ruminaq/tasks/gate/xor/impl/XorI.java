@@ -2,7 +2,7 @@ package org.ruminaq.tasks.gate.xor.impl;
 
 import java.util.List;
 
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.impl.BasicTaskI;
 import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.PortMap;

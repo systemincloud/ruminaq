@@ -6,9 +6,9 @@ import java.util.Map;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.ruminaq.model.FileService;
-import org.ruminaq.model.model.ruminaq.BaseElement;
-import org.ruminaq.model.model.ruminaq.MainTask;
-import org.ruminaq.model.model.ruminaq.RuminaqFactory;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.util.ModelUtil;
 
 public class ModelHandler {

@@ -2,8 +2,8 @@ package org.ruminaq.tasks.embeddedtask.features;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
-import org.ruminaq.model.model.ruminaq.EmbeddedTask;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.EmbeddedTask;
+import org.ruminaq.model.ruminaq.Task;
 
 public class DoubleClickFeatureFilter {
 

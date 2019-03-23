@@ -21,7 +21,7 @@ import org.eclipse.graphiti.features.context.ILayoutContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.gui.api.GuiExtensionHandler;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.features.LayoutTaskFeature;
 
 public class LayoutFeatureProvider extends FeatureProvider {

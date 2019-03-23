@@ -2,14 +2,14 @@
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="&lt;copyright>&#xD;&#xA;&#xD;&#xA;Copyright (c) 2013 Marek Jagielski.&#xD;&#xA;&#xD;&#xA;&lt;/copyright>"
     modelDirectory="model/src/main/java" editDirectory="/org.ruminaq.model.edit/src/main/java/"
-    editorDirectory="/org.ruminaq.model.editor/target" modelPluginID="org.ruminaq.model.model"
+    editorDirectory="/org.ruminaq.model.editor/target" modelPluginID="org.ruminaq.model.ruminaq"
     modelName="Ruminaq" modelPluginClass="" editPluginClass="org.ruminaq.model.provider.RuminaqEditPlugin"
     editorPluginClass="org.ruminaq.model.presentation.RuminaqEditorPlugin" updateClasspath="false"
     suppressEMFTypes="true" codeFormatting="true" importerID="org.eclipse.emf.importer.ecore"
     bundleManifest="false" complianceLevel="8.0" copyrightFields="false" providerRootExtendsClass=""
     editPluginID="org.ruminaq.model.edit" cleanup="true">
   <foreignModel>model.ecore</foreignModel>
-  <genPackages prefix="Ruminaq" basePackage="org.ruminaq.model.model" resource="XML"
+  <genPackages prefix="Ruminaq" basePackage="org.ruminaq.model" resource="XML"
       disposableProviderFactory="true" contentTypeIdentifier="" ecorePackage="model.ecore#/">
     <genClasses image="false" ecoreClass="model.ecore#//BaseElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//BaseElement/id"/>

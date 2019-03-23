@@ -44,7 +44,7 @@ import org.ruminaq.consts.Constants;
 import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
 import org.ruminaq.eclipse.util.ConstantsUtil;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.api.TaskManagerHandler;

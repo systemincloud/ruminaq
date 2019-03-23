@@ -1,6 +1,6 @@
 package org.ruminaq.tasks.inspect.impl;
 
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.TaskI;
 import org.ruminaq.runner.service.AbstractRunnerService;

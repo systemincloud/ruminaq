@@ -17,17 +17,17 @@ package org.ruminaq.tasks.constant.impl.strategy;
 
 import java.util.Arrays;
 import java.util.Optional;
-import org.ruminaq.model.model.dt.Text;
-import org.ruminaq.model.model.dt.Bool;
-import org.ruminaq.model.model.dt.Complex32;
-import org.ruminaq.model.model.dt.Complex64;
-import org.ruminaq.model.model.dt.Control;
-import org.ruminaq.model.model.dt.Int32;
-import org.ruminaq.model.model.dt.Int64;
-import org.ruminaq.model.model.dt.Float32;
-import org.ruminaq.model.model.dt.Float64;
-import org.ruminaq.model.model.dt.Decimal;
-import org.ruminaq.model.model.ruminaq.DataType;
+import org.ruminaq.model.dt.Text;
+import org.ruminaq.model.dt.Bool;
+import org.ruminaq.model.dt.Complex32;
+import org.ruminaq.model.dt.Complex64;
+import org.ruminaq.model.dt.Control;
+import org.ruminaq.model.dt.Int32;
+import org.ruminaq.model.dt.Int64;
+import org.ruminaq.model.dt.Float32;
+import org.ruminaq.model.dt.Float64;
+import org.ruminaq.model.dt.Decimal;
+import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.tasks.constant.impl.AbstractConstantStrategy;
 
 public enum Strategies {

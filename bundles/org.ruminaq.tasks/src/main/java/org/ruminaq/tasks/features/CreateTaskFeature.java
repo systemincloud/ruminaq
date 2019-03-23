@@ -15,12 +15,12 @@ import org.ruminaq.model.desc.IN;
 import org.ruminaq.model.desc.NGroup;
 import org.ruminaq.model.desc.OUT;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.model.model.ruminaq.DataType;
-import org.ruminaq.model.model.ruminaq.InternalInputPort;
-import org.ruminaq.model.model.ruminaq.InternalOutputPort;
-import org.ruminaq.model.model.ruminaq.MainTask;
-import org.ruminaq.model.model.ruminaq.RuminaqFactory;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.InternalInputPort;
+import org.ruminaq.model.ruminaq.InternalOutputPort;
+import org.ruminaq.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.RuminaqFactory;
+import org.ruminaq.model.ruminaq.Task;
 import org.slf4j.Logger;
 
 public abstract class CreateTaskFeature extends CreateElementFeature {

@@ -10,7 +10,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.AbstractCopyFeature;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.model.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.BaseElement;
 
 public class CopyElementFeature extends AbstractCopyFeature {
 

@@ -2,7 +2,7 @@ package org.ruminaq.tasks.javatask.features;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 
 public class DoubleClickFeatureFilter {

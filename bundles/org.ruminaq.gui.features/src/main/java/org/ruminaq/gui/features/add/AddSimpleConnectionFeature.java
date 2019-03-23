@@ -13,7 +13,7 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.model.model.ruminaq.SimpleConnection;
+import org.ruminaq.model.ruminaq.SimpleConnection;
 import org.ruminaq.util.GraphicsUtil;
 import org.ruminaq.util.Util;
 

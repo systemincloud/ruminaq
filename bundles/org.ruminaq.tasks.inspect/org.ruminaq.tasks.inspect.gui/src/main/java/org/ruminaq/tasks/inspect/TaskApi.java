@@ -20,7 +20,7 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.launch.LaunchListener;
 import org.ruminaq.launch.RuminaqLaunchDelegate;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.dirmi.DirmiServer;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.inspect.features.AddFeature;

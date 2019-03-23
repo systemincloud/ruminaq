@@ -7,7 +7,7 @@ import org.ruminaq.model.desc.IN;
 import org.ruminaq.model.desc.OUT;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.desc.Position;
-import org.ruminaq.model.model.dt.Text;
+import org.ruminaq.model.dt.Text;
 
 public enum Port implements PortsDescr {
 	@IN (name="In",  type=Text.class, opt=true, label=false, pos=Position.RIGHT) IN,

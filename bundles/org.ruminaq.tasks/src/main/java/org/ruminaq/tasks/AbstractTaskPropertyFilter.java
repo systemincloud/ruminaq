@@ -7,7 +7,7 @@ import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 import org.osgi.framework.Version;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskUiApi;
 import org.ruminaq.tasks.api.TasksUiManagerHandler;
 

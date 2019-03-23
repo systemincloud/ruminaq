@@ -42,9 +42,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.model.model.ruminaq.MainTask;
-import org.ruminaq.model.model.ruminaq.Task;
-import org.ruminaq.model.model.ruminaq.UserDefinedTask;
+import org.ruminaq.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.model.util.ModelUtil;
 
 public class UpdateDiagram {

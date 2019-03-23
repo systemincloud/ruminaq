@@ -27,9 +27,9 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.validation.AbstractModelConstraint;
 import org.eclipse.emf.validation.EMFEventType;
 import org.eclipse.emf.validation.IValidationContext;
-import org.ruminaq.model.model.ruminaq.EmbeddedTask;
-import org.ruminaq.model.model.ruminaq.MainTask;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.EmbeddedTask;
+import org.ruminaq.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.util.EclipseUtil;
 
 public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {

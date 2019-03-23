@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ServiceLoader;
 
-import org.ruminaq.model.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.tasks.constant.impl.AbstractConstantStrategy;
 
 public enum ConstantServiceManager {

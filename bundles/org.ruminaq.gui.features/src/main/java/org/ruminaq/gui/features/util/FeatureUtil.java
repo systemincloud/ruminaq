@@ -15,7 +15,7 @@ import org.eclipse.graphiti.palette.impl.StackEntry;
 import org.ruminaq.model.config.Config;
 import org.ruminaq.model.config.ConfigCategory;
 import org.ruminaq.model.config.ConfigEntry;
-import org.ruminaq.model.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.BaseElement;
 
 public final class FeatureUtil {
 

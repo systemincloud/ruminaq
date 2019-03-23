@@ -16,7 +16,7 @@
 package org.ruminaq.tasks.randomgenerator.api;
 
 import java.util.List;
-import org.ruminaq.model.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.DataType;
 
 public interface RandomGeneratorExtensionHandler {
     List<Class<? extends DataType>> getDataTypes();

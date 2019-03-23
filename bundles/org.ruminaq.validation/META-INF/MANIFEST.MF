@@ -30,7 +30,7 @@ Import-Package: org.eclipse.core.resources,
  org.eclipse.wst.validation,
  org.ruminaq.consts,
  org.ruminaq.model,
- org.ruminaq.model.model.ruminaq,
+ org.ruminaq.model.ruminaq,
  org.ruminaq.prefs,
  org.ruminaq.util
 Export-Package: org.ruminaq.validation

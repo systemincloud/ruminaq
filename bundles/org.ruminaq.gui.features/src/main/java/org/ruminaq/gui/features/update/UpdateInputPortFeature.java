@@ -7,7 +7,7 @@ import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.ruminaq.gui.features.update.UpdateBaseElementFeature;
-import org.ruminaq.model.model.ruminaq.InputPort;
+import org.ruminaq.model.ruminaq.InputPort;
 
 public class UpdateInputPortFeature extends UpdateBaseElementFeature {
 

@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.locks.Condition;
 
-import org.ruminaq.model.model.ruminaq.InternalOutputPort;
-import org.ruminaq.model.model.ruminaq.InternalPort;
-import org.ruminaq.model.model.ruminaq.Synchronization;
+import org.ruminaq.model.ruminaq.InternalOutputPort;
+import org.ruminaq.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.Synchronization;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.cmd.Command;
 import org.ruminaq.runner.impl.data.DataI;

@@ -50,7 +50,7 @@ import org.ruminaq.eclipse.util.ConstantsUtil;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
-import org.ruminaq.model.model.ruminaq.EmbeddedTask;
+import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.embeddedtask.features.UpdateFeature;

@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.Version;
 import org.osgi.service.component.annotations.Reference;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskUiApi;
 import org.ruminaq.tasks.api.IView;
 import org.ruminaq.tasks.api.TasksUiManagerHandler;

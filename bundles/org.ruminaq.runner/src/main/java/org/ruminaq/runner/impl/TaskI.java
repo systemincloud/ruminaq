@@ -13,9 +13,9 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.ruminaq.model.model.ruminaq.InternalInputPort;
-import org.ruminaq.model.model.ruminaq.InternalOutputPort;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.InternalInputPort;
+import org.ruminaq.model.ruminaq.InternalOutputPort;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 import org.slf4j.Logger;

@@ -24,7 +24,7 @@ import org.osgi.framework.Version;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.gui.features.tools.IContextButtonPadTool;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.javatask.features.AddFeature;
 import org.ruminaq.tasks.javatask.features.ContextButtonPadTool;

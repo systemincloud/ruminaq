@@ -25,10 +25,10 @@ import org.eclipse.emf.validation.EMFEventType;
 import org.eclipse.emf.validation.IValidationContext;
 import org.eclipse.emf.validation.model.ConstraintStatus;
 import org.ruminaq.model.DataTypeManager;
-import org.ruminaq.model.model.ruminaq.Connection;
-import org.ruminaq.model.model.ruminaq.DataType;
-import org.ruminaq.model.model.ruminaq.InternalInputPort;
-import org.ruminaq.model.model.ruminaq.InternalOutputPort;
+import org.ruminaq.model.ruminaq.Connection;
+import org.ruminaq.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.InternalInputPort;
+import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.validation.StatusLocationDecorator;
 
 public class DataLossyCast extends AbstractModelConstraint {

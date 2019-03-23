@@ -47,12 +47,12 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.ruminaq.model.ModelHandler;
-import org.ruminaq.model.model.ruminaq.InternalInputPort;
-import org.ruminaq.model.model.ruminaq.InternalOutputPort;
-import org.ruminaq.model.model.ruminaq.MainTask;
-import org.ruminaq.model.model.ruminaq.RuminaqFactory;
-import org.ruminaq.model.model.ruminaq.Synchronization;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.InternalInputPort;
+import org.ruminaq.model.ruminaq.InternalOutputPort;
+import org.ruminaq.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.RuminaqFactory;
+import org.ruminaq.model.ruminaq.Synchronization;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.util.NumericUtil;
 

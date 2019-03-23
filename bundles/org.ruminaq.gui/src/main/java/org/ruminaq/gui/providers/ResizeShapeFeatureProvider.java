@@ -27,9 +27,9 @@ import org.ruminaq.gui.features.resize.ResizeShapeFeature;
 import org.ruminaq.gui.features.resize.ResizeShapeForbiddenFeature;
 import org.ruminaq.gui.features.util.FeatureUtil;
 import org.ruminaq.model.config.CommonConfig;
-import org.ruminaq.model.model.ruminaq.InternalPort;
-import org.ruminaq.model.model.ruminaq.Port;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.Port;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.TaskProvider;
 import org.ruminaq.tasks.features.ResizeShapeTaskFeature;
 

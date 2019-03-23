@@ -1,7 +1,7 @@
 package org.ruminaq.tasks.demux.impl;
 
 import org.ruminaq.model.desc.PortsDescrUtil;
-import org.ruminaq.model.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.BasicTaskI;
 import org.ruminaq.runner.impl.EmbeddedTaskI;

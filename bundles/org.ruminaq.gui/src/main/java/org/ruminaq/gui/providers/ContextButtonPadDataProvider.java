@@ -33,10 +33,10 @@ import org.ruminaq.gui.features.contextpad.ContextButtonPadFlowSourceTool;
 import org.ruminaq.gui.features.contextpad.ContextButtonPadInternalPortTool;
 import org.ruminaq.gui.features.contextpad.ContextButtonPadPortTool;
 import org.ruminaq.gui.features.tools.IContextButtonPadTool;
-import org.ruminaq.model.model.ruminaq.BaseElement;
-import org.ruminaq.model.model.ruminaq.FlowSource;
-import org.ruminaq.model.model.ruminaq.InternalPort;
-import org.ruminaq.model.model.ruminaq.Port;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.FlowSource;
+import org.ruminaq.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.Port;
 import org.ruminaq.tasks.TaskProvider;
 
 public class ContextButtonPadDataProvider extends FeatureProvider {
