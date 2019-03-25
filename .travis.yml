@@ -19,9 +19,9 @@ jobs:
     - stage: "Build plugins"
       install: skip
       script:
-        - ./mvnw install --toolchains=../../.travis-toolchains.xml -pl releng/org.ruminaq.p2repo
+        - ./mvnw install --toolchains=.travis-toolchains.xml -pl releng/org.ruminaq.p2repo
         - ./mvnw p2:site -pl releng/org.ruminaq.p2repo
-        - ./mvnw jetty:run --toolchains=../../.travis-toolchains.xml -pl releng/org.ruminaq.p2repo &
+        - ./mvnw jetty:run --toolchains=.travis-toolchains.xml -pl releng/org.ruminaq.p2repo &
         - sleep 60
         - ./mvnw install --toolchains=.travis-toolchains.xml
         
