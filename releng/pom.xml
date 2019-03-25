@@ -11,8 +11,25 @@
   <artifactId>org.ruminaq.releng</artifactId>
   <packaging>pom</packaging>
 
-  <modules>
-    <module>org.ruminaq.update</module>
-    <module>org.ruminaq.target</module>
-  </modules>
+
+  
+  <profiles>
+    <profile>
+      <id>init</id>
+      <modules>
+        <module>org.ruminaq.p2repo</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <modules>
+        <module>org.ruminaq.update</module>
+        <module>org.ruminaq.target</module>
+      </modules>
+    </profile>
+  </profiles>
+
 </project>
