@@ -27,7 +27,7 @@ jobs:
         - mvn jetty:run --toolchains=../../.travis-toolchains.xml &
         - sleep 60
         - cd ../..
-        - mvn initialize --toolchains=.travis-toolchains.xml
+        - mvn install --toolchains=.travis-toolchains.xml
         
 #before_install:  
 #  - cd releng/org.ruminaq.p2repo
