@@ -11,23 +11,19 @@ jobs:
     - stage: "Build Tools"
       install: skip
       script:
-        - cd libs/org.ruminaq.tools
-        - mvn install
+        - ./mvnw install -pl libs/org.ruminaq.tools
     - stage: "Build JavaTask Client"
       install: skip
       script:
-        - cd libs/org.ruminaq.tasks.javatask.client
-        - mvn install
+        - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
     - stage: "Build plugins"
       install: skip
       script:
-        - cd releng/org.ruminaq.p2repo
-        - mvn install --toolchains=../../.travis-toolchains.xml
-        - mvn p2:site
-        - mvn jetty:run --toolchains=../../.travis-toolchains.xml &
+        - ./mvnw install --toolchains=../../.travis-toolchains.xml -pl releng/org.ruminaq.p2repo
+        - ./mvnw p2:site -pl releng/org.ruminaq.p2repo
+        - ./mvnw jetty:run --toolchains=../../.travis-toolchains.xml -pl releng/org.ruminaq.p2repo &
         - sleep 60
-        - cd ../..
-        - mvn install --toolchains=.travis-toolchains.xml
+        - ./mvnw install --toolchains=.travis-toolchains.xml
         
 #before_install:  
 #  - cd releng/org.ruminaq.p2repo
