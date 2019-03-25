@@ -8,6 +8,11 @@ jdk:
 
 jobs:
   include:
+    - stage: "Build Tools"
+      install: skip
+      script:
+        - cd libs/org.ruminaq.tools
+        - mvn install
     - stage: "Build JavaTask Client"
       install: skip
       script:
