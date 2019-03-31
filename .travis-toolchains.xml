@@ -6,7 +6,7 @@
       <version>10</version>
     </provides>
     <configuration>
-      <jdkHome>/usr/lib/jvm/java-11-openjdk-amd64/</jdkHome>
+      <jdkHome>/home/travis/openjdk10</jdkHome>
     </configuration>
   </toolchain>
 </toolchains>
