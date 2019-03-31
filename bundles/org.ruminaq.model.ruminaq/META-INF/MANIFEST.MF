@@ -5,7 +5,7 @@ Bundle-Name: Ruminaq - Model - Model
 Bundle-Vendor: Marek Jagielski
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9
 Export-Package: org.ruminaq.model.ruminaq,
  org.ruminaq.model.ruminaq.debug,
  org.ruminaq.model.ruminaq.debug.impl,

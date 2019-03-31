@@ -33,6 +33,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.debug.ui,
  org.slf4j
 Export-Package: org.ruminaq.tasks.debug.model
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9
 Service-Component: OSGI-INF/org.ruminaq.tasks.debug.TasksDebugModelerExtension.xml
 Bundle-ActivationPolicy: lazy

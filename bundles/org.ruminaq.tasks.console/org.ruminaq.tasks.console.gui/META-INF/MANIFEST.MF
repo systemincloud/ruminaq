@@ -71,4 +71,4 @@ Import-Package: ch.qos.logback.classic,
  swing2swt.layout
 Export-Package: org.ruminaq.tasks.console.features
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9

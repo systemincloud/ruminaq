@@ -79,6 +79,6 @@ Export-Package: org.ruminaq.eclipse,
  org.ruminaq.eclipse.util,
  org.ruminaq.eclipse.wizards.diagram,
  org.ruminaq.eclipse.wizards.project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9
 Bundle-ClassPath: .,
  swing2swt.jar

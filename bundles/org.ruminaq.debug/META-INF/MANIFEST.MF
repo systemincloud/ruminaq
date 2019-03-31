@@ -35,5 +35,5 @@ Export-Package: org.ruminaq.debug,
  org.ruminaq.debug.jdi,
  org.ruminaq.debug.model,
  org.ruminaq.debug.model.vars
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9
 Service-Component: OSGI-INF/org.ruminaq.debug.DebugExtensionHandlerImpl.xml

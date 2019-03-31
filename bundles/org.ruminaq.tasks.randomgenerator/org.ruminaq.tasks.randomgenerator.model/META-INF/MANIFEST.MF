@@ -26,5 +26,5 @@ Import-Package: org.eclipse.emf.common,
 Export-Package: org.ruminaq.tasks.randomgenerator.model,
  org.ruminaq.tasks.randomgenerator.model.randomgenerator
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9
 

@@ -42,6 +42,7 @@ Import-Package: ch.qos.logback.classic,
 Export-Package: org.ruminaq.runner,
  org.ruminaq.runner.dirmi,
  org.ruminaq.runner.impl,
+ org.ruminaq.runner.impl.cmd,
  org.ruminaq.runner.impl.data,
  org.ruminaq.runner.impl.debug,
  org.ruminaq.runner.impl.debug.events,
@@ -49,4 +50,4 @@ Export-Package: org.ruminaq.runner,
  org.ruminaq.runner.impl.debug.events.model,
  org.ruminaq.runner.service,
  org.ruminaq.runner.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9

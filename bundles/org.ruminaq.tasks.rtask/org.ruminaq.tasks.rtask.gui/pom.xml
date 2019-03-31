@@ -62,7 +62,9 @@
           </scripts>
         </configuration>
       </plugin>
-      <plugin><groupId>org.eclipse.xtend</groupId><artifactId>xtend-maven-plugin</artifactId>
+      <plugin>
+        <groupId>org.eclipse.xtend</groupId>
+        <artifactId>xtend-maven-plugin</artifactId>
         <executions>
           <execution>
             <goals>

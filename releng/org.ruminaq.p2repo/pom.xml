@@ -102,6 +102,13 @@
                 </artifact>
                 <artifact>
                   <id>org.apache.thrift:libthrift:0.12.0</id>
+                  <instructions>
+                    <Export-Package>org.apache.thrift.*</Export-Package>
+                  </instructions>
+                  <override>true</override>
+                </artifact>
+                <artifact>
+                  <id>javax.annotation:javax.annotation-api:1.3.2</id>
                 </artifact>
                 <artifact>
                   <id>org.rythmengine:rythm-engine:1.3.0</id>

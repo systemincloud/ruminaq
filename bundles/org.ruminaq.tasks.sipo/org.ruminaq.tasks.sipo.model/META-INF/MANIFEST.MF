@@ -23,5 +23,5 @@ Import-Package: org.eclipse.emf.common,
  org.ruminaq.tasks.gate.model.gate.impl
 Export-Package: org.ruminaq.tasks.sipo.model.sipo
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9
 

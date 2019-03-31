@@ -118,4 +118,4 @@ Export-Package: org.ruminaq.tasks.rtask,
  org.ruminaq.tasks.rtask.extension,
  org.ruminaq.tasks.rtask.service
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9

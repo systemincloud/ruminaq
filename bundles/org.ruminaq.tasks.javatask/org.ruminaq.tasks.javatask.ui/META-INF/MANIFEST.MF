@@ -47,4 +47,4 @@ Export-Package: org.ruminaq.tasks.javatask.ui,
  org.ruminaq.tasks.javatask.ui.properties,
  org.ruminaq.tasks.javatask.ui.wizards
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9

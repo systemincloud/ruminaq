@@ -5,7 +5,7 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.randomgenerator.api
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.ruminaq.tasks.randomgenerator.api
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9
 Import-Package: org.eclipse.emf.transaction,
  org.eclipse.graphiti.mm.pictograms,
  org.eclipse.swt.widgets,

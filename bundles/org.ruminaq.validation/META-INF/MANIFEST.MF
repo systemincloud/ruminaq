@@ -33,5 +33,6 @@ Import-Package: org.eclipse.core.resources,
  org.ruminaq.model.ruminaq,
  org.ruminaq.prefs,
  org.ruminaq.util
-Export-Package: org.ruminaq.validation
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: org.ruminaq.validation,
+ org.ruminaq.validation.constraints
+Bundle-RequiredExecutionEnvironment: JavaSE-9

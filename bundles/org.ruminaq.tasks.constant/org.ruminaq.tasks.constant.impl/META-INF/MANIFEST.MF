@@ -7,7 +7,7 @@ Bundle-SymbolicName: org.ruminaq.tasks.constant.impl
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.ruminaq.tasks.constant.impl,
  org.ruminaq.tasks.constant.impl.strategy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.apache.commons.math3.complex;version="3.6.1",

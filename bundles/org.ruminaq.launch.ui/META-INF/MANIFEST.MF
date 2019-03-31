@@ -34,4 +34,4 @@ Import-Package: org.eclipse.core.expressions,
  org.ruminaq.launch,
  org.ruminaq.util
 Export-Package: org.ruminaq.launch.ui
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9

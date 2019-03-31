@@ -6,6 +6,7 @@ Bundle-SymbolicName: org.ruminaq.runner.thrift;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Import-Package: javax.annotation,
  org.apache.thrift,
+ org.apache.thrift.annotation,
  org.apache.thrift.async,
  org.apache.thrift.meta_data,
  org.apache.thrift.protocol,
@@ -14,4 +15,4 @@ Import-Package: javax.annotation,
  org.apache.thrift.transport,
  org.slf4j
 Export-Package: org.ruminaq.runner.thrift
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9

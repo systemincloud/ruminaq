@@ -4,7 +4,7 @@ services:
   - docker
 
 jdk:
-  - openjdk8
+  - openjdk9
 
 jobs:
   include:

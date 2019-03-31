@@ -23,4 +23,4 @@ Import-Package: org.eclipse.core.runtime,
  org.ruminaq.runner.dirmi
 Export-Package: org.modeler.tasks.console.ui.views
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9

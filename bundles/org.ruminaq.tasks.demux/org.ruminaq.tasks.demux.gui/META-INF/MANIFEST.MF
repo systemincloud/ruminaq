@@ -53,7 +53,7 @@ Import-Package: ch.qos.logback.classic,
  org.slf4j
 Export-Package: org.ruminaq.tasks.demux.features
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9
 Service-Component: OSGI-INF/org.ruminaq.tasks.demux.TaskApi.xml,
  OSGI-INF/org.ruminaq.tasks.demux.TaskUiApi.xml
 Bundle-ActivationPolicy: lazy

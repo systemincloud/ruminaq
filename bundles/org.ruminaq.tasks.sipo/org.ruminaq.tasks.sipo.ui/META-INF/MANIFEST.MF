@@ -21,4 +21,4 @@ Import-Package: org.eclipse.core.runtime,
  org.ruminaq.tasks,
  org.ruminaq.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-9
