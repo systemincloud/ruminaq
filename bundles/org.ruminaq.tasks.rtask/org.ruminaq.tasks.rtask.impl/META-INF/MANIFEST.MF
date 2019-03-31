@@ -5,7 +5,7 @@ Bundle-Name: Ruminaq - Tasks - RTask - Impl
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.rtask.impl
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core.spi,
  de.walware.ecommons,

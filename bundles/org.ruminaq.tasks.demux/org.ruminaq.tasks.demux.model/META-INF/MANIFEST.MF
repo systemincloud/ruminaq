@@ -21,4 +21,4 @@ Import-Package: org.eclipse.emf.common,
  org.ruminaq.model.ruminaq.impl
 Export-Package: org.ruminaq.tasks.demux.model.demux
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10

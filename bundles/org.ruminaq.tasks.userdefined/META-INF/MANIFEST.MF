@@ -65,4 +65,4 @@ Export-Package: org.ruminaq.tasks.userdefined,
  org.ruminaq.tasks.userdefined.properties,
  org.ruminaq.tasks.userdefined.wizards
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10

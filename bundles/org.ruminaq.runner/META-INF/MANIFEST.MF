@@ -50,4 +50,4 @@ Export-Package: org.ruminaq.runner,
  org.ruminaq.runner.impl.debug.events.model,
  org.ruminaq.runner.service,
  org.ruminaq.runner.util
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10

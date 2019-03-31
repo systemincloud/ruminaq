@@ -20,4 +20,4 @@ Import-Package: org.eclipse.core.runtime,
  org.ruminaq.util,
  org.ruminaq.runner.dirmi
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10

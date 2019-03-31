@@ -6,7 +6,7 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.gui.api;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.ruminaq.gui.api
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10
 Import-Package: org.eclipse.graphiti.features;version="0.15.0",
  org.eclipse.graphiti.features.context;version="0.15.0",
  org.eclipse.graphiti.features.custom;version="0.15.0",

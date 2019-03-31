@@ -53,4 +53,4 @@ Export-Package: org.ruminaq.tasks.pythontask.ui,
  org.ruminaq.tasks.pythontask.ui.properties,
  org.ruminaq.tasks.pythontask.ui.wizards
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10

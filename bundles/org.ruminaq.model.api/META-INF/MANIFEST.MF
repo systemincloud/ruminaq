@@ -6,6 +6,6 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.model.api;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.ruminaq.model.api
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10
 Import-Package: org.ruminaq.model.ruminaq
 

@@ -5,4 +5,4 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.consts;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.ruminaq.consts
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10

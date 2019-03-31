@@ -16,4 +16,4 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.prefs,
  org.slf4j
 Export-Package: org.ruminaq.logs
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10

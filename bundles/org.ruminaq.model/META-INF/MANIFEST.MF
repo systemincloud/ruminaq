@@ -49,6 +49,6 @@ Export-Package: org.ruminaq.model,
  org.ruminaq.model.desc,
  org.ruminaq.model.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.model.ModelExtensionHandlerImpl.xml

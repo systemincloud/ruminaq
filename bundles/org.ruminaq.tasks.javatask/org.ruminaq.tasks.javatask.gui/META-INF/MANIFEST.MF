@@ -99,4 +99,4 @@ Export-Package: org.ruminaq.tasks.javatask.extension,
  org.ruminaq.tasks.javatask.impl,
  org.ruminaq.tasks.javatask.impl.service
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10

@@ -64,7 +64,7 @@ Import-Package: ch.qos.logback.classic,
  org.slf4j
 Export-Package: org.ruminaq.tasks.constant.features
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10
 Service-Component: OSGI-INF/org.ruminaq.tasks.constant.TaskApi.xml,
  OSGI-INF/org.ruminaq.tasks.constant.TaskUiApi.xml
 Bundle-ActivationPolicy: lazy

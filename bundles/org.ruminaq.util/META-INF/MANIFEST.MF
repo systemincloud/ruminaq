@@ -35,4 +35,4 @@ Import-Package: com.google.common.base,
 Export-Package: org.ruminaq.util,
  org.ruminaq.util.platform
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10

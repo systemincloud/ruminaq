@@ -6,6 +6,6 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.eclipse.api;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.ruminaq.eclipse.api
-Bundle-RequiredExecutionEnvironment: JavaSE-9
+Bundle-RequiredExecutionEnvironment: JavaSE-10
 Import-Package: org.eclipse.jdt.core,
  org.javatuples
