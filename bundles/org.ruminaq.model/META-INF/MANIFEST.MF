@@ -37,6 +37,7 @@ Import-Package: ch.qos.logback.classic,
  org.json.simple,
  org.json.simple.parser,
  org.osgi.framework,
+ org.osgi.service.component.annotations,
  org.ruminaq.consts,
  org.ruminaq.logs,
  org.ruminaq.model.api,
@@ -47,6 +48,7 @@ Import-Package: ch.qos.logback.classic,
 Export-Package: org.ruminaq.model,
  org.ruminaq.model.config,
  org.ruminaq.model.desc,
+ org.ruminaq.model.exept,
  org.ruminaq.model.util
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
