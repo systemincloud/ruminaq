@@ -5,6 +5,7 @@ Bundle-Name: Ruminaq - Util
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.util;singleton:=true
 Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.ui
 Import-Package: com.google.common.base,
  org.apache.commons.lang3,
  org.eclipse.core.resources,
