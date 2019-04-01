@@ -4,8 +4,8 @@ Bundle-Name: System in Cloud Modeler - Runner Thrift
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.runner.thrift;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Import-Package: javax.annotation,
- org.apache.thrift,
+Require-Bundle: javax.annotation
+Import-Package: org.apache.thrift,
  org.apache.thrift.annotation,
  org.apache.thrift.async,
  org.apache.thrift.meta_data,
