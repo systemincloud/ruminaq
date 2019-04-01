@@ -267,7 +267,7 @@ public class GraphicsUtil {
 		while (iterator.hasNext()) {
 			Shape shape = iterator.next();
 			String property = peService.getPropertyValue(shape, propertyKey);
-			if (property != null && new Boolean(property)) {
+			if (property != null && Boolean.parseBoolean(property)) {
 				return shape;
 			}
 		}
@@ -281,7 +281,7 @@ public class GraphicsUtil {
 		while (iterator.hasNext()) {
 			PictogramElement pe = iterator.next();
 			String property = peService.getPropertyValue(pe, propertyKey);
-			if (property != null && new Boolean(property)) {
+			if (property != null && Boolean.parseBoolean(property)) {
 				pictogramElements.add(pe);
 			}
 		}
