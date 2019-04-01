@@ -1,4 +1,3 @@
-Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: System in Cloud Modeler - Tasks - Debug
 Bundle-Vendor: System in Cloud
@@ -20,6 +19,7 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.ui.part,
  org.eclipse.ui.plugin,
  org.osgi.framework,
+ org.osgi.service.component.annotations,
  org.ruminaq.debug.api,
  org.ruminaq.debug.api.dispatcher,
  org.ruminaq.debug.model,
