@@ -30,8 +30,6 @@ Import-Package: com.google.common.base,
  org.eclipse.swt.graphics,
  org.eclipse.swt.layout,
  org.eclipse.swt.widgets,
- org.eclipse.ui,
- org.eclipse.ui.part,
  org.osgi.framework,
  groovy.lang
 Export-Package: org.ruminaq.util,
