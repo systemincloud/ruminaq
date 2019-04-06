@@ -19,7 +19,7 @@ jobs:
     - stage: "Build plugins"
       before_install:
         - sudo apt-get update -qq
-        - sudo apt-get install -qq  xcf2png
+        - sudo apt-get install -qq xcftools
       install: skip
       script:
         - ./mvnw install --toolchains=.travis-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
