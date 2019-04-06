@@ -1,0 +1,1 @@
+{ "dir"  : "${basedir}", "xcfs" : [ {"pythontask.xcf" : ["diagram", "palette-border", "icon"]} ] }

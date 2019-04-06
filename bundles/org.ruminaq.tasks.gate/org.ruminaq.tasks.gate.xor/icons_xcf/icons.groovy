@@ -1,0 +1,1 @@
+{ "dir"  : "${basedir}", "xcfs" : [ {"xor.xcf" : ["diagram", "palette-white", "icon"]} ] }

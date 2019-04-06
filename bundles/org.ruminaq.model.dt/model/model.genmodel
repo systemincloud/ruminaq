@@ -6,8 +6,8 @@
     copyrightFields="false" usedGenPackages="../../org.ruminaq.model.ruminaq/model/model.genmodel#//ruminaq"
     importOrganizing="true">
   <foreignModel>model.ecore</foreignModel>
-  <genPackages prefix="Datatype" basePackage="org.ruminaq.model" resource="XML"
-      disposableProviderFactory="true" ecorePackage="model.ecore#/">
+  <genPackages prefix="Datatype" basePackage="org.ruminaq.model" resource="XML" disposableProviderFactory="true"
+      ecorePackage="model.ecore#/">
     <genClasses ecoreClass="model.ecore#//Control"/>
     <genClasses ecoreClass="model.ecore#//Bool"/>
     <genClasses ecoreClass="model.ecore#//Numeric"/>

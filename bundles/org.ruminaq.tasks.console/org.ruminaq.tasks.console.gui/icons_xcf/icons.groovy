@@ -1,0 +1,1 @@
+{ "dir"  : "${basedir}", "xcfs" : [ {"console.xcf" : ["diagram", "palette-border", "icon"]} ] }

@@ -1,5 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.ruminaq</groupId>
@@ -14,12 +15,12 @@
     <target.emf>${project.build.directory}/generated-sources/emf</target.emf>
     <generator.emf>org.eclipse.emf.codegen.ecore.Generator</generator.emf>
     <!-- Skip the deployment here, submodules can override this property -->
-    <!--maven.deploy.skip>true</maven.deploy.skip-->
-<!--     <sonar.projectName>Ruminaq</sonar.projectName> -->
+    <!--maven.deploy.skip>true</maven.deploy.skip -->
+    <!-- <sonar.projectName>Ruminaq</sonar.projectName> -->
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-<!--     <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths> -->
-<!--     <sonar.language>java</sonar.language> -->
+    <!-- <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths> -->
+    <!-- <sonar.language>java</sonar.language> -->
     <sonar.jacoco.reportPaths>${project.basedir}/../../tests/${project.artifactId}.tests/target/jacoco.exec,${project.basedir}/../../tests/${project.artifactId}.it.tests/target/jacoco.exec</sonar.jacoco.reportPaths>
   </properties>
 
@@ -42,6 +43,12 @@
         <version>1.2.1</version>
       </extension>
     </extensions>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -102,12 +109,12 @@
         <plugin>
           <groupId>org.eclipse.xtend</groupId>
           <artifactId>xtend-maven-plugin</artifactId>
-          <version>2.14.0</version>
+          <version>2.17.1</version>
           <dependencies>
             <dependency>
-                <groupId>org.eclipse.platform</groupId>
-                <artifactId>org.eclipse.equinox.common</artifactId>
-                <version>3.10.100</version>
+              <groupId>org.eclipse.platform</groupId>
+              <artifactId>org.eclipse.equinox.common</artifactId>
+              <version>3.10.100</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -130,31 +137,6 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
           <version>3.0.0</version>
-        </plugin>
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.eclipse.tycho.extras</groupId>
-                    <artifactId>tycho-eclipserun-plugin</artifactId>
-                    <versionRange>[1.3.0,)</versionRange>
-                    <goals>
-                      <goal>eclipse-run</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <ignore></ignore>
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -203,12 +185,12 @@
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-compiler-plugin</artifactId>
         <configuration>
-<!--           <compilerArgs>-warn:none</compilerArgs>      -->
-<!--           <compilerArgs>-err:none</compilerArgs>      -->
+          <!-- <compilerArgs>-warn:none</compilerArgs> -->
+          <!-- <compilerArgs>-err:none</compilerArgs> -->
           <compilerArgs>
             <arg>-err:-forbidden</arg>
           </compilerArgs>
-<!--                       -warn:+discouraged,forbidden -->
+          <!-- -warn:+discouraged,forbidden -->
           <useProjectSettings>false</useProjectSettings>
           <!--<encoding>UTF-8</encoding> -->
           <release>10</release>
@@ -240,12 +222,12 @@
           <dependency-resolution>
             <optionalDependencies>ignore</optionalDependencies>
           </dependency-resolution>
-	      <target>
+          <target>
             <artifact>
               <groupId>org.ruminaq</groupId>
               <artifactId>org.ruminaq.target</artifactId>
               <version>1.0.0-SNAPSHOT</version>
-<!--               <classifier>org.ruminaq.target</classifier> -->
+              <!-- <classifier>org.ruminaq.target</classifier> -->
             </artifact>
           </target>
           <ignoreTychoRepositories>true</ignoreTychoRepositories>
@@ -269,47 +251,28 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.eclipse.tycho.extras</groupId>
-        <artifactId>tycho-eclipserun-plugin</artifactId>
-        <configuration>
-          <dependencies>
-            <dependency>
-              <artifactId>org.eclipse.emf.codegen.ecore</artifactId>
-              <type>eclipse-plugin</type>
-            </dependency>
-          </dependencies>
-          <repositories>
-            <repository>
-              <id>2018-09</id>
-              <layout>p2</layout>
-              <url>http://download.eclipse.org/releases/2018-09</url>
-            </repository>
-          </repositories>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-surefire-plugin</artifactId>
         <configuration>
           <useJDK>BREE</useJDK>
           <useUIHarness>true</useUIHarness>
           <useUIThread>false</useUIThread>
-<!--           <argLine>-ea -Dosgi.clean=true -Ddebug=true -Dosgi.console.enable.builtin=true</argLine>   -->
-<!--           <argLine>-DbuildingWithTycho=true</argLine> -->
+          <!-- <argLine>-ea -Dosgi.clean=true -Ddebug=true -Dosgi.console.enable.builtin=true</argLine> -->
+          <!-- <argLine>-DbuildingWithTycho=true</argLine> -->
         </configuration>
       </plugin>
       <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <configuration>
-          </configuration>
-          <executions>
-              <execution>
-                  <goals>
-                      <goal>prepare-agent</goal>
-                  </goals>
-              </execution>
-          </executions>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -350,37 +313,29 @@
         <groupId>org.eclipse.xtend</groupId>
         <artifactId>xtend-maven-plugin</artifactId>
         <configuration>
-          <source>1.9</source>
-          <target>1.9</target>
+          <source>10</source>
+          <target>10</target>
         </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>testCompile</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/xtend-gen/main</outputDirectory>
+              <testOutputDirectory>${project.build.directory}/xtend-gen/test</testOutputDirectory>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <!-- enable source feature generation -->
-			<!--plugin>
-				<groupId>org.eclipse.tycho.extras</groupId>
-				<artifactId>tycho-source-feature-plugin</artifactId>
-				<version>${tycho.version}</version>
-				<executions>
-					<execution>
-						<id>source-feature</id>
-						<phase>package</phase>
-						<goals>
-							<goal>source-feature</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>plugin-source</id>
-						<goals>
-							<goal>plugin-source</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin-->
+      <!--plugin> <groupId>org.eclipse.tycho.extras</groupId> <artifactId>tycho-source-feature-plugin</artifactId> 
+        <version>${tycho.version}</version> <executions> <execution> <id>source-feature</id> 
+        <phase>package</phase> <goals> <goal>source-feature</goal> </goals> </execution> 
+        </executions> </plugin> <plugin> <groupId>org.eclipse.tycho</groupId> <artifactId>tycho-source-plugin</artifactId> 
+        <executions> <execution> <id>plugin-source</id> <goals> <goal>plugin-source</goal> 
+        </goals> </execution> </executions> </plugin -->
     </plugins>
   </build>
 
@@ -397,12 +352,37 @@
           <plugin>
             <groupId>org.eclipse.tycho.extras</groupId>
             <artifactId>tycho-eclipserun-plugin</artifactId>
+            <configuration>
+              <repositories>
+                <repository>
+                  <id>2019-03</id>
+                  <layout>p2</layout>
+                  <url>http://download.eclipse.org/releases/2019-03</url>
+                </repository>
+              </repositories>
+            </configuration>
             <executions>
               <execution>
                 <configuration>
                   <appArgLine>
-                <![CDATA[-data target/workspace -application ${generator.emf} -projects ${basedir} -model ${source.emf} ${target.emf}]]>
+                    <![CDATA[-data target/workspace -application ${generator.emf} -projects ${basedir} -model ${source.emf} ${target.emf}]]>
                   </appArgLine>
+                  <dependencies>
+                    <dependency>
+                      <artifactId>org.eclipse.emf.codegen.ecore</artifactId>
+                      <type>eclipse-plugin</type>
+                    </dependency>
+                    <dependency>
+                      <artifactId>org.eclipse.osgi.compatibility.state</artifactId>
+                      <type>eclipse-plugin</type>
+                    </dependency>
+                  </dependencies>
+                  <!-- <dependencies> -->
+                  <!-- <dependency> -->
+                  <!-- <artifactId>org.ruminaq.model.ruminaq</artifactId> -->
+                  <!-- <type>eclipse-plugin</type> -->
+                  <!-- </dependency> -->
+                  <!-- </dependencies> -->
                 </configuration>
                 <?m2e ignore?>
                 <goals>
@@ -424,6 +404,74 @@
                 <configuration>
                   <sources>
                     <source>${target.emf}/src/main/java</source>
+                  </sources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>generate-icons</id>
+      <activation>
+        <file>
+          <exists>icons_xcf</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.gmavenplus</groupId>
+            <artifactId>gmavenplus-plugin</artifactId>
+            <executions>
+              <execution>
+                <?m2e ignore?>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <properties>
+                <property>
+                  <name>dir</name>
+                  <value>${basedir}</value>
+                </property>
+              </properties>
+              <scripts>
+                <script>
+                  <![CDATA[new org.ruminaq.tools.img.PrepareIcons().execute(dir)]]>
+                </script>
+              </scripts>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>xtend</id>
+      <activation>
+        <file>
+          <exists>**.xtend</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>add-source</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>add-source</goal>
+                </goals>
+                <configuration>
+                  <sources>
+                    <source>${project.build.directory}/xtend-gen/main</source>
                   </sources>
                 </configuration>
               </execution>

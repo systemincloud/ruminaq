@@ -1,0 +1,1 @@
+{ "dir"  : "${basedir}", "xcfs" : [ {"randomgenerator.xcf" : ["diagram", "palette-border", "icon"]} ] }

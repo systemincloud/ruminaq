@@ -1,0 +1,1 @@
+{ "dir"  : "${basedir}", "xcfs" : [ {"javatask.xcf" : ["diagram", "palette-border", "icon"]} ] }

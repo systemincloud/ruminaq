@@ -9,8 +9,8 @@
     bundleManifest="false" complianceLevel="8.0" copyrightFields="false" providerRootExtendsClass=""
     editPluginID="org.ruminaq.model.edit" cleanup="true">
   <foreignModel>model.ecore</foreignModel>
-  <genPackages prefix="Ruminaq" basePackage="org.ruminaq.model" resource="XML"
-      disposableProviderFactory="true" contentTypeIdentifier="" ecorePackage="model.ecore#/">
+  <genPackages prefix="Ruminaq" basePackage="org.ruminaq.model" resource="XML" disposableProviderFactory="true"
+      contentTypeIdentifier="" ecorePackage="model.ecore#/">
     <genClasses image="false" ecoreClass="model.ecore#//BaseElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//BaseElement/id"/>
     </genClasses>

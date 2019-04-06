@@ -17,8 +17,11 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.ecore.resource.impl,
  org.eclipse.emf.ecore.util,
  org.eclipse.emf.ecore.xmi.impl,
+ org.eclipse.emf.ecore.xmi.util,
  org.ruminaq.model.ruminaq,
  org.ruminaq.model.ruminaq.debug,
  org.ruminaq.model.ruminaq.debug.impl,
  org.ruminaq.model.ruminaq.impl
-Export-Package: org.ruminaq.tasks.console.model.console
+Export-Package: org.ruminaq.tasks.console.model.console,
+ org.ruminaq.tasks.console.model.console.impl,
+ org.ruminaq.tasks.console.model.console.util

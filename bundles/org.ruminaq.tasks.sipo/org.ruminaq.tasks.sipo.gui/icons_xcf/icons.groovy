@@ -1,0 +1,1 @@
+{ "dir"  : "${basedir}", "xcfs" : [ {"sipo.xcf" : ["diagram", "palette-border", "icon"]} ] }
