@@ -3,7 +3,7 @@
     modelDirectory="and/src/main/java"
     modelPluginID="" modelName="And" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" complianceLevel="8.0"
-    copyrightFields="false" language="en" usedGenPackages="../../org.ruminaq.tasks.gate.model/model/model.genmodel#//gate ../../org.ruminaq.tasks.gate.model/model/model.genmodel#//ruminaq ../../org.ruminaq.tasks.gate.model/model/model.genmodel#//ruminaq/debug"
+    copyrightFields="false" language="en" usedGenPackages="../../org.ruminaq.tasks.gate.model/model/model.genmodel#//gate ../../../org.ruminaq.model.ruminaq/model/model.genmodel#//ruminaq ../../../org.ruminaq.model.ruminaq/model/model.genmodel#//ruminaq/debug"
     importOrganizing="true">
   <foreignModel>model.ecore</foreignModel>
   <genPackages prefix="And" basePackage="org.ruminaq.tasks.gate.and.model" resource="XML"

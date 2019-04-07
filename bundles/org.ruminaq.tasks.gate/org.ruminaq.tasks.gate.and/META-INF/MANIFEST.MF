@@ -50,9 +50,11 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.gate.and.model.and,
  org.ruminaq.tasks.gate.and.impl,
  org.slf4j
-Export-Package: org.ruminaq.tasks.gate.and.features
+Export-Package: org.ruminaq.tasks.gate.and,
+ org.ruminaq.tasks.gate.and.features
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.gate.and.TaskApi.xml,
  OSGI-INF/org.ruminaq.tasks.gate.and.TaskUiApi.xml
+Automatic-Module-Name: org.ruminaq.tasks.gate.and
