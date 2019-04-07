@@ -6,7 +6,6 @@
   <artifactId>org.ruminaq.tasks.rtask.api</artifactId>
   <version>0.1.0</version>
   <packaging>pom</packaging>
-  <name>System in Cloud Modeler - Tasks - R Task - Api</name>
 
   <build>
     <plugins>

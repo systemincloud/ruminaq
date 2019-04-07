@@ -72,7 +72,8 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.userdefined.features,
  org.ruminaq.util,
  org.slf4j
-Export-Package: org.ruminaq.tasks.embeddedtask.features
+Export-Package: org.ruminaq.tasks.embeddedtask,
+ org.ruminaq.tasks.embeddedtask.features
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
 Service-Component: OSGI-INF/org.ruminaq.tasks.embeddedtask.TaskApi.xml,

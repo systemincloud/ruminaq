@@ -6,7 +6,6 @@
   <artifactId>org.ruminaq.tasks.pythontask.client</artifactId>
   <version>1.0.2</version>
   <packaging>pom</packaging>
-  <name>Ruminaq - Tasks - Python Task - Client</name>
 
  <properties>
    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
