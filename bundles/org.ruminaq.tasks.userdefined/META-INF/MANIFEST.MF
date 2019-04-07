@@ -61,6 +61,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.userdefined.model.userdefined,
  org.slf4j
 Export-Package: org.ruminaq.tasks.userdefined,
+ org.ruminaq.tasks.userdefined.cmd,
  org.ruminaq.tasks.userdefined.features,
  org.ruminaq.tasks.userdefined.properties,
  org.ruminaq.tasks.userdefined.wizards

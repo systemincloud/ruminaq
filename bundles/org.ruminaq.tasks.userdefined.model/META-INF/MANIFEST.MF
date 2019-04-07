@@ -12,7 +12,11 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.impl,
  org.eclipse.emf.ecore.plugin,
- org.eclipse.emf.ecore.util
+ org.eclipse.emf.ecore.util,
+ org.eclipse.emf.ecore.resource,
+ org.eclipse.emf.ecore.resource.impl,
+ org.eclipse.emf.ecore.xmi.impl,
+ org.eclipse.emf.ecore.xmi.util
 Export-Package: org.ruminaq.tasks.userdefined.model.userdefined,
  org.ruminaq.tasks.userdefined.model.userdefined.impl,
  org.ruminaq.tasks.userdefined.model.userdefined.util
