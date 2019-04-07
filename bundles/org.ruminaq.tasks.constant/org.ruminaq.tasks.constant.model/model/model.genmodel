@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.ruminaq.tasks.constant.model/target/generated-sources/emf/src/main/java"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="console/src/main/java/"
     modelPluginID="" modelName="Constant" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" complianceLevel="8.0"
     copyrightFields="false" language="en" usedGenPackages="../../../org.ruminaq.model.ruminaq/model/model.genmodel#//ruminaq"
     importOrganizing="true">
   <foreignModel>model.ecore</foreignModel>
-  <genPackages prefix="Constant" basePackage="org.ruminaq.tasks.constant.model" resource="XMI"
+  <genPackages prefix="Constant" basePackage="org.ruminaq.tasks.constant.model" resource="XML"
       disposableProviderFactory="true" ecorePackage="model.ecore#/">
     <genClasses ecoreClass="model.ecore#//Constant">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Constant/dataType"/>

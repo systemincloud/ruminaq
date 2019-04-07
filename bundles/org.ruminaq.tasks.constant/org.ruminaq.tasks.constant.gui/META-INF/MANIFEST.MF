@@ -41,6 +41,7 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.ui.plugin,
  org.eclipse.wb.swt,
  org.osgi.framework,
+ org.osgi.service.component.annotations,
  org.ruminaq.consts,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui.features.add,
@@ -62,7 +63,9 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.styles,
  org.ruminaq.util,
  org.slf4j
-Export-Package: org.ruminaq.tasks.constant.features
+Export-Package: org.ruminaq.tasks.constant,
+ org.ruminaq.tasks.constant.features,
+ org.ruminaq.tasks.constant.properties
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
 Service-Component: OSGI-INF/org.ruminaq.tasks.constant.TaskApi.xml,

@@ -1,1 +1,1 @@
-{ "dir"  : "${basedir}", "xcfs" : [ {"constant.xcf" : ["palette-border", "icon"]} ] }
+["constant.xcf" : ["palette-border", "icon"]]

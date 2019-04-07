@@ -55,7 +55,7 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.wb.swt,
  org.osgi.framework,
- org.osgi.service.component.annotations;version="1.3.0",
+ org.osgi.service.component.annotations,
  org.ruminaq.consts,
  org.ruminaq.eclipse.util,
  org.ruminaq.gui.api,
@@ -83,6 +83,7 @@ Import-Package: ch.qos.logback.classic,
  org.slf4j
 Export-Package: org.ruminaq.gui,
  org.ruminaq.gui.diagram,
+ org.ruminaq.gui.label,
  org.ruminaq.gui.properties,
  org.ruminaq.gui.providers
 Bundle-RequiredExecutionEnvironment: JavaSE-10

@@ -15,10 +15,13 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.ecore.resource.impl,
  org.eclipse.emf.ecore.util,
  org.eclipse.emf.ecore.xmi.impl,
+ org.eclipse.emf.ecore.xmi.util,
  org.ruminaq.model.ruminaq,
  org.ruminaq.model.ruminaq.debug,
  org.ruminaq.model.ruminaq.debug.impl,
  org.ruminaq.model.ruminaq.impl
-Export-Package: org.ruminaq.tasks.constant.model.constant
+Export-Package: org.ruminaq.tasks.constant.model.constant,
+ org.ruminaq.tasks.constant.model.constant.impl,
+ org.ruminaq.tasks.constant.model.constant.util
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
