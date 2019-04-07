@@ -53,6 +53,7 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.wb.swt,
  org.modeler.tasks.console.ui.views,
  org.osgi.framework,
+ org.osgi.service.component.annotations,
  org.ruminaq.consts,
  org.ruminaq.runner.util,
  org.ruminaq.eclipse.api,
@@ -69,6 +70,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.features,
  org.slf4j,
  swing2swt.layout
-Export-Package: org.ruminaq.tasks.console.features
+Export-Package: org.ruminaq.tasks.console,
+ org.ruminaq.tasks.console.features
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10

@@ -4,17 +4,22 @@ import groovy.json.JsonSlurper
 
 class PrepareIcons {
 	
-	def execute(params) {
-		def json = new JsonSlurper().parse(new StringReader(params))
-		String basedir = json.dir;
-
-		println "**********************************************"
-		def icons_xcf = new File(basedir + "/icons_xcf")
+	def execute(basedir) {
+		File icons_xcf = new File(basedir + "/icons_xcf")
 		def icons     = new File(basedir + "/icons")
 		def html_img  = new File(basedir + "/html/img")
 		
-		if(!icons   .exists()) icons.mkdir()
-		if(!html_img.exists()) icons.mkdir()
+		def conf = Eval.me(new File(icons_xcf.absolutePath + '/icons.groovy').text)
+		println conf
+
+		println "**********************************************"
+		
+		if (!icons   .exists()) {
+			icons.mkdir()
+		}
+		if (!html_img.exists()) {
+			icons.mkdir()
+		}
 		
 		def proc
 		
@@ -30,10 +35,8 @@ class PrepareIcons {
 		proc = """convert -geometry x22 ${whiteXcf.absolutePath} ${whitePng.absolutePath}""".execute()
 		proc.waitFor()
 		
-		json.xcfs.each {
-			def file = it.entrySet()[0].key
+		conf.each { String file, List cmds ->
 			def fileName = file.replace(".xcf", "")
-			def cmds = it.entrySet()[0].value
 			def xcf  = new File(icons_xcf.absolutePath + '/' + file)
 			def png  = new File('/tmp/' + fileName + ".png")
 			def process
