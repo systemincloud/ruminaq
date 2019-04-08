@@ -1,0 +1,1 @@
+[ "mux.xcf" : ["diagram", "palette-white", "icon"] ]
