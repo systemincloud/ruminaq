@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.ruminaq.tasks.inspect.model/target/generated-sources/emf/src/main/java"
+    modelPluginID="" modelName="Inspect" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" complianceLevel="8.0"
+    copyrightFields="false" language="en" importOrganizing="true">
+  <foreignModel>model.ecore</foreignModel>
+  <genPackages prefix="Inspect" basePackage="org.ruminaq.tasks.inspect.model" resource="XML"
+      disposableProviderFactory="true" ecorePackage="inspect.ecore#/">
+    <genClasses ecoreClass="inspect.ecore#//Inspect">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute inspect.ecore#//Inspect/matricesPretty"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

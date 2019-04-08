@@ -15,12 +15,15 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.ecore.resource.impl,
  org.eclipse.emf.ecore.util,
  org.eclipse.emf.ecore.xmi.impl,
+ org.eclipse.emf.ecore.xmi.util,
  org.ruminaq.model.ruminaq,
  org.ruminaq.model.ruminaq.debug,
  org.ruminaq.model.ruminaq.debug.impl,
  org.ruminaq.model.ruminaq.impl,
  org.ruminaq.tasks.gate.model.gate,
  org.ruminaq.tasks.gate.model.gate.impl
-Export-Package: org.ruminaq.tasks.gate.not.model.not
+Export-Package: org.ruminaq.tasks.gate.not.model.not,
+ org.ruminaq.tasks.gate.not.model.not.impl,
+ org.ruminaq.tasks.gate.not.model.not.util
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
