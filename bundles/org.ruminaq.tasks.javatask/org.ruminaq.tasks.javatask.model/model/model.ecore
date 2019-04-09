@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="javatask" nsURI="http://ruminaq.org/tasks/javatask/1_0_0"
-    nsPrefix="javatask_1_0_0">
-  <eClassifiers xsi:type="ecore:EClass" name="JavaTask" eSuperTypes="../../org.ruminaq.model.ruminaq/model/ruminaq.ecore#//UserDefinedTask">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="javatask" nsURI="http://ruminaq.org/tasks/javatask/1_0_0" nsPrefix="javatask_1_0_0">
+  <eClassifiers xsi:type="ecore:EClass" name="JavaTask" eSuperTypes="../../../org.ruminaq.model.ruminaq/model/model.ecore#//UserDefinedTask">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="implementationClass" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral=""/>
   </eClassifiers>
