@@ -8,11 +8,13 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.osgi.framework.Version;
 import org.ruminaq.consts.Constants.SicPlugin;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.model.sic.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.TaskCategory;
 import org.ruminaq.tasks.features.CreateTaskFeature;
 import org.ruminaq.tasks.randomgenerator.Images;
-import org.ruminaq.tasks.randomgenerator.Port;
+import org.ruminaq.tasks.randomgenerator.impl.Port;
+import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
+import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomgeneratorFactory;
 
 public class CreateFeature extends CreateTaskFeature {
 

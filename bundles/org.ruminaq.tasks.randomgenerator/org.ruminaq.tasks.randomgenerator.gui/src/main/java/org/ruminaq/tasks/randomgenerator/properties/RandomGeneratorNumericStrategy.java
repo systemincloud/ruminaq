@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EMap;
 import org.ruminaq.runner.impl.data.DataI;
-import org.ruminaq.tasks.randomgenerator.model.Port;
+import org.ruminaq.tasks.randomgenerator.impl.Port;
 import org.ruminaq.tasks.randomgenerator.distributions.Distributon;
 import org.ruminaq.tasks.randomgenerator.distributions.NormalDistribution;
 import org.ruminaq.tasks.randomgenerator.distributions.UniformDistribution;

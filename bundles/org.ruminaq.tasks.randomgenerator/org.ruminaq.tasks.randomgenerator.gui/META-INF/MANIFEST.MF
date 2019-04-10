@@ -46,6 +46,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui.features.doubleclick,
  org.ruminaq.model,
+ org.ruminaq.model.desc,
  org.ruminaq.model.dt,
  org.ruminaq.model.ruminaq,
  org.ruminaq.model.util,
@@ -58,11 +59,14 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.debug.model,
  org.ruminaq.tasks.features,
  org.ruminaq.tasks.randomgenerator.impl,
- org.ruminaq.tasks.randomgenerator.model,
  org.ruminaq.tasks.randomgenerator.model.randomgenerator,
  org.ruminaq.tasks.util,
  org.ruminaq.util,
  org.slf4j
-Export-Package: org.ruminaq.tasks.randomgenerator.features
+Export-Package: org.ruminaq.tasks.randomgenerator,
+ org.ruminaq.tasks.randomgenerator.distributions,
+ org.ruminaq.tasks.randomgenerator.extension,
+ org.ruminaq.tasks.randomgenerator.features,
+ org.ruminaq.tasks.randomgenerator.properties
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10

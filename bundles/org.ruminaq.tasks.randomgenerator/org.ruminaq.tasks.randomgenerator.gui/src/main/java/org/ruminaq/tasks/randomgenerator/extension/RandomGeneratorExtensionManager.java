@@ -11,10 +11,9 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.swt.widgets.Composite;
 import org.osgi.framework.BundleContext;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.model.sic.DataType;
+import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
-import org.ruminaq.util.ExtensionUtil;
 
 public enum RandomGeneratorExtensionManager {
 	INSTANCE;

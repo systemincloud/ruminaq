@@ -11,7 +11,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.swt.widgets.Composite;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.Complex32I;
-import org.ruminaq.tasks.randomgenerator.model.Port;
+import org.ruminaq.tasks.randomgenerator.impl.Port;
 import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;

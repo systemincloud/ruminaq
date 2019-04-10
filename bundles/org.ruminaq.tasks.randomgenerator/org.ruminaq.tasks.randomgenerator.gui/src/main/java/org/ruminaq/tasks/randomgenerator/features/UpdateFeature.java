@@ -8,10 +8,11 @@ import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.model.sic.DataType;
+import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.features.AddTaskFeature;
 import org.ruminaq.tasks.features.UpdateTaskFeature;
+import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 
 public class UpdateFeature extends UpdateTaskFeature {
 

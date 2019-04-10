@@ -83,6 +83,7 @@ Import-Package: ch.qos.logback.classic,
  org.slf4j
 Export-Package: org.ruminaq.tasks,
  org.ruminaq.tasks.features,
+ org.ruminaq.tasks.properties,
  org.ruminaq.tasks.styles,
  org.ruminaq.tasks.util
 Require-Bundle: org.eclipse.ui.views.properties.tabbed

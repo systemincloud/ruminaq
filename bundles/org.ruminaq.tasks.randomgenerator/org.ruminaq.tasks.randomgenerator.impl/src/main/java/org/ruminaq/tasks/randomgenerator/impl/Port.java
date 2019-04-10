@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.randomgenerator.model;
+package org.ruminaq.tasks.randomgenerator.impl;
 
 import org.ruminaq.model.desc.OUT;
 import org.ruminaq.model.desc.PortsDescr;
