@@ -46,10 +46,10 @@ import org.ruminaq.tasks.javatask.client.annotations.SicParameters;
 import org.ruminaq.tasks.javatask.client.data.Data;
 import org.ruminaq.tasks.javatask.impl.JavaTaskDataConverter;
 import org.ruminaq.tasks.javatask.ui.wizards.ICreateJavaTaskPage;
-import org.ruminaq.tasks.uesrdefined.model.userdefined.In;
-import org.ruminaq.tasks.uesrdefined.model.userdefined.Module;
-import org.ruminaq.tasks.uesrdefined.model.userdefined.Out;
-import org.ruminaq.tasks.uesrdefined.model.userdefined.Parameter;
+import org.ruminaq.tasks.userdefined.model.userdefined.In;
+import org.ruminaq.tasks.userdefined.model.userdefined.Module;
+import org.ruminaq.tasks.userdefined.model.userdefined.Out;
+import org.ruminaq.tasks.userdefined.model.userdefined.Parameter;
 import org.ruminaq.tasks.userdefined.wizards.CreateUserDefinedTaskPage;
 
 public class CreateJavaTaskPage extends CreateUserDefinedTaskPage implements ICreateJavaTaskPage {

@@ -4,7 +4,6 @@ Bundle-Name: Ruminaq - Tasks - JavaTask
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.javatask.gui
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.ruminaq.tasks.javatask.Activator
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.apache.commons.cli,
@@ -85,6 +84,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.javatask.client,
  org.ruminaq.tasks.javatask.client.annotations,
  org.ruminaq.tasks.javatask.client.data,
+ org.ruminaq.tasks.javatask.impl,
  org.ruminaq.tasks.javatask.model.javatask,
  org.ruminaq.tasks.javatask.ui,
  org.ruminaq.tasks.javatask.ui.wizards,
@@ -94,9 +94,11 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.userdefined.wizards,
  org.ruminaq.util,
  org.slf4j
-Export-Package: org.ruminaq.tasks.javatask.extension,
+Export-Package: org.ruminaq.tasks.javatask,
+ org.ruminaq.tasks.javatask.extension,
  org.ruminaq.tasks.javatask.features,
- org.ruminaq.tasks.javatask.impl,
- org.ruminaq.tasks.javatask.impl.service
+ org.ruminaq.tasks.javatask.wizards
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
+Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.TaskUiApi.xml
+Bundle-ActivationPolicy: lazy

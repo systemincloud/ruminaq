@@ -20,7 +20,11 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.javatuples.Triplet;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.Version;
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.gui.features.tools.IContextButtonPadTool;
@@ -35,6 +39,7 @@ import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.tasks.javatask.model.javatask.JavataskPackage;
 import org.ruminaq.tasks.javatask.wizards.CreateProjectWizard;
 
+@Component
 public class TaskApi implements ITaskApi, EclipseExtension {
 
     public static final String MAIN_JAVA = "src/main/java";
@@ -43,6 +48,13 @@ public class TaskApi implements ITaskApi, EclipseExtension {
     private String  symbolicName;
     private Version version;
 
+    @Activate
+    void activate(Map<String, Object> properties) {
+    	Bundle b = FrameworkUtil.getBundle(getClass());
+    	symbolicName = b.getSymbolicName();
+    	version = b.getVersion();
+    }
+    
     @Override
     public String getSymbolicName() {
         return symbolicName;
@@ -113,12 +125,12 @@ public class TaskApi implements ITaskApi, EclipseExtension {
 
         return Arrays.asList(
                 JavaCore.newSourceEntry(
-                        javaProject.getPath().append(Constants.MAIN_JAVA),
+                        javaProject.getPath().append(MAIN_JAVA),
                         javaPath,
                         null,
                         null),
                 JavaCore.newSourceEntry(
-                        javaProject.getPath().append(Constants.TEST_JAVA),
+                        javaProject.getPath().append(TEST_JAVA),
                         javaPath,
                         null,
                         testOutputLocation));
