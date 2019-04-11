@@ -9,6 +9,7 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.ruminaq.tasks.randomgenerator.impl.Port;
 import org.ruminaq.runner.RunnerLoggerFactory;
+import org.ruminaq.runner.impl.data.Complex64I;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
 import org.slf4j.Logger;
 
