@@ -7,6 +7,9 @@ import org.eclipse.debug.core.model.IDisconnect;
 import org.eclipse.debug.core.model.IStep;
 import org.eclipse.debug.core.model.ISuspendResume;
 import org.eclipse.debug.core.model.ITerminate;
+import org.ruminaq.debug.model.IState;
+import org.ruminaq.debug.model.IStateElement;
+import org.ruminaq.debug.model.MainState;
 
 public abstract class JavaTasksDebugElement extends DebugElement implements ISuspendResume,
                                                                         IDisconnect,
