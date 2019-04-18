@@ -1,7 +1,7 @@
 Automatic-Module-Name: org.ruminaq.tasks.constant.ui
 Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - Constant UI
-Bundle-Vendor: System in Cloud
+Bundle-Vendor: Ruminaq
 Bundle-SymbolicName: org.ruminaq.tasks.constant.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Import-Package: org.eclipse.core.runtime,
@@ -21,3 +21,4 @@ Import-Package: org.eclipse.core.runtime,
  org.ruminaq.runner.dirmi
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
+Export-Package: org.ruminaq.tasks.constant.ui.properties

@@ -16,6 +16,9 @@ Import-Package: org.eclipse.core.runtime,
  org.osgi.framework,
  org.ruminaq.launch,
  org.ruminaq.tasks,
- org.ruminaq.util
+ org.ruminaq.tasks.api,
+ org.ruminaq.util,
+ org.ruminaq.runner.dirmi
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
+Export-Package: org.ruminaq.tasks.randomgenerator.ui.properties

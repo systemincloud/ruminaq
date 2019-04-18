@@ -1,16 +1,16 @@
 package org.ruminaq.tasks.randomgenerator.ui.properties;
 
-import java.util.List;
+import org.osgi.framework.FrameworkUtil;
 import org.ruminaq.launch.LaunchListener;
 import org.ruminaq.launch.RuminaqLaunchDelegate;
 import org.ruminaq.tasks.AbstractTaskPropertySection;
-import org.ruminaq.tasks.api.ITaskUiApi;
-import org.ruminaq.tasks.randomgenerator.ui.Activator;
 
 public class PropertySection extends AbstractTaskPropertySection implements LaunchListener {
+
 	@Override
-	protected List<ITaskUiApi> getTasks() {
-		return Activator.getDefault().getTasksUiManager().getTasks();
+	protected String getPrefix() {
+		String symbolicName = FrameworkUtil.getBundle(getClass()).getSymbolicName();
+		return symbolicName.substring(0, symbolicName.length() - ".ui".length());
 	}
 
 	@Override

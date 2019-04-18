@@ -2,7 +2,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: System in Cloud Modeler - Tasks - Debug
 Bundle-Vendor: System in Cloud
 Bundle-SymbolicName: org.ruminaq.tasks.debug;singleton:=true
-Bundle-Activator: org.ruminaq.tasks.debug.Activator
 Bundle-Version: 1.0.0.qualifier
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
@@ -32,7 +31,12 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.impl.debug.events.model,
  org.ruminaq.tasks.debug.ui,
  org.slf4j
-Export-Package: org.ruminaq.tasks.debug.model
+Export-Package: org.ruminaq.tasks.debug,
+ org.ruminaq.tasks.debug.model,
+ org.ruminaq.tasks.debug.model.port,
+ org.ruminaq.tasks.debug.model.port.in,
+ org.ruminaq.tasks.debug.model.port.out
 Bundle-RequiredExecutionEnvironment: JavaSE-10
 Service-Component: OSGI-INF/org.ruminaq.tasks.debug.TasksDebugModelerExtension.xml
 Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.ruminaq.tasks.debug
