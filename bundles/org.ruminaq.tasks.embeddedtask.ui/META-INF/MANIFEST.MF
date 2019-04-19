@@ -1,6 +1,6 @@
 Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - Embedded UI
-Bundle-Vendor: System in Cloud
+Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.embeddedtask.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Import-Package: org.apache.commons.io,
@@ -21,6 +21,7 @@ Import-Package: org.apache.commons.io,
  org.eclipse.ui.plugin,
  org.eclipse.ui.views.properties.tabbed,
  org.osgi.framework,
+ org.osgi.service.component.annotations,
  org.ruminaq.consts,
  org.ruminaq.eclipse.wizards.project,
  org.ruminaq.launch,
