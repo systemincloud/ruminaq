@@ -41,6 +41,7 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.ui.plugin,
  org.eclipse.wb.swt,
  org.osgi.framework,
+ org.osgi.service.component.annotations,
  org.ruminaq.consts,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui.features.doubleclick,
@@ -58,7 +59,8 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.inspect.model.inspect,
  org.ruminaq.util,
  org.slf4j
-Export-Package: org.ruminaq.tasks.inspect.features
+Export-Package: org.ruminaq.tasks.inspect,
+ org.ruminaq.tasks.inspect.features
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
 Service-Component: OSGI-INF/org.ruminaq.tasks.inspect.TaskApi.xml,
