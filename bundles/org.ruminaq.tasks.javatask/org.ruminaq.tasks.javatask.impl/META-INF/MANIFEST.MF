@@ -4,11 +4,13 @@ Bundle-Name: Ruminaq Task - Mux - Impl
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.javatask.impl
 Bundle-Version: 1.0.0.qualifier
-Export-Package: org.ruminaq.tasks.javatask.impl
+Export-Package: org.ruminaq.tasks.javatask.impl,
+ org.ruminaq.tasks.javatask.impl.service
 Bundle-RequiredExecutionEnvironment: JavaSE-10
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.eclipse.emf.ecore,
+ org.osgi.service.component.annotations,
  org.ruminaq.model.desc,
  org.ruminaq.model.dt,
  org.ruminaq.model.ruminaq,

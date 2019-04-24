@@ -47,6 +47,7 @@ import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.features.UpdateFeature;
+import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.tasks.javatask.ui.wizards.CreateJavaTaskListener;
 import org.ruminaq.tasks.javatask.ui.wizards.CreateJavaTaskWizard;
 import org.ruminaq.util.EclipseUtil;
@@ -183,7 +184,7 @@ public class PropertySection implements IPropertySection, CreateJavaTaskListener
                  if(descriptor != null) {
                     IWizard wizard = descriptor.createWizard();
                     String folder = ConstantsUtil.isTest(EclipseUtil.getModelPathFromEObject(pe)) ?
-                            Constants.TEST_JAVA : Constants.MAIN_JAVA;
+                            TaskApi.TEST_JAVA : TaskApi.MAIN_JAVA;
                     String projectName = EclipseUtil.getProjectNameFromDiagram(dtp.getDiagram());
                     IStructuredSelection selection = new StructuredSelection(JavaCore.create(ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getFolder(folder)));
                     ((CreateJavaTaskWizard) wizard).init(PlatformUI.getWorkbench(), selection);
