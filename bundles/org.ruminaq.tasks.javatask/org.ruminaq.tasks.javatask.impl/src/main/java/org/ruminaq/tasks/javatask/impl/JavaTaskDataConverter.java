@@ -3,6 +3,7 @@ package org.ruminaq.tasks.javatask.impl;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.runner.impl.data.BoolI;
 import org.ruminaq.runner.impl.data.Complex32I;
 import org.ruminaq.runner.impl.data.Complex64I;
@@ -15,6 +16,7 @@ import org.ruminaq.runner.impl.data.Int32I;
 import org.ruminaq.runner.impl.data.Int64I;
 import org.ruminaq.runner.impl.data.RawI;
 import org.ruminaq.runner.impl.data.TextI;
+import org.ruminaq.tasks.javatask.api.JavaTaskExtensionHandler;
 import org.ruminaq.tasks.javatask.client.data.Bool;
 import org.ruminaq.tasks.javatask.client.data.Complex32;
 import org.ruminaq.tasks.javatask.client.data.Complex64;
@@ -27,12 +29,14 @@ import org.ruminaq.tasks.javatask.client.data.Int32;
 import org.ruminaq.tasks.javatask.client.data.Int64;
 import org.ruminaq.tasks.javatask.client.data.Raw;
 import org.ruminaq.tasks.javatask.client.data.Text;
-import org.ruminaq.tasks.javatask.extension.JavaTaskExtensionManager;
 import org.ruminaq.tasks.javatask.impl.service.JavaTaskServiceManager;
 
 public enum JavaTaskDataConverter {
     INSTANCE;
 
+	@Reference
+	private JavaTaskExtensionHandler extensions;
+	
     public List<Class<? extends Data>> getJavaTaskDatas() {
         List<Class<? extends Data>> ret = new LinkedList<>();
         ret.add(Bool.class);
@@ -46,7 +50,7 @@ public enum JavaTaskDataConverter {
         ret.add(Float64.class);
         ret.add(Raw.class);
         ret.add(Text.class);
-        ret.addAll(JavaTaskExtensionManager.INSTANCE.getJavaTaskDatas());
+        ret.addAll(extensions.getJavaTaskDatas());
         return ret;
     }
 
