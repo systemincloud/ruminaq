@@ -97,7 +97,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.util,
  org.slf4j
 Export-Package: org.ruminaq.tasks.javatask,
- org.ruminaq.tasks.javatask.extension,
  org.ruminaq.tasks.javatask.features,
  org.ruminaq.tasks.javatask.wizards
 Bundle-ClassPath: .
