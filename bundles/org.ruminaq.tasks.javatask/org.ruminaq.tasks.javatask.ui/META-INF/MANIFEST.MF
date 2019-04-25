@@ -3,7 +3,6 @@ Bundle-Name: System in Cloud Modeler - Tasks - JavaTask UI
 Bundle-Vendor: System in Cloud
 Bundle-SymbolicName: org.ruminaq.tasks.javatask.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.ruminaq.tasks.javatask.ui.Activator
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core.spi,
  org.eclipse.core.resources,
@@ -16,6 +15,7 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.graphiti.mm.pictograms,
  org.eclipse.graphiti.ui.platform,
  org.eclipse.jdt.core,
+ org.eclipse.jdt.ui,
  org.eclipse.jdt.internal.ui,
  org.eclipse.jdt.internal.ui.wizards,
  org.eclipse.jdt.launching,
@@ -33,10 +33,15 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.ui.plugin,
  org.eclipse.ui.views.properties.tabbed,
  org.osgi.framework,
+ org.ruminaq.debug.api,
+ org.ruminaq.debug.api.dispatcher,
  org.ruminaq.debug.model,
+ org.ruminaq.debug.model.vars,
  org.ruminaq.launch,
  org.ruminaq.logs,
  org.ruminaq.runner.dirmi,
+ org.ruminaq.runner.impl.debug.events,
+ org.ruminaq.runner.impl.debug.events.debugger,
  org.ruminaq.tasks,
  org.ruminaq.tasks.api,
  org.ruminaq.tasks.userdefined.model.userdefined,
@@ -45,7 +50,11 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.util,
  org.slf4j
 Export-Package: org.ruminaq.tasks.javatask.ui,
+ org.ruminaq.tasks.javatask.ui.debug,
  org.ruminaq.tasks.javatask.ui.properties,
  org.ruminaq.tasks.javatask.ui.wizards
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
+Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.ui.JavaTasksDebugModelerExtension.xml
+Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.ruminaq.tasks.javatask.ui

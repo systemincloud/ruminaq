@@ -1,24 +1,38 @@
 package org.ruminaq.tasks.javatask.ui.debug;
 
+import java.net.URL;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.ui.IDebugModelPresentation;
 import org.eclipse.debug.ui.IValueDetailListener;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorInput;
-import org.ruminaq.tasks.javatask.ui.Activator;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
+import org.ruminaq.debug.model.vars.SicVariable;
 
 public class JavaTasksDebugModelPresentation implements IDebugModelPresentation {
 
 	public static final String ID = "org.ruminaq.tasks.javatask.ui.debug.JavaTasksDebugModelPresentation";
 
-	private static final Image TARGET_TERMINATED       = Activator.getImage("target_terminated.png");
-	private static final Image TARGET_PARTLY_SUSPENDED = Activator.getImage("target_partly_suspended.png");
-	private static final Image TARGET_RUNNING          = Activator.getImage("target_running.png");
-	private static final Image JAVATASK_SUSPENDED      = Activator.getImage("task_suspended.png");
-	private static final Image JAVATASK_STEPPING       = Activator.getImage("task_stepping.png");
-	private static final Image JAVATASK_RUNNING        = Activator.getImage("task_running.png");
+	private static final Image TARGET_TERMINATED       = getImage("target_terminated.png");
+	private static final Image TARGET_PARTLY_SUSPENDED = getImage("target_partly_suspended.png");
+	private static final Image TARGET_RUNNING          = getImage("target_running.png");
+	private static final Image JAVATASK_SUSPENDED      = getImage("task_suspended.png");
+	private static final Image JAVATASK_STEPPING       = getImage("task_stepping.png");
+	private static final Image JAVATASK_RUNNING        = getImage("task_running.png");
 
+	public static Image getImage(String file) {
+		Bundle bundle = FrameworkUtil.getBundle(JavaTasksDebugModelPresentation.class);
+		URL url = FileLocator.find(bundle, new Path("icons/" + file), null);
+		ImageDescriptor image = ImageDescriptor.createFromURL(url);
+		return image.createImage();
+	}
+	
 	@Override
 	public void addListener(ILabelProviderListener listener) {
 	}

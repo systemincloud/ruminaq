@@ -21,6 +21,7 @@ Import-Package: org.eclipse.core.runtime,
  org.ruminaq.tasks.api,
  org.ruminaq.util,
  org.ruminaq.runner.dirmi
-Export-Package: org.modeler.tasks.console.ui.views
+Export-Package: org.modeler.tasks.console.ui.views,
+ org.ruminaq.tasks.console.ui.properties
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10

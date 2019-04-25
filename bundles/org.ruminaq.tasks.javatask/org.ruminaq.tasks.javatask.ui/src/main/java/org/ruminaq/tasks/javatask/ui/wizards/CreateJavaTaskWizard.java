@@ -9,8 +9,7 @@ import org.eclipse.jdt.internal.ui.wizards.NewClassCreationWizard;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
-import org.ruminaq.tasks.TasksManagerHandlerImpl;
-import org.ruminaq.tasks.javatask.ui.Activator;
+import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.tasks.javatask.ui.IJavaTaskUiApi;
 
 @SuppressWarnings("restriction")
@@ -18,15 +17,21 @@ public class CreateJavaTaskWizard extends NewClassCreationWizard  {
 
     public static final String ID = "org.ruminaq.tasks.javatask.ui.wizards.CreateJavaTaskWizard";
 
-    private IJavaTaskUiApi      ijtua = (IJavaTaskUiApi) Activator.getDefault().getTasksUiManager().getTask(
-    		TasksManagerHandlerImpl.INSTANCE.getProjectVersionForTask(Activator.getDefault().getBundlePrefix()));
+    @Reference
+    private IJavaTaskUiApi ijtua;
+    
     private ICreateJavaTaskPage cjtp;
 
     private IStructuredSelection   selection = null;
     private CreateJavaTaskListener listener  = null;
 
-    public void setProject (IStructuredSelection selection)  { this.selection = selection; }
-    public void setListener(CreateJavaTaskListener listener) { this.listener  = listener; }
+    public void setProject (IStructuredSelection selection)  { 
+    	this.selection = selection; 
+    }
+    
+    public void setListener(CreateJavaTaskListener listener) { 
+    	this.listener  = listener; 
+    }
 
     @Override
     public void addPages() {
