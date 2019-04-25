@@ -10,6 +10,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.ruminaq.gui.properties.AbstractParametersSection;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
+import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
+
 public class ParametersSection extends AbstractParametersSection implements IPropertySection {
 
 	private JavaTask bo;
