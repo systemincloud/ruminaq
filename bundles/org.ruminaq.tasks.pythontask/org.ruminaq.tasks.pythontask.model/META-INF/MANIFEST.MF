@@ -21,6 +21,8 @@ Import-Package: org.eclipse.emf.common,
  org.ruminaq.model.ruminaq.impl,
  org.ruminaq.tasks.gate.model.gate,
  org.ruminaq.tasks.gate.model.gate.impl
-Export-Package: org.ruminaq.tasks.pythontask.model.pythontask
+Export-Package: org.ruminaq.tasks.pythontask.model.pythontask,
+ org.ruminaq.tasks.pythontask.model.pythontask.impl,
+ org.ruminaq.tasks.pythontask.model.pythontask.util
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
