@@ -7,7 +7,6 @@ services:
 
 jdk:
   - openjdk10
-  - oraclejdk10
 
 jobs:
   include:
