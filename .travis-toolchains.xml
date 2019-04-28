@@ -6,7 +6,7 @@
       <version>10</version>
     </provides>
     <configuration>
-      <jdkHome>/home/travis/openjdk10</jdkHome>
+      <jdkHome>${env.JAVA_HOME}</jdkHome>
     </configuration>
   </toolchain>
 </toolchains>
