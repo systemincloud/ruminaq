@@ -36,6 +36,9 @@ import org.ruminaq.tasks.rtask.features.ContextButtonPadTool;
 import org.ruminaq.tasks.rtask.features.CreateFeature;
 import org.ruminaq.tasks.rtask.features.DoubleClickFeatureFilter;
 import org.ruminaq.tasks.rtask.features.UpdateFeature;
+import org.ruminaq.tasks.rtask.impl.RTaskI;
+import org.ruminaq.tasks.rtask.model.rtask.RTask;
+import org.ruminaq.tasks.rtask.model.rtask.RtaskPackage;
 import org.ruminaq.tasks.rtask.wizards.CreateProjectWizard;
 
 import de.walware.statet.r.core.RCore;

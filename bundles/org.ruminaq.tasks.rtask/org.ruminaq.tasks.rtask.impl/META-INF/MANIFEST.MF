@@ -33,3 +33,4 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.rtask.ui.debug,
  org.ruminaq.util
 Require-Bundle: slf4j.api
+Export-Package: org.ruminaq.tasks.rtask.impl
