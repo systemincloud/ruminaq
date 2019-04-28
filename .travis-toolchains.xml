@@ -6,7 +6,7 @@
       <version>10</version>
     </provides>
     <configuration>
-      <jdkHome>${env.JAVA_HOME}</jdkHome>
+      <jdkHome>/usr/local/lib/jvm/openjdk10</jdkHome>
     </configuration>
   </toolchain>
 </toolchains>
