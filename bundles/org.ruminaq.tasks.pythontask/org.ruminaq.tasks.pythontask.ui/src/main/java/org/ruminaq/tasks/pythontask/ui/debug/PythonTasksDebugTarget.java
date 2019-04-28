@@ -16,7 +16,11 @@ import org.eclipse.debug.core.model.IMemoryBlock;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IThread;
 import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
+import org.ruminaq.debug.model.ISicTarget;
+import org.ruminaq.debug.model.IState;
+import org.ruminaq.debug.model.TerminateTargetDecoration;
 import org.ruminaq.logs.ModelerLoggerFactory;
+import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 import org.slf4j.Logger;
 
 public class PythonTasksDebugTarget extends PythonTasksDebugElement implements IDebugTarget, ISicTarget {
