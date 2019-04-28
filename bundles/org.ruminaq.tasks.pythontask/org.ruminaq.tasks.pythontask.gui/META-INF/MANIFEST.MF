@@ -92,6 +92,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.gui.features.tools,
  org.ruminaq.gui.properties,
  org.ruminaq.logs,
+ org.ruminaq.model.ruminaq,
  org.ruminaq.model.desc,
  org.ruminaq.runner,
  org.ruminaq.runner.impl,
@@ -113,6 +114,7 @@ Export-Package: org.ruminaq.tasks.pythontask,
  org.ruminaq.tasks.pythontask.extension,
  org.ruminaq.tasks.pythontask.features,
  org.ruminaq.tasks.pythontask.service,
- org.ruminaq.tasks.pythontask.util
+ org.ruminaq.tasks.pythontask.util,
+ org.ruminaq.tasks.pythontask.wizards
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10

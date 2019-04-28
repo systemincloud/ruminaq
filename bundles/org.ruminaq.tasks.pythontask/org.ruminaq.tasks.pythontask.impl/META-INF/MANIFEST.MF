@@ -4,7 +4,10 @@ Bundle-Name: Ruminaq Task - PythonTask - Impl
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.pythontask.impl
 Bundle-Version: 1.0.0.qualifier
-Export-Package: org.ruminaq.tasks.pythontask.impl
+Export-Package: org.ruminaq.tasks.pythontask.impl,
+ org.ruminaq.tasks.pythontask.impl.cpython,
+ org.ruminaq.tasks.pythontask.impl.jython,
+ org.ruminaq.tasks.pythontask.impl.rmi
 Bundle-RequiredExecutionEnvironment: JavaSE-10
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
@@ -18,6 +21,7 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.emf.ecore,
  org.eclipse.jgit.api,
  org.eclipse.jgit.api.errors,
+ org.eclipse.core.runtime.jobs,
  org.python.core,
  org.python.pydev.core,
  org.python.pydev.plugin.nature,
