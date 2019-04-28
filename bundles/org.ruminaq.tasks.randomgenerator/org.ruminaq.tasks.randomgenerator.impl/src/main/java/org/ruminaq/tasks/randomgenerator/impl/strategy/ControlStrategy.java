@@ -11,7 +11,9 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.ruminaq.tasks.randomgenerator.Port;
+import org.ruminaq.runner.RunnerLoggerFactory;
+import org.ruminaq.runner.impl.data.ControlI;
+import org.ruminaq.tasks.randomgenerator.impl.Port;
 import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
@@ -29,17 +31,5 @@ public class ControlStrategy extends RandomGeneratorStrategy {
 	@Override public void generate(List<Integer> dims) {
 		logger.trace("generating Control");
 		task.putData(Port.OUT, new ControlI());
-	}
-
-	public static PropertySpecificComposite createSpecificComposite(ValueSaveListener listener, Composite specificRoot, PictogramElement pe, TransactionalEditingDomain ed) {
-		return new PropertySpecificComposite(listener, specificRoot, pe, ed) {
-			{
-				composite = new Composite(this.specificRoot, SWT.NONE);
-				composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-			}
-			@Override public void    initValues(EMap<String, String> eMap) { }
-			@Override public void    refresh(EMap<String, String> eMap)    { }
-			@Override public boolean hasDimensions()                       { return false;}
-		};
 	}
 }

@@ -11,8 +11,6 @@ import java.util.List;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.FocusAdapter;
@@ -28,10 +26,11 @@ import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.impl.data.DecimalI;
-import org.ruminaq.tasks.randomgenerator.Port;
+import org.ruminaq.tasks.randomgenerator.impl.Port;
 import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
+import org.ruminaq.tasks.randomgenerator.properties.RandomGeneratorNumericStrategy;
 import org.ruminaq.util.GlobalUtil;
 import org.ruminaq.util.NumericUtil;
 import org.ruminaq.util.RandomUtil;
@@ -55,7 +54,8 @@ public class DecimalStrategy extends RandomGeneratorNumericStrategy {
 			this.scale = Integer.parseInt(task.getParent().replaceVariables(textScale));
 	}
 
-	@Override public void generateRandom(List<Integer> dims) {
+	@Override 
+	public void generateRandom(List<Integer> dims) {
 		logger.trace("generating Int32");
 
 		int n = 1;

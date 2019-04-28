@@ -49,6 +49,7 @@ import org.ruminaq.tasks.randomgenerator.extension.RandomGeneratorExtensionManag
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.tasks.randomgenerator.properties.Complex32Property;
 import org.ruminaq.tasks.randomgenerator.properties.Complex64Property;
+import org.ruminaq.tasks.randomgenerator.properties.ControlProperty;
 import org.ruminaq.util.GlobalUtil;
 
 public class PropertySection implements IPropertySection, ValueSaveListener {

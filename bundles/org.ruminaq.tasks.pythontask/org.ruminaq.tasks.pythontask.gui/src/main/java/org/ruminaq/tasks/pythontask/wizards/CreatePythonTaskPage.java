@@ -4,7 +4,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.javatuples.Pair;
 import org.ruminaq.tasks.pythontask.PythonData;
 import org.ruminaq.tasks.pythontask.ui.wizards.ICreatePythonTaskPage;
-import org.ruminaq.tasks.uesrdefined.model.userdefined.Module;
+import org.ruminaq.tasks.userdefined.model.userdefined.Module;
 import org.ruminaq.tasks.userdefined.wizards.CreateUserDefinedTaskPage;
 
 public class CreatePythonTaskPage extends CreateUserDefinedTaskPage implements ICreatePythonTaskPage {

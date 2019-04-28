@@ -6,7 +6,8 @@ Bundle-SymbolicName: org.ruminaq.tasks.pythontask.api
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.ruminaq.tasks.pythontask.api
 Bundle-RequiredExecutionEnvironment: JavaSE-10
-Import-Package: org.eclipse.emf.transaction,
+Import-Package: org.javatuples,
+ org.eclipse.emf.transaction,
  org.eclipse.graphiti.mm.pictograms,
  org.eclipse.swt.widgets,
  org.ruminaq.model.ruminaq

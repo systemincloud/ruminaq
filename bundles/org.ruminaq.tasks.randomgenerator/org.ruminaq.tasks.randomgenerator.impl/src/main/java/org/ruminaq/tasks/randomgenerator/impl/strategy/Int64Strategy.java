@@ -9,10 +9,12 @@ import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.swt.widgets.Composite;
-import org.ruminaq.tasks.randomgenerator.Port;
+import org.ruminaq.runner.impl.data.Int64I;
+import org.ruminaq.tasks.randomgenerator.impl.Port;
 import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
+import org.ruminaq.tasks.randomgenerator.properties.RandomGeneratorNumericStrategy;
 import org.ruminaq.util.NumericUtil;
 import org.slf4j.Logger;
 

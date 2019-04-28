@@ -3,9 +3,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.tasks.pythontask.api;
 
+import java.util.List;
+
+import org.javatuples.Pair;
+
 /**
  *
  * @author Marek Jagielski
  */
 public interface PythonTaskExtension {
+    List<Pair<String, String>> getPythonTaskDatas();
+    String                     editPyDevProjectFile(String ret);
 }

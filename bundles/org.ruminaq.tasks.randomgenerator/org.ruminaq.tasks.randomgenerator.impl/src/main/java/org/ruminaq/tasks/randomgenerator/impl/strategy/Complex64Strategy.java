@@ -6,11 +6,11 @@ package org.ruminaq.tasks.randomgenerator.impl.strategy;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EMap;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.ruminaq.tasks.randomgenerator.impl.Port;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.Complex64I;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
+import org.ruminaq.tasks.randomgenerator.properties.RandomGeneratorComplexStrategy;
 import org.slf4j.Logger;
 
 public class Complex64Strategy extends RandomGeneratorComplexStrategy {
@@ -28,7 +28,7 @@ public class Complex64Strategy extends RandomGeneratorComplexStrategy {
 		double[] real = new double[n];
 		double[] imag = new double[n];
 
-		for(iorg.eclipse.graphiti.mm.pictogramsnt i = 0; i < n; i++) {
+		for(int i = 0; i < n; i++) {
 			double[] complex = super.getNextComplex();
 			real[i] = complex[0];
 			imag[i] = complex[1];
