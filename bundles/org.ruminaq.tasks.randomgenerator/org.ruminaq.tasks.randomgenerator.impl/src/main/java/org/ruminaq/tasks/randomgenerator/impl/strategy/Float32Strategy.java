@@ -41,15 +41,6 @@ public class Float32Strategy extends RandomGeneratorNumericStrategy {
 		task.putData(Port.OUT, new Float32I(values, dims));
 	}
 
-	public static PropertySpecificComposite createSpecificComposite(ValueSaveListener listener, Composite specificRoot, PictogramElement pe, TransactionalEditingDomain ed) {
-		return new PropertySpecificNumericComposite(listener, specificRoot, pe, ed) {
-			@Override 
-			protected boolean checkIfValue(String value) { 
-				return NumericUtil.isMultiDimsNumeric(value); 
-			}
-		};
-	}
-
 	@Override protected boolean isValue(String value) { return NumericUtil.isMultiDimsNumeric(value); }
 
 	@Override protected DataI getDataOfValue(String value, List<Integer> dims) {
