@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorInput;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
+import org.ruminaq.debug.model.vars.SicVariable;
 
 public class PythonTasksDebugModelPresentation implements IDebugModelPresentation {
 
