@@ -30,8 +30,9 @@ import org.python.pydev.parser.visitors.scope.EasyASTIteratorVisitor;
 import org.python.pydev.plugin.nature.PythonNature;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.model.DataTypeManager;
-import org.ruminaq.model.sic.DataType;
-import org.ruminaq.model.sic.UserDefinedTask;
+import org.ruminaq.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.UserDefinedTask;
+import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.tasks.userdefined.features.UpdateUserDefinedTaskFeature;
 import org.ruminaq.util.EclipseUtil;
 

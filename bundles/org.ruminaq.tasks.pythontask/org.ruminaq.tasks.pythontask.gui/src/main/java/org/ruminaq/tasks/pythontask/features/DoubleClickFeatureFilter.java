@@ -2,7 +2,8 @@ package org.ruminaq.tasks.pythontask.features;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
-import org.ruminaq.model.sic.Task;
+import org.ruminaq.model.ruminaq.Task;
+import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 
 public class DoubleClickFeatureFilter {
 

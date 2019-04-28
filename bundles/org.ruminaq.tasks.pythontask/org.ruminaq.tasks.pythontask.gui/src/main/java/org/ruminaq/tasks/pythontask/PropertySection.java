@@ -35,6 +35,7 @@ import org.ruminaq.eclipse.util.ConstantsUtil;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.pythontask.features.UpdateFeature;
+import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskListener;
 import org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskWizard;
 import org.ruminaq.tasks.pythontask.util.FindPythonTask;

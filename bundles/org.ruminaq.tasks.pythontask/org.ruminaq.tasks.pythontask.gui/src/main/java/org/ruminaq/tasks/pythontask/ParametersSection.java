@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.ruminaq.gui.properties.AbstractParametersSection;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
+import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 
 public class ParametersSection extends AbstractParametersSection implements IPropertySection {
 
