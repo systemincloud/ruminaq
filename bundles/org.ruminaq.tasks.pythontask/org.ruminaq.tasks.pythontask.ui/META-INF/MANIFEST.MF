@@ -3,7 +3,6 @@ Bundle-Name: Ruminaq - Tasks - PythonTask UI
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.pythontask.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.ruminaq.tasks.pythontask.ui.Activator
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core.spi,
  org.apache.commons.io,
@@ -40,6 +39,7 @@ Import-Package: ch.qos.logback.classic,
  org.python.pydev.ui.dialogs,
  org.python.pydev.ui.filetypes,
  org.python.pydev.ui.wizards.files,
+ org.ruminaq.debug.api,
  org.ruminaq.debug.api.dispatcher,
  org.ruminaq.debug.model,
  org.ruminaq.launch,
@@ -54,7 +54,9 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.util,
  org.slf4j
 Export-Package: org.ruminaq.tasks.pythontask.ui,
+ org.ruminaq.tasks.pythontask.ui.debug,
  org.ruminaq.tasks.pythontask.ui.properties,
  org.ruminaq.tasks.pythontask.ui.wizards
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
+Automatic-Module-Name: org.ruminaq.tasks.pythontask.ui
