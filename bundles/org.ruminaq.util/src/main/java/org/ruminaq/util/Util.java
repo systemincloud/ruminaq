@@ -25,7 +25,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
@@ -83,7 +82,8 @@ public class Util {
     private static TransformerFactory factory = TransformerFactory.newInstance();
 
     public static String transform(String xml, String xsl, final String key, final String value) throws TransformerException {
-        return transform(xml, xsl, new HashMap<String, String>() { private static final long serialVersionUID = 1L;
+        return transform(xml, xsl, new HashMap<String, String>() { 
+        	private static final long serialVersionUID = 1L;
             { put(key, value); }
         });
     }
@@ -96,9 +96,11 @@ public class Util {
         Result result = new StreamResult(writer);
         Transformer trans = factory.newTransformer(xslDoc);
         trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        if(params != null)
-            for(Entry<String, String> es : params.entrySet())
-                trans.setParameter(es.getKey(), es.getValue());
+        if (params != null) {
+        	params.forEach((k,v)-> {
+        		trans.setParameter(k, v);
+        	});
+        }                
         trans.transform(xmlDoc, result);
         resultXml = writer.toString();
         return resultXml;
