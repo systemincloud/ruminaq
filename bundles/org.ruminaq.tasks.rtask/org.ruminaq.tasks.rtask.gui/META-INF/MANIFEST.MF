@@ -116,6 +116,9 @@ Import-Package: ch.qos.logback.classic,
  org.slf4j
 Export-Package: org.ruminaq.tasks.rtask,
  org.ruminaq.tasks.rtask.extension,
- org.ruminaq.tasks.rtask.service
+ org.ruminaq.tasks.rtask.features,
+ org.ruminaq.tasks.rtask.hacks,
+ org.ruminaq.tasks.rtask.service,
+ org.ruminaq.tasks.rtask.wizards
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
