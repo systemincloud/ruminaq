@@ -13,7 +13,10 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
 import org.ruminaq.debug.api.dispatcher.IEventProcessor;
+import org.ruminaq.debug.model.MainState;
 import org.ruminaq.logs.ModelerLoggerFactory;
+import org.ruminaq.runner.impl.debug.events.IDebugEvent;
+import org.ruminaq.runner.impl.debug.events.debugger.NewTaskEvent;
 import org.slf4j.Logger;
 
 public class PythonTask extends PythonTasksDebugElement implements IThread, IEventProcessor {

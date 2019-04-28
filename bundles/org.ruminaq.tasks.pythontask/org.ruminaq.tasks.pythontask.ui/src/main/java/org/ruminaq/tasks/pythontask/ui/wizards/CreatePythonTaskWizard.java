@@ -20,15 +20,14 @@ import org.python.pydev.ui.wizards.files.AbstractPythonWizardPage;
 import org.python.pydev.ui.wizards.files.PythonModuleWizard;
 import org.python.pydev.ui.wizards.files.PythonPackageWizard;
 import org.ruminaq.tasks.TasksManagerHandlerImpl;
-import org.ruminaq.tasks.pythontask.ui.Activator;
 import org.ruminaq.tasks.pythontask.ui.IPythonTaskUiApi;
-import org.ruminaq.tasks.uesrdefined.model.userdefined.Module;
+import org.ruminaq.tasks.userdefined.model.userdefined.Module;
 
 public class CreatePythonTaskWizard extends PythonModuleWizard  {
 
     public static final String ID = "org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskWizard";
 
-    private IPythonTaskUiApi      ictua = (IPythonTaskUiApi) Activator.getDefault().getTasksUiManager().getTask(TasksManagerHandlerImpl.INSTANCE.getProjectVersionForTask(Activator.getDefault().getBundlePrefix()));
+    private IPythonTaskUiApi      ictua;
     private ICreatePythonTaskPage cptp;
 
     private CreatePythonTaskListener listener  = null;
