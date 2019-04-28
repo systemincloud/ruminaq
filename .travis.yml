@@ -13,6 +13,7 @@ jobs:
     - stage: "Build Tools"
       install: skip
       script:
+        - whereis java
         - ./mvnw install -pl libs/org.ruminaq.tools
     - stage: "Build JavaTask Client"
       install: skip
