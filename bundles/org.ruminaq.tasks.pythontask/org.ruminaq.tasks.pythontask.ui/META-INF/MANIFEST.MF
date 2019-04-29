@@ -62,3 +62,5 @@ Export-Package: org.ruminaq.tasks.pythontask.ui,
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-10
 Automatic-Module-Name: org.ruminaq.tasks.pythontask.ui
+Service-Component: OSGI-INF/org.ruminaq.tasks.pythontask.ui.PythonTasksDebugModelerExtension.xml
+Bundle-ActivationPolicy: lazy

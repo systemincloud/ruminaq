@@ -31,6 +31,7 @@ import org.ruminaq.tasks.randomgenerator.impl.strategy.Float32Strategy;
 import org.ruminaq.tasks.randomgenerator.impl.strategy.Float64Strategy;
 import org.ruminaq.tasks.randomgenerator.impl.strategy.Int32Strategy;
 import org.ruminaq.tasks.randomgenerator.impl.strategy.Int64Strategy;
+import org.ruminaq.tasks.randomgenerator.impl.strategy.RandomGeneratorStrategy;
 import org.ruminaq.tasks.randomgenerator.impl.strategy.TextStrategy;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.util.GlobalUtil;

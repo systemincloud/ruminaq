@@ -5,7 +5,7 @@ package org.ruminaq.tasks.randomgenerator.impl.service;
 
 import org.eclipse.emf.common.util.EMap;
 import org.ruminaq.model.ruminaq.DataType;
-import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorStrategy;
+import org.ruminaq.tasks.randomgenerator.impl.strategy.RandomGeneratorStrategy;
 
 /**
  *
