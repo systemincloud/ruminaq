@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.pythontask.service;
+package org.ruminaq.tasks.pythontask.impl.service;
 
 import java.io.IOException;
 import java.util.List;

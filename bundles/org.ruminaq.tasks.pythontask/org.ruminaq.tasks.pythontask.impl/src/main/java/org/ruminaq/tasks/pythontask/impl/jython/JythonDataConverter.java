@@ -28,7 +28,7 @@ import org.ruminaq.runner.impl.data.Int32I;
 import org.ruminaq.runner.impl.data.Int64I;
 import org.ruminaq.runner.impl.data.RawI;
 import org.ruminaq.runner.impl.data.TextI;
-import org.ruminaq.tasks.pythontask.service.PythonRunnerServiceManager;
+import org.ruminaq.tasks.pythontask.impl.service.PythonRunnerServiceManager;
 
 public enum JythonDataConverter {
     INSTANCE;
@@ -59,47 +59,47 @@ public enum JythonDataConverter {
         PyObject data = PythonRunnerServiceManager.INSTANCE.toJythonData(pi, dataI, pyDims);
         if(data != null) return data;
 
-        else if(dataI instanceof BoolI) {
+        else if (dataI instanceof BoolI) {
             for(boolean v : ((BoolI) dataI).getValues())
                 pyValues.add(new PyBoolean(v));
             return pi.get("Bool").__call__(new PyObject[] { pyValues, pyDims });
-        } else if(dataI instanceof Complex32I) {
+        } else if (dataI instanceof Complex32I) {
             Complex32I c = (Complex32I) dataI;
             float[] real = c.getRealValues();
             float[] imag = c.getImagValues();
-            for(int i = 0; i < c.getNumberOfElements(); i++)
+            for (int i = 0; i < c.getNumberOfElements(); i++)
                 pyValues.add(new PyComplex(real[i], imag[i]));
             return pi.get("Complex32").__call__(new PyObject[] { pyValues, pyDims });
-        } else if(dataI instanceof Complex64I) {
+        } else if (dataI instanceof Complex64I) {
             Complex64I c = (Complex64I) dataI;
             double[] real = c.getRealValues();
             double[] imag = c.getImagValues();
             for(int i = 0; i < c.getNumberOfElements(); i++)
                 pyValues.add(new PyComplex(real[i], imag[i]));
             return pi.get("Complex64").__call__(new PyObject[] { pyValues, pyDims });
-        } if(dataI instanceof ControlI) {
+        } if (dataI instanceof ControlI) {
             return pi.get("Control").__call__();
-        } else if(dataI instanceof DecimalI) {
-            for(BigDecimal v : ((DecimalI) dataI).getValues())
+        } else if (dataI instanceof DecimalI) {
+            for (BigDecimal v : ((DecimalI) dataI).getValues())
                 pyValues.add(pi.get("D").__call__(new PyString(v.toString())));
             return pi.get("Int32").__call__(new PyObject[] { pyValues, pyDims });
-        } else if(dataI instanceof Float32I) {
-            for(float v : ((Float32I) dataI).getValues())
+        } else if (dataI instanceof Float32I) {
+            for (float v : ((Float32I) dataI).getValues())
                 pyValues.add(new PyFloat(v));
             return pi.get("Float32").__call__(new PyObject[] { pyValues, pyDims });
-        } else if(dataI instanceof Float64I) {
-            for(double v : ((Float64I) dataI).getValues())
+        } else if (dataI instanceof Float64I) {
+            for (double v : ((Float64I) dataI).getValues())
                 pyValues.add(new PyFloat(v));
             return pi.get("Float64").__call__(new PyObject[] { pyValues, pyDims });
-        } else if(dataI instanceof Int32I) {
-            for(int v : ((Int32I) dataI).getValues())
+        } else if (dataI instanceof Int32I) {
+            for (int v : ((Int32I) dataI).getValues())
                 pyValues.add(new PyInteger(v));
             return pi.get("Int32").__call__(new PyObject[] { pyValues, pyDims });
-        } else if(dataI instanceof Int64I) {
+        } else if (dataI instanceof Int64I) {
             for(long v : ((Int64I) dataI).getValues())
                 pyValues.add(new PyLong(v));
             return pi.get("Int64").__call__(new PyObject[] { pyValues, pyDims });
-        } else if(dataI instanceof RawI) {
+        } else if (dataI instanceof RawI) {
             for (byte[] v : ((RawI) dataI).getValues()) {
                 Constructor<PyByteArray> constructor;
                 try {

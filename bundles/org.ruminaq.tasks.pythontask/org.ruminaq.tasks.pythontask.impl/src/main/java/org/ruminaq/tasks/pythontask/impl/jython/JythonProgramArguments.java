@@ -13,7 +13,6 @@ import org.python.pydev.core.IInterpreterInfo;
 import org.python.pydev.core.IInterpreterManager;
 import org.python.pydev.core.IPythonPathNature;
 import org.python.pydev.plugin.nature.PythonNature;
-import org.ruminaq.tasks.pythontask.Activator;
 
 public enum JythonProgramArguments {
     INSTANCE;
