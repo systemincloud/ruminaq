@@ -17,6 +17,8 @@ import org.python.pydev.plugin.nature.PythonNature;
 public enum JythonProgramArguments {
     INSTANCE;
 
+	String jythonPath;
+	
     public void addToPath(StringBuilder sb,
                           LinkedHashSet<String> ret,
                           IProject p,
@@ -33,7 +35,7 @@ public enum JythonProgramArguments {
                             if(ph.matches("/.:.*")) ph = ph.substring(1);
                             sb.append(ph).append(";");
                         }
-            sb.append(Activator.jythonPath + "/Lib").append(";");
+            sb.append(jythonPath + "/Lib").append(";");
 
             for(IResource r : pythonPathNature.getProjectSourcePathFolderSet())
                 if(r instanceof IFolder)

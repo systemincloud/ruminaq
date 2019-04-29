@@ -115,7 +115,6 @@ Import-Package: ch.qos.logback.classic,
  org.slf4j
 Export-Package: org.ruminaq.tasks.pythontask,
  org.ruminaq.tasks.pythontask.features,
- org.ruminaq.tasks.pythontask.service,
  org.ruminaq.tasks.pythontask.util,
  org.ruminaq.tasks.pythontask.wizards
 Bundle-ClassPath: .

@@ -51,13 +51,13 @@ public enum JythonDataConverter {
 
     public PyObject toJythonData(PythonInterpreter pi, DataI dataI) {
         PyList pyDims = new PyList();
-        for(Integer i : dataI.getDimensions())
+        for (Integer i : dataI.getDimensions())
             pyDims.add(new PyInteger(i));
 
         PyList pyValues = new PyList();
 
         PyObject data = PythonRunnerServiceManager.INSTANCE.toJythonData(pi, dataI, pyDims);
-        if(data != null) return data;
+        if (data != null) return data;
 
         else if (dataI instanceof BoolI) {
             for(boolean v : ((BoolI) dataI).getValues())
