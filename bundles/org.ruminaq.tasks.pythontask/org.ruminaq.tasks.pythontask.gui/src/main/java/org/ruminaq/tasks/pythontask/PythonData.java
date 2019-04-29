@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.javatuples.Pair;
-import org.ruminaq.tasks.pythontask.extension.PythonTaskExtensionManager;
 
 public enum PythonData {
     INSTANCE;
@@ -22,7 +21,7 @@ public enum PythonData {
         ret.add(new Pair<>("sicpythontask.data.", "Float64"));
         ret.add(new Pair<>("sicpythontask.data.", "Raw"));
         ret.add(new Pair<>("sicpythontask.data.", "Text"));
-        ret.addAll(PythonTaskExtensionManager.INSTANCE.getPythonTaskDatas());
+        //TODO:ret.addAll(PythonTaskExtensionManager.INSTANCE.getPythonTaskDatas());
         return ret;
     }
 }
