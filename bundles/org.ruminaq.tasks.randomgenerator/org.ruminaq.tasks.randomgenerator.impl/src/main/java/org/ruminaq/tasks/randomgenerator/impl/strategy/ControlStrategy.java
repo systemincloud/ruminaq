@@ -28,7 +28,8 @@ public class ControlStrategy extends RandomGeneratorStrategy {
 		super(task);
 	}
 
-	@Override public void generate(List<Integer> dims) {
+	@Override 
+	public void generate(List<Integer> dims) {
 		logger.trace("generating Control");
 		task.putData(Port.OUT, new ControlI());
 	}

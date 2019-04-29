@@ -48,7 +48,6 @@ import org.ruminaq.gui.features.tools.IContextButtonPadTool;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
-import org.ruminaq.tasks.pythontask.extension.PythonTaskExtensionManager;
 import org.ruminaq.tasks.pythontask.features.AddFeature;
 import org.ruminaq.tasks.pythontask.features.ContextButtonPadTool;
 import org.ruminaq.tasks.pythontask.features.CreateFeature;

@@ -53,7 +53,8 @@ public class DecimalStrategy extends RandomGeneratorNumericStrategy {
 		task.putData(Port.OUT, new DecimalI(values, dims));
 	}
 
-	@Override protected boolean isValue(String value) { return NumericUtil.isMultiDimsNumeric(value); }
+	@Override 
+	protected boolean isValue(String value) { return NumericUtil.isMultiDimsNumeric(value); }
 
 	@Override protected DataI getDataOfValue(String value, List<Integer> dims) {
 		String[] vs = NumericUtil.getMutliDimsValues(value);
