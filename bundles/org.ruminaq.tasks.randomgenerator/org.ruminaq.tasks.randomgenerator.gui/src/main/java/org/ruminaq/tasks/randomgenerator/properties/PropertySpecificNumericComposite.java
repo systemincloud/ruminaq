@@ -25,9 +25,6 @@ import org.ruminaq.util.RandomUtil;
 
 public class PropertySpecificNumericComposite extends PropertySpecificComposite {
 
-	public static final String NUMERIC_DISTRIBUTION = "NUMERIC_DISTRIBUTION";
-	public static final String DEFAULT_DISTRIBUTION = "%u[0,1]";
-
 	private CLabel lblDistribution;
 	private Text   txtDistribution;
 

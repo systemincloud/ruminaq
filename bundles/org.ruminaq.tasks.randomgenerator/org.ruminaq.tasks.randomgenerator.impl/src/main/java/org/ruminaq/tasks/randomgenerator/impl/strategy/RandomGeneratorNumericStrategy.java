@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.randomgenerator.properties;
+package org.ruminaq.tasks.randomgenerator.impl.strategy;
 
 import java.util.List;
 
@@ -15,14 +15,17 @@ import org.ruminaq.util.RandomUtil;
 
 public abstract class RandomGeneratorNumericStrategy extends RandomGeneratorStrategy {
 
+	public static final String NUMERIC_DISTRIBUTION = "NUMERIC_DISTRIBUTION";
+	public static final String DEFAULT_DISTRIBUTION = "%u[0,1]";
+	
 	protected Distributon   distribution;
 	protected DataI         value;
 	protected String        textDistribution;
 
 	public RandomGeneratorNumericStrategy(RandomGeneratorI task, EMap<String, String> eMap, List<Integer> dims) {
 		super(task);
-		String textDistribution = eMap.get(PropertySpecificNumericComposite.NUMERIC_DISTRIBUTION);
-		if(textDistribution == null) textDistribution = PropertySpecificNumericComposite.DEFAULT_DISTRIBUTION;
+		String textDistribution = eMap.get(NUMERIC_DISTRIBUTION);
+		if(textDistribution == null) textDistribution = DEFAULT_DISTRIBUTION;
 		if(isValue(textDistribution)) {
 			if(dims == null) this.textDistribution = textDistribution;
 			else             this.value = getDataOfValue(textDistribution, dims);
