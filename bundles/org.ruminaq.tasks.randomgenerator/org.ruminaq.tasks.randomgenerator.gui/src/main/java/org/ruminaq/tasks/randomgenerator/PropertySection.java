@@ -52,6 +52,7 @@ import org.ruminaq.tasks.randomgenerator.properties.Complex64Property;
 import org.ruminaq.tasks.randomgenerator.properties.ControlProperty;
 import org.ruminaq.tasks.randomgenerator.properties.DecimalProperty;
 import org.ruminaq.tasks.randomgenerator.properties.Float32Property;
+import org.ruminaq.tasks.randomgenerator.properties.TextProperty;
 import org.ruminaq.util.GlobalUtil;
 
 public class PropertySection implements IPropertySection, ValueSaveListener {
@@ -132,9 +133,10 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
 		types.add(Float64  .class.getSimpleName());
 		types.add(Int32    .class.getSimpleName());
 		types.add(Int64    .class.getSimpleName());
-		types.add(org.ruminaq.model.dt.Text.class.getSimpleName());
-		for(Class<? extends DataType> clazz : RandomGeneratorExtensionManager.INSTANCE.getDataTypes())
-			types.add(clazz.getSimpleName());
+		//TODO:
+//		types.add(org.ruminaq.model.dt.Text.class.getSimpleName());
+//		for(Class<? extends DataType> clazz : RandomGeneratorExtensionManager.INSTANCE.getDataTypes())
+//			types.add(clazz.getSimpleName());
 
 		cmbType.setItems(types.toArray(new String[types.size()]));
 
@@ -159,7 +161,7 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
 		specificComposites.put(Int32    .class.getSimpleName(), Int32Property    .createSpecificComposite(this, specificRoot, pe, ed));
 		specificComposites.put(Int64    .class.getSimpleName(), Int64Property    .createSpecificComposite(this, specificRoot, pe, ed));
 		specificComposites.put(Text     .class.getSimpleName(), TextProperty     .createSpecificComposite(this, specificRoot, pe, ed));
-		specificComposites.putAll(RandomGeneratorExtensionManager.INSTANCE.getComposites(this, specificRoot, pe, ed));
+		//TODO: specificComposites.putAll(RandomGeneratorExtensionManager.INSTANCE.getComposites(this, specificRoot, pe, ed));
 	}
 
 	private void initActions(final TransactionalEditingDomain ed) {

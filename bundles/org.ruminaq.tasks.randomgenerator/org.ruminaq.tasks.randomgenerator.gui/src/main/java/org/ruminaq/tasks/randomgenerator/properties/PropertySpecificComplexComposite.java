@@ -23,7 +23,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
-import org.ruminaq.tasks.randomgenerator.model.Constants;
+import org.ruminaq.tasks.randomgenerator.impl.strategy.RandomGeneratorComplexStrategy;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.util.NumericUtil;
 import org.ruminaq.util.RandomUtil;
@@ -106,7 +106,9 @@ public class PropertySpecificComplexComposite extends PropertySpecificComposite 
 							if (bo == null) return;
 							if (bo instanceof RandomGenerator) {
 								RandomGenerator rg = (RandomGenerator) bo;
-								rg.getSpecific().put(Constants.COMPLEX_REPRESENTATION, Constants.RECTANGULAR_REPRESENTATION);
+								rg.getSpecific().put(
+										RandomGeneratorComplexStrategy.COMPLEX_REPRESENTATION, 
+										RandomGeneratorComplexStrategy.RECTANGULAR_REPRESENTATION);
 							}
 						}
 					}, ed, "Change representation");
@@ -123,7 +125,9 @@ public class PropertySpecificComplexComposite extends PropertySpecificComposite 
 							if (bo == null) return;
 							if (bo instanceof RandomGenerator) {
 								RandomGenerator rg = (RandomGenerator) bo;
-								rg.getSpecific().put(Constants.COMPLEX_REPRESENTATION, Constants.POLAR_REPRESENTATION);
+								rg.getSpecific().put(
+										RandomGeneratorComplexStrategy.COMPLEX_REPRESENTATION, 
+										RandomGeneratorComplexStrategy.POLAR_REPRESENTATION);
 							}
 						}
 					}, ed, "Change representation");
@@ -142,7 +146,8 @@ public class PropertySpecificComplexComposite extends PropertySpecificComposite 
 							if (bo == null) return;
 							if (bo instanceof RandomGenerator) {
 								RandomGenerator rg = (RandomGenerator) bo;
-								rg.getSpecific().put(Constants.COMPLEX_A, txtCommonA.getText());
+								rg.getSpecific().put(
+										RandomGeneratorComplexStrategy.COMPLEX_A, txtCommonA.getText());
 							}
 						}
 					}, ed, "Change dimensions");
@@ -163,7 +168,8 @@ public class PropertySpecificComplexComposite extends PropertySpecificComposite 
 							if (bo == null) return;
 							if (bo instanceof RandomGenerator) {
 								RandomGenerator rg = (RandomGenerator) bo;
-								rg.getSpecific().put(Constants.COMPLEX_B, txtCommonB.getText());
+								rg.getSpecific().put(
+										RandomGeneratorComplexStrategy.COMPLEX_B, txtCommonB.getText());
 							}
 						}
 					}, ed, "Change dimensions");
@@ -184,7 +190,8 @@ public class PropertySpecificComplexComposite extends PropertySpecificComposite 
 							if (bo == null) return;
 							if (bo instanceof RandomGenerator) {
 								RandomGenerator rg = (RandomGenerator) bo;
-								rg.getSpecific().put(Constants.COMPLEX_MAG, txtPolarMag.getText());
+								rg.getSpecific().put(
+										RandomGeneratorComplexStrategy.COMPLEX_MAG, txtPolarMag.getText());
 							}
 						}
 					}, ed, "Change dimensions");
@@ -205,7 +212,8 @@ public class PropertySpecificComplexComposite extends PropertySpecificComposite 
 							if (bo == null) return;
 							if (bo instanceof RandomGenerator) {
 								RandomGenerator rg = (RandomGenerator) bo;
-								rg.getSpecific().put(Constants.COMPLEX_ARG, txtPolarArg.getText());
+								rg.getSpecific().put(
+										RandomGeneratorComplexStrategy.COMPLEX_ARG, txtPolarArg.getText());
 							}
 						}
 					}, ed, "Change dimensions");
@@ -243,38 +251,48 @@ public class PropertySpecificComplexComposite extends PropertySpecificComposite 
 
 	@Override
 	public void initValues(EMap<String, String> eMap) {
-		String rep = eMap.get(Constants.COMPLEX_REPRESENTATION);
-		if(rep == null) eMap.put(Constants.COMPLEX_REPRESENTATION, Constants.DEFAULT_REPRESENTATION);
+		String rep = eMap.get(RandomGeneratorComplexStrategy.COMPLEX_REPRESENTATION);
+		if(rep == null) eMap.put(
+				RandomGeneratorComplexStrategy.COMPLEX_REPRESENTATION, 
+				RandomGeneratorComplexStrategy.DEFAULT_REPRESENTATION);
 
-		String a = eMap.get(Constants.COMPLEX_A);
-		if(a == null) eMap.put(Constants.COMPLEX_A, Constants.COMPLEX_DEFAULT_A);
+		String a = eMap.get(RandomGeneratorComplexStrategy.COMPLEX_A);
+		if(a == null) eMap.put(
+				RandomGeneratorComplexStrategy.COMPLEX_A, 
+				RandomGeneratorComplexStrategy.COMPLEX_DEFAULT_A);
 
-		String b = eMap.get(Constants.COMPLEX_B);
-		if(b == null) eMap.put(Constants.COMPLEX_B, Constants.COMPLEX_DEFAULT_B);
+		String b = eMap.get(RandomGeneratorComplexStrategy.COMPLEX_B);
+		if(b == null) eMap.put(
+				RandomGeneratorComplexStrategy.COMPLEX_B, 
+				RandomGeneratorComplexStrategy.COMPLEX_DEFAULT_B);
 
-		String m = eMap.get(Constants.COMPLEX_MAG);
-		if(m == null) eMap.put(Constants.COMPLEX_MAG, Constants.COMPLEX_DEFAULT_MAG);
+		String m = eMap.get(RandomGeneratorComplexStrategy.COMPLEX_MAG);
+		if(m == null) eMap.put(
+				RandomGeneratorComplexStrategy.COMPLEX_MAG, 
+				RandomGeneratorComplexStrategy.COMPLEX_DEFAULT_MAG);
 
-		String g = eMap.get(Constants.COMPLEX_ARG);
-		if(g == null) eMap.put(Constants.COMPLEX_ARG, Constants.COMPLEX_DEFAULT_ARG);
+		String g = eMap.get(RandomGeneratorComplexStrategy.COMPLEX_ARG);
+		if(g == null) eMap.put(
+				RandomGeneratorComplexStrategy.COMPLEX_ARG, 
+				RandomGeneratorComplexStrategy.COMPLEX_DEFAULT_ARG);
 	}
 
 	@Override
 	public void refresh(final EMap<String, String> eMap) {
-		String rep = eMap.get(Constants.COMPLEX_REPRESENTATION);
-		if     (rep == null || rep.equals(Constants.RECTANGULAR_REPRESENTATION)) { btnRect .setSelection(true); setCommon(); }
-		else if(rep.equals(Constants.POLAR_REPRESENTATION))                      { btnPolar.setSelection(true); setPolar(); }
+		String rep = eMap.get(RandomGeneratorComplexStrategy.COMPLEX_REPRESENTATION);
+		if     (rep == null || rep.equals(RandomGeneratorComplexStrategy.RECTANGULAR_REPRESENTATION)) { btnRect .setSelection(true); setCommon(); }
+		else if(rep.equals(RandomGeneratorComplexStrategy.POLAR_REPRESENTATION))                      { btnPolar.setSelection(true); setPolar(); }
 
-		String a = eMap.get(Constants.COMPLEX_A);
-		txtCommonA.setText(a != null ? eMap.get(Constants.COMPLEX_A) : Constants.COMPLEX_DEFAULT_A);
+		String a = eMap.get(RandomGeneratorComplexStrategy.COMPLEX_A);
+		txtCommonA.setText(a != null ? eMap.get(RandomGeneratorComplexStrategy.COMPLEX_A) : RandomGeneratorComplexStrategy.COMPLEX_DEFAULT_A);
 
-		String b = eMap.get(Constants.COMPLEX_A);
-		txtCommonB.setText(b != null ? eMap.get(Constants.COMPLEX_B) : Constants.COMPLEX_DEFAULT_B);
+		String b = eMap.get(RandomGeneratorComplexStrategy.COMPLEX_A);
+		txtCommonB.setText(b != null ? eMap.get(RandomGeneratorComplexStrategy.COMPLEX_B) : RandomGeneratorComplexStrategy.COMPLEX_DEFAULT_B);
 
-		String m = eMap.get(Constants.COMPLEX_MAG);
-		txtPolarMag.setText(m != null ? eMap.get(Constants.COMPLEX_MAG) : Constants.COMPLEX_DEFAULT_MAG);
+		String m = eMap.get(RandomGeneratorComplexStrategy.COMPLEX_MAG);
+		txtPolarMag.setText(m != null ? eMap.get(RandomGeneratorComplexStrategy.COMPLEX_MAG) : RandomGeneratorComplexStrategy.COMPLEX_DEFAULT_MAG);
 
-		String g = eMap.get(Constants.COMPLEX_ARG);
-		txtPolarArg.setText(g != null ? eMap.get(Constants.COMPLEX_ARG) : Constants.COMPLEX_DEFAULT_ARG);
+		String g = eMap.get(RandomGeneratorComplexStrategy.COMPLEX_ARG);
+		txtPolarArg.setText(g != null ? eMap.get(RandomGeneratorComplexStrategy.COMPLEX_ARG) : RandomGeneratorComplexStrategy.COMPLEX_DEFAULT_ARG);
 	}
 }

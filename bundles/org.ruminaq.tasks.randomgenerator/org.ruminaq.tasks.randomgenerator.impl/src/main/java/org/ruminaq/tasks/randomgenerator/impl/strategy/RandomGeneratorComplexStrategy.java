@@ -8,6 +8,21 @@ import org.ruminaq.util.NumericUtil;
 
 public abstract class RandomGeneratorComplexStrategy extends RandomGeneratorStrategy {
 
+	public static final String COMPLEX_REPRESENTATION = "COMPLEX_DISTRIBUTION";
+	public static final String RECTANGULAR_REPRESENTATION = "RECTANGULAR";
+	public static final String POLAR_REPRESENTATION = "POLAR";
+	public static final String DEFAULT_REPRESENTATION = RECTANGULAR_REPRESENTATION;
+
+	public static final String COMPLEX_A = "COMPLEX_A";
+	public static final String COMPLEX_B = "COMPLEX_B";
+	public static final String COMPLEX_MAG = "COMPLEX_MAG";
+	public static final String COMPLEX_ARG = "COMPLEX_ARG";
+
+	public static final String COMPLEX_DEFAULT_A = "%u[0,1]";
+	public static final String COMPLEX_DEFAULT_B = "%u[0,1]";
+	public static final String COMPLEX_DEFAULT_MAG = "%u[0,1]";
+	public static final String COMPLEX_DEFAULT_ARG = "%u[0,6.28]";
+	
 	private boolean rect = true;
 
 	private Distributon aDistribution;
@@ -21,24 +36,24 @@ public abstract class RandomGeneratorComplexStrategy extends RandomGeneratorStra
 
 	public RandomGeneratorComplexStrategy(RandomGeneratorI task, EMap<String, String> eMap) {
 		super(task);
-		String rep = eMap.get(PropertySpecificComplexComposite.COMPLEX_REPRESENTATION);
-		this.rect = rep == null || rep.equals(PropertySpecificComplexComposite.RECTANGULAR_REPRESENTATION) ? true : false;
+		String rep = eMap.get(COMPLEX_REPRESENTATION);
+		this.rect = rep == null || rep.equals(RECTANGULAR_REPRESENTATION) ? true : false;
 		if(rect) {
-			String a = eMap.get(PropertySpecificComplexComposite.COMPLEX_A);
-			if(a == null) a = PropertySpecificComplexComposite.COMPLEX_DEFAULT_A;
+			String a = eMap.get(COMPLEX_A);
+			if(a == null) a = COMPLEX_DEFAULT_A;
 			if(isValue(a)) this.aValue = Double.parseDouble(a);
 			else this.aDistribution = RandomGeneratorNumericStrategy.getNumericStrategy(a);
-			String b = eMap.get(PropertySpecificComplexComposite.COMPLEX_B);
-			if(b == null) b = PropertySpecificComplexComposite.COMPLEX_DEFAULT_B;
+			String b = eMap.get(COMPLEX_B);
+			if(b == null) b = COMPLEX_DEFAULT_B;
 			if(isValue(b)) this.bValue = Double.parseDouble(b);
 			else this.bDistribution = RandomGeneratorNumericStrategy.getNumericStrategy(b);
 		} else {
-			String m = eMap.get(PropertySpecificComplexComposite.COMPLEX_MAG);
-			if(m == null) m = PropertySpecificComplexComposite.COMPLEX_DEFAULT_MAG;
+			String m = eMap.get(COMPLEX_MAG);
+			if(m == null) m = COMPLEX_DEFAULT_MAG;
 			if(isValue(m)) this.mValue = Math.abs(Double.parseDouble(m));
 			else this.mDistribution = RandomGeneratorNumericStrategy.getNumericStrategy(m);
-			String g = eMap.get(PropertySpecificComplexComposite.COMPLEX_ARG);
-			if(g == null) g = PropertySpecificComplexComposite.COMPLEX_DEFAULT_ARG;
+			String g = eMap.get(COMPLEX_ARG);
+			if(g == null) g = COMPLEX_DEFAULT_ARG;
 			if(isValue(g)) this.gValue = Double.parseDouble(g);
 			else this.gDistribution = RandomGeneratorNumericStrategy.getNumericStrategy(g);
 		}
