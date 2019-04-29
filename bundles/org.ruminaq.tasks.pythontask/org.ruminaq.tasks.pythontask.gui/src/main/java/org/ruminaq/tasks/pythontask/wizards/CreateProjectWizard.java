@@ -19,7 +19,6 @@ import org.eclipse.jdt.core.JavaCore;
 import org.python.pydev.ast.interpreter_managers.InterpreterManagersAPI;
 import org.python.pydev.plugin.nature.PythonNature;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.tasks.pythontask.extension.PythonTaskExtensionManager;
 import org.ruminaq.tasks.pythontask.impl.PythonTaskI;
 import org.ruminaq.util.EclipseUtil;
 
