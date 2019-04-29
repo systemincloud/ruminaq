@@ -5,11 +5,11 @@ import java.util.List;
 import org.eclipse.emf.common.util.EMap;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.tasks.randomgenerator.impl.Port;
-import org.ruminaq.tasks.randomgenerator.distributions.Distributon;
-import org.ruminaq.tasks.randomgenerator.distributions.NormalDistribution;
-import org.ruminaq.tasks.randomgenerator.distributions.UniformDistribution;
+import org.ruminaq.tasks.randomgenerator.impl.distributions.Distributon;
+import org.ruminaq.tasks.randomgenerator.impl.distributions.NormalDistribution;
+import org.ruminaq.tasks.randomgenerator.impl.distributions.UniformDistribution;
+import org.ruminaq.tasks.randomgenerator.impl.strategy.RandomGeneratorStrategy;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
-import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorStrategy;
 import org.ruminaq.util.RandomUtil;
 
 

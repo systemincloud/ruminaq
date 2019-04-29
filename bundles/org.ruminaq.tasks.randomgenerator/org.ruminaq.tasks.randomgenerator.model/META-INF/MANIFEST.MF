@@ -24,7 +24,8 @@ Import-Package: org.eclipse.emf.common,
  org.ruminaq.model.ruminaq.impl,
  org.ruminaq.tasks.gate.model.gate,
  org.ruminaq.tasks.gate.model.gate.impl
-Export-Package: org.ruminaq.tasks.randomgenerator.model.randomgenerator,
+Export-Package: org.ruminaq.tasks.randomgenerator.model,
+ org.ruminaq.tasks.randomgenerator.model.randomgenerator,
  org.ruminaq.tasks.randomgenerator.model.randomgenerator.impl,
  org.ruminaq.tasks.randomgenerator.model.randomgenerator.util
 Bundle-ClassPath: .
