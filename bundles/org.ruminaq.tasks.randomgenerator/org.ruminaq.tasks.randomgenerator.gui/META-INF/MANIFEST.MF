@@ -65,7 +65,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.util,
  org.slf4j
 Export-Package: org.ruminaq.tasks.randomgenerator,
- org.ruminaq.tasks.randomgenerator.distributions,
  org.ruminaq.tasks.randomgenerator.extension,
  org.ruminaq.tasks.randomgenerator.features,
  org.ruminaq.tasks.randomgenerator.properties

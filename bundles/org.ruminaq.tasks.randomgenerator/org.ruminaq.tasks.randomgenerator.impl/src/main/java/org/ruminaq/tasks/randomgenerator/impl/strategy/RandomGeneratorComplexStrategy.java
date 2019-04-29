@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.randomgenerator.properties;
+package org.ruminaq.tasks.randomgenerator.impl.strategy;
 
 import org.eclipse.emf.common.util.EMap;
 import org.ruminaq.tasks.randomgenerator.distributions.Distributon;

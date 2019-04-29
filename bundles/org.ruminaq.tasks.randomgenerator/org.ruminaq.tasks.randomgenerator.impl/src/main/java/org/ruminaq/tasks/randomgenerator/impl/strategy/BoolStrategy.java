@@ -11,7 +11,6 @@ import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.BoolI;
 import org.ruminaq.tasks.randomgenerator.impl.Port;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
-import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorStrategy;
 import org.slf4j.Logger;
 
 /**
