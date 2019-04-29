@@ -81,7 +81,7 @@ public class CreateProjectWizard {
         try {
             String content = IOUtils.toString(CreateProjectWizard.class.getResourceAsStream(PYDEVPROJECT)).replace("${process-version}", PythonTaskI.PROCESS_LIB_VERSION)
                                                                                                           .replace("${python-type}", pythonType);
-            content = PythonTaskExtensionManager.INSTANCE.editPyDevProjectFile(content);
+            //TODO:content = PythonTaskExtensionManager.INSTANCE.editPyDevProjectFile(content);
             IFile outputFile = project.getFile(PYDEVPROJECT);
             outputFile.create(IOUtils.toInputStream(content), true, null);
         } catch (IOException e) { }
