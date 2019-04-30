@@ -6,8 +6,17 @@ import java.util.List;
 import org.eclipse.core.runtime.CoreException;
 import org.ruminaq.runner.impl.data.BoolI;
 import org.ruminaq.runner.impl.data.Complex32I;
+import org.ruminaq.runner.impl.data.Complex64I;
+import org.ruminaq.runner.impl.data.ControlI;
 import org.ruminaq.runner.impl.data.DataI;
-import org.ruminaq.tasks.rtask.service.RRunnerServiceManager;
+import org.ruminaq.runner.impl.data.DecimalI;
+import org.ruminaq.runner.impl.data.Float32I;
+import org.ruminaq.runner.impl.data.Float64I;
+import org.ruminaq.runner.impl.data.Int32I;
+import org.ruminaq.runner.impl.data.Int64I;
+import org.ruminaq.runner.impl.data.RawI;
+import org.ruminaq.runner.impl.data.TextI;
+import org.ruminaq.tasks.rtask.impl.service.RRunnerServiceManager;
 
 import de.walware.rj.data.RObject;
 import de.walware.rj.servi.RServi;
@@ -19,8 +28,7 @@ public enum RDataConverter {
     public RObject toRData(RServi fRservi, DataI dataI) {
     	try {
 			StringBuilder sdims = new StringBuilder("dims <- c(");
-	        for(Integer i : dataI.getDimensions())
-	        	sdims.append(i.toString() + "L, ");
+	        dataI.getDimensions().forEach(i -> sdims.append(i.toString() + "L, "));
 	        if(dataI.getDimensions().size() > 0) sdims.delete(sdims.length() - 3, sdims.length());
 	        sdims.append(")");
 	        RObject dims = fRservi.evalData(sdims.toString(), null);

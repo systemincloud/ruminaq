@@ -1,11 +1,13 @@
 package org.ruminaq.tasks.rtask;
 
 import org.apache.commons.cli.Options;
-import org.ruminaq.model.sic.Task;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.TaskI;
 import org.ruminaq.runner.service.AbstractRunnerService;
 import org.ruminaq.tasks.rtask.impl.RTaskI;
+import org.ruminaq.tasks.rtask.model.rtask.RTask;
+import org.ruminaq.tasks.rtask.model.rtask.RtaskPackage;
 
 public final class RunnerServiceProvider extends AbstractRunnerService {
 	@Override

@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.javatuples.Pair;
-import org.ruminaq.tasks.rtask.extension.RTaskExtensionManager;
 
 public enum RData {
     INSTANCE;
@@ -22,7 +21,7 @@ public enum RData {
         ret.add(new Pair<>("sicrtask", "Float64"));
         ret.add(new Pair<>("sicrtask", "Raw"));
         ret.add(new Pair<>("sicrtask", "Text"));
-        ret.addAll(RTaskExtensionManager.INSTANCE.getPythonTaskDatas());
+        //TODO:ret.addAll(RTaskExtensionManager.INSTANCE.getPythonTaskDatas());
         return ret;
     }
 }

@@ -13,6 +13,7 @@ import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import org.ruminaq.runner.impl.data.RemoteDataConverter;
 import org.ruminaq.runner.thrift.RemoteData;
+import org.ruminaq.runner.thrift.RunnerSideServer;
 import org.ruminaq.util.Util;
 
 public enum CallbackServer implements RunnerSideServer.Iface {

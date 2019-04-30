@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.rtask.service;
+package org.ruminaq.tasks.rtask.impl.service;
 
 import java.io.IOException;
 import java.util.List;

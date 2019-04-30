@@ -10,6 +10,7 @@ import org.ruminaq.tasks.features.CreateTaskFeature;
 import org.ruminaq.tasks.rtask.Images;
 import org.ruminaq.tasks.rtask.Port;
 import org.ruminaq.tasks.rtask.model.rtask.RtaskFactory;
+import org.ruminaq.tasks.rtask.model.rtask.RTask;
 
 public class CreateFeature extends CreateTaskFeature {
 
