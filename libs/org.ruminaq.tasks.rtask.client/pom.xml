@@ -75,7 +75,7 @@
                 <argument>check</argument>
 
                 <argument>--as-cran</argument>
-                <argument>${project.basedir}/target/ruminaq_${project.version}.tar.gz</argument>
+                <argument>${project.basedir}/target/${project.artifactId}_${project.version}.tar.gz</argument>
                 <argument>--output=${basedir}/target</argument>
               </arguments>
             </configuration>
@@ -106,7 +106,7 @@
             <phase>package</phase>
             <configuration>
               <target>
-                <move file="${project.basedir}/../ruminaq_${project.version}.tar.gz" todir="${project.basedir}/target"/>
+                <move file="${project.basedir}/../${project.artifactId}_${project.version}.tar.gz" todir="${project.basedir}/target"/>
               </target>
             </configuration>
             <goals>
@@ -128,7 +128,7 @@
 	          <configuration>
 	            <artifacts>
 	              <artifact>
-                    <file>target/ruminaq_${project.version}.tar.gz</file>
+                    <file>target/${project.artifactId}_${project.version}.tar.gz</file>
                     <type>tar.gz</type>
                   </artifact>
 	            </artifacts>
