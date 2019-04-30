@@ -6,7 +6,15 @@
   <artifactId>org.ruminaq.tasks.rtask.client</artifactId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
+  
+  <name>Ruminaq - client</name>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
+    <date>${maven.build.timestamp}</date>
+  </properties>
+  
   <build>
     <plugins>
       <plugin>

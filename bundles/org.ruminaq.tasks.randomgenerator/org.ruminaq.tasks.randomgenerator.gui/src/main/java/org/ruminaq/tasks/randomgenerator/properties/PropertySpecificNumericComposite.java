@@ -20,6 +20,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
+import org.ruminaq.tasks.randomgenerator.impl.strategy.RandomGeneratorNumericStrategy;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.util.RandomUtil;
 
@@ -63,7 +64,7 @@ public class PropertySpecificNumericComposite extends PropertySpecificComposite 
 							if (bo == null) return;
 							if (bo instanceof RandomGenerator) {
 								RandomGenerator rg = (RandomGenerator) bo;
-								rg.getSpecific().put(PropertySpecificNumericComposite.NUMERIC_DISTRIBUTION, txtDistribution.getText());
+								rg.getSpecific().put(RandomGeneratorNumericStrategy.NUMERIC_DISTRIBUTION, txtDistribution.getText());
 							}
 						}
 					}, ed, "Change dimensions");
@@ -85,13 +86,13 @@ public class PropertySpecificNumericComposite extends PropertySpecificComposite 
 
 	@Override
 	public void initValues(EMap<String, String> eMap) {
-		String nd = eMap.get(NUMERIC_DISTRIBUTION);
-		if(nd == null) eMap.put(NUMERIC_DISTRIBUTION, DEFAULT_DISTRIBUTION);
+		String nd = eMap.get(RandomGeneratorNumericStrategy.NUMERIC_DISTRIBUTION);
+		if(nd == null) eMap.put(RandomGeneratorNumericStrategy.NUMERIC_DISTRIBUTION, RandomGeneratorNumericStrategy.DEFAULT_DISTRIBUTION);
 	}
 
 	@Override
 	public void refresh(final EMap<String, String> eMap) {
-		String tmp = eMap.get(NUMERIC_DISTRIBUTION);
-		txtDistribution.setText(tmp != null ? eMap.get(NUMERIC_DISTRIBUTION) : DEFAULT_DISTRIBUTION);
+		String tmp = eMap.get(RandomGeneratorNumericStrategy.NUMERIC_DISTRIBUTION);
+		txtDistribution.setText(tmp != null ? eMap.get(RandomGeneratorNumericStrategy.NUMERIC_DISTRIBUTION) : RandomGeneratorNumericStrategy.DEFAULT_DISTRIBUTION);
 	}
 }
