@@ -17,14 +17,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.model.util.ModelUtil;
-import org.ruminaq.tasks.constant.impl.strategy.DecimalStrategy;
-import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
+import org.ruminaq.tasks.randomgenerator.impl.strategy.DecimalStrategy;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.util.GlobalUtil;
 import org.ruminaq.util.NumericUtil;
 
-public class PropertySpecificDecimalComposite extends PropertySpecificComposite {
+public class PropertySpecificDecimalComposite extends PropertySpecificNumericComposite {
 
 	private CLabel lblDecimalNumber;
 	private Text   txtDecimalNumber;
@@ -86,7 +85,7 @@ public class PropertySpecificDecimalComposite extends PropertySpecificComposite 
 	public void initValues(EMap<String, String> eMap) {
 		String number = eMap.get(DecimalStrategy.DECIMAL_NUMBER);
 		if (number == null) {
-			eMap.put(DECIMAL_NUMBER, Integer.toString(DEFAULT_DECIMAL_NUMBER));
+			eMap.put(DecimalStrategy.DECIMAL_NUMBER, Integer.toString(DecimalStrategy.DEFAULT_DECIMAL_NUMBER));
 		}
 	}
 

@@ -22,7 +22,7 @@ public class DecimalStrategy extends RandomGeneratorNumericStrategy {
 
 	private final Logger logger = RunnerLoggerFactory.getLogger(Int32Strategy.class);
 
-	public static final String DECIMAL_NUMBER         = "DECIMAL_NUMBER";
+	public static final String DECIMAL_NUMBER = "DECIMAL_NUMBER";
 	public static final int    DEFAULT_DECIMAL_NUMBER = 2;
 
 	private String textScale;

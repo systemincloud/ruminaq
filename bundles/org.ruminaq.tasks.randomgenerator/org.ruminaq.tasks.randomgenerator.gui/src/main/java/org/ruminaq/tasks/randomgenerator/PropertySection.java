@@ -45,13 +45,15 @@ import org.ruminaq.model.dt.Int64;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
-import org.ruminaq.tasks.randomgenerator.extension.RandomGeneratorExtensionManager;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.tasks.randomgenerator.properties.Complex32Property;
 import org.ruminaq.tasks.randomgenerator.properties.Complex64Property;
 import org.ruminaq.tasks.randomgenerator.properties.ControlProperty;
 import org.ruminaq.tasks.randomgenerator.properties.DecimalProperty;
 import org.ruminaq.tasks.randomgenerator.properties.Float32Property;
+import org.ruminaq.tasks.randomgenerator.properties.Float64Property;
+import org.ruminaq.tasks.randomgenerator.properties.Int32Property;
+import org.ruminaq.tasks.randomgenerator.properties.Int64Property;
 import org.ruminaq.tasks.randomgenerator.properties.TextProperty;
 import org.ruminaq.util.GlobalUtil;
 

@@ -6,15 +6,11 @@ package org.ruminaq.tasks.randomgenerator.impl.strategy;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EMap;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.swt.widgets.Composite;
+import org.ruminaq.runner.RunnerLoggerFactory;
+import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.impl.data.Int64I;
 import org.ruminaq.tasks.randomgenerator.impl.Port;
-import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
-import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
-import org.ruminaq.tasks.randomgenerator.properties.RandomGeneratorNumericStrategy;
 import org.ruminaq.util.NumericUtil;
 import org.slf4j.Logger;
 
@@ -39,15 +35,13 @@ public class Int64Strategy extends RandomGeneratorNumericStrategy {
 		task.putData(Port.OUT, new Int64I(values, dims));
 	}
 
-	public static PropertySpecificComposite createSpecificComposite(ValueSaveListener listener, Composite specificRoot, PictogramElement pe, TransactionalEditingDomain ed) {
-		return new PropertySpecificNumericComposite(listener, specificRoot, pe, ed) {
-			@Override protected boolean checkIfValue(String value) { return NumericUtil.isMultiDimsInteger(value); }
-		};
+	@Override 
+	protected boolean isValue(String value) { 
+		return NumericUtil.isMultiDimsInteger(value); 
 	}
 
-	@Override protected boolean isValue(String value) { return NumericUtil.isMultiDimsInteger(value); }
-
-	@Override protected DataI getDataOfValue(String value, List<Integer> dims) {
+	@Override 
+	protected DataI getDataOfValue(String value, List<Integer> dims) {
 		String[] vs = NumericUtil.getMutliDimsValues(value);
 		int n = 1;
 		for(Integer i : dims) n *= i;

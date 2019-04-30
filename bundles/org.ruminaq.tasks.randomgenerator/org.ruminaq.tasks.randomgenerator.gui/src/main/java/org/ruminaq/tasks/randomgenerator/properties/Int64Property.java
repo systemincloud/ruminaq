@@ -7,7 +7,7 @@ import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 import org.ruminaq.util.NumericUtil;
 
-public class Float32Property {
+public class Int64Property {
 
 	public static PropertySpecificComposite createSpecificComposite(ValueSaveListener listener, Composite specificRoot,
 			PictogramElement pe, TransactionalEditingDomain ed) {

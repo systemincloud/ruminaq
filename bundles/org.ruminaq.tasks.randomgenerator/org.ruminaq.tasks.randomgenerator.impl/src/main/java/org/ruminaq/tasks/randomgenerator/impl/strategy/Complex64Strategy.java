@@ -20,7 +20,8 @@ public class Complex64Strategy extends RandomGeneratorComplexStrategy {
 		super(task, eMap);
 	}
 
-	@Override public void generate(List<Integer> dims) {
+	@Override 
+	public void generate(List<Integer> dims) {
 		logger.trace("generating Complex64");
 		int n = 1;
 		for(Integer i : dims) n *= i;

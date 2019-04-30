@@ -6,18 +6,10 @@ package org.ruminaq.tasks.randomgenerator.impl.strategy;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EMap;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.ControlI;
 import org.ruminaq.tasks.randomgenerator.impl.Port;
-import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
-import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
-import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorStrategy;
 import org.slf4j.Logger;
 
 public class ControlStrategy extends RandomGeneratorStrategy {
