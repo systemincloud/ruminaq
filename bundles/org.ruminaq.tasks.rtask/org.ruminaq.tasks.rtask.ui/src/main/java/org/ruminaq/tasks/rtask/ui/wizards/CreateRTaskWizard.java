@@ -10,10 +10,8 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.swt.widgets.Display;
-import org.ruminaq.tasks.userdefined.model.userdefined.Module;
-import org.ruminaq.tasks.TasksManagerHandlerImpl;
-import org.ruminaq.tasks.rtask.ui.Activator;
 import org.ruminaq.tasks.rtask.ui.IRTaskUiApi;
+import org.ruminaq.tasks.userdefined.model.userdefined.Module;
 
 import de.walware.ecommons.ltk.LTK;
 import de.walware.ecommons.ui.util.DialogUtil;
@@ -28,8 +26,7 @@ public class CreateRTaskWizard extends NewElementWizard {
 
     public static final String ID = "org.ruminaq.tasks.rtask.ui.wizards.CreateRTaskWizard";
 
-    private IRTaskUiApi              irtua = (IRTaskUiApi) Activator.getDefault().getTasksUiManager().getTask(
-    		TasksManagerHandlerImpl.INSTANCE.getProjectVersionForTask(Activator.getDefault().getBundlePrefix()));
+    private IRTaskUiApi              irtua;
     private CustomNewClassWizardPage cncwp;
     private ICreateRTaskPage         crtp;
 
