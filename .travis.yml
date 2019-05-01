@@ -25,6 +25,7 @@ jobs:
         - sudo apt-get update -qq
         - sudo apt-get install -qq xcftools
         - sudo apt-get install -qq metacity
+        - sudo apt-get install -qq xvfb
       #before_script:
       #  - sh -e /etc/init.d/xvfb start
       #  - metacity --sm-disable --replace 2> metacity.err &
