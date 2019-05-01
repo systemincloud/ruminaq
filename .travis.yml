@@ -33,6 +33,7 @@ script:
   - ./mvnw jetty:run --toolchains=.travis-toolchains.xml -P init -pl releng/org.ruminaq.p2repo &
   - sleep 60
   - ./mvnw install --toolchains=.travis-toolchains.xml sonar:sonar
+  - cat tests/org.ruminaq.eclipse.it.tests/target/work/data/.metadata/.log
 
 cache:
   directories:
