@@ -23,7 +23,7 @@ jobs:
       #env: DISPLAY=:99.0
       before_install:
         - sudo apt-get update -qq
-        - sudo apt-get install -qq xcftools #metacity
+        - sudo apt-get install -qq xcftools
         - sudo apt-get install -qq metacity
       #before_script:
       #  - sh -e /etc/init.d/xvfb start
