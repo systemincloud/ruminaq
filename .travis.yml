@@ -20,10 +20,10 @@ jobs:
         - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
     - stage: "Build plugins"
       install: skip
-      env: DISPLAY=:99.0
+      #env: DISPLAY=:99.0
       before_install:
         - sudo apt-get update -qq
-        - sudo apt-get install -qq xcftools metacity
+        - sudo apt-get install -qq xcftools #metacity
       #before_script:
       #  - sh -e /etc/init.d/xvfb start
       #  - metacity --sm-disable --replace 2> metacity.err &
