@@ -13,6 +13,7 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq xcftools
   - sudo apt-get install -qq metacity
+
 before_script:
   - metacity --sm-disable --replace 2> metacity.err &
   
