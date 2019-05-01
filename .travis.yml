@@ -2,10 +2,6 @@ language: java
 dist: xenial
 sudo: required
 
-services:
-  - docker
-  - xvfb
-
 jdk:
   - openjdk10
 
@@ -22,6 +18,9 @@ jobs:
     - stage: "Build plugins"
       install: skip
       env: DISPLAY=:99.0
+      services:
+        - docker
+        - xvfb
       before_install:
         - sudo apt-get update -qq
         - sudo apt-get install -qq xcftools
