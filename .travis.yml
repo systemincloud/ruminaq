@@ -1,6 +1,8 @@
 language: java
 dist: xenial
 sudo: required
+python:
+  - "3.7"
 
 jdk:
   - openjdk10
@@ -19,7 +21,9 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq xcftools
   - sudo apt-get install -qq metacity
-  - sudo apt-get install python3-setuptools
+  - sudo apt-get -y install python3-pip python-dev
+  - sudo pip3 install -U setuptools
+  - sudo pip3 install -U virtualenvwrapper
 
 install: skip
 
@@ -27,12 +31,13 @@ before_script:
   - metacity --sm-disable --replace 2> metacity.err &
   
 script:
-  - ./mvnw install -pl libs
+  - ./mvnw install -pl libs/org.ruminaq.tools
+  - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
   - ./mvnw install --toolchains=.travis-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
   - ./mvnw p2:site --toolchains=.travis-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
   - ./mvnw jetty:run --toolchains=.travis-toolchains.xml -P init -pl releng/org.ruminaq.p2repo &
   - sleep 60
-  - ./mvnw install -pl !libs --toolchains=.travis-toolchains.xml sonar:sonar 
+  - ./mvnw install --toolchains=.travis-toolchains.xml sonar:sonar
 
 cache:
   directories:
