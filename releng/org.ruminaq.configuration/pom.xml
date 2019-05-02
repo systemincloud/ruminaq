@@ -17,11 +17,12 @@
     <!-- Skip the deployment here, submodules can override this property -->
     <!--maven.deploy.skip>true</maven.deploy.skip -->
     <!-- <sonar.projectName>Ruminaq</sonar.projectName> -->
-    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <sonar.java.libraries>${project.basedir}/../../releng/org.ruminaq.p2repo/target/repository/plugins/</sonar.java.libraries>
+<!--     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin> -->
+<!--     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis> -->
     <!-- <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths> -->
     <!-- <sonar.language>java</sonar.language> -->
-    <sonar.jacoco.reportPaths>${project.basedir}/../../tests/${project.artifactId}.tests/target/jacoco.exec,${project.basedir}/../../tests/${project.artifactId}.it.tests/target/jacoco.exec</sonar.jacoco.reportPaths>
+<!--     <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../../tests/${project.artifactId}.tests/target/site/jacoco/jacoco.xml,${project.basedir}/../../tests/${project.artifactId}.it.tests/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths> -->
   </properties>
 
   <distributionManagement>
@@ -156,6 +157,16 @@
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.7.1</version>
+        </plugin>
+        <!-- <plugin> -->
+        <!-- <groupId>org.apache.maven.plugins</groupId> -->
+        <!-- <artifactId>maven-project-info-reports-plugin</artifactId> -->
+        <!-- <version>3.0.0</version> -->
+        <!-- </plugin> -->
       </plugins>
     </pluginManagement>
     <plugins>
@@ -290,6 +301,13 @@
               <goal>prepare-agent</goal>
             </goals>
           </execution>
+          <execution>
+            <id>report</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -358,6 +376,11 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <version>3.12.0</version>
       </plugin>
+      <!-- <plugin> -->
+      <!-- <groupId>org.apache.maven.plugins</groupId> -->
+      <!-- <artifactId>maven-jxr-plugin</artifactId> -->
+      <!-- <version>3.0.0</version> -->
+      <!-- </plugin> -->
     </plugins>
   </reporting>
 
