@@ -26,7 +26,7 @@ before_install:
   - sudo pip3 install -U virtualenvwrapper
   - sudo apt install r-base
   - wget "https://cran.r-project.org/src/contrib/R6_2.4.0.tar.gz"
-  - R CMD INSTALL R6_2.4.0.tar.gz
+  - sudo R CMD INSTALL R6_2.4.0.tar.gz
   
 
 install: skip
