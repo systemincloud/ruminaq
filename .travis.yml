@@ -27,13 +27,12 @@ before_script:
   - metacity --sm-disable --replace 2> metacity.err &
   
 script:
-  - ./mvnw install -pl libs/org.ruminaq.tools
-  - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
+  - ./mvnw install -pl libs
   - ./mvnw install --toolchains=.travis-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
   - ./mvnw p2:site --toolchains=.travis-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
   - ./mvnw jetty:run --toolchains=.travis-toolchains.xml -P init -pl releng/org.ruminaq.p2repo &
   - sleep 60
-  - ./mvnw install --toolchains=.travis-toolchains.xml sonar:sonar
+  - ./mvnw install -pl !libs --toolchains=.travis-toolchains.xml sonar:sonar 
 
 cache:
   directories:
