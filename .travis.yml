@@ -24,6 +24,10 @@ before_install:
   - sudo apt-get -y install python3-pip python-dev
   - sudo pip3 install -U setuptools
   - sudo pip3 install -U virtualenvwrapper
+  - sudo apt-get install texlive-latex-base
+  - sudo apt-get install texlive-fonts-recommended
+  - sudo apt-get install texlive-fonts-extra
+  - sudo apt-get install texlive-latex-extra
   - sudo apt install r-base
   - wget "https://cran.r-project.org/src/contrib/R6_2.4.0.tar.gz"
   - sudo R CMD INSTALL R6_2.4.0.tar.gz
