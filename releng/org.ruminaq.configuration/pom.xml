@@ -567,14 +567,24 @@
       </build>
     </profile>
     <profile>
-      <id>java-check</id>
+      <id>java-main-check</id>
       <activation>
         <file>
           <exists>${basedir}/src/main/java</exists>
         </file>
-<!--         <file> -->
-<!--           <exists>${basedir}/src/test/java</exists> -->
-<!--         </file> -->
+      </activation>
+      <properties>
+        <sonar.java.pmd.reportPaths>${basedir}/target/pmd.xml</sonar.java.pmd.reportPaths>
+        <sonar.java.spotbugs.reportPaths>${basedir}/target/spotbugsXml.xml</sonar.java.spotbugs.reportPaths>
+        <sonar.java.checkstyle.reportPaths>${basedir}/target/checkstyle-result.xml</sonar.java.checkstyle.reportPaths>
+      </properties>
+    </profile>
+    <profile>
+      <id>java-test-check</id>
+      <activation>
+        <file>
+          <exists>${basedir}/src/test/java</exists>
+        </file>
       </activation>
       <properties>
         <sonar.java.pmd.reportPaths>${basedir}/target/pmd.xml</sonar.java.pmd.reportPaths>
