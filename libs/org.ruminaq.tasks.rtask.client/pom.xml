@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
@@ -6,7 +7,7 @@
   <artifactId>org.ruminaq.tasks.rtask.client</artifactId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
-  
+
   <name>Ruminaq - client</name>
 
   <properties>
@@ -14,31 +15,31 @@
     <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
     <date>${maven.build.timestamp}</date>
   </properties>
-  
+
   <build>
     <plugins>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>3.0.1</version>
-        <executions>  
+        <executions>
           <execution>
             <id>copy-resources</id>
             <phase>validate</phase>
             <goals>
               <goal>copy-resources</goal>
             </goals>
-            <configuration>  
-              <outputDirectory>${basedir}</outputDirectory>  
-              <resources>  
+            <configuration>
+              <outputDirectory>${basedir}</outputDirectory>
+              <resources>
                 <resource>
                   <directory>resources</directory>
                   <filtering>true</filtering>
                 </resource>
-              </resources>  
-            </configuration>  
-          </execution>  
-        </executions>  
-      </plugin>  
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -93,7 +94,8 @@
 
                 <argument>${project.artifactId}</argument>
                 <argument>--with-keep.source</argument>
-                <argument>--no-multiarch</argument></arguments>
+                <argument>--no-multiarch</argument>
+              </arguments>
             </configuration>
           </execution>
         </executions>
@@ -102,40 +104,50 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <version>1.8</version>
         <executions>
-          <execution><id>package</id>
+          <execution>
+            <id>package</id>
             <phase>package</phase>
             <configuration>
               <target>
-                <move file="${project.basedir}/../${project.artifactId}_${project.version}.tar.gz" todir="${project.basedir}/target"/>
+                <move
+                  file="${project.basedir}/../${project.artifactId}_${project.version}.tar.gz"
+                  todir="${project.basedir}/target" />
               </target>
             </configuration>
             <goals>
               <goal>run</goal>
             </goals>
           </execution>
-		</executions>
+        </executions>
       </plugin>
-	  <plugin>
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
         <version>3.0.0</version>
-	      <extensions>true</extensions>
-	      <executions>
-	        <execution>
-              <id>attach-artifacts</id>
-              <phase>package</phase>
-	          <goals><goal>attach-artifact</goal></goals>
-	          <configuration>
-	            <artifacts>
-	              <artifact>
-                    <file>target/${project.artifactId}_${project.version}.tar.gz</file>
-                    <type>tar.gz</type>
-                  </artifact>
-	            </artifacts>
-	          </configuration>
-	        </execution>
-	      </executions>
-	    </plugin>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>attach-artifacts</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>target/${project.artifactId}_${project.version}.tar.gz</file>
+                  <type>tar.gz</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>3.1.11</version>
+      </plugin>
     </plugins>
   </build>
 </project>
