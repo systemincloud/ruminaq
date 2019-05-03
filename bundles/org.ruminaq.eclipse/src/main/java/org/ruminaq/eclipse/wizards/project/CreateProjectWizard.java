@@ -1,6 +1,9 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.eclipse.wizards.project;
 
 import java.io.ByteArrayInputStream;
@@ -91,7 +94,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
       new JavaClasspathFile().setClasspathEntries(javaProject);
       createOutputLocation(javaProject);
 
-      new PomFile().createPOMFile(newProject);
+      new PomFile().createPomFile(newProject);
       configureBuilders(newProject);
       createPropertiesFile(newProject);
 
