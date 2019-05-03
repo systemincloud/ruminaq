@@ -3,13 +3,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.eclipse;
 
-import java.net.URI;
-
 import org.eclipse.core.resources.IPathVariableManager;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchPage;
@@ -77,17 +74,10 @@ public class Activator extends AbstractUIPlugin {
   public static IWorkbenchPage getActivePage() {
     IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench()
         .getActiveWorkbenchWindow();
-    if (workbenchWindow != null)
+    if (workbenchWindow != null) {
       return workbenchWindow.getActivePage();
+    }
     return null;
-  }
-
-  /**
-   * Returns an image descriptor for the image file at the given plug-in
-   * relative path
-   */
-  public static ImageDescriptor getImageDescriptor(String path) {
-    return imageDescriptorFromPlugin(SicPlugin.ECLIPSE_ID.s(), path);
   }
 
   /**
@@ -104,6 +94,14 @@ public class Activator extends AbstractUIPlugin {
    */
   public static Image getImage(ImageDescriptor imageDescriptor) {
     return ImageCache.getImage(imageDescriptor);
+  }
+
+  /**
+   * Returns an image descriptor for the image file at the given plug-in
+   * relative path.
+   */
+  public static ImageDescriptor getImageDescriptor(String path) {
+    return imageDescriptorFromPlugin(SicPlugin.ECLIPSE_ID.s(), path);
   }
 
   /**
