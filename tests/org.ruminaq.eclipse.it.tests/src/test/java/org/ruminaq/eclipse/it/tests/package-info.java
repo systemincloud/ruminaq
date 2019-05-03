@@ -1,11 +1,10 @@
 /**
-* Domain classes used to produce .....
+* Test classes for eclipse project
 * <p>
-* These classes contain the ......
+* These tests should check if Ruminaq is correctly installed 
+* and that it is possible to create a diagram
 * </p>
 *
-* @since 1.0
-* @author somebody
-* @version 1.0
+* @author Marek Jagielski
 */
 package org.ruminaq.eclipse.it.tests;

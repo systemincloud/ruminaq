@@ -34,36 +34,28 @@ public class CreateRuminaqProjectTest {
         bot.resetWorkbench();
     }
 
+    private static final int PROJECT_SUFFIX_LENGTH = 5;
+
     @Test
-    public void testCreateProjectTest() {
-        bot.menu("File")
-            .menu("New")
-            .menu("Project...")
-            .click();
+    public final void testCreateProjectTest() {
+        bot.menu("File").menu("New").menu("Project...").click();
 
-        bot.tree()
-            .getTreeItem("Ruminaq")
-            .expand();
+        bot.tree().getTreeItem("Ruminaq").expand();
 
-        bot.tree()
-            .getTreeItem("Ruminaq")
-            .getNode("Ruminaq Project")
-            .select();
+        bot.tree().getTreeItem("Ruminaq").getNode("Ruminaq Project").select();
 
-        bot.button("Next >")
-            .click();
+        bot.button("Next >").click();
 
-        bot.textWithLabel("&Project name:")
-            .setText("test" + RandomStringUtils.randomAlphabetic(5));
+        bot.textWithLabel("&Project name:").setText("test"
+                + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH));
 
-        bot.button("Finish")
-            .click();
+        bot.button("Finish").click();
 
-        SWTBotShell shellOpenPerpeitve = bot.shell("Open Associated Perspective?");
+        SWTBotShell shellOpenPerpeitve = bot
+                .shell("Open Associated Perspective?");
         shellOpenPerpeitve.activate();
-        bot.button("Open Perspective")
-            .click();
+        bot.button("Open Perspective").click();
 
-        bot.waitUntil(shellCloses((shellOpenPerpeitve)));
+        bot.waitUntil(shellCloses(shellOpenPerpeitve));
     }
 }
