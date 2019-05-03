@@ -19,8 +19,8 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  org.eclipse.equinox.ds,
  org.hamcrest.core,
  org.hamcrest.library,
- javax.annotation
-Import-Package: org.apache.commons.lang3.
- org.eclipse.reddeer.junit.runner
+ javax.annotation,
+ org.eclipse.reddeer.junit
+Import-Package: org.apache.commons.lang3
 Export-Package: org.ruminaq.eclipse.it.tests,
  org.ruminaq.eclipse.it.tests.actions
