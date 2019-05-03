@@ -49,146 +49,146 @@ import org.ruminaq.model.util.ModelUtil;
 
 public class UpdateDiagram {
 
-	private boolean updated = false;
+    private boolean updated = false;
 
-	protected final class SaveOperation implements IRunnableWithProgress, IThreadListener {
-		private final Map<Resource, Map<?, ?>>   saveOptions;
-		private final Set<Resource>              savedResources;
-		private final TransactionalEditingDomain ed;
+    protected final class SaveOperation implements IRunnableWithProgress, IThreadListener {
+        private final Map<Resource, Map<?, ?>>   saveOptions;
+        private final Set<Resource>              savedResources;
+        private final TransactionalEditingDomain ed;
 
-		private SaveOperation(Map<Resource, Map<?, ?>> saveOptions, Set<Resource> savedResources, TransactionalEditingDomain ed) {
-			this.saveOptions    = saveOptions;
-			this.savedResources = savedResources;
-			this.ed = ed;
-		}
+        private SaveOperation(Map<Resource, Map<?, ?>> saveOptions, Set<Resource> savedResources, TransactionalEditingDomain ed) {
+            this.saveOptions    = saveOptions;
+            this.savedResources = savedResources;
+            this.ed = ed;
+        }
 
-		public void run(IProgressMonitor monitor) {
-			try { savedResources.addAll(save(ed, saveOptions, monitor));
-			} catch (final WrappedException e) { }
-		}
+        public void run(IProgressMonitor monitor) {
+            try { savedResources.addAll(save(ed, saveOptions, monitor));
+            } catch (final WrappedException e) { }
+        }
 
-		@Override
-		public void threadChange(Thread thread) {
-			ISchedulingRule rule = Job.getJobManager().currentRule();
-			if (rule != null) Job.getJobManager().transferRule(rule, thread);
-		}
-	}
+        @Override
+        public void threadChange(Thread thread) {
+            ISchedulingRule rule = Job.getJobManager().currentRule();
+            if (rule != null) Job.getJobManager().transferRule(rule, thread);
+        }
+    }
 
-	protected Set<Resource> save(final TransactionalEditingDomain ed, final Map<Resource, Map<?, ?>> saveOptions, IProgressMonitor monitor) {
+    protected Set<Resource> save(final TransactionalEditingDomain ed, final Map<Resource, Map<?, ?>> saveOptions, IProgressMonitor monitor) {
 
-		final Set<Resource> savedResources = new HashSet<Resource>();
-		final IWorkspaceRunnable wsRunnable = new IWorkspaceRunnable() {
-			public void run(final IProgressMonitor monitor) throws CoreException {
+        final Set<Resource> savedResources = new HashSet<Resource>();
+        final IWorkspaceRunnable wsRunnable = new IWorkspaceRunnable() {
+            public void run(final IProgressMonitor monitor) throws CoreException {
 
-				final Runnable runnable = new Runnable() {
-					public void run() {
-						Transaction parentTx;
-						if(ed != null && (parentTx = ((InternalTransactionalEditingDomain) ed).getActiveTransaction()) != null) {
-							do {
-								if(!parentTx.isReadOnly())
-									throw new IllegalStateException("saveInWorkspaceRunnable() called from within a command (likely to produce deadlock)"); //$NON-NLS-1$
-							} while ((parentTx = ((InternalTransactionalEditingDomain) ed).getActiveTransaction().getParent()) != null);
-						}
+                final Runnable runnable = new Runnable() {
+                    public void run() {
+                        Transaction parentTx;
+                        if(ed != null && (parentTx = ((InternalTransactionalEditingDomain) ed).getActiveTransaction()) != null) {
+                            do {
+                                if(!parentTx.isReadOnly())
+                                    throw new IllegalStateException("saveInWorkspaceRunnable() called from within a command (likely to produce deadlock)"); //$NON-NLS-1$
+                            } while ((parentTx = ((InternalTransactionalEditingDomain) ed).getActiveTransaction().getParent()) != null);
+                        }
 
-						final EList<Resource> resources = ed.getResourceSet().getResources();
-						Resource[] resourcesArray = new Resource[resources.size()];
-						resourcesArray = resources.toArray(resourcesArray);
-						for (int i = 0; i < resourcesArray.length; i++) {
-							final Resource resource = resourcesArray[i];
+                        final EList<Resource> resources = ed.getResourceSet().getResources();
+                        Resource[] resourcesArray = new Resource[resources.size()];
+                        resourcesArray = resources.toArray(resourcesArray);
+                        for (int i = 0; i < resourcesArray.length; i++) {
+                            final Resource resource = resourcesArray[i];
 
-							if(shouldSave(resource, ed)) {
-								try {
-									resource.save(saveOptions.get(resource));
-									savedResources.add(resource);
-								} catch(final Throwable t) { }
-							}
-						}
-					}
-				};
+                            if(shouldSave(resource, ed)) {
+                                try {
+                                    resource.save(saveOptions.get(resource));
+                                    savedResources.add(resource);
+                                } catch(final Throwable t) { }
+                            }
+                        }
+                    }
+                };
 
-				try { ed.runExclusive(runnable);
-				} catch (final InterruptedException e) { throw new RuntimeException(e);	}
-			}
-		};
+                try { ed.runExclusive(runnable);
+                } catch (final InterruptedException e) { throw new RuntimeException(e);    }
+            }
+        };
 
-		try { ResourcesPlugin.getWorkspace().run(wsRunnable, null);
-		} catch (final CoreException e) { }
+        try { ResourcesPlugin.getWorkspace().run(wsRunnable, null);
+        } catch (final CoreException e) { }
 
-		return savedResources;
-	}
+        return savedResources;
+    }
 
-	protected boolean shouldSave(Resource resource, TransactionalEditingDomain ed) {
-		return !ed.isReadOnly(resource)	&&
-			   (!resource.isTrackingModification() || resource.isModified()) &&
-			   resource.isLoaded();
-	}
+    protected boolean shouldSave(Resource resource, TransactionalEditingDomain ed) {
+        return !ed.isReadOnly(resource)    &&
+               (!resource.isTrackingModification() || resource.isModified()) &&
+               resource.isLoaded();
+    }
 
-	public void updateDiagram(IResource file) {
-		TransactionalEditingDomain ed     = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
-	    ResourceSet                resSet = ed.getResourceSet();
+    public void updateDiagram(IResource file) {
+        TransactionalEditingDomain ed     = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+        ResourceSet                resSet = ed.getResourceSet();
 
-	    Resource resource = null;
-	    try { resource = resSet.getResource(URI.createURI(file.getFullPath().toOSString()), true);
-	    } catch(Exception e) { }
+        Resource resource = null;
+        try { resource = resSet.getResource(URI.createURI(file.getFullPath().toOSString()), true);
+        } catch(Exception e) { }
 
-	    if(resource == null) return;
-	    if(resource.getContents().size() < 2) return;
+        if(resource == null) return;
+        if(resource.getContents().size() < 2) return;
 
-	    Diagram  d  = (Diagram)  resource.getContents().get(0);
-	    MainTask mt = (MainTask) resource.getContents().get(1);
+        Diagram  d  = (Diagram)  resource.getContents().get(0);
+        MainTask mt = (MainTask) resource.getContents().get(1);
 
-	    final IFeatureProvider fp = GraphitiUi.getExtensionManager().createFeatureProvider(d);
+        final IFeatureProvider fp = GraphitiUi.getExtensionManager().createFeatureProvider(d);
 
-    	for(Task t : mt.getTask()) {
-    		if(t instanceof UserDefinedTask) {
-    			final List<PictogramElement> ps = Graphiti.getLinkService().getPictogramElements(d, t);
-    			if(ps.size() > 0) {
-    				ModelUtil.runModelChange(new Runnable() {
-	    				public void run() {
-		    				UpdateContext context = new UpdateContext(ps.get(0));
-		    				updated = updated | fp.updateIfPossible(context).toBoolean();
-	    				}
-    				}, ed, "Update diagram");
-    			}
-    		}
-    	}
+        for(Task t : mt.getTask()) {
+            if(t instanceof UserDefinedTask) {
+                final List<PictogramElement> ps = Graphiti.getLinkService().getPictogramElements(d, t);
+                if(ps.size() > 0) {
+                    ModelUtil.runModelChange(new Runnable() {
+                        public void run() {
+                            UpdateContext context = new UpdateContext(ps.get(0));
+                            updated = updated | fp.updateIfPossible(context).toBoolean();
+                        }
+                    }, ed, "Update diagram");
+                }
+            }
+        }
 
-    	if(updated) {
-    		save(resource, fp.getDiagramTypeProvider(), ed);
-    		for(final IEditorReference er : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences()) {
-    			if(Constants.DIAGRAM_EDITOR_ID     .equals(er.getId()) ||
-    			   Constants.TEST_DIAGRAM_EDITOR_ID.equals(er.getId())) {
-    				Display.getCurrent().asyncExec(new Runnable() {
-    					public void run() {
-    						try {
-    							URL fileUrl = FileLocator.toFileURL(new URL(er.getName()));
-    							IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(fileUrl.getPath()));
-    							file.refreshLocal(IResource.DEPTH_ZERO, null);
-    						} catch(IOException | CoreException e) {	}
-    					}
-    				});
-    			}
-    		}
-    	}
-	}
+        if(updated) {
+            save(resource, fp.getDiagramTypeProvider(), ed);
+            for(final IEditorReference er : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences()) {
+                if(Constants.DIAGRAM_EDITOR_ID     .equals(er.getId()) ||
+                   Constants.TEST_DIAGRAM_EDITOR_ID.equals(er.getId())) {
+                    Display.getCurrent().asyncExec(new Runnable() {
+                        public void run() {
+                            try {
+                                URL fileUrl = FileLocator.toFileURL(new URL(er.getName()));
+                                IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(fileUrl.getPath()));
+                                file.refreshLocal(IResource.DEPTH_ZERO, null);
+                            } catch(IOException | CoreException e) {    }
+                        }
+                    });
+                }
+            }
+        }
+    }
 
-	private void save(Resource r, IDiagramTypeProvider dtp, TransactionalEditingDomain ed) {
-		final Map<Object, Object> saveOption = new HashMap<Object, Object>();
-		saveOption.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-		final Map<Resource, Map<?, ?>> saveOptions = new HashMap<Resource, Map<?, ?>>();
-		saveOptions.put(r, saveOption);
+    private void save(Resource r, IDiagramTypeProvider dtp, TransactionalEditingDomain ed) {
+        final Map<Object, Object> saveOption = new HashMap<Object, Object>();
+        saveOption.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED, Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+        final Map<Resource, Map<?, ?>> saveOptions = new HashMap<Resource, Map<?, ?>>();
+        saveOptions.put(r, saveOption);
 
-		final Set<Resource> savedResources = new HashSet<Resource>();
-		final IRunnableWithProgress operation = new SaveOperation(saveOptions, savedResources, ed);
+        final Set<Resource> savedResources = new HashSet<Resource>();
+        final IRunnableWithProgress operation = new SaveOperation(saveOptions, savedResources, ed);
 
-		try {
-			ModalContext.run(operation, true, new NullProgressMonitor(), Display.getDefault());
+        try {
+            ModalContext.run(operation, true, new NullProgressMonitor(), Display.getDefault());
 
-			BasicCommandStack commandStack = (BasicCommandStack) ed.getCommandStack();
-			commandStack.saveIsDone();
-		} catch(Exception exception) { }
+            BasicCommandStack commandStack = (BasicCommandStack) ed.getCommandStack();
+            commandStack.saveIsDone();
+        } catch(Exception exception) { }
 
-		Resource[] savedResourcesArray = savedResources.toArray(new Resource[savedResources.size()]);
-		dtp.resourcesSaved(dtp.getDiagram(), savedResourcesArray);
-	}
+        Resource[] savedResourcesArray = savedResources.toArray(new Resource[savedResources.size()]);
+        dtp.resourcesSaved(dtp.getDiagram(), savedResourcesArray);
+    }
 }

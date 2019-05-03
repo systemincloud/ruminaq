@@ -5,12 +5,8 @@
  ******************************************************************************/
 
 /**
-* Test classes for eclipse project
-* <p>
-* These tests should check if Ruminaq is correctly installed
-* and that it is possible to create a diagram
-* </p>
+* Reusable actions done with Ruminaq
 *
 * @author Marek Jagielski
 */
-package org.ruminaq.eclipse.it.tests;
+package org.ruminaq.eclipse.it.tests.actions;

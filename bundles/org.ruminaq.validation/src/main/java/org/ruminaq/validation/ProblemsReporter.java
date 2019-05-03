@@ -28,15 +28,15 @@ import org.ruminaq.util.ErrorUtils;
 public class ProblemsReporter implements IValidationListener {
     @Override
     public void validationOccurred(ValidationEvent event) {
-    	// Batch validation is done by the WST project validator during building.
-    	if (event.getEvaluationMode() == EvaluationMode.LIVE) {
-	        if (event.matches(IStatus.WARNING | IStatus.ERROR | IStatus.CANCEL)) {
-	            List<IConstraintStatus> results = event.getValidationResults();
-//	            new MultiStatus(SicPlugin.ECLIPSE_ID.s(), 1,
-//	            		(IStatus[]) results.toArray(new IStatus[results.size()]),
-//	                    "Validation errors found", null);
-				for(IStatus s : results) ErrorUtils.showErrorMessage(s.getMessage());
-	        }
-	    }
+        // Batch validation is done by the WST project validator during building.
+        if (event.getEvaluationMode() == EvaluationMode.LIVE) {
+            if (event.matches(IStatus.WARNING | IStatus.ERROR | IStatus.CANCEL)) {
+                List<IConstraintStatus> results = event.getValidationResults();
+//                new MultiStatus(SicPlugin.ECLIPSE_ID.s(), 1,
+//                        (IStatus[]) results.toArray(new IStatus[results.size()]),
+//                        "Validation errors found", null);
+                for(IStatus s : results) ErrorUtils.showErrorMessage(s.getMessage());
+            }
+        }
    }
 }

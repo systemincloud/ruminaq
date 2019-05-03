@@ -53,9 +53,9 @@ public class ValidationStatusLoader {
 
             // add the adapter factory for tracking validation errors
             if (statusAdapter == null) {
-	            ResourceSet resourceSet = ed.getResourceSet();
-	            resourceSet.getAdapterFactories().add(new ValidationStatusAdapterFactory());
-	            statusAdapter = (ValidationStatusAdapter) EcoreUtil.getRegisteredAdapter(markedObject, ValidationStatusAdapter.class);
+                ResourceSet resourceSet = ed.getResourceSet();
+                resourceSet.getAdapterFactories().add(new ValidationStatusAdapterFactory());
+                statusAdapter = (ValidationStatusAdapter) EcoreUtil.getRegisteredAdapter(markedObject, ValidationStatusAdapter.class);
             }
 
             // convert the problem marker to an IStatus suitable for the validation status adapter
@@ -75,22 +75,22 @@ public class ValidationStatusLoader {
     }
 
     // Code copied from EditUIMarkerHelper
-	private List<?> getTargetObjects(Object object, IMarker marker) {
-		ArrayList<Object> result = new ArrayList<>();
-		if (object instanceof AdapterFactoryEditingDomain) {
-			AdapterFactoryEditingDomain editingDomain = (AdapterFactoryEditingDomain) object;
-			String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE,	null);
-			if (uriAttribute == null) uriAttribute = marker.getAttribute("URI_KEY", null);
-			if (uriAttribute != null) {
-				URI uri = URI.createURI(uriAttribute);
-				try {
-					EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
-					if (eObject != null) result.add(editingDomain.getWrapper(eObject));
-				} catch (Throwable throwable) {}
-			}
-		}
-		return result;
-	}
+    private List<?> getTargetObjects(Object object, IMarker marker) {
+        ArrayList<Object> result = new ArrayList<>();
+        if (object instanceof AdapterFactoryEditingDomain) {
+            AdapterFactoryEditingDomain editingDomain = (AdapterFactoryEditingDomain) object;
+            String uriAttribute = marker.getAttribute(EValidator.URI_ATTRIBUTE,    null);
+            if (uriAttribute == null) uriAttribute = marker.getAttribute("URI_KEY", null);
+            if (uriAttribute != null) {
+                URI uri = URI.createURI(uriAttribute);
+                try {
+                    EObject eObject = editingDomain.getResourceSet().getEObject(uri, true);
+                    if (eObject != null) result.add(editingDomain.getWrapper(eObject));
+                } catch (Throwable throwable) {}
+            }
+        }
+        return result;
+    }
 
     @SuppressWarnings("unchecked")
     private IStatus convertMarker(TransactionalEditingDomain ed, IMarker marker, EObject target) {
@@ -116,8 +116,8 @@ public class ValidationStatusLoader {
             return new Status(severity, SicPlugin.ECLIPSE_ID.s(), message);
         }
         try {
-			marker.setAttribute(EValidator.RELATED_URIS_ATTRIBUTE, marker.getAttribute(EValidator.RELATED_URIS_ATTRIBUTE, null));
-		} catch (CoreException e) {	}
+            marker.setAttribute(EValidator.RELATED_URIS_ATTRIBUTE, marker.getAttribute(EValidator.RELATED_URIS_ATTRIBUTE, null));
+        } catch (CoreException e) {    }
         List<?> locus = getTargetObjects(ed, marker);
         for (Iterator<?> it = locus.iterator(); it.hasNext();)
             if (!(it.next() instanceof EObject)) it.remove();

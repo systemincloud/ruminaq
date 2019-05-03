@@ -34,58 +34,58 @@ import org.ruminaq.util.EclipseUtil;
 
 public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
 
-	@Override
-	public IStatus validate(IValidationContext ctx) {
-		EObject eObj = ctx.getTarget();
-		if (ctx.getEventType() == EMFEventType.NULL && eObj instanceof EmbeddedTask)
-			return validate(ctx, (EmbeddedTask) eObj);
-		return ctx.createSuccessStatus();
-	}
+    @Override
+    public IStatus validate(IValidationContext ctx) {
+        EObject eObj = ctx.getTarget();
+        if (ctx.getEventType() == EMFEventType.NULL && eObj instanceof EmbeddedTask)
+            return validate(ctx, (EmbeddedTask) eObj);
+        return ctx.createSuccessStatus();
+    }
 
-	private IStatus validate(IValidationContext ctx, EmbeddedTask task) {
-		String path = task.getImplementationTask();
-		if(path == null || path.equals("")) return ctx.createSuccessStatus();
-		URI modelPath = EclipseUtil.getModelPathFromEObject(task);
-		String prefix = "/" + modelPath.segment(0) + "/";
-		MainTask embeddedTask = loadTask(modelPath);
+    private IStatus validate(IValidationContext ctx, EmbeddedTask task) {
+        String path = task.getImplementationTask();
+        if(path == null || path.equals("")) return ctx.createSuccessStatus();
+        URI modelPath = EclipseUtil.getModelPathFromEObject(task);
+        String prefix = "/" + modelPath.segment(0) + "/";
+        MainTask embeddedTask = loadTask(modelPath);
 
-		List<String> deph = new ArrayList<>();
-		deph.add(EclipseUtil.removeFristSegments(modelPath, 1).toString());
-		boolean loop = detectLoop(prefix, embeddedTask, deph);
+        List<String> deph = new ArrayList<>();
+        deph.add(EclipseUtil.removeFristSegments(modelPath, 1).toString());
+        boolean loop = detectLoop(prefix, embeddedTask, deph);
 
-		if(loop)return ctx.createFailureStatus();
-		else return ctx.createSuccessStatus();
-	}
+        if(loop)return ctx.createFailureStatus();
+        else return ctx.createSuccessStatus();
+    }
 
-	private boolean detectLoop(String prefix, MainTask mainTask, List<String> deph) {
-		for(Task t : mainTask.getTask()) {
-			if(t instanceof EmbeddedTask) {
-				String path = ((EmbeddedTask)t).getImplementationTask();
-				if(deph.contains(path)) return true;
-				else {
-					MainTask embeddedTask = loadTask(URI.createURI(prefix + path));
-					if(embeddedTask == null) continue;
-					deph.add(path);
-					boolean loop = detectLoop(prefix, embeddedTask, deph);
-					deph.remove(deph.size() - 1);
-					if(loop) return true;
-				}
-			}
-		}
-		return false;
-	}
+    private boolean detectLoop(String prefix, MainTask mainTask, List<String> deph) {
+        for(Task t : mainTask.getTask()) {
+            if(t instanceof EmbeddedTask) {
+                String path = ((EmbeddedTask)t).getImplementationTask();
+                if(deph.contains(path)) return true;
+                else {
+                    MainTask embeddedTask = loadTask(URI.createURI(prefix + path));
+                    if(embeddedTask == null) continue;
+                    deph.add(path);
+                    boolean loop = detectLoop(prefix, embeddedTask, deph);
+                    deph.remove(deph.size() - 1);
+                    if(loop) return true;
+                }
+            }
+        }
+        return false;
+    }
 
-	private MainTask loadTask(URI uri) {
-		MainTask mt = null;
-	    ResourceSet resSet = new ResourceSetImpl();
-	    Resource resource = null;
-	    try {
-	    	resource = resSet.getResource(uri, true);
-	    } catch(Exception e) { }
-	    if(resource == null) return null;
+    private MainTask loadTask(URI uri) {
+        MainTask mt = null;
+        ResourceSet resSet = new ResourceSetImpl();
+        Resource resource = null;
+        try {
+            resource = resSet.getResource(uri, true);
+        } catch(Exception e) { }
+        if(resource == null) return null;
 
-	    if(resource.getContents().size() > 0) mt = (MainTask) resource.getContents().get(1);
-	    return mt;
-	}
+        if(resource.getContents().size() > 0) mt = (MainTask) resource.getContents().get(1);
+        return mt;
+    }
 
 }

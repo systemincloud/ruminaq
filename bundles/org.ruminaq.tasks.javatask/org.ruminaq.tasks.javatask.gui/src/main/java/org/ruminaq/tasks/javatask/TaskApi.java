@@ -43,17 +43,21 @@ public class TaskApi implements ITaskApi, EclipseExtension {
 
     public static final String MAIN_JAVA = "src/main/java";
     public static final String TEST_JAVA = "src/test/java";
-    
+
     private String  symbolicName;
     private Version version;
 
+    public TaskApi() {
+
+    }
+
     @Activate
     void activate(Map<String, Object> properties) {
-    	Bundle b = FrameworkUtil.getBundle(getClass());
-    	symbolicName = b.getSymbolicName();
-    	version = b.getVersion();
+        Bundle b = FrameworkUtil.getBundle(getClass());
+        symbolicName = b.getSymbolicName();
+        version = b.getVersion();
     }
-    
+
     @Override
     public String getSymbolicName() {
         return symbolicName;

@@ -21,4 +21,4 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  org.hamcrest.library,
  javax.annotation
 Import-Package: org.apache.commons.lang3
-Export-Package: org.ruminaq.eclipse.it.tests
+Export-Package: org.ruminaq.eclipse.it.tests.actions

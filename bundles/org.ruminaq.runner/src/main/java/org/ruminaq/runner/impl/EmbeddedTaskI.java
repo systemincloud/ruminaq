@@ -84,7 +84,7 @@ public class EmbeddedTaskI extends TaskI {
     }
 
     public Lock getReadyLock() { return parent.getReadyLock(); }
-//	public void hangEngine()   { parent.hangEngine(); }
+//    public void hangEngine()   { parent.hangEngine(); }
 
     public EmbeddedTaskI(EmbeddedTaskI parent, Task task, String path, Map<String, String> params, boolean inCloud, boolean runOnlyLocal) {
         super(parent, task);
@@ -93,7 +93,7 @@ public class EmbeddedTaskI extends TaskI {
         this.runOnlyLocal = runOnlyLocal;
         MainTask mainTask = loadTask(path);
         if(mainTask == null) {
-        	throw new ImplementationException("Can't load " + ((EmbeddedTask) task).getImplementationTask());
+            throw new ImplementationException("Can't load " + ((EmbeddedTask) task).getImplementationTask());
         }
         if(params != null) parameters.putAll(params);
         else               parameters.putAll(mainTask.getParameters());
@@ -102,7 +102,7 @@ public class EmbeddedTaskI extends TaskI {
         createImplementation(mainTask);
     }
 
-    public EmbeddedTaskI() { super(null, null);	} // for engine adapter only
+    public EmbeddedTaskI() { super(null, null);    } // for engine adapter only
 
     @Override
     public LinkedList<TaskI> getReadyTasks() {
@@ -119,7 +119,7 @@ public class EmbeddedTaskI extends TaskI {
             setReady(false);
             if(isAtomic()) {
                 // Hang if there are hanging constants due to synchronization
-//				hangOnHangingConsts();
+//                hangOnHangingConsts();
                 // If block is atomic and there left some atomic blocks with some inputs changed set them unchanged
                 checkHangingInputs();
                 // If block is atomic and there are some loops inside
@@ -154,18 +154,18 @@ public class EmbeddedTaskI extends TaskI {
         return allGenerators;
     }
 
-//	private void hangOnHangingConsts() {
-//		logger.trace("hangOnHangingConsts");
-//		for(TaskI t : tasks) {
-//			if(t instanceof EmbeddedTaskI && !((EmbeddedTaskI) t).isAtomic())
-//				((EmbeddedTaskI) t).hangOnHangingConsts();
-//		}
-//		for(TaskI t : constants) {
-//			for(LinkedList<InternalOutputPortI> c : t.getSyncOuts().values())
-//				for(InternalOutputPortI iop : c)
-//					if(iop.isWaiting()) parent.hangEngine();
-//		}
-//	}
+//    private void hangOnHangingConsts() {
+//        logger.trace("hangOnHangingConsts");
+//        for(TaskI t : tasks) {
+//            if(t instanceof EmbeddedTaskI && !((EmbeddedTaskI) t).isAtomic())
+//                ((EmbeddedTaskI) t).hangOnHangingConsts();
+//        }
+//        for(TaskI t : constants) {
+//            for(LinkedList<InternalOutputPortI> c : t.getSyncOuts().values())
+//                for(InternalOutputPortI iop : c)
+//                    if(iop.isWaiting()) parent.hangEngine();
+//        }
+//    }
 
     public void setInputsUnchanged() {
         // TODO Auto-generated method stub
@@ -374,48 +374,48 @@ public class EmbeddedTaskI extends TaskI {
         return parent.replaceVariables(parameters.get(key));
     }
 
-	@Override
-	public void runnerStart() {
-		logger.trace("{} : runnerStart", this.getId());
-		tasks.forEach(TaskI::runnerStart);
-		constants.forEach(TaskI::runnerStart);
-		generators.stream()
-			.filter(t -> !tasks.contains(t))
-			.forEach(TaskI::runnerStart);
-	}
+    @Override
+    public void runnerStart() {
+        logger.trace("{} : runnerStart", this.getId());
+        tasks.forEach(TaskI::runnerStart);
+        constants.forEach(TaskI::runnerStart);
+        generators.stream()
+            .filter(t -> !tasks.contains(t))
+            .forEach(TaskI::runnerStart);
+    }
 
-	@Override
-	public void runnerStop() {
-		logger.trace("{} : runnerStop", this.getId());
-		tasks.forEach(TaskI::runnerStop);
-		constants.forEach(TaskI::runnerStop);
-		generators.stream()
-			.filter(t -> !tasks.contains(t))
-			.forEach(TaskI::runnerStop);
-	}
+    @Override
+    public void runnerStop() {
+        logger.trace("{} : runnerStop", this.getId());
+        tasks.forEach(TaskI::runnerStop);
+        constants.forEach(TaskI::runnerStop);
+        generators.stream()
+            .filter(t -> !tasks.contains(t))
+            .forEach(TaskI::runnerStop);
+    }
 
-	public String getBasePath() {
-		return parent.getBasePath();
-	}
+    public String getBasePath() {
+        return parent.getBasePath();
+    }
 
-	@Override
-	public void modelEvent(IDebugEvent event) {
-		super.modelEvent(event);
-		tasks.forEach(t -> t.modelEvent(event));
-		constants.forEach(t -> t.modelEvent(event));
-		generators.forEach(t -> t.modelEvent(event));
-	}
+    @Override
+    public void modelEvent(IDebugEvent event) {
+        super.modelEvent(event);
+        tasks.forEach(t -> t.modelEvent(event));
+        constants.forEach(t -> t.modelEvent(event));
+        generators.forEach(t -> t.modelEvent(event));
+    }
 
-	@Override
-	public void initDebugers() {
-		super.initDebugers();
-		tasks.forEach(TaskI::initDebugers);
-		constants.forEach(TaskI::initDebugers);
-		generators.forEach(TaskI::initDebugers);
-	}
+    @Override
+    public void initDebugers() {
+        super.initDebugers();
+        tasks.forEach(TaskI::initDebugers);
+        constants.forEach(TaskI::initDebugers);
+        generators.forEach(TaskI::initDebugers);
+    }
 
-	@Override
-	public ExecutionReport call() throws Exception {
-		throw new RuntimeException("EmbeddedTask in thread !!!");
-	} // never called
+    @Override
+    public ExecutionReport call() throws Exception {
+        throw new RuntimeException("EmbeddedTask in thread !!!");
+    } // never called
 }
