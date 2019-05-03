@@ -44,109 +44,116 @@ import org.slf4j.Logger;
  */
 public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
-    private static final Logger LOGGER = ModelerLoggerFactory.getLogger(CreateProjectWizard.class);
+  private static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(CreateProjectWizard.class);
 
-	@Reference
-	private EclipseExtensionHandler extensions;
+  @Reference
+  private EclipseExtensionHandler extensions;
 
-    private static final String BASIC_NEW_PROJECT_PAGE_NAME = "basicNewProjectPage";
+  private static final String BASIC_NEW_PROJECT_PAGE_NAME = "basicNewProjectPage";
 
-    public static final String PROPERTIES_FILE = "src/main/resources/ruminaq.properties";
+  public static final String PROPERTIES_FILE = "src/main/resources/ruminaq.properties";
 
-    /**
-     * @see org.eclipse.jface.wizard.Wizard#createPageControls(org.eclipse.swt.widgets.Composite)
-     */
-    @Override
-    public void createPageControls(Composite pageContainer) {
+  /**
+   * @see org.eclipse.jface.wizard.Wizard#createPageControls(org.eclipse.swt.widgets.Composite)
+   */
+  @Override
+  public void createPageControls(Composite pageContainer) {
 
-        super.createPageControls(pageContainer);
+    super.createPageControls(pageContainer);
 
-        final WizardNewProjectCreationPage basicNewProjectPage = getBasicNewProjectPage();
-        if (basicNewProjectPage != null) {
-            basicNewProjectPage.setTitle("Create Ruminaq Project");
-            basicNewProjectPage.setImageDescriptor(Activator.getImageDescriptor(PluginImage.RUMINAQ_LOGO_64x64));
-            basicNewProjectPage.setDescription("Create Ruminaq Project in the workspace.");
-        }
+    final WizardNewProjectCreationPage basicNewProjectPage = getBasicNewProjectPage();
+    if (basicNewProjectPage != null) {
+      basicNewProjectPage.setTitle("Create Ruminaq Project");
+      basicNewProjectPage.setImageDescriptor(
+          Activator.getImageDescriptor(PluginImage.RUMINAQ_LOGO_64x64));
+      basicNewProjectPage
+          .setDescription("Create Ruminaq Project in the workspace.");
+    }
+  }
+
+  /**
+   * @see org.eclipse.jface.wizard.Wizard#performFinish()
+   */
+  @Override
+  public boolean performFinish() {
+    if (!super.performFinish()) {
+      return false;
     }
 
-    /**
-     * @see org.eclipse.jface.wizard.Wizard#performFinish()
-     */
-    @Override
-    public boolean performFinish() {
-        if (!super.performFinish()) {
-            return false;
-        }
+    IProject newProject = getNewProject();
 
-        IProject newProject = getNewProject();
+    try {
+      setNatureIds(newProject);
+      SourceFolders.createSourceFolders(newProject);
 
-        try {
-            setNatureIds(newProject);
-            SourceFolders.createSourceFolders(newProject);
+      IJavaProject javaProject = JavaCore.create(newProject);
+      new JavaClasspathFile().setClasspathEntries(javaProject);
+      createOutputLocation(javaProject);
 
-            IJavaProject javaProject  = JavaCore.create(newProject);
-            new JavaClasspathFile().setClasspathEntries(javaProject);
-            createOutputLocation(javaProject);
+      new PomFile().createPOMFile(newProject);
+      configureBuilders(newProject);
+      createPropertiesFile(newProject);
 
-            new PomFile().createPOMFile(newProject);
-            configureBuilders(newProject);
-            createPropertiesFile(newProject);
+      ProjectProps.getInstance(newProject).put(ProjectProps.MODELER_VERSION,
+          Activator.getBaseVersionString());
 
-            ProjectProps.getInstance(newProject).put(ProjectProps.MODELER_VERSION, Activator.getBaseVersionString());
+      // delete bin directory if created
+      IFolder bin = newProject.getFolder("bin");
+      if (bin.exists()) {
+        bin.delete(true, new NullProgressMonitor());
+      }
 
-            // delete bin directory if created
-            IFolder bin = newProject.getFolder("bin");
-            if (bin.exists()) {
-                bin.delete(true, new NullProgressMonitor());
-            }
+      extensions.createProjectWizardPerformFinish(javaProject);
 
-            extensions.createProjectWizardPerformFinish(javaProject);
-
-            IProjectConfigurationManager configurationManager = MavenPlugin.getProjectConfigurationManager();
-            MavenUpdateRequest request = new MavenUpdateRequest(newProject, true, true);
-            configurationManager.updateProjectConfiguration(request, new NullProgressMonitor());
-        } catch (CoreException | JDOMException | IOException e) {
-            LOGGER.error("Something went wrong when creating project", e);
-            return false;
-        }
-
-        return true;
+      IProjectConfigurationManager configurationManager = MavenPlugin
+          .getProjectConfigurationManager();
+      MavenUpdateRequest request = new MavenUpdateRequest(newProject, true,
+          true);
+      configurationManager.updateProjectConfiguration(request,
+          new NullProgressMonitor());
+    } catch (CoreException | JDOMException | IOException e) {
+      LOGGER.error("Something went wrong when creating project", e);
+      return false;
     }
 
-    @Override
-    public void setWindowTitle(final String newTitle) {
-        super.setWindowTitle("New System in Cloud Project");
+    return true;
+  }
+
+  @Override
+  public void setWindowTitle(final String newTitle) {
+    super.setWindowTitle("New System in Cloud Project");
+  }
+
+  /**
+   * Gets the WizardNewProjectCreationPage from the Wizard, which is the first
+   * page allowing the user to specify the project name and location.
+   */
+  private WizardNewProjectCreationPage getBasicNewProjectPage() {
+
+    WizardNewProjectCreationPage result = null;
+
+    final IWizardPage page = getPage(BASIC_NEW_PROJECT_PAGE_NAME);
+    if (page instanceof WizardNewProjectCreationPage) {
+      result = (WizardNewProjectCreationPage) page;
     }
+    return result;
+  }
 
-    /**
-     * Gets the WizardNewProjectCreationPage from the Wizard, which is the first
-     * page allowing the user to specify the project name and location.
-     */
-    private WizardNewProjectCreationPage getBasicNewProjectPage() {
+  private static void setNatureIds(IProject newProject) throws CoreException {
+    IProjectDescription description = newProject.getDescription();
+    description.setNatureIds(new String[] { JavaCore.NATURE_ID,
+        Constants.NATURE_ID, Constants.MAVEN_NATURE_ID });
+    newProject.setDescription(description, null);
+  }
 
-        WizardNewProjectCreationPage result = null;
+  private static void createOutputLocation(IJavaProject javaProject)
+      throws JavaModelException {
+    IPath targetPath = javaProject.getPath().append(Constants.OUTPUT_CLASSES);
+    javaProject.setOutputLocation(targetPath, null);
+  }
 
-        final IWizardPage page = getPage(BASIC_NEW_PROJECT_PAGE_NAME);
-        if (page instanceof WizardNewProjectCreationPage) {
-            result = (WizardNewProjectCreationPage) page;
-        }
-        return result;
-    }
-
-    private static void setNatureIds(IProject newProject) throws CoreException {
-        IProjectDescription description = newProject.getDescription();
-        description.setNatureIds(new String[] { JavaCore.NATURE_ID,
-                                                Constants.NATURE_ID,
-                                                Constants.MAVEN_NATURE_ID});
-        newProject.setDescription(description, null);
-    }
-
-    private static void createOutputLocation(IJavaProject javaProject) throws JavaModelException {
-        IPath targetPath = javaProject.getPath().append(Constants.OUTPUT_CLASSES);
-        javaProject.setOutputLocation(targetPath, null);
-    }
-
-    private void configureBuilders(IProject newProject) throws CoreException {
+  private void configureBuilders(IProject newProject) throws CoreException {
 //        EclipseUtil.createFolderWithParents(newProject, SicConstants.EXTERNALTOOLBUILDERS);
 //
 //        OutputStream output = null;
@@ -180,24 +187,30 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 //        description.setBuildSpec(newCommands);
 //
 //        newProject.setDescription(description, null);
-    }
+  }
 
-    private static void createPropertiesFile(IProject newProject) {
-        Properties prop = new Properties();
-        OutputStream output = null;
+  private static void createPropertiesFile(IProject newProject) {
+    Properties prop = new Properties();
+    OutputStream output = null;
+    try {
+      output = new ByteArrayOutputStream();
+      prop.setProperty("MAIN_MODULE",
+          SourceFolders.TASK_FOLDER + "/"
+              + CreateDiagramWizardNamePage.DEFAULT_DIAGRAM_NAME
+              + Constants.DIAGRAM_EXTENSION_DOT);
+      prop.store(output, null);
+      IFile outputFile = newProject.getFile(PROPERTIES_FILE);
+      outputFile.create(new ByteArrayInputStream(
+          ((ByteArrayOutputStream) output).toByteArray()), true, null);
+    } catch (IOException | CoreException e) {
+      e.printStackTrace();
+    } finally {
+      if (output != null)
         try {
-            output = new ByteArrayOutputStream();
-            prop.setProperty("MAIN_MODULE", SourceFolders.TASK_FOLDER + "/" + CreateDiagramWizardNamePage.DEFAULT_DIAGRAM_NAME + Constants.DIAGRAM_EXTENSION_DOT);
-            prop.store(output, null);
-            IFile outputFile = newProject.getFile(PROPERTIES_FILE);
-            outputFile.create(new ByteArrayInputStream(((ByteArrayOutputStream) output).toByteArray()), true, null);
-        } catch (IOException | CoreException e) {
-            e.printStackTrace();
-        } finally {
-            if (output != null)
-                try {
-                    output.close();
-                } catch (IOException e) {e.printStackTrace(); }
+          output.close();
+        } catch (IOException e) {
+          e.printStackTrace();
         }
     }
+  }
 }

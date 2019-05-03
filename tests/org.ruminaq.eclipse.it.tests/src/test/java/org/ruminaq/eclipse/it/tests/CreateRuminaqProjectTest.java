@@ -22,26 +22,25 @@ import org.ruminaq.eclipse.it.tests.actions.CreateRuminaqProject;
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class CreateRuminaqProjectTest {
 
-    private static SWTWorkbenchBot bot;
+  private static SWTWorkbenchBot bot;
 
-    @BeforeClass
-    public static void initBot() {
-        bot = new SWTWorkbenchBot();
-    }
+  @BeforeClass
+  public static void initBot() {
+    bot = new SWTWorkbenchBot();
+  }
 
-    @AfterClass
-    public static void afterClass() {
-        bot.resetWorkbench();
-    }
+  @AfterClass
+  public static void afterClass() {
+    bot.resetWorkbench();
+  }
 
-    private static final int PROJECT_SUFFIX_LENGTH = 5;
+  private static final int PROJECT_SUFFIX_LENGTH = 5;
 
-    @Test
-    public final void testCreateProjectTest() {
-        new CreateRuminaqProject().execute(bot, "test"
-                + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH));
+  @Test
+  public final void testCreateProjectTest() {
+    new CreateRuminaqProject().execute(bot,
+        "test" + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH));
 
-
-        bot.resetWorkbench();
-    }
+    bot.resetWorkbench();
+  }
 }
