@@ -33,7 +33,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.impl.debug.events.model,
  org.slf4j
 Export-Package: org.ruminaq.debug,
- org.ruminaq.debug.jdi,
  org.ruminaq.debug.model,
  org.ruminaq.debug.model.vars
 Bundle-RequiredExecutionEnvironment: JavaSE-11
