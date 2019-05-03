@@ -12,8 +12,8 @@
   <packaging>pom</packaging>
 
   <properties>
-    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-    <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+<!--     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin> -->
+<!--     <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths> -->
   </properties>
   
   <build>

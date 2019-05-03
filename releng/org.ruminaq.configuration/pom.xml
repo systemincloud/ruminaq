@@ -17,10 +17,9 @@
     <!-- Skip the deployment here, submodules can override this property -->
     <!--maven.deploy.skip>true</maven.deploy.skip -->
     <!-- <sonar.projectName>Ruminaq</sonar.projectName> -->
-    <sonar.java.libraries>${maven.multiModuleProjectDirectory}/releng/org.ruminaq.p2repo/target/repository/plugins/</sonar.java.libraries>
-    <sonar.junit.reportPaths>${project.basedir}/target/surefire-reports</sonar.junit.reportPaths>
-<!--     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin> -->
-    <!-- <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths> -->
+<!--     <sonar.java.libraries>${maven.multiModuleProjectDirectory}/releng/org.ruminaq.p2repo/target/repository/plugins/</sonar.java.libraries> -->
+    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+    <sonar.coverage.jacoco.xmlReportPaths>${maven.multiModuleProjectDirectory}/tests/org.ruminaq.tests.report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     <!-- <sonar.language>java</sonar.language> -->
 <!--     <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../../tests/${project.artifactId}.tests/target/site/jacoco/jacoco.xml,${project.basedir}/../../tests/${project.artifactId}.it.tests/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths> -->
   </properties>

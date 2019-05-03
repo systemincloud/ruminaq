@@ -12,6 +12,12 @@
   <artifactId>org.ruminaq.tests</artifactId>
   <packaging>pom</packaging>
 
+  <properties>
+    <sonar.sources/>
+    <sonar.tests>src/test/java</sonar.tests>
+    <sonar.junit.reportPaths>${project.basedir}/target/surefire-reports</sonar.junit.reportPaths>
+  </properties>
+  
   <modules>
     <!-- <module>org.ruminaq.eclipse.tests</module> -->
     <module>org.ruminaq.eclipse.it.tests</module>
