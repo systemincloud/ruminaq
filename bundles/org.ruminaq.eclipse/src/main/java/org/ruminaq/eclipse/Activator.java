@@ -33,12 +33,12 @@ public class Activator extends AbstractUIPlugin {
 
     @Override
     public void start(BundleContext context) throws Exception {
-    	plugin = this;
+      plugin = this;
         super.start(context);
         imageCache = new ImageCache();
         IPathVariableManager pathVariableManager = ResourcesPlugin.getWorkspace().getPathVariableManager();
-        pathVariableManager.setURIValue(Constants.M2_HOME, new URI(MavenPlugin.getMaven().getLocalRepository().getUrl()));
-//		RuminaqResourceChange.getInstance();
+//        pathVariableManager.setURIValue(Constants.M2_HOME, new URI(MavenPlugin.getMaven().getLocalRepository().getUrl()));
+//    RuminaqResourceChange.getInstance();
     }
 
     @Override

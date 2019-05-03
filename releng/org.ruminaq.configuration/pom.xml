@@ -402,6 +402,9 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <linkXRef>false</linkXRef>
+          <consoleOutput>true</consoleOutput>
+          <encoding>UTF-8</encoding>
+          <configLocation>google_checks.xml</configLocation>
         </configuration>
       </plugin>
       <!-- enable source feature generation -->
