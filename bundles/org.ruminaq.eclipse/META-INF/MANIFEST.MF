@@ -1,13 +1,12 @@
-Manifest-Version: 1.0
-Automatic-Module-Name: org.ruminaq.eclipse
-Service-Component: OSGI-INF/org.ruminaq.eclipse.EclipseExtensionHandlerImpl.xml
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Eclipse
-Bundle-Vendor: System in Cloud
+Automatic-Module-Name: org.ruminaq.eclipse
 Bundle-SymbolicName: org.ruminaq.eclipse;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.ruminaq.eclipse.Activator
+Bundle-Name: Ruminaq - Eclipse
+Bundle-Vendor: Marek Jagielski
 Bundle-ActivationPolicy: lazy
+Service-Component: OSGI-INF/org.ruminaq.eclipse.EclipseExtensionHandlerImpl.xml
+Bundle-Activator: org.ruminaq.eclipse.Activator
 Require-Bundle: org.eclipse.m2e.maven.runtime,
  org.eclipse.graphiti,
  org.eclipse.jface
@@ -74,8 +73,13 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.validation,
  org.slf4j
 Export-Package: org.ruminaq.eclipse,
+ org.ruminaq.eclipse.builder,
+ org.ruminaq.eclipse.cmd,
  org.ruminaq.eclipse.editor,
+ org.ruminaq.eclipse.nature,
+ org.ruminaq.eclipse.navigator,
  org.ruminaq.eclipse.perspective,
+ org.ruminaq.eclipse.prefs,
  org.ruminaq.eclipse.util,
  org.ruminaq.eclipse.wizards.diagram,
  org.ruminaq.eclipse.wizards.project

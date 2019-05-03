@@ -18,45 +18,43 @@ import org.ruminaq.eclipse.api.EclipseExtensionHandler;
 @Component(immediate = true)
 public class EclipseExtensionHandlerImpl implements EclipseExtensionHandler {
 
-	private Collection<EclipseExtension> extensions;
+  private Collection<EclipseExtension> extensions;
 
-	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
-	protected void bind(EclipseExtension extension) {
-		if (extensions == null) {
-			extensions = new ArrayList<>();
-		}
-		extensions.add(extension);
-	}
-
-	protected void unbind(EclipseExtension extension) {
-		extensions.remove(extension);
-	}
-
-	@Override
-	public boolean createProjectWizardPerformFinish(IJavaProject javaProject) {
-		return extensions.stream()
-				.allMatch(ext -> ext.createProjectWizardPerformFinish(javaProject));
-	}
-
-	@Override
-	public List<Triplet<String, String, String>> getMavenDependencies() {
-		return extensions.stream()
-				.map(EclipseExtension::getMavenDependencies)
-				.flatMap(Collection::stream)
-				.collect(Collectors.toList());
-	}
-
-	@Override
-	public List<IClasspathEntry> createClasspathEntries(IJavaProject javaProject) {
-		return extensions.stream()
-				.map(ext -> ext.createClasspathEntries(javaProject))
-				.flatMap(Collection::stream)
-				.collect(Collectors.toList());
-	}
-
-	@Override
-    public void initEditor() {
-    	extensions.forEach(EclipseExtension::initEditor);
+  @Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
+  protected void bind(EclipseExtension extension) {
+    if (extensions == null) {
+      extensions = new ArrayList<>();
     }
+    extensions.add(extension);
+  }
+
+  protected void unbind(EclipseExtension extension) {
+    extensions.remove(extension);
+  }
+
+  @Override
+  public boolean createProjectWizardPerformFinish(IJavaProject javaProject) {
+    return extensions.stream()
+        .allMatch(ext -> ext.createProjectWizardPerformFinish(javaProject));
+  }
+
+  @Override
+  public List<Triplet<String, String, String>> getMavenDependencies() {
+    return extensions.stream().map(EclipseExtension::getMavenDependencies)
+        .flatMap(Collection::stream).collect(Collectors.toList());
+  }
+
+  @Override
+  public List<IClasspathEntry> createClasspathEntries(
+      IJavaProject javaProject) {
+    return extensions.stream()
+        .map(ext -> ext.createClasspathEntries(javaProject))
+        .flatMap(Collection::stream).collect(Collectors.toList());
+  }
+
+  @Override
+  public void initEditor() {
+    extensions.forEach(EclipseExtension::initEditor);
+  }
 
 }

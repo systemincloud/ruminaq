@@ -22,11 +22,13 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.project.IProjectConfigurationManager;
 import org.eclipse.m2e.core.project.MavenUpdateRequest;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.jdom2.JDOMException;
@@ -58,6 +60,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
   public static final String PROPERTIES_FILE = "src/main/resources/ruminaq.properties";
 
   /**
+   * New project wizzard.
+   *
    * @see org.eclipse.jface.wizard.Wizard#createPageControls(org.eclipse.swt.widgets.Composite)
    */
   @Override
@@ -76,6 +80,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
   }
 
   /**
+   * Creating project.
+   *
    * @see org.eclipse.jface.wizard.Wizard#performFinish()
    */
   @Override
@@ -194,9 +200,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
   private static void createPropertiesFile(IProject newProject) {
     Properties prop = new Properties();
-    OutputStream output = null;
-    try {
-      output = new ByteArrayOutputStream();
+    try (OutputStream output = new ByteArrayOutputStream()) {
       prop.setProperty("MAIN_MODULE",
           SourceFolders.TASK_FOLDER + "/"
               + CreateDiagramWizardNamePage.DEFAULT_DIAGRAM_NAME
@@ -206,14 +210,10 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
       outputFile.create(new ByteArrayInputStream(
           ((ByteArrayOutputStream) output).toByteArray()), true, null);
     } catch (IOException | CoreException e) {
-      e.printStackTrace();
-    } finally {
-      if (output != null)
-        try {
-          output.close();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
+      LOGGER.error("Could not create property file", e);
+      MessageDialog.openError(
+          PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(),
+          "Error", "Error occured");
     }
   }
 }
