@@ -403,6 +403,7 @@
         <configuration>
           <linkXRef>false</linkXRef>
           <encoding>UTF-8</encoding>
+          <consoleOutput>false</consoleOutput>
           <configLocation>google_checks.xml</configLocation>
         </configuration>
       </plugin>
