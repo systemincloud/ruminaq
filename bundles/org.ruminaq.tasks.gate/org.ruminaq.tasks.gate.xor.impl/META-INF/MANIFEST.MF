@@ -5,7 +5,7 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.gate.xor.impl
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.ruminaq.tasks.gate.xor.impl
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.eclipse.emf.ecore,

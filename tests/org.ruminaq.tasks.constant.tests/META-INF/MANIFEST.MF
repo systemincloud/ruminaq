@@ -5,7 +5,7 @@ Bundle-Vendor: System in Cloud
 Bundle-SymbolicName: org.ruminaq.tasks.constant.tests
 Bundle-Version: 1.0.0.qualifier
 Fragment-Host: org.ruminaq.tasks.constant.gui
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.junit.jupiter.api,
  org.junit
 Export-Package: org.ruminaq.tasks.constant.tests

@@ -67,7 +67,7 @@ Export-Package: org.ruminaq.tasks.constant,
  org.ruminaq.tasks.constant.features,
  org.ruminaq.tasks.constant.properties
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Service-Component: OSGI-INF/org.ruminaq.tasks.constant.TaskApi.xml,
  OSGI-INF/org.ruminaq.tasks.constant.TaskUiApi.xml
 Bundle-ActivationPolicy: lazy

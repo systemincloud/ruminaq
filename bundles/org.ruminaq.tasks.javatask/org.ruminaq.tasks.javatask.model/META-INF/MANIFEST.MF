@@ -26,4 +26,4 @@ Export-Package: org.ruminaq.tasks.javatask.model.javatask,
  org.ruminaq.tasks.javatask.model.javatask.impl,
  org.ruminaq.tasks.javatask.model.javatask.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

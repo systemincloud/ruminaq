@@ -120,4 +120,4 @@ Export-Package: org.ruminaq.tasks.rtask,
  org.ruminaq.tasks.rtask.hacks,
  org.ruminaq.tasks.rtask.wizards
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

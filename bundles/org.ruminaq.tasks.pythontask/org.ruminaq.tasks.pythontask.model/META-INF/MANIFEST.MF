@@ -25,4 +25,4 @@ Export-Package: org.ruminaq.tasks.pythontask.model.pythontask,
  org.ruminaq.tasks.pythontask.model.pythontask.impl,
  org.ruminaq.tasks.pythontask.model.pythontask.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

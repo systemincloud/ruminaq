@@ -33,4 +33,4 @@ Import-Package: org.apache.commons.io,
  org.ruminaq.runner.dirmi
 Export-Package: org.ruminaq.tasks.embeddedtask.ui
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

@@ -55,7 +55,7 @@ Export-Package: org.ruminaq.tasks.javatask.ui,
  org.ruminaq.tasks.javatask.ui.properties,
  org.ruminaq.tasks.javatask.ui.wizards
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.ui.JavaTasksDebugModelerExtension.xml
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.ruminaq.tasks.javatask.ui

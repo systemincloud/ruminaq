@@ -70,4 +70,4 @@ Export-Package: org.ruminaq.tasks.randomgenerator,
  org.ruminaq.tasks.randomgenerator.features,
  org.ruminaq.tasks.randomgenerator.properties
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

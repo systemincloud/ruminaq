@@ -11,5 +11,5 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.logs,
  org.slf4j
 Export-Package: org.ruminaq.builder
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.m2e.maven.runtime

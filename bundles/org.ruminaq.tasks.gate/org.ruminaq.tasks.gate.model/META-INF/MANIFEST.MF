@@ -22,4 +22,4 @@ Import-Package: org.eclipse.emf.common,
 Export-Package: org.ruminaq.tasks.gate.model.gate,
  org.ruminaq.tasks.gate.model.gate.impl
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

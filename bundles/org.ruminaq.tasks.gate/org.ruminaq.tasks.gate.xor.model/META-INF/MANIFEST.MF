@@ -26,4 +26,4 @@ Export-Package: org.ruminaq.tasks.gate.xor.model.xor,
  org.ruminaq.tasks.gate.xor.model.xor.impl,
  org.ruminaq.tasks.gate.xor.model.xor.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

@@ -24,4 +24,4 @@ Export-Package: org.ruminaq.tasks.constant.model.constant,
  org.ruminaq.tasks.constant.model.constant.impl,
  org.ruminaq.tasks.constant.model.constant.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

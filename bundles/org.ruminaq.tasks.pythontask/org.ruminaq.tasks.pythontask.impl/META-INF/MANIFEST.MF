@@ -9,7 +9,7 @@ Export-Package: org.ruminaq.tasks.pythontask.impl,
  org.ruminaq.tasks.pythontask.impl.jython,
  org.ruminaq.tasks.pythontask.impl.rmi,
  org.ruminaq.tasks.pythontask.impl.service
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.apache.commons.cli,

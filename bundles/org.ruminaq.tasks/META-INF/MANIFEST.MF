@@ -87,7 +87,7 @@ Export-Package: org.ruminaq.tasks,
  org.ruminaq.tasks.styles,
  org.ruminaq.tasks.util
 Require-Bundle: org.eclipse.ui.views.properties.tabbed
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Service-Component: OSGI-INF/org.ruminaq.tasks.TasksExtensionHandlerImpl.xml,
  OSGI-INF/org.ruminaq.tasks.TasksManagerHandlerImpl.xml,
  OSGI-INF/org.ruminaq.tasks.TasksUiManagerHandlerImpl.xml

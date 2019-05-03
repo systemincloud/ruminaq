@@ -25,5 +25,5 @@ Export-Package: org.ruminaq.tasks.rtask.model.rtask,
  org.ruminaq.tasks.rtask.model.rtask.impl,
  org.ruminaq.tasks.rtask.model.rtask.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 

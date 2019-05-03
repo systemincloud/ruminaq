@@ -52,4 +52,4 @@ Import-Package: ch.qos.logback.classic,
 Export-Package: org.ruminaq.tasks.gate,
  org.ruminaq.tasks.gate.features
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

@@ -26,4 +26,4 @@ Export-Package: org.ruminaq.tasks.gate.and.model.and,
  org.ruminaq.tasks.gate.and.model.and.impl,
  org.ruminaq.tasks.gate.and.model.and.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

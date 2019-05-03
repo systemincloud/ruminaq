@@ -8,7 +8,7 @@ Export-Package: org.ruminaq.tasks.randomgenerator.impl,
  org.ruminaq.tasks.randomgenerator.impl.distributions,
  org.ruminaq.tasks.randomgenerator.impl.service,
  org.ruminaq.tasks.randomgenerator.impl.strategy
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.eclipse.emf.common.util,

@@ -26,4 +26,4 @@ Export-Package: org.ruminaq.tasks.mux.model.mux,
  org.ruminaq.tasks.mux.model.mux.impl,
  org.ruminaq.tasks.mux.model.mux.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

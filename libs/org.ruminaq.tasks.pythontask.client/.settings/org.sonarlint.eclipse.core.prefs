@@ -4,5 +4,5 @@ extraProperties=
 fileExclusions=
 idePrefixKey=
 projectKey=org.ruminaq\:org.ruminaq.root
-serverId=localhost
+serverId=SonarCloud/systemincloud
 sqPrefixKey=

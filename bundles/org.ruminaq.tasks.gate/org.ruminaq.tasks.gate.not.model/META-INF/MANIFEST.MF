@@ -26,4 +26,4 @@ Export-Package: org.ruminaq.tasks.gate.not.model.not,
  org.ruminaq.tasks.gate.not.model.not.impl,
  org.ruminaq.tasks.gate.not.model.not.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

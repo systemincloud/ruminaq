@@ -5,7 +5,7 @@ Bundle-Name: Ruminaq - Tasks - Console - Model
 Bundle-Vendor: Ruminaq
 Bundle-SymbolicName: org.ruminaq.tasks.console.model
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.common.notify,
  org.eclipse.emf.common.notify.impl,

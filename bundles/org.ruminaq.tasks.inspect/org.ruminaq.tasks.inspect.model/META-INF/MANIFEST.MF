@@ -26,4 +26,4 @@ Export-Package: org.ruminaq.tasks.inspect.model.inspect,
  org.ruminaq.tasks.inspect.model.inspect.impl,
  org.ruminaq.tasks.inspect.model.inspect.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

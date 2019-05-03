@@ -24,4 +24,4 @@ Export-Package: org.ruminaq.tasks.demux.model.demux,
  org.ruminaq.tasks.demux.model.demux.impl,
  org.ruminaq.tasks.demux.model.demux.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11

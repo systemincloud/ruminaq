@@ -15,4 +15,4 @@ Import-Package: org.apache.thrift,
  org.apache.thrift.transport,
  org.slf4j
 Export-Package: org.ruminaq.runner.thrift
-Bundle-RequiredExecutionEnvironment: JavaSE-10
+Bundle-RequiredExecutionEnvironment: JavaSE-11
