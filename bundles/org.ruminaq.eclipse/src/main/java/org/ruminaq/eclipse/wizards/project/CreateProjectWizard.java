@@ -33,6 +33,7 @@ import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.jdom2.JDOMException;
 import org.osgi.service.component.annotations.Reference;
+
 import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Activator;
 import org.ruminaq.eclipse.PluginImage;
@@ -40,6 +41,7 @@ import org.ruminaq.eclipse.api.EclipseExtensionHandler;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizardNamePage;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.prefs.ProjectProps;
+
 import org.slf4j.Logger;
 
 /**
