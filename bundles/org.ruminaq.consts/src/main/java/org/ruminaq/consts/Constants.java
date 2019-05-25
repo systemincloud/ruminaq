@@ -32,11 +32,11 @@ public final class Constants {
         private String symbolicName;
 
         SicPlugin(String symbolicName) {
-        	this.symbolicName = symbolicName;
+          this.symbolicName = symbolicName;
         }
 
         public String s() {
-        	return this.symbolicName;
+          return this.symbolicName;
         }
     }
 
@@ -46,9 +46,6 @@ public final class Constants {
     public static final String TEST_PYTHON          = "src/test/py";                                 //$NON-NLS-1$
     public static final String MAIN_R               = "src/main/r";                                  //$NON-NLS-1$
     public static final String TEST_R               = "src/test/r";                                  //$NON-NLS-1$
-    public static final String OUTPUT_CLASSES       = "target/classes";                              //$NON-NLS-1$
-    public static final String MAVEN_CONTAINER_ID   = "org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER";  //$NON-NLS-1$
-    public static final String EXTERNALTOOLBUILDERS = ".externalToolBuilders";                       //$NON-NLS-1$
 
     public static final String EXTENSION                   = "rumi";               //$NON-NLS-1$
     public static final String DIAGRAM_EXTENSION_DOT       = "." + EXTENSION;      //$NON-NLS-1$
@@ -58,9 +55,6 @@ public final class Constants {
 
     public static final String DIAGRAM_EDITOR_ID      = "org.ruminaq.eclipse.editor.ruminaqEditor";     //$NON-NLS-1$
     public static final String TEST_DIAGRAM_EDITOR_ID = "org.ruminaq.eclipse.editor.ruminaqEditorTest"; //$NON-NLS-1$
-
-    public static final String NATURE_ID = "org.ruminaq.eclipse.nature.RuminaqProjectNature"; //$NON-NLS-1$
-    public static final String MAVEN_NATURE_ID = "org.eclipse.m2e.core.maven2Nature";                         //$NON-NLS-1$
 
     public static final String LABEL_PROPERTY      = "label";                       //$NON-NLS-1$
     public static final String INTERNAL_PORT       = "internal-port";               //$NON-NLS-1$

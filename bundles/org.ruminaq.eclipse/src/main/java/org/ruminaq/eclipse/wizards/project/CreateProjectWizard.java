@@ -10,12 +10,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Optional;
 import java.util.Properties;
 
+import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -25,27 +27,29 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.m2e.core.MavenPlugin;
+import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.project.IProjectConfigurationManager;
 import org.eclipse.m2e.core.project.MavenUpdateRequest;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
-import org.jdom2.JDOMException;
-import org.osgi.service.component.annotations.Reference;
-
 import org.ruminaq.consts.Constants;
-import org.ruminaq.eclipse.Activator;
-import org.ruminaq.eclipse.PluginImage;
-import org.ruminaq.eclipse.api.EclipseExtensionHandler;
+import org.ruminaq.eclipse.Image;
+import org.ruminaq.eclipse.Messages;
+import org.ruminaq.eclipse.RuminaqException;
+import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizardNamePage;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.prefs.ProjectProps;
-
+import org.ruminaq.util.EclipseUtil;
+import org.ruminaq.util.ImageUtil;
+import org.ruminaq.util.PlatformUtil;
+import org.ruminaq.util.ServiceUtil;
 import org.slf4j.Logger;
 
 /**
- * Wizard to create new Reminaq eclipse project.
+ * Wizard to create new Ruminaq eclipse project.
  *
  * @author Marek Jagielski
  */
@@ -54,15 +58,25 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(CreateProjectWizard.class);
 
-  @Reference
-  private EclipseExtensionHandler extensions;
+  private static final String BASIC_NEW_PROJECT_PAGE_NAME = "basicNewProjectPage"; //$NON-NLS-1$
 
-  private static final String BASIC_NEW_PROJECT_PAGE_NAME = "basicNewProjectPage";
+  private static final String PROPERTIES_FILE =
+      "src/main/resources/ruminaq.properties"; //$NON-NLS-1$
 
-  public static final String PROPERTIES_FILE = "src/main/resources/ruminaq.properties";
+  private static final String OUTPUT_CLASSES = "target/classes"; //$NON-NLS-1$
+
+  private static final String EXTERNALTOOLBUILDERS =
+      ".externalToolBuilders"; //$NON-NLS-1$
+
+  private static final String BUILDER_CONFIG_MVN =
+      IMavenConstants.BUILDER_ID + ".launch"; //$NON-NLS-1$
+
+  private Collection<EclipseExtension> extensions = ServiceUtil
+      .getServicesAtLatestVersion(CreateProjectWizard.class,
+          EclipseExtension.class);
 
   /**
-   * New project wizzard.
+   * New project wizard.
    *
    * @see org.eclipse.jface.wizard.Wizard#createPageControls(org.eclipse.swt.widgets.Composite)
    */
@@ -73,11 +87,11 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
     final WizardNewProjectCreationPage basicNewProjectPage = getBasicNewProjectPage();
     if (basicNewProjectPage != null) {
-      basicNewProjectPage.setTitle("Create Ruminaq Project");
+      basicNewProjectPage.setTitle(Messages.createProjectWizardTitle);
       basicNewProjectPage.setImageDescriptor(
-          Activator.getImageDescriptor(PluginImage.RUMINAQ_LOGO_64x64));
+          ImageUtil.getImageDescriptor(Image.RUMINAQ_LOGO_64X64));
       basicNewProjectPage
-          .setDescription("Create Ruminaq Project in the workspace.");
+          .setDescription(Messages.createProjectWizardDescription);
     }
   }
 
@@ -95,7 +109,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     IProject newProject = getNewProject();
 
     try {
-      setNatureIds(newProject);
+      Nature.setNatureIds(newProject);
       SourceFolders.createSourceFolders(newProject);
 
       IJavaProject javaProject = JavaCore.create(newProject);
@@ -107,33 +121,53 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
       createPropertiesFile(newProject);
 
       ProjectProps.getInstance(newProject).put(ProjectProps.MODELER_VERSION,
-          Activator.getBaseVersionString());
+          PlatformUtil.getBundleVersion(this.getClass()).toString());
 
-      // delete bin directory if created
-      IFolder bin = newProject.getFolder("bin");
-      if (bin.exists()) {
-        bin.delete(true, new NullProgressMonitor());
-      }
+      deleteBinDirectory(newProject);
 
-      extensions.createProjectWizardPerformFinish(javaProject);
+      extensions.stream()
+          .forEach(e -> e.createProjectWizardPerformFinish(javaProject));
 
-      IProjectConfigurationManager configurationManager = MavenPlugin
-          .getProjectConfigurationManager();
-      MavenUpdateRequest request = new MavenUpdateRequest(newProject, true,
-          true);
-      configurationManager.updateProjectConfiguration(request,
-          new NullProgressMonitor());
-    } catch (CoreException | JDOMException | IOException e) {
-      LOGGER.error("Something went wrong when creating project", e);
+      updateProject(newProject);
+
+    } catch (RuminaqException e) {
+      LOGGER.error(Messages.createProjectWizardFailed, e);
+      MessageDialog.openError(
+          getShell(),
+          PlatformUtil.getBundle(this.getClass()).getSymbolicName(),
+          e.getMessage());
       return false;
     }
 
     return true;
   }
 
+  private void deleteBinDirectory(IProject projet) throws RuminaqException {
+    try {
+      EclipseUtil.deleteProjectDirectoryIfExists(projet, EclipseUtil.BIN_DIRECTORY);
+    } catch (CoreException e) {
+      LOGGER.error(Messages.createProjectWizardFailed, e);
+      throw new RuminaqException(Messages.createProjectWizardFailed);
+    }
+  }
+
+  private void updateProject(IProject project) throws RuminaqException {
+    IProjectConfigurationManager configurationManager = MavenPlugin
+        .getProjectConfigurationManager();
+    MavenUpdateRequest request = new MavenUpdateRequest(project, true,
+        true);
+    try {
+      configurationManager.updateProjectConfiguration(request,
+          new NullProgressMonitor());
+    } catch (CoreException e) {
+      LOGGER.error(Messages.createProjectWizardFailed, e);
+      throw new RuminaqException(Messages.createProjectWizardFailed);
+    }
+  }
+
   @Override
   public void setWindowTitle(final String newTitle) {
-    super.setWindowTitle("New System in Cloud Project");
+    super.setWindowTitle(Messages.createProjectWizardWindowTitle);
   }
 
   /**
@@ -151,53 +185,45 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     return result;
   }
 
-  private static void setNatureIds(IProject newProject) throws CoreException {
-    IProjectDescription description = newProject.getDescription();
-    description.setNatureIds(new String[] { JavaCore.NATURE_ID,
-        Constants.NATURE_ID, Constants.MAVEN_NATURE_ID });
-    newProject.setDescription(description, null);
-  }
-
   private static void createOutputLocation(IJavaProject javaProject)
-      throws JavaModelException {
-    IPath targetPath = javaProject.getPath().append(Constants.OUTPUT_CLASSES);
-    javaProject.setOutputLocation(targetPath, null);
+      throws RuminaqException {
+    IPath targetPath = javaProject.getPath().append(OUTPUT_CLASSES);
+    try {
+      javaProject.setOutputLocation(targetPath, null);
+    } catch (JavaModelException e) {
+      LOGGER.error(Messages.createProjectWizardFailed, e);
+      throw new RuminaqException(Messages.createProjectWizardFailed);
+    }
   }
 
-  private void configureBuilders(IProject newProject) throws CoreException {
-//        EclipseUtil.createFolderWithParents(newProject, SicConstants.EXTERNALTOOLBUILDERS);
-//
-//        OutputStream output = null;
-//        try {
-//            output = new ByteArrayOutputStream();
-//            IFile outputFile = newProject.getFolder(SicConstants.EXTERNALTOOLBUILDERS).getFile(BUILDER_CONFIG_MVN);
-//            outputFile.create(CreateProjectWizard.class.getResourceAsStream(BUILDER_CONFIG_MVN), true, null);
-//        } catch (CoreException e) { e.printStackTrace();
-//        } finally {
-//            if (output != null)
-//                try { output.close();
-//                } catch (IOException e) {e.printStackTrace(); }
-//        }
-//
-//        IProjectDescription description = newProject .getDescription();
-//        ICommand[] commands             = description.getBuildSpec();
-//        ICommand[] newCommands          = new ICommand[commands.length];
-//
-//        int j = 0;
-//        for(int i = 0; i < commands.length; i++)
-//            if(!commands[i].getBuilderName().equals("org.eclipse.m2e.core.maven2Builder")) newCommands[j++] = commands[i];
-//
-//        ICommand command = description.newCommand();
-//
-//        command.setBuilderName("org.eclipse.ui.externaltools.ExternalToolBuilder");
-//        command.setArguments(new HashMap<String, String>() { private static final long serialVersionUID = 1L;
-//            { put("LaunchConfigHandle", "<project>/.externalToolBuilders/org.eclipse.m2e.core.maven2Builder.launch");    }});
-//
-//        newCommands[newCommands.length - 1] = command;
-//
-//        description.setBuildSpec(newCommands);
-//
-//        newProject.setDescription(description, null);
+  private void configureBuilders(IProject project) throws RuminaqException {
+    try {
+      EclipseUtil.createFolderWithParents(project, EXTERNALTOOLBUILDERS);
+    } catch (CoreException e) {
+      LOGGER.error(Messages.createProjectWizardFailed, e);
+      throw new RuminaqException(Messages.createProjectWizardFailed);
+    }
+
+    try {
+      IFile outputFile = project.getFolder(EXTERNALTOOLBUILDERS)
+          .getFile(BUILDER_CONFIG_MVN);
+      outputFile.create(
+          CreateProjectWizard.class.getResourceAsStream(BUILDER_CONFIG_MVN),
+          true, null);
+      Optional<ICommand> command = Arrays.stream(project.getDescription().getBuildSpec())
+          .filter(
+              cmd -> cmd.getBuilderName().equals(IMavenConstants.BUILDER_ID))
+          .findFirst();
+      if (command.isPresent()) {
+        command.get()
+            .setBuilderName("org.eclipse.ui.externaltools.ExternalToolBuilder");
+        command.get().getArguments().put("LaunchConfigHandle",
+            "<project>/.externalToolBuilders/org.eclipse.m2e.core.maven2Builder.launch");
+      }
+    } catch (CoreException e) {
+      LOGGER.error(Messages.createProjectWizardFailed, e);
+      throw new RuminaqException(Messages.createProjectWizardFailed);
+    }
   }
 
   private static void createPropertiesFile(IProject newProject) {

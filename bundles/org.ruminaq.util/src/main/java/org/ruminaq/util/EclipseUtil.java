@@ -48,141 +48,177 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-public class EclipseUtil {
+public final class EclipseUtil {
 
-    public static IProject getWorkspaceProjectFromEObject(EObject eobject) {
-        URI uri = getModelPathFromEObject(eobject);
+  private EclipseUtil() {
+  }
 
-        IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-        IProject project = null;
+  public static final String BIN_DIRECTORY = "bin";
 
-        // try to get project from whole uri resource
-        IResource resource = workspaceRoot.findMember(uri.toString());
-        if (resource != null) project = resource.getProject();
+  public static IProject getWorkspaceProjectFromEObject(EObject eobject) {
+    URI uri = getModelPathFromEObject(eobject);
 
-        // another try,by first segment with project name
-        if (project == null && uri.segmentCount() > 0) {
-            String projectName = uri.segment(0);
-            IResource projectResource = workspaceRoot.findMember(projectName);
-            if (projectResource != null) {
-                project = projectResource.getProject();
-            }
+    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+    IProject project = null;
+
+    // try to get project from whole uri resource
+    IResource resource = workspaceRoot.findMember(uri.toString());
+    if (resource != null) {
+      project = resource.getProject();
+    }
+
+    // another try,by first segment with project name
+    if (project == null && uri.segmentCount() > 0) {
+      String projectName = uri.segment(0);
+      IResource projectResource = workspaceRoot.findMember(projectName);
+      if (projectResource != null) {
+        project = projectResource.getProject();
+      }
+    }
+
+    return project;
+  }
+
+  public static URI getModelPathFromEObject(EObject eobject) {
+    URI uri = EcoreUtil.getURI(eobject);
+    uri = uri.trimFragment();
+    if (uri.isPlatform()) {
+      uri = URI.createURI(uri.toPlatformString(true));
+    }
+    return uri;
+  }
+
+  public static URI removeFristSegments(URI uri, int nb) {
+    nb++;
+    String[] segs = uri.segments();
+    String tmp = "";
+    int i = 0;
+    for (String s : segs) {
+      i++;
+      if (i < nb)
+        continue;
+      if (i > nb)
+        tmp += "/";
+      tmp += s;
+    }
+    return URI.createURI(tmp);
+  }
+
+  public static String getProjectNameFromDiagram(Diagram diagram) {
+    return URI.decode(diagram.eResource().getURI().segment(1));
+  }
+
+  public static String getProjectNameFromPe(PictogramElement pe) {
+    return URI.decode(pe.eResource().getURI().segment(1));
+  }
+
+  public static void setButtonDimensionHint(Button button) {
+    Assert.isNotNull(button);
+    Object gd = button.getLayoutData();
+    if (gd instanceof GridData) {
+      ((GridData) gd).widthHint = getButtonWidthHint(button);
+      ((GridData) gd).horizontalAlignment = GridData.FILL;
+    }
+  }
+
+  public static int getButtonWidthHint(Button button) {
+    button.setFont(JFaceResources.getDialogFont());
+    PixelConverter converter = new PixelConverter(button);
+    int widthHint = converter
+        .convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
+    return Math.max(widthHint,
+        button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
+  }
+
+  public static void setEnabledRecursive(final Composite composite,
+      final boolean enabled, List<Control> notChanged) {
+    if (composite == null)
+      return;
+
+    for (Control c : composite.getChildren()) {
+      if (c instanceof Composite)
+        setEnabledRecursive((Composite) c, enabled, notChanged);
+      else {
+        if (c.isEnabled() == enabled)
+          notChanged.add(c);
+        c.setEnabled(enabled);
+      }
+    }
+    if (composite.isEnabled() == enabled)
+      notChanged.add(composite);
+    composite.setEnabled(enabled);
+  }
+
+  public static void closeAllViews(final Class<? extends ViewPart> viewType) {
+    final IWorkbenchWindow[] windows = PlatformUI.getWorkbench()
+        .getWorkbenchWindows();
+
+    // for all workbench windows
+    for (int w = 0; w < windows.length; w++) {
+      final IWorkbenchPage[] pages = windows[w].getPages();
+
+      // for all workbench pages
+      // of a given workbench window
+      for (int p = 0; p < pages.length; p++) {
+        final IWorkbenchPage page = pages[p];
+        final IViewReference[] viewRefs = page.getViewReferences();
+
+        // for all view references
+        // of a given workbench page
+        // of a given workbench window
+        for (int v = 0; v < viewRefs.length; v++) {
+          final IViewReference viewRef = viewRefs[v];
+          final IWorkbenchPart viewPart = viewRef.getPart(false);
+          final Class<?> partType = (viewPart != null) ? viewPart.getClass()
+              : null;
+
+          if (viewType == null || viewType.equals(partType))
+            page.hideView(viewRef);
         }
-
-        return project;
+      }
     }
+  }
 
-    public static URI getModelPathFromEObject(EObject eobject) {
-        URI uri = EcoreUtil.getURI(eobject);
-        uri = uri.trimFragment();
-        if (uri.isPlatform()) uri = URI.createURI(uri.toPlatformString(true));
-        return uri;
+  public static IResource emfResourceToIResource(Resource resource) {
+    URI eUri = resource.getURI();
+    if (eUri.isPlatformResource()) {
+      String platformString = eUri.toPlatformString(true);
+      return ResourcesPlugin.getWorkspace().getRoot()
+          .findMember(platformString);
     }
+    return null;
+  }
 
-    public static URI removeFristSegments(URI uri, int nb) {
-        nb++;
-        String[] segs = uri.segments();
-        String tmp = "";
-        int i = 0;
-        for(String s : segs) {
-            i++;
-            if(i < nb) continue;
-            if(i > nb) tmp += "/";
-            tmp += s;
-        }
-        return URI.createURI(tmp);
+  public static void createFolderWithParents(IProject project, String path)
+      throws CoreException {
+    String[] tree = path.split("/");
+    for (int i = 0; i < tree.length; i++) {
+      StringBuilder tmpPath = new StringBuilder();
+      for (int j = 0; j <= i; j++)
+        tmpPath.append(tree[j]).append("/");
+      IFolder tmpFolder = project.getFolder(tmpPath.toString());
+      if (!tmpFolder.exists())
+        tmpFolder.create(true, true, new NullProgressMonitor());
     }
+  }
 
-    public static String getProjectNameFromDiagram(Diagram diagram) {
-        return URI.decode(diagram.eResource().getURI().segment(1));
+  public static void createPlaceholderInFolder(IProject project, String path)
+      throws CoreException {
+    createPlaceholderInFolder(project, path, "");
+  }
+
+  public static void createPlaceholderInFolder(IProject project, String path,
+      String suffix) throws CoreException {
+    IFile file = project.getFile(path + "/PLACEHOLDER" + suffix);
+    if (!file.exists())
+      file.create(new ByteArrayInputStream(new byte[0]), true,
+          new NullProgressMonitor());
+  }
+
+  public static void deleteProjectDirectoryIfExists(IProject project, String directoryPath) throws CoreException {
+    IFolder directory = project.getFolder(directoryPath);
+    if (directory.exists()) {
+      directory.delete(true, new NullProgressMonitor());
     }
-
-    public static String getProjectNameFromPe(PictogramElement pe) {
-        return URI.decode(pe.eResource().getURI().segment(1));
-    }
-
-    public static void setButtonDimensionHint(Button button) {
-        Assert.isNotNull(button);
-        Object gd= button.getLayoutData();
-        if (gd instanceof GridData) {
-            ((GridData)gd).widthHint= getButtonWidthHint(button);
-            ((GridData)gd).horizontalAlignment = GridData.FILL;
-        }
-    }
-
-    public static int getButtonWidthHint(Button button) {
-        button.setFont(JFaceResources.getDialogFont());
-        PixelConverter converter= new PixelConverter(button);
-        int widthHint= converter.convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
-        return Math.max(widthHint, button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
-    }
-
-    public static void setEnabledRecursive(final Composite composite, final boolean enabled, List<Control> notChanged) {
-        if(composite == null) return;
-
-        for(Control c : composite.getChildren()) {
-            if (c instanceof Composite) setEnabledRecursive((Composite) c, enabled, notChanged);
-            else {
-                if(c.isEnabled() == enabled) notChanged.add(c);
-                c.setEnabled(enabled);
-            }
-        }
-        if(composite.isEnabled() == enabled) notChanged.add(composite);
-        composite.setEnabled(enabled);
-    }
-
-    public static void closeAllViews(final Class<? extends ViewPart> viewType) {
-        final IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
-
-        // for all workbench windows
-        for (int w = 0; w < windows.length; w++) {
-            final IWorkbenchPage[] pages = windows[w].getPages();
-
-            // for all workbench pages
-            // of a given workbench window
-            for (int p = 0; p < pages.length; p++) {
-                final IWorkbenchPage page = pages[p];
-                final IViewReference[] viewRefs = page.getViewReferences();
-
-                // for all view references
-                // of a given workbench page
-                // of a given workbench window
-                for (int v = 0; v < viewRefs.length; v++) {
-                    final IViewReference viewRef = viewRefs[v];
-                    final IWorkbenchPart viewPart = viewRef.getPart(false);
-                    final Class<?> partType = (viewPart != null) ? viewPart.getClass() : null;
-
-                    if (viewType == null || viewType.equals(partType)) page.hideView(viewRef);
-                }
-            }
-        }
-    }
-
-    public static IResource emfResourceToIResource(Resource resource) {
-        URI eUri = resource.getURI();
-        if(eUri.isPlatformResource()) {
-            String platformString = eUri.toPlatformString(true);
-            return ResourcesPlugin.getWorkspace().getRoot().findMember(platformString);
-        }
-        return null;
-    }
-
-    public static void createFolderWithParents(IProject project, String path) throws CoreException {
-        String[] tree = path.split("/");
-        for(int i = 0; i < tree.length; i++) {
-            StringBuilder tmpPath = new StringBuilder();
-            for(int j = 0; j <= i; j++) tmpPath.append(tree[j]).append("/");
-            IFolder tmpFolder = project.getFolder(tmpPath.toString());
-            if(!tmpFolder.exists()) tmpFolder.create(true, true, new NullProgressMonitor());
-        }
-    }
-
-    public static void createPlaceholderInFolder(IProject project, String path) throws CoreException {
-        createPlaceholderInFolder(project, path, "");
-    }
-
-    public static void createPlaceholderInFolder(IProject project, String path, String suffix) throws CoreException {
-        IFile file = project.getFile(path + "/PLACEHOLDER" + suffix);
-        if(!file.exists()) file.create(new ByteArrayInputStream(new byte[0]), true, new NullProgressMonitor());
-    }
+  }
 }

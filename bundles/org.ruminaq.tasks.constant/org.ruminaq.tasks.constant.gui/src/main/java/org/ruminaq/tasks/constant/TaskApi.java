@@ -32,21 +32,16 @@ import org.ruminaq.tasks.constant.model.constant.Constant;
 import org.ruminaq.tasks.constant.model.constant.ConstantPackage;
 
 @Component
-public class TaskApi implements ITaskApi, EclipseExtension {
+public class TaskApi implements ITaskApi {
 
-	private String symbolicName;
-	private Version version;
+  private String symbolicName;
+  private Version version;
 
     @Activate
     void activate(Map<String, Object> properties) {
-    	Bundle b = FrameworkUtil.getBundle(getClass());
-    	symbolicName = b.getSymbolicName();
-    	version = b.getVersion();
-    }
-
-    @Override
-    public void initEditor() {
-        ConstantPackage.eINSTANCE.getClass();
+      Bundle b = FrameworkUtil.getBundle(getClass());
+      symbolicName = b.getSymbolicName();
+      version = b.getVersion();
     }
 
     @Override

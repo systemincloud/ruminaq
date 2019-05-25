@@ -36,61 +36,65 @@ import org.ruminaq.tasks.console.model.console.Console;
 @Component
 public class TaskApi implements ITaskApi, LaunchListener {
 
-	private String symbolicName;
-	private Version version;
+  private String symbolicName;
+  private Version version;
 
-    @Activate
-    void activate(Map<String, Object> properties) {
-    	Bundle b = FrameworkUtil.getBundle(getClass());
-    	symbolicName = b.getSymbolicName();
-    	version = b.getVersion();
-    	RuminaqLaunchDelegate.addLaunchListener(this);
-    }
+  @Activate
+  void activate(Map<String, Object> properties) {
+    Bundle b = FrameworkUtil.getBundle(getClass());
+    symbolicName = b.getSymbolicName();
+    version = b.getVersion();
+    RuminaqLaunchDelegate.addLaunchListener(this);
+  }
 
-    @Deactivate
-    public void deactivate() {
-    	RuminaqLaunchDelegate.removeLaunchListener(this);
-    }
+  @Deactivate
+  public void deactivate() {
+    RuminaqLaunchDelegate.removeLaunchListener(this);
+  }
 
-	@Override
-	public String getSymbolicName() {
-	    return symbolicName;
-	}
+  @Override
+  public String getSymbolicName() {
+    return symbolicName;
+  }
 
-	@Override
-	public Version getVersion() {
-	    return version;
-	}
+  @Override
+  public Version getVersion() {
+    return version;
+  }
 
-	@Override
-	public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
-	    return Arrays.asList(new CreateFeature(fp, symbolicName, version));
-	}
+  @Override
+  public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
+    return Arrays.asList(new CreateFeature(fp, symbolicName, version));
+  }
 
-	@Override
-	public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t, IFeatureProvider fp) {
-	    return ITaskApi.ifInstance(t, Console.class, new AddFeature(fp));
-	}
+  @Override
+  public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t,
+      IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, Console.class, new AddFeature(fp));
+  }
 
-	@Override
-	public Optional<ICustomFeature> getDoubleClickFeature(IDoubleClickContext cxt, Task t, IFeatureProvider fp) {
-	    return ITaskApi.ifInstance(t, Console.class, new DoubleClickFeature(fp));
-	}
+  @Override
+  public Optional<ICustomFeature> getDoubleClickFeature(IDoubleClickContext cxt,
+      Task t, IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, Console.class, new DoubleClickFeature(fp));
+  }
 
-	@Override
-	public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t, IFeatureProvider fp) {
-	    return ITaskApi.ifInstance(t, Console.class, new UpdateFeature(fp));
-	}
+  @Override
+  public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t,
+      IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, Console.class, new UpdateFeature(fp));
+  }
 
-	@Override
-	public Map<String, String> getImageKeyPath() {
-	    return Images.getImageKeyPath();
-	}
+  @Override
+  public Map<String, String> getImageKeyPath() {
+    return Images.getImageKeyPath();
+  }
 
-    @Override
-    public void dirmiStarted() {
-        DirmiServer.INSTANCE.createSessionAcceptor(
-        		symbolicName + ":" + version.getMajor() + "." + version.getMinor() + "." + version.getMicro(),
-                this.getClass().getClassLoader());
-    }
+  @Override
+  public void dirmiStarted() {
+    DirmiServer.INSTANCE.createSessionAcceptor(
+        symbolicName + ":" + version.getMajor() + "." + version.getMinor() + "."
+            + version.getMicro(),
+        this.getClass().getClassLoader());
+  }
 }

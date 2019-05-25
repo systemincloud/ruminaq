@@ -6,8 +6,10 @@
 
 package org.ruminaq.eclipse.wizards.project;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -16,9 +18,14 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
-import org.osgi.service.component.annotations.Reference;
+import org.eclipse.m2e.jdt.IClasspathManager;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.eclipse.api.EclipseExtensionHandler;
+import org.ruminaq.eclipse.Messages;
+import org.ruminaq.eclipse.RuminaqException;
+import org.ruminaq.eclipse.api.EclipseExtension;
+import org.ruminaq.logs.ModelerLoggerFactory;
+import org.ruminaq.util.ServiceUtil;
+import org.slf4j.Logger;
 
 /**
  * Writes to .classpath file when new project is created. This configuration can
@@ -28,22 +35,34 @@ import org.ruminaq.eclipse.api.EclipseExtensionHandler;
  */
 public final class JavaClasspathFile {
 
-  @Reference
-  private EclipseExtensionHandler extensions;
+  private static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(JavaClasspathFile.class);
+
+  private static final String JAVA_PATH = "**/*.java"; //$NON-NLS-1$
+
+  private static final String TARGET_PATH = "target/test-classes"; //$NON-NLS-1$
+
+  private Collection<EclipseExtension> extensions = ServiceUtil
+      .getServicesAtLatestVersion(CreateProjectWizard.class,
+          EclipseExtension.class);
 
   /**
    * Writes to .classpath file when new project is created.
    *
    * @param javaProject Eclipse IJavaProject reference
+   * @throws RuminaqException something went wrong
    */
-  public void setClasspathEntries(IJavaProject javaProject)
-      throws JavaModelException {
+  public void setClasspathEntries(IJavaProject javaProject) throws RuminaqException {
     List<IClasspathEntry> entries = new LinkedList<>();
-    IPath[] javaPath = new IPath[] { new Path("**/*.java") };
-    IPath testOutputLocation = javaProject.getPath()
-        .append("target/test-classes");
+    IPath[] javaPath = new IPath[] { new Path(JAVA_PATH) };
+    IPath testOutputLocation = javaProject.getPath().append(TARGET_PATH);
 
-    entries.addAll(extensions.createClasspathEntries(javaProject));
+    entries.addAll(
+        extensions
+          .stream()
+          .<List<IClasspathEntry>>map(e -> e.getClasspathEntries(javaProject))
+          .flatMap(List::stream)
+          .collect(Collectors.toList()));
 
     entries.add(JavaCore.newSourceEntry(
         javaProject.getPath().append(SourceFolders.MAIN_RESOURCES), javaPath));
@@ -52,10 +71,15 @@ public final class JavaClasspathFile {
         testOutputLocation));
 
     entries.add(JavaRuntime.getDefaultJREContainerEntry());
-    entries.add(
-        JavaCore.newContainerEntry(new Path(Constants.MAVEN_CONTAINER_ID)));
+    entries.add(JavaCore.newContainerEntry(
+        new Path(IClasspathManager.CONTAINER_ID)));
 
-    javaProject.setRawClasspath(
-        entries.toArray(new IClasspathEntry[entries.size()]), null);
+    try {
+      javaProject.setRawClasspath(
+          entries.toArray(new IClasspathEntry[entries.size()]), null);
+    } catch (JavaModelException e) {
+      LOGGER.error(Messages.createClasspathFileFailed, e);
+      throw new RuminaqException(Messages.createProjectWizardFailed);
+    }
   }
 }

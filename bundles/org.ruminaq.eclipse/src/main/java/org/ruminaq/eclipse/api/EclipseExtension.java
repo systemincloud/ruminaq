@@ -9,18 +9,19 @@ package org.ruminaq.eclipse.api;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.maven.model.Dependency;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
-import org.javatuples.Triplet;
 
 /**
+ * Service api extending eclipse integration.
  *
  * @author Marek Jagielski
  */
 public interface EclipseExtension {
 
   /**
-   * Other bundles can enrich the project after it is created.
+   * Other bundles can enrich the eclipse project file after it is created.
    *
    * @param javaProject Eclipse JDT class of java project
    *
@@ -30,15 +31,29 @@ public interface EclipseExtension {
     return true;
   }
 
-  default List<Triplet<String, String, String>> getMavenDependencies() {
-    return Collections.<Triplet<String, String, String>>emptyList();
+  /**
+   * Other bundles can add maven dependencies.
+   *
+   * @return Return list of dependencies
+   */
+  default List<Dependency> getMavenDependencies() {
+    return Collections.<Dependency>emptyList();
   }
 
-  default List<IClasspathEntry> createClasspathEntries(
-      IJavaProject javaProject) {
+  /**
+   * Other bundles can add inputs to classpath file.
+   *
+   * @param javaProject Eclipse JDT class of java project
+   *
+   * @return Return list of IClasspathEntry
+   */
+  default List<IClasspathEntry> getClasspathEntries(IJavaProject javaProject) {
     return Collections.<IClasspathEntry>emptyList();
   }
 
+  /**
+   * Notify other bundles that editor is open.
+   */
   default void initEditor() {
   }
 }

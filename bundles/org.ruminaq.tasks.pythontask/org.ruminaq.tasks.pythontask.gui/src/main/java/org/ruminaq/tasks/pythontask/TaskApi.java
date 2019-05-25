@@ -150,7 +150,7 @@ public class TaskApi implements ITaskApi, EclipseExtension {
             }
         });
     }
-    
+
     @Override
     public void initEditor() {
         PythontaskPackage.eINSTANCE.getClass();
@@ -181,7 +181,7 @@ public class TaskApi implements ITaskApi, EclipseExtension {
     }
 
     @Override
-    public List<IClasspathEntry> createClasspathEntries(IJavaProject javaProject) {
+    public List<IClasspathEntry> getClasspathEntries(IJavaProject javaProject) {
         return new CreateProjectWizard().createClasspathEntries(javaProject);
     }
 
