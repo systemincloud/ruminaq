@@ -15,9 +15,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.eclipse.it.tests.actions.CreateRuminaqProject;
-import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
+import org.ruminaq.eclipse.it.tests.api.EclipseTestExtension;
 import org.ruminaq.util.ServiceUtil;
 
 /**
@@ -29,14 +28,14 @@ import org.ruminaq.util.ServiceUtil;
 public class CreateRuminaqProjectTest {
 
   private static SWTWorkbenchBot bot;
-  private static Collection<EclipseExtension> extensions;
+  private static Collection<EclipseTestExtension> extensions;
 
   @BeforeClass
   public static void initBot() {
     bot = new SWTWorkbenchBot();
     extensions = ServiceUtil
-        .getServicesAtLatestVersion(CreateProjectWizard.class,
-            EclipseExtension.class);
+        .getServicesAtLatestVersion(CreateRuminaqProjectTest.class,
+            EclipseTestExtension.class);
   }
 
   @AfterClass
