@@ -31,7 +31,6 @@ import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.project.IProjectConfigurationManager;
 import org.eclipse.m2e.core.project.MavenUpdateRequest;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.ruminaq.consts.Constants;
@@ -70,6 +69,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
   private static final String BUILDER_CONFIG_MVN =
       IMavenConstants.BUILDER_ID + ".launch"; //$NON-NLS-1$
+
+  private static final String MAIN_MODULE = "MAIN_MODULE"; //$NON-NLS-1$
 
   private Collection<EclipseExtension> extensions = ServiceUtil
       .getServicesAtLatestVersion(CreateProjectWizard.class,
@@ -226,10 +227,10 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void createPropertiesFile(IProject newProject) {
+  private static void createPropertiesFile(IProject newProject) throws RuminaqException {
     Properties prop = new Properties();
     try (OutputStream output = new ByteArrayOutputStream()) {
-      prop.setProperty("MAIN_MODULE",
+      prop.setProperty(MAIN_MODULE,
           SourceFolders.TASK_FOLDER + "/"
               + CreateDiagramWizardNamePage.DEFAULT_DIAGRAM_NAME
               + Constants.DIAGRAM_EXTENSION_DOT);
@@ -238,10 +239,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
       outputFile.create(new ByteArrayInputStream(
           ((ByteArrayOutputStream) output).toByteArray()), true, null);
     } catch (IOException | CoreException e) {
-      LOGGER.error("Could not create property file", e);
-      MessageDialog.openError(
-          PlatformUI.getWorkbench().getModalDialogShellProvider().getShell(),
-          "Error", "Error occured");
+      LOGGER.error(Messages.createProjectWizardFailed, e);
+      throw new RuminaqException(Messages.createProjectWizardFailed);
     }
   }
 }

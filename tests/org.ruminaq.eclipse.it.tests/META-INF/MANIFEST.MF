@@ -23,4 +23,5 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  org.eclipse.reddeer.junit
 Import-Package: org.apache.commons.lang3
 Export-Package: org.ruminaq.eclipse.it.tests,
- org.ruminaq.eclipse.it.tests.actions
+ org.ruminaq.eclipse.it.tests.actions,
+ org.ruminaq.eclipse.it.tests.api

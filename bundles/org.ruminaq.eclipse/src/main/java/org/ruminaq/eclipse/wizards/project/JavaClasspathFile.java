@@ -19,7 +19,6 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.m2e.jdt.IClasspathManager;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
 import org.ruminaq.eclipse.api.EclipseExtension;
@@ -61,7 +60,7 @@ public final class JavaClasspathFile {
         extensions
           .stream()
           .<List<IClasspathEntry>>map(e -> e.getClasspathEntries(javaProject))
-          .flatMap(List::stream)
+          .<IClasspathEntry>flatMap(List::stream)
           .collect(Collectors.toList()));
 
     entries.add(JavaCore.newSourceEntry(

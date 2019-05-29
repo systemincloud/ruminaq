@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.maven.model.Dependency;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -41,106 +42,107 @@ import org.ruminaq.tasks.javatask.wizards.CreateProjectWizard;
 @Component
 public class TaskApi implements ITaskApi, EclipseExtension {
 
-    public static final String MAIN_JAVA = "src/main/java";
-    public static final String TEST_JAVA = "src/test/java";
+  public static final String MAIN_JAVA = "src/main/java";
+  public static final String TEST_JAVA = "src/test/java";
 
-    private String  symbolicName;
-    private Version version;
+  private String symbolicName;
+  private Version version;
 
-    public TaskApi() {
+  public TaskApi() {
 
+  }
+
+  @Activate
+  void activate(Map<String, Object> properties) {
+    Bundle b = FrameworkUtil.getBundle(getClass());
+    symbolicName = b.getSymbolicName();
+    version = b.getVersion();
+  }
+
+  @Override
+  public String getSymbolicName() {
+    return symbolicName;
+  }
+
+  @Override
+  public Version getVersion() {
+    return version;
+  }
+
+  public TaskApi(String symbolicName, Version version) {
+    this.symbolicName = symbolicName;
+    this.version = version;
+  }
+
+  @Override
+  public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
+    return Arrays.asList(new CreateFeature(fp, symbolicName, version));
+  }
+
+  @Override
+  public Optional<List<IContextButtonPadTool>> getContextButtonPadTools(
+      IFeatureProvider fp, Task t) {
+    return ITaskApi.ifInstance(t, JavaTask.class,
+        Arrays.asList(new ContextButtonPadTool(fp)));
+  }
+
+  @Override
+  public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t,
+      IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, JavaTask.class, new AddFeature(fp));
+  }
+
+  @Override
+  public Optional<ICustomFeature> getDoubleClickFeature(IDoubleClickContext cxt,
+      Task t, IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, JavaTask.class,
+        new DoubleClickFeatureFilter().filter(t, fp));
+  }
+
+  @Override
+  public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t,
+      IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, JavaTask.class, new UpdateFeature(fp));
+  }
+
+  @Override
+  public Map<String, String> getImageKeyPath() {
+    return Images.getImageKeyPath();
+  }
+
+  @Override
+  public boolean createProjectWizardPerformFinish(IJavaProject javaProject) {
+    try {
+      return new CreateProjectWizard().performFinish(javaProject);
+    } catch (CoreException e) {
+      return false;
     }
+  }
 
-    @Activate
-    void activate(Map<String, Object> properties) {
-        Bundle b = FrameworkUtil.getBundle(getClass());
-        symbolicName = b.getSymbolicName();
-        version = b.getVersion();
-    }
+  @Override
+  public List<Dependency> getMavenDependencies() {
+    var javaApi = new Dependency();
+    javaApi.setGroupId("org.ruminaq.tasks.javatask");
+    javaApi.setArtifactId("org.ruminaq.tasks.javatask.api");
+    javaApi.setVersion("0.7.0");
+    return Arrays.asList(javaApi);
+  }
 
-    @Override
-    public String getSymbolicName() {
-        return symbolicName;
-    }
+  @Override
+  public List<IClasspathEntry> getClasspathEntries(IJavaProject javaProject) {
+    IPath[] javaPath = new IPath[] { new Path("**/*.java") };
+    IPath testOutputLocation = javaProject.getPath()
+        .append("target/test-classes");
 
-    @Override
-    public Version getVersion() {
-        return version;
-    }
+    return Arrays.asList(
+        JavaCore.newSourceEntry(javaProject.getPath().append(MAIN_JAVA),
+            javaPath, null, null),
+        JavaCore.newSourceEntry(javaProject.getPath().append(TEST_JAVA),
+            javaPath, null, testOutputLocation));
+  }
 
-    public TaskApi(String symbolicName, Version version) {
-        this.symbolicName = symbolicName;
-        this.version = version;
-    }
-
-    @Override
-    public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
-        return Arrays.asList(new CreateFeature(fp, symbolicName, version));
-    }
-
-    @Override
-    public Optional<List<IContextButtonPadTool>> getContextButtonPadTools(IFeatureProvider fp, Task t) {
-        return ITaskApi.ifInstance(t, JavaTask.class, Arrays.asList(new ContextButtonPadTool(fp)));
-    }
-
-    @Override
-    public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t, IFeatureProvider fp) {
-        return ITaskApi.ifInstance(t, JavaTask.class, new AddFeature(fp));
-    }
-
-    @Override
-    public Optional<ICustomFeature> getDoubleClickFeature(IDoubleClickContext cxt, Task t, IFeatureProvider fp) {
-        return ITaskApi.ifInstance(t, JavaTask.class, new DoubleClickFeatureFilter().filter(t, fp));
-    }
-
-    @Override
-    public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t, IFeatureProvider fp) {
-        return ITaskApi.ifInstance(t, JavaTask.class, new UpdateFeature(fp));
-    }
-
-    @Override
-    public Map<String, String> getImageKeyPath() {
-        return Images.getImageKeyPath();
-    }
-
-    @Override
-    public boolean createProjectWizardPerformFinish(IJavaProject javaProject) {
-        try {
-            return new CreateProjectWizard().performFinish(javaProject);
-        } catch (CoreException e) {
-            return false;
-        }
-    }
-
-    @Override
-    public List<Triplet<String, String, String>> getMavenDependencies() {
-        return Arrays.asList(
-                new Triplet<String, String, String>(
-                        "org.ruminaq.tasks.javatask",
-                        "org.ruminaq.tasks.javatask.api",
-                        "0.7.0"));
-    }
-
-    @Override
-    public List<IClasspathEntry> createClasspathEntries(IJavaProject javaProject) {
-        IPath[] javaPath = new IPath[] { new Path("**/*.java") };
-        IPath testOutputLocation = javaProject.getPath().append("target/test-classes");
-
-        return Arrays.asList(
-                JavaCore.newSourceEntry(
-                        javaProject.getPath().append(MAIN_JAVA),
-                        javaPath,
-                        null,
-                        null),
-                JavaCore.newSourceEntry(
-                        javaProject.getPath().append(TEST_JAVA),
-                        javaPath,
-                        null,
-                        testOutputLocation));
-    }
-
-    @Override
-    public void initEditor() {
-        JavataskPackage.eINSTANCE.getClass();
-    }
+  @Override
+  public void initEditor() {
+    JavataskPackage.eINSTANCE.getClass();
+  }
 }

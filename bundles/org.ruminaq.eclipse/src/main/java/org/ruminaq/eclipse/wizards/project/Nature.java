@@ -26,7 +26,7 @@ public final class Nature {
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(Nature.class);
 
-  private static final String NATURE_ID =
+  public static final String NATURE_ID =
       "org.ruminaq.eclipse.nature.RuminaqProjectNature"; //$NON-NLS-1$
 
   private Nature() {

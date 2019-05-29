@@ -18,6 +18,7 @@ import java.util.jar.JarFile;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DefaultArtifact;
 import org.apache.maven.artifact.handler.DefaultArtifactHandler;
+import org.apache.maven.model.Dependency;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -196,11 +197,12 @@ public class TaskApi implements ITaskApi, EclipseExtension {
     }
 
     @Override
-    public List<Triplet<String, String, String>> getMavenDependencies() {
-        return Arrays.asList(new Triplet<String, String, String>(
-                PythonTaskI.PROCESS_LIB_GROUPID,
-                PythonTaskI.PROCESS_LIB_ARTIFACT,
-                PythonTaskI.PROCESS_LIB_VERSION));
+    public List<Dependency> getMavenDependencies() {
+      var pythonApi = new Dependency();
+      pythonApi.setGroupId(PythonTaskI.PROCESS_LIB_GROUPID);
+      pythonApi.setArtifactId(PythonTaskI.PROCESS_LIB_ARTIFACT);
+      pythonApi.setVersion(PythonTaskI.PROCESS_LIB_VERSION);
+      return Arrays.asList(pythonApi);
     }
 
     @Override

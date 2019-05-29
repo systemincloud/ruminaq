@@ -12,20 +12,29 @@ import org.ruminaq.eclipse.wizards.project.SourceFolders;
  *
  * @author Marek Jagielski
  */
-public class CreateTestDiagramWizardNamePage extends CreateDiagramWizardNamePage {
+public class CreateTestDiagramWizardNamePage
+    extends CreateDiagramWizardNamePage {
 
-	private static final String WIZARD_PAGE_TITLE = Messages.CreateTestDiagramWizard_WizardTitle;
-	public  static final String DEFAULT_DIAGRAM_NAME = "MyTaskTest";
+  public static final String DEFAULT_DIAGRAM_NAME = "MyTaskTest";
 
+  public CreateTestDiagramWizardNamePage(IStructuredSelection selection) {
+    super(selection);
+    setTitle(Messages.createTestDiagramWizardTitle);
+    setDescription("This wizard creates a new System in Cloud Diagram Test.");
+  }
 
-	public CreateTestDiagramWizardNamePage(IStructuredSelection selection) {
-		super(selection);
-		setTitle(WIZARD_PAGE_TITLE);
-		setDescription("This wizard creates a new System in Cloud Diagram Test.");
-	}
+  @Override
+  protected String getResourceFolder() {
+    return SourceFolders.TEST_RESOURCES;
+  }
 
-	@Override protected String getResourceFolder() { return SourceFolders.TEST_RESOURCES; }
-	@Override protected String getDiagramFolder()  { return SourceFolders.TEST_DIAGRAM_FOLDER; }
-	@Override protected String getDefaultName()    { return DEFAULT_DIAGRAM_NAME + Constants.DIAGRAM_EXTENSION_DOT; }
+  @Override
+  protected String getDiagramFolder() {
+    return SourceFolders.TEST_DIAGRAM_FOLDER;
+  }
+
+  @Override
+  protected String getDefaultName() {
+    return DEFAULT_DIAGRAM_NAME + Constants.DIAGRAM_EXTENSION_DOT;
+  }
 }
-

@@ -22,8 +22,9 @@ public final class Messages extends NLS {
   public static String createNatureFailed;
   public static String createPomFileFailed;
   public static String createClasspathFileFailed;
+  public static String createDiagramWizardTitle;
+  public static String createTestDiagramWizardTitle;
   public static String CreateDiagramWizard_PageTitle;
-  public static String CreateTestDiagramWizard_WizardTitle;
   public static String ProjectValidator_ProjectNatureCheckTitle;
   public static String ProjectValidator_ProjectNatureCheckMessage;
   public static String ProjectValidator_ProjectNatureCheckToogle;

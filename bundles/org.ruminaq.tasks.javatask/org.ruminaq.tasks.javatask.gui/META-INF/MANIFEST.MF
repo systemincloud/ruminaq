@@ -4,6 +4,7 @@ Bundle-Name: Ruminaq - Tasks - JavaTask
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.javatask.gui
 Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.m2e.maven.runtime
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.apache.commons.cli,

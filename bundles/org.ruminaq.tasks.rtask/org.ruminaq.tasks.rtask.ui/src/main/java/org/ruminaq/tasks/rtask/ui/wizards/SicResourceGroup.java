@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Text;
 import org.ruminaq.consts.Constants;
-
+import org.ruminaq.eclipse.wizards.project.Nature;
 import de.walware.ecommons.ui.dialogs.groups.Layouter;
 import de.walware.ecommons.ui.workbench.ContainerSelectionComposite;
 import de.walware.statet.base.core.StatetProject;
@@ -53,7 +53,7 @@ public class SicResourceGroup extends ResourceGroup {
                 final IProject project = container.getProject();
                 try {
                     if(project.hasNature(StatetProject.NATURE_ID) &&
-                       project.hasNature(Constants.NATURE_ID) &&
+                       project.hasNature(Nature.NATURE_ID) &&
                        SicResourceGroup.this.project != null ? SicResourceGroup.this.project == project : true) {
                         if(container instanceof IProject) return true;
                         if(container instanceof IFolder) {
