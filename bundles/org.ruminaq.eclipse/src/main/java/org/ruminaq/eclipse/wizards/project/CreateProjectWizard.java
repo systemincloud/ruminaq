@@ -71,10 +71,10 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
       IMavenConstants.BUILDER_ID + ".launch"; //$NON-NLS-1$
 
   private static final String MAIN_MODULE = "MAIN_MODULE"; //$NON-NLS-1$
-//
-//  private Collection<EclipseExtension> extensions = ServiceUtil
-//      .getServicesAtLatestVersion(CreateProjectWizard.class,
-//          EclipseExtension.class);
+
+  private Collection<EclipseExtension> extensions = ServiceUtil
+      .getServicesAtLatestVersion(CreateProjectWizard.class,
+          EclipseExtension.class);
 
   /**
    * New project wizard.

@@ -33,9 +33,12 @@ public class ServiceUtil {
     if (bundle != null) {
       ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(), clazz, null);
       st.open();
-      return Stream.of(st.getServiceReferences())
-          .<T>map(st::getService)
-          .collect(Collectors.<T>toList());
+      ServiceReference<T>[] srs = st.getServiceReferences();
+      if (srs != null) {
+        return Stream.of(srs)
+            .<T>map(st::getService)
+            .collect(Collectors.<T>toList());
+      }
     }
     return Collections.emptyList();
   }
@@ -45,17 +48,20 @@ public class ServiceUtil {
     if (bundle != null) {
       ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(), clazz, null);
       st.open();
-      return Stream.of(st.getServiceReferences())
-          .<SimpleEntry<ServiceReference<T>, T>>map(r -> new SimpleEntry<ServiceReference<T>, T>(r, st.getService(r)))
-          .collect(Collectors.groupingBy(e -> e.getKey().getBundle().getSymbolicName()))
-          .entrySet()
-          .stream()
-          .map(e -> e.getValue()
-              .stream()
-              .max(Comparator.comparing(r -> r.getKey().getBundle().getVersion()))
-              .get()
-              .getValue())
-          .collect(Collectors.toList());
+      ServiceReference<T>[] srs = st.getServiceReferences();
+      if (srs != null) {
+        return Stream.of(srs)
+            .<SimpleEntry<ServiceReference<T>, T>>map(r -> new SimpleEntry<ServiceReference<T>, T>(r, st.getService(r)))
+            .collect(Collectors.groupingBy(e -> e.getKey().getBundle().getSymbolicName()))
+            .entrySet()
+            .stream()
+            .map(e -> e.getValue()
+                .stream()
+                .max(Comparator.comparing(r -> r.getKey().getBundle().getVersion()))
+                .get()
+                .getValue())
+            .collect(Collectors.toList());
+      }
     }
 
     return Collections.emptyList();
