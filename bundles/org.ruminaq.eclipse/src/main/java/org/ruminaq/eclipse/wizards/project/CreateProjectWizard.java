@@ -59,7 +59,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
   private static final String BASIC_NEW_PROJECT_PAGE_NAME = "basicNewProjectPage"; //$NON-NLS-1$
 
-  private static final String PROPERTIES_FILE = "src/main/resources/ruminaq.properties"; //$NON-NLS-1$
+  private static final String PROPERTIES_FILE = SourceFolders.MAIN_RESOURCES
+      + "/ruminaq.properties"; //$NON-NLS-1$
 
   private static final String OUTPUT_CLASSES = "target/classes"; //$NON-NLS-1$
 
@@ -119,7 +120,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
       configureBuilders(newProject);
       createPropertiesFile(newProject);
 
-      ProjectProps.getInstance(newProject).put(ProjectProps.MODELER_VERSION,
+      ProjectProps.getInstance(newProject).put(
+          ProjectProps.MODELER_VERSION,
           PlatformUtil.getBundleVersion(this.getClass()).toString());
 
       deleteBinDirectory(newProject);
@@ -140,7 +142,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     return true;
   }
 
-  private void deleteBinDirectory(IProject projet) throws RuminaqException {
+  private void deleteBinDirectory(IProject projet)
+      throws RuminaqException {
     try {
       EclipseUtil.deleteProjectDirectoryIfExists(projet,
           EclipseUtil.BIN_DIRECTORY);
@@ -153,7 +156,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
   private void updateProject(IProject project) throws RuminaqException {
     IProjectConfigurationManager configurationManager = MavenPlugin
         .getProjectConfigurationManager();
-    MavenUpdateRequest request = new MavenUpdateRequest(project, true, true);
+    MavenUpdateRequest request = new MavenUpdateRequest(project, true,
+        true);
     try {
       configurationManager.updateProjectConfiguration(request,
           new NullProgressMonitor());
@@ -194,7 +198,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private void configureBuilders(IProject project) throws RuminaqException {
+  private void configureBuilders(IProject project)
+      throws RuminaqException {
     try {
       EclipseUtil.createFolderWithParents(project, EXTERNALTOOLBUILDERS);
     } catch (CoreException e) {
@@ -205,17 +210,16 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     try {
       IFile outputFile = project.getFolder(EXTERNALTOOLBUILDERS)
           .getFile(BUILDER_CONFIG_MVN);
-      outputFile.create(
-          CreateProjectWizard.class.getResourceAsStream(BUILDER_CONFIG_MVN),
-          true, null);
+      outputFile.create(CreateProjectWizard.class
+          .getResourceAsStream(BUILDER_CONFIG_MVN), true, null);
       Optional<ICommand> command = Arrays
           .stream(project.getDescription().getBuildSpec())
-          .filter(
-              cmd -> cmd.getBuilderName().equals(IMavenConstants.BUILDER_ID))
+          .filter(cmd -> cmd.getBuilderName()
+              .equals(IMavenConstants.BUILDER_ID))
           .findFirst();
       if (command.isPresent()) {
-        command.get()
-            .setBuilderName("org.eclipse.ui.externaltools.ExternalToolBuilder");
+        command.get().setBuilderName(
+            "org.eclipse.ui.externaltools.ExternalToolBuilder");
         command.get().getArguments().put("LaunchConfigHandle",
             "<project>/.externalToolBuilders/org.eclipse.m2e.core.maven2Builder.launch");
       }

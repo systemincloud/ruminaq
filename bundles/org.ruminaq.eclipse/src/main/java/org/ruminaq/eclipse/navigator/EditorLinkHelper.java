@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package org.ruminaq.eclipse.navigator;
 
 import org.eclipse.core.resources.IFile;
@@ -28,27 +29,26 @@ public class EditorLinkHelper implements ILinkHelper {
   @Override
   public IStructuredSelection findSelection(IEditorInput editorInput) {
     if (editorInput instanceof DiagramEditorInput) {
-      if (editorInput.exists()) {
-        DiagramEditorInput diagramEditorInput = (DiagramEditorInput) editorInput;
-        final IFile file = getFile(diagramEditorInput.getUri());
-        if (file != null)
-          return new StructuredSelection(file);
+      DiagramEditorInput diagramEditorInput = (DiagramEditorInput) editorInput;
+      final IFile file = getFile(diagramEditorInput.getUri());
+      if (editorInput.exists() && file != null) {
+        return new StructuredSelection(file);
       }
     }
     return StructuredSelection.EMPTY;
   }
 
   @Override
-  public void activateEditor(IWorkbenchPage aPage,
-      IStructuredSelection aSelection) {
-    if (aSelection == null || aSelection.isEmpty())
+  public void activateEditor(IWorkbenchPage page,
+      IStructuredSelection selection) {
+    if (selection == null || selection.isEmpty())
       return;
-    if (aSelection.getFirstElement() instanceof IFile) {
+    if (selection.getFirstElement() instanceof IFile) {
       IEditorInput fileInput = new FileEditorInput(
-          (IFile) aSelection.getFirstElement());
-      IEditorPart editor = aPage.findEditor(fileInput);
+          (IFile) selection.getFirstElement());
+      IEditorPart editor = page.findEditor(fileInput);
       if (editor != null)
-        aPage.bringToTop(editor);
+        page.bringToTop(editor);
     }
   }
 
