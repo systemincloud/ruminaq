@@ -63,7 +63,7 @@ import org.ruminaq.tasks.pythontask.wizards.CreateProjectWizard;
 
 import ch.qos.logback.classic.Logger;
 
-@Component
+//@Component
 public class TaskApi implements ITaskApi, EclipseExtension {
 
     private final Logger logger = ModelerLoggerFactory.getLogger(TaskApi.class);
@@ -72,84 +72,87 @@ public class TaskApi implements ITaskApi, EclipseExtension {
     private Version version;
     private String jythonPath;
 
+    public TaskApi() {
+    }
+
     @Activate
     void activate(Map<String, Object> properties) {
-        Executors.newSingleThreadExecutor().submit(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    // jython
-                    Artifact jythonJar = new DefaultArtifact("org.python", "jython-standalone", "2.7.0", null, "jar", "", new DefaultArtifactHandler("jar"));
-                    jythonJar = MavenPlugin.getMaven().getLocalRepository().find(jythonJar);
-                    logger.trace("jython should be here: {}", jythonJar.getFile().getAbsolutePath());
-                    if(!jythonJar.getFile().exists()) {
-                        logger.trace("jython jar not present in maven repo");
-                        MavenPlugin.getMaven().resolve(jythonJar.getGroupId(),
-                                                       jythonJar.getArtifactId(),
-                                                       jythonJar.getVersion(),
-                                                       jythonJar.getType(), "",
-                                                       MavenPlugin.getMaven().getArtifactRepositories(), new NullProgressMonitor());
-                    }
-
-                    String jythonLibDirPath = jythonJar.getFile().getParentFile().getAbsolutePath() + File.separator + "Lib";
-                    File jythonLibDir = new File(jythonLibDirPath);
-                    if(!jythonLibDir.exists()) {
-                        try {
-                            JarFile jar = new JarFile(jythonJar.getFile());
-                            Enumeration<JarEntry> enumEntries = jar.entries();
-                            while (enumEntries.hasMoreElements()) {
-                                JarEntry file = enumEntries.nextElement();
-                                if(!file.getName().startsWith("Lib")) continue;
-                                File f = new File(jythonJar.getFile().getParentFile().getAbsolutePath() + File.separator + file.getName());
-                                if(file.isDirectory()) {
-                                    f.mkdir();
-                                    continue;
-                                }
-                                InputStream is = jar.getInputStream(file);
-                                FileOutputStream fos = new java.io.FileOutputStream(f);
-                                while (is.available() > 0)
-                                    fos.write(is.read());
-                                fos.close();
-                                is.close();
-                            }
-                            jar.close();
-                        } catch (IOException e) { e.printStackTrace(); }
-                    }
-
-                    jythonPath = jythonJar.getFile().getAbsolutePath();
-
-                    boolean jythonJarIncluded = false;
-                    for(IInterpreterInfo ii : InterpreterManagersAPI.getJythonInterpreterManager(true).getInterpreterInfos())
-                        if(ii.getExecutableOrJar().equals(jythonJar.getFile().getPath())) {
-                            jythonJarIncluded = true;
-                            if(!ii.getPythonPath().contains(jythonLibDirPath))
-                                ii.getPythonPath().add(jythonLibDirPath);
-                        }
-
-                    logger.trace("jython jar included in interprepers : {}", jythonJarIncluded);
-
-                    if(!jythonJarIncluded) {
-                        IInterpreterInfo ii = InterpreterManagersAPI.getJythonInterpreterManager(true).createInterpreterInfo(jythonJar.getFile().getPath(), new NullProgressMonitor(), false);
-                        ii.setName("jython-2.7.0");
-                        InterpreterManagersAPI.getJythonInterpreterManager(true)
-                                   .setInfos(new IInterpreterInfo[] {ii},
-                                             new HashSet<String>(Arrays.asList(new String[]{"jython-2.7.0"})),
-                                             new NullProgressMonitor());
-                        ii.getPythonPath().add(jythonLibDirPath);
-                   }
-
-                    // pythontask.process
-                    Artifact processJar = new DefaultArtifact(PythonTaskI.PROCESS_LIB_GROUPID,
-                                                              PythonTaskI.PROCESS_LIB_ARTIFACT,
-                                                              PythonTaskI.PROCESS_LIB_VERSION, null, "jar", "", new DefaultArtifactHandler("jar"));
-                    processJar = MavenPlugin.getMaven().getLocalRepository().find(processJar);
-                    if(!processJar.getFile().exists())
-                        MavenPlugin.getMaven().resolve(processJar.getGroupId(), processJar.getArtifactId(), processJar.getVersion(), processJar.getType(), "",
-                                                       MavenPlugin.getMaven().getArtifactRepositories(), new NullProgressMonitor());
-
-                } catch(CoreException e) { }
-            }
-        });
+//        Executors.newSingleThreadExecutor().submit(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    // jython
+//                    Artifact jythonJar = new DefaultArtifact("org.python", "jython-standalone", "2.7.0", null, "jar", "", new DefaultArtifactHandler("jar"));
+//                    jythonJar = MavenPlugin.getMaven().getLocalRepository().find(jythonJar);
+//                    logger.trace("jython should be here: {}", jythonJar.getFile().getAbsolutePath());
+//                    if(!jythonJar.getFile().exists()) {
+//                        logger.trace("jython jar not present in maven repo");
+//                        MavenPlugin.getMaven().resolve(jythonJar.getGroupId(),
+//                                                       jythonJar.getArtifactId(),
+//                                                       jythonJar.getVersion(),
+//                                                       jythonJar.getType(), "",
+//                                                       MavenPlugin.getMaven().getArtifactRepositories(), new NullProgressMonitor());
+//                    }
+//
+//                    String jythonLibDirPath = jythonJar.getFile().getParentFile().getAbsolutePath() + File.separator + "Lib";
+//                    File jythonLibDir = new File(jythonLibDirPath);
+//                    if(!jythonLibDir.exists()) {
+//                        try {
+//                            JarFile jar = new JarFile(jythonJar.getFile());
+//                            Enumeration<JarEntry> enumEntries = jar.entries();
+//                            while (enumEntries.hasMoreElements()) {
+//                                JarEntry file = enumEntries.nextElement();
+//                                if(!file.getName().startsWith("Lib")) continue;
+//                                File f = new File(jythonJar.getFile().getParentFile().getAbsolutePath() + File.separator + file.getName());
+//                                if(file.isDirectory()) {
+//                                    f.mkdir();
+//                                    continue;
+//                                }
+//                                InputStream is = jar.getInputStream(file);
+//                                FileOutputStream fos = new java.io.FileOutputStream(f);
+//                                while (is.available() > 0)
+//                                    fos.write(is.read());
+//                                fos.close();
+//                                is.close();
+//                            }
+//                            jar.close();
+//                        } catch (IOException e) { e.printStackTrace(); }
+//                    }
+//
+//                    jythonPath = jythonJar.getFile().getAbsolutePath();
+//
+//                    boolean jythonJarIncluded = false;
+//                    for(IInterpreterInfo ii : InterpreterManagersAPI.getJythonInterpreterManager(true).getInterpreterInfos())
+//                        if(ii.getExecutableOrJar().equals(jythonJar.getFile().getPath())) {
+//                            jythonJarIncluded = true;
+//                            if(!ii.getPythonPath().contains(jythonLibDirPath))
+//                                ii.getPythonPath().add(jythonLibDirPath);
+//                        }
+//
+//                    logger.trace("jython jar included in interprepers : {}", jythonJarIncluded);
+//
+//                    if(!jythonJarIncluded) {
+//                        IInterpreterInfo ii = InterpreterManagersAPI.getJythonInterpreterManager(true).createInterpreterInfo(jythonJar.getFile().getPath(), new NullProgressMonitor(), false);
+//                        ii.setName("jython-2.7.0");
+//                        InterpreterManagersAPI.getJythonInterpreterManager(true)
+//                                   .setInfos(new IInterpreterInfo[] {ii},
+//                                             new HashSet<String>(Arrays.asList(new String[]{"jython-2.7.0"})),
+//                                             new NullProgressMonitor());
+//                        ii.getPythonPath().add(jythonLibDirPath);
+//                   }
+//
+//                    // pythontask.process
+//                    Artifact processJar = new DefaultArtifact(PythonTaskI.PROCESS_LIB_GROUPID,
+//                                                              PythonTaskI.PROCESS_LIB_ARTIFACT,
+//                                                              PythonTaskI.PROCESS_LIB_VERSION, null, "jar", "", new DefaultArtifactHandler("jar"));
+//                    processJar = MavenPlugin.getMaven().getLocalRepository().find(processJar);
+//                    if(!processJar.getFile().exists())
+//                        MavenPlugin.getMaven().resolve(processJar.getGroupId(), processJar.getArtifactId(), processJar.getVersion(), processJar.getType(), "",
+//                                                       MavenPlugin.getMaven().getArtifactRepositories(), new NullProgressMonitor());
+//
+//                } catch(CoreException e) { }
+//            }
+//        });
     }
 
     @Override

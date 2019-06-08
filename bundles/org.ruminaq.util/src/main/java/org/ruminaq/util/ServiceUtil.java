@@ -4,8 +4,6 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,11 +33,9 @@ public class ServiceUtil {
     if (bundle != null) {
       ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(), clazz, null);
       st.open();
-      List<T> ret = new LinkedList<T>();
-      ret.addAll(Stream.of(st.getServiceReferences())
+      return Stream.of(st.getServiceReferences())
           .<T>map(st::getService)
-          .collect(Collectors.toList()));
-      return ret;
+          .collect(Collectors.<T>toList());
     }
     return Collections.emptyList();
   }
@@ -49,8 +45,7 @@ public class ServiceUtil {
     if (bundle != null) {
       ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(), clazz, null);
       st.open();
-      List<T> ret = new LinkedList<>();
-      ret.addAll(Stream.of(st.getServiceReferences())
+      return Stream.of(st.getServiceReferences())
           .<SimpleEntry<ServiceReference<T>, T>>map(r -> new SimpleEntry<ServiceReference<T>, T>(r, st.getService(r)))
           .collect(Collectors.groupingBy(e -> e.getKey().getBundle().getSymbolicName()))
           .entrySet()
@@ -60,9 +55,9 @@ public class ServiceUtil {
               .max(Comparator.comparing(r -> r.getKey().getBundle().getVersion()))
               .get()
               .getValue())
-          .collect(Collectors.toList()));
-      return ret;
+          .collect(Collectors.toList());
     }
+
     return Collections.emptyList();
   }
 }

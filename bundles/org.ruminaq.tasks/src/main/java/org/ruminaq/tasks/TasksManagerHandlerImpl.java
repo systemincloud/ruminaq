@@ -52,58 +52,56 @@ import org.ruminaq.tasks.api.TasksExtensionHandler;
 import org.slf4j.Logger;
 
 @SuppressWarnings("unchecked")
-@Component(immediate = true)
 public class TasksManagerHandlerImpl implements TaskManagerHandler {
 
     private final Logger logger = ModelerLoggerFactory.getLogger(TasksManagerHandlerImpl.class);
 
-	@Reference
-	private TasksExtensionHandler extensions;
+  private TasksExtensionHandler extensions;
 
-	private Collection<ITaskApi> tasks;
-	private Collection<ITaskApi> projectVersionTasks;
+  private Collection<ITaskApi> tasks;
+  private Collection<ITaskApi> projectVersionTasks;
 
-	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
-	protected void bind(ITaskApi extension) {
-		if (tasks == null) {
-			tasks = new ArrayList<>();
-		}
-		if (projectVersionTasks == null) {
-			projectVersionTasks = new ArrayList<>();
-		}
-		tasks.add(extension);
+  @Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
+  protected void bind(ITaskApi extension) {
+    if (tasks == null) {
+      tasks = new ArrayList<>();
+    }
+    if (projectVersionTasks == null) {
+      projectVersionTasks = new ArrayList<>();
+    }
+    tasks.add(extension);
 
         String version = extension.getVersion().getMajor() + "." +
-        		extension.getVersion().getMinor() + "." +
-        		extension.getVersion().getMicro();
+            extension.getVersion().getMinor() + "." +
+            extension.getVersion().getMicro();
         if (version.equals(nameVersion.get(extension.getSymbolicName()))) {
-        	projectVersionTasks.add(extension);
+          projectVersionTasks.add(extension);
         }
 
         taskJarsPaths.addAll(getPaths(tasks));
-	}
+  }
 
-	protected void unbind(ITaskApi extension) {
-		tasks.remove(extension);
-		projectVersionTasks.remove(extension);
-	}
+  protected void unbind(ITaskApi extension) {
+    tasks.remove(extension);
+    projectVersionTasks.remove(extension);
+  }
 
     private JSONParser parser = new JSONParser();
     private Map<String, String> nameVersion  = new HashMap<>();
 
-	private List<String> taskJarsPaths = new ArrayList<>();
+  private List<String> taskJarsPaths = new ArrayList<>();
 
-	public Collection<ITaskApi> getTasks() {
-		return tasks;
-	}
+  public Collection<ITaskApi> getTasks() {
+    return tasks;
+  }
 
-	public Collection<ITaskApi> getProjectVersionTasks() {
-		return projectVersionTasks;
-	}
+  public Collection<ITaskApi> getProjectVersionTasks() {
+    return projectVersionTasks;
+  }
 
-	public List<String> getTaskJarsPaths() {
-		return taskJarsPaths;
-	}
+  public List<String> getTaskJarsPaths() {
+    return taskJarsPaths;
+  }
 
     public void init(BundleContext ctx) {
         JSONObject listJson = null;
@@ -135,9 +133,9 @@ public class TasksManagerHandlerImpl implements TaskManagerHandler {
             if(s == null) continue;
             listJson = null;
             try {
-            	listJson = (JSONObject) parser.parse(s);
+              listJson = (JSONObject) parser.parse(s);
             } catch (ParseException e) {
-            	continue;
+              continue;
             }
             JSONArray tasks = (JSONArray) listJson.get("tasks");
             if (tasks != null) {
@@ -168,7 +166,7 @@ public class TasksManagerHandlerImpl implements TaskManagerHandler {
         return paths;
     }
 
-    public List<IDebugTarget> getDebugTargets(ILaunch launch, IProject project,	EventDispatchJob dispatcher) {
+    public List<IDebugTarget> getDebugTargets(ILaunch launch, IProject project,  EventDispatchJob dispatcher) {
         List<IDebugTarget> dts = new LinkedList<>();
         projectVersionTasks.stream().forEach(ta -> dts.addAll(ta.getDebugTargets(launch, project, dispatcher)));
         return dts;
@@ -220,7 +218,7 @@ public class TasksManagerHandlerImpl implements TaskManagerHandler {
             public void widgetSelected(SelectionEvent se) {
                 ModelUtil.runModelChange(new Runnable() {
                     @Override
-                    public void run() { task.setOnlyLocalUser(btnOnlyLocal.getSelection());	}
+                    public void run() { task.setOnlyLocalUser(btnOnlyLocal.getSelection());  }
                 }, ed, "Model Update");
             }});
 

@@ -30,7 +30,7 @@ public class CreateProjectWizard {
         setNatureIds(newProject.getProject());
         addPyBuilder(newProject.getProject());
         createSourceFolders(newProject.getProject());
-        createPyDevProjectFile(newProject.getProject());
+        //createPyDevProjectFile(newProject.getProject());
         return true;
     }
 

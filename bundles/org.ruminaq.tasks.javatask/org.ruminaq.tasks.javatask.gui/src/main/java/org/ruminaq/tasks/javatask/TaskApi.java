@@ -39,7 +39,7 @@ import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.tasks.javatask.model.javatask.JavataskPackage;
 import org.ruminaq.tasks.javatask.wizards.CreateProjectWizard;
 
-@Component
+//@Component
 public class TaskApi implements ITaskApi, EclipseExtension {
 
   public static final String MAIN_JAVA = "src/main/java";

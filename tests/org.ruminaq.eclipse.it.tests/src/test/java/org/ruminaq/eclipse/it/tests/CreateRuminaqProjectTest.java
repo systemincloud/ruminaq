@@ -9,6 +9,8 @@ package org.ruminaq.eclipse.it.tests;
 import java.util.Collection;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.AfterClass;
@@ -28,14 +30,16 @@ import org.ruminaq.util.ServiceUtil;
 public class CreateRuminaqProjectTest {
 
   private static SWTWorkbenchBot bot;
+  private static IWorkspace workspace;
   private static Collection<EclipseTestExtension> extensions;
 
   @BeforeClass
   public static void initBot() {
     bot = new SWTWorkbenchBot();
-    extensions = ServiceUtil
-        .getServicesAtLatestVersion(CreateRuminaqProjectTest.class,
-            EclipseTestExtension.class);
+    workspace = ResourcesPlugin.getWorkspace();
+//    extensions = ServiceUtil
+//        .getServicesAtLatestVersion(CreateRuminaqProjectTest.class,
+//            EclipseTestExtension.class);
   }
 
   @AfterClass
@@ -50,6 +54,7 @@ public class CreateRuminaqProjectTest {
     new CreateRuminaqProject().execute(bot,
         "test" + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH));
 
+//    workspace.
     bot.resetWorkbench();
   }
 }

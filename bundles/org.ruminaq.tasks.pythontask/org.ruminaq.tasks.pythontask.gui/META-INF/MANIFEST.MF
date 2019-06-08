@@ -119,3 +119,4 @@ Export-Package: org.ruminaq.tasks.pythontask,
  org.ruminaq.tasks.pythontask.wizards
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-ActivationPolicy: lazy

@@ -41,9 +41,9 @@ public final class JavaClasspathFile {
 
   private static final String TARGET_PATH = "target/test-classes"; //$NON-NLS-1$
 
-  private Collection<EclipseExtension> extensions = ServiceUtil
-      .getServicesAtLatestVersion(CreateProjectWizard.class,
-          EclipseExtension.class);
+//  private Collection<EclipseExtension> extensions = ServiceUtil
+//      .getServicesAtLatestVersion(JavaClasspathFile.class,
+//          EclipseExtension.class);
 
   /**
    * Writes to .classpath file when new project is created.
@@ -55,13 +55,13 @@ public final class JavaClasspathFile {
     List<IClasspathEntry> entries = new LinkedList<>();
     IPath[] javaPath = new IPath[] { new Path(JAVA_PATH) };
     IPath testOutputLocation = javaProject.getPath().append(TARGET_PATH);
-
-    entries.addAll(
-        extensions
-          .stream()
-          .<List<IClasspathEntry>>map(e -> e.getClasspathEntries(javaProject))
-          .<IClasspathEntry>flatMap(List::stream)
-          .collect(Collectors.toList()));
+//
+//    entries.addAll(
+//        extensions
+//          .stream()
+//          .<List<IClasspathEntry>>map(e -> e.getClasspathEntries(javaProject))
+//          .<IClasspathEntry>flatMap(List::stream)
+//          .collect(Collectors.toList()));
 
     entries.add(JavaCore.newSourceEntry(
         javaProject.getPath().append(SourceFolders.MAIN_RESOURCES), javaPath));

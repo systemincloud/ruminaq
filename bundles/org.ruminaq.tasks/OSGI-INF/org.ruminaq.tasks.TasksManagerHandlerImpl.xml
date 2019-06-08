@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" immediate="true" name="org.ruminaq.tasks.TasksManagerHandlerImpl">
-   <service>
-      <provide interface="org.ruminaq.tasks.api.TaskManagerHandler"/>
-   </service>
-   <reference bind="bind" cardinality="0..n" interface="org.ruminaq.tasks.api.ITaskApi" policy="dynamic" unbind="unbind"/>
-   <reference cardinality="1..1" field="extensions" interface="org.ruminaq.tasks.api.TasksExtensionHandler" name="extensions"/>
-   <implementation class="org.ruminaq.tasks.TasksManagerHandlerImpl"/>
-</scr:component>

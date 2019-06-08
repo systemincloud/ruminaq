@@ -55,9 +55,9 @@ import org.ruminaq.validation.ValidationStatusLoader;
  */
 public class RuminaqEditor extends DiagramEditor {
 
-  private Collection<EclipseExtension> extensions = ServiceUtil
-      .getServicesAtLatestVersion(CreateProjectWizard.class,
-          EclipseExtension.class);
+//  private Collection<EclipseExtension> extensions = ServiceUtil
+//      .getServicesAtLatestVersion(RuminaqEditor.class,
+//          EclipseExtension.class);
 
   private IResourceChangeListener markerChangeListener;
 
@@ -81,7 +81,7 @@ public class RuminaqEditor extends DiagramEditor {
   public void init(IEditorSite site, IEditorInput input)
       throws PartInitException {
     super.init(site, input);
-    extensions.stream().forEach(EclipseExtension::initEditor);
+//    extensions.stream().forEach(EclipseExtension::initEditor);
     IOperationHistory history = getOperationHistory();
     if (history != null) {
       getOperationHistory()

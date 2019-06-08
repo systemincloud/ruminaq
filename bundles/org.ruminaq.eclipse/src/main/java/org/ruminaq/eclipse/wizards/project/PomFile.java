@@ -46,9 +46,9 @@ public final class PomFile {
 
   private static final String M2_REPO_URL = "https://s3.amazonaws.com/org-ruminaq-s3-m2/releases"; //$NON-NLS-1$
 
-  private Collection<EclipseExtension> extensions = ServiceUtil
-      .getServicesAtLatestVersion(CreateProjectWizard.class,
-          EclipseExtension.class);
+//  private Collection<EclipseExtension> extensions = ServiceUtil
+//      .getServicesAtLatestVersion(PomFile.class,
+//          EclipseExtension.class);
 
   /**
    * Creates maven pom file.
@@ -66,12 +66,12 @@ public final class PomFile {
       throw new RuminaqException(Messages.createPomFileFailed);
     }
 
-    model.getDependencies().addAll(
-        extensions
-          .stream()
-          .<List<Dependency>>map(EclipseExtension::getMavenDependencies)
-          .<Dependency>flatMap(List::stream)
-          .collect(Collectors.toList()));
+//    model.getDependencies().addAll(
+//        extensions
+//          .stream()
+//          .<List<Dependency>>map(EclipseExtension::getMavenDependencies)
+//          .<Dependency>flatMap(List::stream)
+//          .collect(Collectors.toList()));
 
     var repository = new Repository();
     repository.setId(M2_REPO_ID);
