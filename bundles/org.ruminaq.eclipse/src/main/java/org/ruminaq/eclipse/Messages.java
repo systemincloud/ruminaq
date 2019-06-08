@@ -1,6 +1,8 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
 
 package org.ruminaq.eclipse;
 
@@ -11,6 +13,7 @@ import org.eclipse.osgi.util.NLS;
  *
  * @author Marek Jagielski
  */
+@SuppressWarnings("squid:S1820")
 public final class Messages extends NLS {
 
   private static final String BUNDLE_NAME = "org.ruminaq.eclipse.messages"; //$NON-NLS-1$
