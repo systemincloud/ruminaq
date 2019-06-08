@@ -396,9 +396,6 @@
           <encoding>UTF-8</encoding>
           <consoleOutput>false</consoleOutput>
           <configLocation>google_checks.xml</configLocation>
-          <checkstyleRules>
-          CustomImportOrder
-          </checkstyleRules>
         </configuration>
       </plugin>
       <!-- enable source feature generation -->
