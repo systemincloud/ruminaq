@@ -85,14 +85,11 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
     super.createPageControls(pageContainer);
 
-    final WizardNewProjectCreationPage basicNewProjectPage = getBasicNewProjectPage();
-    if (basicNewProjectPage != null) {
-      basicNewProjectPage.setTitle(Messages.createProjectWizardTitle);
-      basicNewProjectPage.setImageDescriptor(
-          ImageUtil.getImageDescriptor(Image.RUMINAQ_LOGO_64X64));
-      basicNewProjectPage
-          .setDescription(Messages.createProjectWizardDescription);
-    }
+    WizardNewProjectCreationPage basicNewProjectPage = getBasicNewProjectPage();
+    basicNewProjectPage.setTitle(Messages.createProjectWizardTitle);
+    basicNewProjectPage.setImageDescriptor(
+        ImageUtil.getImageDescriptor(Image.RUMINAQ_LOGO_64X64));
+    basicNewProjectPage.setDescription(Messages.createProjectWizardDescription);
   }
 
   /**
@@ -141,7 +138,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     return true;
   }
 
-  private static void deleteBinDirectory(IProject projet) throws RuminaqException {
+  private static void deleteBinDirectory(IProject projet)
+      throws RuminaqException {
     try {
       EclipseUtil.deleteProjectDirectoryIfExists(projet,
           EclipseUtil.BIN_DIRECTORY);
@@ -172,14 +170,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
    * page allowing the user to specify the project name and location.
    */
   private WizardNewProjectCreationPage getBasicNewProjectPage() {
-
-    WizardNewProjectCreationPage result = null;
-
-    final IWizardPage page = getPage(BASIC_NEW_PROJECT_PAGE_NAME);
-    if (page instanceof WizardNewProjectCreationPage) {
-      result = (WizardNewProjectCreationPage) page;
-    }
-    return result;
+    return (WizardNewProjectCreationPage) getPage(BASIC_NEW_PROJECT_PAGE_NAME);
   }
 
   private static void createOutputLocation(IJavaProject javaProject)
@@ -192,7 +183,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void configureBuilders(IProject project) throws RuminaqException {
+  private static void configureBuilders(IProject project)
+      throws RuminaqException {
     try {
       EclipseUtil.createFolderWithParents(project, EXTERNALTOOLBUILDERS);
     } catch (CoreException e) {

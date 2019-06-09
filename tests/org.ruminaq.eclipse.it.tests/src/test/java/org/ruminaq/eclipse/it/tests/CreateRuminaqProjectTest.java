@@ -7,18 +7,30 @@
 package org.ruminaq.eclipse.it.tests;
 
 import java.util.Collection;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectNatureDescriptor;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.ui.IPerspectiveDescriptor;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.activities.IWorkbenchActivitySupport;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.it.tests.actions.CreateRuminaqProject;
 import org.ruminaq.eclipse.it.tests.api.EclipseTestExtension;
+import org.ruminaq.eclipse.wizards.project.Nature;
 import org.ruminaq.util.ServiceUtil;
 
 /**
@@ -30,12 +42,18 @@ import org.ruminaq.util.ServiceUtil;
 public class CreateRuminaqProjectTest {
 
   private static SWTWorkbenchBot bot;
+  private static IWorkbench workbench;
   private static IWorkspace workspace;
   private static Collection<EclipseTestExtension> extensions;
 
+  /**
+   * Initialize SWTBot.
+   *
+   */
   @BeforeClass
   public static void initBot() {
     bot = new SWTWorkbenchBot();
+    workbench = PlatformUI.getWorkbench();
     workspace = ResourcesPlugin.getWorkspace();
 //    extensions = ServiceUtil
 //        .getServicesAtLatestVersion(CreateRuminaqProjectTest.class,
@@ -49,12 +67,30 @@ public class CreateRuminaqProjectTest {
 
   private static final int PROJECT_SUFFIX_LENGTH = 5;
 
-  @Test
-  public final void testCreateProjectTest() {
-    new CreateRuminaqProject().execute(bot,
-        "test" + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH));
+  private IPerspectiveDescriptor perspective;
 
-//    workspace.
+  @Test
+  public final void testCreateProjectTest() throws CoreException {
+    String projectName = "test"
+        + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
+    new CreateRuminaqProject().execute(bot, projectName);
+
+    Display.getDefault().syncExec(new Runnable() {
+      @Override
+      public void run() {
+        perspective = workbench.getActiveWorkbenchWindow().getActivePage()
+            .getPerspective();
+      }
+    });
+    Assert.assertEquals("Perspective should be changed",
+        "org.ruminaq.eclipse.perspective.RuminaqPerspective",
+        perspective.getId());
+
+    IProject project = workspace.getRoot().getProject(projectName);
+
+    Assert.assertTrue("Workspace nature should change to Ruminaq",
+        project.hasNature(Nature.NATURE_ID));
+
     bot.resetWorkbench();
   }
 }

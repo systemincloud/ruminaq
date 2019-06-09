@@ -43,5 +43,6 @@ public class CreateRuminaqProject {
     bot.button("Open Perspective").click();
 
     bot.waitUntil(shellCloses(shellOpenPerpeitve));
+    bot.viewByTitle("Welcome").close();
   }
 }
