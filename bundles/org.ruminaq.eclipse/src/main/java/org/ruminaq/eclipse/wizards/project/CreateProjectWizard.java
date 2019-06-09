@@ -25,7 +25,6 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.project.IProjectConfigurationManager;
@@ -85,7 +84,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
     super.createPageControls(pageContainer);
 
-    WizardNewProjectCreationPage basicNewProjectPage = getBasicNewProjectPage();
+    WizardNewProjectCreationPage basicNewProjectPage = (WizardNewProjectCreationPage) getPage(
+        BASIC_NEW_PROJECT_PAGE_NAME);
     basicNewProjectPage.setTitle(Messages.createProjectWizardTitle);
     basicNewProjectPage.setImageDescriptor(
         ImageUtil.getImageDescriptor(Image.RUMINAQ_LOGO_64X64));
@@ -99,47 +99,45 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
    */
   @Override
   public boolean performFinish() {
-    if (!super.performFinish()) {
-      return false;
+    if (super.performFinish()) {
+      IProject newProject = getNewProject();
+
+      try {
+        Nature.setNatureIds(newProject);
+        SourceFolders.createSourceFolders(newProject);
+
+        IJavaProject javaProject = JavaCore.create(newProject);
+        new JavaClasspathFile().setClasspathEntries(javaProject);
+        createOutputLocation(javaProject);
+
+        new PomFile().createPomFile(newProject);
+        configureBuilders(newProject);
+        createPropertiesFile(newProject);
+
+        ProjectProps.getInstance(newProject).put(ProjectProps.MODELER_VERSION,
+            PlatformUtil.getBundleVersion(this.getClass()).toString());
+
+        deleteBinDirectory(newProject);
+
+        extensions.stream()
+            .forEach(e -> e.createProjectWizardPerformFinish(javaProject));
+
+        updateProject(newProject);
+
+        return true;
+
+      } catch (RuminaqException e) {
+        LOGGER.error(Messages.createProjectWizardFailed, e);
+        MessageDialog.openError(getShell(),
+            PlatformUtil.getBundle(this.getClass()).getSymbolicName(),
+            e.getMessage());
+      }
     }
 
-    IProject newProject = getNewProject();
-
-    try {
-      Nature.setNatureIds(newProject);
-      SourceFolders.createSourceFolders(newProject);
-
-      IJavaProject javaProject = JavaCore.create(newProject);
-      new JavaClasspathFile().setClasspathEntries(javaProject);
-      createOutputLocation(javaProject);
-
-      new PomFile().createPomFile(newProject);
-      configureBuilders(newProject);
-      createPropertiesFile(newProject);
-
-      ProjectProps.getInstance(newProject).put(ProjectProps.MODELER_VERSION,
-          PlatformUtil.getBundleVersion(this.getClass()).toString());
-
-      deleteBinDirectory(newProject);
-
-      extensions.stream()
-          .forEach(e -> e.createProjectWizardPerformFinish(javaProject));
-
-      updateProject(newProject);
-
-    } catch (RuminaqException e) {
-      LOGGER.error(Messages.createProjectWizardFailed, e);
-      MessageDialog.openError(getShell(),
-          PlatformUtil.getBundle(this.getClass()).getSymbolicName(),
-          e.getMessage());
-      return false;
-    }
-
-    return true;
+    return false;
   }
 
-  private static void deleteBinDirectory(IProject projet)
-      throws RuminaqException {
+  private static void deleteBinDirectory(IProject projet) {
     try {
       EclipseUtil.deleteProjectDirectoryIfExists(projet,
           EclipseUtil.BIN_DIRECTORY);
@@ -148,7 +146,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void updateProject(IProject project) throws RuminaqException {
+  private static void updateProject(IProject project) {
     IProjectConfigurationManager configurationManager = MavenPlugin
         .getProjectConfigurationManager();
     MavenUpdateRequest request = new MavenUpdateRequest(project, true, true);
@@ -165,16 +163,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     super.setWindowTitle(Messages.createProjectWizardWindowTitle);
   }
 
-  /**
-   * Gets the WizardNewProjectCreationPage from the Wizard, which is the first
-   * page allowing the user to specify the project name and location.
-   */
-  private WizardNewProjectCreationPage getBasicNewProjectPage() {
-    return (WizardNewProjectCreationPage) getPage(BASIC_NEW_PROJECT_PAGE_NAME);
-  }
-
-  private static void createOutputLocation(IJavaProject javaProject)
-      throws RuminaqException {
+  private static void createOutputLocation(IJavaProject javaProject) {
     IPath targetPath = javaProject.getPath().append(OUTPUT_CLASSES);
     try {
       javaProject.setOutputLocation(targetPath, null);
@@ -213,8 +202,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void createPropertiesFile(IProject newProject)
-      throws RuminaqException {
+  private static void createPropertiesFile(IProject newProject) {
     Properties prop = new Properties();
     try (OutputStream output = new ByteArrayOutputStream()) {
       prop.setProperty(MAIN_MODULE,
