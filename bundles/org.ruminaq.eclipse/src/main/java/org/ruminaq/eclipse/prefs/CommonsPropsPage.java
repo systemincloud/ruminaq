@@ -8,16 +8,17 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.dialogs.PropertyPage;
 
 /**
- * 
+ *
  * @author Marek Jagielski
  */
 public class CommonsPropsPage extends PropertyPage {
 
-    public CommonsPropsPage() { }
+  public CommonsPropsPage() {
+  }
 
-    @Override
-    protected Control createContents(Composite parent) {
-        noDefaultAndApplyButton();
-        return null;
-    }
+  @Override
+  protected Control createContents(Composite parent) {
+    noDefaultAndApplyButton();
+    return null;
+  }
 }

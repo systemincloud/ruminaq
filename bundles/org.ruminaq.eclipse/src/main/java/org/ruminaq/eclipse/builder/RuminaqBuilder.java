@@ -33,73 +33,82 @@ import org.ruminaq.validation.ProjectValidator;
  */
 public class RuminaqBuilder extends IncrementalProjectBuilder {
 
-	public static final String BUILDER_ID = "org.ruminaq.eclipse.ruminaqBuilder";
+  public static final String BUILDER_ID = "org.ruminaq.eclipse.ruminaqBuilder";
 
-	class RuminaqDeltaVisitor implements IResourceDeltaVisitor {
-		IProgressMonitor monitor;
+  class RuminaqDeltaVisitor implements IResourceDeltaVisitor {
+    IProgressMonitor monitor;
 
-		public RuminaqDeltaVisitor(IProgressMonitor monitor) {
-			this.monitor = monitor;
-		}
+    public RuminaqDeltaVisitor(IProgressMonitor monitor) {
+      this.monitor = monitor;
+    }
 
-		@Override
-        public boolean visit(IResourceDelta delta) throws CoreException {
-			switch (delta.getKind()) {
-			case IResourceDelta.ADDED:
-				validate(delta, monitor);
-				break;
-			case IResourceDelta.REMOVED:
-				break;
-			case IResourceDelta.CHANGED:
-				validate(delta, monitor);
-				break;
-			}
-			return true;
-		}
-	}
+    @Override
+    public boolean visit(IResourceDelta delta) throws CoreException {
+      switch (delta.getKind()) {
+      case IResourceDelta.ADDED:
+        validate(delta, monitor);
+        break;
+      case IResourceDelta.REMOVED:
+        break;
+      case IResourceDelta.CHANGED:
+        validate(delta, monitor);
+        break;
+      default:
+        break;
+      }
+      return true;
+    }
+  }
 
-	class RuminaqResourceVisitor implements IResourceVisitor {
-		IProgressMonitor monitor;
+  class RuminaqResourceVisitor implements IResourceVisitor {
+    IProgressMonitor monitor;
 
-		public RuminaqResourceVisitor(IProgressMonitor monitor) {
-			this.monitor = monitor;
-		}
+    public RuminaqResourceVisitor(IProgressMonitor monitor) {
+      this.monitor = monitor;
+    }
 
-		@Override
-        public boolean visit(IResource resource) {
-			validate(resource, monitor);
-			return true;
-		}
-	}
+    @Override
+    public boolean visit(IResource resource) {
+      validate(resource, monitor);
+      return true;
+    }
+  }
 
-	@Override
-    @SuppressWarnings("rawtypes")
-	protected IProject[] build(int kind, Map args, IProgressMonitor monitor) throws CoreException {
-		if (kind == FULL_BUILD) fullBuild(monitor);
-		else {
-			IResourceDelta delta = getDelta(getProject());
-			if(delta == null) fullBuild(monitor);
-			else incrementalBuild(delta, monitor);
-		}
-		return null;
-	}
+  @Override
+  @SuppressWarnings("rawtypes")
+  protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
+      throws CoreException {
+    if (kind == FULL_BUILD)
+      fullBuild(monitor);
+    else {
+      IResourceDelta delta = getDelta(getProject());
+      if (delta == null)
+        fullBuild(monitor);
+      else
+        incrementalBuild(delta, monitor);
+    }
+    return null;
+  }
 
-	protected void incrementalBuild(IResourceDelta delta, IProgressMonitor monitor) throws CoreException {
-		delta.accept(new RuminaqDeltaVisitor(monitor));
-	}
+  protected void incrementalBuild(IResourceDelta delta,
+      IProgressMonitor monitor) throws CoreException {
+    delta.accept(new RuminaqDeltaVisitor(monitor));
+  }
 
-	void validate(IResourceDelta delta, IProgressMonitor monitor) {
-		ProjectValidator.validate(delta, monitor);
-	}
+  void validate(IResourceDelta delta, IProgressMonitor monitor) {
+    ProjectValidator.validate(delta, monitor);
+  }
 
-	void validate(IResource resource, IProgressMonitor monitor) {
-		ProjectValidator.validate(resource, monitor);
-	}
+  void validate(IResource resource, IProgressMonitor monitor) {
+    ProjectValidator.validate(resource, monitor);
+  }
 
-	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {
-		try {
-			getProject().accept(new RuminaqResourceVisitor(monitor));
-		} catch (CoreException e) { }
-	}
+  protected void fullBuild(final IProgressMonitor monitor)
+      throws CoreException {
+    try {
+      getProject().accept(new RuminaqResourceVisitor(monitor));
+    } catch (CoreException e) {
+    }
+  }
 
 }

@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package org.ruminaq.eclipse.nature;
 
 import org.eclipse.core.resources.ICommand;
@@ -11,53 +12,57 @@ import org.eclipse.core.runtime.CoreException;
 import org.ruminaq.eclipse.builder.RuminaqBuilder;
 
 /**
- * 
+ *
  * @author Marek Jagielski
  */
 public class RuminaqProjectNature implements IProjectNature {
 
-	private IProject project;
+  private IProject project;
 
-	@Override
-	public void configure() throws CoreException {
-		IProjectDescription desc = project.getDescription();
-		ICommand[] commands = desc.getBuildSpec();
+  @Override
+  public void configure() throws CoreException {
+    IProjectDescription desc = project.getDescription();
+    ICommand[] commands = desc.getBuildSpec();
 
-		for(int i = 0; i < commands.length; ++i)
-			if(commands[i].getBuilderName().equals(RuminaqBuilder.BUILDER_ID)) return;
+    for (int i = 0; i < commands.length; ++i) {
+      if (commands[i].getBuilderName().equals(RuminaqBuilder.BUILDER_ID)) {
+        return;
+      }
+    }
 
-		ICommand[] newCommands = new ICommand[commands.length + 1];
-		System.arraycopy(commands, 0, newCommands, 0, commands.length);
-		ICommand command = desc.newCommand();
-		command.setBuilderName(RuminaqBuilder.BUILDER_ID);
-		newCommands[newCommands.length - 1] = command;
-		desc.setBuildSpec(newCommands);
-		project.setDescription(desc, null);
-	}
+    ICommand[] newCommands = new ICommand[commands.length + 1];
+    System.arraycopy(commands, 0, newCommands, 0, commands.length);
+    ICommand command = desc.newCommand();
+    command.setBuilderName(RuminaqBuilder.BUILDER_ID);
+    newCommands[newCommands.length - 1] = command;
+    desc.setBuildSpec(newCommands);
+    project.setDescription(desc, null);
+  }
 
-	@Override
-	public void deconfigure() throws CoreException {
-		IProjectDescription description = getProject().getDescription();
-		ICommand[] commands = description.getBuildSpec();
-		for (int i = 0; i < commands.length; ++i) {
-			if (commands[i].getBuilderName().equals(RuminaqBuilder.BUILDER_ID)) {
-				ICommand[] newCommands = new ICommand[commands.length - 1];
-				System.arraycopy(commands, 0, newCommands, 0, i);
-				System.arraycopy(commands, i + 1, newCommands, i, commands.length - i - 1);
-				description.setBuildSpec(newCommands);
-				project.setDescription(description, null);
-				return;
-			}
-		}
-	}
+  @Override
+  public void deconfigure() throws CoreException {
+    IProjectDescription description = getProject().getDescription();
+    ICommand[] commands = description.getBuildSpec();
+    for (int i = 0; i < commands.length; ++i) {
+      if (commands[i].getBuilderName().equals(RuminaqBuilder.BUILDER_ID)) {
+        ICommand[] newCommands = new ICommand[commands.length - 1];
+        System.arraycopy(commands, 0, newCommands, 0, i);
+        System.arraycopy(commands, i + 1, newCommands, i,
+            commands.length - i - 1);
+        description.setBuildSpec(newCommands);
+        project.setDescription(description, null);
+        return;
+      }
+    }
+  }
 
-	@Override
-	public IProject getProject() {
-		return project;
-	}
+  @Override
+  public IProject getProject() {
+    return project;
+  }
 
-	@Override
-	public void setProject(IProject project) {
-		this.project = project;
-	}
+  @Override
+  public void setProject(IProject project) {
+    this.project = project;
+  }
 }
