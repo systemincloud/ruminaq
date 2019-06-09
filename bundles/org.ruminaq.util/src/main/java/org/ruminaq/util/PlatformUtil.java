@@ -17,4 +17,8 @@ public final class PlatformUtil {
     return getBundle(clazz).getVersion();
   }
 
+  public static String getBundleSymbolicName(Class<?> clazz) {
+    return getBundle(clazz).getSymbolicName();
+  }
+
 }

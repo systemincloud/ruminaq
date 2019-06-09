@@ -141,17 +141,16 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     return true;
   }
 
-  private void deleteBinDirectory(IProject projet) throws RuminaqException {
+  private static void deleteBinDirectory(IProject projet) throws RuminaqException {
     try {
       EclipseUtil.deleteProjectDirectoryIfExists(projet,
           EclipseUtil.BIN_DIRECTORY);
     } catch (CoreException e) {
-      LOGGER.error(Messages.createProjectWizardFailed, e);
-      throw new RuminaqException(Messages.createProjectWizardFailed);
+      throw new RuminaqException(Messages.createProjectWizardFailed, e);
     }
   }
 
-  private void updateProject(IProject project) throws RuminaqException {
+  private static void updateProject(IProject project) throws RuminaqException {
     IProjectConfigurationManager configurationManager = MavenPlugin
         .getProjectConfigurationManager();
     MavenUpdateRequest request = new MavenUpdateRequest(project, true, true);
@@ -159,8 +158,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
       configurationManager.updateProjectConfiguration(request,
           new NullProgressMonitor());
     } catch (CoreException e) {
-      LOGGER.error(Messages.createProjectWizardFailed, e);
-      throw new RuminaqException(Messages.createProjectWizardFailed);
+      throw new RuminaqException(Messages.createProjectWizardFailed, e);
     }
   }
 
@@ -190,17 +188,15 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     try {
       javaProject.setOutputLocation(targetPath, null);
     } catch (JavaModelException e) {
-      LOGGER.error(Messages.createProjectWizardFailed, e);
-      throw new RuminaqException(Messages.createProjectWizardFailed);
+      throw new RuminaqException(Messages.createProjectWizardFailed, e);
     }
   }
 
-  private void configureBuilders(IProject project) throws RuminaqException {
+  private static void configureBuilders(IProject project) throws RuminaqException {
     try {
       EclipseUtil.createFolderWithParents(project, EXTERNALTOOLBUILDERS);
     } catch (CoreException e) {
-      LOGGER.error(Messages.createProjectWizardFailed, e);
-      throw new RuminaqException(Messages.createProjectWizardFailed);
+      throw new RuminaqException(Messages.createProjectWizardFailed, e);
     }
 
     try {
@@ -221,8 +217,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
             "<project>/.externalToolBuilders/org.eclipse.m2e.core.maven2Builder.launch");
       }
     } catch (CoreException e) {
-      LOGGER.error(Messages.createProjectWizardFailed, e);
-      throw new RuminaqException(Messages.createProjectWizardFailed);
+      throw new RuminaqException(Messages.createProjectWizardFailed, e);
     }
   }
 
@@ -239,8 +234,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
       outputFile.create(new ByteArrayInputStream(
           ((ByteArrayOutputStream) output).toByteArray()), true, null);
     } catch (IOException | CoreException e) {
-      LOGGER.error(Messages.createProjectWizardFailed, e);
-      throw new RuminaqException(Messages.createProjectWizardFailed);
+      throw new RuminaqException(Messages.createProjectWizardFailed, e);
     }
   }
 }

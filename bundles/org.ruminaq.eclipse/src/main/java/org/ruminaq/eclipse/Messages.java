@@ -7,6 +7,7 @@
 package org.ruminaq.eclipse;
 
 import org.eclipse.osgi.util.NLS;
+import org.ruminaq.util.PlatformUtil;
 
 /**
  * Messages.
@@ -15,8 +16,6 @@ import org.eclipse.osgi.util.NLS;
  */
 @SuppressWarnings("squid:S1820")
 public final class Messages extends NLS {
-
-  private static final String BUNDLE_NAME = "org.ruminaq.eclipse.messages"; //$NON-NLS-1$
 
   public static String createProjectWizardTitle;
   public static String createProjectWizardDescription;
@@ -51,7 +50,7 @@ public final class Messages extends NLS {
   public static String RuminaqProjectPreferencePage_btnUpdate_text;
 
   static {
-    NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+    NLS.initializeMessages(PlatformUtil.getBundleSymbolicName(Messages.class), Messages.class);
   }
 
   private Messages() {
