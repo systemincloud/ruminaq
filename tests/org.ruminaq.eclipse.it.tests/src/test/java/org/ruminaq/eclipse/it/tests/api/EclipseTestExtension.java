@@ -6,6 +6,10 @@
 
 package org.ruminaq.eclipse.it.tests.api;
 
+import org.eclipse.core.resources.IProject;
+
 public interface EclipseTestExtension {
+
+  void verifyProject(IProject project);
 
 }

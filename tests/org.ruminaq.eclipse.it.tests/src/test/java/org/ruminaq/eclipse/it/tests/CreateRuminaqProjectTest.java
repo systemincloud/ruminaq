@@ -92,6 +92,8 @@ public class CreateRuminaqProjectTest {
     Assert.assertTrue("Property file created",
         project.exists(new Path(CreateProjectWizard.PROPERTIES_FILE)));
 
+    extensions.stream().forEach(e -> e.verifyProject(project));
+
     bot.resetWorkbench();
   }
 }

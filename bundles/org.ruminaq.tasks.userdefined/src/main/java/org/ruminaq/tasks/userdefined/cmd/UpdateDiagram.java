@@ -153,10 +153,9 @@ public class UpdateDiagram {
     } catch (Exception e) {
     }
 
-    if (resource == null)
+    if (resource == null || resource.getContents().size() < 2) {
       return;
-    if (resource.getContents().size() < 2)
-      return;
+    }
 
     Diagram d = (Diagram) resource.getContents().get(0);
     MainTask mt = (MainTask) resource.getContents().get(1);
@@ -168,7 +167,7 @@ public class UpdateDiagram {
       if (t instanceof UserDefinedTask) {
         final List<PictogramElement> ps = Graphiti.getLinkService()
             .getPictogramElements(d, t);
-        if (ps.size() > 0) {
+        if (!ps.isEmpty()) {
           ModelUtil.runModelChange(new Runnable() {
             public void run() {
               UpdateContext context = new UpdateContext(ps.get(0));
