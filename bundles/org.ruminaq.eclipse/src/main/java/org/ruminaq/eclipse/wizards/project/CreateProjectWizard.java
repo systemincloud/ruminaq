@@ -137,7 +137,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     return false;
   }
 
-  private static void deleteBinDirectory(IProject projet) {
+  private static void deleteBinDirectory(IProject projet) throws RuminaqException {
     try {
       EclipseUtil.deleteProjectDirectoryIfExists(projet,
           EclipseUtil.BIN_DIRECTORY);
@@ -146,7 +146,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void updateProject(IProject project) {
+  private static void updateProject(IProject project) throws RuminaqException {
     IProjectConfigurationManager configurationManager = MavenPlugin
         .getProjectConfigurationManager();
     MavenUpdateRequest request = new MavenUpdateRequest(project, true, true);
@@ -163,7 +163,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     super.setWindowTitle(Messages.createProjectWizardWindowTitle);
   }
 
-  private static void createOutputLocation(IJavaProject javaProject) {
+  private static void createOutputLocation(IJavaProject javaProject) throws RuminaqException {
     IPath targetPath = javaProject.getPath().append(OUTPUT_CLASSES);
     try {
       javaProject.setOutputLocation(targetPath, null);
@@ -172,7 +172,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void configureBuilders(IProject project) {
+  private static void configureBuilders(IProject project) throws RuminaqException {
     try {
       EclipseUtil.createFolderWithParents(project, EXTERNALTOOLBUILDERS);
     } catch (CoreException e) {
@@ -201,7 +201,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void createPropertiesFile(IProject newProject) {
+  private static void createPropertiesFile(IProject newProject) throws RuminaqException {
     Properties prop = new Properties();
     try (OutputStream output = new ByteArrayOutputStream()) {
       prop.setProperty(MAIN_MODULE,

@@ -6,7 +6,7 @@
 
 package org.ruminaq.eclipse;
 
-public class RuminaqException extends RuntimeException {
+public class RuminaqException extends Exception {
 
   public RuminaqException(String msg) {
     super(msg);
