@@ -172,8 +172,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void configureBuilders(IProject project)
-      throws RuminaqException {
+  private static void configureBuilders(IProject project) {
     try {
       EclipseUtil.createFolderWithParents(project, EXTERNALTOOLBUILDERS);
     } catch (CoreException e) {
