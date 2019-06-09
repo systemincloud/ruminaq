@@ -7,22 +7,19 @@
 package org.ruminaq.eclipse.it.tests;
 
 import java.util.Collection;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectNatureDescriptor;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.activities.IWorkbenchActivitySupport;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -30,6 +27,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.it.tests.actions.CreateRuminaqProject;
 import org.ruminaq.eclipse.it.tests.api.EclipseTestExtension;
+import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 import org.ruminaq.eclipse.wizards.project.Nature;
 import org.ruminaq.util.ServiceUtil;
 
@@ -55,9 +53,9 @@ public class CreateRuminaqProjectTest {
     bot = new SWTWorkbenchBot();
     workbench = PlatformUI.getWorkbench();
     workspace = ResourcesPlugin.getWorkspace();
-//    extensions = ServiceUtil
-//        .getServicesAtLatestVersion(CreateRuminaqProjectTest.class,
-//            EclipseTestExtension.class);
+    extensions = ServiceUtil
+        .getServicesAtLatestVersion(CreateRuminaqProjectTest.class,
+            EclipseTestExtension.class);
   }
 
   @AfterClass
@@ -90,6 +88,9 @@ public class CreateRuminaqProjectTest {
 
     Assert.assertTrue("Workspace nature should change to Ruminaq",
         project.hasNature(Nature.NATURE_ID));
+
+    Assert.assertTrue("Property file created",
+        project.exists(new Path(CreateProjectWizard.PROPERTIES_FILE)));
 
     bot.resetWorkbench();
   }

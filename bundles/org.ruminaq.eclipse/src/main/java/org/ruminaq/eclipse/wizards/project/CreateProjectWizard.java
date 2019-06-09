@@ -58,7 +58,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
   private static final String BASIC_NEW_PROJECT_PAGE_NAME = "basicNewProjectPage"; //$NON-NLS-1$
 
-  private static final String PROPERTIES_FILE = SourceFolders.MAIN_RESOURCES
+  public static final String PROPERTIES_FILE = SourceFolders.MAIN_RESOURCES
       + "/ruminaq.properties"; //$NON-NLS-1$
 
   private static final String OUTPUT_CLASSES = "target/classes"; //$NON-NLS-1$

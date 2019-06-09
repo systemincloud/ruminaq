@@ -6,6 +6,11 @@
 
 package org.ruminaq.eclipse;
 
+/**
+ * Main bundle exception.
+ *
+ * @author Marek Jagielski
+ */
 public class RuminaqException extends Exception {
 
   public RuminaqException(String msg) {
