@@ -9,6 +9,7 @@ package org.ruminaq.eclipse.wizards.project;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collection;
@@ -137,7 +138,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     return false;
   }
 
-  private static void deleteBinDirectory(IProject projet) throws RuminaqException {
+  private static void deleteBinDirectory(IProject projet)
+      throws RuminaqException {
     try {
       EclipseUtil.deleteProjectDirectoryIfExists(projet,
           EclipseUtil.BIN_DIRECTORY);
@@ -163,7 +165,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     super.setWindowTitle(Messages.createProjectWizardWindowTitle);
   }
 
-  private static void createOutputLocation(IJavaProject javaProject) throws RuminaqException {
+  private static void createOutputLocation(IJavaProject javaProject)
+      throws RuminaqException {
     IPath targetPath = javaProject.getPath().append(OUTPUT_CLASSES);
     try {
       javaProject.setOutputLocation(targetPath, null);
@@ -172,19 +175,19 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void configureBuilders(IProject project) throws RuminaqException {
+  private static void configureBuilders(IProject project)
+      throws RuminaqException {
     try {
       EclipseUtil.createFolderWithParents(project, EXTERNALTOOLBUILDERS);
     } catch (CoreException e) {
       throw new RuminaqException(Messages.createProjectWizardFailed, e);
     }
 
-    try {
+    try (InputStream confFile = CreateProjectWizard.class
+        .getResourceAsStream(BUILDER_CONFIG_MVN)) {
       IFile outputFile = project.getFolder(EXTERNALTOOLBUILDERS)
           .getFile(BUILDER_CONFIG_MVN);
-      outputFile.create(
-          CreateProjectWizard.class.getResourceAsStream(BUILDER_CONFIG_MVN),
-          true, null);
+      outputFile.create(confFile, true, null);
       Optional<ICommand> command = Arrays
           .stream(project.getDescription().getBuildSpec())
           .filter(
@@ -196,12 +199,13 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
         command.get().getArguments().put("LaunchConfigHandle",
             "<project>/.externalToolBuilders/org.eclipse.m2e.core.maven2Builder.launch");
       }
-    } catch (CoreException e) {
+    } catch (CoreException | IOException e) {
       throw new RuminaqException(Messages.createProjectWizardFailed, e);
     }
   }
 
-  private static void createPropertiesFile(IProject newProject) throws RuminaqException {
+  private static void createPropertiesFile(IProject newProject)
+      throws RuminaqException {
     Properties prop = new Properties();
     try (OutputStream output = new ByteArrayOutputStream()) {
       prop.setProperty(MAIN_MODULE,
