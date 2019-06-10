@@ -43,7 +43,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.dirmi,
  org.ruminaq.runner.impl.debug,
  org.ruminaq.runner.impl.debug.events.model,
- org.ruminaq.tasks,
  org.ruminaq.tasks.api,
  org.ruminaq.util,
  org.slf4j

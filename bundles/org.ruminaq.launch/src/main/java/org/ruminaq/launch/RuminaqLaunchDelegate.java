@@ -56,7 +56,6 @@ import org.ruminaq.runner.Runner;
 import org.ruminaq.runner.dirmi.DirmiServer;
 import org.ruminaq.runner.dirmi.RegistrationDoneListener;
 import org.ruminaq.runner.impl.debug.IDebugIService;
-import org.ruminaq.tasks.api.TasksExtensionHandler;
 import org.ruminaq.debug.api.DebugExtensionHandler;
 import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
 import org.slf4j.Logger;
@@ -77,15 +76,12 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate implements Registr
     public static final String EMF_TRANSACTION_PLUGIN_ID = "org.eclipse.emf.transaction";
     public static final String EMF_XMI_PLUGIN_ID         = "org.eclipse.emf.ecore.xmi";
     public static final String GRAPHITI_MM_PLUGIN_ID     = "org.eclipse.graphiti.mm";
-    
+
     @Reference
     private DebugExtensionHandler debugExtensions;
 
     @Reference
     private LaunchExtensionHandler launchExtensions;
-
-	@Reference
-	private TasksExtensionHandler extensions;
 
     private static List<LaunchListener> launchListeners = new ArrayList<>();
     public  static void    addLaunchListener   (LaunchListener ll) { if(!launchListeners.contains(ll)) launchListeners.add(ll); }
@@ -128,7 +124,7 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate implements Registr
             dispatcher = new EventDispatchJob();
             dispatcher.schedule();
             for (IDebugTarget dt : debugExtensions.getDebugTargets(launch, project, dispatcher)) {
-            	launch.addDebugTarget(dt);
+              launch.addDebugTarget(dt);
             }
 
             IFile file = project.getFile(File.pathSeparator + SourceFolders.TEST_RESOURCES + File.pathSeparator + configuration.getAttribute(RuminaqLaunchConfigurationConstants.ATTR_TEST_TASK, ""));
@@ -186,15 +182,15 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate implements Registr
 
     @Override
     public String getVMArguments(ILaunchConfiguration configuration) throws CoreException {
-    	String weaverPath = null;
-		try { weaverPath = Aj.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+      String weaverPath = null;
+    try { weaverPath = Aj.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    }
 
         return super.getVMArguments(configuration) +
-        		" -Dlogback.configurationFile=\"" + logbackPath + "\" " +
-        	    " -javaagent:" + weaverPath +
+            " -Dlogback.configurationFile=\"" + logbackPath + "\" " +
+              " -javaagent:" + weaverPath +
                 launchExtensions.getVMArguments();
     }
 
@@ -248,7 +244,7 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate implements Registr
         cmdline.append("-" + Runner.ATTR_THRIFT_DATA   + " ").append(copyThriftResource(this.getClass().getResource("RemoteData.thrift"), project) + " ");
 
         for (String s : launchExtensions.getProgramArguments(project)) {
-        	cmdline.append(s).append(" ");
+          cmdline.append(s).append(" ");
         }
 
         return cmdline.toString();
