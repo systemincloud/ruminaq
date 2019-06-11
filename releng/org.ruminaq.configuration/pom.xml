@@ -366,7 +366,7 @@
             <plugin>
               <groupId>com.h3xstream.findsecbugs</groupId>
               <artifactId>findsecbugs-plugin</artifactId>
-              <version>LATEST</version> <!-- Auto-update to the latest stable -->
+              <version>LATEST</version>
             </plugin>
             <plugin>
               <groupId>com.mebigfatguy.fb-contrib</groupId>

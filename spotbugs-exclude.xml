@@ -1,5 +1,8 @@
 <FindBugsFilter>
   <Match>
+    <Bug pattern="CRLF_INJECTION_LOGS" />
+  </Match>
+  <Match>
     <Bug pattern="IMC_IMMATURE_CLASS_NO_TOSTRING" />
   </Match>
 </FindBugsFilter>
