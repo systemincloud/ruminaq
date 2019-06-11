@@ -68,7 +68,7 @@ public class CreateRuminaqProjectTest {
   private IPerspectiveDescriptor perspective;
 
   @Test
-  public final void testCreateProjectTest() throws CoreException {
+  public final void testCreateProject() throws CoreException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
@@ -95,5 +95,10 @@ public class CreateRuminaqProjectTest {
     extensions.stream().forEach(e -> e.verifyProject(project));
 
     bot.resetWorkbench();
+  }
+
+  @Test
+  public final void testCreateProjectFailed() throws CoreException {
+
   }
 }

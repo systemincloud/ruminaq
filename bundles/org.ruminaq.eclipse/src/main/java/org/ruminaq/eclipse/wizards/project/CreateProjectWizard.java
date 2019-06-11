@@ -160,6 +160,11 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
+  /**
+   * Sets the window title.
+   *
+   * @see org.eclipse.jface.wizard.Wizard#setWindowTitle()
+   */
   @Override
   public void setWindowTitle(final String newTitle) {
     super.setWindowTitle(Messages.createProjectWizardWindowTitle);
