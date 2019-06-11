@@ -12,7 +12,10 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 
-public class ServiceUtil {
+public final class ServiceUtil {
+
+  private ServiceUtil() {
+  }
 
   public static <T> T getService(Class<T> clazz) {
     Bundle bundle = FrameworkUtil.getBundle(ServiceUtil.class);
