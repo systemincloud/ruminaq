@@ -1,0 +1,1500 @@
+---- AspectJ Properties ---
+AspectJ Compiler 1.9.4 built on Friday May 10, 2019 at 08:43:10 PDT
+---- Dump Properties ---
+Dump file: ajcore.20190616.184348.047.txt
+Dump reason: org.aspectj.bridge.AbortException
+Dump on exception: true
+Dump at exit condition: abort
+---- Exception Information ---
+Message: abort trouble in: 
+public class org.ruminaq.eclipse.wizards.project.CreateProjectWizard extends org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard:
+  private static final org.slf4j.Logger LOGGER
+  private static final String BASIC_NEW_PROJECT_PAGE_NAME = "basicNewProjectPage"
+  public static final String PROPERTIES_FILE = "src/main/resources/ruminaq.properties"
+  private static final String OUTPUT_CLASSES = "target/classes"
+  private static final String EXTERNALTOOLBUILDERS = ".externalToolBuilders"
+  private static final String BUILDER_CONFIG_MVN = "org.eclipse.m2e.core.maven2Builder.launch"
+  private static final String MAIN_MODULE = "MAIN_MODULE"
+  private java.util.Collection extensions [Signature(Ljava/util/Collection<Lorg/ruminaq/eclipse/api/EclipseExtension;>;)]
+  static void <clinit>():
+    staticinitialization(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.<clinit>())
+    |               LDC org.ruminaq.eclipse.wizards.project.CreateProjectWizard   (line 58)
+    | method-call(ch.qos.logback.classic.Logger org.ruminaq.logs.ModelerLoggerFactory.getLogger(java.lang.Class))
+    | |             INVOKESTATIC org.ruminaq.logs.ModelerLoggerFactory.getLogger (Ljava/lang/Class;)Lch/qos/logback/classic/Logger;
+    | method-call(ch.qos.logback.classic.Logger org.ruminaq.logs.ModelerLoggerFactory.getLogger(java.lang.Class))
+    |               PUTSTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.LOGGER Lorg/slf4j/Logger;   (line 57)
+    |               RETURN   (line 72)
+    staticinitialization(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.<clinit>())
+  end static void <clinit>()
+
+  public void <init>():
+                    ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 55)
+                    INVOKESPECIAL org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard.<init> ()V
+    constructor-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.<init>())
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 74)
+    |               LDC org.ruminaq.eclipse.wizards.project.CreateProjectWizard   (line 75)
+    |               LDC org.ruminaq.eclipse.api.EclipseExtension   (line 76)
+    | method-call(java.util.Collection org.ruminaq.util.ServiceUtil.getServicesAtLatestVersion(java.lang.Class, java.lang.Class))
+    | |             INVOKESTATIC org.ruminaq.util.ServiceUtil.getServicesAtLatestVersion (Ljava/lang/Class;Ljava/lang/Class;)Ljava/util/Collection;   (line 75)
+    | method-call(java.util.Collection org.ruminaq.util.ServiceUtil.getServicesAtLatestVersion(java.lang.Class, java.lang.Class))
+    |               PUTFIELD org.ruminaq.eclipse.wizards.project.CreateProjectWizard.extensions Ljava/util/Collection;
+    |               RETURN   (line 55)
+    constructor-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.<init>())
+  end public void <init>()
+
+  public void createPageControls(org.eclipse.swt.widgets.Composite):
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPageControls(org.eclipse.swt.widgets.Composite))
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 86)
+    |               ALOAD_1     // Lorg/eclipse/swt/widgets/Composite; pageContainer
+    |               INVOKESPECIAL org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard.createPageControls (Lorg/eclipse/swt/widgets/Composite;)V
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 88)
+    |               LDC "basicNewProjectPage"   (line 89)
+    | method-call(org.eclipse.jface.wizard.IWizardPage org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getPage(java.lang.String))
+    | |             INVOKEVIRTUAL org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getPage (Ljava/lang/String;)Lorg/eclipse/jface/wizard/IWizardPage;   (line 88)
+    | method-call(org.eclipse.jface.wizard.IWizardPage org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getPage(java.lang.String))
+    |               CHECKCAST org.eclipse.ui.dialogs.WizardNewProjectCreationPage
+    |               ASTORE_2
+    |               ALOAD_2     // Lorg/eclipse/ui/dialogs/WizardNewProjectCreationPage; basicNewProjectPage   (line 90)
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardTitle Ljava/lang/String;
+    | method-call(void org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setTitle(java.lang.String))
+    | |             INVOKEVIRTUAL org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setTitle (Ljava/lang/String;)V
+    | method-call(void org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setTitle(java.lang.String))
+    |               ALOAD_2     // Lorg/eclipse/ui/dialogs/WizardNewProjectCreationPage; basicNewProjectPage   (line 91)
+    |               GETSTATIC org.ruminaq.eclipse.Image.RUMINAQ_LOGO_64X64 Lorg/ruminaq/eclipse/Image;   (line 92)
+    | method-call(org.eclipse.jface.resource.ImageDescriptor org.ruminaq.util.ImageUtil.getImageDescriptor(org.ruminaq.util.IImage))
+    | |             INVOKESTATIC org.ruminaq.util.ImageUtil.getImageDescriptor (Lorg/ruminaq/util/IImage;)Lorg/eclipse/jface/resource/ImageDescriptor;
+    | method-call(org.eclipse.jface.resource.ImageDescriptor org.ruminaq.util.ImageUtil.getImageDescriptor(org.ruminaq.util.IImage))
+    | method-call(void org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setImageDescriptor(org.eclipse.jface.resource.ImageDescriptor))
+    | |             INVOKEVIRTUAL org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setImageDescriptor (Lorg/eclipse/jface/resource/ImageDescriptor;)V   (line 91)
+    | method-call(void org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setImageDescriptor(org.eclipse.jface.resource.ImageDescriptor))
+    |               ALOAD_2     // Lorg/eclipse/ui/dialogs/WizardNewProjectCreationPage; basicNewProjectPage   (line 93)
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardDescription Ljava/lang/String;
+    | method-call(void org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setDescription(java.lang.String))
+    | |             INVOKEVIRTUAL org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setDescription (Ljava/lang/String;)V
+    | method-call(void org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setDescription(java.lang.String))
+    |               RETURN   (line 94)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPageControls(org.eclipse.swt.widgets.Composite))
+  end public void createPageControls(org.eclipse.swt.widgets.Composite)
+
+  public boolean performFinish():
+    method-execution(boolean org.ruminaq.eclipse.wizards.project.CreateProjectWizard.performFinish())
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 103)
+    |               INVOKESPECIAL org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard.performFinish ()Z
+    |               IFEQ L0
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 104)
+    | method-call(org.eclipse.core.resources.IProject org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getNewProject())
+    | |             INVOKEVIRTUAL org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getNewProject ()Lorg/eclipse/core/resources/IProject;
+    | method-call(org.eclipse.core.resources.IProject org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getNewProject())
+    |               ASTORE_1
+    | catch org.ruminaq.eclipse.RuminaqException -> E0
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 107)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.Nature.setNatureIds(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.Nature.setNatureIds (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.Nature.setNatureIds(org.eclipse.core.resources.IProject))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 108)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.SourceFolders.createSourceFolders(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.SourceFolders.createSourceFolders (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.SourceFolders.createSourceFolders(org.eclipse.core.resources.IProject))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 110)
+    | | method-call(org.eclipse.jdt.core.IJavaProject org.eclipse.jdt.core.JavaCore.create(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.eclipse.jdt.core.JavaCore.create (Lorg/eclipse/core/resources/IProject;)Lorg/eclipse/jdt/core/IJavaProject;
+    | | method-call(org.eclipse.jdt.core.IJavaProject org.eclipse.jdt.core.JavaCore.create(org.eclipse.core.resources.IProject))
+    | |             ASTORE_2
+    | |             NEW org.ruminaq.eclipse.wizards.project.JavaClasspathFile   (line 111)
+    | |             DUP
+    | |             INVOKESPECIAL org.ruminaq.eclipse.wizards.project.JavaClasspathFile.<init> ()V
+    | |             ALOAD_2     // Lorg/eclipse/jdt/core/IJavaProject; javaProject
+    | | method-call(void org.ruminaq.eclipse.wizards.project.JavaClasspathFile.setClasspathEntries(org.eclipse.jdt.core.IJavaProject))
+    | | |           INVOKEVIRTUAL org.ruminaq.eclipse.wizards.project.JavaClasspathFile.setClasspathEntries (Lorg/eclipse/jdt/core/IJavaProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.JavaClasspathFile.setClasspathEntries(org.eclipse.jdt.core.IJavaProject))
+    | |             ALOAD_2     // Lorg/eclipse/jdt/core/IJavaProject; javaProject   (line 112)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createOutputLocation(org.eclipse.jdt.core.IJavaProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createOutputLocation (Lorg/eclipse/jdt/core/IJavaProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createOutputLocation(org.eclipse.jdt.core.IJavaProject))
+    | |             NEW org.ruminaq.eclipse.wizards.project.PomFile   (line 114)
+    | |             DUP
+    | |             INVOKESPECIAL org.ruminaq.eclipse.wizards.project.PomFile.<init> ()V
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject
+    | | method-call(void org.ruminaq.eclipse.wizards.project.PomFile.createPomFile(org.eclipse.core.resources.IProject))
+    | | |           INVOKEVIRTUAL org.ruminaq.eclipse.wizards.project.PomFile.createPomFile (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.PomFile.createPomFile(org.eclipse.core.resources.IProject))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 115)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.configureBuilders(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.configureBuilders (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.configureBuilders(org.eclipse.core.resources.IProject))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 116)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPropertiesFile(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPropertiesFile (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPropertiesFile(org.eclipse.core.resources.IProject))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 118)
+    | | method-call(org.ruminaq.prefs.Props org.ruminaq.prefs.ProjectProps.getInstance(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.prefs.ProjectProps.getInstance (Lorg/eclipse/core/resources/IProject;)Lorg/ruminaq/prefs/Props;
+    | | method-call(org.ruminaq.prefs.Props org.ruminaq.prefs.ProjectProps.getInstance(org.eclipse.core.resources.IProject))
+    | |             LDC "modeler.version"
+    | |             ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 119)
+    | | method-call(java.lang.Class java.lang.Object.getClass())
+    | | |           INVOKEVIRTUAL java.lang.Object.getClass ()Ljava/lang/Class;
+    | | method-call(java.lang.Class java.lang.Object.getClass())
+    | | method-call(org.osgi.framework.Version org.ruminaq.util.PlatformUtil.getBundleVersion(java.lang.Class))
+    | | |           INVOKESTATIC org.ruminaq.util.PlatformUtil.getBundleVersion (Ljava/lang/Class;)Lorg/osgi/framework/Version;
+    | | method-call(org.osgi.framework.Version org.ruminaq.util.PlatformUtil.getBundleVersion(java.lang.Class))
+    | | method-call(java.lang.String org.osgi.framework.Version.toString())
+    | | |           INVOKEVIRTUAL org.osgi.framework.Version.toString ()Ljava/lang/String;
+    | | method-call(java.lang.String org.osgi.framework.Version.toString())
+    | | method-call(void org.ruminaq.prefs.Props.put(java.lang.String, java.lang.String))
+    | | |           INVOKEVIRTUAL org.ruminaq.prefs.Props.put (Ljava/lang/String;Ljava/lang/String;)V   (line 118)
+    | | method-call(void org.ruminaq.prefs.Props.put(java.lang.String, java.lang.String))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 121)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.deleteBinDirectory(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.deleteBinDirectory (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.deleteBinDirectory(org.eclipse.core.resources.IProject))
+    | |             ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 123)
+    | |             GETFIELD org.ruminaq.eclipse.wizards.project.CreateProjectWizard.extensions Ljava/util/Collection;
+    | | method-call(java.util.stream.Stream java.util.Collection.stream())
+    | | |           INVOKEINTERFACE java.util.Collection.stream ()Ljava/util/stream/Stream;
+    | | method-call(java.util.stream.Stream java.util.Collection.stream())
+    | |             ALOAD_2     // Lorg/eclipse/jdt/core/IJavaProject; javaProject   (line 124)
+    | |             INVOKEDYNAMIC #0.accept (Lorg/eclipse/jdt/core/IJavaProject;)Ljava/util/function/Consumer;
+    | | method-call(void java.util.stream.Stream.forEach(java.util.function.Consumer))
+    | | |           INVOKEINTERFACE java.util.stream.Stream.forEach (Ljava/util/function/Consumer;)V
+    | | method-call(void java.util.stream.Stream.forEach(java.util.function.Consumer))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 126)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.updateProject(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.updateProject (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.updateProject(org.eclipse.core.resources.IProject))
+    | catch org.ruminaq.eclipse.RuminaqException -> E0
+    |               ICONST_1   (line 128)
+    |               IRETURN
+    |           E0: ASTORE_2   (line 130)
+    |               GETSTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.LOGGER Lorg/slf4j/Logger;   (line 131)
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_2     // Lorg/ruminaq/eclipse/RuminaqException; e
+    | method-call(void org.slf4j.Logger.error(java.lang.String, java.lang.Throwable))
+    | |             INVOKEINTERFACE org.slf4j.Logger.error (Ljava/lang/String;Ljava/lang/Throwable;)V
+    | method-call(void org.slf4j.Logger.error(java.lang.String, java.lang.Throwable))
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 132)
+    | method-call(org.eclipse.swt.widgets.Shell org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getShell())
+    | |             INVOKEVIRTUAL org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getShell ()Lorg/eclipse/swt/widgets/Shell;
+    | method-call(org.eclipse.swt.widgets.Shell org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getShell())
+    |               GETSTATIC org.ruminaq.eclipse.Messages.ruminaqFailed Ljava/lang/String;   (line 133)
+    |               ALOAD_2     // Lorg/ruminaq/eclipse/RuminaqException; e   (line 134)
+    | method-call(java.lang.String org.ruminaq.eclipse.RuminaqException.getMessage())
+    | |             INVOKEVIRTUAL org.ruminaq.eclipse.RuminaqException.getMessage ()Ljava/lang/String;
+    | method-call(java.lang.String org.ruminaq.eclipse.RuminaqException.getMessage())
+    | method-call(void org.eclipse.jface.dialogs.MessageDialog.openError(org.eclipse.swt.widgets.Shell, java.lang.String, java.lang.String))
+    | |             INVOKESTATIC org.eclipse.jface.dialogs.MessageDialog.openError (Lorg/eclipse/swt/widgets/Shell;Ljava/lang/String;Ljava/lang/String;)V   (line 132)
+    | method-call(void org.eclipse.jface.dialogs.MessageDialog.openError(org.eclipse.swt.widgets.Shell, java.lang.String, java.lang.String))
+    |           L0: ICONST_0   (line 138)
+    |               IRETURN
+    method-execution(boolean org.ruminaq.eclipse.wizards.project.CreateProjectWizard.performFinish())
+  end public boolean performFinish()
+
+  private static void deleteBinDirectory(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException:
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.deleteBinDirectory(org.eclipse.core.resources.IProject))
+    | catch org.eclipse.core.runtime.CoreException -> E0
+    | |             ALOAD_0     // Lorg/eclipse/core/resources/IProject; projet   (line 144)
+    | |             LDC "bin"   (line 145)
+    | | method-call(void org.ruminaq.util.EclipseUtil.deleteProjectDirectoryIfExists(org.eclipse.core.resources.IProject, java.lang.String))
+    | | |           INVOKESTATIC org.ruminaq.util.EclipseUtil.deleteProjectDirectoryIfExists (Lorg/eclipse/core/resources/IProject;Ljava/lang/String;)V   (line 144)
+    | | method-call(void org.ruminaq.util.EclipseUtil.deleteProjectDirectoryIfExists(org.eclipse.core.resources.IProject, java.lang.String))
+    | catch org.eclipse.core.runtime.CoreException -> E0
+    |               GOTO L0   (line 146)
+    |           E0: ASTORE_1
+    |               NEW org.ruminaq.eclipse.RuminaqException   (line 147)
+    |               DUP
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_1     // Lorg/eclipse/core/runtime/CoreException; e
+    |               INVOKESPECIAL org.ruminaq.eclipse.RuminaqException.<init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+    |               ATHROW
+    |           L0: RETURN   (line 149)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.deleteBinDirectory(org.eclipse.core.resources.IProject))
+  end private static void deleteBinDirectory(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException
+
+  private static void updateProject(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException:
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.updateProject(org.eclipse.core.resources.IProject))
+    | method-call(org.eclipse.m2e.core.project.IProjectConfigurationManager org.eclipse.m2e.core.MavenPlugin.getProjectConfigurationManager())
+    | |             INVOKESTATIC org.eclipse.m2e.core.MavenPlugin.getProjectConfigurationManager ()Lorg/eclipse/m2e/core/project/IProjectConfigurationManager;   (line 153)
+    | method-call(org.eclipse.m2e.core.project.IProjectConfigurationManager org.eclipse.m2e.core.MavenPlugin.getProjectConfigurationManager())
+    |               ASTORE_1   (line 152)
+    |               NEW org.eclipse.m2e.core.project.MavenUpdateRequest   (line 154)
+    |               DUP
+    |               ALOAD_0     // Lorg/eclipse/core/resources/IProject; project
+    |               ICONST_1
+    |               ICONST_1
+    |               INVOKESPECIAL org.eclipse.m2e.core.project.MavenUpdateRequest.<init> (Lorg/eclipse/core/resources/IProject;ZZ)V
+    |               ASTORE_2
+    | catch org.eclipse.core.runtime.CoreException -> E0
+    | |             ALOAD_1     // Lorg/eclipse/m2e/core/project/IProjectConfigurationManager; configurationManager   (line 156)
+    | |             ALOAD_2     // Lorg/eclipse/m2e/core/project/MavenUpdateRequest; request
+    | |             NEW org.eclipse.core.runtime.NullProgressMonitor   (line 157)
+    | |             DUP
+    | |             INVOKESPECIAL org.eclipse.core.runtime.NullProgressMonitor.<init> ()V
+    | | method-call(void org.eclipse.m2e.core.project.IProjectConfigurationManager.updateProjectConfiguration(org.eclipse.m2e.core.project.MavenUpdateRequest, org.eclipse.core.runtime.IProgressMonitor))
+    | | |           INVOKEINTERFACE org.eclipse.m2e.core.project.IProjectConfigurationManager.updateProjectConfiguration (Lorg/eclipse/m2e/core/project/MavenUpdateRequest;Lorg/eclipse/core/runtime/IProgressMonitor;)V   (line 156)
+    | | method-call(void org.eclipse.m2e.core.project.IProjectConfigurationManager.updateProjectConfiguration(org.eclipse.m2e.core.project.MavenUpdateRequest, org.eclipse.core.runtime.IProgressMonitor))
+    | catch org.eclipse.core.runtime.CoreException -> E0
+    |               GOTO L0   (line 158)
+    |           E0: ASTORE_3
+    |               NEW org.ruminaq.eclipse.RuminaqException   (line 159)
+    |               DUP
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_3     // Lorg/eclipse/core/runtime/CoreException; e
+    |               INVOKESPECIAL org.ruminaq.eclipse.RuminaqException.<init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+    |               ATHROW
+    |           L0: RETURN   (line 161)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.updateProject(org.eclipse.core.resources.IProject))
+  end private static void updateProject(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException
+
+  public void setWindowTitle(String):
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.setWindowTitle(java.lang.String))
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 170)
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardWindowTitle Ljava/lang/String;
+    |               INVOKESPECIAL org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard.setWindowTitle (Ljava/lang/String;)V
+    |               RETURN   (line 171)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.setWindowTitle(java.lang.String))
+  end public void setWindowTitle(String)
+
+  private static void createOutputLocation(org.eclipse.jdt.core.IJavaProject) throws org.ruminaq.eclipse.RuminaqException:
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createOutputLocation(org.eclipse.jdt.core.IJavaProject))
+    |               ALOAD_0     // Lorg/eclipse/jdt/core/IJavaProject; javaProject   (line 175)
+    | method-call(org.eclipse.core.runtime.IPath org.eclipse.jdt.core.IJavaProject.getPath())
+    | |             INVOKEINTERFACE org.eclipse.jdt.core.IJavaProject.getPath ()Lorg/eclipse/core/runtime/IPath;
+    | method-call(org.eclipse.core.runtime.IPath org.eclipse.jdt.core.IJavaProject.getPath())
+    |               LDC "target/classes"
+    | method-call(org.eclipse.core.runtime.IPath org.eclipse.core.runtime.IPath.append(java.lang.String))
+    | |             INVOKEINTERFACE org.eclipse.core.runtime.IPath.append (Ljava/lang/String;)Lorg/eclipse/core/runtime/IPath;
+    | method-call(org.eclipse.core.runtime.IPath org.eclipse.core.runtime.IPath.append(java.lang.String))
+    |               ASTORE_1
+    | catch org.eclipse.jdt.core.JavaModelException -> E0
+    | |             ALOAD_0     // Lorg/eclipse/jdt/core/IJavaProject; javaProject   (line 177)
+    | |             ALOAD_1     // Lorg/eclipse/core/runtime/IPath; targetPath
+    | |             ACONST_NULL
+    | |             ASTORE_3
+    | |             ASTORE 4
+    | |             ASTORE 5
+    | | method-call(void org.eclipse.jdt.core.IJavaProject.setOutputLocation(org.eclipse.core.runtime.IPath, org.eclipse.core.runtime.IProgressMonitor))
+    | | |           INVOKEINTERFACE org.eclipse.jdt.core.IJavaProject.setOutputLocation (Lorg/eclipse/core/runtime/IPath;Lorg/eclipse/core/runtime/IProgressMonitor;)V
+    | | method-call(void org.eclipse.jdt.core.IJavaProject.setOutputLocation(org.eclipse.core.runtime.IPath, org.eclipse.core.runtime.IProgressMonitor))
+    | catch org.eclipse.jdt.core.JavaModelException -> E0
+    |               GOTO L0   (line 178)
+    |           E0: ASTORE_2
+    |               NEW org.ruminaq.eclipse.RuminaqException   (line 179)
+    |               DUP
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_2     // Lorg/eclipse/jdt/core/JavaModelException; e
+    |               INVOKESPECIAL org.ruminaq.eclipse.RuminaqException.<init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+    |               ATHROW
+    |           L0: RETURN   (line 181)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createOutputLocation(org.eclipse.jdt.core.IJavaProject))
+  end private static void createOutputLocation(org.eclipse.jdt.core.IJavaProject) throws org.ruminaq.eclipse.RuminaqException
+
+  private static void configureBuilders(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException:
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.configureBuilders(org.eclipse.core.resources.IProject))
+    | catch org.eclipse.core.runtime.CoreException -> E0
+    | |             ALOAD_0     // Lorg/eclipse/core/resources/IProject; project   (line 186)
+    | |             LDC ".externalToolBuilders"
+    | | method-call(void org.ruminaq.util.EclipseUtil.createFolderWithParents(org.eclipse.core.resources.IProject, java.lang.String))
+    | | |           INVOKESTATIC org.ruminaq.util.EclipseUtil.createFolderWithParents (Lorg/eclipse/core/resources/IProject;Ljava/lang/String;)V
+    | | method-call(void org.ruminaq.util.EclipseUtil.createFolderWithParents(org.eclipse.core.resources.IProject, java.lang.String))
+    | catch org.eclipse.core.runtime.CoreException -> E0
+    |               GOTO L0   (line 187)
+    |           E0: ASTORE_1
+    |               NEW org.ruminaq.eclipse.RuminaqException   (line 188)
+    |               DUP
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_1     // Lorg/eclipse/core/runtime/CoreException; e
+    |               INVOKESPECIAL org.ruminaq.eclipse.RuminaqException.<init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+    |               ATHROW
+    | catch java.io.IOException -> E4
+    | | catch org.eclipse.core.runtime.CoreException -> E4
+    | | |       L0: ACONST_NULL   (line 191)
+    | | |           ASTORE_1
+    | | |           ACONST_NULL
+    | | |           ASTORE_2
+    | | | finally -> E2
+    | | | |         LDC org.ruminaq.eclipse.wizards.project.CreateProjectWizard
+    | | | |         LDC "org.eclipse.m2e.core.maven2Builder.launch"   (line 192)
+    | | | | method-call(java.io.InputStream java.lang.Class.getResourceAsStream(java.lang.String))
+    | | | | |       INVOKEVIRTUAL java.lang.Class.getResourceAsStream (Ljava/lang/String;)Ljava/io/InputStream;
+    | | | | method-call(java.io.InputStream java.lang.Class.getResourceAsStream(java.lang.String))
+    | | | |         ASTORE_3   (line 191)
+    | | | | finally -> E1
+    | | | | |       ALOAD_0     // Lorg/eclipse/core/resources/IProject; project   (line 193)
+    | | | | |       LDC ".externalToolBuilders"
+    | | | | | method-call(org.eclipse.core.resources.IFolder org.eclipse.core.resources.IProject.getFolder(java.lang.String))
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IProject.getFolder (Ljava/lang/String;)Lorg/eclipse/core/resources/IFolder;
+    | | | | | method-call(org.eclipse.core.resources.IFolder org.eclipse.core.resources.IProject.getFolder(java.lang.String))
+    | | | | |       LDC "org.eclipse.m2e.core.maven2Builder.launch"   (line 194)
+    | | | | | method-call(org.eclipse.core.resources.IFile org.eclipse.core.resources.IFolder.getFile(java.lang.String))
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IFolder.getFile (Ljava/lang/String;)Lorg/eclipse/core/resources/IFile;
+    | | | | | method-call(org.eclipse.core.resources.IFile org.eclipse.core.resources.IFolder.getFile(java.lang.String))
+    | | | | |       ASTORE 4   (line 193)
+    | | | | |       ALOAD 4     // Lorg/eclipse/core/resources/IFile; outputFile   (line 195)
+    | | | | |       ALOAD_3     // Ljava/io/InputStream; confFile
+    | | | | |       ICONST_1
+    | | | | |       ACONST_NULL
+    | | | | | method-call(void org.eclipse.core.resources.IFile.create(java.io.InputStream, boolean, org.eclipse.core.runtime.IProgressMonitor))
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IFile.create (Ljava/io/InputStream;ZLorg/eclipse/core/runtime/IProgressMonitor;)V
+    | | | | | method-call(void org.eclipse.core.resources.IFile.create(java.io.InputStream, boolean, org.eclipse.core.runtime.IProgressMonitor))
+    | | | | |       ALOAD_0     // Lorg/eclipse/core/resources/IProject; project   (line 197)
+    | | | | | method-call(org.eclipse.core.resources.IProjectDescription org.eclipse.core.resources.IProject.getDescription())
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IProject.getDescription ()Lorg/eclipse/core/resources/IProjectDescription;
+    | | | | | method-call(org.eclipse.core.resources.IProjectDescription org.eclipse.core.resources.IProject.getDescription())
+    | | | | | method-call(org.eclipse.core.resources.ICommand[] org.eclipse.core.resources.IProjectDescription.getBuildSpec())
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IProjectDescription.getBuildSpec ()[Lorg/eclipse/core/resources/ICommand;
+    | | | | | method-call(org.eclipse.core.resources.ICommand[] org.eclipse.core.resources.IProjectDescription.getBuildSpec())
+    | | | | | method-call(java.util.stream.Stream java.util.Arrays.stream(java.lang.Object[]))
+    | | | | | |     INVOKESTATIC java.util.Arrays.stream ([Ljava/lang/Object;)Ljava/util/stream/Stream;
+    | | | | | method-call(java.util.stream.Stream java.util.Arrays.stream(java.lang.Object[]))
+    | | | | |       INVOKEDYNAMIC #1.test ()Ljava/util/function/Predicate;   (line 199)
+    | | | | | method-call(java.util.stream.Stream java.util.stream.Stream.filter(java.util.function.Predicate))
+    | | | | | |     INVOKEINTERFACE java.util.stream.Stream.filter (Ljava/util/function/Predicate;)Ljava/util/stream/Stream;   (line 198)
+    | | | | | method-call(java.util.stream.Stream java.util.stream.Stream.filter(java.util.function.Predicate))
+    | | | | | method-call(java.util.Optional java.util.stream.Stream.findFirst())
+    | | | | | |     INVOKEINTERFACE java.util.stream.Stream.findFirst ()Ljava/util/Optional;   (line 200)
+    | | | | | method-call(java.util.Optional java.util.stream.Stream.findFirst())
+    | | | | |       ASTORE 5   (line 196)
+    | | | | |       ALOAD 5     // Ljava/util/Optional; command   (line 201)
+    | | | | | method-call(boolean java.util.Optional.isPresent())
+    | | | | | |     INVOKEVIRTUAL java.util.Optional.isPresent ()Z
+    | | | | | method-call(boolean java.util.Optional.isPresent())
+    | | | | |       IFEQ L1
+    | | | | |       ALOAD 5     // Ljava/util/Optional; command   (line 202)
+    | | | | | method-call(java.lang.Object java.util.Optional.get())
+    | | | | | |     INVOKEVIRTUAL java.util.Optional.get ()Ljava/lang/Object;
+    | | | | | method-call(java.lang.Object java.util.Optional.get())
+    | | | | |       CHECKCAST org.eclipse.core.resources.ICommand
+    | | | | |       LDC_W "org.eclipse.ui.externaltools.ExternalToolBuilder"   (line 203)
+    | | | | | method-call(void org.eclipse.core.resources.ICommand.setBuilderName(java.lang.String))
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.ICommand.setBuilderName (Ljava/lang/String;)V
+    | | | | | method-call(void org.eclipse.core.resources.ICommand.setBuilderName(java.lang.String))
+    | | | | |       ALOAD 5     // Ljava/util/Optional; command   (line 204)
+    | | | | | method-call(java.lang.Object java.util.Optional.get())
+    | | | | | |     INVOKEVIRTUAL java.util.Optional.get ()Ljava/lang/Object;
+    | | | | | method-call(java.lang.Object java.util.Optional.get())
+    | | | | |       CHECKCAST org.eclipse.core.resources.ICommand
+    | | | | | method-call(java.util.Map org.eclipse.core.resources.ICommand.getArguments())
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.ICommand.getArguments ()Ljava/util/Map;
+    | | | | | method-call(java.util.Map org.eclipse.core.resources.ICommand.getArguments())
+    | | | | |       LDC_W "LaunchConfigHandle"
+    | | | | |       LDC_W "<project>/.externalToolBuilders/org.eclipse.m2e.core.maven2Builder.launch"   (line 205)
+    | | | | | method-call(java.lang.Object java.util.Map.put(java.lang.Object, java.lang.Object))
+    | | | | | |     INVOKEINTERFACE java.util.Map.put (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;   (line 204)
+    | | | | | method-call(java.lang.Object java.util.Map.put(java.lang.Object, java.lang.Object))
+    | | | | |       POP
+    | | | | finally -> E1
+    | | | |     L1: ALOAD_3     // Ljava/io/InputStream; confFile   (line 207)
+    | | | |         IFNULL L5
+    | | | |         ALOAD_3     // Ljava/io/InputStream; confFile
+    | | | | method-call(void java.io.InputStream.close())
+    | | | | |       INVOKEVIRTUAL java.io.InputStream.close ()V
+    | | | | method-call(void java.io.InputStream.close())
+    | | | |         GOTO L5
+    | | | |     E1: ASTORE_1
+    | | | |         ALOAD_3     // Ljava/io/InputStream; confFile
+    | | | |         IFNULL L2
+    | | | |         ALOAD_3     // Ljava/io/InputStream; confFile
+    | | | | method-call(void java.io.InputStream.close())
+    | | | | |       INVOKEVIRTUAL java.io.InputStream.close ()V
+    | | | | method-call(void java.io.InputStream.close())
+    | | | |     L2: ALOAD_1
+    | | | |         ATHROW
+    | | | finally -> E2
+    | | |       E2: ASTORE_2
+    | | |           ALOAD_1
+    | | |           IFNONNULL L3
+    | | |           ALOAD_2
+    | | |           ASTORE_1
+    | | |           GOTO L4
+    | | |       L3: ALOAD_1
+    | | |           ALOAD_2
+    | | |           IF_ACMPEQ L4
+    | | |           ALOAD_1
+    | | |           ALOAD_2
+    | | | method-call(void java.lang.Throwable.addSuppressed(java.lang.Throwable))
+    | | | |         INVOKEVIRTUAL java.lang.Throwable.addSuppressed (Ljava/lang/Throwable;)V
+    | | | method-call(void java.lang.Throwable.addSuppressed(java.lang.Throwable))
+    | | |       L4: ALOAD_1
+    | | |           ATHROW
+    | | catch org.eclipse.core.runtime.CoreException -> E4
+    | catch java.io.IOException -> E4
+    |           E4: ASTORE_1
+    |               NEW org.ruminaq.eclipse.RuminaqException   (line 208)
+    |               DUP
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_1     // Ljava/lang/Exception; e
+    |               INVOKESPECIAL org.ruminaq.eclipse.RuminaqException.<init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+    |               ATHROW
+    |           L5: RETURN   (line 210)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.configureBuilders(org.eclipse.core.resources.IProject))
+  end private static void configureBuilders(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException
+
+  private static void createPropertiesFile(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException:
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPropertiesFile(org.eclipse.core.resources.IProject))
+    |               NEW java.util.Properties   (line 214)
+    |               DUP
+    |               INVOKESPECIAL java.util.Properties.<init> ()V
+    |               ASTORE_1
+    | catch org.eclipse.core.runtime.CoreException -> E3
+    | | catch java.io.IOException -> E3
+    | | |           ACONST_NULL   (line 215)
+    | | |           ASTORE_2
+    | | |           ACONST_NULL
+    | | |           ASTORE_3
+    | | | finally -> E1
+    | | | |         NEW java.io.ByteArrayOutputStream
+    | | | |         DUP
+    | | | |         INVOKESPECIAL java.io.ByteArrayOutputStream.<init> ()V
+    | | | |         ASTORE 4
+    | | | | finally -> E0
+    | | | | |       ALOAD_1     // Ljava/util/Properties; prop   (line 216)
+    | | | | |       LDC "MAIN_MODULE"
+    | | | | |       LDC_W "tasks/MyTask.rumi"   (line 217)
+    | | | | | method-call(java.lang.Object java.util.Properties.setProperty(java.lang.String, java.lang.String))
+    | | | | | |     INVOKEVIRTUAL java.util.Properties.setProperty (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;   (line 216)
+    | | | | | method-call(java.lang.Object java.util.Properties.setProperty(java.lang.String, java.lang.String))
+    | | | | |       POP
+    | | | | |       ALOAD_1     // Ljava/util/Properties; prop   (line 220)
+    | | | | |       ALOAD 4     // Ljava/io/OutputStream; output
+    | | | | |       ACONST_NULL
+    | | | | | method-call(void java.util.Properties.store(java.io.OutputStream, java.lang.String))
+    | | | | | |     INVOKEVIRTUAL java.util.Properties.store (Ljava/io/OutputStream;Ljava/lang/String;)V
+    | | | | | method-call(void java.util.Properties.store(java.io.OutputStream, java.lang.String))
+    | | | | |       ALOAD_0     // Lorg/eclipse/core/resources/IProject; newProject   (line 221)
+    | | | | |       LDC "src/main/resources/ruminaq.properties"
+    | | | | | method-call(org.eclipse.core.resources.IFile org.eclipse.core.resources.IProject.getFile(java.lang.String))
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IProject.getFile (Ljava/lang/String;)Lorg/eclipse/core/resources/IFile;
+    | | | | | method-call(org.eclipse.core.resources.IFile org.eclipse.core.resources.IProject.getFile(java.lang.String))
+    | | | | |       ASTORE 5
+    | | | | |       ALOAD 5     // Lorg/eclipse/core/resources/IFile; outputFile   (line 222)
+    | | | | |       NEW java.io.ByteArrayInputStream
+    | | | | |       DUP
+    | | | | |       ALOAD 4     // Ljava/io/OutputStream; output   (line 223)
+    | | | | |       CHECKCAST java.io.ByteArrayOutputStream
+    | | | | | method-call(byte[] java.io.ByteArrayOutputStream.toByteArray())
+    | | | | | |     INVOKEVIRTUAL java.io.ByteArrayOutputStream.toByteArray ()[B
+    | | | | | method-call(byte[] java.io.ByteArrayOutputStream.toByteArray())
+    | | | | |       INVOKESPECIAL java.io.ByteArrayInputStream.<init> ([B)V
+    | | | | |       ICONST_1
+    | | | | |       ACONST_NULL
+    | | | | | method-call(void org.eclipse.core.resources.IFile.create(java.io.InputStream, boolean, org.eclipse.core.runtime.IProgressMonitor))
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IFile.create (Ljava/io/InputStream;ZLorg/eclipse/core/runtime/IProgressMonitor;)V   (line 222)
+    | | | | | method-call(void org.eclipse.core.resources.IFile.create(java.io.InputStream, boolean, org.eclipse.core.runtime.IProgressMonitor))
+    | | | | finally -> E0
+    | | | |         ALOAD 4     // Ljava/io/OutputStream; output   (line 224)
+    | | | |         IFNULL L3
+    | | | |         ALOAD 4     // Ljava/io/OutputStream; output
+    | | | | method-call(void java.io.OutputStream.close())
+    | | | | |       INVOKEVIRTUAL java.io.OutputStream.close ()V
+    | | | | method-call(void java.io.OutputStream.close())
+    | | | |         GOTO L3
+    | | | |     E0: ASTORE_2
+    | | | |         ALOAD 4     // Ljava/io/OutputStream; output
+    | | | |         IFNULL L0
+    | | | |         ALOAD 4     // Ljava/io/OutputStream; output
+    | | | | method-call(void java.io.OutputStream.close())
+    | | | | |       INVOKEVIRTUAL java.io.OutputStream.close ()V
+    | | | | method-call(void java.io.OutputStream.close())
+    | | | |     L0: ALOAD_2
+    | | | |         ATHROW
+    | | | finally -> E1
+    | | |       E1: ASTORE_3
+    | | |           ALOAD_2
+    | | |           IFNONNULL L1
+    | | |           ALOAD_3
+    | | |           ASTORE_2
+    | | |           GOTO L2
+    | | |       L1: ALOAD_2
+    | | |           ALOAD_3
+    | | |           IF_ACMPEQ L2
+    | | |           ALOAD_2
+    | | |           ALOAD_3
+    | | | method-call(void java.lang.Throwable.addSuppressed(java.lang.Throwable))
+    | | | |         INVOKEVIRTUAL java.lang.Throwable.addSuppressed (Ljava/lang/Throwable;)V
+    | | | method-call(void java.lang.Throwable.addSuppressed(java.lang.Throwable))
+    | | |       L2: ALOAD_2
+    | | |           ATHROW
+    | | catch java.io.IOException -> E3
+    | catch org.eclipse.core.runtime.CoreException -> E3
+    |           E3: ASTORE_2
+    |               NEW org.ruminaq.eclipse.RuminaqException   (line 225)
+    |               DUP
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_2     // Ljava/lang/Exception; e
+    |               INVOKESPECIAL org.ruminaq.eclipse.RuminaqException.<init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+    |               ATHROW
+    |           L3: RETURN   (line 227)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPropertiesFile(org.eclipse.core.resources.IProject))
+  end private static void createPropertiesFile(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException
+
+  private static void lambda$0(org.eclipse.jdt.core.IJavaProject, org.ruminaq.eclipse.api.EclipseExtension):
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.lambda$0(org.eclipse.jdt.core.IJavaProject, org.ruminaq.eclipse.api.EclipseExtension))
+    |               ALOAD_1     // Lorg/ruminaq/eclipse/api/EclipseExtension; e   (line 124)
+    |               ALOAD_0
+    | method-call(boolean org.ruminaq.eclipse.api.EclipseExtension.createProjectWizardPerformFinish(org.eclipse.jdt.core.IJavaProject))
+    | |             INVOKEINTERFACE org.ruminaq.eclipse.api.EclipseExtension.createProjectWizardPerformFinish (Lorg/eclipse/jdt/core/IJavaProject;)Z
+    | method-call(boolean org.ruminaq.eclipse.api.EclipseExtension.createProjectWizardPerformFinish(org.eclipse.jdt.core.IJavaProject))
+    |               RETURN
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.lambda$0(org.eclipse.jdt.core.IJavaProject, org.ruminaq.eclipse.api.EclipseExtension))
+  end private static void lambda$0(org.eclipse.jdt.core.IJavaProject, org.ruminaq.eclipse.api.EclipseExtension)
+
+  private static boolean lambda$1(org.eclipse.core.resources.ICommand):
+    method-execution(boolean org.ruminaq.eclipse.wizards.project.CreateProjectWizard.lambda$1(org.eclipse.core.resources.ICommand))
+    |               LDC_W "org.eclipse.m2e.core.maven2Builder"   (line 199)
+    |               ALOAD_0     // Lorg/eclipse/core/resources/ICommand; cmd
+    | method-call(java.lang.String org.eclipse.core.resources.ICommand.getBuilderName())
+    | |             INVOKEINTERFACE org.eclipse.core.resources.ICommand.getBuilderName ()Ljava/lang/String;
+    | method-call(java.lang.String org.eclipse.core.resources.ICommand.getBuilderName())
+    | method-call(boolean java.lang.String.equals(java.lang.Object))
+    | |             INVOKEVIRTUAL java.lang.String.equals (Ljava/lang/Object;)Z
+    | method-call(boolean java.lang.String.equals(java.lang.Object))
+    |               IRETURN
+    method-execution(boolean org.ruminaq.eclipse.wizards.project.CreateProjectWizard.lambda$1(org.eclipse.core.resources.ICommand))
+  end private static boolean lambda$1(org.eclipse.core.resources.ICommand)
+end public class org.ruminaq.eclipse.wizards.project.CreateProjectWizard
+ -- (ArrayIndexOutOfBoundsException) Index 3 out of bounds for length 3
+Index 3 out of bounds for length 3
+java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3
+	at org.aspectj.weaver.patterns.ExposedState.get(ExposedState.java:81)
+	at org.aspectj.weaver.patterns.IfPointcut.findResidueInternal(IfPointcut.java:298)
+	at org.aspectj.weaver.patterns.Pointcut.findResidue(Pointcut.java:260)
+	at org.aspectj.weaver.patterns.AndPointcut.findResidueInternal(AndPointcut.java:101)
+	at org.aspectj.weaver.patterns.Pointcut.findResidue(Pointcut.java:260)
+	at org.aspectj.weaver.patterns.AndPointcut.findResidueInternal(AndPointcut.java:101)
+	at org.aspectj.weaver.patterns.Pointcut.findResidue(Pointcut.java:260)
+	at org.aspectj.weaver.bcel.BcelAdvice.specializeOn(BcelAdvice.java:194)
+	at org.aspectj.weaver.bcel.BcelShadow.prepareForMungers(BcelShadow.java:358)
+	at org.aspectj.weaver.Shadow.implement(Shadow.java:547)
+	at org.aspectj.weaver.bcel.BcelClassWeaver.implement(BcelClassWeaver.java:3346)
+	at org.aspectj.weaver.bcel.BcelClassWeaver.weave(BcelClassWeaver.java:496)
+	at org.aspectj.weaver.bcel.BcelClassWeaver.weave(BcelClassWeaver.java:100)
+	at org.aspectj.weaver.bcel.BcelWeaver.weave(BcelWeaver.java:1713)
+	at org.aspectj.weaver.bcel.BcelWeaver.weaveWithoutDump(BcelWeaver.java:1657)
+	at org.aspectj.weaver.bcel.BcelWeaver.weaveAndNotify(BcelWeaver.java:1422)
+	at org.aspectj.weaver.bcel.BcelWeaver.weave(BcelWeaver.java:1196)
+	at org.aspectj.weaver.tools.WeavingAdaptor.getWovenBytes(WeavingAdaptor.java:551)
+	at org.aspectj.weaver.tools.WeavingAdaptor.weaveClass(WeavingAdaptor.java:387)
+	at org.aspectj.weaver.loadtime.Aj.preProcess(Aj.java:116)
+	at org.aspectj.weaver.loadtime.ClassPreProcessorAgentAdapter.transform(ClassPreProcessorAgentAdapter.java:51)
+	at java.instrument/java.lang.instrument.ClassFileTransformer.transform(ClassFileTransformer.java:246)
+	at java.instrument/sun.instrument.TransformerManager.transform(TransformerManager.java:188)
+	at java.instrument/sun.instrument.InstrumentationImpl.transform(InstrumentationImpl.java:563)
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1016)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.defineClass(ModuleClassLoader.java:279)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.defineClass(ClasspathManager.java:716)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findClassImpl(ClasspathManager.java:639)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClassImpl(ClasspathManager.java:607)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClassImpl(ClasspathManager.java:587)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:566)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:331)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:395)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:473)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:422)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:414)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:153)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:521)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.loadClass(EquinoxBundle.java:612)
+	at org.eclipse.core.internal.registry.osgi.RegistryStrategyOSGI.createExecutableExtension(RegistryStrategyOSGI.java:196)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.createExecutableExtension(ExtensionRegistry.java:934)
+	at org.eclipse.core.internal.registry.ConfigurationElement.createExecutableExtension(ConfigurationElement.java:246)
+	at org.eclipse.core.internal.registry.ConfigurationElementHandle.createExecutableExtension(ConfigurationElementHandle.java:63)
+	at org.eclipse.ui.internal.WorkbenchPlugin.createExtension(WorkbenchPlugin.java:284)
+	at org.eclipse.ui.internal.dialogs.WorkbenchWizardElement.createExecutableExtension(WorkbenchWizardElement.java:126)
+	at org.eclipse.ui.internal.dialogs.WorkbenchWizardElement.createWizard(WorkbenchWizardElement.java:264)
+	at org.eclipse.ui.internal.dialogs.NewWizardNewPage$2.createWizard(NewWizardNewPage.java:715)
+	at org.eclipse.ui.internal.dialogs.WorkbenchWizardNode$1.run(WorkbenchWizardNode.java:142)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.ui.internal.dialogs.WorkbenchWizardNode.lambda$0(WorkbenchWizardNode.java:124)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:72)
+	at org.eclipse.ui.internal.dialogs.WorkbenchWizardNode.getWizard(WorkbenchWizardNode.java:123)
+	at org.eclipse.jface.wizard.WizardSelectionPage.getNextPage(WizardSelectionPage.java:110)
+	at org.eclipse.ui.internal.dialogs.WorkbenchWizardSelectionPage.getNextPage(WorkbenchWizardSelectionPage.java:100)
+	at org.eclipse.jface.wizard.WizardDialog.nextPressed(WizardDialog.java:854)
+	at org.eclipse.jface.wizard.WizardDialog.buttonPressed(WizardDialog.java:410)
+	at org.eclipse.jface.dialogs.Dialog.lambda$0(Dialog.java:622)
+	at org.eclipse.swt.events.SelectionListener$1.widgetSelected(SelectionListener.java:84)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:252)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:5783)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1411)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1437)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1420)
+	at org.eclipse.swt.widgets.Widget.notifyListeners(Widget.java:1196)
+	at org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot$2.run(AbstractSWTBot.java:174)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable$5.doRun(UIThreadRunnable.java:222)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable$1.run(UIThreadRunnable.java:88)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:5026)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4582)
+	at org.eclipse.jface.window.Window.runEventLoop(Window.java:823)
+	at org.eclipse.jface.window.Window.open(Window.java:799)
+	at org.eclipse.ui.actions.NewProjectAction.run(NewProjectAction.java:118)
+	at org.eclipse.jface.action.Action.runWithEvent(Action.java:474)
+	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:568)
+	at org.eclipse.jface.action.ActionContributionItem.lambda$4(ActionContributionItem.java:400)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:5783)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1411)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1437)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1420)
+	at org.eclipse.swt.widgets.Widget.notifyListeners(Widget.java:1196)
+	at org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot$2.run(AbstractSWTBot.java:174)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable$5.doRun(UIThreadRunnable.java:222)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.run(UIThreadRunnable.java:76)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.asyncExec(UIThreadRunnable.java:224)
+	at org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot.asyncExec(AbstractSWTBot.java:640)
+	at org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot.notify(AbstractSWTBot.java:162)
+	at org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot.notify(AbstractSWTBot.java:142)
+	at org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot.notify(AbstractSWTBot.java:132)
+	at org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu$1.run(SWTBotMenu.java:88)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable$5.doRun(UIThreadRunnable.java:222)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable$1.run(UIThreadRunnable.java:88)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:5026)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4582)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1173)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1062)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:566)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:150)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:155)
+	at org.eclipse.swtbot.eclipse.core.UITestApplication.start(UITestApplication.java:58)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:661)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1476)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1449)
+
+org.aspectj.bridge.AbortException: trouble in: 
+public class org.ruminaq.eclipse.wizards.project.CreateProjectWizard extends org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard:
+  private static final org.slf4j.Logger LOGGER
+  private static final String BASIC_NEW_PROJECT_PAGE_NAME = "basicNewProjectPage"
+  public static final String PROPERTIES_FILE = "src/main/resources/ruminaq.properties"
+  private static final String OUTPUT_CLASSES = "target/classes"
+  private static final String EXTERNALTOOLBUILDERS = ".externalToolBuilders"
+  private static final String BUILDER_CONFIG_MVN = "org.eclipse.m2e.core.maven2Builder.launch"
+  private static final String MAIN_MODULE = "MAIN_MODULE"
+  private java.util.Collection extensions [Signature(Ljava/util/Collection<Lorg/ruminaq/eclipse/api/EclipseExtension;>;)]
+  static void <clinit>():
+    staticinitialization(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.<clinit>())
+    |               LDC org.ruminaq.eclipse.wizards.project.CreateProjectWizard   (line 58)
+    | method-call(ch.qos.logback.classic.Logger org.ruminaq.logs.ModelerLoggerFactory.getLogger(java.lang.Class))
+    | |             INVOKESTATIC org.ruminaq.logs.ModelerLoggerFactory.getLogger (Ljava/lang/Class;)Lch/qos/logback/classic/Logger;
+    | method-call(ch.qos.logback.classic.Logger org.ruminaq.logs.ModelerLoggerFactory.getLogger(java.lang.Class))
+    |               PUTSTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.LOGGER Lorg/slf4j/Logger;   (line 57)
+    |               RETURN   (line 72)
+    staticinitialization(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.<clinit>())
+  end static void <clinit>()
+
+  public void <init>():
+                    ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 55)
+                    INVOKESPECIAL org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard.<init> ()V
+    constructor-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.<init>())
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 74)
+    |               LDC org.ruminaq.eclipse.wizards.project.CreateProjectWizard   (line 75)
+    |               LDC org.ruminaq.eclipse.api.EclipseExtension   (line 76)
+    | method-call(java.util.Collection org.ruminaq.util.ServiceUtil.getServicesAtLatestVersion(java.lang.Class, java.lang.Class))
+    | |             INVOKESTATIC org.ruminaq.util.ServiceUtil.getServicesAtLatestVersion (Ljava/lang/Class;Ljava/lang/Class;)Ljava/util/Collection;   (line 75)
+    | method-call(java.util.Collection org.ruminaq.util.ServiceUtil.getServicesAtLatestVersion(java.lang.Class, java.lang.Class))
+    |               PUTFIELD org.ruminaq.eclipse.wizards.project.CreateProjectWizard.extensions Ljava/util/Collection;
+    |               RETURN   (line 55)
+    constructor-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.<init>())
+  end public void <init>()
+
+  public void createPageControls(org.eclipse.swt.widgets.Composite):
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPageControls(org.eclipse.swt.widgets.Composite))
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 86)
+    |               ALOAD_1     // Lorg/eclipse/swt/widgets/Composite; pageContainer
+    |               INVOKESPECIAL org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard.createPageControls (Lorg/eclipse/swt/widgets/Composite;)V
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 88)
+    |               LDC "basicNewProjectPage"   (line 89)
+    | method-call(org.eclipse.jface.wizard.IWizardPage org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getPage(java.lang.String))
+    | |             INVOKEVIRTUAL org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getPage (Ljava/lang/String;)Lorg/eclipse/jface/wizard/IWizardPage;   (line 88)
+    | method-call(org.eclipse.jface.wizard.IWizardPage org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getPage(java.lang.String))
+    |               CHECKCAST org.eclipse.ui.dialogs.WizardNewProjectCreationPage
+    |               ASTORE_2
+    |               ALOAD_2     // Lorg/eclipse/ui/dialogs/WizardNewProjectCreationPage; basicNewProjectPage   (line 90)
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardTitle Ljava/lang/String;
+    | method-call(void org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setTitle(java.lang.String))
+    | |             INVOKEVIRTUAL org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setTitle (Ljava/lang/String;)V
+    | method-call(void org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setTitle(java.lang.String))
+    |               ALOAD_2     // Lorg/eclipse/ui/dialogs/WizardNewProjectCreationPage; basicNewProjectPage   (line 91)
+    |               GETSTATIC org.ruminaq.eclipse.Image.RUMINAQ_LOGO_64X64 Lorg/ruminaq/eclipse/Image;   (line 92)
+    | method-call(org.eclipse.jface.resource.ImageDescriptor org.ruminaq.util.ImageUtil.getImageDescriptor(org.ruminaq.util.IImage))
+    | |             INVOKESTATIC org.ruminaq.util.ImageUtil.getImageDescriptor (Lorg/ruminaq/util/IImage;)Lorg/eclipse/jface/resource/ImageDescriptor;
+    | method-call(org.eclipse.jface.resource.ImageDescriptor org.ruminaq.util.ImageUtil.getImageDescriptor(org.ruminaq.util.IImage))
+    | method-call(void org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setImageDescriptor(org.eclipse.jface.resource.ImageDescriptor))
+    | |             INVOKEVIRTUAL org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setImageDescriptor (Lorg/eclipse/jface/resource/ImageDescriptor;)V   (line 91)
+    | method-call(void org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setImageDescriptor(org.eclipse.jface.resource.ImageDescriptor))
+    |               ALOAD_2     // Lorg/eclipse/ui/dialogs/WizardNewProjectCreationPage; basicNewProjectPage   (line 93)
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardDescription Ljava/lang/String;
+    | method-call(void org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setDescription(java.lang.String))
+    | |             INVOKEVIRTUAL org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setDescription (Ljava/lang/String;)V
+    | method-call(void org.eclipse.ui.dialogs.WizardNewProjectCreationPage.setDescription(java.lang.String))
+    |               RETURN   (line 94)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPageControls(org.eclipse.swt.widgets.Composite))
+  end public void createPageControls(org.eclipse.swt.widgets.Composite)
+
+  public boolean performFinish():
+    method-execution(boolean org.ruminaq.eclipse.wizards.project.CreateProjectWizard.performFinish())
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 103)
+    |               INVOKESPECIAL org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard.performFinish ()Z
+    |               IFEQ L0
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 104)
+    | method-call(org.eclipse.core.resources.IProject org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getNewProject())
+    | |             INVOKEVIRTUAL org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getNewProject ()Lorg/eclipse/core/resources/IProject;
+    | method-call(org.eclipse.core.resources.IProject org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getNewProject())
+    |               ASTORE_1
+    | catch org.ruminaq.eclipse.RuminaqException -> E0
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 107)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.Nature.setNatureIds(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.Nature.setNatureIds (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.Nature.setNatureIds(org.eclipse.core.resources.IProject))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 108)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.SourceFolders.createSourceFolders(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.SourceFolders.createSourceFolders (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.SourceFolders.createSourceFolders(org.eclipse.core.resources.IProject))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 110)
+    | | method-call(org.eclipse.jdt.core.IJavaProject org.eclipse.jdt.core.JavaCore.create(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.eclipse.jdt.core.JavaCore.create (Lorg/eclipse/core/resources/IProject;)Lorg/eclipse/jdt/core/IJavaProject;
+    | | method-call(org.eclipse.jdt.core.IJavaProject org.eclipse.jdt.core.JavaCore.create(org.eclipse.core.resources.IProject))
+    | |             ASTORE_2
+    | |             NEW org.ruminaq.eclipse.wizards.project.JavaClasspathFile   (line 111)
+    | |             DUP
+    | |             INVOKESPECIAL org.ruminaq.eclipse.wizards.project.JavaClasspathFile.<init> ()V
+    | |             ALOAD_2     // Lorg/eclipse/jdt/core/IJavaProject; javaProject
+    | | method-call(void org.ruminaq.eclipse.wizards.project.JavaClasspathFile.setClasspathEntries(org.eclipse.jdt.core.IJavaProject))
+    | | |           INVOKEVIRTUAL org.ruminaq.eclipse.wizards.project.JavaClasspathFile.setClasspathEntries (Lorg/eclipse/jdt/core/IJavaProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.JavaClasspathFile.setClasspathEntries(org.eclipse.jdt.core.IJavaProject))
+    | |             ALOAD_2     // Lorg/eclipse/jdt/core/IJavaProject; javaProject   (line 112)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createOutputLocation(org.eclipse.jdt.core.IJavaProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createOutputLocation (Lorg/eclipse/jdt/core/IJavaProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createOutputLocation(org.eclipse.jdt.core.IJavaProject))
+    | |             NEW org.ruminaq.eclipse.wizards.project.PomFile   (line 114)
+    | |             DUP
+    | |             INVOKESPECIAL org.ruminaq.eclipse.wizards.project.PomFile.<init> ()V
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject
+    | | method-call(void org.ruminaq.eclipse.wizards.project.PomFile.createPomFile(org.eclipse.core.resources.IProject))
+    | | |           INVOKEVIRTUAL org.ruminaq.eclipse.wizards.project.PomFile.createPomFile (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.PomFile.createPomFile(org.eclipse.core.resources.IProject))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 115)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.configureBuilders(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.configureBuilders (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.configureBuilders(org.eclipse.core.resources.IProject))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 116)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPropertiesFile(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPropertiesFile (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPropertiesFile(org.eclipse.core.resources.IProject))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 118)
+    | | method-call(org.ruminaq.prefs.Props org.ruminaq.prefs.ProjectProps.getInstance(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.prefs.ProjectProps.getInstance (Lorg/eclipse/core/resources/IProject;)Lorg/ruminaq/prefs/Props;
+    | | method-call(org.ruminaq.prefs.Props org.ruminaq.prefs.ProjectProps.getInstance(org.eclipse.core.resources.IProject))
+    | |             LDC "modeler.version"
+    | |             ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 119)
+    | | method-call(java.lang.Class java.lang.Object.getClass())
+    | | |           INVOKEVIRTUAL java.lang.Object.getClass ()Ljava/lang/Class;
+    | | method-call(java.lang.Class java.lang.Object.getClass())
+    | | method-call(org.osgi.framework.Version org.ruminaq.util.PlatformUtil.getBundleVersion(java.lang.Class))
+    | | |           INVOKESTATIC org.ruminaq.util.PlatformUtil.getBundleVersion (Ljava/lang/Class;)Lorg/osgi/framework/Version;
+    | | method-call(org.osgi.framework.Version org.ruminaq.util.PlatformUtil.getBundleVersion(java.lang.Class))
+    | | method-call(java.lang.String org.osgi.framework.Version.toString())
+    | | |           INVOKEVIRTUAL org.osgi.framework.Version.toString ()Ljava/lang/String;
+    | | method-call(java.lang.String org.osgi.framework.Version.toString())
+    | | method-call(void org.ruminaq.prefs.Props.put(java.lang.String, java.lang.String))
+    | | |           INVOKEVIRTUAL org.ruminaq.prefs.Props.put (Ljava/lang/String;Ljava/lang/String;)V   (line 118)
+    | | method-call(void org.ruminaq.prefs.Props.put(java.lang.String, java.lang.String))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 121)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.deleteBinDirectory(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.deleteBinDirectory (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.deleteBinDirectory(org.eclipse.core.resources.IProject))
+    | |             ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 123)
+    | |             GETFIELD org.ruminaq.eclipse.wizards.project.CreateProjectWizard.extensions Ljava/util/Collection;
+    | | method-call(java.util.stream.Stream java.util.Collection.stream())
+    | | |           INVOKEINTERFACE java.util.Collection.stream ()Ljava/util/stream/Stream;
+    | | method-call(java.util.stream.Stream java.util.Collection.stream())
+    | |             ALOAD_2     // Lorg/eclipse/jdt/core/IJavaProject; javaProject   (line 124)
+    | |             INVOKEDYNAMIC #0.accept (Lorg/eclipse/jdt/core/IJavaProject;)Ljava/util/function/Consumer;
+    | | method-call(void java.util.stream.Stream.forEach(java.util.function.Consumer))
+    | | |           INVOKEINTERFACE java.util.stream.Stream.forEach (Ljava/util/function/Consumer;)V
+    | | method-call(void java.util.stream.Stream.forEach(java.util.function.Consumer))
+    | |             ALOAD_1     // Lorg/eclipse/core/resources/IProject; newProject   (line 126)
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.updateProject(org.eclipse.core.resources.IProject))
+    | | |           INVOKESTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.updateProject (Lorg/eclipse/core/resources/IProject;)V
+    | | method-call(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.updateProject(org.eclipse.core.resources.IProject))
+    | catch org.ruminaq.eclipse.RuminaqException -> E0
+    |               ICONST_1   (line 128)
+    |               IRETURN
+    |           E0: ASTORE_2   (line 130)
+    |               GETSTATIC org.ruminaq.eclipse.wizards.project.CreateProjectWizard.LOGGER Lorg/slf4j/Logger;   (line 131)
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_2     // Lorg/ruminaq/eclipse/RuminaqException; e
+    | method-call(void org.slf4j.Logger.error(java.lang.String, java.lang.Throwable))
+    | |             INVOKEINTERFACE org.slf4j.Logger.error (Ljava/lang/String;Ljava/lang/Throwable;)V
+    | method-call(void org.slf4j.Logger.error(java.lang.String, java.lang.Throwable))
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 132)
+    | method-call(org.eclipse.swt.widgets.Shell org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getShell())
+    | |             INVOKEVIRTUAL org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getShell ()Lorg/eclipse/swt/widgets/Shell;
+    | method-call(org.eclipse.swt.widgets.Shell org.ruminaq.eclipse.wizards.project.CreateProjectWizard.getShell())
+    |               GETSTATIC org.ruminaq.eclipse.Messages.ruminaqFailed Ljava/lang/String;   (line 133)
+    |               ALOAD_2     // Lorg/ruminaq/eclipse/RuminaqException; e   (line 134)
+    | method-call(java.lang.String org.ruminaq.eclipse.RuminaqException.getMessage())
+    | |             INVOKEVIRTUAL org.ruminaq.eclipse.RuminaqException.getMessage ()Ljava/lang/String;
+    | method-call(java.lang.String org.ruminaq.eclipse.RuminaqException.getMessage())
+    | method-call(void org.eclipse.jface.dialogs.MessageDialog.openError(org.eclipse.swt.widgets.Shell, java.lang.String, java.lang.String))
+    | |             INVOKESTATIC org.eclipse.jface.dialogs.MessageDialog.openError (Lorg/eclipse/swt/widgets/Shell;Ljava/lang/String;Ljava/lang/String;)V   (line 132)
+    | method-call(void org.eclipse.jface.dialogs.MessageDialog.openError(org.eclipse.swt.widgets.Shell, java.lang.String, java.lang.String))
+    |           L0: ICONST_0   (line 138)
+    |               IRETURN
+    method-execution(boolean org.ruminaq.eclipse.wizards.project.CreateProjectWizard.performFinish())
+  end public boolean performFinish()
+
+  private static void deleteBinDirectory(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException:
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.deleteBinDirectory(org.eclipse.core.resources.IProject))
+    | catch org.eclipse.core.runtime.CoreException -> E0
+    | |             ALOAD_0     // Lorg/eclipse/core/resources/IProject; projet   (line 144)
+    | |             LDC "bin"   (line 145)
+    | | method-call(void org.ruminaq.util.EclipseUtil.deleteProjectDirectoryIfExists(org.eclipse.core.resources.IProject, java.lang.String))
+    | | |           INVOKESTATIC org.ruminaq.util.EclipseUtil.deleteProjectDirectoryIfExists (Lorg/eclipse/core/resources/IProject;Ljava/lang/String;)V   (line 144)
+    | | method-call(void org.ruminaq.util.EclipseUtil.deleteProjectDirectoryIfExists(org.eclipse.core.resources.IProject, java.lang.String))
+    | catch org.eclipse.core.runtime.CoreException -> E0
+    |               GOTO L0   (line 146)
+    |           E0: ASTORE_1
+    |               NEW org.ruminaq.eclipse.RuminaqException   (line 147)
+    |               DUP
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_1     // Lorg/eclipse/core/runtime/CoreException; e
+    |               INVOKESPECIAL org.ruminaq.eclipse.RuminaqException.<init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+    |               ATHROW
+    |           L0: RETURN   (line 149)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.deleteBinDirectory(org.eclipse.core.resources.IProject))
+  end private static void deleteBinDirectory(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException
+
+  private static void updateProject(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException:
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.updateProject(org.eclipse.core.resources.IProject))
+    | method-call(org.eclipse.m2e.core.project.IProjectConfigurationManager org.eclipse.m2e.core.MavenPlugin.getProjectConfigurationManager())
+    | |             INVOKESTATIC org.eclipse.m2e.core.MavenPlugin.getProjectConfigurationManager ()Lorg/eclipse/m2e/core/project/IProjectConfigurationManager;   (line 153)
+    | method-call(org.eclipse.m2e.core.project.IProjectConfigurationManager org.eclipse.m2e.core.MavenPlugin.getProjectConfigurationManager())
+    |               ASTORE_1   (line 152)
+    |               NEW org.eclipse.m2e.core.project.MavenUpdateRequest   (line 154)
+    |               DUP
+    |               ALOAD_0     // Lorg/eclipse/core/resources/IProject; project
+    |               ICONST_1
+    |               ICONST_1
+    |               INVOKESPECIAL org.eclipse.m2e.core.project.MavenUpdateRequest.<init> (Lorg/eclipse/core/resources/IProject;ZZ)V
+    |               ASTORE_2
+    | catch org.eclipse.core.runtime.CoreException -> E0
+    | |             ALOAD_1     // Lorg/eclipse/m2e/core/project/IProjectConfigurationManager; configurationManager   (line 156)
+    | |             ALOAD_2     // Lorg/eclipse/m2e/core/project/MavenUpdateRequest; request
+    | |             NEW org.eclipse.core.runtime.NullProgressMonitor   (line 157)
+    | |             DUP
+    | |             INVOKESPECIAL org.eclipse.core.runtime.NullProgressMonitor.<init> ()V
+    | | method-call(void org.eclipse.m2e.core.project.IProjectConfigurationManager.updateProjectConfiguration(org.eclipse.m2e.core.project.MavenUpdateRequest, org.eclipse.core.runtime.IProgressMonitor))
+    | | |           INVOKEINTERFACE org.eclipse.m2e.core.project.IProjectConfigurationManager.updateProjectConfiguration (Lorg/eclipse/m2e/core/project/MavenUpdateRequest;Lorg/eclipse/core/runtime/IProgressMonitor;)V   (line 156)
+    | | method-call(void org.eclipse.m2e.core.project.IProjectConfigurationManager.updateProjectConfiguration(org.eclipse.m2e.core.project.MavenUpdateRequest, org.eclipse.core.runtime.IProgressMonitor))
+    | catch org.eclipse.core.runtime.CoreException -> E0
+    |               GOTO L0   (line 158)
+    |           E0: ASTORE_3
+    |               NEW org.ruminaq.eclipse.RuminaqException   (line 159)
+    |               DUP
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_3     // Lorg/eclipse/core/runtime/CoreException; e
+    |               INVOKESPECIAL org.ruminaq.eclipse.RuminaqException.<init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+    |               ATHROW
+    |           L0: RETURN   (line 161)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.updateProject(org.eclipse.core.resources.IProject))
+  end private static void updateProject(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException
+
+  public void setWindowTitle(String):
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.setWindowTitle(java.lang.String))
+    |               ALOAD_0     // Lorg/ruminaq/eclipse/wizards/project/CreateProjectWizard; this   (line 170)
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardWindowTitle Ljava/lang/String;
+    |               INVOKESPECIAL org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard.setWindowTitle (Ljava/lang/String;)V
+    |               RETURN   (line 171)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.setWindowTitle(java.lang.String))
+  end public void setWindowTitle(String)
+
+  private static void createOutputLocation(org.eclipse.jdt.core.IJavaProject) throws org.ruminaq.eclipse.RuminaqException:
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createOutputLocation(org.eclipse.jdt.core.IJavaProject))
+    |               ALOAD_0     // Lorg/eclipse/jdt/core/IJavaProject; javaProject   (line 175)
+    | method-call(org.eclipse.core.runtime.IPath org.eclipse.jdt.core.IJavaProject.getPath())
+    | |             INVOKEINTERFACE org.eclipse.jdt.core.IJavaProject.getPath ()Lorg/eclipse/core/runtime/IPath;
+    | method-call(org.eclipse.core.runtime.IPath org.eclipse.jdt.core.IJavaProject.getPath())
+    |               LDC "target/classes"
+    | method-call(org.eclipse.core.runtime.IPath org.eclipse.core.runtime.IPath.append(java.lang.String))
+    | |             INVOKEINTERFACE org.eclipse.core.runtime.IPath.append (Ljava/lang/String;)Lorg/eclipse/core/runtime/IPath;
+    | method-call(org.eclipse.core.runtime.IPath org.eclipse.core.runtime.IPath.append(java.lang.String))
+    |               ASTORE_1
+    | catch org.eclipse.jdt.core.JavaModelException -> E0
+    | |             ALOAD_0     // Lorg/eclipse/jdt/core/IJavaProject; javaProject   (line 177)
+    | |             ALOAD_1     // Lorg/eclipse/core/runtime/IPath; targetPath
+    | |             ACONST_NULL
+    | |             ASTORE_3
+    | |             ASTORE 4
+    | |             ASTORE 5
+    | | method-call(void org.eclipse.jdt.core.IJavaProject.setOutputLocation(org.eclipse.core.runtime.IPath, org.eclipse.core.runtime.IProgressMonitor))
+    | | |           INVOKEINTERFACE org.eclipse.jdt.core.IJavaProject.setOutputLocation (Lorg/eclipse/core/runtime/IPath;Lorg/eclipse/core/runtime/IProgressMonitor;)V
+    | | method-call(void org.eclipse.jdt.core.IJavaProject.setOutputLocation(org.eclipse.core.runtime.IPath, org.eclipse.core.runtime.IProgressMonitor))
+    | catch org.eclipse.jdt.core.JavaModelException -> E0
+    |               GOTO L0   (line 178)
+    |           E0: ASTORE_2
+    |               NEW org.ruminaq.eclipse.RuminaqException   (line 179)
+    |               DUP
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_2     // Lorg/eclipse/jdt/core/JavaModelException; e
+    |               INVOKESPECIAL org.ruminaq.eclipse.RuminaqException.<init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+    |               ATHROW
+    |           L0: RETURN   (line 181)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createOutputLocation(org.eclipse.jdt.core.IJavaProject))
+  end private static void createOutputLocation(org.eclipse.jdt.core.IJavaProject) throws org.ruminaq.eclipse.RuminaqException
+
+  private static void configureBuilders(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException:
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.configureBuilders(org.eclipse.core.resources.IProject))
+    | catch org.eclipse.core.runtime.CoreException -> E0
+    | |             ALOAD_0     // Lorg/eclipse/core/resources/IProject; project   (line 186)
+    | |             LDC ".externalToolBuilders"
+    | | method-call(void org.ruminaq.util.EclipseUtil.createFolderWithParents(org.eclipse.core.resources.IProject, java.lang.String))
+    | | |           INVOKESTATIC org.ruminaq.util.EclipseUtil.createFolderWithParents (Lorg/eclipse/core/resources/IProject;Ljava/lang/String;)V
+    | | method-call(void org.ruminaq.util.EclipseUtil.createFolderWithParents(org.eclipse.core.resources.IProject, java.lang.String))
+    | catch org.eclipse.core.runtime.CoreException -> E0
+    |               GOTO L0   (line 187)
+    |           E0: ASTORE_1
+    |               NEW org.ruminaq.eclipse.RuminaqException   (line 188)
+    |               DUP
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_1     // Lorg/eclipse/core/runtime/CoreException; e
+    |               INVOKESPECIAL org.ruminaq.eclipse.RuminaqException.<init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+    |               ATHROW
+    | catch java.io.IOException -> E4
+    | | catch org.eclipse.core.runtime.CoreException -> E4
+    | | |       L0: ACONST_NULL   (line 191)
+    | | |           ASTORE_1
+    | | |           ACONST_NULL
+    | | |           ASTORE_2
+    | | | finally -> E2
+    | | | |         LDC org.ruminaq.eclipse.wizards.project.CreateProjectWizard
+    | | | |         LDC "org.eclipse.m2e.core.maven2Builder.launch"   (line 192)
+    | | | | method-call(java.io.InputStream java.lang.Class.getResourceAsStream(java.lang.String))
+    | | | | |       INVOKEVIRTUAL java.lang.Class.getResourceAsStream (Ljava/lang/String;)Ljava/io/InputStream;
+    | | | | method-call(java.io.InputStream java.lang.Class.getResourceAsStream(java.lang.String))
+    | | | |         ASTORE_3   (line 191)
+    | | | | finally -> E1
+    | | | | |       ALOAD_0     // Lorg/eclipse/core/resources/IProject; project   (line 193)
+    | | | | |       LDC ".externalToolBuilders"
+    | | | | | method-call(org.eclipse.core.resources.IFolder org.eclipse.core.resources.IProject.getFolder(java.lang.String))
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IProject.getFolder (Ljava/lang/String;)Lorg/eclipse/core/resources/IFolder;
+    | | | | | method-call(org.eclipse.core.resources.IFolder org.eclipse.core.resources.IProject.getFolder(java.lang.String))
+    | | | | |       LDC "org.eclipse.m2e.core.maven2Builder.launch"   (line 194)
+    | | | | | method-call(org.eclipse.core.resources.IFile org.eclipse.core.resources.IFolder.getFile(java.lang.String))
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IFolder.getFile (Ljava/lang/String;)Lorg/eclipse/core/resources/IFile;
+    | | | | | method-call(org.eclipse.core.resources.IFile org.eclipse.core.resources.IFolder.getFile(java.lang.String))
+    | | | | |       ASTORE 4   (line 193)
+    | | | | |       ALOAD 4     // Lorg/eclipse/core/resources/IFile; outputFile   (line 195)
+    | | | | |       ALOAD_3     // Ljava/io/InputStream; confFile
+    | | | | |       ICONST_1
+    | | | | |       ACONST_NULL
+    | | | | | method-call(void org.eclipse.core.resources.IFile.create(java.io.InputStream, boolean, org.eclipse.core.runtime.IProgressMonitor))
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IFile.create (Ljava/io/InputStream;ZLorg/eclipse/core/runtime/IProgressMonitor;)V
+    | | | | | method-call(void org.eclipse.core.resources.IFile.create(java.io.InputStream, boolean, org.eclipse.core.runtime.IProgressMonitor))
+    | | | | |       ALOAD_0     // Lorg/eclipse/core/resources/IProject; project   (line 197)
+    | | | | | method-call(org.eclipse.core.resources.IProjectDescription org.eclipse.core.resources.IProject.getDescription())
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IProject.getDescription ()Lorg/eclipse/core/resources/IProjectDescription;
+    | | | | | method-call(org.eclipse.core.resources.IProjectDescription org.eclipse.core.resources.IProject.getDescription())
+    | | | | | method-call(org.eclipse.core.resources.ICommand[] org.eclipse.core.resources.IProjectDescription.getBuildSpec())
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IProjectDescription.getBuildSpec ()[Lorg/eclipse/core/resources/ICommand;
+    | | | | | method-call(org.eclipse.core.resources.ICommand[] org.eclipse.core.resources.IProjectDescription.getBuildSpec())
+    | | | | | method-call(java.util.stream.Stream java.util.Arrays.stream(java.lang.Object[]))
+    | | | | | |     INVOKESTATIC java.util.Arrays.stream ([Ljava/lang/Object;)Ljava/util/stream/Stream;
+    | | | | | method-call(java.util.stream.Stream java.util.Arrays.stream(java.lang.Object[]))
+    | | | | |       INVOKEDYNAMIC #1.test ()Ljava/util/function/Predicate;   (line 199)
+    | | | | | method-call(java.util.stream.Stream java.util.stream.Stream.filter(java.util.function.Predicate))
+    | | | | | |     INVOKEINTERFACE java.util.stream.Stream.filter (Ljava/util/function/Predicate;)Ljava/util/stream/Stream;   (line 198)
+    | | | | | method-call(java.util.stream.Stream java.util.stream.Stream.filter(java.util.function.Predicate))
+    | | | | | method-call(java.util.Optional java.util.stream.Stream.findFirst())
+    | | | | | |     INVOKEINTERFACE java.util.stream.Stream.findFirst ()Ljava/util/Optional;   (line 200)
+    | | | | | method-call(java.util.Optional java.util.stream.Stream.findFirst())
+    | | | | |       ASTORE 5   (line 196)
+    | | | | |       ALOAD 5     // Ljava/util/Optional; command   (line 201)
+    | | | | | method-call(boolean java.util.Optional.isPresent())
+    | | | | | |     INVOKEVIRTUAL java.util.Optional.isPresent ()Z
+    | | | | | method-call(boolean java.util.Optional.isPresent())
+    | | | | |       IFEQ L1
+    | | | | |       ALOAD 5     // Ljava/util/Optional; command   (line 202)
+    | | | | | method-call(java.lang.Object java.util.Optional.get())
+    | | | | | |     INVOKEVIRTUAL java.util.Optional.get ()Ljava/lang/Object;
+    | | | | | method-call(java.lang.Object java.util.Optional.get())
+    | | | | |       CHECKCAST org.eclipse.core.resources.ICommand
+    | | | | |       LDC_W "org.eclipse.ui.externaltools.ExternalToolBuilder"   (line 203)
+    | | | | | method-call(void org.eclipse.core.resources.ICommand.setBuilderName(java.lang.String))
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.ICommand.setBuilderName (Ljava/lang/String;)V
+    | | | | | method-call(void org.eclipse.core.resources.ICommand.setBuilderName(java.lang.String))
+    | | | | |       ALOAD 5     // Ljava/util/Optional; command   (line 204)
+    | | | | | method-call(java.lang.Object java.util.Optional.get())
+    | | | | | |     INVOKEVIRTUAL java.util.Optional.get ()Ljava/lang/Object;
+    | | | | | method-call(java.lang.Object java.util.Optional.get())
+    | | | | |       CHECKCAST org.eclipse.core.resources.ICommand
+    | | | | | method-call(java.util.Map org.eclipse.core.resources.ICommand.getArguments())
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.ICommand.getArguments ()Ljava/util/Map;
+    | | | | | method-call(java.util.Map org.eclipse.core.resources.ICommand.getArguments())
+    | | | | |       LDC_W "LaunchConfigHandle"
+    | | | | |       LDC_W "<project>/.externalToolBuilders/org.eclipse.m2e.core.maven2Builder.launch"   (line 205)
+    | | | | | method-call(java.lang.Object java.util.Map.put(java.lang.Object, java.lang.Object))
+    | | | | | |     INVOKEINTERFACE java.util.Map.put (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;   (line 204)
+    | | | | | method-call(java.lang.Object java.util.Map.put(java.lang.Object, java.lang.Object))
+    | | | | |       POP
+    | | | | finally -> E1
+    | | | |     L1: ALOAD_3     // Ljava/io/InputStream; confFile   (line 207)
+    | | | |         IFNULL L5
+    | | | |         ALOAD_3     // Ljava/io/InputStream; confFile
+    | | | | method-call(void java.io.InputStream.close())
+    | | | | |       INVOKEVIRTUAL java.io.InputStream.close ()V
+    | | | | method-call(void java.io.InputStream.close())
+    | | | |         GOTO L5
+    | | | |     E1: ASTORE_1
+    | | | |         ALOAD_3     // Ljava/io/InputStream; confFile
+    | | | |         IFNULL L2
+    | | | |         ALOAD_3     // Ljava/io/InputStream; confFile
+    | | | | method-call(void java.io.InputStream.close())
+    | | | | |       INVOKEVIRTUAL java.io.InputStream.close ()V
+    | | | | method-call(void java.io.InputStream.close())
+    | | | |     L2: ALOAD_1
+    | | | |         ATHROW
+    | | | finally -> E2
+    | | |       E2: ASTORE_2
+    | | |           ALOAD_1
+    | | |           IFNONNULL L3
+    | | |           ALOAD_2
+    | | |           ASTORE_1
+    | | |           GOTO L4
+    | | |       L3: ALOAD_1
+    | | |           ALOAD_2
+    | | |           IF_ACMPEQ L4
+    | | |           ALOAD_1
+    | | |           ALOAD_2
+    | | | method-call(void java.lang.Throwable.addSuppressed(java.lang.Throwable))
+    | | | |         INVOKEVIRTUAL java.lang.Throwable.addSuppressed (Ljava/lang/Throwable;)V
+    | | | method-call(void java.lang.Throwable.addSuppressed(java.lang.Throwable))
+    | | |       L4: ALOAD_1
+    | | |           ATHROW
+    | | catch org.eclipse.core.runtime.CoreException -> E4
+    | catch java.io.IOException -> E4
+    |           E4: ASTORE_1
+    |               NEW org.ruminaq.eclipse.RuminaqException   (line 208)
+    |               DUP
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_1     // Ljava/lang/Exception; e
+    |               INVOKESPECIAL org.ruminaq.eclipse.RuminaqException.<init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+    |               ATHROW
+    |           L5: RETURN   (line 210)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.configureBuilders(org.eclipse.core.resources.IProject))
+  end private static void configureBuilders(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException
+
+  private static void createPropertiesFile(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException:
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPropertiesFile(org.eclipse.core.resources.IProject))
+    |               NEW java.util.Properties   (line 214)
+    |               DUP
+    |               INVOKESPECIAL java.util.Properties.<init> ()V
+    |               ASTORE_1
+    | catch org.eclipse.core.runtime.CoreException -> E3
+    | | catch java.io.IOException -> E3
+    | | |           ACONST_NULL   (line 215)
+    | | |           ASTORE_2
+    | | |           ACONST_NULL
+    | | |           ASTORE_3
+    | | | finally -> E1
+    | | | |         NEW java.io.ByteArrayOutputStream
+    | | | |         DUP
+    | | | |         INVOKESPECIAL java.io.ByteArrayOutputStream.<init> ()V
+    | | | |         ASTORE 4
+    | | | | finally -> E0
+    | | | | |       ALOAD_1     // Ljava/util/Properties; prop   (line 216)
+    | | | | |       LDC "MAIN_MODULE"
+    | | | | |       LDC_W "tasks/MyTask.rumi"   (line 217)
+    | | | | | method-call(java.lang.Object java.util.Properties.setProperty(java.lang.String, java.lang.String))
+    | | | | | |     INVOKEVIRTUAL java.util.Properties.setProperty (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Object;   (line 216)
+    | | | | | method-call(java.lang.Object java.util.Properties.setProperty(java.lang.String, java.lang.String))
+    | | | | |       POP
+    | | | | |       ALOAD_1     // Ljava/util/Properties; prop   (line 220)
+    | | | | |       ALOAD 4     // Ljava/io/OutputStream; output
+    | | | | |       ACONST_NULL
+    | | | | | method-call(void java.util.Properties.store(java.io.OutputStream, java.lang.String))
+    | | | | | |     INVOKEVIRTUAL java.util.Properties.store (Ljava/io/OutputStream;Ljava/lang/String;)V
+    | | | | | method-call(void java.util.Properties.store(java.io.OutputStream, java.lang.String))
+    | | | | |       ALOAD_0     // Lorg/eclipse/core/resources/IProject; newProject   (line 221)
+    | | | | |       LDC "src/main/resources/ruminaq.properties"
+    | | | | | method-call(org.eclipse.core.resources.IFile org.eclipse.core.resources.IProject.getFile(java.lang.String))
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IProject.getFile (Ljava/lang/String;)Lorg/eclipse/core/resources/IFile;
+    | | | | | method-call(org.eclipse.core.resources.IFile org.eclipse.core.resources.IProject.getFile(java.lang.String))
+    | | | | |       ASTORE 5
+    | | | | |       ALOAD 5     // Lorg/eclipse/core/resources/IFile; outputFile   (line 222)
+    | | | | |       NEW java.io.ByteArrayInputStream
+    | | | | |       DUP
+    | | | | |       ALOAD 4     // Ljava/io/OutputStream; output   (line 223)
+    | | | | |       CHECKCAST java.io.ByteArrayOutputStream
+    | | | | | method-call(byte[] java.io.ByteArrayOutputStream.toByteArray())
+    | | | | | |     INVOKEVIRTUAL java.io.ByteArrayOutputStream.toByteArray ()[B
+    | | | | | method-call(byte[] java.io.ByteArrayOutputStream.toByteArray())
+    | | | | |       INVOKESPECIAL java.io.ByteArrayInputStream.<init> ([B)V
+    | | | | |       ICONST_1
+    | | | | |       ACONST_NULL
+    | | | | | method-call(void org.eclipse.core.resources.IFile.create(java.io.InputStream, boolean, org.eclipse.core.runtime.IProgressMonitor))
+    | | | | | |     INVOKEINTERFACE org.eclipse.core.resources.IFile.create (Ljava/io/InputStream;ZLorg/eclipse/core/runtime/IProgressMonitor;)V   (line 222)
+    | | | | | method-call(void org.eclipse.core.resources.IFile.create(java.io.InputStream, boolean, org.eclipse.core.runtime.IProgressMonitor))
+    | | | | finally -> E0
+    | | | |         ALOAD 4     // Ljava/io/OutputStream; output   (line 224)
+    | | | |         IFNULL L3
+    | | | |         ALOAD 4     // Ljava/io/OutputStream; output
+    | | | | method-call(void java.io.OutputStream.close())
+    | | | | |       INVOKEVIRTUAL java.io.OutputStream.close ()V
+    | | | | method-call(void java.io.OutputStream.close())
+    | | | |         GOTO L3
+    | | | |     E0: ASTORE_2
+    | | | |         ALOAD 4     // Ljava/io/OutputStream; output
+    | | | |         IFNULL L0
+    | | | |         ALOAD 4     // Ljava/io/OutputStream; output
+    | | | | method-call(void java.io.OutputStream.close())
+    | | | | |       INVOKEVIRTUAL java.io.OutputStream.close ()V
+    | | | | method-call(void java.io.OutputStream.close())
+    | | | |     L0: ALOAD_2
+    | | | |         ATHROW
+    | | | finally -> E1
+    | | |       E1: ASTORE_3
+    | | |           ALOAD_2
+    | | |           IFNONNULL L1
+    | | |           ALOAD_3
+    | | |           ASTORE_2
+    | | |           GOTO L2
+    | | |       L1: ALOAD_2
+    | | |           ALOAD_3
+    | | |           IF_ACMPEQ L2
+    | | |           ALOAD_2
+    | | |           ALOAD_3
+    | | | method-call(void java.lang.Throwable.addSuppressed(java.lang.Throwable))
+    | | | |         INVOKEVIRTUAL java.lang.Throwable.addSuppressed (Ljava/lang/Throwable;)V
+    | | | method-call(void java.lang.Throwable.addSuppressed(java.lang.Throwable))
+    | | |       L2: ALOAD_2
+    | | |           ATHROW
+    | | catch java.io.IOException -> E3
+    | catch org.eclipse.core.runtime.CoreException -> E3
+    |           E3: ASTORE_2
+    |               NEW org.ruminaq.eclipse.RuminaqException   (line 225)
+    |               DUP
+    |               GETSTATIC org.ruminaq.eclipse.Messages.createProjectWizardFailed Ljava/lang/String;
+    |               ALOAD_2     // Ljava/lang/Exception; e
+    |               INVOKESPECIAL org.ruminaq.eclipse.RuminaqException.<init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+    |               ATHROW
+    |           L3: RETURN   (line 227)
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createPropertiesFile(org.eclipse.core.resources.IProject))
+  end private static void createPropertiesFile(org.eclipse.core.resources.IProject) throws org.ruminaq.eclipse.RuminaqException
+
+  private static void lambda$0(org.eclipse.jdt.core.IJavaProject, org.ruminaq.eclipse.api.EclipseExtension):
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.lambda$0(org.eclipse.jdt.core.IJavaProject, org.ruminaq.eclipse.api.EclipseExtension))
+    |               ALOAD_1     // Lorg/ruminaq/eclipse/api/EclipseExtension; e   (line 124)
+    |               ALOAD_0
+    | method-call(boolean org.ruminaq.eclipse.api.EclipseExtension.createProjectWizardPerformFinish(org.eclipse.jdt.core.IJavaProject))
+    | |             INVOKEINTERFACE org.ruminaq.eclipse.api.EclipseExtension.createProjectWizardPerformFinish (Lorg/eclipse/jdt/core/IJavaProject;)Z
+    | method-call(boolean org.ruminaq.eclipse.api.EclipseExtension.createProjectWizardPerformFinish(org.eclipse.jdt.core.IJavaProject))
+    |               RETURN
+    method-execution(void org.ruminaq.eclipse.wizards.project.CreateProjectWizard.lambda$0(org.eclipse.jdt.core.IJavaProject, org.ruminaq.eclipse.api.EclipseExtension))
+  end private static void lambda$0(org.eclipse.jdt.core.IJavaProject, org.ruminaq.eclipse.api.EclipseExtension)
+
+  private static boolean lambda$1(org.eclipse.core.resources.ICommand):
+    method-execution(boolean org.ruminaq.eclipse.wizards.project.CreateProjectWizard.lambda$1(org.eclipse.core.resources.ICommand))
+    |               LDC_W "org.eclipse.m2e.core.maven2Builder"   (line 199)
+    |               ALOAD_0     // Lorg/eclipse/core/resources/ICommand; cmd
+    | method-call(java.lang.String org.eclipse.core.resources.ICommand.getBuilderName())
+    | |             INVOKEINTERFACE org.eclipse.core.resources.ICommand.getBuilderName ()Ljava/lang/String;
+    | method-call(java.lang.String org.eclipse.core.resources.ICommand.getBuilderName())
+    | method-call(boolean java.lang.String.equals(java.lang.Object))
+    | |             INVOKEVIRTUAL java.lang.String.equals (Ljava/lang/Object;)Z
+    | method-call(boolean java.lang.String.equals(java.lang.Object))
+    |               IRETURN
+    method-execution(boolean org.ruminaq.eclipse.wizards.project.CreateProjectWizard.lambda$1(org.eclipse.core.resources.ICommand))
+  end private static boolean lambda$1(org.eclipse.core.resources.ICommand)
+end public class org.ruminaq.eclipse.wizards.project.CreateProjectWizard
+
+	at org.aspectj.bridge.MessageWriter.handleMessage(MessageWriter.java:47)
+	at org.aspectj.weaver.tools.WeavingAdaptor$WeavingAdaptorMessageWriter.handleMessage(WeavingAdaptor.java:821)
+	at org.aspectj.weaver.tools.WeavingAdaptor$WeavingAdaptorMessageHolder.handleMessage(WeavingAdaptor.java:766)
+	at org.aspectj.weaver.bcel.BcelWeaver.weave(BcelWeaver.java:1739)
+	at org.aspectj.weaver.bcel.BcelWeaver.weaveWithoutDump(BcelWeaver.java:1657)
+	at org.aspectj.weaver.bcel.BcelWeaver.weaveAndNotify(BcelWeaver.java:1422)
+	at org.aspectj.weaver.bcel.BcelWeaver.weave(BcelWeaver.java:1196)
+	at org.aspectj.weaver.tools.WeavingAdaptor.getWovenBytes(WeavingAdaptor.java:551)
+	at org.aspectj.weaver.tools.WeavingAdaptor.weaveClass(WeavingAdaptor.java:387)
+	at org.aspectj.weaver.loadtime.Aj.preProcess(Aj.java:116)
+	at org.aspectj.weaver.loadtime.ClassPreProcessorAgentAdapter.transform(ClassPreProcessorAgentAdapter.java:51)
+	at java.instrument/java.lang.instrument.ClassFileTransformer.transform(ClassFileTransformer.java:246)
+	at java.instrument/sun.instrument.TransformerManager.transform(TransformerManager.java:188)
+	at java.instrument/sun.instrument.InstrumentationImpl.transform(InstrumentationImpl.java:563)
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1016)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.defineClass(ModuleClassLoader.java:279)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.defineClass(ClasspathManager.java:716)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findClassImpl(ClasspathManager.java:639)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClassImpl(ClasspathManager.java:607)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClassImpl(ClasspathManager.java:587)
+	at org.eclipse.osgi.internal.loader.classpath.ClasspathManager.findLocalClass(ClasspathManager.java:566)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.findLocalClass(ModuleClassLoader.java:331)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findLocalClass(BundleLoader.java:395)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:473)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:422)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:414)
+	at org.eclipse.osgi.internal.loader.ModuleClassLoader.loadClass(ModuleClassLoader.java:153)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:521)
+	at org.eclipse.osgi.internal.framework.EquinoxBundle.loadClass(EquinoxBundle.java:612)
+	at org.eclipse.core.internal.registry.osgi.RegistryStrategyOSGI.createExecutableExtension(RegistryStrategyOSGI.java:196)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.createExecutableExtension(ExtensionRegistry.java:934)
+	at org.eclipse.core.internal.registry.ConfigurationElement.createExecutableExtension(ConfigurationElement.java:246)
+	at org.eclipse.core.internal.registry.ConfigurationElementHandle.createExecutableExtension(ConfigurationElementHandle.java:63)
+	at org.eclipse.ui.internal.WorkbenchPlugin.createExtension(WorkbenchPlugin.java:284)
+	at org.eclipse.ui.internal.dialogs.WorkbenchWizardElement.createExecutableExtension(WorkbenchWizardElement.java:126)
+	at org.eclipse.ui.internal.dialogs.WorkbenchWizardElement.createWizard(WorkbenchWizardElement.java:264)
+	at org.eclipse.ui.internal.dialogs.NewWizardNewPage$2.createWizard(NewWizardNewPage.java:715)
+	at org.eclipse.ui.internal.dialogs.WorkbenchWizardNode$1.run(WorkbenchWizardNode.java:142)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.ui.internal.dialogs.WorkbenchWizardNode.lambda$0(WorkbenchWizardNode.java:124)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:72)
+	at org.eclipse.ui.internal.dialogs.WorkbenchWizardNode.getWizard(WorkbenchWizardNode.java:123)
+	at org.eclipse.jface.wizard.WizardSelectionPage.getNextPage(WizardSelectionPage.java:110)
+	at org.eclipse.ui.internal.dialogs.WorkbenchWizardSelectionPage.getNextPage(WorkbenchWizardSelectionPage.java:100)
+	at org.eclipse.jface.wizard.WizardDialog.nextPressed(WizardDialog.java:854)
+	at org.eclipse.jface.wizard.WizardDialog.buttonPressed(WizardDialog.java:410)
+	at org.eclipse.jface.dialogs.Dialog.lambda$0(Dialog.java:622)
+	at org.eclipse.swt.events.SelectionListener$1.widgetSelected(SelectionListener.java:84)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:252)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:5783)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1411)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1437)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1420)
+	at org.eclipse.swt.widgets.Widget.notifyListeners(Widget.java:1196)
+	at org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot$2.run(AbstractSWTBot.java:174)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable$5.doRun(UIThreadRunnable.java:222)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable$1.run(UIThreadRunnable.java:88)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:5026)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4582)
+	at org.eclipse.jface.window.Window.runEventLoop(Window.java:823)
+	at org.eclipse.jface.window.Window.open(Window.java:799)
+	at org.eclipse.ui.actions.NewProjectAction.run(NewProjectAction.java:118)
+	at org.eclipse.jface.action.Action.runWithEvent(Action.java:474)
+	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:568)
+	at org.eclipse.jface.action.ActionContributionItem.lambda$4(ActionContributionItem.java:400)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:5783)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1411)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1437)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1420)
+	at org.eclipse.swt.widgets.Widget.notifyListeners(Widget.java:1196)
+	at org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot$2.run(AbstractSWTBot.java:174)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable$5.doRun(UIThreadRunnable.java:222)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.run(UIThreadRunnable.java:76)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable.asyncExec(UIThreadRunnable.java:224)
+	at org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot.asyncExec(AbstractSWTBot.java:640)
+	at org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot.notify(AbstractSWTBot.java:162)
+	at org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot.notify(AbstractSWTBot.java:142)
+	at org.eclipse.swtbot.swt.finder.widgets.AbstractSWTBot.notify(AbstractSWTBot.java:132)
+	at org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu$1.run(SWTBotMenu.java:88)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable$5.doRun(UIThreadRunnable.java:222)
+	at org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable$1.run(UIThreadRunnable.java:88)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:185)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:5026)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4582)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1173)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1062)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:644)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:566)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:150)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:155)
+	at org.eclipse.swtbot.eclipse.core.UITestApplication.start(UITestApplication.java:58)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:400)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:661)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:597)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1476)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1449)
+---- System Properties ---
+org.eclipse.swt.internal.webkitgtk.version=2.24.2
+awt.toolkit=sun.awt.X11.XToolkit
+java.specification.version=11
+sun.cpu.isalist=
+sun.jnu.encoding=UTF-8
+failCreateOutputLocation=testCjBKd
+osgi.nl=en_US
+osgi.syspath=/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins
+sun.arch.data.model=64
+equinox.init.uuid=true
+sun.font.fontmanager=sun.awt.X11FontManager
+ds.delayed.keepInstances.default=true
+java.vendor.url=http://java.oracle.com/
+org.osgi.framework.system.capabilities=osgi.ee; osgi.ee="OSGi/Minimum"; version:List<Version>="1.0, 1.1, 1.2", osgi.ee; osgi.ee="JRE"; version:List<Version>="1.0, 1.1", osgi.ee; osgi.ee="JavaSE"; version:List<Version>="1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 9.0, 10.0, 11.0",osgi.ee; osgi.ee="JavaSE/compact1"; version:List<Version>="1.8, 9.0, 10.0, 11.0",osgi.ee; osgi.ee="JavaSE/compact2"; version:List<Version>="1.8, 9.0, 10.0, 11.0",osgi.ee; osgi.ee="JavaSE/compact3"; version:List<Version>="1.8, 9.0, 10.0, 11.0"
+osgi.nl.user=en_US
+sun.boot.library.path=/usr/lib/jvm/java-11-openjdk-amd64/lib
+sun.java.command=org.eclipse.equinox.launcher.Main -os linux -ws gtk -arch x86_64 -nl en_US -consoleLog -version 3 -port 37173 -testLoaderClass org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader -loaderpluginname org.eclipse.jdt.junit4.runtime -classNames org.ruminaq.eclipse.it.tests.CreateRuminaqProjectTest -application org.eclipse.swtbot.eclipse.core.swtbottestapplication -product org.eclipse.platform.ide -data /home/lupus/data/eclipse-workspace/ruminaq/../junit-workspace -configuration file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/pde-junit/ -dev file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/pde-junit/dev.properties -os linux -ws gtk -arch x86_64 -nl en_US -consoleLog -testpluginname org.ruminaq.eclipse
+jdk.debug=release
+org.osgi.supports.framework.requirebundle=true
+osgi.arch=x86_64
+org.eclipse.equinox.simpleconfigurator.configUrl=file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/pde-junit/org.eclipse.equinox.simpleconfigurator/bundles.info
+java.specification.vendor=Oracle Corporation
+org.osgi.framework.language=en
+org.osgi.framework.system.packages=com.sun.jarsigner, com.sun.java.accessibility.util, com.sun.javadoc, com.sun.jdi, com.sun.jdi.connect, com.sun.jdi.connect.spi, com.sun.jdi.event, com.sun.jdi.request, com.sun.management, com.sun.net.httpserver, com.sun.net.httpserver.spi, com.sun.nio.file, com.sun.nio.sctp, com.sun.security.auth, com.sun.security.auth.callback, com.sun.security.auth.login, com.sun.security.auth.module, com.sun.security.jgss, com.sun.source.doctree, com.sun.source.tree, com.sun.source.util, com.sun.tools.attach, com.sun.tools.attach.spi, com.sun.tools.javac, com.sun.tools.javadoc, com.sun.tools.jconsole, java.applet, java.awt, java.awt.color, java.awt.datatransfer, java.awt.desktop, java.awt.dnd, java.awt.event, java.awt.font, java.awt.geom, java.awt.im, java.awt.im.spi, java.awt.image, java.awt.image.renderable, java.awt.print, java.beans, java.beans.beancontext, java.io, java.lang, java.lang.annotation, java.lang.instrument, java.lang.invoke, java.lang.management, java.lang.module, java.lang.ref, java.lang.reflect, java.math, java.net, java.net.http, java.net.spi, java.nio, java.nio.channels, java.nio.channels.spi, java.nio.charset, java.nio.charset.spi, java.nio.file, java.nio.file.attribute, java.nio.file.spi, java.rmi, java.rmi.activation, java.rmi.dgc, java.rmi.registry, java.rmi.server, java.security, java.security.acl, java.security.cert, java.security.interfaces, java.security.spec, java.sql, java.text, java.text.spi, java.time, java.time.chrono, java.time.format, java.time.temporal, java.time.zone, java.util, java.util.concurrent, java.util.concurrent.atomic, java.util.concurrent.locks, java.util.function, java.util.jar, java.util.logging, java.util.prefs, java.util.regex, java.util.spi, java.util.stream, java.util.zip, javax.accessibility, javax.annotation.processing, javax.crypto, javax.crypto.interfaces, javax.crypto.spec, javax.imageio, javax.imageio.event, javax.imageio.metadata, javax.imageio.plugins.bmp, javax.imageio.plugins.jpeg, javax.imageio.plugins.tiff, javax.imageio.spi, javax.imageio.stream, javax.lang.model, javax.lang.model.element, javax.lang.model.type, javax.lang.model.util, javax.management, javax.management.loading, javax.management.modelmbean, javax.management.monitor, javax.management.openmbean, javax.management.relation, javax.management.remote, javax.management.remote.rmi, javax.management.timer, javax.naming, javax.naming.directory, javax.naming.event, javax.naming.ldap, javax.naming.spi, javax.net, javax.net.ssl, javax.print, javax.print.attribute, javax.print.attribute.standard, javax.print.event, javax.rmi.ssl, javax.script, javax.security.auth, javax.security.auth.callback, javax.security.auth.kerberos, javax.security.auth.login, javax.security.auth.spi, javax.security.auth.x500, javax.security.cert, javax.security.sasl, javax.smartcardio, javax.sound.midi, javax.sound.midi.spi, javax.sound.sampled, javax.sound.sampled.spi, javax.sql, javax.sql.rowset, javax.sql.rowset.serial, javax.sql.rowset.spi, javax.swing, javax.swing.border, javax.swing.colorchooser, javax.swing.event, javax.swing.filechooser, javax.swing.plaf, javax.swing.plaf.basic, javax.swing.plaf.metal, javax.swing.plaf.multi, javax.swing.plaf.nimbus, javax.swing.plaf.synth, javax.swing.table, javax.swing.text, javax.swing.text.html, javax.swing.text.html.parser, javax.swing.text.rtf, javax.swing.tree, javax.swing.undo, javax.tools, javax.transaction.xa, javax.xml, javax.xml.catalog, javax.xml.crypto, javax.xml.crypto.dom, javax.xml.crypto.dsig, javax.xml.crypto.dsig.dom, javax.xml.crypto.dsig.keyinfo, javax.xml.crypto.dsig.spec, javax.xml.datatype, javax.xml.namespace, javax.xml.parsers, javax.xml.stream, javax.xml.stream.events, javax.xml.stream.util, javax.xml.transform, javax.xml.transform.dom, javax.xml.transform.sax, javax.xml.transform.stax, javax.xml.transform.stream, javax.xml.validation, javax.xml.xpath, jdk.dynalink, jdk.dynalink.beans, jdk.dynalink.linker, jdk.dynalink.linker.support, jdk.dynalink.support, jdk.javadoc.doclet, jdk.jfr, jdk.jfr.consumer, jdk.jshell, jdk.jshell.execution, jdk.jshell.spi, jdk.jshell.tool, jdk.management.jfr, jdk.nashorn.api.scripting, jdk.nashorn.api.tree, jdk.net, jdk.nio, jdk.security.jarsigner, jdk.swing.interop, netscape.javascript, org.ietf.jgss, org.w3c.dom, org.w3c.dom.bootstrap, org.w3c.dom.css, org.w3c.dom.events, org.w3c.dom.html, org.w3c.dom.ls, org.w3c.dom.ranges, org.w3c.dom.stylesheets, org.w3c.dom.traversal, org.w3c.dom.views, org.w3c.dom.xpath, org.xml.sax, org.xml.sax.ext, org.xml.sax.helpers, sun.misc, sun.reflect
+equinox.use.ds=true
+gosh.args=--nointeractive
+eclipse.application=org.eclipse.swtbot.eclipse.core.swtbottestapplication
+java.version.date=2019-04-16
+java.home=/usr/lib/jvm/java-11-openjdk-amd64
+file.separator=/
+java.vm.compressedOopsMode=Zero based
+line.separator=
+
+org.osgi.framework.executionenvironment=OSGi/Minimum-1.0, OSGi/Minimum-1.1, OSGi/Minimum-1.2, JavaSE/compact1-1.8, JavaSE/compact2-1.8, JavaSE/compact3-1.8, JRE-1.1, J2SE-1.2, J2SE-1.3, J2SE-1.4, J2SE-1.5, JavaSE-1.6, JavaSE-1.7, JavaSE-1.8, JavaSE-9, JavaSE-10, JavaSE-11
+java.specification.name=Java Platform API Specification
+java.vm.specification.vendor=Oracle Corporation
+osgi.compatibility.bootdelegation.default=true
+org.eclipse.swt.internal.gtk.version=3.22.30
+sun.management.compiler=HotSpot 64-Bit Tiered Compilers
+java.runtime.version=11.0.3+7-Ubuntu-1ubuntu218.04.1
+org.eclipse.swt.internal.deviceZoom=100
+user.name=lupus
+osgi.framework.useSystemProperties=true
+org.osgi.framework.vendor=Eclipse
+file.encoding=UTF-8
+osgi.dev=file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/pde-junit/dev.properties
+java.io.tmpdir=/tmp
+eclipse.home.location=file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/
+java.version=11.0.3
+osgi.bundles.defaultStartLevel=4
+java.vm.specification.name=Java Virtual Machine Specification
+java.awt.printerjob=sun.print.PSPrinterJob
+sun.os.patch.level=unknown
+osgi.configuration.cascaded=false
+java.library.path=/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib
+java.vendor=Oracle Corporation
+sun.io.unicode.encoding=UnicodeLittle
+eclipse.stateSaveDelayInterval=30000
+sun.desktop=gnome
+osgi.checkConfiguration=true
+org.osgi.framework.version=1.9.0
+java.class.path=/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.equinox.launcher_1.5.300.v20190213-1655.jar
+sun.awt.enableExtraMouseButtons=true
+java.vm.vendor=Oracle Corporation
+eclipse.pde.launch=true
+user.timezone=Europe/Warsaw
+org.osgi.framework.uuid=44b1b1a6-ba1e-4a6d-b229-48a2da240d3f
+os.name=Linux
+java.vm.specification.version=11
+org.osgi.framework.processor=x86-64
+sun.java.launcher=SUN_STANDARD
+user.country=US
+sun.cpu.endian=little
+osgi.logfile=/home/lupus/data/eclipse-workspace/junit-workspace/.metadata/.log
+user.home=/home/lupus
+osgi.install.area=file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/
+user.language=en
+org.eclipse.swt.internal.gtk.theme=Ambiance
+osgi.tracefile=/home/lupus/data/eclipse-workspace/junit-workspace/.metadata/trace.log
+java.awt.graphicsenv=sun.awt.X11GraphicsEnvironment
+ds.delayed.keepInstances=true
+eclipse.product=org.eclipse.platform.ide
+eclipse.commands=-os
+linux
+-ws
+gtk
+-arch
+x86_64
+-nl
+en_US
+-consoleLog
+-version
+3
+-port
+37173
+-testLoaderClass
+org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader
+-loaderpluginname
+org.eclipse.jdt.junit4.runtime
+-classNames
+org.ruminaq.eclipse.it.tests.CreateRuminaqProjectTest
+-application
+org.eclipse.swtbot.eclipse.core.swtbottestapplication
+-product
+org.eclipse.platform.ide
+-data
+/home/lupus/data/eclipse-workspace/ruminaq/../junit-workspace
+-configuration
+file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/pde-junit/
+-dev
+file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/pde-junit/dev.properties
+-os
+linux
+-ws
+gtk
+-arch
+x86_64
+-nl
+en_US
+-consoleLog
+-testpluginname
+org.ruminaq.eclipse
+
+path.separator=:
+osgi.compatibility.bootdelegation=true
+os.version=4.15.0-50-generic
+java.runtime.name=OpenJDK Runtime Environment
+eclipse.consoleLog=true
+org.osgi.supports.framework.fragment=true
+osgi.bundles=reference:file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.equinox.simpleconfigurator_1.3.200.v20181101-1115.jar@1:start
+osgi.framework.shape=jar
+java.vm.name=OpenJDK 64-Bit Server VM
+osgi.framework=file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.osgi_3.13.300.v20190218-1622.jar
+osgi.configuration.area=file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/pde-junit/
+osgi.os=linux
+java.vendor.url.bug=http://bugreport.java.com/bugreport/
+org.osgi.framework.os.name=Linux
+osgi.splashPath=file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.platform_4.11.0.v20190307-0500
+org.osgi.supports.framework.extension=true
+applicationXMI=org.eclipse.ui.workbench/LegacyIDE.e4xmi
+org.osgi.framework.storage=/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/pde-junit
+user.dir=/home/lupus/data/git/ruminaq/tests/org.ruminaq.eclipse.it.tests
+os.arch=amd64
+osgi.ws=gtk
+osgi.instance.area=file:/home/lupus/data/eclipse-workspace/junit-workspace/
+org.eclipse.update.reconcile=false
+eclipse.startTime=1560703415524
+org.osgi.framework.os.version=4.15.0
+java.vm.info=mixed mode, sharing
+java.vm.version=11.0.3+7-Ubuntu-1ubuntu218.04.1
+eclipse.p2.data.area=@config.dir/p2
+java.class.version=55.0
+---- Command Line ---
+Empty
+---- Full Classpath ---
+Empty
+---- Compiler Messages ---
+Empty

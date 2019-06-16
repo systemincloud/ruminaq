@@ -101,7 +101,7 @@ public class CreateRuminaqProjectTest {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     System.setProperty(
-        CreateProjectWizardAspect.FAIL_CREATE_OUTPUT_LOCATION_PROJECY_NAME,
+        JavaProjectAspect.FAIL_CREATE_OUTPUT_LOCATION_PROJECT_NAME,
         projectName);
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChange(bot);

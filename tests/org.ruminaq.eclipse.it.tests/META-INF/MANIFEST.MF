@@ -21,11 +21,10 @@ Import-Package: org.apache.commons.lang3,
  org.aspectj.runtime.internal,
  org.aspectj.runtime.reflect,
  org.eclipse.core.runtime.jobs,
+ org.eclipse.jdt.internal.compiler.util,
  org.eclipse.swt,
  org.eclipse.ui,
  org.eclipse.ui.ide
-Export-Package: org.ruminaq.eclipse.it.tests; aspects=CreateProjectWizardAspect,
+Export-Package: org.ruminaq.eclipse.it.tests,
  org.ruminaq.eclipse.it.tests.actions,
  org.ruminaq.eclipse.it.tests.api
-Eclipse-SupplementBundle: 
- org.ruminaq.eclipse

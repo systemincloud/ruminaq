@@ -1,9 +1,6 @@
 <aspectj>
   <aspects>
     <aspect
-      name="org.ruminaq.eclipse.it.tests.CreateProjectWizardAspect" />
+      name="org.ruminaq.eclipse.it.tests.JavaProjectAspect" />
   </aspects>
-  <weaver options="-verbose -showWeaveInfo">
-    <include within="org.ruminaq.eclipse..*" />
-  </weaver>
 </aspectj>
