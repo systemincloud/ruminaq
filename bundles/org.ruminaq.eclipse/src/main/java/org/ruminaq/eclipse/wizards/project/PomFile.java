@@ -64,8 +64,7 @@ public final class PomFile {
     try {
       model = reader.read(PomFile.class.getResourceAsStream(POM_TEMPLATE));
     } catch (IOException | XmlPullParserException e) {
-      LOGGER.error(Messages.createPomFileFailed, e);
-      throw new RuminaqException(Messages.createPomFileFailed);
+      throw new RuminaqException(Messages.createPomFileFailed, e);
     }
 
     model.getDependencies().addAll(
@@ -85,8 +84,7 @@ public final class PomFile {
     try {
       writer.write(contentWriter, model);
     } catch (IOException e) {
-      LOGGER.error(Messages.createPomFileFailed, e);
-      throw new RuminaqException(Messages.createProjectWizardFailed);
+      throw new RuminaqException(Messages.createPomFileFailed, e);
     }
 
     var content = contentWriter.toString();
@@ -95,8 +93,7 @@ public final class PomFile {
     try {
       pomFile.create(new ByteArrayInputStream(content.getBytes()), true, new NullProgressMonitor());
     } catch (CoreException e) {
-      LOGGER.error(Messages.createPomFileFailed, e);
-      throw new RuminaqException(Messages.createProjectWizardFailed);
+      throw new RuminaqException(Messages.createPomFileFailed, e);
     }
   }
 }

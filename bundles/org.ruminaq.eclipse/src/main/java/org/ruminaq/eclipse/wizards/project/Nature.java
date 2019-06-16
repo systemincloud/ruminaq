@@ -37,7 +37,7 @@ public final class Nature {
     try {
       description = project.getDescription();
     } catch (CoreException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailed, e);
+      throw new RuminaqException(Messages.createNatureFailed, e);
     }
     description.setNatureIds(new String[] {
         JavaCore.NATURE_ID,
@@ -46,7 +46,7 @@ public final class Nature {
     try {
       project.setDescription(description, null);
     } catch (CoreException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailed, e);
+      throw new RuminaqException(Messages.createNatureFailed, e);
     }
   }
 }
