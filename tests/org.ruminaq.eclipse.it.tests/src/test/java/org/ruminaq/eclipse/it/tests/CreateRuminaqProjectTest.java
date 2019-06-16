@@ -97,7 +97,7 @@ public class CreateRuminaqProjectTest {
   }
 
   @Test
-  public final void testCreateProjectFailed() throws CoreException {
+  public final void testCreateProjectFailed() {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     System.setProperty(
