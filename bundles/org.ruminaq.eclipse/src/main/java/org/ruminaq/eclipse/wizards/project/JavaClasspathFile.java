@@ -41,9 +41,9 @@ public final class JavaClasspathFile {
 
   private static final String TARGET_PATH = "target/test-classes"; //$NON-NLS-1$
 
-//  private Collection<EclipseExtension> extensions = ServiceUtil
-//      .getServicesAtLatestVersion(JavaClasspathFile.class,
-//          EclipseExtension.class);
+  private Collection<EclipseExtension> extensions = ServiceUtil
+      .getServicesAtLatestVersion(JavaClasspathFile.class,
+          EclipseExtension.class);
 
   /**
    * Writes to .classpath file when new project is created.

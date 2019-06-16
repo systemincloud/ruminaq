@@ -1,0 +1,9 @@
+<aspectj>
+  <aspects>
+    <aspect
+      name="org.ruminaq.eclipse.it.tests.CreateProjectWizardAspect" />
+  </aspects>
+  <weaver options="-verbose -showWeaveInfo">
+    <include within="org.ruminaq.eclipse..*" />
+  </weaver>
+</aspectj>

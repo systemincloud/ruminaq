@@ -11,17 +11,21 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  org.eclipse.swtbot.junit4_x,
  org.junit,
  org.eclipse.jdt.junit4.runtime,
- org.eclipse.swt,
- org.eclipse.ui,
- org.eclipse.ui.ide,
- org.eclipse.equinox.console,
- org.eclipse.equinox.event,
- org.eclipse.equinox.ds,
  org.hamcrest.core,
  org.hamcrest.library,
  javax.annotation,
  org.eclipse.reddeer.junit
-Import-Package: org.apache.commons.lang3
-Export-Package: org.ruminaq.eclipse.it.tests,
+Import-Package: org.apache.commons.lang3,
+ org.aspectj.lang,
+ org.aspectj.lang.annotation,
+ org.aspectj.runtime.internal,
+ org.aspectj.runtime.reflect,
+ org.eclipse.core.runtime.jobs,
+ org.eclipse.swt,
+ org.eclipse.ui,
+ org.eclipse.ui.ide
+Export-Package: org.ruminaq.eclipse.it.tests; aspects=CreateProjectWizardAspect,
  org.ruminaq.eclipse.it.tests.actions,
  org.ruminaq.eclipse.it.tests.api
+Eclipse-SupplementBundle: 
+ org.ruminaq.eclipse

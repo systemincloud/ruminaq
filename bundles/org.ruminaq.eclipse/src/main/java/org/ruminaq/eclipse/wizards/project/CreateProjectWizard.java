@@ -130,7 +130,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
       } catch (RuminaqException e) {
         LOGGER.error(Messages.createProjectWizardFailed, e);
         MessageDialog.openError(getShell(),
-            PlatformUtil.getBundle(this.getClass()).getSymbolicName(),
+            Messages.ruminaqFailed,
             e.getMessage());
       }
     }

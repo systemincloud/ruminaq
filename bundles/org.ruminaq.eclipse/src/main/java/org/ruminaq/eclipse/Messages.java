@@ -23,6 +23,7 @@ public final class Messages extends NLS {
   public static String createProjectWizardFailed;
   public static String createNatureFailed;
   public static String createPomFileFailed;
+  public static String ruminaqFailed;
   public static String createClasspathFileFailed;
   public static String createDiagramWizardTitle;
   public static String createTestDiagramWizardTitle;
@@ -50,7 +51,9 @@ public final class Messages extends NLS {
   public static String RuminaqProjectPreferencePage_btnUpdate_text;
 
   static {
-    NLS.initializeMessages(PlatformUtil.getBundleSymbolicName(Messages.class), Messages.class);
+    NLS.initializeMessages(
+        PlatformUtil.getBundleSymbolicName(Messages.class) + ".messages",
+        Messages.class);
   }
 
   private Messages() {

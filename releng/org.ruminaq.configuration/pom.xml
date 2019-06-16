@@ -21,6 +21,8 @@
 
   <properties>
     <tycho.version>1.4.0</tycho.version>
+    <aspectj.version>1.9.4</aspectj.version>
+    <jaccoco.version>0.8.2</jaccoco.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <source.emf>${basedir}/model/model.genmodel</source.emf>
     <target.emf>${project.build.directory}/generated-sources/emf</target.emf>
@@ -300,15 +302,22 @@
           <useJDK>BREE</useJDK>
           <useUIHarness>true</useUIHarness>
           <useUIThread>false</useUIThread>
+          <argLine>-javaagent:${user.home}/.m2/repository/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar -javaagent:${user.home}/.m2/repository/org/jacoco/org.jacoco.agent/${jaccoco.version}/org.jacoco.agent-${jaccoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec</argLine>
           <!-- <argLine>-ea -Dosgi.clean=true -Ddebug=true -Dosgi.console.enable.builtin=true</argLine> -->
           <!-- <argLine>-DbuildingWithTycho=true</argLine> -->
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+            <scope>compile</scope>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <configuration>
-        </configuration>
         <executions>
           <execution>
             <goals>

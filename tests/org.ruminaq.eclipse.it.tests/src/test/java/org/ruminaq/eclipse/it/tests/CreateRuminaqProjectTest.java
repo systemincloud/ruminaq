@@ -17,12 +17,13 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.it.tests.actions.CreateRuminaqProject;
@@ -48,18 +49,17 @@ public class CreateRuminaqProjectTest {
    * Initialize SWTBot.
    *
    */
-  @BeforeClass
-  public static void initBot() {
+  @Before
+  public void initBot() {
     bot = new SWTWorkbenchBot();
     workbench = PlatformUI.getWorkbench();
     workspace = ResourcesPlugin.getWorkspace();
-    extensions = ServiceUtil
-        .getServicesAtLatestVersion(CreateRuminaqProjectTest.class,
-            EclipseTestExtension.class);
+    extensions = ServiceUtil.getServicesAtLatestVersion(
+        CreateRuminaqProjectTest.class, EclipseTestExtension.class);
   }
 
-  @AfterClass
-  public static void afterClass() {
+  @After
+  public void afterClass() {
     bot.resetWorkbench();
   }
 
@@ -72,6 +72,7 @@ public class CreateRuminaqProjectTest {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
+    new CreateRuminaqProject().acceptPerspectiveChange(bot);
 
     Display.getDefault().syncExec(new Runnable() {
       @Override
@@ -93,12 +94,21 @@ public class CreateRuminaqProjectTest {
         project.exists(new Path(CreateProjectWizard.PROPERTIES_FILE)));
 
     extensions.stream().forEach(e -> e.verifyProject(project));
-
-    bot.resetWorkbench();
   }
 
   @Test
   public final void testCreateProjectFailed() throws CoreException {
+    String projectName = "test"
+        + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
+    System.setProperty(
+        CreateProjectWizardAspect.FAIL_CREATE_OUTPUT_LOCATION_PROJECY_NAME,
+        projectName);
+    new CreateRuminaqProject().execute(bot, projectName);
+    new CreateRuminaqProject().acceptPerspectiveChange(bot);
 
+    SWTBotShell failureWindow = bot.shell("Ruminaq failure");
+    failureWindow.activate();
+
+    Assert.assertNotNull("Failure window should appear", failureWindow);
   }
 }

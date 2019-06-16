@@ -37,11 +37,18 @@ public class CreateRuminaqProject {
     bot.textWithLabel("&Project name:").setText(name);
 
     bot.button("Finish").click();
+  }
 
-    SWTBotShell shellOpenPerpeitve = bot.shell("Open Associated Perspective?");
-    shellOpenPerpeitve.activate();
+  /**
+   * Accept perspective change on new project.
+   *
+   * @param bot SWTWorkbenchBot
+]   */
+  public void acceptPerspectiveChange(SWTWorkbenchBot bot) {
+    SWTBotShell shellOpenPerspective = bot.shell("Open Associated Perspective?");
+    shellOpenPerspective.activate();
     bot.button("Open Perspective").click();
 
-    bot.waitUntil(shellCloses(shellOpenPerpeitve));
+    bot.waitUntil(shellCloses(shellOpenPerspective));
   }
 }
