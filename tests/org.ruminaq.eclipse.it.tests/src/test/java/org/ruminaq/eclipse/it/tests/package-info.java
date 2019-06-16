@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 /**
-* Test classes for eclipse project
+* Test classes for eclipse project.
 * <p>
 * These tests should check if Ruminaq is correctly installed
 * and that it is possible to create a diagram
