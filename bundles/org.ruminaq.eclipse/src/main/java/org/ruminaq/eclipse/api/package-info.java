@@ -4,4 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
+/**
+ * Service api extending eclipse integration.
+ *
+ * @author Marek Jagielski
+ */
 package org.ruminaq.eclipse.api;

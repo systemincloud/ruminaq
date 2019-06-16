@@ -4,4 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
+/**
+ * Integration with eclipse.
+ *
+ * @author Marek Jagielski
+ */
 package org.ruminaq.eclipse;
