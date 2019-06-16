@@ -40,7 +40,7 @@ public final class PomFile {
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(PomFile.class);
 
-  private static final String POM_FILE_PATH = "pom.xml"; //$NON-NLS-1$
+  public static final String POM_FILE_PATH = "pom.xml"; //$NON-NLS-1$
 
   private static final String POM_TEMPLATE = "newProjectPom.xml"; //$NON-NLS-1$
 

@@ -6,10 +6,15 @@
 
 package org.ruminaq.eclipse.it.tests.api;
 
+import org.apache.maven.model.Model;
 import org.eclipse.core.resources.IProject;
 
 public interface EclipseTestExtension {
 
-  void verifyProject(IProject project);
+  default void verifyProject(IProject project) {
+  }
+
+  default void verifyPom(Model model) {
+  }
 
 }

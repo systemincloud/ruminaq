@@ -6,9 +6,13 @@
 
 package org.ruminaq.eclipse.it.tests;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -30,6 +34,7 @@ import org.ruminaq.eclipse.it.tests.actions.CreateRuminaqProject;
 import org.ruminaq.eclipse.it.tests.api.EclipseTestExtension;
 import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 import org.ruminaq.eclipse.wizards.project.Nature;
+import org.ruminaq.eclipse.wizards.project.PomFile;
 import org.ruminaq.util.ServiceUtil;
 
 /**
@@ -68,7 +73,8 @@ public class CreateRuminaqProjectTest {
   private IPerspectiveDescriptor perspective;
 
   @Test
-  public final void testCreateProject() throws CoreException {
+  public final void testCreateProject()
+      throws CoreException, IOException, XmlPullParserException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
@@ -92,6 +98,16 @@ public class CreateRuminaqProjectTest {
 
     Assert.assertTrue("Property file created",
         project.exists(new Path(CreateProjectWizard.PROPERTIES_FILE)));
+
+    var pom = new Path(PomFile.POM_FILE_PATH);
+    Assert.assertTrue("Pom file created", project.exists(pom));
+
+    var reader = new MavenXpp3Reader();
+    Model model = reader.read(project.getFile(pom).getContents());
+
+    Assert.assertEquals("GroupId is set", "org.examples", model.getGroupId());
+
+    extensions.stream().forEach(e -> e.verifyPom(model));
 
     extensions.stream().forEach(e -> e.verifyProject(project));
   }
