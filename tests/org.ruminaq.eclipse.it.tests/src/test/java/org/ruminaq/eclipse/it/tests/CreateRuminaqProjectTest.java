@@ -40,10 +40,10 @@ import org.ruminaq.util.ServiceUtil;
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class CreateRuminaqProjectTest {
 
-  private static SWTWorkbenchBot bot;
-  private static IWorkbench workbench;
-  private static IWorkspace workspace;
-  private static Collection<EclipseTestExtension> extensions;
+  private SWTWorkbenchBot bot;
+  private IWorkbench workbench;
+  private IWorkspace workspace;
+  private Collection<EclipseTestExtension> extensions;
 
   /**
    * Initialize SWTBot.
