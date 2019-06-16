@@ -1,0 +1,29 @@
+Automatic-Module-Name: org.ruminaq.tasks.javatask.it.tests
+Eclipse-RegisterBuddy: org.apache.log4j
+Bundle-ManifestVersion: 2
+Bundle-Name: Ruminaq - Tasks - JavaTask - Integration Tests
+Bundle-Vendor: Marek Jagielski
+Bundle-SymbolicName: org.ruminaq.tasks.javatask.it.tests
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: org.ruminaq.tasks.javatask.gui
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.eclipse.swtbot.eclipse.finder,
+ org.eclipse.swtbot.junit4_x,
+ org.junit,
+ org.eclipse.jdt.junit4.runtime,
+ org.hamcrest.core,
+ org.hamcrest.library,
+ javax.annotation,
+ org.eclipse.reddeer.junit
+Import-Package: org.apache.commons.lang3,
+ org.aspectj.lang,
+ org.aspectj.lang.annotation,
+ org.aspectj.runtime.internal,
+ org.aspectj.runtime.reflect,
+ org.eclipse.core.runtime.jobs,
+ org.eclipse.jdt.internal.compiler.util,
+ org.eclipse.swt,
+ org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.ruminaq.eclipse.it.tests.api
+Export-Package: org.ruminaq.tasks.javatask.it.tests

@@ -94,7 +94,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
   }
 
   /**
-   * Creating project.
+   * Creating project. If smth wrong it shows modal
+   * window.
    *
    * @see org.eclipse.jface.wizard.Wizard#performFinish()
    */

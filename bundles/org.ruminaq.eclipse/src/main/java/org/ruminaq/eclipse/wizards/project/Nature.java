@@ -13,8 +13,6 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
-import org.ruminaq.logs.ModelerLoggerFactory;
-import org.slf4j.Logger;
 
 /**
  * Add eclipse project natures.
@@ -22,9 +20,6 @@ import org.slf4j.Logger;
  * @author Marek Jagielski
  */
 public final class Nature {
-
-  private static final Logger LOGGER = ModelerLoggerFactory
-      .getLogger(Nature.class);
 
   public static final String NATURE_ID =
       "org.ruminaq.eclipse.nature.RuminaqProjectNature"; //$NON-NLS-1$
@@ -42,8 +37,7 @@ public final class Nature {
     try {
       description = project.getDescription();
     } catch (CoreException e) {
-      LOGGER.error(Messages.createNatureFailed, e);
-      throw new RuminaqException(Messages.createProjectWizardFailed);
+      throw new RuminaqException(Messages.createProjectWizardFailed, e);
     }
     description.setNatureIds(new String[] {
         JavaCore.NATURE_ID,
@@ -52,8 +46,7 @@ public final class Nature {
     try {
       project.setDescription(description, null);
     } catch (CoreException e) {
-      LOGGER.error(Messages.createNatureFailed, e);
-      throw new RuminaqException(Messages.createProjectWizardFailed);
+      throw new RuminaqException(Messages.createProjectWizardFailed, e);
     }
   }
 }
