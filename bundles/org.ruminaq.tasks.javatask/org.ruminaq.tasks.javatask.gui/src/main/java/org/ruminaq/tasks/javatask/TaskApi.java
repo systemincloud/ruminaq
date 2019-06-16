@@ -39,76 +39,47 @@ import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.tasks.javatask.model.javatask.JavataskPackage;
 import org.ruminaq.tasks.javatask.wizards.CreateProjectWizard;
 
-//@Component
-public class TaskApi implements ITaskApi, EclipseExtension {
+@Component
+public class TaskApi implements EclipseExtension {
 
   public static final String MAIN_JAVA = "src/main/java";
   public static final String TEST_JAVA = "src/test/java";
 
-  private String symbolicName;
-  private Version version;
-
-  public TaskApi() {
-
-  }
-
-  @Activate
-  void activate(Map<String, Object> properties) {
-    Bundle b = FrameworkUtil.getBundle(getClass());
-    symbolicName = b.getSymbolicName();
-    version = b.getVersion();
-  }
-
-  @Override
-  public String getSymbolicName() {
-    return symbolicName;
-  }
-
-  @Override
-  public Version getVersion() {
-    return version;
-  }
-
-  public TaskApi(String symbolicName, Version version) {
-    this.symbolicName = symbolicName;
-    this.version = version;
-  }
-
-  @Override
-  public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
-    return Arrays.asList(new CreateFeature(fp, symbolicName, version));
-  }
-
-  @Override
-  public Optional<List<IContextButtonPadTool>> getContextButtonPadTools(
-      IFeatureProvider fp, Task t) {
-    return ITaskApi.ifInstance(t, JavaTask.class,
-        Arrays.asList(new ContextButtonPadTool(fp)));
-  }
-
-  @Override
-  public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t,
-      IFeatureProvider fp) {
-    return ITaskApi.ifInstance(t, JavaTask.class, new AddFeature(fp));
-  }
-
-  @Override
-  public Optional<ICustomFeature> getDoubleClickFeature(IDoubleClickContext cxt,
-      Task t, IFeatureProvider fp) {
-    return ITaskApi.ifInstance(t, JavaTask.class,
-        new DoubleClickFeatureFilter().filter(t, fp));
-  }
-
-  @Override
-  public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t,
-      IFeatureProvider fp) {
-    return ITaskApi.ifInstance(t, JavaTask.class, new UpdateFeature(fp));
-  }
-
-  @Override
-  public Map<String, String> getImageKeyPath() {
-    return Images.getImageKeyPath();
-  }
+//  @Override
+//  public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
+//    return Arrays.asList(new CreateFeature(fp, symbolicName, version));
+//  }
+//
+//  @Override
+//  public Optional<List<IContextButtonPadTool>> getContextButtonPadTools(
+//      IFeatureProvider fp, Task t) {
+//    return ITaskApi.ifInstance(t, JavaTask.class,
+//        Arrays.asList(new ContextButtonPadTool(fp)));
+//  }
+//
+//  @Override
+//  public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t,
+//      IFeatureProvider fp) {
+//    return ITaskApi.ifInstance(t, JavaTask.class, new AddFeature(fp));
+//  }
+//
+//  @Override
+//  public Optional<ICustomFeature> getDoubleClickFeature(IDoubleClickContext cxt,
+//      Task t, IFeatureProvider fp) {
+//    return ITaskApi.ifInstance(t, JavaTask.class,
+//        new DoubleClickFeatureFilter().filter(t, fp));
+//  }
+//
+//  @Override
+//  public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t,
+//      IFeatureProvider fp) {
+//    return ITaskApi.ifInstance(t, JavaTask.class, new UpdateFeature(fp));
+//  }
+//
+//  @Override
+//  public Map<String, String> getImageKeyPath() {
+//    return Images.getImageKeyPath();
+//  }
 
   @Override
   public boolean createProjectWizardPerformFinish(IJavaProject javaProject) {
@@ -121,11 +92,11 @@ public class TaskApi implements ITaskApi, EclipseExtension {
 
   @Override
   public List<Dependency> getMavenDependencies() {
-    var javaApi = new Dependency();
-    javaApi.setGroupId("org.ruminaq.tasks.javatask");
-    javaApi.setArtifactId("org.ruminaq.tasks.javatask.api");
-    javaApi.setVersion("0.7.0");
-    return Arrays.asList(javaApi);
+    var javaClient = new Dependency();
+    javaClient.setGroupId("org.ruminaq.tasks.javatask");
+    javaClient.setArtifactId("org.ruminaq.tasks.javatask.api");
+    javaClient.setVersion("0.7.0");
+    return Arrays.asList(javaClient);
   }
 
   @Override
