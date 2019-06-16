@@ -138,6 +138,13 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     return false;
   }
 
+  /**
+   * Newly created project by default has output directory bin.
+   * Eclipse will manage to create this directory before we change
+   * after classpath file.
+   *
+   * @param projet eclipse project reference
+   */
   private static void deleteBinDirectory(IProject projet)
       throws RuminaqException {
     try {
