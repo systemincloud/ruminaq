@@ -7,8 +7,8 @@
 package org.ruminaq.tasks.javatask.it.tests;
 
 import org.apache.maven.model.Model;
-import org.ruminaq.eclipse.it.tests.api.EclipseTestExtension;
 import org.osgi.service.component.annotations.Component;
+import org.ruminaq.eclipse.it.tests.api.EclipseTestExtension;
 
 @Component
 public class CreateRuminaqProjectTest implements EclipseTestExtension {
