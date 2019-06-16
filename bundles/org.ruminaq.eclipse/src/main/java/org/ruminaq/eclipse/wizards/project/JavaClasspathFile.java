@@ -55,13 +55,13 @@ public final class JavaClasspathFile {
     List<IClasspathEntry> entries = new LinkedList<>();
     IPath[] javaPath = new IPath[] { new Path(JAVA_PATH) };
     IPath testOutputLocation = javaProject.getPath().append(TARGET_PATH);
-//
-//    entries.addAll(
-//        extensions
-//          .stream()
-//          .<List<IClasspathEntry>>map(e -> e.getClasspathEntries(javaProject))
-//          .<IClasspathEntry>flatMap(List::stream)
-//          .collect(Collectors.toList()));
+
+    entries.addAll(
+        extensions
+          .stream()
+          .<List<IClasspathEntry>>map(e -> e.getClasspathEntries(javaProject))
+          .<IClasspathEntry>flatMap(List::stream)
+          .collect(Collectors.toList()));
 
     entries.add(JavaCore.newSourceEntry(
         javaProject.getPath().append(SourceFolders.MAIN_RESOURCES), javaPath));
