@@ -22,9 +22,7 @@ import org.eclipse.m2e.jdt.IClasspathManager;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
 import org.ruminaq.eclipse.api.EclipseExtension;
-import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.util.ServiceUtil;
-import org.slf4j.Logger;
 
 /**
  * Writes to .classpath file when new project is created. This configuration can
