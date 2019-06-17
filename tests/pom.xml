@@ -17,10 +17,11 @@
     <sonar.tests>src/test/java</sonar.tests>
     <sonar.junit.reportPaths>${project.basedir}/target/surefire-reports</sonar.junit.reportPaths>
   </properties>
-  
+
   <modules>
     <!-- <module>org.ruminaq.eclipse.tests</module> -->
     <module>org.ruminaq.eclipse.it.tests</module>
+    <module>org.ruminaq.tasks.javatask.it.tests</module>
     <!-- <module>org.ruminaq.tasks.constant.tests</module> -->
     <module>org.ruminaq.tests.report</module>
   </modules>
