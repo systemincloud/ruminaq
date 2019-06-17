@@ -1,18 +1,9 @@
-/*
- * (C) Copyright 2018 Marek Jagielski.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.debug.model;
 
 import org.eclipse.core.resources.IFile;
@@ -33,96 +24,96 @@ import org.slf4j.Logger;
 
 public class RuminaqDebugTarget extends RuminaqDebugElement implements IDebugTarget, ISicTarget {
 
-	private final Logger logger = ModelerLoggerFactory.getLogger(RuminaqDebugTarget.class);
+  private final Logger logger = ModelerLoggerFactory.getLogger(RuminaqDebugTarget.class);
 
-	private EventDispatchJob dispatcher;
-	private ILaunch launch;
-	private IFile mainFile;
-	private RuminaqProcess process;
-	private MainLoop mainLoop;
+  private EventDispatchJob dispatcher;
+  private ILaunch launch;
+  private IFile mainFile;
+  private RuminaqProcess process;
+  private MainLoop mainLoop;
 
-	@Override
-	public RuminaqDebugTarget getDebugTarget() {
-		return this;
-	}
+  @Override
+  public RuminaqDebugTarget getDebugTarget() {
+    return this;
+  }
 
-	@Override
-	public void setState(IState state) {
-		super.setState(state);
-	}
+  @Override
+  public void setState(IState state) {
+    super.setState(state);
+  }
 
-	public RuminaqDebugTarget(ILaunch launch, IFile mainFile, EventDispatchJob dispatcher) {
-		super(null);
-		this.launch     = launch;
-		this.mainFile   = mainFile;
-		this.dispatcher = dispatcher;
-		this.process    = new RuminaqProcess(this);
-		this.mainLoop   = new MainLoop(this);
+  public RuminaqDebugTarget(ILaunch launch, IFile mainFile, EventDispatchJob dispatcher) {
+    super(null);
+    this.launch     = launch;
+    this.mainFile   = mainFile;
+    this.dispatcher = dispatcher;
+    this.process    = new RuminaqProcess(this);
+    this.mainLoop   = new MainLoop(this);
 
-		dispatcher.addHost(new TerminateTargetDecoration(this, dispatcher));
-	}
+    dispatcher.addHost(new TerminateTargetDecoration(this, dispatcher));
+  }
 
-	@Override
-	public void handleEvent(IDebugEvent event) {
-		logger.trace("handleEvent() {}", event);
-		if(event instanceof SuspendedEvent) {
-		} else if(event instanceof ResumedEvent) {
-		}
-	}
+  @Override
+  public void handleEvent(IDebugEvent event) {
+    logger.trace("handleEvent() {}", event);
+    if(event instanceof SuspendedEvent) {
+    } else if(event instanceof ResumedEvent) {
+    }
+  }
 
-	public void fireModelEvent(IDebugEvent event) { dispatcher.addEvent(event); }
+  public void fireModelEvent(IDebugEvent event) { dispatcher.addEvent(event); }
 
-	@Override
-	public String getName() {
-		return "Engine";
-	}
+  @Override
+  public String getName() {
+    return "Engine";
+  }
 
-	@Override
-	public ILaunch getLaunch() {
-		return launch;
-	}
+  @Override
+  public ILaunch getLaunch() {
+    return launch;
+  }
 
-	@Override
-	public IProcess getProcess() {
-		return process;
-	}
+  @Override
+  public IProcess getProcess() {
+    return process;
+  }
 
-	@Override
-	public boolean hasThreads() throws DebugException {
-		return true;
-	}
+  @Override
+  public boolean hasThreads() throws DebugException {
+    return true;
+  }
 
-	@Override
-	public IThread[] getThreads() throws DebugException {
-		return new IThread[] { mainLoop };
-	}
+  @Override
+  public IThread[] getThreads() throws DebugException {
+    return new IThread[] { mainLoop };
+  }
 
-	@Override
-	public boolean supportsBreakpoint(IBreakpoint breakpoint) {
-		return false;
-	}
+  @Override
+  public boolean supportsBreakpoint(IBreakpoint breakpoint) {
+    return false;
+  }
 
-	@Override
-	public void breakpointAdded(IBreakpoint breakpoint) {
-	}
+  @Override
+  public void breakpointAdded(IBreakpoint breakpoint) {
+  }
 
-	@Override
-	public void breakpointRemoved(IBreakpoint breakpoint, IMarkerDelta delta) {
-	}
+  @Override
+  public void breakpointRemoved(IBreakpoint breakpoint, IMarkerDelta delta) {
+  }
 
-	@Override
-	public void breakpointChanged(IBreakpoint breakpoint, IMarkerDelta delta) {
-	}
+  @Override
+  public void breakpointChanged(IBreakpoint breakpoint, IMarkerDelta delta) {
+  }
 
-	@Override
-	public boolean supportsStorageRetrieval() {
-		return false;
-	}
+  @Override
+  public boolean supportsStorageRetrieval() {
+    return false;
+  }
 
-	@Override
-	public IMemoryBlock getMemoryBlock(long startAddress, long length) {
-		return null;
-	}
+  @Override
+  public IMemoryBlock getMemoryBlock(long startAddress, long length) {
+    return null;
+  }
 
-	public IFile getFile() { return mainFile; }
+  public IFile getFile() { return mainFile; }
 }

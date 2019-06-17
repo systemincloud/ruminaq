@@ -1,18 +1,9 @@
-/*
- * (C) Copyright 2018 Marek Jagielski.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.debug.model;
 
 import org.eclipse.debug.core.DebugException;
@@ -29,103 +20,103 @@ public abstract class RuminaqDebugElement extends DebugElement implements ISuspe
                                                                                 ITerminate,
                                                                                 IStep {
 
-	protected IState state = MainState.NOT_STARTED;
+  protected IState state = MainState.NOT_STARTED;
 
-	protected void   setState(IState state) {        ((RuminaqDebugElement) getDebugTarget()).state = state; }
-	protected IState getState()             { return ((RuminaqDebugElement) getDebugTarget()).state; }
+  protected void   setState(IState state) {        ((RuminaqDebugElement) getDebugTarget()).state = state; }
+  protected IState getState()             { return ((RuminaqDebugElement) getDebugTarget()).state; }
 
-	@Override public String getModelIdentifier() { return SicDebugModelPresentation.ID; }
+  @Override public String getModelIdentifier() { return SicDebugModelPresentation.ID; }
 
-	protected RuminaqDebugElement(IDebugTarget target) {
-		super(target);
-	}
+  protected RuminaqDebugElement(IDebugTarget target) {
+    super(target);
+  }
 
-	@Override
-	public RuminaqDebugTarget getDebugTarget() {
-		return (RuminaqDebugTarget) super.getDebugTarget();
-	}
+  @Override
+  public RuminaqDebugTarget getDebugTarget() {
+    return (RuminaqDebugTarget) super.getDebugTarget();
+  }
 
-	@Override
-	public boolean canTerminate() {
-		return false;
-	}
+  @Override
+  public boolean canTerminate() {
+    return false;
+  }
 
-	@Override
-	public boolean canDisconnect() {
-		return false;
-	}
+  @Override
+  public boolean canDisconnect() {
+    return false;
+  }
 
-	@Override
-	public boolean canResume() {
-		return false;
-	}
+  @Override
+  public boolean canResume() {
+    return false;
+  }
 
-	@Override
-	public boolean canSuspend() {
-		return false;
-	}
+  @Override
+  public boolean canSuspend() {
+    return false;
+  }
 
-	@Override
-	public boolean canStepInto() {
-		return false;
-	}
+  @Override
+  public boolean canStepInto() {
+    return false;
+  }
 
-	@Override
-	public boolean canStepOver() {
-		return false;
-	}
+  @Override
+  public boolean canStepOver() {
+    return false;
+  }
 
-	@Override
-	public boolean canStepReturn() {
-		return false;
-	}
+  @Override
+  public boolean canStepReturn() {
+    return false;
+  }
 
-	@Override
-	public boolean isSuspended() {
-		return false;
-	}
+  @Override
+  public boolean isSuspended() {
+    return false;
+  }
 
-	@Override
-	public boolean isStepping() {
-		return false;
-	}
+  @Override
+  public boolean isStepping() {
+    return false;
+  }
 
-	@Override
-	public boolean isDisconnected() {
-		return false;
-	}
+  @Override
+  public boolean isDisconnected() {
+    return false;
+  }
 
-	@Override
-	public boolean isTerminated() {
-		return getState() == MainState.TERMINATED;
-	}
+  @Override
+  public boolean isTerminated() {
+    return getState() == MainState.TERMINATED;
+  }
 
-	@Override
-	public void resume() throws DebugException {
-	}
+  @Override
+  public void resume() throws DebugException {
+  }
 
-	@Override
-	public void suspend() throws DebugException {
-	}
+  @Override
+  public void suspend() throws DebugException {
+  }
 
-	@Override
-	public void disconnect() throws DebugException {
-	}
+  @Override
+  public void disconnect() throws DebugException {
+  }
 
-	@Override
-	public void stepInto() throws DebugException {
-	}
+  @Override
+  public void stepInto() throws DebugException {
+  }
 
-	@Override
-	public void stepOver() throws DebugException {
-	}
+  @Override
+  public void stepOver() throws DebugException {
+  }
 
-	@Override
-	public void stepReturn() throws DebugException {
-	}
+  @Override
+  public void stepReturn() throws DebugException {
+  }
 
-	@Override
-	public void terminate() throws DebugException {
-		getDebugTarget().fireModelEvent(new TerminateRequest());
-	}
+  @Override
+  public void terminate() throws DebugException {
+    getDebugTarget().fireModelEvent(new TerminateRequest());
+  }
 }
