@@ -10,9 +10,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
-import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.util.EclipseUtil;
-import org.slf4j.Logger;
 
 /**
  * Creates directories for eclipse sources.
@@ -20,9 +18,6 @@ import org.slf4j.Logger;
  * @author Marek Jagielski
  */
 public final class SourceFolders {
-
-  private static final Logger LOGGER = ModelerLoggerFactory
-      .getLogger(SourceFolders.class);
 
   public static final String MAIN_RESOURCES = "src/main/resources"; //$NON-NLS-1$
   public static final String TEST_RESOURCES = "src/test/resources"; //$NON-NLS-1$
@@ -48,8 +43,7 @@ public final class SourceFolders {
       EclipseUtil.createFolderWithParents(project, TEST_RESOURCES);
       EclipseUtil.createFolderWithParents(project, TEST_DIAGRAM_FOLDER);
     } catch (CoreException e) {
-      LOGGER.error(Messages.createPomFileFailed, e);
-      throw new RuminaqException(Messages.createProjectWizardFailed);
+      throw new RuminaqException(Messages.createProjectWizardFailed, e);
     }
   }
 }
