@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.tasks.javatask.features;
 
 import java.util.HashMap;
@@ -79,7 +85,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
         SearchPattern pattern = SearchPattern.createPattern(className, IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE, SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
 
         SearchRequestor requestor = new SearchRequestor() {
-            @Override public void acceptSearchMatch(SearchMatch sm)	throws CoreException {
+            @Override public void acceptSearchMatch(SearchMatch sm)  throws CoreException {
                 type = (NamedMember) sm.getElement();
             }
         };
@@ -121,7 +127,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
                                                                                                  SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
         SearchRequestor requestor = new SearchRequestor() {
             @Override
-            public void acceptSearchMatch(SearchMatch sm)	throws CoreException {
+            public void acceptSearchMatch(SearchMatch sm)  throws CoreException {
                 NamedMember el = (NamedMember) sm.getElement();
                 IAnnotation[] annotations;
                 try { annotations = el.getAnnotations(); }
@@ -183,7 +189,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
                                                                                                   SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
         SearchRequestor requestor = new SearchRequestor() {
             @Override
-            public void acceptSearchMatch(SearchMatch sm)	throws CoreException {
+            public void acceptSearchMatch(SearchMatch sm)  throws CoreException {
                 NamedMember el = (NamedMember) sm.getElement();
                 IAnnotation[] annotations;
                 try { annotations = el.getAnnotations(); }
@@ -274,7 +280,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
             IJavaSearchScope scope = SearchEngine.createWorkspaceScope();
             SearchPattern pattern = SearchPattern.createPattern(className, IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE, SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
             SearchRequestor requestor = new SearchRequestor() {
-                @Override public void acceptSearchMatch(SearchMatch sm)	throws CoreException { type = (NamedMember) sm.getElement(); }
+                @Override public void acceptSearchMatch(SearchMatch sm)  throws CoreException { type = (NamedMember) sm.getElement(); }
             };
 
             SearchEngine searchEngine = new SearchEngine();

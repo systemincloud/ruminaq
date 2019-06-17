@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.tasks.javatask.features;
 
 import org.eclipse.core.resources.IFile;
@@ -29,46 +35,46 @@ import org.ruminaq.util.EclipseUtil;
 
 public class DoubleClickFeature extends AbstractCustomFeature {
 
-	private IType type;
+  private IType type;
 
-	public DoubleClickFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public DoubleClickFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
     @Override public boolean canExecute    (ICustomContext context) { return true; }
-	@Override public boolean hasDoneChanges()                       { return false; }
+  @Override public boolean hasDoneChanges()                       { return false; }
 
-	@Override
-	public void execute(ICustomContext context) {
-		JavaTask bo = null;
-		for(Object o : Graphiti.getLinkService().getAllBusinessObjectsForLinkedPictogramElement(context.getInnerPictogramElement()))
-			if(o instanceof JavaTask) { bo = (JavaTask) o; break; }
-		if(bo == null) return;
-		if(bo.getImplementationClass().equals("")) return;
+  @Override
+  public void execute(ICustomContext context) {
+    JavaTask bo = null;
+    for(Object o : Graphiti.getLinkService().getAllBusinessObjectsForLinkedPictogramElement(context.getInnerPictogramElement()))
+      if(o instanceof JavaTask) { bo = (JavaTask) o; break; }
+    if(bo == null) return;
+    if(bo.getImplementationClass().equals("")) return;
 
-		IJavaProject project = JavaCore.create(ResourcesPlugin.getWorkspace().getRoot().getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram())));
-		IJavaSearchScope scope = SearchEngine.createJavaSearchScope(new IJavaElement[] { project });
-		SearchPattern pattern = SearchPattern.createPattern(bo.getImplementationClass(), IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE, SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
-		SearchRequestor requestor = new SearchRequestor() {
-			@Override public void acceptSearchMatch(SearchMatch sm) throws CoreException {
-				type = (IType) sm.getElement();
-			}
-		};
-		SearchEngine searchEngine = new SearchEngine();
-		try { searchEngine.search(pattern, new SearchParticipant[] {SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
-		} catch (CoreException e) {	}
+    IJavaProject project = JavaCore.create(ResourcesPlugin.getWorkspace().getRoot().getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram())));
+    IJavaSearchScope scope = SearchEngine.createJavaSearchScope(new IJavaElement[] { project });
+    SearchPattern pattern = SearchPattern.createPattern(bo.getImplementationClass(), IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE, SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
+    SearchRequestor requestor = new SearchRequestor() {
+      @Override public void acceptSearchMatch(SearchMatch sm) throws CoreException {
+        type = (IType) sm.getElement();
+      }
+    };
+    SearchEngine searchEngine = new SearchEngine();
+    try { searchEngine.search(pattern, new SearchParticipant[] {SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
+    } catch (CoreException e) {  }
 
-		if(type == null) return;
+    if(type == null) return;
 
-		Display.getCurrent().asyncExec(new Runnable() {
-			public void run() {
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				try {
-					IResource r = type.getResource();
-					IDE.openEditor(page, (IFile) r, true);
-				} catch (PartInitException e) {
-				}
-			}
-		});
-	}
+    Display.getCurrent().asyncExec(new Runnable() {
+      public void run() {
+        IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        try {
+          IResource r = type.getResource();
+          IDE.openEditor(page, (IFile) r, true);
+        } catch (PartInitException e) {
+        }
+      }
+    });
+  }
 }
