@@ -34,9 +34,6 @@ import org.slf4j.Logger;
  */
 public final class JavaClasspathFile {
 
-  private static final Logger LOGGER = ModelerLoggerFactory
-      .getLogger(JavaClasspathFile.class);
-
   private static final String JAVA_PATH = "**/*.java"; //$NON-NLS-1$
 
   private static final String TARGET_PATH = "target/test-classes"; //$NON-NLS-1$
