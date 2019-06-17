@@ -26,9 +26,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
 import org.ruminaq.eclipse.api.EclipseExtension;
-import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.util.ServiceUtil;
-import org.slf4j.Logger;
 
 /**
  * Creates maven pom file.
@@ -36,9 +34,6 @@ import org.slf4j.Logger;
  * @author Marek Jagielski
  */
 public final class PomFile {
-
-  private static final Logger LOGGER = ModelerLoggerFactory
-      .getLogger(PomFile.class);
 
   public static final String POM_FILE_PATH = "pom.xml"; //$NON-NLS-1$
 
@@ -90,9 +85,9 @@ public final class PomFile {
     var content = contentWriter.toString();
 
     IFile pomFile = project.getFile(POM_FILE_PATH);
-    try {
-      pomFile.create(new ByteArrayInputStream(content.getBytes()), true, new NullProgressMonitor());
-    } catch (CoreException e) {
+    try (var is = new ByteArrayInputStream(content.getBytes())) {
+      pomFile.create(is, true, new NullProgressMonitor());
+    } catch (CoreException | IOException e) {
       throw new RuminaqException(Messages.createPomFileFailed, e);
     }
   }
