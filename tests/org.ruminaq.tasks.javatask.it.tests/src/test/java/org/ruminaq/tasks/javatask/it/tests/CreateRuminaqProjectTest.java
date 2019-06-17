@@ -13,7 +13,7 @@ import org.ruminaq.eclipse.it.tests.api.EclipseTestExtension;
 @Component
 public class CreateRuminaqProjectTest implements EclipseTestExtension {
 
-  void verifyPom(Model model) {
+  public void verifyPom(Model model) {
 
   }
 }
