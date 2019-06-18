@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  org.hamcrest.core,
  org.hamcrest.library,
  javax.annotation,
- org.eclipse.reddeer.junit
+ org.eclipse.reddeer.junit,
+ org.junit.jupiter.api
 Import-Package: org.apache.commons.lang3,
  org.aspectj.lang,
  org.aspectj.lang.annotation,
