@@ -57,3 +57,5 @@ Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.ruminaq.tasks.gate.and
+Service-Component: OSGI-INF/org.ruminaq.tasks.gate.and.TaskApi.xml,
+ OSGI-INF/org.ruminaq.tasks.gate.and.TaskUiApi.xml

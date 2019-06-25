@@ -103,3 +103,5 @@ Export-Package: org.ruminaq.tasks.javatask,
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
+Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.TaskApi.xml,
+ OSGI-INF/org.ruminaq.tasks.javatask.TaskUiApi.xml

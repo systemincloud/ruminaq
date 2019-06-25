@@ -48,3 +48,4 @@ Import-Package: ch.qos.logback.classic,
  org.slf4j
 Export-Package: org.ruminaq.launch
 Bundle-RequiredExecutionEnvironment: JavaSE-11
+Service-Component: OSGI-INF/org.ruminaq.launch.LaunchExtensionHandlerImpl.xml

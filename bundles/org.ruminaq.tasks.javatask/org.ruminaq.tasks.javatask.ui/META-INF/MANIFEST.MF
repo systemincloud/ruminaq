@@ -58,3 +58,4 @@ Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.ruminaq.tasks.javatask.ui
+Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.ui.JavaTasksDebugModelerExtension.xml

@@ -63,5 +63,6 @@ Export-Package: org.ruminaq.tasks.inspect,
  org.ruminaq.tasks.inspect.features
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Service-Component: OSGI-INF/org.ruminaq.tasks.inspect.TaskApi.xml
+Service-Component: OSGI-INF/org.ruminaq.tasks.inspect.TaskApi.xml,
+ OSGI-INF/org.ruminaq.tasks.inspect.TaskUiApi.xml
 Bundle-ActivationPolicy: lazy
