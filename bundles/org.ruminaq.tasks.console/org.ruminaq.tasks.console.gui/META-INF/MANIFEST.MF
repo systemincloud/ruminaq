@@ -5,9 +5,6 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.console.gui
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.console.EclipseExtensionImpl.xml,
- OSGI-INF/org.ruminaq.tasks.console.TaskApi.xml,
- OSGI-INF/org.ruminaq.tasks.console.TaskUiApi.xml
 Require-Bundle: org.cojen,
  org.cojen.dirmi
 Import-Package: ch.qos.logback.classic,

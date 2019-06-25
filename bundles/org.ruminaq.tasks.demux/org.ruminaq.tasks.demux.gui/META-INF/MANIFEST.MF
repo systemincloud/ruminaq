@@ -56,6 +56,4 @@ Export-Package: org.ruminaq.tasks.demux,
  org.ruminaq.tasks.demux.features
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Service-Component: OSGI-INF/org.ruminaq.tasks.demux.TaskApi.xml,
- OSGI-INF/org.ruminaq.tasks.demux.TaskUiApi.xml
 Bundle-ActivationPolicy: lazy

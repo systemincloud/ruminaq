@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.ruminaq.launch.LaunchExtensionHandlerImpl">
-   <service>
-      <provide interface="org.ruminaq.launch.api.LaunchExtensionHandler"/>
-   </service>
-   <reference bind="bind" cardinality="0..n" interface="org.ruminaq.launch.api.LaunchExtension" policy="dynamic" unbind="unbind"/>
-   <implementation class="org.ruminaq.launch.LaunchExtensionHandlerImpl"/>
-</scr:component>

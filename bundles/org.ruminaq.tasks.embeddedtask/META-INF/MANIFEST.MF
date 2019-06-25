@@ -77,6 +77,4 @@ Export-Package: org.ruminaq.tasks.embeddedtask,
  org.ruminaq.tasks.embeddedtask.features
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Service-Component: OSGI-INF/org.ruminaq.tasks.embeddedtask.TaskApi.xml,
- OSGI-INF/org.ruminaq.tasks.embeddedtask.TaskUiApi.xml
 Bundle-ActivationPolicy: lazy

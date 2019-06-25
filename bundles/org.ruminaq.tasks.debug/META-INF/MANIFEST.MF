@@ -37,6 +37,5 @@ Export-Package: org.ruminaq.tasks.debug,
  org.ruminaq.tasks.debug.model.port.in,
  org.ruminaq.tasks.debug.model.port.out
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Service-Component: OSGI-INF/org.ruminaq.tasks.debug.TasksDebugModelerExtension.xml
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.ruminaq.tasks.debug

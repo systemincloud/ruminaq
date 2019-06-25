@@ -87,4 +87,3 @@ Export-Package: org.ruminaq.gui,
  org.ruminaq.gui.properties,
  org.ruminaq.gui.providers
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Service-Component: OSGI-INF/org.ruminaq.gui.GuiExtensionHandlerImpl.xml
