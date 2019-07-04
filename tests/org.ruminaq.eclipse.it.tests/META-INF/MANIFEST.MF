@@ -6,6 +6,7 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.eclipse.it.tests
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
+Fragment-Host: org.ruminaq.eclipse
 Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  org.eclipse.swtbot.junit4_x,
  org.junit,
