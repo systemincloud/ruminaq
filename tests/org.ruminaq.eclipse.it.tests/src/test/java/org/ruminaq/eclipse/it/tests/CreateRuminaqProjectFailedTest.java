@@ -15,7 +15,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.eclipse.it.tests.actions.CreateRuminaqProject;
+import org.ruminaq.tests.common.CreateRuminaqProject;
 
 /**
  * Test of creating a new eclipse project.
