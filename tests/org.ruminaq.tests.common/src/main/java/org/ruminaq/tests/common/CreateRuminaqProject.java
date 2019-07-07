@@ -4,12 +4,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.eclipse.it.tests.actions;
+package org.ruminaq.tests.common;
 
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.ruminaq.logs.ModelerLoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Create new Ruminaq project.
@@ -19,6 +22,8 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
  */
 public class CreateRuminaqProject {
 
+  private static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(CreateRuminaqProject.class);
   /**
    * Create new Ruminaq project.
    *
@@ -50,5 +55,18 @@ public class CreateRuminaqProject {
     bot.button("Open Perspective").click();
 
     bot.waitUntil(shellCloses(shellOpenPerspective));
+  }
+  
+  /**
+   * Accept perspective change if pop ups.
+   *
+   * @param bot SWTWorkbenchBot
+]   */
+  public void acceptPerspectiveChangeIfPopUps(SWTWorkbenchBot bot) {
+    try {
+    	acceptPerspectiveChange(bot);
+    } catch(WidgetNotFoundException e) {
+    	LOGGER.info("No perspective change request");
+    }
   }
 }

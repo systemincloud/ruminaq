@@ -9,4 +9,4 @@
 *
 * @author Marek Jagielski
 */
-package org.ruminaq.eclipse.it.tests.actions;
+package org.ruminaq.tests.common;

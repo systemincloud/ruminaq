@@ -4,34 +4,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.javatask.it.tests;
-
-import java.io.IOException;
-import java.util.Collection;
+package org.ruminaq.eclipse.it.tests;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
-import org.eclipse.ui.IPerspectiveDescriptor;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.osgi.service.component.annotations.Component;
-import org.ruminaq.tests.common.CreateRuminaqProject;
-import org.ruminaq.util.ServiceUtil;
+import org.ruminaq.eclipse.it.tests.actions.CreateRuminaqProject;
 
 /**
  * Test of creating a new eclipse project.
@@ -39,11 +23,9 @@ import org.ruminaq.util.ServiceUtil;
  * @author Marek Jagielski
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
-public class CreateRuminaqProjectTest {
+public class CreateRuminaqProjectFailedTest {
 
   private static SWTWorkbenchBot bot;
-  private static IWorkbench workbench;
-  private static IWorkspace workspace;
 
   /**
    * Initialize SWTBot.
@@ -52,8 +34,6 @@ public class CreateRuminaqProjectTest {
   @BeforeClass
   public static void initBot() {
     bot = new SWTWorkbenchBot();
-    workbench = PlatformUI.getWorkbench();
-    workspace = ResourcesPlugin.getWorkspace();
   }
 
   @AfterClass
@@ -64,12 +44,18 @@ public class CreateRuminaqProjectTest {
   private static final int PROJECT_SUFFIX_LENGTH = 5;
 
   @Test
-  public final void testCreateProject()
-      throws CoreException, IOException, XmlPullParserException {
+  public final void testCreateProjectFailed() {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
-    new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
+    System.setProperty(
+        JavaProjectAspect.FAIL_CREATE_OUTPUT_LOCATION_PROJECT_NAME,
+        projectName);
+    new CreateRuminaqProject().execute(bot, projectName);
+    new CreateRuminaqProject().acceptPerspectiveChange(bot);
 
-  
+    SWTBotShell failureWindow = bot.shell("Ruminaq failure");
+    failureWindow.activate();
+
+    Assert.assertNotNull("Failure window should appear", failureWindow);
   }
 }

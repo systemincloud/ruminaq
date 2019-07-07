@@ -7,7 +7,6 @@
 package org.ruminaq.eclipse.it.tests;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.maven.model.Model;
@@ -21,21 +20,18 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.eclipse.it.tests.actions.CreateRuminaqProject;
-import org.ruminaq.eclipse.it.tests.api.EclipseTestExtension;
 import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 import org.ruminaq.eclipse.wizards.project.Nature;
 import org.ruminaq.eclipse.wizards.project.PomFile;
-import org.ruminaq.util.ServiceUtil;
+import org.ruminaq.tests.common.CreateRuminaqProject;
 
 /**
  * Test of creating a new eclipse project.
@@ -45,26 +41,23 @@ import org.ruminaq.util.ServiceUtil;
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class CreateRuminaqProjectTest {
 
-  private SWTWorkbenchBot bot;
-  private IWorkbench workbench;
-  private IWorkspace workspace;
-  private Collection<EclipseTestExtension> extensions;
+  private static SWTWorkbenchBot bot;
+  private static IWorkbench workbench;
+  private static IWorkspace workspace;
 
   /**
    * Initialize SWTBot.
    *
    */
-  @Before
-  public void initBot() {
+  @BeforeClass
+  public static void initBot() {
     bot = new SWTWorkbenchBot();
     workbench = PlatformUI.getWorkbench();
     workspace = ResourcesPlugin.getWorkspace();
-    extensions = ServiceUtil.getServicesAtLatestVersion(
-        CreateRuminaqProjectTest.class, EclipseTestExtension.class);
   }
 
-  @After
-  public void afterClass() {
+  @AfterClass
+  public static void after() {
     bot.resetWorkbench();
   }
 
@@ -106,25 +99,5 @@ public class CreateRuminaqProjectTest {
     Model model = reader.read(project.getFile(pom).getContents());
 
     Assert.assertEquals("GroupId is set", "org.examples", model.getGroupId());
-
-    extensions.stream().forEach(e -> e.verifyPom(model));
-
-    extensions.stream().forEach(e -> e.verifyProject(project));
-  }
-
-  @Test
-  public final void testCreateProjectFailed() {
-    String projectName = "test"
-        + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
-    System.setProperty(
-        JavaProjectAspect.FAIL_CREATE_OUTPUT_LOCATION_PROJECT_NAME,
-        projectName);
-    new CreateRuminaqProject().execute(bot, projectName);
-    new CreateRuminaqProject().acceptPerspectiveChange(bot);
-
-    SWTBotShell failureWindow = bot.shell("Ruminaq failure");
-    failureWindow.activate();
-
-    Assert.assertNotNull("Failure window should appear", failureWindow);
   }
 }

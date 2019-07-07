@@ -19,6 +19,7 @@
   </properties>
 
   <modules>
+    <module>org.ruminaq.tests.common</module>
     <!-- <module>org.ruminaq.eclipse.tests</module> -->
     <module>org.ruminaq.eclipse.it.tests</module>
     <module>org.ruminaq.tasks.javatask.it.tests</module>

@@ -5,7 +5,7 @@ Bundle-Name: Ruminaq - Tasks - JavaTask - Integration Tests
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.javatask.it.tests
 Bundle-Version: 1.0.0.qualifier
-Fragment-Host: org.ruminaq.eclipse
+Fragment-Host: org.ruminaq.tasks.javatask.gui
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  org.eclipse.swtbot.junit4_x,
@@ -26,5 +26,5 @@ Import-Package: org.apache.commons.lang3,
  org.eclipse.swt,
  org.eclipse.ui,
  org.eclipse.ui.ide,
- org.ruminaq.eclipse.it.tests.api
+ org.ruminaq.tests.common
 Export-Package: org.ruminaq.tasks.javatask.it.tests

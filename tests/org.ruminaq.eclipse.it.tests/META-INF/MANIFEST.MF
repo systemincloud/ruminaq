@@ -24,7 +24,6 @@ Import-Package: org.apache.commons.lang3,
  org.eclipse.jdt.internal.compiler.util,
  org.eclipse.swt,
  org.eclipse.ui,
- org.eclipse.ui.ide
-Export-Package: org.ruminaq.eclipse.it.tests,
- org.ruminaq.eclipse.it.tests.actions,
- org.ruminaq.eclipse.it.tests.api
+ org.eclipse.ui.ide,
+ org.ruminaq.tests.common
+Export-Package: org.ruminaq.eclipse.it.tests
