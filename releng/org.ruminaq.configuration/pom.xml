@@ -120,6 +120,13 @@
           <groupId>org.reficio</groupId>
           <artifactId>p2-maven-plugin</artifactId>
           <version>1.3.0</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.codehaus.groovy</groupId>
+              <artifactId>groovy-all</artifactId>
+              <version>2.4.8</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.eclipse.jetty</groupId>
@@ -303,7 +310,8 @@
           <useUIHarness>true</useUIHarness>
           <useUIThread>false</useUIThread>
           <failIfNoTests>false</failIfNoTests>
-          <argLine>-javaagent:${user.home}/.m2/repository/org/jacoco/org.jacoco.agent/${jaccoco.version}/org.jacoco.agent-${jaccoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec -javaagent:${user.home}/.m2/repository/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar</argLine>
+          <argLine>-javaagent:${user.home}/.m2/repository/org/jacoco/org.jacoco.agent/${jaccoco.version}/org.jacoco.agent-${jaccoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec
+            -javaagent:${user.home}/.m2/repository/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar</argLine>
           <!-- <argLine>-ea -Dosgi.clean=true -Ddebug=true -Dosgi.console.enable.builtin=true</argLine> -->
           <!-- <argLine>-DbuildingWithTycho=true</argLine> -->
         </configuration>
@@ -410,11 +418,11 @@
         </configuration>
       </plugin>
       <!-- enable source feature generation -->
-      <!--plugin> <groupId>org.eclipse.tycho.extras</groupId> <artifactId>tycho-source-feature-plugin</artifactId>
-        <version>${tycho.version}</version> <executions> <execution> <id>source-feature</id>
-        <phase>package</phase> <goals> <goal>source-feature</goal> </goals> </execution>
-        </executions> </plugin> <plugin> <groupId>org.eclipse.tycho</groupId> <artifactId>tycho-source-plugin</artifactId>
-        <executions> <execution> <id>plugin-source</id> <goals> <goal>plugin-source</goal>
+      <!--plugin> <groupId>org.eclipse.tycho.extras</groupId> <artifactId>tycho-source-feature-plugin</artifactId> 
+        <version>${tycho.version}</version> <executions> <execution> <id>source-feature</id> 
+        <phase>package</phase> <goals> <goal>source-feature</goal> </goals> </execution> 
+        </executions> </plugin> <plugin> <groupId>org.eclipse.tycho</groupId> <artifactId>tycho-source-plugin</artifactId> 
+        <executions> <execution> <id>plugin-source</id> <goals> <goal>plugin-source</goal> 
         </goals> </execution> </executions> </plugin -->
     </plugins>
   </build>
