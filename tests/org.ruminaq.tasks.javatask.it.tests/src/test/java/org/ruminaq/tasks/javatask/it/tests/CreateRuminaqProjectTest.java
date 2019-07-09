@@ -30,6 +30,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.osgi.service.component.annotations.Component;
+import org.ruminaq.eclipse.wizards.project.PomFile;
+import org.ruminaq.tasks.javatask.gui.TaskApi;
 import org.ruminaq.tests.common.CreateRuminaqProject;
 import org.ruminaq.util.ServiceUtil;
 
@@ -68,8 +70,18 @@ public class CreateRuminaqProjectTest {
       throws CoreException, IOException, XmlPullParserException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
+    new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
-  
+    IProject project = workspace.getRoot().getProject(projectName);
+
+    var pom = new Path(PomFile.POM_FILE_PATH);
+
+    var reader = new MavenXpp3Reader();
+    Model model = reader.read(project.getFile(pom).getContents());
+    
+    var dep = model.getDependencies().stream().filter(
+    		d -> TaskApi.ARTIFACT_ID.equals(d.getArtifactId())).findFirst();
+    Assert.assertEquals("Java dependecy added", TaskApi.VERSION, dep.get().getVersion());
   }
 }

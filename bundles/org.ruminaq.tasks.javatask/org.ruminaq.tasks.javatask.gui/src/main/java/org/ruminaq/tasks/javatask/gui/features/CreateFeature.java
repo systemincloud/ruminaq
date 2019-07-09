@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.javatask.features;
+package org.ruminaq.tasks.javatask.gui.features;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
@@ -13,8 +13,8 @@ import org.ruminaq.consts.Constants.SicPlugin;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.tasks.TaskCategory;
 import org.ruminaq.tasks.features.CreateTaskFeature;
-import org.ruminaq.tasks.javatask.Images;
-import org.ruminaq.tasks.javatask.Port;
+import org.ruminaq.tasks.javatask.gui.Images;
+import org.ruminaq.tasks.javatask.gui.Port;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.tasks.javatask.model.javatask.JavataskFactory;
 

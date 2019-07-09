@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.javatask;
+package org.ruminaq.tasks.javatask.gui;
 
 import java.util.HashMap;
 import java.util.Map;

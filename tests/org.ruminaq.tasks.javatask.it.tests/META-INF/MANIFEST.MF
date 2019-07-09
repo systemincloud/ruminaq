@@ -5,7 +5,7 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.javatask.it.tests
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Fragment-Host: org.ruminaq.eclipse
+Fragment-Host: org.ruminaq.tasks.javatask.gui
 Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  org.eclipse.swtbot.junit4_x,
  org.junit,

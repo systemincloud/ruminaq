@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" name="org.ruminaq.tasks.javatask.TaskUiApi">
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" name="org.ruminaq.tasks.javatask.gui.TaskUiApi">
    <service>
       <provide interface="org.ruminaq.tasks.api.ITaskUiApi"/>
       <provide interface="org.ruminaq.tasks.javatask.ui.IJavaTaskUiApi"/>
       <provide interface="org.ruminaq.tasks.userdefined.IUserDefinedUiApi"/>
    </service>
-   <implementation class="org.ruminaq.tasks.javatask.TaskUiApi"/>
+   <implementation class="org.ruminaq.tasks.javatask.gui.TaskUiApi"/>
 </scr:component>

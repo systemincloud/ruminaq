@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.javatask;
+package org.ruminaq.tasks.javatask.gui;
 
 import java.util.Map;
 
@@ -13,9 +13,9 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.api.ITaskUiApi;
+import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskPage;
 import org.ruminaq.tasks.javatask.ui.IJavaTaskUiApi;
 import org.ruminaq.tasks.javatask.ui.wizards.ICreateJavaTaskPage;
-import org.ruminaq.tasks.javatask.wizards.CreateJavaTaskPage;
 import org.ruminaq.tasks.userdefined.IUserDefinedUiApi;
 
 @Component

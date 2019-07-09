@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.javatask;
+package org.ruminaq.tasks.javatask.gui;
 
 import java.util.Map;
 

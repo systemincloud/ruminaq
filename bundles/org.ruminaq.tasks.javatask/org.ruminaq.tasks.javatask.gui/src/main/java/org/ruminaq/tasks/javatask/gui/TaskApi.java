@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.javatask;
+package org.ruminaq.tasks.javatask.gui;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,20 +30,24 @@ import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.gui.features.tools.IContextButtonPadTool;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
-import org.ruminaq.tasks.javatask.features.AddFeature;
-import org.ruminaq.tasks.javatask.features.ContextButtonPadTool;
-import org.ruminaq.tasks.javatask.features.CreateFeature;
-import org.ruminaq.tasks.javatask.features.DoubleClickFeatureFilter;
-import org.ruminaq.tasks.javatask.features.UpdateFeature;
+import org.ruminaq.tasks.javatask.gui.features.AddFeature;
+import org.ruminaq.tasks.javatask.gui.features.ContextButtonPadTool;
+import org.ruminaq.tasks.javatask.gui.features.CreateFeature;
+import org.ruminaq.tasks.javatask.gui.features.DoubleClickFeatureFilter;
+import org.ruminaq.tasks.javatask.gui.features.UpdateFeature;
+import org.ruminaq.tasks.javatask.gui.wizards.CreateProjectWizard;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.tasks.javatask.model.javatask.JavataskPackage;
-import org.ruminaq.tasks.javatask.wizards.CreateProjectWizard;
 
 @Component
 public class TaskApi implements EclipseExtension {
 
   public static final String MAIN_JAVA = "src/main/java";
   public static final String TEST_JAVA = "src/test/java";
+  
+  public static final String GROUP_ID = "org.ruminaq.tasks.javatask";
+  public static final String ARTIFACT_ID = "org.ruminaq.tasks.javatask.api";
+  public static final String VERSION = "0.7.0";
 
 //  @Override
 //  public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
@@ -93,9 +97,9 @@ public class TaskApi implements EclipseExtension {
   @Override
   public List<Dependency> getMavenDependencies() {
     var javaClient = new Dependency();
-    javaClient.setGroupId("org.ruminaq.tasks.javatask");
-    javaClient.setArtifactId("org.ruminaq.tasks.javatask.api");
-    javaClient.setVersion("0.7.0");
+    javaClient.setGroupId(GROUP_ID);
+    javaClient.setArtifactId(ARTIFACT_ID);
+    javaClient.setVersion(VERSION);
     return Arrays.asList(javaClient);
   }
 

@@ -1,9 +1,9 @@
-package org.ruminaq.tasks.javatask.wizards;
+package org.ruminaq.tasks.javatask.gui.wizards;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaProject;
-import org.ruminaq.tasks.javatask.TaskApi;
+import org.ruminaq.tasks.javatask.gui.TaskApi;
 import org.ruminaq.util.EclipseUtil;
 
 public class CreateProjectWizard {

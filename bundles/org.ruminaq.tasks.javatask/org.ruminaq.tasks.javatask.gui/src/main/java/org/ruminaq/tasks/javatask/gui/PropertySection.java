@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.javatask;
+package org.ruminaq.tasks.javatask.gui;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -45,7 +45,7 @@ import org.ruminaq.eclipse.util.ConstantsUtil;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
-import org.ruminaq.tasks.javatask.features.UpdateFeature;
+import org.ruminaq.tasks.javatask.gui.features.UpdateFeature;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.tasks.javatask.ui.wizards.CreateJavaTaskListener;
 import org.ruminaq.tasks.javatask.ui.wizards.CreateJavaTaskWizard;
