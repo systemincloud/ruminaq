@@ -111,16 +111,13 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
         .createPlatformResourceURI(diagramFile.getFullPath().toString(), true);
     FileService.createEmfFileForDiagram(uri, diagram);
 
-    getShell().getDisplay().asyncExec(new Runnable() {
-      @Override
-      public void run() {
+    getShell().getDisplay().asyncExec(() -> {
         IWorkbenchPage page = PlatformUI.getWorkbench()
             .getActiveWorkbenchWindow().getActivePage();
         try {
           IDE.openEditor(page, diagramFile, true);
         } catch (PartInitException e) {
         }
-      }
     });
   }
 }
