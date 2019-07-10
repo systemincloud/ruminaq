@@ -57,8 +57,8 @@ public final class PomFile {
   public void createPomFile(IProject project) throws RuminaqException {
     var reader = new MavenXpp3Reader();
     Model model;
-    try {
-      model = reader.read(PomFile.class.getResourceAsStream(POM_TEMPLATE));
+    try (var pom = PomFile.class.getResourceAsStream(POM_TEMPLATE)) {
+      model = reader.read(pom);
     } catch (IOException | XmlPullParserException e) {
       throw new RuminaqException(Messages.createPomFileFailed, e);
     }
