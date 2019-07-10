@@ -9,6 +9,7 @@ package org.ruminaq.eclipse.wizards.project;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -85,7 +86,7 @@ public final class PomFile {
     var content = contentWriter.toString();
 
     IFile pomFile = project.getFile(POM_FILE_PATH);
-    try (var is = new ByteArrayInputStream(content.getBytes())) {
+    try (var is = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8))) {
       pomFile.create(is, true, new NullProgressMonitor());
     } catch (CoreException | IOException e) {
       throw new RuminaqException(Messages.createPomFileFailed, e);
