@@ -32,6 +32,7 @@ import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 import org.ruminaq.eclipse.wizards.project.Nature;
 import org.ruminaq.eclipse.wizards.project.PomFile;
 import org.ruminaq.tests.common.CreateRuminaqProject;
+import org.ruminaq.tests.common.SelectView;
 
 /**
  * Test of creating a new eclipse project.
@@ -54,6 +55,7 @@ public class CreateRuminaqProjectTest {
     bot = new SWTWorkbenchBot();
     workbench = PlatformUI.getWorkbench();
     workspace = ResourcesPlugin.getWorkspace();
+    SelectView.closeWelcomeViewIfExists(bot);
   }
 
   @AfterClass
@@ -71,7 +73,7 @@ public class CreateRuminaqProjectTest {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
-    new CreateRuminaqProject().acceptPerspectiveChange(bot);
+    new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
     Display.getDefault().syncExec(new Runnable() {
       @Override

@@ -15,7 +15,9 @@
  */
 package org.ruminaq.gui.diagram;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IAddBendpointFeature;
@@ -59,10 +61,10 @@ import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
-import org.ruminaq.gui.providers.AddFeatureProvider;
+import org.ruminaq.gui.api.AddFeatureExtension;
+import org.ruminaq.gui.api.CreateConnectionFeaturesExtension;
+import org.ruminaq.gui.api.CreateFeaturesExtension;
 import org.ruminaq.gui.providers.CopyFeatureProvider;
-import org.ruminaq.gui.providers.CreateConnectionFeatureProvider;
-import org.ruminaq.gui.providers.CreateFeatureProvider;
 import org.ruminaq.gui.providers.CustomFeatureProvider;
 import org.ruminaq.gui.providers.DeleteFeatureProvider;
 import org.ruminaq.gui.providers.DirectEditingFeatureProvider;
@@ -73,64 +75,91 @@ import org.ruminaq.gui.providers.PasteFeatureProvider;
 import org.ruminaq.gui.providers.ReconnectionFeatureProvider;
 import org.ruminaq.gui.providers.ResizeShapeFeatureProvider;
 import org.ruminaq.gui.providers.UpdateFeatureProvider;
+import org.ruminaq.util.ServiceUtil;
 
 public class RuminaqFeatureProvider extends DefaultFeatureProvider {
 
-	public RuminaqFeatureProvider(IDiagramTypeProvider diagramTypeProvider) {	super(diagramTypeProvider);	}
-
-   	@Override
-   	public IRemoveFeature getRemoveFeature(IRemoveContext context) {
-   	    return null; // remove disabled for the UI
-   	}
-
-   	protected IRemoveFeature getRemoveFeatureEnabled(IRemoveContext context) {
-   	    return super.getRemoveFeature(context); // used where we enable remove (deleting...)
-   	}
-
-	@Override
-	public IAddFeature getAddFeature(IAddContext context) {
-		IAddFeature feature = (new AddFeatureProvider(this)).getAddFeature(context);
-		return feature != null ? feature : super.getAddFeature(context);
+	public RuminaqFeatureProvider(IDiagramTypeProvider diagramTypeProvider) {
+		super(diagramTypeProvider);
 	}
 
 	@Override
-	public IAddBendpointFeature getAddBendpointFeature(IAddBendpointContext context) {
+	public IRemoveFeature getRemoveFeature(IRemoveContext context) {
+		return null; // remove disabled for the UI
+	}
+
+	protected IRemoveFeature getRemoveFeatureEnabled(IRemoveContext context) {
+		return super.getRemoveFeature(context); // used where we enable remove
+		                                        // (deleting...)
+	}
+
+	@Override
+	public IAddFeature getAddFeature(IAddContext context) {
+		return ServiceUtil
+		    .getServicesAtLatestVersion(RuminaqFeatureProvider.class,
+		        AddFeatureExtension.class)
+		    .stream().map(ext -> ext.getAddFeature(context, this))
+		    .filter(Objects::nonNull).findFirst()
+		    .orElse(super.getAddFeature(context));
+	}
+
+	@Override
+	public IAddBendpointFeature getAddBendpointFeature(
+	    IAddBendpointContext context) {
 		return super.getAddBendpointFeature(context);
 	}
 
 	@Override
 	public ICreateConnectionFeature[] getCreateConnectionFeatures() {
-		List<ICreateConnectionFeature> connectionFeatures = (new CreateConnectionFeatureProvider(this)).getCreateConnectionFeatures();
-		return connectionFeatures.toArray(new ICreateConnectionFeature[connectionFeatures.size()]);
+		return ServiceUtil
+		    .getServicesAtLatestVersion(RuminaqFeatureProvider.class,
+		        CreateConnectionFeaturesExtension.class)
+		    .stream().map(ext -> ext.getCreateConnectionFeatures(this))
+		    .flatMap(Collection::stream)
+		    .toArray(size -> new ICreateConnectionFeature[size]);
 	}
 
 	@Override
 	public ICreateFeature[] getCreateFeatures() {
-		List<ICreateFeature> standardFeatures = (new CreateFeatureProvider(this)).getCreateFeatures();
-		return standardFeatures.toArray(new ICreateFeature[standardFeatures.size()]);
+		return ServiceUtil
+		    .getServicesAtLatestVersion(RuminaqFeatureProvider.class,
+		        CreateFeaturesExtension.class)
+		    .stream().map(ext -> ext.getCreateFeatures(this))
+		    .flatMap(Collection::stream).toArray(size -> new ICreateFeature[size]);
 	}
 
 	@Override
 	public ICopyFeature getCopyFeature(ICopyContext context) {
-		ICopyFeature feature = (new CopyFeatureProvider(this)).getCopyFeature(context);
-		return feature != null ? feature : super.getCopyFeature(context);
+		return ServiceUtil
+		    .getServicesAtLatestVersion(RuminaqFeatureProvider.class,
+		        CopyFeatureExtension.class)
+		    .stream().map(ext -> ext.getCopyFeature(context, this))
+		    .filter(Objects::nonNull).findFirst()
+		    .orElse(super.getCopyFeature(context));
 	}
 
 	@Override
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
-		List<ICustomFeature> customFeatures = (new CustomFeatureProvider(this)).getCustomFeatures(context);
+		List<ICustomFeature> customFeatures = (new CustomFeatureProvider(this))
+		    .getCustomFeatures(context);
 		return customFeatures.toArray(new ICustomFeature[customFeatures.size()]);
 	}
 
 	@Override
 	public IDeleteFeature getDeleteFeature(IDeleteContext context) {
-		IDeleteFeature feature = (new DeleteFeatureProvider(this)).getDeleteFeature(context);
-		if(feature != null) return feature;	else return super.getDeleteFeature(context);
+		IDeleteFeature feature = (new DeleteFeatureProvider(this))
+		    .getDeleteFeature(context);
+		if (feature != null)
+			return feature;
+		else
+			return super.getDeleteFeature(context);
 	}
 
 	@Override
-	public IDirectEditingFeature getDirectEditingFeature(IDirectEditingContext context) {
-		IDirectEditingFeature feature = (new DirectEditingFeatureProvider(this)).getDirectEditingFeature(context);
+	public IDirectEditingFeature getDirectEditingFeature(
+	    IDirectEditingContext context) {
+		IDirectEditingFeature feature = (new DirectEditingFeatureProvider(this))
+		    .getDirectEditingFeature(context);
 		return feature != null ? feature : super.getDirectEditingFeature(context);
 	}
 
@@ -141,35 +170,41 @@ public class RuminaqFeatureProvider extends DefaultFeatureProvider {
 
 	@Override
 	public ILayoutFeature getLayoutFeature(ILayoutContext context) {
-		ILayoutFeature feature = (new LayoutFeatureProvider(this)).getLayoutFeature(context);
+		ILayoutFeature feature = (new LayoutFeatureProvider(this))
+		    .getLayoutFeature(context);
 		return feature != null ? feature : super.getLayoutFeature(context);
 	}
 
 	@Override
 	public IMoveAnchorFeature getMoveAnchorFeature(IMoveAnchorContext context) {
-		IMoveAnchorFeature feature = (new MoveAnchorFeatureProvider(this)).getMoveAnchorFeature(context);
+		IMoveAnchorFeature feature = (new MoveAnchorFeatureProvider(this))
+		    .getMoveAnchorFeature(context);
 		return feature != null ? feature : super.getMoveAnchorFeature(context);
 	}
 
 	@Override
-	public IMoveBendpointFeature getMoveBendpointFeature(IMoveBendpointContext context) {
+	public IMoveBendpointFeature getMoveBendpointFeature(
+	    IMoveBendpointContext context) {
 		return super.getMoveBendpointFeature(context);
 	}
 
 	@Override
-	public IMoveConnectionDecoratorFeature getMoveConnectionDecoratorFeature(IMoveConnectionDecoratorContext context) {
+	public IMoveConnectionDecoratorFeature getMoveConnectionDecoratorFeature(
+	    IMoveConnectionDecoratorContext context) {
 		return super.getMoveConnectionDecoratorFeature(context);
 	}
 
 	@Override
 	public IMoveShapeFeature getMoveShapeFeature(IMoveShapeContext context) {
-		IMoveShapeFeature feature = (new MoveShapeFeatureProvider(this)).getMoveShapeFeature(context);
+		IMoveShapeFeature feature = (new MoveShapeFeatureProvider(this))
+		    .getMoveShapeFeature(context);
 		return feature;
 	}
 
 	@Override
 	public IPasteFeature getPasteFeature(IPasteContext context) {
-		IPasteFeature feature = (new PasteFeatureProvider(this)).getPasteFeature(context);
+		IPasteFeature feature = (new PasteFeatureProvider(this))
+		    .getPasteFeature(context);
 		return feature != null ? feature : super.getPasteFeature(context);
 	}
 
@@ -184,25 +219,31 @@ public class RuminaqFeatureProvider extends DefaultFeatureProvider {
 	}
 
 	@Override
-	public IReconnectionFeature getReconnectionFeature(IReconnectionContext context) {
-		IReconnectionFeature feature = (new ReconnectionFeatureProvider(this)).getReconnectionFeature(context);
+	public IReconnectionFeature getReconnectionFeature(
+	    IReconnectionContext context) {
+		IReconnectionFeature feature = (new ReconnectionFeatureProvider(this))
+		    .getReconnectionFeature(context);
 		return feature != null ? feature : super.getReconnectionFeature(context);
 	}
 
 	@Override
-	public IRemoveBendpointFeature getRemoveBendpointFeature(IRemoveBendpointContext context) {
+	public IRemoveBendpointFeature getRemoveBendpointFeature(
+	    IRemoveBendpointContext context) {
 		return super.getRemoveBendpointFeature(context);
 	}
 
 	@Override
-	public IResizeShapeFeature getResizeShapeFeature(IResizeShapeContext context) {
-		IResizeShapeFeature feature = (new ResizeShapeFeatureProvider(this)).getResizeShapeFeature(context);
+	public IResizeShapeFeature getResizeShapeFeature(
+	    IResizeShapeContext context) {
+		IResizeShapeFeature feature = (new ResizeShapeFeatureProvider(this))
+		    .getResizeShapeFeature(context);
 		return feature != null ? feature : super.getResizeShapeFeature(context);
 	}
 
 	@Override
 	public IUpdateFeature getUpdateFeature(IUpdateContext context) {
-		IUpdateFeature feature = (new UpdateFeatureProvider(this)).getUpdateFeature(context);
+		IUpdateFeature feature = (new UpdateFeatureProvider(this))
+		    .getUpdateFeature(context);
 		return feature != null ? feature : super.getUpdateFeature(context);
 	}
 }

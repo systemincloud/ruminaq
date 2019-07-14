@@ -10,8 +10,8 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.ruminaq.gui.features.CreateElementFeature;
 import org.ruminaq.gui.features.add.AddElementFeature;
+import org.ruminaq.gui.features.create.CreateElementFeature;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.util.GraphicsUtil;
 

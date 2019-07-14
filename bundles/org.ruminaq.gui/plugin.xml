@@ -16,10 +16,11 @@
             id="org.ruminaq.gui.diagram.RuminaqDiagramTypeProvider"
             description="This is the editor for the System in Cloud Task"
             name="Ruminaq">
-         <diagramType   id="org.ruminaq.gui.RuminaqDiagramType" />
+         <diagramType id="org.ruminaq.gui.RuminaqDiagramType" />
          <imageProvider id="org.ruminaq.gui.RuminaqImageProvider" />
       </diagramTypeProvider>
    </extension>
+   
    <extension point="org.eclipse.graphiti.ui.imageProviders">
       <imageProvider
             class="org.ruminaq.gui.providers.ImageProvider"

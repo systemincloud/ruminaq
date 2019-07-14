@@ -4,19 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.gui.providers;
-
-import org.eclipse.graphiti.features.IFeatureProvider;
-
-public abstract class FeatureProvider {
-
-	protected IFeatureProvider fp = null;
-
-	public FeatureProvider(IFeatureProvider fp) {
-		this.fp = fp;
-	}
-
-	protected IFeatureProvider getFeatureProvider() {
-		return fp;
-	}
-}
+/**
+ * Service api extending graphiti integration.
+ *
+ * @author Marek Jagielski
+ */
+package org.ruminaq.gui.api;

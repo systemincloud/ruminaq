@@ -20,28 +20,6 @@ import org.ruminaq.model.ruminaq.BaseElement;
 public final class FeatureUtil {
 
 	@SuppressWarnings("unchecked")
-	public static <T> T getLocalFeature(Class<?> packageClass, Class<T> returnInterface, Config config, Object o, IFeatureProvider fp) {
-		if(o == null) return null;
-		if(config.containsClass(o.getClass().getGenericInterfaces()[0])) {
-			String name = o.getClass().getSimpleName();
-			if(name.endsWith("Impl")) name = name.substring(0, name.length() - 4);
-			Class<?> clazz;
-			try {
-				clazz = packageClass.getClassLoader().loadClass(packageClass.getPackage().getName() + "." + packageClass.getSimpleName().replace("Feature", "") + name + "Feature");
-			} catch (ClassNotFoundException e) { return null; }
-
-			if(returnInterface.isAssignableFrom(clazz)) {
-				try {
-				    return (T) clazz.getConstructor(IFeatureProvider.class).newInstance(fp);
-				} catch (InvocationTargetException | InstantiationException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return null;
-	}
-
-	@SuppressWarnings("unchecked")
 	public static <T> Collection<? extends T> getAllLocalFeatures(Class<?> packageClass, Class<T> returnInterface, Config config, IFeatureProvider fp) {
 		List<T> features = new ArrayList<T>();
 

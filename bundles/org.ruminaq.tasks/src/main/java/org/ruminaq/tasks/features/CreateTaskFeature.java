@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.osgi.framework.Version;
-import org.ruminaq.gui.features.CreateElementFeature;
+import org.ruminaq.gui.features.create.CreateElementFeature;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.desc.IN;

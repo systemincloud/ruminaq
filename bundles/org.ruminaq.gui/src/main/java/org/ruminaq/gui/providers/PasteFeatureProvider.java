@@ -24,16 +24,18 @@ import org.ruminaq.gui.api.GuiExtensionHandler;
 
 public class PasteFeatureProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
+	@Reference
+	private GuiExtensionHandler extensions;
 
 	public PasteFeatureProvider(IFeatureProvider fp) {
 		super(fp);
 	}
 
 	public IPasteFeature getPasteFeature(IPasteContext context) {
-		IPasteFeature feature = extensions.getPasteFeature(context, getFeatureProvider());
-		if(feature != null) return feature;
+		IPasteFeature feature = extensions.getPasteFeature(context,
+		    getFeatureProvider());
+		if (feature != null)
+			return feature;
 		return new PasteElementFeature(getFeatureProvider());
 	}
 }

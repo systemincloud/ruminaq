@@ -54,7 +54,6 @@ import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.model.ruminaq.SimpleConnection;
 import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.tasks.features.PasteTaskFeature;
 import org.ruminaq.util.ColorUtil;
 import org.ruminaq.util.FontUtil;
 import org.ruminaq.util.StyleUtil;

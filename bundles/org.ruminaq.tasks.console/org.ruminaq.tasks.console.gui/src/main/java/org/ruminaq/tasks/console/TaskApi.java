@@ -86,11 +86,6 @@ public class TaskApi implements ITaskApi, LaunchListener {
   }
 
   @Override
-  public Map<String, String> getImageKeyPath() {
-    return Images.getImageKeyPath();
-  }
-
-  @Override
   public void dirmiStarted() {
     DirmiServer.INSTANCE.createSessionAcceptor(
         symbolicName + ":" + version.getMajor() + "." + version.getMinor() + "."

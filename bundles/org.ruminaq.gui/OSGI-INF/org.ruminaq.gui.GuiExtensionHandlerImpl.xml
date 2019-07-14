@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.ruminaq.gui.GuiExtensionHandlerImpl">
-   <service>
-      <provide interface="org.ruminaq.gui.api.GuiExtensionHandler"/>
-   </service>
-   <reference bind="bind" cardinality="0..n" interface="org.ruminaq.gui.api.GuiExtension" policy="dynamic" unbind="unbind"/>
-   <implementation class="org.ruminaq.gui.GuiExtensionHandlerImpl"/>
-</scr:component>

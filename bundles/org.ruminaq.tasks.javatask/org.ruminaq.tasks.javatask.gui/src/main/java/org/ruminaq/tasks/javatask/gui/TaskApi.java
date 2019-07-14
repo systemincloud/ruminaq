@@ -1,6 +1,7 @@
 package org.ruminaq.tasks.javatask.gui;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -100,7 +101,7 @@ public class TaskApi implements EclipseExtension {
     javaClient.setGroupId(GROUP_ID);
     javaClient.setArtifactId(ARTIFACT_ID);
     javaClient.setVersion(VERSION);
-    return Arrays.asList(javaClient);
+    return Collections.singletonList(javaClient);
   }
 
   @Override
