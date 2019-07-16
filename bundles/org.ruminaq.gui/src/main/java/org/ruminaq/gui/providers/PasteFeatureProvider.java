@@ -24,9 +24,6 @@ import org.ruminaq.gui.api.GuiExtensionHandler;
 
 public class PasteFeatureProvider extends FeatureProvider {
 
-	@Reference
-	private GuiExtensionHandler extensions;
-
 	public PasteFeatureProvider(IFeatureProvider fp) {
 		super(fp);
 	}

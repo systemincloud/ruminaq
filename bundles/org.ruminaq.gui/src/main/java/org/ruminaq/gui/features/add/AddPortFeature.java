@@ -16,9 +16,12 @@ import org.ruminaq.model.ruminaq.Port;
 
 public abstract class AddPortFeature extends AddElementFeature {
 
-	public AddPortFeature(IFeatureProvider fp) { super(fp);	}
+	public AddPortFeature(IFeatureProvider fp) {
+		super(fp);
+	}
 
-	protected abstract int       getWidth();
+	protected abstract int getWidth();
+
 	protected abstract LineStyle getLineStyle(Port port);
 
 	@Override
@@ -28,35 +31,40 @@ public abstract class AddPortFeature extends AddElementFeature {
 
 		final IPeCreateService peCreateService = Graphiti.getPeCreateService();
 
-		final ContainerShape containerShape = peCreateService.createContainerShape(context.getTargetContainer(), true);
+		final ContainerShape containerShape = peCreateService
+		    .createContainerShape(context.getTargetContainer(), true);
 		final IGaService gaService = Graphiti.getGaService();
 
 		int width = 30;
 		int height = 15;
 
-        final Rectangle invisibleRectangle = gaService.createInvisibleRectangle(containerShape);
-	    gaService.setLocationAndSize(invisibleRectangle, context.getX(), context.getY(), width, height);
+		final Rectangle invisibleRectangle = gaService
+		    .createInvisibleRectangle(containerShape);
+		gaService.setLocationAndSize(invisibleRectangle, context.getX(),
+		    context.getY(), width, height);
 
-	    // create and set visible rectangle inside invisible rectangle
-	    RoundedRectangle roundedRectangle = gaService.createRoundedRectangle(invisibleRectangle, 20, 20);
-	    roundedRectangle.setParentGraphicsAlgorithm(invisibleRectangle);
-	    roundedRectangle.setStyle(PortStyle.getStyle(getDiagram()));
-	    roundedRectangle.setLineStyle(getLineStyle(port));
-	    roundedRectangle.setLineWidth(getWidth());
-	    gaService.setLocationAndSize(roundedRectangle, 0, 0, width, height);
+		// create and set visible rectangle inside invisible rectangle
+		RoundedRectangle roundedRectangle = gaService
+		    .createRoundedRectangle(invisibleRectangle, 20, 20);
+		roundedRectangle.setParentGraphicsAlgorithm(invisibleRectangle);
+		roundedRectangle.setStyle(PortStyle.getStyle(getDiagram()));
+		roundedRectangle.setLineStyle(getLineStyle(port));
+		roundedRectangle.setLineWidth(getWidth());
+		gaService.setLocationAndSize(roundedRectangle, 0, 0, width, height);
 
 		int x = context.getX();
 		int y = context.getY();
 
-		ContainerShape labelCS = addLabel(targetContainer, port.getId(), width, height, x, y);
-		link(containerShape, new Object[] { port, labelCS});
-		link(labelCS,        new Object[] { port, containerShape});
+		ContainerShape labelCS = addLabel(targetContainer, port.getId(), width,
+		    height, x, y);
+		link(containerShape, new Object[] { port, labelCS });
+		link(labelCS, new Object[] { port, containerShape });
 
 		peCreateService.createChopboxAnchor(containerShape);
 
 		updatePictogramElement(labelCS);
 		layoutPictogramElement(labelCS);
 
-	    return containerShape;
+		return containerShape;
 	}
 }

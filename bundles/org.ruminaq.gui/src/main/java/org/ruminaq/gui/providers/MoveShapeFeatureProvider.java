@@ -32,9 +32,6 @@ import org.ruminaq.tasks.features.MoveInternalPortFeature;
 
 public class MoveShapeFeatureProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
-
 	public MoveShapeFeatureProvider(IFeatureProvider fp) {
 		super(fp);
 	}

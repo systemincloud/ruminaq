@@ -16,7 +16,6 @@
 package org.ruminaq.gui.diagram;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
@@ -62,10 +61,10 @@ import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 import org.ruminaq.gui.api.AddFeatureExtension;
+import org.ruminaq.gui.api.CopyFeatureExtension;
 import org.ruminaq.gui.api.CreateConnectionFeaturesExtension;
 import org.ruminaq.gui.api.CreateFeaturesExtension;
-import org.ruminaq.gui.providers.CopyFeatureProvider;
-import org.ruminaq.gui.providers.CustomFeatureProvider;
+import org.ruminaq.gui.api.CustomFeaturesExtension;
 import org.ruminaq.gui.providers.DeleteFeatureProvider;
 import org.ruminaq.gui.providers.DirectEditingFeatureProvider;
 import org.ruminaq.gui.providers.LayoutFeatureProvider;
@@ -140,9 +139,11 @@ public class RuminaqFeatureProvider extends DefaultFeatureProvider {
 
 	@Override
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
-		List<ICustomFeature> customFeatures = (new CustomFeatureProvider(this))
-		    .getCustomFeatures(context);
-		return customFeatures.toArray(new ICustomFeature[customFeatures.size()]);
+		return ServiceUtil
+		    .getServicesAtLatestVersion(RuminaqFeatureProvider.class,
+		    		CustomFeaturesExtension.class)
+		    .stream().map(ext -> ext.getCustomFeatures(this))
+		    .flatMap(Collection::stream).toArray(size -> new ICustomFeature[size]);
 	}
 
 	@Override

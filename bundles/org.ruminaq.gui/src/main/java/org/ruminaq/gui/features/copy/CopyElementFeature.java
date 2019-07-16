@@ -1,4 +1,4 @@
-package org.ruminaq.gui.features;
+package org.ruminaq.gui.features.copy;
 
 import java.util.HashSet;
 import java.util.Set;

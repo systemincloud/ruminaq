@@ -7,7 +7,7 @@ import org.eclipse.graphiti.features.IAddFeature;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.AddFeatureExtension;
 
-@Component
+@Component(property = { "service.ranking:Integer=5" })
 public class AddFeatures implements AddFeatureExtension {
 
 	@Override

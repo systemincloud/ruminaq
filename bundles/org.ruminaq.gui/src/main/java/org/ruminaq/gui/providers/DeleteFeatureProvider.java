@@ -28,9 +28,6 @@ import org.ruminaq.gui.api.GuiExtensionHandler;
 
 public class DeleteFeatureProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
-
 	public DeleteFeatureProvider(IFeatureProvider fp) {
 		super(fp);
 	}

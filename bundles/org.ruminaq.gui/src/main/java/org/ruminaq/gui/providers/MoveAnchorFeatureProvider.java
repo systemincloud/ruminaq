@@ -23,9 +23,6 @@ import org.ruminaq.gui.api.GuiExtensionHandler;
 
 public class MoveAnchorFeatureProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
-
 	public MoveAnchorFeatureProvider(IFeatureProvider fp) {
 		super(fp);
 	}

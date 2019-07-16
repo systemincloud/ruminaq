@@ -14,59 +14,70 @@ import org.osgi.util.tracker.ServiceTracker;
 
 public final class ServiceUtil {
 
-  private ServiceUtil() {
-  }
+	private static final String SERVICE_RANKING_PROPERTY = "service.ranking";
 
-  public static <T> T getService(Class<T> clazz) {
-    Bundle bundle = FrameworkUtil.getBundle(ServiceUtil.class);
-    if (bundle != null) {
-      ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(), clazz, null);
-      st.open();
-      try {
-        return st.waitForService(1000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    }
-    return null;
-  }
+	private ServiceUtil() {
+	}
 
-  public static <T> Collection<T> getServices(Class<?> bundleClazz, Class<T> clazz) {
-    Bundle bundle = FrameworkUtil.getBundle(bundleClazz);
-    if (bundle != null) {
-      ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(), clazz, null);
-      st.open();
-      ServiceReference<T>[] srs = st.getServiceReferences();
-      if (srs != null) {
-        return Stream.of(srs)
-            .<T>map(st::getService)
-            .collect(Collectors.<T>toList());
-      }
-    }
-    return Collections.emptyList();
-  }
+	public static <T> T getService(Class<T> clazz) {
+		Bundle bundle = FrameworkUtil.getBundle(ServiceUtil.class);
+		if (bundle != null) {
+			ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(),
+			    clazz, null);
+			st.open();
+			try {
+				return st.waitForService(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 
-  public static <T> Collection<T> getServicesAtLatestVersion(Class<?> bundleClazz, Class<T> clazz) {
-    Bundle bundle = FrameworkUtil.getBundle(bundleClazz);
-    if (bundle != null) {
-      ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(), clazz, null);
-      st.open();
-      ServiceReference<T>[] srs = st.getServiceReferences();
-      if (srs != null) {
-        return Stream.of(srs)
-            .<SimpleEntry<ServiceReference<T>, T>>map(r -> new SimpleEntry<ServiceReference<T>, T>(r, st.getService(r)))
-            .collect(Collectors.groupingBy(e -> e.getKey().getBundle().getSymbolicName()))
-            .entrySet()
-            .stream()
-            .map(e -> e.getValue()
-                .stream()
-                .max(Comparator.comparing(r -> r.getKey().getBundle().getVersion()))
-                .get()
-                .getValue())
-            .collect(Collectors.toList());
-      }
-    }
+	public static <T> Collection<T> getServices(Class<?> bundleClazz,
+	    Class<T> clazz) {
+		Bundle bundle = FrameworkUtil.getBundle(bundleClazz);
+		if (bundle != null) {
+			ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(),
+			    clazz, null);
+			st.open();
+			ServiceReference<T>[] srs = st.getServiceReferences();
+			if (srs != null) {
+				return Stream.of(srs)
+				    .sorted(((s1, s2) -> Integer.compare(
+				        (Integer) s2.getProperty(SERVICE_RANKING_PROPERTY),
+				        (Integer) s1.getProperty(SERVICE_RANKING_PROPERTY))))
+				    .<T>map(st::getService).collect(Collectors.<T>toList());
+			}
+		}
+		return Collections.emptyList();
+	}
 
-    return Collections.emptyList();
-  }
+	public static <T> Collection<T> getServicesAtLatestVersion(
+	    Class<?> bundleClazz, Class<T> clazz) {
+		Bundle bundle = FrameworkUtil.getBundle(bundleClazz);
+		if (bundle != null) {
+			ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(),
+			    clazz, null);
+			st.open();
+			ServiceReference<T>[] srs = st.getServiceReferences();
+			if (srs != null) {
+				return Stream.of(srs).<SimpleEntry<ServiceReference<T>, T>>map(
+				    r -> new SimpleEntry<ServiceReference<T>, T>(r, st.getService(r)))
+				    .collect(Collectors
+				        .groupingBy(e -> e.getKey().getBundle().getSymbolicName()))
+				    .entrySet().stream()
+				    .map(e -> e.getValue().stream()
+				        .max(Comparator
+				            .comparing(r -> r.getKey().getBundle().getVersion()))
+				        .get())
+				    .sorted(((s1, s2) -> Integer.compare(
+				        (Integer) s2.getKey().getProperty(SERVICE_RANKING_PROPERTY),
+				        (Integer) s1.getKey().getProperty(SERVICE_RANKING_PROPERTY))))
+				    .map(SimpleEntry::getValue).collect(Collectors.toList());
+			}
+		}
+
+		return Collections.emptyList();
+	}
 }

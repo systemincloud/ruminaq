@@ -35,9 +35,6 @@ import org.ruminaq.tasks.features.ResizeShapeTaskFeature;
 
 public class ResizeShapeFeatureProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
-
 	public ResizeShapeFeatureProvider(IFeatureProvider fp) {
 		super(fp);
 	}

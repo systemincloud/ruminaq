@@ -41,47 +41,61 @@ import org.ruminaq.tasks.TaskProvider;
 
 public class ContextButtonPadDataProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
-
 	public ContextButtonPadDataProvider(IFeatureProvider fp) {
 		super(fp);
 	}
 
-	public IContextButtonPadData getContextButtonPad(IPictogramElementContext context, RuminaqBehaviorProvider toolBehaviorProvider, IContextButtonPadData data) {
+	public IContextButtonPadData getContextButtonPad(
+	    IPictogramElementContext context,
+	    RuminaqBehaviorProvider toolBehaviorProvider,
+	    IContextButtonPadData data) {
 		PictogramElement pe = context.getPictogramElement();
 
-		String labelProperty = Graphiti.getPeService().getPropertyValue(pe,	Constants.LABEL_PROPERTY);
-		String portLabelProperty = Graphiti.getPeService().getPropertyValue(pe,	Constants.PORT_LABEL_PROPERTY);
-		if (Boolean.parseBoolean(labelProperty) || Boolean.parseBoolean(portLabelProperty)) {
+		String labelProperty = Graphiti.getPeService().getPropertyValue(pe,
+		    Constants.LABEL_PROPERTY);
+		String portLabelProperty = Graphiti.getPeService().getPropertyValue(pe,
+		    Constants.PORT_LABEL_PROPERTY);
+		if (Boolean.parseBoolean(labelProperty)
+		    || Boolean.parseBoolean(portLabelProperty)) {
 			toolBehaviorProvider.setGenericContextButtonsProxy(data, pe, 0);
 			return data;
 		}
 
-		toolBehaviorProvider.setGenericContextButtonsProxy(data, pe, Constants.CONTEXT_BUTTON_DELETE);
+		toolBehaviorProvider.setGenericContextButtonsProxy(data, pe,
+		    Constants.CONTEXT_BUTTON_DELETE);
 
-	    Object bo = getFeatureProvider().getBusinessObjectForPictogramElement(pe);
+		Object bo = getFeatureProvider().getBusinessObjectForPictogramElement(pe);
 
-	    List<IContextButtonPadTool> tools = new ArrayList<>();
+		List<IContextButtonPadTool> tools = new ArrayList<>();
 
-		String connectionPointProperty = Graphiti.getPeService().getPropertyValue(pe, Constants.SIMPLE_CONNECTION_POINT);
-		if(Boolean.parseBoolean(connectionPointProperty)) {
-			tools.add(new ContextButtonPadFlowSourceTool     (getFeatureProvider()));
+		String connectionPointProperty = Graphiti.getPeService()
+		    .getPropertyValue(pe, Constants.SIMPLE_CONNECTION_POINT);
+		if (Boolean.parseBoolean(connectionPointProperty)) {
+			tools.add(new ContextButtonPadFlowSourceTool(getFeatureProvider()));
 			tools.add(new ContextButtonPadConnectionPointTool(getFeatureProvider()));
 		}
 
-	    if(bo instanceof FlowSource)   tools.add(new ContextButtonPadFlowSourceTool  (getFeatureProvider()));
-	    if(bo instanceof BaseElement)  tools.add(new ContextButtonPadBaseElementTool (getFeatureProvider()));
-	    if(bo instanceof InternalPort) tools.add(new ContextButtonPadInternalPortTool(getFeatureProvider()));
-	    if(bo instanceof Port)         tools.add(new ContextButtonPadPortTool        (getFeatureProvider()));
+		if (bo instanceof FlowSource)
+			tools.add(new ContextButtonPadFlowSourceTool(getFeatureProvider()));
+		if (bo instanceof BaseElement)
+			tools.add(new ContextButtonPadBaseElementTool(getFeatureProvider()));
+		if (bo instanceof InternalPort)
+			tools.add(new ContextButtonPadInternalPortTool(getFeatureProvider()));
+		if (bo instanceof Port)
+			tools.add(new ContextButtonPadPortTool(getFeatureProvider()));
 
-	    tools.addAll(extensions.getContextButtonPadTools(bo));
-	    tools.addAll(TaskProvider.INSTANCE.getContextButtonPadTools(fp, bo));
+		tools.addAll(extensions.getContextButtonPadTools(bo));
+		tools.addAll(TaskProvider.INSTANCE.getContextButtonPadTools(fp, bo));
 
-		for(IContextButtonPadTool t : tools) {
-			data.getDomainSpecificContextButtons().addAll(t.getContextButtonPad(context));
-			if(t.getGenericContextButtons() != -1) toolBehaviorProvider.setGenericContextButtonsProxy(data, pe, t.getGenericContextButtons());
-			if(t.getPadLocation(data.getPadLocation().getRectangleCopy()) != null) data.getPadLocation().setRectangle(t.getPadLocation(data.getPadLocation().getRectangleCopy()));
+		for (IContextButtonPadTool t : tools) {
+			data.getDomainSpecificContextButtons()
+			    .addAll(t.getContextButtonPad(context));
+			if (t.getGenericContextButtons() != -1)
+				toolBehaviorProvider.setGenericContextButtonsProxy(data, pe,
+				    t.getGenericContextButtons());
+			if (t.getPadLocation(data.getPadLocation().getRectangleCopy()) != null)
+				data.getPadLocation().setRectangle(
+				    t.getPadLocation(data.getPadLocation().getRectangleCopy()));
 		}
 
 		return data;

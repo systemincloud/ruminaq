@@ -27,9 +27,6 @@ import org.ruminaq.tasks.TaskProvider;
 
 public class DecoratorProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
-
 	public DecoratorProvider(IFeatureProvider fp) { super(fp); }
 
 	public IDecorator[] getDecorators(PictogramElement pe) {

@@ -30,9 +30,6 @@ import org.ruminaq.tasks.TaskProvider;
 
 public class DoubleClickFeatureProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
-
 	public DoubleClickFeatureProvider(IFeatureProvider fp) {
 		super(fp);
 	}

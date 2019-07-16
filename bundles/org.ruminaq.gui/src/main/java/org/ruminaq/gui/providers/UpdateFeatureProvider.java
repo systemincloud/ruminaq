@@ -36,30 +36,42 @@ import org.ruminaq.tasks.TaskProvider;
 
 public class UpdateFeatureProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
-
-	public UpdateFeatureProvider(IFeatureProvider fp) { super(fp); }
+	public UpdateFeatureProvider(IFeatureProvider fp) {
+		super(fp);
+	}
 
 	public IUpdateFeature getUpdateFeature(IUpdateContext context) {
-		if(context.getPictogramElement() instanceof ContainerShape) {
+		if (context.getPictogramElement() instanceof ContainerShape) {
 			ContainerShape cs = (ContainerShape) context.getPictogramElement();
-			String labelProperty = Graphiti.getPeService().getPropertyValue(cs,	Constants.LABEL_PROPERTY);
-			if (Boolean.parseBoolean(labelProperty)) return new UpdateLabelFeature(getFeatureProvider());
+			String labelProperty = Graphiti.getPeService().getPropertyValue(cs,
+			    Constants.LABEL_PROPERTY);
+			if (Boolean.parseBoolean(labelProperty))
+				return new UpdateLabelFeature(getFeatureProvider());
 		}
 
-	    PictogramElement pe = context.getPictogramElement();
+		PictogramElement pe = context.getPictogramElement();
 		Object bo = getFeatureProvider().getBusinessObjectForPictogramElement(pe);
-		if(bo == null) return null;
+		if (bo == null)
+			return null;
 
-		IUpdateFeature localFeature     = FeatureUtil.getLocalFeature(UpdateFeature.class, IUpdateFeature.class, CommonConfig.getInstance(), bo, getFeatureProvider());
-		IUpdateFeature taskFeature      = TaskProvider.INSTANCE.getUpdateFeature(context, getFeatureProvider());
-		IUpdateFeature extensionFeature = extensions.getUpdateFeature(context, getFeatureProvider());
-		if(extensionFeature != null)       return extensionFeature;
-		else if(bo instanceof MainTask)    return new UpdateMainTaskFeature(getFeatureProvider());
-		else if(localFeature != null)      return localFeature;
-		else if(taskFeature != null)       return taskFeature;
-		else if(bo instanceof BaseElement) return new UpdateBaseElementFeature(getFeatureProvider());
-		else return null;
+		IUpdateFeature localFeature = FeatureUtil.getLocalFeature(
+		    UpdateFeature.class, IUpdateFeature.class, CommonConfig.getInstance(),
+		    bo, getFeatureProvider());
+		IUpdateFeature taskFeature = TaskProvider.INSTANCE.getUpdateFeature(context,
+		    getFeatureProvider());
+		IUpdateFeature extensionFeature = extensions.getUpdateFeature(context,
+		    getFeatureProvider());
+		if (extensionFeature != null)
+			return extensionFeature;
+		else if (bo instanceof MainTask)
+			return new UpdateMainTaskFeature(getFeatureProvider());
+		else if (localFeature != null)
+			return localFeature;
+		else if (taskFeature != null)
+			return taskFeature;
+		else if (bo instanceof BaseElement)
+			return new UpdateBaseElementFeature(getFeatureProvider());
+		else
+			return null;
 	}
 }

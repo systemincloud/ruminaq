@@ -26,9 +26,6 @@ import org.ruminaq.model.ruminaq.SimpleConnection;
 
 public class ReconnectionFeatureProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
-
 	public ReconnectionFeatureProvider(IFeatureProvider fp) {
 		super(fp);
 	}

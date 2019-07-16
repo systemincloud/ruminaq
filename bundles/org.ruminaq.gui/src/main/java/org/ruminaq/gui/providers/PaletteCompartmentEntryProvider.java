@@ -33,9 +33,6 @@ import org.ruminaq.tasks.TaskProvider;
 
 public class PaletteCompartmentEntryProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
-
 	public PaletteCompartmentEntryProvider(IFeatureProvider fp) { super(fp); }
 
 	public IPaletteCompartmentEntry[] getPalette() {

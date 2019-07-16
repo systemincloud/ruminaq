@@ -26,9 +26,6 @@ import org.ruminaq.gui.label.DirectEditLabelFeature;
 
 public class DirectEditingFeatureProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
-
 	public DirectEditingFeatureProvider(IFeatureProvider fp) {
 		super(fp);
 	}

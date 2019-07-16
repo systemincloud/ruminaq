@@ -26,9 +26,6 @@ import org.ruminaq.tasks.features.LayoutTaskFeature;
 
 public class LayoutFeatureProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
-
 	public LayoutFeatureProvider(IFeatureProvider fp) {
 		super(fp);
 	}
