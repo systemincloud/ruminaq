@@ -29,9 +29,6 @@ import org.ruminaq.model.ruminaq.Task;
 
 public interface ITaskApi {
 
-    String  getSymbolicName();
-    Version getVersion();
-
     default List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
         return Collections.emptyList();
     }

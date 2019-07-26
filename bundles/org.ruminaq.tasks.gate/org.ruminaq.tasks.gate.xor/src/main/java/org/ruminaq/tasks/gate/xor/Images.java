@@ -6,22 +6,36 @@ import java.util.Map;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.service.component.annotations.Component;
+import org.ruminaq.gui.api.ImageDescriptor;
+import org.ruminaq.gui.api.ImagesExtension;
 
-public class Images {
-
-	public enum K {
+@Component
+public class Images implements ImagesExtension {
+	
+	public enum Image implements ImageDescriptor {
 		IMG_XOR_PALETTE("/icons/palette.xor.png"),
 		IMG_XOR_DIAGRAM("/icons/diagram.xor.png")
 		;
-		
-		public String path;
-		K(String path) { this.path =  path; }
+
+		private String path;
+
+		Image(String path) {
+			this.path = path;
+		}
+
+		@Override
+		public String path() {
+			return path;
+		}
+
+		@Override
+		public Class<?> clazz() {
+			return Image.class;
+		}
 	}
 	
-	static Map<String, String> images = new HashMap<String, String>() {	private static final long serialVersionUID = 1L; {
-		for (final K v : K.values())
-			put(v.name(), FileLocator.find(FrameworkUtil.getBundle(this.getClass()), new Path(v.path), null).toString());
-	}};
-	
-	public static Map<String, String> getImageKeyPath() { return images; }
+	public ImageDescriptor[] getImageDecriptors() {
+		return Image.values();
+	}
 }

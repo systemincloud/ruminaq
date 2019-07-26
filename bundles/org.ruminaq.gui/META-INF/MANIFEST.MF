@@ -94,4 +94,5 @@ Service-Component: OSGI-INF/org.ruminaq.gui.Images.xml,
  OSGI-INF/org.ruminaq.gui.features.delete.DeleteFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.paste.PasteFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.custom.CustomFeatures.xml,
- OSGI-INF/org.ruminaq.gui.features.reconnection.ReconnectionFeatures.xml
+ OSGI-INF/org.ruminaq.gui.features.reconnection.ReconnectionFeatures.xml,
+ OSGI-INF/org.ruminaq.gui.features.resize.ResizeShapeFeatures.xml

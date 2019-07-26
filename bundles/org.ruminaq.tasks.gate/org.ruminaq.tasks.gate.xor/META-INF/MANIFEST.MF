@@ -36,19 +36,23 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.ui.plugin,
  org.eclipse.wb.swt,
  org.osgi.framework,
+ org.osgi.service.component.annotations;version="1.3.0",
  org.ruminaq.consts,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui.features,
+ org.ruminaq.model.desc,
  org.ruminaq.model.ruminaq,
  org.ruminaq.tasks,
  org.ruminaq.tasks.api,
  org.ruminaq.tasks.features,
  org.ruminaq.tasks.gate,
  org.ruminaq.tasks.gate.features,
- org.ruminaq.tasks.gate.xor.model.xor,
  org.ruminaq.tasks.gate.model.gate,
- org.ruminaq.model.desc,
+ org.ruminaq.tasks.gate.xor.model.xor,
  org.slf4j
 Export-Package: org.ruminaq.tasks.gate.xor.features
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
+Service-Component: OSGI-INF/org.ruminaq.tasks.gate.xor.Extension.xml,
+ OSGI-INF/org.ruminaq.tasks.gate.xor.Images.xml
+Bundle-ActivationPolicy: lazy
