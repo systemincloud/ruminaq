@@ -13,14 +13,23 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.features.RuminaqFeature;
+import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.add.AddSimpleConnectionFeature.Filter;
+import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.SimpleConnection;
 import org.ruminaq.util.GraphicsUtil;
 import org.ruminaq.util.Util;
 
-@RuminaqFeature(SimpleConnection.class)
+@FeatureFilter(Filter.class)
 public class AddSimpleConnectionFeature extends AbstractAddFeature {
 
+	static class Filter extends AddFeatureFilter {
+		@Override
+		public Class<? extends BaseElement> forBusinessObject() {
+			return SimpleConnection.class;
+		}
+	}
+	
 	public static final String ARROW_DECORATOR = "ARROW_DECORATOR";
 
 	public AddSimpleConnectionFeature(IFeatureProvider fp) {
@@ -29,8 +38,7 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
 
 	@Override
 	public boolean canAdd(IAddContext context) {
-		return context instanceof IAddConnectionContext
-		    && context.getNewObject() instanceof SimpleConnection;
+		return context instanceof IAddConnectionContext;
 	}
 
 	@Override

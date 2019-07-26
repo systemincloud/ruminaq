@@ -4,12 +4,21 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.ruminaq.gui.features.RuminaqFeature;
+import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.add.AddInputPortFeature.Filter;
+import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.Port;
 
-@RuminaqFeature(InputPort.class)
+@FeatureFilter(Filter.class)
 public class AddInputPortFeature extends AddPortFeature {
+
+	static class Filter extends AddFeatureFilter {
+		@Override
+		public Class<? extends BaseElement> forBusinessObject() {
+			return InputPort.class;
+		}
+	}
 
 	public AddInputPortFeature(IFeatureProvider fp) {
 		super(fp);
@@ -17,8 +26,7 @@ public class AddInputPortFeature extends AddPortFeature {
 
 	@Override
 	public boolean canAdd(IAddContext context) {
-		return context.getNewObject() instanceof InputPort
-		    && context.getTargetContainer() instanceof Diagram;
+		return context.getTargetContainer() instanceof Diagram;
 	}
 
 	@Override
@@ -28,9 +36,10 @@ public class AddInputPortFeature extends AddPortFeature {
 
 	@Override
 	protected LineStyle getLineStyle(Port port) {
-		if (((InputPort) port).isAsynchronous())
+		if (((InputPort) port).isAsynchronous()) {
 			return LineStyle.DOT;
-		else
+		} else {
 			return LineStyle.SOLID;
+		}
 	}
 }
