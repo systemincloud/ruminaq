@@ -22,7 +22,7 @@ public class PasteFeatures implements PasteFeatureExtension {
 	@Override
 	public Predicate<? super Class<? extends IPasteFeature>> filter(
 	    IContext context, IFeatureProvider fp) {
-		IPasteContext addContext = (IPasteContext) context;
+		IPasteContext pasteContext = (IPasteContext) context;
 		return (Class<?> clazz) -> {
 			return true;
 		};

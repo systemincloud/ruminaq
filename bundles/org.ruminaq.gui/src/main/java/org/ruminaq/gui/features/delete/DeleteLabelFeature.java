@@ -15,8 +15,6 @@
  */
 package org.ruminaq.gui.features.delete;
 
-import java.util.function.Predicate;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
@@ -24,12 +22,13 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.delete.DeleteLabelFeature.Filter;
 
 @FeatureFilter(Filter.class)
 public class DeleteLabelFeature extends RuminaqDeleteFeature {
 
-	static class Filter implements Predicate<IContext> {
+	static class Filter implements FeaturePredicate<IContext> {
 		@Override
 		public boolean test(IContext context) {
 			IDeleteContext deleteContext = (IDeleteContext) context;

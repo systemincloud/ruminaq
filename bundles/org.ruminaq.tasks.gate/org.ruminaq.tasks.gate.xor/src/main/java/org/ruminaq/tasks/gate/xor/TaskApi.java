@@ -23,27 +23,9 @@ import org.ruminaq.tasks.gate.xor.model.xor.XorPackage;
 
 public class TaskApi implements ITaskApi, EclipseExtension {
 
-	private String  symbolicName;
-	private Version version;
-
 	@Override
 	public void initEditor() {
 	    XorPackage.eINSTANCE.getClass();
-	}
-
-	@Override
-	public String getSymbolicName() {
-	    return symbolicName;
-	}
-
-	@Override
-	public Version getVersion() {
-	    return version;
-	}
-
-	public TaskApi(String symbolicName, Version version) {
-		this.symbolicName = symbolicName;
-		this.version = version;
 	}
 
 	@Override

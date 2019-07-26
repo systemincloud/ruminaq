@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.FeaturePredicate;
 
 public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
 
@@ -25,22 +26,21 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
 		return clazz -> {
 			return Optional.ofNullable(clazz.getAnnotation(FeatureFilter.class))
 			    .map(FeatureFilter::value)
-			    .<Constructor<? extends Predicate<IContext>>>map(f -> {
+			    .<Constructor<? extends FeaturePredicate<IContext>>>map(f -> {
 				    try {
 					    return f.getConstructor();
 				    } catch (NoSuchMethodException | SecurityException e) {
 					    return null;
 				    }
-			    }).<Predicate<IContext>>map(c -> {
+			    }).<FeaturePredicate<IContext>>map(c -> {
 				    try {
 					    return c.newInstance();
 				    } catch (InstantiationException | IllegalAccessException
 				        | IllegalArgumentException | InvocationTargetException e) {
 					    return null;
 				    }
-			    }).orElse(c -> {
-				    return true;
-			    }).test(context);
+			    }).orElse(new FeaturePredicate<IContext>() {
+			    }).test(context, fp);
 		};
 	}
 

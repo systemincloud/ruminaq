@@ -19,7 +19,8 @@ import org.eclipse.graphiti.dt.AbstractDiagramTypeProvider;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.tb.IToolBehaviorProvider;
 
-public class RuminaqDiagramTypeProvider extends AbstractDiagramTypeProvider implements IDiagramTypeProvider {
+public class RuminaqDiagramTypeProvider extends AbstractDiagramTypeProvider
+    implements IDiagramTypeProvider {
 
 	private IToolBehaviorProvider[] toolBehaviorProviders;
 
@@ -30,7 +31,8 @@ public class RuminaqDiagramTypeProvider extends AbstractDiagramTypeProvider impl
 	@Override
 	public IToolBehaviorProvider[] getAvailableToolBehaviorProviders() {
 		if (toolBehaviorProviders == null) {
-			toolBehaviorProviders = new IToolBehaviorProvider[] { new RuminaqBehaviorProvider(this) };
+			toolBehaviorProviders = new IToolBehaviorProvider[] {
+			    new RuminaqBehaviorProvider(this) };
 		}
 		return toolBehaviorProviders;
 	}

@@ -4,12 +4,11 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.function.Predicate;
 
 import org.eclipse.graphiti.features.context.IContext;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface FeatureFilter {
-	Class<? extends Predicate<IContext>> value();
+	Class<? extends FeaturePredicate<IContext>> value();
 }
