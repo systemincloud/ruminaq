@@ -18,14 +18,14 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.features.add.AddElementFeature;
 import org.ruminaq.gui.features.paste.PasteAnchorTracker;
 import org.ruminaq.gui.features.paste.PasteDefaultElementFeature;
-import org.ruminaq.gui.features.paste.SicPasteFeature;
+import org.ruminaq.gui.features.paste.RuminaqPasteFeature;
 import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.util.TasksUtil;
 
-public class PasteTaskFeature extends SicPasteFeature implements PasteAnchorTracker {
+public class PasteTaskFeature extends RuminaqPasteFeature implements PasteAnchorTracker {
 
 	private PictogramElement oldPe;
 	private int              xMin;

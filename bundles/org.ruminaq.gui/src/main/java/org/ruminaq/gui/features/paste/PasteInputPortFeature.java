@@ -18,7 +18,7 @@ import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.MainTask;
 
-public class PasteInputPortFeature extends SicPasteFeature
+public class PasteInputPortFeature extends RuminaqPasteFeature
     implements PasteAnchorTracker {
 
 	private PictogramElement oldPe;

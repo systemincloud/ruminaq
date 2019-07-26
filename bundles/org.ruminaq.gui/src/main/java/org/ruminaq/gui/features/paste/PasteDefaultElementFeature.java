@@ -15,7 +15,7 @@ import org.ruminaq.gui.features.create.CreateElementFeature;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.util.GraphicsUtil;
 
-public class PasteDefaultElementFeature extends SicPasteFeature {
+public class PasteDefaultElementFeature extends RuminaqPasteFeature {
 
 	public PasteDefaultElementFeature(IFeatureProvider fp, PictogramElement oldPe, int xMin, int yMin) {
 		super(fp);

@@ -23,7 +23,7 @@ import org.ruminaq.model.ruminaq.FlowTarget;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.SimpleConnection;
 
-public class PasteSimpleConnections extends SicPasteFeature {
+public class PasteSimpleConnections extends RuminaqPasteFeature {
 
 	private Map<FlowSource, Anchor> oldFlowSources;
 	private Map<FlowTarget, Anchor> oldFlowTargets;
@@ -33,14 +33,17 @@ public class PasteSimpleConnections extends SicPasteFeature {
 	private IFeatureProvider fp;
 
 	private Map<SimpleConnection, SimpleConnection> oldSCnewSC = new HashMap<>();
-	private Map<Connection, Connection>             newColdC   = new HashMap<>();
+	private Map<Connection, Connection> newColdC = new HashMap<>();
 
-	@Override public List<PictogramElement> getNewPictogramElements() { return newPes; }
+	@Override
+	public List<PictogramElement> getNewPictogramElements() {
+		return newPes;
+	}
 
 	public PasteSimpleConnections(Map<FlowSource, Anchor> flowSources,
-			Map<FlowTarget, Anchor> flowTargets,
-			Map<Connection, List<SimpleConnection>> peBos,
-			Map<Anchor, Anchor> anchors, IFeatureProvider fp) {
+	    Map<FlowTarget, Anchor> flowTargets,
+	    Map<Connection, List<SimpleConnection>> peBos,
+	    Map<Anchor, Anchor> anchors, IFeatureProvider fp) {
 		super(fp);
 		this.oldFlowSources = flowSources;
 		this.oldFlowTargets = flowTargets;
@@ -52,31 +55,39 @@ public class PasteSimpleConnections extends SicPasteFeature {
 	@Override
 	public void paste(IPasteContext context) {
 		// Create business objects
-		for(List<SimpleConnection> lsc : oldDiagramElementBusinessObjects
-				.values())
+		for (List<SimpleConnection> lsc : oldDiagramElementBusinessObjects.values())
 			for (SimpleConnection sc : lsc)
 				if (!oldSCnewSC.containsKey(sc)) {
 					SimpleConnection newSc = EcoreUtil.copy(sc);
-					Object o1 = fp.getBusinessObjectForPictogramElement(oldAnchorNewAnchor.get(oldFlowSources.get(newSc.getSourceRef())).getParent());
-					if (o1 instanceof FlowSource) newSc.setSourceRef((FlowSource) o1);
-					Object o2 = fp.getBusinessObjectForPictogramElement(oldAnchorNewAnchor.get(oldFlowTargets.get(newSc.getTargetRef())).getParent());
-					if (o2 instanceof FlowTarget) newSc.setTargetRef((FlowTarget) o2);
-					MainTask mt = ModelHandler.getModel(fp.getDiagramTypeProvider().getDiagram(), fp);
+					Object o1 = fp.getBusinessObjectForPictogramElement(oldAnchorNewAnchor
+					    .get(oldFlowSources.get(newSc.getSourceRef())).getParent());
+					if (o1 instanceof FlowSource)
+						newSc.setSourceRef((FlowSource) o1);
+					Object o2 = fp.getBusinessObjectForPictogramElement(oldAnchorNewAnchor
+					    .get(oldFlowTargets.get(newSc.getTargetRef())).getParent());
+					if (o2 instanceof FlowTarget)
+						newSc.setTargetRef((FlowTarget) o2);
+					MainTask mt = ModelHandler
+					    .getModel(fp.getDiagramTypeProvider().getDiagram(), fp);
 					mt.getConnection().add(newSc);
 					oldSCnewSC.put(sc, newSc);
 				}
 
-		for(Entry<FlowSource, Anchor> fs : oldFlowSources.entrySet()) {
+		for (Entry<FlowSource, Anchor> fs : oldFlowSources.entrySet()) {
 			Anchor oldAnchor = fs.getValue();
-			int oldX = Graphiti.getPeLayoutService().getLocationRelativeToDiagram(oldAnchor).getX();
-			int oldY = Graphiti.getPeLayoutService().getLocationRelativeToDiagram(oldAnchor).getY();
+			int oldX = Graphiti.getPeLayoutService()
+			    .getLocationRelativeToDiagram(oldAnchor).getX();
+			int oldY = Graphiti.getPeLayoutService()
+			    .getLocationRelativeToDiagram(oldAnchor).getY();
 			Anchor newAnchor = oldAnchorNewAnchor.get(oldAnchor);
-			int newX = Graphiti.getPeLayoutService().getLocationRelativeToDiagram(newAnchor).getX();
-			int newY = Graphiti.getPeLayoutService().getLocationRelativeToDiagram(newAnchor).getY();
+			int newX = Graphiti.getPeLayoutService()
+			    .getLocationRelativeToDiagram(newAnchor).getX();
+			int newY = Graphiti.getPeLayoutService()
+			    .getLocationRelativeToDiagram(newAnchor).getY();
 			int deltaX = newX - oldX;
 			int deltaY = newY - oldY;
-			for(Connection c : oldAnchor.getOutgoingConnections()) {
-				if(oldDiagramElementBusinessObjects.containsKey(c)) {
+			for (Connection c : oldAnchor.getOutgoingConnections()) {
+				if (oldDiagramElementBusinessObjects.containsKey(c)) {
 					Connection newC = EcoreUtil.copy(c);
 					newPes.add(newC);
 					newC.setStart(newAnchor);
@@ -91,9 +102,10 @@ public class PasteSimpleConnections extends SicPasteFeature {
 			}
 		}
 
-		for(Entry<Connection, Connection> c : newColdC.entrySet()) {
+		for (Entry<Connection, Connection> c : newColdC.entrySet()) {
 			List<SimpleConnection> newSc = new LinkedList<>();
-			for(SimpleConnection old : oldDiagramElementBusinessObjects.get(c.getValue()))
+			for (SimpleConnection old : oldDiagramElementBusinessObjects
+			    .get(c.getValue()))
 				newSc.add(oldSCnewSC.get(old));
 
 			fp.link(c.getKey(), newSc.toArray(new Object[newSc.size()]));
@@ -102,18 +114,22 @@ public class PasteSimpleConnections extends SicPasteFeature {
 
 	private Anchor getEndAnchor(Connection c, int deltaX, int deltaY) {
 		Anchor ret = null;
-		if(oldAnchorNewAnchor.containsKey(c.getEnd()))  ret = oldAnchorNewAnchor.get(c.getEnd());
+		if (oldAnchorNewAnchor.containsKey(c.getEnd()))
+			ret = oldAnchorNewAnchor.get(c.getEnd());
 		else {
 			Shape end = (Shape) c.getEnd().getParent();
-			if(Graphiti.getPeService().getPropertyValue(end, Constants.SIMPLE_CONNECTION_POINT) != null) {
+			if (Graphiti.getPeService().getPropertyValue(end,
+			    Constants.SIMPLE_CONNECTION_POINT) != null) {
 				Shape newSCP = EcoreUtil.copy(end);
 				newPes.add(newSCP);
-				newSCP.getGraphicsAlgorithm().setX(newSCP.getGraphicsAlgorithm().getX() + deltaX);
-				newSCP.getGraphicsAlgorithm().setY(newSCP.getGraphicsAlgorithm().getY() + deltaY);
+				newSCP.getGraphicsAlgorithm()
+				    .setX(newSCP.getGraphicsAlgorithm().getX() + deltaX);
+				newSCP.getGraphicsAlgorithm()
+				    .setY(newSCP.getGraphicsAlgorithm().getY() + deltaY);
 				fp.getDiagramTypeProvider().getDiagram().getChildren().add(newSCP);
 				ret = newSCP.getAnchors().get(0);
-				for(Connection c2 : end.getAnchors().get(0).getOutgoingConnections()) {
-					if(oldDiagramElementBusinessObjects.containsKey(c2)) {
+				for (Connection c2 : end.getAnchors().get(0).getOutgoingConnections()) {
+					if (oldDiagramElementBusinessObjects.containsKey(c2)) {
 						Connection newC = EcoreUtil.copy(c2);
 						newPes.add(newC);
 						newC.setStart(ret);
@@ -131,5 +147,8 @@ public class PasteSimpleConnections extends SicPasteFeature {
 		return ret;
 	}
 
-	@Override public boolean canPaste(IPasteContext context) { return true; }
+	@Override
+	public boolean canPaste(IPasteContext context) {
+		return true;
+	}
 }
