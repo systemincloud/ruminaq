@@ -1,6 +1,5 @@
 package org.ruminaq.gui.features.util;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,36 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.graphiti.features.ICreateFeature;
-import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.palette.IToolEntry;
 import org.eclipse.graphiti.palette.impl.ObjectCreationToolEntry;
 import org.eclipse.graphiti.palette.impl.StackEntry;
 import org.ruminaq.model.config.Config;
 import org.ruminaq.model.config.ConfigCategory;
 import org.ruminaq.model.config.ConfigEntry;
-import org.ruminaq.model.ruminaq.BaseElement;
 
 public final class FeatureUtil {
-
-	@SuppressWarnings("unchecked")
-	public static <T> Collection<? extends T> getAllLocalFeatures(Class<?> packageClass, Class<T> returnInterface, Config config, IFeatureProvider fp) {
-		List<T> features = new ArrayList<T>();
-
-		for(Class<? extends BaseElement> be : config.getAllClasses()) {
-			Class<?> clazz;
-			try {
-				clazz = packageClass.getClassLoader().loadClass(packageClass.getPackage().getName() + "." + packageClass.getSimpleName().replace("Feature", "") + be.getSimpleName() + "Feature");
-			} catch (ClassNotFoundException e) { continue; }
-			if(returnInterface.isAssignableFrom(clazz)) {
-				try {
-				    features.add((T) clazz.getConstructor(IFeatureProvider.class).newInstance(fp));
-				} catch (InvocationTargetException | InstantiationException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return features;
-	}
 
     public static Collection<? extends IToolEntry> getStackEntries(ConfigCategory[] ccs, ICreateFeature[] createFeatures, Config conf, boolean test) {
         List<IToolEntry> entries = new ArrayList<IToolEntry>();

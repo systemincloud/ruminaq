@@ -55,61 +55,80 @@ public class DeleteFeature extends RuminaqDeleteFeature {
 	public void preDelete(IDeleteContext context) {
 		super.preDelete(context);
 
-		if     (context.getPictogramElement() instanceof Shape)      preDeleteShape(     (Shape)      context.getPictogramElement());
-		else if(context.getPictogramElement() instanceof Connection) preDeleteConnection((Connection) context.getPictogramElement());
+		if (context.getPictogramElement() instanceof Shape)
+			preDeleteShape((Shape) context.getPictogramElement());
+		else if (context.getPictogramElement() instanceof Connection)
+			preDeleteConnection((Connection) context.getPictogramElement());
 	}
 
 	@Override
 	public void postDelete(IDeleteContext context) {
 		super.postDelete(context);
 
-		for(AnchorContainer ac : connectionPointsToDelete){
+		for (AnchorContainer ac : connectionPointsToDelete) {
 			RemoveContext ctx = new RemoveContext(ac);
 			IRemoveFeature removeFeature = getFeatureProvider().getRemoveFeature(ctx);
-			if (removeFeature!=null) removeFeature.remove(ctx);
+			if (removeFeature != null)
+				removeFeature.remove(ctx);
 		}
 
-		if(connectionToRemove != null) {
+		if (connectionToRemove != null) {
 			DeleteContext ctx = new DeleteContext(connectionToRemove);
 			ctx.setMultiDeleteInfo(new MultiDeleteInfo(false, false, 1));
 			IDeleteFeature deleteFeature = getFeatureProvider().getDeleteFeature(ctx);
-			if (deleteFeature!=null) deleteFeature.delete(ctx);
+			if (deleteFeature != null)
+				deleteFeature.delete(ctx);
 		}
 	}
 
 	private void preDeleteShape(Shape shape) {
-		String connectionPointProperty = Graphiti.getPeService().getPropertyValue(shape, Constants.SIMPLE_CONNECTION_POINT);
-		if(Boolean.parseBoolean(connectionPointProperty)) preDeleteConnectionPoint(shape);
-		else deleteConnections(shape);
+		String connectionPointProperty = Graphiti.getPeService()
+		    .getPropertyValue(shape, Constants.SIMPLE_CONNECTION_POINT);
+		if (Boolean.parseBoolean(connectionPointProperty))
+			preDeleteConnectionPoint(shape);
+		else
+			deleteConnections(shape);
 	}
 
 	private void deleteConnections(Shape shape) {
-		if(shape instanceof ContainerShape)
-			for(Shape child : ((ContainerShape) shape).getChildren()) deleteConnections(child);
+		if (shape instanceof ContainerShape)
+			for (Shape child : ((ContainerShape) shape).getChildren())
+				deleteConnections(child);
 
 		for (Anchor a : shape.getAnchors()) {
 			for (Connection c : Graphiti.getPeService().getAllConnections(a)) {
 				DeleteContext ctx = new DeleteContext(c);
 				ctx.setMultiDeleteInfo(new MultiDeleteInfo(false, false, 1));
-				IDeleteFeature deleteFeature = getFeatureProvider().getDeleteFeature(ctx);
-				if (deleteFeature != null) deleteFeature.delete(ctx);
+				IDeleteFeature deleteFeature = getFeatureProvider()
+				    .getDeleteFeature(ctx);
+				if (deleteFeature != null)
+					deleteFeature.delete(ctx);
 			}
 		}
 	}
 
 	private void preDeleteConnection(Connection con) {
 		removeConnectionsAfterConnectionPoint(con);
-		if(con.getStart() == null) return;
-		String connectionPointPropertyStart = Graphiti.getPeService().getPropertyValue(con.getStart().getParent(), Constants.SIMPLE_CONNECTION_POINT);
-		if(Boolean.parseBoolean(connectionPointPropertyStart)) {
-			if(con.getLink().getBusinessObjects().size() > 0) removeBusinessObjectsBeforeConnectionPoint(con, con.getLink().getBusinessObjects());
-			if(con.getStart().getOutgoingConnections().size() == 1) connectionToRemove = con.getStart().getIncomingConnections().get(0);
+		if (con.getStart() == null)
+			return;
+		String connectionPointPropertyStart = Graphiti.getPeService()
+		    .getPropertyValue(con.getStart().getParent(),
+		        Constants.SIMPLE_CONNECTION_POINT);
+		if (Boolean.parseBoolean(connectionPointPropertyStart)) {
+			if (con.getLink().getBusinessObjects().size() > 0)
+				removeBusinessObjectsBeforeConnectionPoint(con,
+				    con.getLink().getBusinessObjects());
+			if (con.getStart().getOutgoingConnections().size() == 1)
+				connectionToRemove = con.getStart().getIncomingConnections().get(0);
 		}
 	}
 
-	private void removeBusinessObjectsBeforeConnectionPoint(Connection con, EList<EObject> obj) {
-		String connectionPointPropertyStart = Graphiti.getPeService().getPropertyValue(con.getStart().getParent(), Constants.SIMPLE_CONNECTION_POINT);
-		if(Boolean.parseBoolean(connectionPointPropertyStart)) {
+	private void removeBusinessObjectsBeforeConnectionPoint(Connection con,
+	    EList<EObject> obj) {
+		String connectionPointPropertyStart = Graphiti.getPeService()
+		    .getPropertyValue(con.getStart().getParent(),
+		        Constants.SIMPLE_CONNECTION_POINT);
+		if (Boolean.parseBoolean(connectionPointPropertyStart)) {
 			for (Connection c : con.getStart().getIncomingConnections()) {
 				c.getLink().getBusinessObjects().remove(obj.get(0));
 				removeBusinessObjectsBeforeConnectionPoint(c, obj);
@@ -118,63 +137,84 @@ public class DeleteFeature extends RuminaqDeleteFeature {
 	}
 
 	private void removeConnectionsAfterConnectionPoint(Connection con) {
-		String connectionPointPropertyEnd = Graphiti.getPeService().getPropertyValue(con.getEnd().getParent(), Constants.SIMPLE_CONNECTION_POINT);
-		if(Boolean.parseBoolean(connectionPointPropertyEnd)) {
-			while (con.getEnd() != null && con.getEnd().getOutgoingConnections().size() > 0) {
+		String connectionPointPropertyEnd = Graphiti.getPeService()
+		    .getPropertyValue(con.getEnd().getParent(),
+		        Constants.SIMPLE_CONNECTION_POINT);
+		if (Boolean.parseBoolean(connectionPointPropertyEnd)) {
+			while (con.getEnd() != null
+			    && con.getEnd().getOutgoingConnections().size() > 0) {
 				Connection c = con.getEnd().getOutgoingConnections().get(0);
 				DeleteContext ctx = new DeleteContext(c);
 				ctx.setMultiDeleteInfo(new MultiDeleteInfo(false, false, 1));
-				IDeleteFeature deleteFeature = getFeatureProvider().getDeleteFeature(ctx);
-				if (deleteFeature!=null) deleteFeature.delete(ctx);
+				IDeleteFeature deleteFeature = getFeatureProvider()
+				    .getDeleteFeature(ctx);
+				if (deleteFeature != null)
+					deleteFeature.delete(ctx);
 			}
 
-			if(con.getEnd() != null) connectionPointsToDelete.add(con.getEnd().getParent());
+			if (con.getEnd() != null)
+				connectionPointsToDelete.add(con.getEnd().getParent());
 		}
 	}
 
 	private void preDeleteConnectionPoint(Shape anchorContainer) {
-		CreateSimpleConnectionFeature cscf = new CreateSimpleConnectionFeature(getFeatureProvider());
+		CreateSimpleConnectionFeature cscf = new CreateSimpleConnectionFeature(
+		    getFeatureProvider());
 		CreateConnectionContext ctx = new CreateConnectionContext();
 
-		FreeFormConnection oldIncoming = (FreeFormConnection) anchorContainer.getAnchors().get(0).getIncomingConnections().get(0);
-        FreeFormConnection oldOutgoing = (FreeFormConnection) anchorContainer.getAnchors().get(0).getOutgoingConnections().get(0);
+		FreeFormConnection oldIncoming = (FreeFormConnection) anchorContainer
+		    .getAnchors().get(0).getIncomingConnections().get(0);
+		FreeFormConnection oldOutgoing = (FreeFormConnection) anchorContainer
+		    .getAnchors().get(0).getOutgoingConnections().get(0);
 
-        while(anchorContainer.getAnchors().get(0).getOutgoingConnections().size() > 1) {
-			DeleteContext deleteCtx = new DeleteContext(anchorContainer.getAnchors().get(0).getOutgoingConnections().get(1));
+		while (anchorContainer.getAnchors().get(0).getOutgoingConnections()
+		    .size() > 1) {
+			DeleteContext deleteCtx = new DeleteContext(
+			    anchorContainer.getAnchors().get(0).getOutgoingConnections().get(1));
 			deleteCtx.setMultiDeleteInfo(new MultiDeleteInfo(false, false, 1));
-			IDeleteFeature deleteFeature = getFeatureProvider().getDeleteFeature(deleteCtx);
-			if (deleteFeature != null) deleteFeature.delete(deleteCtx);
-        }
+			IDeleteFeature deleteFeature = getFeatureProvider()
+			    .getDeleteFeature(deleteCtx);
+			if (deleteFeature != null)
+				deleteFeature.delete(deleteCtx);
+		}
 
-        Anchor sourceAnchor = oldIncoming.getStart();
+		Anchor sourceAnchor = oldIncoming.getStart();
 		Anchor targetAnchor = oldOutgoing.getEnd();
 
-        Point bendpoint = Graphiti.getCreateService().createPoint(anchorContainer.getGraphicsAlgorithm().getX() + (CreateSimpleConnectionPointFeature.POINT_SIZE >> 1),
-                anchorContainer.getGraphicsAlgorithm().getY() + (CreateSimpleConnectionPointFeature.POINT_SIZE >> 1));
+		Point bendpoint = Graphiti.getCreateService().createPoint(
+		    anchorContainer.getGraphicsAlgorithm().getX()
+		        + (CreateSimpleConnectionPointFeature.POINT_SIZE >> 1),
+		    anchorContainer.getGraphicsAlgorithm().getY()
+		        + (CreateSimpleConnectionPointFeature.POINT_SIZE >> 1));
 
-        String isConnectionPoint = Graphiti.getPeService().getPropertyValue(targetAnchor.getParent(), Constants.SIMPLE_CONNECTION_POINT);
-        if(Boolean.parseBoolean(isConnectionPoint)) {
-        	oldIncoming.setEnd(targetAnchor);
-        	oldIncoming.getBendpoints().add(bendpoint);
-        	oldIncoming.getBendpoints().addAll(oldOutgoing.getBendpoints());
+		String isConnectionPoint = Graphiti.getPeService().getPropertyValue(
+		    targetAnchor.getParent(), Constants.SIMPLE_CONNECTION_POINT);
+		if (Boolean.parseBoolean(isConnectionPoint)) {
+			oldIncoming.setEnd(targetAnchor);
+			oldIncoming.getBendpoints().add(bendpoint);
+			oldIncoming.getBendpoints().addAll(oldOutgoing.getBendpoints());
 
 			RemoveContext removeCtx = new RemoveContext(oldOutgoing);
-			IRemoveFeature removeFeature = getFeatureProvider().getRemoveFeature(removeCtx);
-			if (removeFeature!=null) removeFeature.remove(removeCtx);
-        } else {
+			IRemoveFeature removeFeature = getFeatureProvider()
+			    .getRemoveFeature(removeCtx);
+			if (removeFeature != null)
+				removeFeature.remove(removeCtx);
+		} else {
 			ctx.setSourceAnchor(sourceAnchor);
 			ctx.setTargetAnchor(targetAnchor);
 
 			FreeFormConnection connection = (FreeFormConnection) cscf.create(ctx);
-	        connection.getBendpoints().addAll(oldIncoming.getBendpoints());
+			connection.getBendpoints().addAll(oldIncoming.getBendpoints());
 
-	        connection.getBendpoints().add(bendpoint);
-	        connection.getBendpoints().addAll(oldOutgoing.getBendpoints());
+			connection.getBendpoints().add(bendpoint);
+			connection.getBendpoints().addAll(oldOutgoing.getBendpoints());
 
 			DeleteContext deleteCtx = new DeleteContext(oldOutgoing);
 			deleteCtx.setMultiDeleteInfo(new MultiDeleteInfo(false, false, 1));
-			IDeleteFeature deleteFeature = getFeatureProvider().getDeleteFeature(deleteCtx);
-			if (deleteFeature != null) deleteFeature.delete(deleteCtx);
-        }
+			IDeleteFeature deleteFeature = getFeatureProvider()
+			    .getDeleteFeature(deleteCtx);
+			if (deleteFeature != null)
+				deleteFeature.delete(deleteCtx);
+		}
 	}
 }

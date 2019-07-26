@@ -11,7 +11,7 @@ import org.ruminaq.gui.api.CreateFeaturesExtension;
 public class CreateFeatures implements CreateFeaturesExtension {
 
 	@Override
-	public List<Class<? extends ICreateFeature>> getCreateFeatures() {
+	public List<Class<? extends ICreateFeature>> getFeatures() {
 		return Arrays.asList(CreateInputPortFeature.class,
 		    CreateOutputPortFeature.class);
 	}

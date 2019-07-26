@@ -13,29 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ruminaq.gui;
+package org.ruminaq.gui.features.delete;
+
+import java.util.function.Predicate;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.diagram.RuminaqDeleteFeature;
 
-public class DeleteLabelFeature extends RuminaqDeleteFeature {
+public class DeleteForbiddenFeature extends DefaultDeleteFeature {
 
-	public DeleteLabelFeature(IFeatureProvider fp) {
+	static class Filter implements Predicate<IContext> {
+		@Override
+		public boolean test(IContext context) {
+			IDeleteContext deleteContext = (IDeleteContext) context;
+			String portProperty = Graphiti.getPeService().getPropertyValue(
+			    deleteContext.getPictogramElement(), Constants.INTERNAL_PORT);
+			String canDeleteProperty = Graphiti.getPeService().getPropertyValue(
+			    deleteContext.getPictogramElement(), Constants.CAN_DELETE);
+			return portProperty != null && canDeleteProperty == null;
+		}
+	}
+
+	public DeleteForbiddenFeature(IFeatureProvider fp) {
 		super(fp);
 	}
 
 	@Override
 	public boolean canDelete(IDeleteContext context) {
-		PictogramElement[] selection = getFeatureProvider().getDiagramTypeProvider().getDiagramBehavior().getDiagramContainer().getSelectedPictogramElements();
-		for(PictogramElement s : selection)
-			if(Graphiti.getPeService().getPropertyValue(s, Constants.LABEL_PROPERTY) == null) return true;
-	    return false;
+		return false;
 	}
-
-	@Override
-	public void delete(IDeleteContext context) { }
 }

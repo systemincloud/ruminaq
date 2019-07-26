@@ -39,16 +39,7 @@ Import-Package: org.eclipse.core.runtime,
  org.ruminaq.validation
 Export-Package: 
  org.eclipse.wb.swt,
- org.ruminaq.gui.features,
  org.ruminaq.gui.features.contextpad,
- org.ruminaq.gui.features.doubleclick,
- org.ruminaq.gui.features.move,
- org.ruminaq.gui.features.paste,
- org.ruminaq.gui.features.reconnection,
- org.ruminaq.gui.features.resize,
- org.ruminaq.gui.features.styles,
- org.ruminaq.gui.features.tools,
- org.ruminaq.gui.features.update,
  org.ruminaq.gui.features.util,
  swing2swt.layout
 Bundle-ClassPath: .,

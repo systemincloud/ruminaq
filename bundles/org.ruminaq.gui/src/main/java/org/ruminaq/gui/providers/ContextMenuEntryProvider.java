@@ -35,9 +35,6 @@ import org.ruminaq.util.GraphicsUtil;
 
 public class ContextMenuEntryProvider extends FeatureProvider {
 
-    @Reference
-    private GuiExtensionHandler extensions;
-
 	public ContextMenuEntryProvider(IFeatureProvider fp) {
 		super(fp);
 	}

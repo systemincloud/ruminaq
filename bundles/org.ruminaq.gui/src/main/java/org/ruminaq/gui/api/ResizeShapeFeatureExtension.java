@@ -6,13 +6,13 @@
 
 package org.ruminaq.gui.api;
 
-import org.eclipse.graphiti.features.ICopyFeature;
+import org.eclipse.graphiti.features.IResizeShapeFeature;
 
 /**
  * Service api providing graphiti AddFeature.
  *
  * @author Marek Jagielski
  */
-public interface CopyFeatureExtension
-    extends BestFeatureExtension<ICopyFeature> {
+public interface ResizeShapeFeatureExtension
+    extends BestFeatureExtension<IResizeShapeFeature> {
 }

@@ -6,13 +6,12 @@
 
 package org.ruminaq.gui.api;
 
-import org.eclipse.graphiti.features.ICopyFeature;
+import org.eclipse.graphiti.features.IReconnectionFeature;
 
 /**
  * Service api providing graphiti AddFeature.
  *
  * @author Marek Jagielski
  */
-public interface CopyFeatureExtension
-    extends BestFeatureExtension<ICopyFeature> {
+public interface ReconnectionFeatureExtension extends BestFeatureExtension<IReconnectionFeature> {
 }

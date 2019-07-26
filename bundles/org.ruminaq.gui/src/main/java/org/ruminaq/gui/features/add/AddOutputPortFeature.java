@@ -4,7 +4,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.ruminaq.gui.api.RuminaqFeature;
+import org.ruminaq.gui.features.RuminaqFeature;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.model.ruminaq.Port;
 

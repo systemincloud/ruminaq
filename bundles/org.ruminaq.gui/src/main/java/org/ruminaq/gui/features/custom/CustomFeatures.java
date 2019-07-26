@@ -1,4 +1,4 @@
-package org.ruminaq.gui.features;
+package org.ruminaq.gui.features.custom;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.ruminaq.gui.features.create.CreateSimpleConnectionPointFeature;
 public class CustomFeatures implements CustomFeaturesExtension {
 
 	@Override
-	public List<Class<? extends ICustomFeature>> getCustomFeatures() {
+	public List<Class<? extends ICustomFeature>> getFeatures() {
 		return Arrays.asList(CreateSimpleConnectionPointFeature.class);
 	}
 }

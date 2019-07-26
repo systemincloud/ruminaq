@@ -6,14 +6,6 @@
 
 package org.ruminaq.gui.api;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 
 /**
@@ -21,32 +13,6 @@ import org.eclipse.graphiti.features.custom.ICustomFeature;
  *
  * @author Marek Jagielski
  */
-public interface CustomFeaturesExtension {
-
-	default List<ICustomFeature> getCustomFeatures(IFeatureProvider fp) {
-		return Optional.ofNullable(getCustomFeatures())
-		    .orElse(Collections.emptyList()).stream()
-		    .map(f -> {
-			    try {
-				    return f.getConstructor(IFeatureProvider.class);
-			    } catch (NoSuchMethodException | SecurityException e) {
-				    return null;
-			    }
-		    })
-	    .filter(Objects::nonNull)
-	    .map(c -> {
-				try {
-					return c.newInstance(fp);
-				} catch (InstantiationException | IllegalAccessException
-				    | IllegalArgumentException | InvocationTargetException e) {
-					return null;
-				}
-			})
-	    .filter(Objects::nonNull)
-		  .collect(Collectors.toList());
-	}
-
-	default List<Class<? extends ICustomFeature>> getCustomFeatures() {
-		return Collections.emptyList();
-	}
+public interface CustomFeaturesExtension
+    extends MultipleFeaturesExtension<ICustomFeature> {
 }

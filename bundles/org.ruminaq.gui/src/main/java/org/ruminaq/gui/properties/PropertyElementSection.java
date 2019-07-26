@@ -41,7 +41,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.label.DirectEditLabelFeature;
+import org.ruminaq.gui.features.directediting.DirectEditLabelFeature;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.util.ModelUtil;
@@ -51,9 +51,6 @@ import org.ruminaq.tasks.api.TaskManagerHandler;
 import org.ruminaq.tasks.api.TasksExtensionHandler;
 
 public class PropertyElementSection extends GFPropertySection implements ITabbedPropertyConstants {
-
-	@Reference
-	private TaskManagerHandler taskManager;
 
 	private String    created = null;
 	private Composite parent;

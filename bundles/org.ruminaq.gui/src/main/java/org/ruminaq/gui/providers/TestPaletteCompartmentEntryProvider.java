@@ -25,10 +25,8 @@ import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
 import org.eclipse.graphiti.palette.impl.PaletteCompartmentEntry;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.consts.Constants.SicPlugin;
-import org.ruminaq.gui.api.GuiExtensionHandler;
 import org.ruminaq.gui.features.util.FeatureUtil;
 import org.ruminaq.model.config.CommonConfig;
-import org.ruminaq.tasks.TaskProvider;
 
 public class TestPaletteCompartmentEntryProvider extends FeatureProvider {
 

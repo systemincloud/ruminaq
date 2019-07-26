@@ -37,17 +37,25 @@ public class MoveShapeFeatureProvider extends FeatureProvider {
 	}
 
 	public IMoveShapeFeature getMoveShapeFeature(IMoveShapeContext context) {
-	    Shape shape = context.getShape();
+		Shape shape = context.getShape();
 
-		String labelProperty = Graphiti.getPeService().getPropertyValue(shape,	Constants.LABEL_PROPERTY);
-		if(Boolean.parseBoolean(labelProperty)) return new MoveLabelFeature(getFeatureProvider());
+		String labelProperty = Graphiti.getPeService().getPropertyValue(shape,
+		    Constants.LABEL_PROPERTY);
+		if (Boolean.parseBoolean(labelProperty))
+			return new MoveLabelFeature(getFeatureProvider());
 
-	    Object bo = getFeatureProvider().getBusinessObjectForPictogramElement(shape);
+		Object bo = getFeatureProvider()
+		    .getBusinessObjectForPictogramElement(shape);
 
-	    IMoveShapeFeature feature = extensions.getMoveShapeFeature(context, getFeatureProvider());
-		if(feature != null) return feature;
-		else if (bo instanceof InternalPort)     return new MoveInternalPortFeature(getFeatureProvider());
-		else if (bo instanceof BaseElement)      return new MoveElementFeature(getFeatureProvider());
-		else                                     return new DefaultMoveShapeFeature(getFeatureProvider());
+		IMoveShapeFeature feature = extensions.getMoveShapeFeature(context,
+		    getFeatureProvider());
+		if (feature != null)
+			return feature;
+		else if (bo instanceof InternalPort)
+			return new MoveInternalPortFeature(getFeatureProvider());
+		else if (bo instanceof BaseElement)
+			return new MoveElementFeature(getFeatureProvider());
+		else
+			return new DefaultMoveShapeFeature(getFeatureProvider());
 	}
 }
