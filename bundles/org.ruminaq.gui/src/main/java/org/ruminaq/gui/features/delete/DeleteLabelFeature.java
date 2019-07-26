@@ -23,7 +23,6 @@ import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.diagram.RuminaqDeleteFeature;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.delete.DeleteLabelFeature.Filter;
 

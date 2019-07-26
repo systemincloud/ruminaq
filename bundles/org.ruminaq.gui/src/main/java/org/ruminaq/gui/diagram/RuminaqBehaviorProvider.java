@@ -42,50 +42,81 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 		super(diagramTypeProvider);
 	}
 
-	@Override public boolean isShowSelectionTool() { return false; }
-	@Override public boolean isShowMarqueeTool()   { return false; }
-	@Override public boolean isShowGuides()        { return false; }
+	@Override
+	public boolean isShowSelectionTool() {
+		return false;
+	}
 
-	@Override public boolean equalsBusinessObjects(Object o1, Object o2) {
+	@Override
+	public boolean isShowMarqueeTool() {
+		return false;
+	}
+
+	@Override
+	public boolean isShowGuides() {
+		return false;
+	}
+
+	@Override
+	public boolean equalsBusinessObjects(Object o1, Object o2) {
 		return o1 instanceof EObject && o2 instanceof EObject ? o1 == o2 : false;
 	}
 
-	@Override public IPaletteCompartmentEntry[] getPalette() {
+	@Override
+	public IPaletteCompartmentEntry[] getPalette() {
 		IPaletteCompartmentEntry[] entries;
-		if(ConstantsUtil.isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())) entries = (new TestPaletteCompartmentEntryProvider(getFeatureProvider())).getPalette();
-		else                                                                               entries = (new PaletteCompartmentEntryProvider(getFeatureProvider())).getPalette();
+		if (ConstantsUtil
+		    .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI()))
+			entries = (new TestPaletteCompartmentEntryProvider(getFeatureProvider()))
+			    .getPalette();
+		else
+			entries = (new PaletteCompartmentEntryProvider(getFeatureProvider()))
+			    .getPalette();
 		return entries != null ? entries : super.getPalette();
 	}
 
-	@Override public IContextButtonPadData getContextButtonPad(IPictogramElementContext context) {
+	@Override
+	public IContextButtonPadData getContextButtonPad(
+	    IPictogramElementContext context) {
 		IContextButtonPadData data = super.getContextButtonPad(context);
-		return (new ContextButtonPadDataProvider(getFeatureProvider())).getContextButtonPad(context, this, data);
+		return (new ContextButtonPadDataProvider(getFeatureProvider()))
+		    .getContextButtonPad(context, this, data);
 	}
 
-	public void setGenericContextButtonsProxy(IContextButtonPadData data, PictogramElement pe, int i) {
+	public void setGenericContextButtonsProxy(IContextButtonPadData data,
+	    PictogramElement pe, int i) {
 		super.setGenericContextButtons(data, pe, i);
 	}
 
-	@Override public IContextMenuEntry[] getContextMenu(ICustomContext context) {
-		IContextMenuEntry[] entries = (new ContextMenuEntryProvider(getFeatureProvider())).getContextMenu(context);
+	@Override
+	public IContextMenuEntry[] getContextMenu(ICustomContext context) {
+		IContextMenuEntry[] entries = (new ContextMenuEntryProvider(
+		    getFeatureProvider())).getContextMenu(context);
 		return entries != null ? entries : super.getContextMenu(context);
 	}
 
-	@Override public ICustomFeature getDoubleClickFeature(IDoubleClickContext context) {
-		ICustomFeature feature = (new DoubleClickFeatureProvider(getFeatureProvider())).getDoubleClickFeature(context);
+	@Override
+	public ICustomFeature getDoubleClickFeature(IDoubleClickContext context) {
+		ICustomFeature feature = (new DoubleClickFeatureProvider(
+		    getFeatureProvider())).getDoubleClickFeature(context);
 		return feature != null ? feature : super.getDoubleClickFeature(context);
 	}
 
-	@Override public ICustomFeature getSingleClickFeature(ISingleClickContext context) {
+	@Override
+	public ICustomFeature getSingleClickFeature(ISingleClickContext context) {
 		return super.getSingleClickFeature(context);
 	}
 
-	@Override public IDecorator[] getDecorators(PictogramElement pe) {
-		IDecorator[] decorators = (new DecoratorProvider(getFeatureProvider())).getDecorators(pe);
+	@Override
+	public IDecorator[] getDecorators(PictogramElement pe) {
+		IDecorator[] decorators = (new DecoratorProvider(getFeatureProvider()))
+		    .getDecorators(pe);
 		return decorators != null ? decorators : super.getDecorators(pe);
 	}
 
-	@Override public PictogramElement getSelection(PictogramElement originalPe, PictogramElement[] oldSelection) {
+	@Override
+	public PictogramElement getSelection(PictogramElement originalPe,
+	    PictogramElement[] oldSelection) {
 		return null;
 	}
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ruminaq.gui;
+package org.ruminaq.gui.features.delete;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,6 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.diagram.RuminaqDeleteFeature;
 import org.ruminaq.gui.features.create.CreateSimpleConnectionFeature;
 import org.ruminaq.gui.features.create.CreateSimpleConnectionPointFeature;
 

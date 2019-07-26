@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ruminaq.gui.diagram;
+package org.ruminaq.gui.features.delete;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
+import org.ruminaq.gui.diagram.FeatureProviderRemoveDecorator;
 
 public class RuminaqDeleteFeature extends DefaultDeleteFeature {
 

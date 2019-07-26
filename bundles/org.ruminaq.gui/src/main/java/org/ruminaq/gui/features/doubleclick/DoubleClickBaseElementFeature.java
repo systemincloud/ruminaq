@@ -13,30 +13,44 @@ import org.ruminaq.model.ruminaq.BaseElement;
 
 public class DoubleClickBaseElementFeature extends AbstractCustomFeature {
 
-    public DoubleClickBaseElementFeature(IFeatureProvider fp) {
-        super(fp);
-    }
-
-    @Override public boolean canExecute    (ICustomContext context) { return true; }
-	@Override public boolean hasDoneChanges()                       { return false; }
+	public DoubleClickBaseElementFeature(IFeatureProvider fp) {
+		super(fp);
+	}
 
 	@Override
-    public void execute(ICustomContext context) {
-        BaseElement bo = null;
-        for(Object o : Graphiti.getLinkService().getAllBusinessObjectsForLinkedPictogramElement(context.getPictogramElements()[0]))
-            if(o instanceof BaseElement) { bo = (BaseElement) o; break; }
-        if(bo == null) return;
+	public boolean canExecute(ICustomContext context) {
+		return true;
+	}
 
-        IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-        if (window != null) {
-            IWorkbenchPage page = window.getActivePage();
-            if (page != null) {
-                try {
-                    page.showView(IPageLayout.ID_PROP_SHEET);
-                } catch (PartInitException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+	@Override
+	public boolean hasDoneChanges() {
+		return false;
+	}
+
+	@Override
+	public void execute(ICustomContext context) {
+		BaseElement bo = null;
+		for (Object o : Graphiti.getLinkService()
+		    .getAllBusinessObjectsForLinkedPictogramElement(
+		        context.getPictogramElements()[0]))
+			if (o instanceof BaseElement) {
+				bo = (BaseElement) o;
+				break;
+			}
+		if (bo == null)
+			return;
+
+		IWorkbenchWindow window = PlatformUI.getWorkbench()
+		    .getActiveWorkbenchWindow();
+		if (window != null) {
+			IWorkbenchPage page = window.getActivePage();
+			if (page != null) {
+				try {
+					page.showView(IPageLayout.ID_PROP_SHEET);
+				} catch (PartInitException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }
