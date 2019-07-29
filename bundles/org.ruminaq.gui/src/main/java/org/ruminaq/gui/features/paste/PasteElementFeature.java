@@ -19,11 +19,17 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IPasteFeature;
+import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IPasteContext;
+import org.eclipse.graphiti.features.context.IReconnectionContext;
 import org.eclipse.graphiti.mm.algorithms.AbstractText;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.styles.AbstractStyle;
@@ -41,6 +47,8 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.paste.PasteAnchorTracker;
 import org.ruminaq.gui.features.paste.PasteDefaultElementFeature;
 import org.ruminaq.gui.features.paste.PasteInputPortFeature;
@@ -73,49 +81,46 @@ public class PasteElementFeature extends AbstractPasteFeature {
 	private List<RuminaqPasteFeature> getPasteFeatures(IPasteContext context) {
 		List<RuminaqPasteFeature> pfs = new LinkedList<>();
 
-		Object[] fromClipboard = getFromClipboard();
-		if (fromClipboard == null || fromClipboard.length == 0)
+		List<PictogramElement> objects = Stream.of(getFromClipboard())
+		    .filter(o -> o instanceof PictogramElement)
+		    .map(o -> (PictogramElement) o).collect(Collectors.toList());
+
+		if (objects.isEmpty()) {
 			return pfs;
+		}
 
-		Object[] objects = getFromClipboard();
+		int xMin = Stream.of(objects).filter(o -> o instanceof PictogramElement)
+		    .map(o -> (PictogramElement) o)
+		    .map(PictogramElement::getGraphicsAlgorithm).filter(Objects::nonNull)
+		    .mapToInt(GraphicsAlgorithm::getX).min()
+		    .orElseThrow(NoSuchElementException::new);
 
-		int xMin = Integer.MAX_VALUE;
-		int yMin = Integer.MAX_VALUE;
+		int yMin = Stream.of(objects).filter(o -> o instanceof PictogramElement)
+		    .map(o -> (PictogramElement) o)
+		    .map(PictogramElement::getGraphicsAlgorithm).filter(Objects::nonNull)
+		    .mapToInt(GraphicsAlgorithm::getY).min()
+		    .orElseThrow(NoSuchElementException::new);
 
-		for (Object o : objects) {
-			PictogramElement pe = (PictogramElement) o;
-			GraphicsAlgorithm ga = pe.getGraphicsAlgorithm();
-			if (ga == null)
-				continue;
-			int xTmp = pe.getGraphicsAlgorithm().getX();
-			int yTmp = pe.getGraphicsAlgorithm().getY();
-			if (xTmp < xMin) {
-				xMin = xTmp;
-				yMin = yTmp;
+		return objects.stream().<RuminaqPasteFeature>map(o -> {
+			PictogramElement oldPe = (PictogramElement) o;
+			BaseElement oldBo = Stream
+			    .of(getAllBusinessObjectsForPictogramElement(oldPe))
+			    .filter(bo -> bo instanceof BaseElement).map(bo -> (BaseElement) bo)
+			    .findFirst().orElse(null);
+
+			if (oldBo instanceof InputPort) {
+				return new PasteInputPortFeature(getFeatureProvider(), oldPe, xMin,
+				    yMin);
+			} else if (oldBo instanceof OutputPort) {
+				return new PasteOutputPortFeature(getFeatureProvider(), oldPe, xMin,
+				    yMin);
+			} else if (oldBo instanceof Task) {
+				return new PasteTaskFeature(getFeatureProvider(), oldPe, xMin, yMin);
+			} else {
+				return new PasteDefaultElementFeature(getFeatureProvider(), oldPe, xMin,
+				    yMin);
 			}
-		}
-
-		for (Object o1 : objects) {
-			PictogramElement oldPe = (PictogramElement) o1;
-			BaseElement oldBo = null;
-
-			for (Object o2 : getAllBusinessObjectsForPictogramElement(oldPe))
-				if (o2 instanceof BaseElement)
-					oldBo = (BaseElement) o2;
-
-			if (oldBo instanceof InputPort)
-				pfs.add(
-				    new PasteInputPortFeature(getFeatureProvider(), oldPe, xMin, yMin));
-			else if (oldBo instanceof OutputPort)
-				pfs.add(new PasteOutputPortFeature(getFeatureProvider(), oldPe, xMin,
-				    yMin));
-			else if (oldBo instanceof Task)
-				pfs.add(new PasteTaskFeature(getFeatureProvider(), oldPe, xMin, yMin));
-			else
-				pfs.add(new PasteDefaultElementFeature(getFeatureProvider(), oldPe,
-				    xMin, yMin));
-		}
-		return pfs;
+		}).collect(Collectors.toList());
 	}
 
 	@Override

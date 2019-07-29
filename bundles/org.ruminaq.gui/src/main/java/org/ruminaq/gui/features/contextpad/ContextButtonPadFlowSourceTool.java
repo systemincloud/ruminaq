@@ -14,7 +14,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.tb.ContextButtonEntry;
 import org.eclipse.graphiti.tb.IContextButtonEntry;
-import org.ruminaq.gui.features.Images;
+import org.ruminaq.gui.Images;
 import org.ruminaq.gui.features.tools.AbstractContextButtonPadTool;
 import org.ruminaq.gui.features.tools.IContextButtonPadTool;
 
@@ -41,7 +41,7 @@ public class ContextButtonPadFlowSourceTool extends AbstractContextButtonPadTool
 		ContextButtonEntry button = new ContextButtonEntry(null, context);
 		button.setText("Create connection"); //$NON-NLS-1$
 		ArrayList<String> names = new ArrayList<>();
-		button.setIconId(Images.K.IMG_CONTEXT_SIMPLE_CONNECTION.name());
+		button.setIconId(Images.Image.IMG_CONTEXT_SIMPLECONNECTION.name());
 		for (ICreateConnectionFeature feature : features) {
 			if (feature.isAvailable(ccc) && feature.canStartConnection(ccc)) {
 				button.addDragAndDropFeature(feature);
