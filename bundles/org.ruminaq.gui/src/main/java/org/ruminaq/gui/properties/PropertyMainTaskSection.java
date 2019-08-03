@@ -28,10 +28,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.eclipse.util.ConstantsUtil;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.util.ModelUtil;
@@ -70,7 +70,7 @@ public class PropertyMainTaskSection extends GFPropertySection implements ITabbe
 
         btnAtomic      = new Button(composite, SWT.CHECK);
         btnPreventLost = new Button(composite, SWT.CHECK);
-        new CLabel(composite, SWT.NONE).setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        new CLabel(composite, SWT.NONE).setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
         btnOnlyLocal   = new Button(composite, SWT.CHECK);
     }
 
@@ -112,9 +112,9 @@ public class PropertyMainTaskSection extends GFPropertySection implements ITabbe
     }
 
     private void addStyles() {
-        composite     .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        lblVersion    .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        versionValue  .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        composite     .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        lblVersion    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        versionValue  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
     }
 
     @Override

@@ -33,6 +33,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
@@ -40,7 +41,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.util.ModelUtil;
@@ -178,11 +178,11 @@ public class PropertyInputPortSection extends GFPropertySection implements ITabb
     }
 
     private void addStyles() {
-        root        .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        lblQueueSize.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        txtQueueSize.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        lblGroup    .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        spnGroup    .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        root        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        lblQueueSize.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        txtQueueSize.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        lblGroup    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        spnGroup    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
     }
 
     @Override

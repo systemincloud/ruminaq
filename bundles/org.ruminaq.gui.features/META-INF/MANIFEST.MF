@@ -38,10 +38,6 @@ Import-Package: org.eclipse.core.runtime,
  org.ruminaq.util,
  org.ruminaq.validation
 Export-Package: 
- org.eclipse.wb.swt,
- org.ruminaq.gui.features.util,
- swing2swt.layout
-Bundle-ClassPath: .,
- swing2swt.jar
+ org.ruminaq.gui.features.util
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy

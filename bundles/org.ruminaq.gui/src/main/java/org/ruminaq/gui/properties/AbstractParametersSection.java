@@ -33,13 +33,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.eclipse.wb.swt.SWTResourceManager;
 
 public abstract class AbstractParametersSection extends GFPropertySection implements ITabbedPropertyConstants {
 
@@ -140,7 +140,7 @@ public abstract class AbstractParametersSection extends GFPropertySection implem
     }
 
     private void addStyles() {
-        root.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
     }
 
     @Override public void refresh() {

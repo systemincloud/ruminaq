@@ -33,12 +33,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.directediting.DirectEditLabelFeature;
@@ -148,9 +148,9 @@ public class PropertyElementSection extends GFPropertySection implements ITabbed
 	}
 
 	private void addStyles() {
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblId    .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		txtId    .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblId    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		txtId    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 	}
 
 	@Override
