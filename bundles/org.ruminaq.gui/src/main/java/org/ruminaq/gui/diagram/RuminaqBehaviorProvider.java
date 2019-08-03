@@ -17,6 +17,8 @@ package org.ruminaq.gui.diagram;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.datatypes.IRectangle;
@@ -27,15 +29,16 @@ import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.ISingleClickContext;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.tb.ContextMenuEntry;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IContextButtonPadData;
 import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IDecorator;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
+import org.ruminaq.gui.api.ContextMenuEntryExtension;
 import org.ruminaq.gui.api.DomainContextButtonPadDataExtension;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
-import org.ruminaq.gui.providers.ContextMenuEntryProvider;
 import org.ruminaq.gui.providers.DecoratorProvider;
 import org.ruminaq.gui.providers.DoubleClickFeatureProvider;
 import org.ruminaq.util.ServiceFilterArgs;
@@ -150,9 +153,33 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 
 	@Override
 	public IContextMenuEntry[] getContextMenu(ICustomContext context) {
-		IContextMenuEntry[] entries = (new ContextMenuEntryProvider(
-		    getFeatureProvider())).getContextMenu(context);
-		return entries != null ? entries : super.getContextMenu(context);
+		return Stream.of(getFeatureProvider().getCustomFeatures(context))
+				.filter(ServiceUtil.getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+						ContextMenuEntryExtension.class, new ServiceFilterArgs() {
+	        @Override
+	        public List<?> getArgs() {
+		        return Arrays.asList(getFeatureProvider(), context);
+	        }
+        }).stream().findFirst()
+        .orElse(new ContextMenuEntryExtension() {
+
+					@Override
+					public Predicate<ICustomFeature> isAvailable(
+					    ICustomContext context) {
+						return new Predicate<ICustomFeature>() {
+							@Override
+							public boolean test(ICustomFeature arg0) {
+								return false;
+							}
+						};
+					}
+
+        }).isAvailable(context))
+		    .map(cf -> {
+			    ContextMenuEntry menuEntry = new ContextMenuEntry(cf, context);
+			    menuEntry.setText(cf.getName());
+			    return menuEntry;
+		    }).toArray(IContextMenuEntry[]::new);
 	}
 
 	@Override
