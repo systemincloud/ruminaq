@@ -4,9 +4,9 @@
 
    <extension point="org.eclipse.graphiti.ui.diagramTypes">
       <diagramType
-            description="The System in Cloud Model"
+            description="Ruminaq Model"
             id="org.ruminaq.gui.RuminaqDiagramType"
-            name="System in Cloud Model Diagram Type"
+            name="Ruminaq Diagram Type"
             type="Ruminaq">
       </diagramType>
    </extension>

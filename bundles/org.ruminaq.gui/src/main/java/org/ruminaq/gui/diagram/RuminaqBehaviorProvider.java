@@ -15,7 +15,11 @@
  */
 package org.ruminaq.gui.diagram;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.graphiti.datatypes.IRectangle;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.context.IDoubleClickContext;
@@ -23,18 +27,19 @@ import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.ISingleClickContext;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IContextButtonPadData;
 import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IDecorator;
-import org.ruminaq.eclipse.util.ConstantsUtil;
-import org.ruminaq.gui.providers.ContextButtonPadDataProvider;
+import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
+import org.ruminaq.gui.api.DomainContextButtonPadDataExtension;
+import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
 import org.ruminaq.gui.providers.ContextMenuEntryProvider;
 import org.ruminaq.gui.providers.DecoratorProvider;
 import org.ruminaq.gui.providers.DoubleClickFeatureProvider;
-import org.ruminaq.gui.providers.PaletteCompartmentEntryProvider;
-import org.ruminaq.gui.providers.TestPaletteCompartmentEntryProvider;
+import org.ruminaq.util.ServiceFilterArgs;
+import org.ruminaq.util.ServiceUtil;
 
 public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 
@@ -58,29 +63,84 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 	}
 
 	@Override
+	public boolean isShowFlyoutPalette() {
+		return true;
+	}
+
+	@Override
 	public boolean equalsBusinessObjects(Object o1, Object o2) {
 		return o1 instanceof EObject && o2 instanceof EObject ? o1 == o2 : false;
 	}
 
-	@Override
-	public IPaletteCompartmentEntry[] getPalette() {
-		IPaletteCompartmentEntry[] entries;
-		if (ConstantsUtil
-		    .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI()))
-			entries = (new TestPaletteCompartmentEntryProvider(getFeatureProvider()))
-			    .getPalette();
-		else
-			entries = (new PaletteCompartmentEntryProvider(getFeatureProvider()))
-			    .getPalette();
-		return entries != null ? entries : super.getPalette();
-	}
+//	@Override
+//	public IPaletteCompartmentEntry[] getPalette() {
+//		if (ConstantsUtil
+//		    .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())) {
+//			return ServiceUtil
+//			    .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+//			        TestPaletteCompartmentEntryExtension.class)
+//			    .stream().map(ext -> ext.getFeatures(getFeatureProvider()))
+//			    .flatMap(Collection::stream)
+//			    .toArray(size -> (IPaletteCompartmentEntry[]) new Object[size]);
+//		} else {
+//			return ServiceUtil
+//			    .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+//			        PaletteCompartmentEntryExtension.class)
+//			    .stream().map(ext -> ext.getFeatures(getFeatureProvider()))
+//			    .flatMap(Collection::stream)
+//			    .toArray(size -> (IPaletteCompartmentEntry[]) new Object[size]);
+//		}
+//	}
 
 	@Override
 	public IContextButtonPadData getContextButtonPad(
 	    IPictogramElementContext context) {
 		IContextButtonPadData data = super.getContextButtonPad(context);
-		return (new ContextButtonPadDataProvider(getFeatureProvider()))
-		    .getContextButtonPad(context, this, data);
+		PictogramElement pe = context.getPictogramElement();
+
+		setGenericContextButtonsProxy(data, pe,
+		    ServiceUtil.getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+		        GenericContextButtonPadDataExtension.class,
+		        new ServiceFilterArgs() {
+			        @Override
+			        public List<?> getArgs() {
+				        return Arrays.asList(getFeatureProvider(), context);
+			        }
+		        }).stream().findFirst()
+		        .orElse(new GenericContextButtonPadDataExtension() {
+			        @Override
+			        public int getGenericContextButtons() {
+				        return Constants.CONTEXT_BUTTON_DELETE;
+			        }
+		        }).getGenericContextButtons());
+
+		ServiceUtil.getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+		    DomainContextButtonPadDataExtension.class, new ServiceFilterArgs() {
+			    @Override
+			    public List<?> getArgs() {
+				    return Arrays.asList(getFeatureProvider(), context);
+			    }
+		    }).stream().forEach(e -> {
+			    data.getDomainSpecificContextButtons()
+			        .addAll(e.getContextButtonPad(getFeatureProvider(), context));
+		    });
+
+		data.getPadLocation().setRectangle(
+		    ServiceUtil.getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+		        ContextButtonPadLocationExtension.class, new ServiceFilterArgs() {
+			        @Override
+			        public List<?> getArgs() {
+				        return Arrays.asList(getFeatureProvider(), context);
+			        }
+		        }).stream().findFirst()
+		        .orElse(new ContextButtonPadLocationExtension() {
+			        @Override
+			        public IRectangle getPadLocation(IRectangle rectangle) {
+				        return data.getPadLocation().getRectangleCopy();
+			        }
+		        }).getPadLocation(data.getPadLocation().getRectangleCopy()));
+
+		return data;
 	}
 
 	public void setGenericContextButtonsProxy(IContextButtonPadData data,

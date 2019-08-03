@@ -13,14 +13,26 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.ruminaq.gui.features.FeaturePredicate;
+import org.ruminaq.gui.features.PasteFeatureFilter;
 import org.ruminaq.gui.features.add.AddElementFeature;
+import org.ruminaq.gui.features.paste.PasteInputPortFeature.Filter;
 import org.ruminaq.model.ModelHandler;
+import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.MainTask;
 
+@PasteFeatureFilter(Filter.class)
 public class PasteInputPortFeature extends RuminaqPasteFeature
     implements PasteAnchorTracker {
 
+	static class Filter implements FeaturePredicate<BaseElement> {
+		@Override
+		public boolean test(BaseElement bo) {
+			return bo instanceof InputPort;
+		}
+	}
+	
 	private PictogramElement oldPe;
 	private int xMin;
 	private int yMin;

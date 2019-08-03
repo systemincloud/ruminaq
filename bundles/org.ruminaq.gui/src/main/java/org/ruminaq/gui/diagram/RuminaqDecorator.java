@@ -18,6 +18,6 @@ package org.ruminaq.gui.diagram;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.graphiti.tb.IDecorator;
 
-public interface SicDecorator extends IDecorator {
+public interface RuminaqDecorator extends IDecorator {
 	IFigure decorateFigure(IFigure figure, IDecorator decorator);
 }

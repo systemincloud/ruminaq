@@ -26,6 +26,7 @@ Import-Package:
  org.eclipse.emf.workspace,
  org.eclipse.gef,
  org.eclipse.gef.editparts,
+ org.eclipse.gef.ui.palette,
  org.eclipse.graphiti.features,
  org.eclipse.graphiti.features.context.impl,
  org.eclipse.graphiti.mm.pictograms,

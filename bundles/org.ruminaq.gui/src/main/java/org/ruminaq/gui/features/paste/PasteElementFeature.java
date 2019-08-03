@@ -26,10 +26,7 @@ import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.IPasteFeature;
-import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IPasteContext;
-import org.eclipse.graphiti.features.context.IReconnectionContext;
 import org.eclipse.graphiti.mm.algorithms.AbstractText;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.styles.AbstractStyle;
@@ -47,23 +44,14 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.FeaturePredicate;
-import org.ruminaq.gui.features.paste.PasteAnchorTracker;
-import org.ruminaq.gui.features.paste.PasteDefaultElementFeature;
-import org.ruminaq.gui.features.paste.PasteInputPortFeature;
-import org.ruminaq.gui.features.paste.PasteOutputPortFeature;
-import org.ruminaq.gui.features.paste.PasteSimpleConnections;
-import org.ruminaq.gui.features.paste.RuminaqPasteFeature;
+import org.ruminaq.gui.api.PasteElementFeatureExtension;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.model.ruminaq.FlowTarget;
-import org.ruminaq.model.ruminaq.InputPort;
-import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.model.ruminaq.SimpleConnection;
-import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.util.ColorUtil;
 import org.ruminaq.util.FontUtil;
+import org.ruminaq.util.ServiceUtil;
 import org.ruminaq.util.StyleUtil;
 
 public class PasteElementFeature extends AbstractPasteFeature {
@@ -108,18 +96,16 @@ public class PasteElementFeature extends AbstractPasteFeature {
 			    .filter(bo -> bo instanceof BaseElement).map(bo -> (BaseElement) bo)
 			    .findFirst().orElse(null);
 
-			if (oldBo instanceof InputPort) {
-				return new PasteInputPortFeature(getFeatureProvider(), oldPe, xMin,
-				    yMin);
-			} else if (oldBo instanceof OutputPort) {
-				return new PasteOutputPortFeature(getFeatureProvider(), oldPe, xMin,
-				    yMin);
-			} else if (oldBo instanceof Task) {
-				return new PasteTaskFeature(getFeatureProvider(), oldPe, xMin, yMin);
-			} else {
-				return new PasteDefaultElementFeature(getFeatureProvider(), oldPe, xMin,
-				    yMin);
-			}
+			return ServiceUtil
+			    .getServicesAtLatestVersion(
+			        PasteElementFeature.class, PasteElementFeatureExtension.class)
+			    .stream()
+			    .map(ext -> ext.getFeature(getFeatureProvider(), oldBo, oldPe, xMin,
+			        yMin))
+			    .filter(Objects::nonNull).findFirst()
+			    .orElse(new PasteDefaultElementFeature(getFeatureProvider(), oldPe,
+			        xMin, yMin));
+
 		}).collect(Collectors.toList());
 	}
 

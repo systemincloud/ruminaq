@@ -7,7 +7,6 @@
 package org.ruminaq.eclipse.editor;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -31,20 +30,18 @@ import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.eclipse.util.ConstantsUtil;
-import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.prefs.ProjectProps;
-import org.ruminaq.util.ServiceUtil;
 import org.ruminaq.validation.MarkerChangeListener;
 import org.ruminaq.validation.ProjectValidator;
 import org.ruminaq.validation.ValidationStatusLoader;
@@ -55,14 +52,15 @@ import org.ruminaq.validation.ValidationStatusLoader;
  */
 public class RuminaqEditor extends DiagramEditor {
 
-//  private Collection<EclipseExtension> extensions = ServiceUtil
-//      .getServicesAtLatestVersion(RuminaqEditor.class,
-//          EclipseExtension.class);
-
   private IResourceChangeListener markerChangeListener;
 
   ExecutorService validationExecutor = Executors.newSingleThreadExecutor();
 
+  @Override
+  protected DiagramBehavior createDiagramBehavior() {
+    return new RuminaqDiagramBehavior(this);
+  }
+  
   @Override
   public void createPartControl(Composite parent) {
     super.createPartControl(parent);
