@@ -12,6 +12,6 @@ public class RuminaqPaletteBehavior extends DefaultPaletteBehavior {
 
 	@Override
 	protected PaletteViewerProvider createPaletteViewerProvider() {
-		return new PaletteTreeViewerProvider(diagramBehavior);
+		return super.createPaletteViewerProvider();
 	}
 }

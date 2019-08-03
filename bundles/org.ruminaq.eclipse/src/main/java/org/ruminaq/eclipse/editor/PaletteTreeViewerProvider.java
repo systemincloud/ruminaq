@@ -1,6 +1,5 @@
 package org.ruminaq.eclipse.editor;
 
-import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 
