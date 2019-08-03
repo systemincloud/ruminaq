@@ -2,13 +2,30 @@ package org.ruminaq.gui.features.move;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
+import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.FeaturePredicate;
+import org.ruminaq.gui.features.move.MoveLabelFeature.Filter;
 
+@FeatureFilter(Filter.class)
 public class MoveLabelFeature extends DefaultMoveShapeFeature {
+
+	static class Filter implements FeaturePredicate<IContext> {
+		@Override
+		public boolean test(IContext context, IFeatureProvider fp) {
+			IMoveShapeContext moveShapeContext = (IMoveShapeContext) context;
+			Shape shape = moveShapeContext.getShape();
+
+			return Boolean.parseBoolean(Graphiti.getPeService()
+			    .getPropertyValue(shape, Constants.LABEL_PROPERTY));
+		}
+	}
 
 	public MoveLabelFeature(IFeatureProvider fp) {
 		super(fp);

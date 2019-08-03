@@ -18,7 +18,6 @@
     <module>org.ruminaq.eclipse</module>
     <module>org.ruminaq.eclipse.api</module>
     <module>org.ruminaq.gui</module>
-    <module>org.ruminaq.gui.features</module>
     <module>org.ruminaq.hacks</module>
     <module>org.ruminaq.launch</module>
     <module>org.ruminaq.launch.api</module>
