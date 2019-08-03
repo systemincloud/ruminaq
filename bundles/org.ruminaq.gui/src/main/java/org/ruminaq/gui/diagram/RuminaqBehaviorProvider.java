@@ -17,6 +17,7 @@ package org.ruminaq.gui.diagram;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -39,8 +40,8 @@ import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
 import org.ruminaq.gui.api.ContextMenuEntryExtension;
 import org.ruminaq.gui.api.DecoratorExtension;
 import org.ruminaq.gui.api.DomainContextButtonPadDataExtension;
+import org.ruminaq.gui.api.DoubleClickFeatureExtension;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
-import org.ruminaq.gui.providers.DoubleClickFeatureProvider;
 import org.ruminaq.util.ServiceFilterArgs;
 import org.ruminaq.util.ServiceUtil;
 
@@ -185,9 +186,10 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 
 	@Override
 	public ICustomFeature getDoubleClickFeature(IDoubleClickContext context) {
-		ICustomFeature feature = (new DoubleClickFeatureProvider(
-		    getFeatureProvider())).getDoubleClickFeature(context);
-		return feature != null ? feature : super.getDoubleClickFeature(context);
+		return ServiceUtil
+		    .getServicesAtLatestVersion(RuminaqFeatureProvider.class, DoubleClickFeatureExtension.class)
+		    .stream().map(ext -> ext.getFeature(context, getFeatureProvider()))
+		    .filter(Objects::nonNull).findFirst().orElse(super.getDoubleClickFeature(context));
 	}
 
 	@Override
