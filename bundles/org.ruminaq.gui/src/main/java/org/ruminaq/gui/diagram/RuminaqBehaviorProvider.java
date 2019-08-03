@@ -37,9 +37,9 @@ import org.eclipse.graphiti.tb.IDecorator;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
 import org.ruminaq.gui.api.ContextMenuEntryExtension;
+import org.ruminaq.gui.api.DecoratorExtension;
 import org.ruminaq.gui.api.DomainContextButtonPadDataExtension;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
-import org.ruminaq.gui.providers.DecoratorProvider;
 import org.ruminaq.gui.providers.DoubleClickFeatureProvider;
 import org.ruminaq.util.ServiceFilterArgs;
 import org.ruminaq.util.ServiceUtil;
@@ -154,27 +154,28 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 	@Override
 	public IContextMenuEntry[] getContextMenu(ICustomContext context) {
 		return Stream.of(getFeatureProvider().getCustomFeatures(context))
-				.filter(ServiceUtil.getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
-						ContextMenuEntryExtension.class, new ServiceFilterArgs() {
-	        @Override
-	        public List<?> getArgs() {
-		        return Arrays.asList(getFeatureProvider(), context);
-	        }
-        }).stream().findFirst()
-        .orElse(new ContextMenuEntryExtension() {
+		    .filter(ServiceUtil
+		        .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+		            ContextMenuEntryExtension.class, new ServiceFilterArgs() {
+			            @Override
+			            public List<?> getArgs() {
+				            return Arrays.asList(getFeatureProvider(), context);
+			            }
+		            })
+		        .stream().findFirst().orElse(new ContextMenuEntryExtension() {
 
-					@Override
-					public Predicate<ICustomFeature> isAvailable(
-					    ICustomContext context) {
-						return new Predicate<ICustomFeature>() {
-							@Override
-							public boolean test(ICustomFeature arg0) {
-								return false;
-							}
-						};
-					}
+			        @Override
+			        public Predicate<ICustomFeature> isAvailable(
+			            ICustomContext context) {
+				        return new Predicate<ICustomFeature>() {
+					        @Override
+					        public boolean test(ICustomFeature arg0) {
+						        return false;
+					        }
+				        };
+			        }
 
-        }).isAvailable(context))
+		        }).isAvailable(context))
 		    .map(cf -> {
 			    ContextMenuEntry menuEntry = new ContextMenuEntry(cf, context);
 			    menuEntry.setText(cf.getName());
@@ -196,9 +197,14 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 
 	@Override
 	public IDecorator[] getDecorators(PictogramElement pe) {
-		IDecorator[] decorators = (new DecoratorProvider(getFeatureProvider()))
-		    .getDecorators(pe);
-		return decorators != null ? decorators : super.getDecorators(pe);
+		return ServiceUtil.getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+		    DecoratorExtension.class, new ServiceFilterArgs() {
+			    @Override
+			    public List<?> getArgs() {
+				    return Arrays.asList(getFeatureProvider(), pe);
+			    }
+		    }).stream().map(ext -> ext.getDecorators(pe)).flatMap(x -> x.stream())
+		    .toArray(IDecorator[]::new);
 	}
 
 	@Override
