@@ -3,15 +3,26 @@ package org.ruminaq.gui.features.create;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.ruminaq.gui.Images;
+import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 
-public class CreateOutputPortFeature extends CreateElementFeature {
+public class CreateOutputPortFeature extends CreateElementFeature implements PaletteCreateFeature {
 
 	public CreateOutputPortFeature(IFeatureProvider fp) {
 		super(fp, OutputPort.class);
+	}
+	
+	@Override
+	public String getCompartment() {
+		return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
+	}
+	
+	@Override
+	public String getStack() {
+		return CommonPaletteCompartmentEntry.PORTS_STACK;
 	}
 
 	@Override

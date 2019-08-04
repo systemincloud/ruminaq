@@ -109,4 +109,5 @@ Service-Component: OSGI-INF/org.ruminaq.gui.Images.xml,
  OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadPortTool.xml,
  OSGI-INF/org.ruminaq.gui.features.contextmenu.CreateSimpleConnectionPointContextMenu.xml,
  OSGI-INF/org.ruminaq.gui.features.doubleclick.DoubleClickFeatures.xml,
- OSGI-INF/org.ruminaq.gui.features.move.MoveFeatures.xml
+ OSGI-INF/org.ruminaq.gui.features.move.MoveFeatures.xml,
+ OSGI-INF/org.ruminaq.gui.palette.CommonPaletteCompartmentEntry.xml

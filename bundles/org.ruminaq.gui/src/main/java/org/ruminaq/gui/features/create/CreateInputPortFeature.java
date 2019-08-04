@@ -3,14 +3,27 @@ package org.ruminaq.gui.features.create;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.ruminaq.gui.Images;
+import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 
-public class CreateInputPortFeature extends CreateElementFeature {
+public class CreateInputPortFeature extends CreateElementFeature implements PaletteCreateFeature {
 
-	public CreateInputPortFeature(IFeatureProvider fp) { super(fp, InputPort.class); }
+	public CreateInputPortFeature(IFeatureProvider fp) {
+		super(fp, InputPort.class);
+	}
+	
+	@Override
+	public String getCompartment() {
+		return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
+	}
+	
+	@Override
+	public String getStack() {
+		return CommonPaletteCompartmentEntry.PORTS_STACK;
+	}
 
 	@Override
 	public Object[] create(ICreateContext context) {

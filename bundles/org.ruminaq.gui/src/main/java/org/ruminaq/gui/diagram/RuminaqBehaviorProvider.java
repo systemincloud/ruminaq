@@ -16,6 +16,7 @@
 package org.ruminaq.gui.diagram;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -30,18 +31,21 @@ import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.ISingleClickContext;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
 import org.eclipse.graphiti.tb.ContextMenuEntry;
 import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IContextButtonPadData;
 import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IDecorator;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.eclipse.util.ConstantsUtil;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
 import org.ruminaq.gui.api.ContextMenuEntryExtension;
 import org.ruminaq.gui.api.DecoratorExtension;
 import org.ruminaq.gui.api.DomainContextButtonPadDataExtension;
 import org.ruminaq.gui.api.DoubleClickFeatureExtension;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
+import org.ruminaq.gui.api.PaletteCompartmentEntryExtension;
 import org.ruminaq.util.ServiceFilterArgs;
 import org.ruminaq.util.ServiceUtil;
 
@@ -76,25 +80,16 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 		return o1 instanceof EObject && o2 instanceof EObject ? o1 == o2 : false;
 	}
 
-//	@Override
-//	public IPaletteCompartmentEntry[] getPalette() {
-//		if (ConstantsUtil
-//		    .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())) {
-//			return ServiceUtil
-//			    .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
-//			        TestPaletteCompartmentEntryExtension.class)
-//			    .stream().map(ext -> ext.getFeatures(getFeatureProvider()))
-//			    .flatMap(Collection::stream)
-//			    .toArray(size -> (IPaletteCompartmentEntry[]) new Object[size]);
-//		} else {
-//			return ServiceUtil
-//			    .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
-//			        PaletteCompartmentEntryExtension.class)
-//			    .stream().map(ext -> ext.getFeatures(getFeatureProvider()))
-//			    .flatMap(Collection::stream)
-//			    .toArray(size -> (IPaletteCompartmentEntry[]) new Object[size]);
-//		}
-//	}
+	@Override
+	public IPaletteCompartmentEntry[] getPalette() {
+		boolean isTest = ConstantsUtil
+		    .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI());
+		return ServiceUtil
+		    .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+		        PaletteCompartmentEntryExtension.class)
+		    .stream().map(ext -> ext.getPalette(getFeatureProvider(), isTest)).flatMap(Collection::stream)
+		    .toArray(IPaletteCompartmentEntry[]::new);
+	}
 
 	@Override
 	public IContextButtonPadData getContextButtonPad(
@@ -187,9 +182,11 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 	@Override
 	public ICustomFeature getDoubleClickFeature(IDoubleClickContext context) {
 		return ServiceUtil
-		    .getServicesAtLatestVersion(RuminaqFeatureProvider.class, DoubleClickFeatureExtension.class)
+		    .getServicesAtLatestVersion(RuminaqFeatureProvider.class,
+		        DoubleClickFeatureExtension.class)
 		    .stream().map(ext -> ext.getFeature(context, getFeatureProvider()))
-		    .filter(Objects::nonNull).findFirst().orElse(super.getDoubleClickFeature(context));
+		    .filter(Objects::nonNull).findFirst()
+		    .orElse(super.getDoubleClickFeature(context));
 	}
 
 	@Override

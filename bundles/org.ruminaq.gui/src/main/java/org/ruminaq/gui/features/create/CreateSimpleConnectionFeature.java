@@ -15,27 +15,33 @@ import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.SimpleConnection;
 
-public class CreateSimpleConnectionFeature extends AbstractCreateConnectionFeature {
+public class CreateSimpleConnectionFeature
+    extends AbstractCreateConnectionFeature {
 
 	public CreateSimpleConnectionFeature(IFeatureProvider fp) {
 		super(fp, "Simple Connection", null);
 	}
-
+	
 	@Override
 	public boolean canStartConnection(ICreateConnectionContext context) {
-		if (getFlowSource(context.getSourceAnchor()) != null) return true;
+		if (getFlowSource(context.getSourceAnchor()) != null)
+			return true;
 		return false;
 	}
 
 	@Override
 	public boolean canCreate(ICreateConnectionContext context) {
-        FlowSource source = getFlowSource(context.getSourceAnchor());
-        FlowTarget target = getFlowTarget(context.getTargetAnchor());
+		FlowSource source = getFlowSource(context.getSourceAnchor());
+		FlowTarget target = getFlowTarget(context.getTargetAnchor());
 
-        if(target != null && context.getTargetAnchor().getIncomingConnections().size() > 0) return false;
+		if (target != null
+		    && context.getTargetAnchor().getIncomingConnections().size() > 0)
+			return false;
 
-        if (source != null && target != null) return true;
-        else return false;
+		if (source != null && target != null)
+			return true;
+		else
+			return false;
 	}
 
 	@Override
@@ -45,25 +51,30 @@ public class CreateSimpleConnectionFeature extends AbstractCreateConnectionFeatu
 		FlowSource source = getFlowSource(context.getSourceAnchor());
 		FlowTarget target = getFlowTarget(context.getTargetAnchor());
 
-        if (source != null && target != null) {
-        	SimpleConnection simpleConnection = createSimpleConnection(source, target);
-            AddConnectionContext addContext = new AddConnectionContext(context.getSourceAnchor(), context.getTargetAnchor());
-            addContext.setNewObject(simpleConnection);
-            newConnection = (Connection) getFeatureProvider().addIfPossible(addContext);
-        }
+		if (source != null && target != null) {
+			SimpleConnection simpleConnection = createSimpleConnection(source,
+			    target);
+			AddConnectionContext addContext = new AddConnectionContext(
+			    context.getSourceAnchor(), context.getTargetAnchor());
+			addContext.setNewObject(simpleConnection);
+			newConnection = (Connection) getFeatureProvider()
+			    .addIfPossible(addContext);
+		}
 
-        return newConnection;
+		return newConnection;
 	}
 
 	private FlowSource getFlowSource(Anchor anchor) {
 		if (anchor != null) {
-	        String isConnectionPoint = Graphiti.getPeService().getPropertyValue(anchor.getParent(), Constants.SIMPLE_CONNECTION_POINT);
-	        if(Boolean.parseBoolean(isConnectionPoint)) {
-	        	return getFlowSource(anchor.getIncomingConnections().get(0).getStart());
-	        } else {
-	        	Object obj = getBusinessObjectForPictogramElement(anchor.getParent());
-	        	if (obj instanceof FlowSource) return (FlowSource) obj;
-	        }
+			String isConnectionPoint = Graphiti.getPeService().getPropertyValue(
+			    anchor.getParent(), Constants.SIMPLE_CONNECTION_POINT);
+			if (Boolean.parseBoolean(isConnectionPoint)) {
+				return getFlowSource(anchor.getIncomingConnections().get(0).getStart());
+			} else {
+				Object obj = getBusinessObjectForPictogramElement(anchor.getParent());
+				if (obj instanceof FlowSource)
+					return (FlowSource) obj;
+			}
 		}
 		return null;
 	}
@@ -71,19 +82,22 @@ public class CreateSimpleConnectionFeature extends AbstractCreateConnectionFeatu
 	private FlowTarget getFlowTarget(Anchor anchor) {
 		if (anchor != null) {
 			Object obj = getBusinessObjectForPictogramElement(anchor.getParent());
-			if (obj instanceof FlowTarget) return (FlowTarget) obj;
+			if (obj instanceof FlowTarget)
+				return (FlowTarget) obj;
 		}
 		return null;
 	}
 
-    private SimpleConnection createSimpleConnection(FlowSource source, FlowTarget target) {
-    	SimpleConnection simpleConnection = RuminaqFactory.eINSTANCE.createSimpleConnection();
-    	simpleConnection.setSourceRef(source);
-    	simpleConnection.setTargetRef(target);
+	private SimpleConnection createSimpleConnection(FlowSource source,
+	    FlowTarget target) {
+		SimpleConnection simpleConnection = RuminaqFactory.eINSTANCE
+		    .createSimpleConnection();
+		simpleConnection.setSourceRef(source);
+		simpleConnection.setTargetRef(target);
 
 		MainTask mt = ModelHandler.getModel(getDiagram(), getFeatureProvider());
 		mt.getConnection().add(simpleConnection);
 
-        return simpleConnection;
-   }
+		return simpleConnection;
+	}
 }
