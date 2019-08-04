@@ -1,0 +1,1 @@
+["inputport.xcf" : ["palette-border", "icon"]]

@@ -46,7 +46,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.util,
  org.slf4j
 Export-Package: org.ruminaq.model,
- org.ruminaq.model.config,
  org.ruminaq.model.desc,
  org.ruminaq.model.exept,
  org.ruminaq.model.util
