@@ -45,26 +45,24 @@ import org.ruminaq.gui.features.directediting.DirectEditLabelFeature;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.util.ModelUtil;
-import org.ruminaq.tasks.TaskProvider;
-import org.ruminaq.tasks.TasksManagerHandlerImpl;
-import org.ruminaq.tasks.api.TaskManagerHandler;
-import org.ruminaq.tasks.api.TasksExtensionHandler;
 
-public class PropertyElementSection extends GFPropertySection implements ITabbedPropertyConstants {
+public class PropertyElementSection extends GFPropertySection
+    implements ITabbedPropertyConstants {
 
-	private String    created = null;
+	private String created = null;
 	private Composite parent;
 
 	private Composite composite;
 
-	private CLabel    lblId;
-	private Text      txtId;
+	private CLabel lblId;
+	private Text txtId;
 
 	/**
 	 * @wbp.parser.entryPoint
 	 */
 	@Override
-	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
+	public void createControls(Composite parent,
+	    TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
 		this.parent = parent;
 	}
@@ -75,20 +73,20 @@ public class PropertyElementSection extends GFPropertySection implements ITabbed
 		initComponents();
 		addStyles();
 
-		Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(getSelectedPictogramElement());
-		if (bo != null && bo instanceof Task) {
-			taskManager.addToGeneralTab(
-					composite,
-					(Task) bo,
-					getDiagramContainer().getDiagramBehavior().getEditingDomain());
-		}
+		Object bo = Graphiti.getLinkService()
+		    .getBusinessObjectForLinkedPictogramElement(
+		        getSelectedPictogramElement());
+//		if (bo != null && bo instanceof Task) {
+//			taskManager.addToGeneralTab(composite, (Task) bo,
+//			    getDiagramContainer().getDiagramBehavior().getEditingDomain());
+//		}
 	}
 
 	private void initLayout(Composite parent) {
-		((GridData)parent.getLayoutData()).verticalAlignment = SWT.FILL;
-		((GridData)parent.getLayoutData()).grabExcessVerticalSpace = true;
+		((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
+		((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
-		composite = new Composite(parent,SWT.NULL);
+		composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout(2, false));
 
 		lblId = new CLabel(composite, SWT.NONE);
@@ -99,38 +97,52 @@ public class PropertyElementSection extends GFPropertySection implements ITabbed
 
 	private void initActions() {
 		txtId.addTraverseListener(new TraverseListener() {
-			@Override public void keyTraversed(TraverseEvent event) {
-		        if(event.detail == SWT.TRAVERSE_RETURN) {
+			@Override
+			public void keyTraversed(TraverseEvent event) {
+				if (event.detail == SWT.TRAVERSE_RETURN) {
 					Shell shell = txtId.getShell();
 
 					if (txtId.getText().length() < 1) {
-						MessageDialog.openError(shell, "Can not edit value", "Please enter any text as element id.");
+						MessageDialog.openError(shell, "Can not edit value",
+						    "Please enter any text as element id.");
 						return;
 					} else if (txtId.getText().contains("\n")) {
-						MessageDialog.openError(shell, "Can not edit value", "Line breakes are not allowed in class names.");
+						MessageDialog.openError(shell, "Can not edit value",
+						    "Line breakes are not allowed in class names.");
 						return;
-					} else if (DirectEditLabelFeature.hasId(getDiagram(), getSelectedPictogramElement(), txtId.getText())) {
-						MessageDialog.openError(shell, "Can not edit value", "Model has already id " + txtId.getText() + ".");
+					} else if (DirectEditLabelFeature.hasId(getDiagram(),
+					    getSelectedPictogramElement(), txtId.getText())) {
+						MessageDialog.openError(shell, "Can not edit value",
+						    "Model has already id " + txtId.getText() + ".");
 						return;
 					}
 
-					TransactionalEditingDomain editingDomain = getDiagramContainer().getDiagramBehavior().getEditingDomain();
+					TransactionalEditingDomain editingDomain = getDiagramContainer()
+					    .getDiagramBehavior().getEditingDomain();
 
 					ModelUtil.runModelChange(new Runnable() {
 						@Override
-                        public void run() {
-							Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(getSelectedPictogramElement());
-							if (bo == null) return;
+						public void run() {
+							Object bo = Graphiti.getLinkService()
+							    .getBusinessObjectForLinkedPictogramElement(
+							        getSelectedPictogramElement());
+							if (bo == null)
+								return;
 							String id = txtId.getText();
 							if (id != null) {
 								if (bo instanceof BaseElement) {
 									BaseElement element = (BaseElement) bo;
 									element.setId(id);
 
-									for(EObject o : getSelectedPictogramElement().getLink().getBusinessObjects()) {
-										if(o instanceof ContainerShape && Graphiti.getPeService().getPropertyValue((PropertyContainer) o, Constants.LABEL_PROPERTY) != null) {
-											UpdateContext context = new UpdateContext((ContainerShape) o);
-											getDiagramTypeProvider().getFeatureProvider().updateIfPossible(context);
+									for (EObject o : getSelectedPictogramElement().getLink()
+									    .getBusinessObjects()) {
+										if (o instanceof ContainerShape && Graphiti.getPeService()
+										    .getPropertyValue((PropertyContainer) o,
+										        Constants.LABEL_PROPERTY) != null) {
+											UpdateContext context = new UpdateContext(
+											    (ContainerShape) o);
+											getDiagramTypeProvider().getFeatureProvider()
+											    .updateIfPossible(context);
 											break;
 										}
 									}
@@ -148,22 +160,27 @@ public class PropertyElementSection extends GFPropertySection implements ITabbed
 	}
 
 	private void addStyles() {
-		composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		lblId    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		txtId    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		composite
+		    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblId.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		txtId.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 	}
 
 	@Override
 	public void refresh() {
-		if(!getId(getSelectedPictogramElement()).equals(created)) {
-			for(Control control : parent.getChildren()) control.dispose();
+		if (!getId(getSelectedPictogramElement()).equals(created)) {
+			for (Control control : parent.getChildren())
+				control.dispose();
 			create(parent);
 			parent.layout();
 			this.created = getId(getSelectedPictogramElement());
 		}
 
-		Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(getSelectedPictogramElement());
-		if(bo == null) return;
+		Object bo = Graphiti.getLinkService()
+		    .getBusinessObjectForLinkedPictogramElement(
+		        getSelectedPictogramElement());
+		if (bo == null)
+			return;
 		String name = ((BaseElement) bo).getId();
 		txtId.setText(name == null ? "" : name);
 	}
@@ -174,12 +191,14 @@ public class PropertyElementSection extends GFPropertySection implements ITabbed
 	}
 
 	private String getId(PictogramElement pe) {
-		if(pe == null) return null;
-        EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-        if(bo instanceof BaseElement) {
-        	BaseElement be = (BaseElement) bo;
-        	return be.getId();
-        }
+		if (pe == null)
+			return null;
+		EObject bo = Graphiti.getLinkService()
+		    .getBusinessObjectForLinkedPictogramElement(pe);
+		if (bo instanceof BaseElement) {
+			BaseElement be = (BaseElement) bo;
+			return be.getId();
+		}
 		return null;
 	}
 }

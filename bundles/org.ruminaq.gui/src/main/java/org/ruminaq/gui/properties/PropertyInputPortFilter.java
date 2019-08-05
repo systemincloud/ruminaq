@@ -24,12 +24,15 @@ import org.ruminaq.model.ruminaq.InputPort;
 
 public class PropertyInputPortFilter extends AbstractPropertySectionFilter {
 
-    @Override
-    protected boolean accept(PictogramElement pe) {
-        EObject eObject = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-        if (eObject instanceof InputPort
-         && Graphiti.getPeService().getPropertyValue(pe, Constants.LABEL_PROPERTY) == null) return true;
-        else return false;
-    }
+	@Override
+	protected boolean accept(PictogramElement pe) {
+		EObject eObject = Graphiti.getLinkService()
+		    .getBusinessObjectForLinkedPictogramElement(pe);
+		if (eObject instanceof InputPort && Graphiti.getPeService()
+		    .getPropertyValue(pe, Constants.LABEL_PROPERTY) == null)
+			return true;
+		else
+			return false;
+	}
 
 }

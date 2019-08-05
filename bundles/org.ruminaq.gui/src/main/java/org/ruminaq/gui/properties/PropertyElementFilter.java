@@ -25,14 +25,17 @@ import org.ruminaq.model.ruminaq.Connection;
 
 public class PropertyElementFilter extends AbstractPropertySectionFilter {
 
-    @Override
-    protected boolean accept(PictogramElement pe) {
-        EObject eObject = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-        if (     eObject instanceof BaseElement
-        	&& !(eObject instanceof Connection)
-        	&&   Graphiti.getPeService().getPropertyValue(pe, Constants.LABEL_PROPERTY) == null) return true;
+	@Override
+	protected boolean accept(PictogramElement pe) {
+		EObject eObject = Graphiti.getLinkService()
+		    .getBusinessObjectForLinkedPictogramElement(pe);
+		if (eObject instanceof BaseElement && !(eObject instanceof Connection)
+		    && Graphiti.getPeService().getPropertyValue(pe,
+		        Constants.LABEL_PROPERTY) == null)
+			return true;
 
-        else return false;
-    }
+		else
+			return false;
+	}
 
 }

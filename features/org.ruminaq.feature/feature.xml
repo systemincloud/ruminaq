@@ -102,28 +102,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.ruminaq.eclipse.api"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
          id="org.ruminaq.gui"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.gui.api"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.gui.features"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"

@@ -39,16 +39,18 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.model.util.ModelUtil;
 
-public class PropertyDescriptionSection extends GFPropertySection implements ITabbedPropertyConstants {
+public class PropertyDescriptionSection extends GFPropertySection
+    implements ITabbedPropertyConstants {
 
 	private Browser b;
 
 	@Override
-	public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
+	public void createControls(Composite parent,
+	    TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
 
-		((GridData)parent.getLayoutData()).verticalAlignment = SWT.FILL;
-		((GridData)parent.getLayoutData()).grabExcessVerticalSpace = true;
+		((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
+		((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
 		b = new Browser(parent, SWT.NONE);
 		parent.setLayout(new GridLayout());
@@ -58,10 +60,10 @@ public class PropertyDescriptionSection extends GFPropertySection implements ITa
 		b.setLayoutData(gd);
 		b.addListener(SWT.MenuDetect, new Listener() {
 			@Override
-            public void handleEvent(Event event) {
-			event.doit = false;
+			public void handleEvent(Event event) {
+				event.doit = false;
 			}
-			});
+		});
 
 	}
 
@@ -70,8 +72,10 @@ public class PropertyDescriptionSection extends GFPropertySection implements ITa
 		PictogramElement pe = getSelectedPictogramElement();
 
 		if (pe != null) {
-			EObject bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-			if (bo == null) return;
+			EObject bo = Graphiti.getLinkService()
+			    .getBusinessObjectForLinkedPictogramElement(pe);
+			if (bo == null)
+				return;
 			b.setText(getPage(bo));
 		}
 	}
@@ -83,17 +87,19 @@ public class PropertyDescriptionSection extends GFPropertySection implements ITa
 
 	public Font getDescriptionFont() {
 		Display display = Display.getCurrent();
-	    FontData data = display.getSystemFont().getFontData()[0];
-	    return new Font(display, data.getName(), data.getHeight() + 1, SWT.NONE);
+		FontData data = display.getSystemFont().getFontData()[0];
+		return new Font(display, data.getName(), data.getHeight() + 1, SWT.NONE);
 	}
 
 	private String getPage(EObject bo) {
 		String fileName = ModelUtil.getName(bo.getClass(), false) + ".html";
 		InputStream is = bo.getClass().getResourceAsStream("/html/" + fileName);
-		if(is == null) return "";
+		if (is == null)
+			return "";
 		try {
 			return IOUtils.toString(is, "UTF-8");
-		} catch (IOException e) { }
+		} catch (IOException e) {
+		}
 		return "";
 	}
 

@@ -47,164 +47,214 @@ import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.util.GlobalUtil;
 import org.ruminaq.util.NumericUtil;
 
-public class PropertyInputPortSection extends GFPropertySection implements ITabbedPropertyConstants {
+public class PropertyInputPortSection extends GFPropertySection
+    implements ITabbedPropertyConstants {
 
-    private Composite root;
-    private Button    btnAsync;
-    private Button    btnHoldLast;
-    private Label     lblQueueSize;
-    private Text      txtQueueSize;
-    private CLabel    lblGroup;
-    private Spinner   spnGroup;
-    /**
-     * @wbp.parser.entryPoint
-     */
-    @Override
-    public void createControls(Composite parent, TabbedPropertySheetPage tabbedPropertySheetPage) {
-        super.createControls(parent, tabbedPropertySheetPage);
+	private Composite root;
+	private Button btnAsync;
+	private Button btnHoldLast;
+	private Label lblQueueSize;
+	private Text txtQueueSize;
+	private CLabel lblGroup;
+	private Spinner spnGroup;
 
-        initLayout(parent);
-        initComponents();
-        initActions();
-        addStyles();
-    }
+	/**
+	 * @wbp.parser.entryPoint
+	 */
+	@Override
+	public void createControls(Composite parent,
+	    TabbedPropertySheetPage tabbedPropertySheetPage) {
+		super.createControls(parent, tabbedPropertySheetPage);
 
-    private void initLayout(Composite parent) {
-        ((GridData)parent.getLayoutData()).verticalAlignment = SWT.FILL;
-        ((GridData)parent.getLayoutData()).grabExcessVerticalSpace = true;
+		initLayout(parent);
+		initComponents();
+		initActions();
+		addStyles();
+	}
 
-        root         = new Composite(parent, SWT.NULL);
-        root          .setLayout(new GridLayout(2, false));
+	private void initLayout(Composite parent) {
+		((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
+		((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
-        btnAsync     = new Button(root, SWT.CHECK);
-        btnHoldLast  = new Button(root, SWT.CHECK);
-        lblQueueSize = new Label(root, SWT.NONE);
-        txtQueueSize = new Text(root, SWT.BORDER);
-        GridData lytQueue = new GridData();
-        lytQueue.minimumWidth = 40;
-        lytQueue.widthHint    = 40;
-        txtQueueSize.setLayoutData(lytQueue);
+		root = new Composite(parent, SWT.NULL);
+		root.setLayout(new GridLayout(2, false));
 
-        lblGroup = new CLabel(root, SWT.NONE);
-        spnGroup = new Spinner(root, SWT.BORDER);
-        GridData lytGroup = new GridData();
-        lytGroup.minimumWidth = 80;
-        lytGroup.widthHint    = 80;
-        spnGroup.setLayoutData(lytGroup);
-    }
+		btnAsync = new Button(root, SWT.CHECK);
+		btnHoldLast = new Button(root, SWT.CHECK);
+		lblQueueSize = new Label(root, SWT.NONE);
+		txtQueueSize = new Text(root, SWT.BORDER);
+		GridData lytQueue = new GridData();
+		lytQueue.minimumWidth = 40;
+		lytQueue.widthHint = 40;
+		txtQueueSize.setLayoutData(lytQueue);
 
-    private void initComponents() {
-        btnAsync    .setText("Asynchronous");
-        btnHoldLast .setText("Hold last");
-        lblQueueSize.setText("Queue size:");
-        lblGroup    .setText("Group:");
-        spnGroup    .setMinimum(-1);
-        spnGroup    .setMaximum(Integer.MAX_VALUE);
-    }
+		lblGroup = new CLabel(root, SWT.NONE);
+		spnGroup = new Spinner(root, SWT.BORDER);
+		GridData lytGroup = new GridData();
+		lytGroup.minimumWidth = 80;
+		lytGroup.widthHint = 80;
+		spnGroup.setLayoutData(lytGroup);
+	}
 
-    private void initActions() {
-        btnAsync.addSelectionListener(new SelectionAdapter() {
-            @Override public void widgetSelected(SelectionEvent se) {
-                ModelUtil.runModelChange(new Runnable() {
-                    @Override
-                    public void run() {
-                        PictogramElement pe = getSelectedPictogramElement(); if(pe == null) return;
-                        Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe); if(bo == null) return;
-                        if(bo instanceof InputPort) {
-                            InputPort p = (InputPort) bo;
-                            p.setAsynchronous(btnAsync.getSelection());
-                            UpdateContext context = new UpdateContext(getSelectedPictogramElement());
-                            getDiagramTypeProvider().getFeatureProvider().updateIfPossible(context);
-                            btnHoldLast.setEnabled(!btnAsync.getSelection());
-                            spnGroup   .setEnabled(!btnAsync.getSelection());
-                        }
-                    }
-                }, getDiagramContainer().getDiagramBehavior().getEditingDomain(), "Model Update");
-            }});
-        btnHoldLast.addSelectionListener(new SelectionAdapter() {
-            @Override public void widgetSelected(SelectionEvent se) {
-                ModelUtil.runModelChange(new Runnable() {
-                    @Override
-                    public void run() {
-                        PictogramElement pe = getSelectedPictogramElement(); if(pe == null) return;
-                        Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe); if(bo == null) return;
-                        if(bo instanceof InputPort) {
-                            InputPort p = (InputPort) bo;
-                            p.setHoldLast(btnHoldLast.getSelection());
-                        }
-                    }
-                }, getDiagramContainer().getDiagramBehavior().getEditingDomain(), "Model Update");
-            }});
-        txtQueueSize.addFocusListener(new FocusAdapter() {
-            @Override public void focusLost(FocusEvent event) {
-                Shell shell = txtQueueSize.getShell();
-                boolean parse = (NumericUtil.isOneDimPositiveInteger(txtQueueSize.getText()) && Integer.parseInt(txtQueueSize.getText()) != 0) ||
-                                GlobalUtil.isGlobalVariable(txtQueueSize.getText()) ||
-                                Constants.INF.equals(txtQueueSize.getText());
-                PictogramElement pe = getSelectedPictogramElement(); if(pe == null) return;
-                Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-                if (bo == null || !(bo instanceof InputPort)) return;
-                final InputPort ip = (InputPort) bo;
-                if(parse) {
-                    ModelUtil.runModelChange(new Runnable() {
-                        @Override
-                        public void run() {
-                            ip.setQueueSize(txtQueueSize.getText());
-                        }
-                    }, getDiagramContainer().getDiagramBehavior().getEditingDomain(), "Change queque size");
-                } else {
-                    MessageDialog.openError(shell, "Can't edit value", "Don't understant value");
-                    txtQueueSize.setText(ip.getQueueSize());
-                }
-            }});
-        txtQueueSize.addTraverseListener(new TraverseListener() {
-            @Override public void keyTraversed(TraverseEvent event) { if(event.detail == SWT.TRAVERSE_RETURN) btnAsync.setFocus(); }
-        });
-        spnGroup.addSelectionListener(new SelectionAdapter() {
-            @Override public void widgetSelected(SelectionEvent se) {
-                ModelUtil.runModelChange(new Runnable() {
-                    @Override
-                    public void run() {
-                        PictogramElement pe = getSelectedPictogramElement(); if(pe == null) return;
-                        Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe); if(bo == null) return;
-                        if(bo instanceof InputPort) {
-                            InputPort p = (InputPort) bo;
-                            p.setGroup(spnGroup.getSelection());
-                        }
-                    }
-                }, getDiagramContainer().getDiagramBehavior().getEditingDomain(), "Model Update");
-                refresh();
-            }});
-    }
+	private void initComponents() {
+		btnAsync.setText("Asynchronous");
+		btnHoldLast.setText("Hold last");
+		lblQueueSize.setText("Queue size:");
+		lblGroup.setText("Group:");
+		spnGroup.setMinimum(-1);
+		spnGroup.setMaximum(Integer.MAX_VALUE);
+	}
 
-    private void addStyles() {
-        root        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-        lblQueueSize.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-        txtQueueSize.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-        lblGroup    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-        spnGroup    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    }
+	private void initActions() {
+		btnAsync.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent se) {
+				ModelUtil.runModelChange(new Runnable() {
+					@Override
+					public void run() {
+						PictogramElement pe = getSelectedPictogramElement();
+						if (pe == null)
+							return;
+						Object bo = Graphiti.getLinkService()
+						    .getBusinessObjectForLinkedPictogramElement(pe);
+						if (bo == null)
+							return;
+						if (bo instanceof InputPort) {
+							InputPort p = (InputPort) bo;
+							p.setAsynchronous(btnAsync.getSelection());
+							UpdateContext context = new UpdateContext(
+							    getSelectedPictogramElement());
+							getDiagramTypeProvider().getFeatureProvider()
+							    .updateIfPossible(context);
+							btnHoldLast.setEnabled(!btnAsync.getSelection());
+							spnGroup.setEnabled(!btnAsync.getSelection());
+						}
+					}
+				}, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+				    "Model Update");
+			}
+		});
+		btnHoldLast.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent se) {
+				ModelUtil.runModelChange(new Runnable() {
+					@Override
+					public void run() {
+						PictogramElement pe = getSelectedPictogramElement();
+						if (pe == null)
+							return;
+						Object bo = Graphiti.getLinkService()
+						    .getBusinessObjectForLinkedPictogramElement(pe);
+						if (bo == null)
+							return;
+						if (bo instanceof InputPort) {
+							InputPort p = (InputPort) bo;
+							p.setHoldLast(btnHoldLast.getSelection());
+						}
+					}
+				}, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+				    "Model Update");
+			}
+		});
+		txtQueueSize.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent event) {
+				Shell shell = txtQueueSize.getShell();
+				boolean parse = (NumericUtil
+				    .isOneDimPositiveInteger(txtQueueSize.getText())
+				    && Integer.parseInt(txtQueueSize.getText()) != 0)
+				    || GlobalUtil.isGlobalVariable(txtQueueSize.getText())
+				    || Constants.INF.equals(txtQueueSize.getText());
+				PictogramElement pe = getSelectedPictogramElement();
+				if (pe == null)
+					return;
+				Object bo = Graphiti.getLinkService()
+				    .getBusinessObjectForLinkedPictogramElement(pe);
+				if (bo == null || !(bo instanceof InputPort))
+					return;
+				final InputPort ip = (InputPort) bo;
+				if (parse) {
+					ModelUtil.runModelChange(new Runnable() {
+						@Override
+						public void run() {
+							ip.setQueueSize(txtQueueSize.getText());
+						}
+					}, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+					    "Change queque size");
+				} else {
+					MessageDialog.openError(shell, "Can't edit value",
+					    "Don't understant value");
+					txtQueueSize.setText(ip.getQueueSize());
+				}
+			}
+		});
+		txtQueueSize.addTraverseListener(new TraverseListener() {
+			@Override
+			public void keyTraversed(TraverseEvent event) {
+				if (event.detail == SWT.TRAVERSE_RETURN)
+					btnAsync.setFocus();
+			}
+		});
+		spnGroup.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent se) {
+				ModelUtil.runModelChange(new Runnable() {
+					@Override
+					public void run() {
+						PictogramElement pe = getSelectedPictogramElement();
+						if (pe == null)
+							return;
+						Object bo = Graphiti.getLinkService()
+						    .getBusinessObjectForLinkedPictogramElement(pe);
+						if (bo == null)
+							return;
+						if (bo instanceof InputPort) {
+							InputPort p = (InputPort) bo;
+							p.setGroup(spnGroup.getSelection());
+						}
+					}
+				}, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+				    "Model Update");
+				refresh();
+			}
+		});
+	}
 
-    @Override
-    public void refresh() {
-        PictogramElement pe = getSelectedPictogramElement();
-        if(pe == null) return;
-        Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-        if (bo == null) return;
-        final InputPort p = (InputPort) bo;
+	private void addStyles() {
+		root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblQueueSize
+		    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		txtQueueSize
+		    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblGroup
+		    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		spnGroup
+		    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+	}
 
-        btnAsync    .setSelection(p.isAsynchronous());
-        btnHoldLast .setSelection(p.isHoldLast());
-        txtQueueSize.setText     (p.getQueueSize());
+	@Override
+	public void refresh() {
+		PictogramElement pe = getSelectedPictogramElement();
+		if (pe == null)
+			return;
+		Object bo = Graphiti.getLinkService()
+		    .getBusinessObjectForLinkedPictogramElement(pe);
+		if (bo == null)
+			return;
+		final InputPort p = (InputPort) bo;
 
-        spnGroup.setSelection(p.getGroup());
+		btnAsync.setSelection(p.isAsynchronous());
+		btnHoldLast.setSelection(p.isHoldLast());
+		txtQueueSize.setText(p.getQueueSize());
 
-        btnHoldLast.setEnabled(!btnAsync.getSelection());
-        spnGroup   .setEnabled(!btnAsync.getSelection());
-    }
+		spnGroup.setSelection(p.getGroup());
 
-    @Override
-    public void setInput(IWorkbenchPart part, ISelection selection) {
-        super.setInput(part, selection);
-    }
+		btnHoldLast.setEnabled(!btnAsync.getSelection());
+		spnGroup.setEnabled(!btnAsync.getSelection());
+	}
+
+	@Override
+	public void setInput(IWorkbenchPart part, ISelection selection) {
+		super.setInput(part, selection);
+	}
 }

@@ -25,10 +25,14 @@ import org.ruminaq.util.EclipseUtil;
 
 public class TestParametersFilter extends AbstractPropertySectionFilter {
 
-    @Override
-    protected boolean accept(PictogramElement pe) {
-        EObject eObject = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-        if(eObject instanceof MainTask && ConstantsUtil.isTest(EclipseUtil.getModelPathFromEObject(pe))) return true;
-        else return false;
-    }
+	@Override
+	protected boolean accept(PictogramElement pe) {
+		EObject eObject = Graphiti.getLinkService()
+		    .getBusinessObjectForLinkedPictogramElement(pe);
+		if (eObject instanceof MainTask
+		    && ConstantsUtil.isTest(EclipseUtil.getModelPathFromEObject(pe)))
+			return true;
+		else
+			return false;
+	}
 }
