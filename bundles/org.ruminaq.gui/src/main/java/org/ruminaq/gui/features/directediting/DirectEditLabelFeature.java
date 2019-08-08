@@ -33,7 +33,7 @@ import org.ruminaq.model.ruminaq.BaseElement;
 @FeatureFilter(Filter.class)
 public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
 
-	static class Filter implements FeaturePredicate<IContext> {
+	public static class Filter implements FeaturePredicate<IContext> {
 		@Override
 		public boolean test(IContext context) {
 			IDirectEditingContext directEditingContext = (IDirectEditingContext) context;

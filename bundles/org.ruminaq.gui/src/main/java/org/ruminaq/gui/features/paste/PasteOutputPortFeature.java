@@ -26,7 +26,7 @@ import org.ruminaq.model.ruminaq.OutputPort;
 public class PasteOutputPortFeature extends RuminaqPasteFeature
     implements PasteAnchorTracker {
 
-	static class Filter implements FeaturePredicate<BaseElement> {
+	public static class Filter implements FeaturePredicate<BaseElement> {
 		@Override
 		public boolean test(BaseElement bo) {
 			return bo instanceof OutputPort;

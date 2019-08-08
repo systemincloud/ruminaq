@@ -16,7 +16,7 @@ import org.ruminaq.model.ruminaq.Port;
 @FeatureFilter(Filter.class)
 public class ResizeShapeForbiddenFeature extends DefaultResizeShapeFeature {
 
-	static class Filter implements FeaturePredicate<IContext> {
+	public static class Filter implements FeaturePredicate<IContext> {
 		@Override
 		public boolean test(IContext context, IFeatureProvider fp) {
 			IResizeShapeContext resizeShapeContext = (IResizeShapeContext) context;

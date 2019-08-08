@@ -16,7 +16,7 @@ import org.ruminaq.model.ruminaq.SimpleConnection;
 public class ReconnectionSimpleConnectionFeature
     extends DefaultReconnectionFeature {
 
-	static class Filter implements FeaturePredicate<IContext> {
+	public static class Filter implements FeaturePredicate<IContext> {
 		@Override
 		public boolean test(IContext context, IFeatureProvider fp) {
 			IReconnectionContext reconnectionContext = (IReconnectionContext) context;

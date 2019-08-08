@@ -28,7 +28,7 @@ import org.ruminaq.gui.features.delete.DeleteForbiddenFeature.Filter;
 @FeatureFilter(Filter.class)
 public class DeleteForbiddenFeature extends DefaultDeleteFeature {
 
-	static class Filter implements FeaturePredicate<IContext> {
+	public static class Filter implements FeaturePredicate<IContext> {
 		@Override
 		public boolean test(IContext context) {
 			IDeleteContext deleteContext = (IDeleteContext) context;

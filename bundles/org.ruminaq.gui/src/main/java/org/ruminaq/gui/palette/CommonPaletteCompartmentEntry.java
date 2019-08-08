@@ -69,10 +69,10 @@ public class CommonPaletteCompartmentEntry
 		Stream.of(fp.getCreateFeatures())
 		    .filter(cf -> cf instanceof PaletteCreateFeature)
 		    .map(cf -> (PaletteCreateFeature & ICreateFeature) cf)
-		    .filter(cf -> isTest ? cf.isTestOnly() : true)
+		    .filter(cf -> isTest ? !cf.isTestOnly() : true)
 		    .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
-		    .filter(cf -> CONNECTIONS_STACK.equals(cf.getStack())).forEach(cf -> {
-			    connectionsStackEntry.addCreationToolEntry(
+		    .filter(cf -> PORTS_STACK.equals(cf.getStack())).forEach(cf -> {
+		    	portsStackEntry.addCreationToolEntry(
 			        new ObjectCreationToolEntry(cf.getCreateName(),
 			            cf.getCreateDescription(), cf.getCreateImageId(),
 			            cf.getCreateLargeImageId(), cf));

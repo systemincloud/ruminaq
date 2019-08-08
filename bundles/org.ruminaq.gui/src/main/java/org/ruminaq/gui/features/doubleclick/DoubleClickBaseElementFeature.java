@@ -19,7 +19,7 @@ import org.ruminaq.model.ruminaq.BaseElement;
 @FeatureFilter(Filter.class)
 public class DoubleClickBaseElementFeature extends AbstractCustomFeature {
 
-	static class Filter implements FeaturePredicate<IContext> {
+	public static class Filter implements FeaturePredicate<IContext> {
 		@Override
 		public boolean test(IContext context, IFeatureProvider fp) {
 			IDoubleClickContext doubleClickContext = (IDoubleClickContext) context;

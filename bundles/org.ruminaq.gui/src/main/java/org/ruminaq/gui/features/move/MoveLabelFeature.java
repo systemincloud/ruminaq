@@ -16,7 +16,7 @@ import org.ruminaq.gui.features.move.MoveLabelFeature.Filter;
 @FeatureFilter(Filter.class)
 public class MoveLabelFeature extends DefaultMoveShapeFeature {
 
-	static class Filter implements FeaturePredicate<IContext> {
+	public static class Filter implements FeaturePredicate<IContext> {
 		@Override
 		public boolean test(IContext context, IFeatureProvider fp) {
 			IMoveShapeContext moveShapeContext = (IMoveShapeContext) context;
