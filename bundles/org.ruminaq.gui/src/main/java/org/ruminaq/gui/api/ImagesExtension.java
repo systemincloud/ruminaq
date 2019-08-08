@@ -26,7 +26,7 @@ public interface ImagesExtension {
 		return Arrays.stream(getImageDecriptors())
 		    .collect(Collectors.toMap(ImageDescriptor::name, i -> FileLocator
 		        .find(FrameworkUtil.getBundle(i.clazz()), new Path(i.path()), null)
-		        .toString()));
+		        .getFile()));
 	}
 
 	default ImageDescriptor[] getImageDecriptors() {

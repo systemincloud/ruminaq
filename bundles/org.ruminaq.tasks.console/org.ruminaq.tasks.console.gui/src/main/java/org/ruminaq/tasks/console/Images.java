@@ -20,7 +20,7 @@ import org.ruminaq.gui.api.ImagesExtension;
  *
  * @author Marek Jagielski
  */
-@Component
+@Component(property = { "service.ranking:Integer=5" })
 public class Images implements ImagesExtension {
 
 	public enum K {

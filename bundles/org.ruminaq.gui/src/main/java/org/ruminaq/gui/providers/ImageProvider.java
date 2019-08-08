@@ -20,12 +20,11 @@ import org.ruminaq.util.ServiceUtil;
  */
 public class ImageProvider extends AbstractImageProvider {
 
-	private Collection<ImagesExtension> extensions = ServiceUtil
-	    .getServicesAtLatestVersion(ImageProvider.class, ImagesExtension.class);
-
 	@Override
 	protected void addAvailableImages() {
-		extensions.stream().map(ImagesExtension::getImageKeyPath).map(Map::entrySet)
+		ServiceUtil
+		    .getServicesAtLatestVersion(ImageProvider.class, ImagesExtension.class)
+		    .stream().map(ImagesExtension::getImageKeyPath).map(Map::entrySet)
 		    .flatMap(Collection::stream)
 		    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
 		    .entrySet().stream()

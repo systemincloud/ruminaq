@@ -28,7 +28,6 @@ import org.osgi.framework.Version;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.eclipse.api.EclipseExtension;
-import org.ruminaq.gui.features.tools.IContextButtonPadTool;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.javatask.gui.features.AddFeature;

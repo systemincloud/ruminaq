@@ -14,13 +14,13 @@ import org.ruminaq.gui.api.ImagesExtension;
  *
  * @author Marek Jagielski
  */
-@Component
+@Component(property = { "service.ranking:Integer=5" })
 public class Images implements ImagesExtension {
 
 	public enum Image implements ImageDescriptor {
 		IMG_CONTEXT_SIMPLECONNECTION("/icons/context.simpleconnection.gif"),
-		IMG_PALETTE_INPUTPORT("/icons/inputport.palette.png"),
-		IMG_PALETTE_OUTPUTPORT("/icons/outputport.palette.png")
+		IMG_PALETTE_INPUTPORT("/icons/palette.inputport.png"),
+		IMG_PALETTE_OUTPUTPORT("/icons/palette.outputport.png")
 		;
 
 		private String path;

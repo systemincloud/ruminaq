@@ -16,8 +16,10 @@
 package org.ruminaq.gui.diagram;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IAddBendpointFeature;
@@ -110,12 +112,15 @@ public class RuminaqFeatureProvider extends DefaultFeatureProvider {
 
 	@Override
 	public ICreateConnectionFeature[] getCreateConnectionFeatures() {
-		return getFeatures(ICreateConnectionFeature.class, CreateConnectionFeaturesExtension.class);
+		return getFeatures(ICreateConnectionFeature.class,
+		    CreateConnectionFeaturesExtension.class).stream()
+		        .toArray(ICreateConnectionFeature[]::new);
 	}
 
 	@Override
 	public ICreateFeature[] getCreateFeatures() {
-		return getFeatures(ICreateFeature.class, CreateFeaturesExtension.class);
+		return getFeatures(ICreateFeature.class, CreateFeaturesExtension.class)
+		    .toArray(ICreateFeature[]::new);
 	}
 
 	@Override
@@ -126,7 +131,8 @@ public class RuminaqFeatureProvider extends DefaultFeatureProvider {
 
 	@Override
 	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
-		return getFeatures(ICustomFeature.class, CustomFeaturesExtension.class);
+		return getFeatures(ICustomFeature.class, CustomFeaturesExtension.class)
+		    .toArray(ICustomFeature[]::new);
 	}
 
 	@Override
@@ -223,15 +229,14 @@ public class RuminaqFeatureProvider extends DefaultFeatureProvider {
 		    context, () -> super.getUpdateFeature(context));
 	}
 
-	@SuppressWarnings("unchecked")
-	private <T extends IFeature> T[] getFeatures(Class<T> outputClass, Class<? extends MultipleFeaturesExtension<T>> serviceClass) {
+	private <T extends IFeature> List<T> getFeatures(Class<T> outputClass,
+	    Class<? extends MultipleFeaturesExtension<T>> serviceClass) {
 		return ServiceUtil
-		    .getServicesAtLatestVersion(RuminaqFeatureProvider.class,
-		    		serviceClass)
+		    .getServicesAtLatestVersion(RuminaqFeatureProvider.class, serviceClass)
 		    .stream().map(ext -> ext.getFeatures(this)).flatMap(Collection::stream)
-		    .toArray(size -> (T[]) new Object[size]);
+		    .collect(Collectors.toList());
 	}
-	
+
 	private <T extends IFeature> T getFeature(Class<T> outputClass,
 	    Class<? extends BestFeatureExtension<T>> serviceClass, IContext context,
 	    Supplier<? extends T> superMethod) {
