@@ -37,11 +37,13 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.eclipse.util.ConstantsUtil;
 import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.prefs.ProjectProps;
+import org.ruminaq.util.ServiceUtil;
 import org.ruminaq.validation.MarkerChangeListener;
 import org.ruminaq.validation.ProjectValidator;
 import org.ruminaq.validation.ValidationStatusLoader;
@@ -52,160 +54,162 @@ import org.ruminaq.validation.ValidationStatusLoader;
  */
 public class RuminaqEditor extends DiagramEditor {
 
-  private IResourceChangeListener markerChangeListener;
+	private IResourceChangeListener markerChangeListener;
 
-  ExecutorService validationExecutor = Executors.newSingleThreadExecutor();
+	ExecutorService validationExecutor = Executors.newSingleThreadExecutor();
 
-  @Override
-  protected DiagramBehavior createDiagramBehavior() {
-    return new RuminaqDiagramBehavior(this);
-  }
-  
-  @Override
-  public void createPartControl(Composite parent) {
-    super.createPartControl(parent);
-    // hides grid on diagram, but you can reenable it
-    if (getGraphicalViewer() != null
-        && getGraphicalViewer().getEditPartRegistry() != null) {
-      ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) getGraphicalViewer()
-          .getEditPartRegistry().get(LayerManager.ID);
-      IFigure gridFigure = ((LayerManager) rootEditPart)
-          .getLayer(LayerConstants.GRID_LAYER);
-      gridFigure.setVisible(false);
-    }
-  }
+	@Override
+	protected DiagramBehavior createDiagramBehavior() {
+		return new RuminaqDiagramBehavior(this);
+	}
 
-  @Override
-  public void init(IEditorSite site, IEditorInput input)
-      throws PartInitException {
-    super.init(site, input);
-//    extensions.stream().forEach(EclipseExtension::initEditor);
-    IOperationHistory history = getOperationHistory();
-    if (history != null) {
-      getOperationHistory()
-          .addOperationHistoryListener(new IOperationHistoryListener() {
-            @Override
-            public void historyNotification(OperationHistoryEvent event) {
-              switch (event.getEventType()) {
-              case OperationHistoryEvent.DONE:
-              case OperationHistoryEvent.REDONE:
-              case OperationHistoryEvent.UNDONE:
-                doSave(new NullProgressMonitor());
-                break;
-              }
-            }
-          });
-    }
-    addMarkerChangeListener();
+	@Override
+	public void createPartControl(Composite parent) {
+		super.createPartControl(parent);
+		// hides grid on diagram, but you can reenable it
+		if (getGraphicalViewer() != null
+		    && getGraphicalViewer().getEditPartRegistry() != null) {
+			ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) getGraphicalViewer()
+			    .getEditPartRegistry().get(LayerManager.ID);
+			IFigure gridFigure = ((LayerManager) rootEditPart)
+			    .getLayer(LayerConstants.GRID_LAYER);
+			gridFigure.setVisible(false);
+		}
+	}
 
-    final MainTask mt = ModelHandler.getModel(
-        getDiagramTypeProvider().getDiagram(),
-        getDiagramTypeProvider().getFeatureProvider());
-    if (!mt.isInitialized()) {
-      TransactionalEditingDomain editingDomain = getDiagramBehavior()
-          .getEditingDomain();
-      ModelUtil.runModelChange(new Runnable() {
-        @Override
-        public void run() {
-          mt.setVersion(ProjectProps.getInstance(getModelFile().getProject())
-              .get(ProjectProps.MODELER_VERSION));
-        }
-      }, editingDomain, "Model Update");
+	@Override
+	public void init(IEditorSite site, IEditorInput input)
+	    throws PartInitException {
+		ServiceUtil
+		    .getServicesAtLatestVersion(RuminaqEditor.class, EclipseExtension.class)
+		    .stream().forEach(EclipseExtension::initEditor);
+		super.init(site, input);
+		IOperationHistory history = getOperationHistory();
+		if (history != null) {
+			getOperationHistory()
+			    .addOperationHistoryListener(new IOperationHistoryListener() {
+				    @Override
+				    public void historyNotification(OperationHistoryEvent event) {
+					    switch (event.getEventType()) {
+					    case OperationHistoryEvent.DONE:
+					    case OperationHistoryEvent.REDONE:
+					    case OperationHistoryEvent.UNDONE:
+						    doSave(new NullProgressMonitor());
+						    break;
+					    }
+				    }
+			    });
+		}
+		addMarkerChangeListener();
 
-      if (ConstantsUtil
-          .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())) {
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            if (((ContainerShape) getDiagramTypeProvider().getDiagram())
-                .getChildren().size() != 0) {
-              UpdateContext context = new UpdateContext(
-                  ((ContainerShape) getDiagramTypeProvider().getDiagram())
-                      .getChildren().get(0));
-              getDiagramTypeProvider().getFeatureProvider()
-                  .updateIfPossible(context);
-            }
-          }
-        }, editingDomain, "Model Update");
-      }
-      ModelUtil.runModelChange(new Runnable() {
-        @Override
-        public void run() {
-          mt.setInitialized(true);
-        }
-      }, editingDomain, "Model Update");
-    }
-  }
+		final MainTask mt = ModelHandler.getModel(
+		    getDiagramTypeProvider().getDiagram(),
+		    getDiagramTypeProvider().getFeatureProvider());
+		if (!mt.isInitialized()) {
+			TransactionalEditingDomain editingDomain = getDiagramBehavior()
+			    .getEditingDomain();
+			ModelUtil.runModelChange(new Runnable() {
+				@Override
+				public void run() {
+					mt.setVersion(ProjectProps.getInstance(getModelFile().getProject())
+					    .get(ProjectProps.MODELER_VERSION));
+				}
+			}, editingDomain, "Model Update");
 
-  private IOperationHistory getOperationHistory() {
-    IOperationHistory history = null;
-    if (getEditingDomain() != null) {
-      final IWorkspaceCommandStack commandStack = (IWorkspaceCommandStack) getEditingDomain()
-          .getCommandStack();
-      if (commandStack != null) {
-        history = commandStack.getOperationHistory();
-      }
-    }
-    return history;
-  }
+			if (ConstantsUtil
+			    .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())) {
+				ModelUtil.runModelChange(new Runnable() {
+					@Override
+					public void run() {
+						if (((ContainerShape) getDiagramTypeProvider().getDiagram())
+						    .getChildren().size() != 0) {
+							UpdateContext context = new UpdateContext(
+							    ((ContainerShape) getDiagramTypeProvider().getDiagram())
+							        .getChildren().get(0));
+							getDiagramTypeProvider().getFeatureProvider()
+							    .updateIfPossible(context);
+						}
+					}
+				}, editingDomain, "Model Update");
+			}
+			ModelUtil.runModelChange(new Runnable() {
+				@Override
+				public void run() {
+					mt.setInitialized(true);
+				}
+			}, editingDomain, "Model Update");
+		}
+	}
 
-  @Override
-  public boolean isDirty() {
-    return false;
-  }
+	private IOperationHistory getOperationHistory() {
+		IOperationHistory history = null;
+		if (getEditingDomain() != null) {
+			final IWorkspaceCommandStack commandStack = (IWorkspaceCommandStack) getEditingDomain()
+			    .getCommandStack();
+			if (commandStack != null) {
+				history = commandStack.getOperationHistory();
+			}
+		}
+		return history;
+	}
 
-  private void addMarkerChangeListener() {
-    if (getModelFile() != null) {
-      if (markerChangeListener == null) {
-        markerChangeListener = new MarkerChangeListener(getModelFile(),
-            getEditingDomain(), getDiagramBehavior(),
-            getEditorSite().getShell().getDisplay());
-        getModelFile().getWorkspace().addResourceChangeListener(
-            markerChangeListener, IResourceChangeEvent.POST_BUILD);
-      }
-    }
-  }
+	@Override
+	public boolean isDirty() {
+		return false;
+	}
 
-  @Override
-  protected void setInput(IEditorInput input) {
-    super.setInput(input);
-    loadMarkers();
-  }
+	private void addMarkerChangeListener() {
+		if (getModelFile() != null) {
+			if (markerChangeListener == null) {
+				markerChangeListener = new MarkerChangeListener(getModelFile(),
+				    getEditingDomain(), getDiagramBehavior(),
+				    getEditorSite().getShell().getDisplay());
+				getModelFile().getWorkspace().addResourceChangeListener(
+				    markerChangeListener, IResourceChangeEvent.POST_BUILD);
+			}
+		}
+	}
 
-  private void loadMarkers() {
-    if (getModelFile() != null) {
-      try {
-        (new ValidationStatusLoader()).load(getEditingDomain(),
-            Arrays.asList(getModelFile().findMarkers(
-                Constants.VALIDATION_MARKER, true, IResource.DEPTH_ZERO)));
-      } catch (CoreException e) {
-      }
-    }
-  }
+	@Override
+	protected void setInput(IEditorInput input) {
+		super.setInput(input);
+		loadMarkers();
+	}
 
-  public IFile getModelFile() {
-    if (getDiagramTypeProvider() != null
-        && getDiagramTypeProvider().getDiagram() != null
-        && getDiagramTypeProvider().getDiagram().eResource() != null) {
-      String uriString = getDiagramTypeProvider().getDiagram().eResource()
-          .getURI().trimFragment().toPlatformString(true);
-      if (uriString != null)
-        return ResourcesPlugin.getWorkspace().getRoot()
-            .getFile(new Path(uriString));
-    }
-    return null;
-  }
+	private void loadMarkers() {
+		if (getModelFile() != null) {
+			try {
+				(new ValidationStatusLoader()).load(getEditingDomain(),
+				    Arrays.asList(getModelFile().findMarkers(
+				        Constants.VALIDATION_MARKER, true, IResource.DEPTH_ZERO)));
+			} catch (CoreException e) {
+			}
+		}
+	}
 
-  @Override
-  public void doSave(final IProgressMonitor monitor) {
-    super.doSave(monitor);
-    validationExecutor.execute(new Runnable() {
-      @Override
-      public void run() {
-        ProjectValidator.validateOnSave(
-            getDiagramTypeProvider().getDiagram().eResource(), monitor);
-      }
-    });
-  }
+	public IFile getModelFile() {
+		if (getDiagramTypeProvider() != null
+		    && getDiagramTypeProvider().getDiagram() != null
+		    && getDiagramTypeProvider().getDiagram().eResource() != null) {
+			String uriString = getDiagramTypeProvider().getDiagram().eResource()
+			    .getURI().trimFragment().toPlatformString(true);
+			if (uriString != null)
+				return ResourcesPlugin.getWorkspace().getRoot()
+				    .getFile(new Path(uriString));
+		}
+		return null;
+	}
+
+	@Override
+	public void doSave(final IProgressMonitor monitor) {
+		super.doSave(monitor);
+		validationExecutor.execute(new Runnable() {
+			@Override
+			public void run() {
+				ProjectValidator.validateOnSave(
+				    getDiagramTypeProvider().getDiagram().eResource(), monitor);
+			}
+		});
+	}
 
 }

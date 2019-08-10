@@ -24,13 +24,13 @@ public abstract class AbstractTaskViewPart extends ViewPart {
         if(bo instanceof Task) {
         	Task task = (Task) bo;
 	        for (ITaskUiApi t : tasks.getTasks(getPrefix())) {
-	        	if(t.getSymbolicName().equals(task.getBundleName())
-	    	    && TaskProvider.compare(t.getVersion(), Version.parseVersion(task.getVersion()))) {
+//	        	if(t.getSymbolicName().equals(task.getBundleName())
+//	    	    && TaskProvider.compare(t.getVersion(), Version.parseVersion(task.getVersion()))) {
 	        		view = t.createView(viewClass);
 	        		setPartName(task.getId());
 	        		view.createPartControl(parent, getSite().getShell());
 	        		view.init(bo, ed);
-	        	}
+//	        	}
 	        }
         }
         parent.layout();

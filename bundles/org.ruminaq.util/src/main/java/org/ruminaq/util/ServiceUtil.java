@@ -98,9 +98,16 @@ public final class ServiceUtil {
 				        .max(Comparator
 				            .comparing(r -> r.getKey().getBundle().getVersion()))
 				        .get())
-				    .sorted(((s1, s2) -> Integer.compare(
-				        (Integer) s2.getKey().getProperty(SERVICE_RANKING_PROPERTY),
-				        (Integer) s1.getKey().getProperty(SERVICE_RANKING_PROPERTY))))
+				    .sorted(
+				        ((s1, s2) -> Integer.compare(
+				            Optional
+				                .ofNullable((Integer) s2.getKey()
+				                    .getProperty(SERVICE_RANKING_PROPERTY))
+				                .orElse(Integer.MAX_VALUE),
+				            Optional
+				                .ofNullable((Integer) s1.getKey()
+				                    .getProperty(SERVICE_RANKING_PROPERTY))
+				                .orElse(Integer.MAX_VALUE))))
 				    .map(SimpleEntry::getValue).filter(filter(filterArgs))
 				    .collect(Collectors.toList());
 			}

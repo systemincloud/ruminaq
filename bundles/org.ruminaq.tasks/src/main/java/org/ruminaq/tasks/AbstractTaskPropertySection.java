@@ -43,8 +43,8 @@ public abstract class AbstractTaskPropertySection extends GFPropertySection
     if (bo instanceof Task) {
       Task task = (Task) bo;
       for (ITaskUiApi t : tasks.getTasks(getPrefix())) {
-        if (t.getSymbolicName().equals(task.getBundleName()) && TaskProvider
-            .compare(t.getVersion(), Version.parseVersion(task.getVersion())))
+//        if (t.getSymbolicName().equals(task.getBundleName()) && TaskProvider
+//            .compare(t.getVersion(), Version.parseVersion(task.getVersion())))
           return t;
       }
     }
