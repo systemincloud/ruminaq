@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.console;
+package org.ruminaq.tasks.console.gui;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,14 +9,14 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.AddFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AddFeatureFilter;
-import org.ruminaq.tasks.console.AddFeatureImpl.AddFeature.Filter;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.tasks.console.gui.AddFeatureImpl.AddFeature.Filter;
 import org.ruminaq.tasks.console.impl.Port;
 import org.ruminaq.tasks.console.model.console.Console;
 import org.ruminaq.tasks.features.AddTaskFeature;
 
-@Component(property = { "service.ranking:Integer=5" })
+@Component(property = { "service.ranking:Integer=10" })
 public class AddFeatureImpl implements AddFeatureExtension {
 
 	@Override

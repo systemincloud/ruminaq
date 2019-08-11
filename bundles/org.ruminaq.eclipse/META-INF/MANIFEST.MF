@@ -92,6 +92,7 @@ Export-Package:
  org.ruminaq.eclipse.prefs,
  org.ruminaq.eclipse.util,
  org.ruminaq.eclipse.wizards.diagram,
- org.ruminaq.eclipse.wizards.project
+ org.ruminaq.eclipse.wizards.project,
+ swing2swt.layout
 Bundle-ClassPath: .,
  swing2swt.jar

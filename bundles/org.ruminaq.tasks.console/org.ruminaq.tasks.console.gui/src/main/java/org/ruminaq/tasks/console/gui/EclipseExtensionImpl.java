@@ -1,11 +1,10 @@
-package org.ruminaq.tasks.console;
+package org.ruminaq.tasks.console.gui;
 
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ServiceScope;
 import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.tasks.console.model.console.ConsolePackage;
 
-@Component(service = EclipseExtension.class, scope = ServiceScope.SINGLETON)
+@Component(property = { "service.ranking:Integer=10" })
 public class EclipseExtensionImpl implements EclipseExtension {
 
   @Override

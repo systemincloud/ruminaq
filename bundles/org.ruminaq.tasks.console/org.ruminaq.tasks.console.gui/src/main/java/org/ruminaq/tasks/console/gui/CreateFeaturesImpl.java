@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.console;
+package org.ruminaq.tasks.console.gui;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.ruminaq.tasks.console.model.console.ConsoleFactory;
 import org.ruminaq.tasks.console.model.console.ConsoleType;
 import org.ruminaq.tasks.features.CreateTaskFeature;
 
-@Component(property = { "service.ranking:Integer=5" })
+@Component(property = { "service.ranking:Integer=10" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
 	@Override

@@ -8,7 +8,7 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.DoubleClickFeatureExtension;
 
 @Component(property = { "service.ranking:Integer=5" })
-public class DoubleClickFeatures implements DoubleClickFeatureExtension {
+public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
 
 	@Override
 	public List<Class<? extends ICustomFeature>> getFeatures() {

@@ -19,7 +19,7 @@ import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.MainTask;
 
 @Component(property = { "service.ranking:Integer=5" })
-public class UpdateFeatures implements UpdateFeatureExtension {
+public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
 	@Override
 	public List<Class<? extends IUpdateFeature>> getFeatures() {

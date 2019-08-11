@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.console;
+package org.ruminaq.tasks.console.gui;
 
 import java.util.Arrays;
 import java.util.Map;
