@@ -27,8 +27,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.constant.api.PropertyValueComposite;
 import org.ruminaq.tasks.constant.api.ValueSaveListener;
@@ -75,8 +75,8 @@ public class TextPropertyValue extends PropertyValueComposite {
         });
 
         // addStyles
-        composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        btnSave.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        btnSave.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
     }
 
     @Override

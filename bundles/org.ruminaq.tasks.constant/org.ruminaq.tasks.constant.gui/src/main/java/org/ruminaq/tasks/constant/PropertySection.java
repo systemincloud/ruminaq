@@ -35,8 +35,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.dt.Bool;
@@ -143,7 +143,7 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
         this.noValue = new PropertyValueComposite(this, valueRoot, pe, ed) {
             {
                 composite = new Composite(this.valueRoot, SWT.NONE);
-                composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+                composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
             }
 
             @Override
@@ -205,9 +205,9 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
     }
 
     private void addStyles() {
-        root.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        lblType.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        lblValue.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        lblType.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        lblValue.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
     }
 
     @Override

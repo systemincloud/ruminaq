@@ -21,8 +21,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.tasks.constant.api.PropertyValueComposite;
 import org.ruminaq.tasks.constant.api.ValueSaveListener;
 
@@ -49,8 +49,8 @@ public class ControlPropertyValue extends PropertyValueComposite {
         lblValue.setText("*");
 
         // addStyles
-        composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        lblValue .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        lblValue .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
     }
 
     @Override

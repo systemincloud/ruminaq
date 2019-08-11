@@ -26,9 +26,9 @@ import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.constant.api.PropertyValueComposite;
 import org.ruminaq.tasks.constant.api.ValueSaveListener;
@@ -93,8 +93,8 @@ public abstract class AbstractPropertyValueNumericComposite extends PropertyValu
     }
 
     private void addStyles() {
-        composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        txtValue.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        txtValue.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
     }
 
     @Override

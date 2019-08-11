@@ -42,16 +42,6 @@ public class TaskApi implements ITaskApi {
     }
 
 	@Override
-	public String getSymbolicName() {
-	    return symbolicName;
-	}
-
-	@Override
-	public Version getVersion() {
-	    return version;
-	}
-
-	@Override
 	public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
 	    return Arrays.asList(new CreateFeature(fp, symbolicName, version));
 	}

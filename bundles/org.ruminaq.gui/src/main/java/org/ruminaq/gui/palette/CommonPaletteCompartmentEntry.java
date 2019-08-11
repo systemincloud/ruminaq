@@ -38,6 +38,7 @@ public class CommonPaletteCompartmentEntry
 	public static final String DEFAULT_COMPARTMENT = "Commons";
 	public static final String CONNECTIONS_STACK = "Connections";
 	public static final String PORTS_STACK = "Ports";
+	public static final String SOURCES_STACK = "Sources";
 	public static final String SINKS_STACK = "Sinks";
 
 	@Override
@@ -73,7 +74,7 @@ public class CommonPaletteCompartmentEntry
 
 		ICreateFeature[] createFeatures = fp.getCreateFeatures();
 
-		Stream.of(PORTS_STACK, SINKS_STACK).forEachOrdered(stackName -> {
+		Stream.of(PORTS_STACK, SOURCES_STACK, SINKS_STACK).forEachOrdered(stackName -> {
 			StackEntry stackEntry = new StackEntry(stackName, "", null);
 			Stream.of(createFeatures).filter(cf -> cf instanceof PaletteCreateFeature)
 			    .map(cf -> (PaletteCreateFeature & ICreateFeature) cf)
