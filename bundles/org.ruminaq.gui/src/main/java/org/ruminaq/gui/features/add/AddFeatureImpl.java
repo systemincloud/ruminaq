@@ -8,7 +8,7 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.AddFeatureExtension;
 
 @Component(property = { "service.ranking:Integer=5" })
-public class AddFeatures implements AddFeatureExtension {
+public class AddFeatureImpl implements AddFeatureExtension {
 
 	@Override
 	public List<Class<? extends IAddFeature>> getFeatures() {

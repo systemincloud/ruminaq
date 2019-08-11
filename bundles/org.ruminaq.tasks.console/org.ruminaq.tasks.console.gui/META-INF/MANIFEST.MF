@@ -53,6 +53,10 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.consts,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui.api,
+ org.ruminaq.gui.features,
+ org.ruminaq.gui.features.add,
+ org.ruminaq.gui.features.create,
+ org.ruminaq.gui.palette,
  org.ruminaq.launch,
  org.ruminaq.model.desc,
  org.ruminaq.model.dt,
@@ -73,4 +77,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Service-Component: OSGI-INF/org.ruminaq.tasks.console.TaskUiApi.xml,
  OSGI-INF/org.ruminaq.tasks.console.TaskApi.xml,
  OSGI-INF/org.ruminaq.tasks.console.EclipseExtensionImpl.xml,
- OSGI-INF/org.ruminaq.tasks.console.Images.xml
+ OSGI-INF/org.ruminaq.tasks.console.Images.xml,
+ OSGI-INF/org.ruminaq.tasks.console.AddFeatureImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.console.CreateFeaturesImpl.xml

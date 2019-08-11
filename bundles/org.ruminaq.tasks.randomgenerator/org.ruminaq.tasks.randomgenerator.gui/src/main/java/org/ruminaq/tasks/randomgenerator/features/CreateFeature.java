@@ -6,10 +6,8 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.services.Graphiti;
 import org.osgi.framework.Version;
-import org.ruminaq.consts.Constants.SicPlugin;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.tasks.TaskCategory;
 import org.ruminaq.tasks.features.CreateTaskFeature;
 import org.ruminaq.tasks.randomgenerator.Images;
 import org.ruminaq.tasks.randomgenerator.impl.Port;
@@ -19,11 +17,6 @@ import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomgeneratorFa
 public class CreateFeature extends CreateTaskFeature {
 
 	public CreateFeature(IFeatureProvider fp, String bundleName, Version version) {	super(fp, RandomGenerator.class, bundleName, version); }
-
-	@Override public String getPaletteKey()       { return SicPlugin.GUI_ID.s(); }
-	@Override public String getTestPaletteKey()   { return SicPlugin.GUI_ID.s(); }
-	@Override public String getTaskCategory()     { return TaskCategory.SOURCES.name(); }
-	@Override public String getTestTaskCategory() { return TaskCategory.SOURCES.name(); }
 
 	@Override
 	public Object[] create(ICreateContext context) {

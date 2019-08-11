@@ -36,8 +36,9 @@ public class CommonPaletteCompartmentEntry
     implements PaletteCompartmentEntryExtension {
 
 	public static final String DEFAULT_COMPARTMENT = "Commons";
-	public static final String CONNECTIONS_STACK = "Commons";
+	public static final String CONNECTIONS_STACK = "Connections";
 	public static final String PORTS_STACK = "Ports";
+	public static final String SINKS_STACK = "Sinks";
 
 	@Override
 	public Collection<IPaletteCompartmentEntry> getPalette(IFeatureProvider fp,
@@ -65,20 +66,21 @@ public class CommonPaletteCompartmentEntry
 			commonCompartmentEntry.getToolEntries().add(connectionsStackEntry);
 		}
 
-		StackEntry portsStackEntry = new StackEntry(PORTS_STACK, "", null);
-		Stream.of(fp.getCreateFeatures())
-		    .filter(cf -> cf instanceof PaletteCreateFeature)
-		    .map(cf -> (PaletteCreateFeature & ICreateFeature) cf)
-		    .filter(cf -> isTest ? !cf.isTestOnly() : true)
-		    .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
-		    .filter(cf -> PORTS_STACK.equals(cf.getStack())).forEach(cf -> {
-		    	portsStackEntry.addCreationToolEntry(
-			        new ObjectCreationToolEntry(cf.getCreateName(),
-			            cf.getCreateDescription(), cf.getCreateImageId(),
-			            cf.getCreateLargeImageId(), cf));
-		    });
+		Stream.of(PORTS_STACK, SINKS_STACK).forEachOrdered(stackName -> {
+			StackEntry stackEntry = new StackEntry(stackName, "", null);
+			Stream.of(fp.getCreateFeatures())
+			    .filter(cf -> cf instanceof PaletteCreateFeature)
+			    .map(cf -> (PaletteCreateFeature & ICreateFeature) cf)
+			    .filter(cf -> isTest ? !cf.isTestOnly() : true)
+			    .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
+			    .filter(cf -> PORTS_STACK.equals(cf.getStack())).forEach(cf -> {
+			    	stackEntry.addCreationToolEntry(new ObjectCreationToolEntry(
+				        cf.getCreateName(), cf.getCreateDescription(),
+				        cf.getCreateImageId(), cf.getCreateLargeImageId(), cf));
+			    });
 
-		commonCompartmentEntry.getToolEntries().add(portsStackEntry);
+			commonCompartmentEntry.getToolEntries().add(stackEntry);
+		});
 
 		return Arrays.asList(commonCompartmentEntry);
 	}

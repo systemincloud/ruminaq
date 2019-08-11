@@ -24,7 +24,6 @@ import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IDecorator;
 import org.osgi.framework.Version;
 import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
-import org.ruminaq.gui.features.tools.IContextButtonPadTool;
 import org.ruminaq.model.ruminaq.Task;
 
 public interface ITaskApi {
@@ -35,10 +34,6 @@ public interface ITaskApi {
 
     default List<ICustomFeature> getCustomFeatures(IFeatureProvider fp) {
         return Collections.emptyList();
-    }
-
-    default Optional<List<IContextButtonPadTool>> getContextButtonPadTools(IFeatureProvider fp, Task task) {
-        return Optional.empty();
     }
 
     default List<IDecorator> getDecorators(IFeatureProvider fp, Task task) {

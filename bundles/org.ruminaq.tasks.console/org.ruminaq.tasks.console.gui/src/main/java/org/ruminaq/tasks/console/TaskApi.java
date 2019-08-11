@@ -3,16 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.tasks.console;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.eclipse.graphiti.features.IAddFeature;
-import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IUpdateFeature;
-import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.IDoubleClickContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
@@ -27,8 +22,6 @@ import org.ruminaq.launch.RuminaqLaunchDelegate;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.dirmi.DirmiServer;
 import org.ruminaq.tasks.api.ITaskApi;
-import org.ruminaq.tasks.console.features.AddFeature;
-import org.ruminaq.tasks.console.features.CreateFeature;
 import org.ruminaq.tasks.console.features.DoubleClickFeature;
 import org.ruminaq.tasks.console.features.UpdateFeature;
 import org.ruminaq.tasks.console.model.console.Console;
@@ -50,27 +43,6 @@ public class TaskApi implements ITaskApi, LaunchListener {
   @Deactivate
   public void deactivate() {
     RuminaqLaunchDelegate.removeLaunchListener(this);
-  }
-
-  @Override
-  public String getSymbolicName() {
-    return symbolicName;
-  }
-
-  @Override
-  public Version getVersion() {
-    return version;
-  }
-
-  @Override
-  public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
-    return Arrays.asList(new CreateFeature(fp, symbolicName, version));
-  }
-
-  @Override
-  public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t,
-      IFeatureProvider fp) {
-    return ITaskApi.ifInstance(t, Console.class, new AddFeature(fp));
   }
 
   @Override

@@ -36,7 +36,7 @@ public class TasksUiManagerHandlerImpl implements TasksUiManagerHandler {
 	public ITaskUiApi getTask(String prefix, Version version) {
 		return tasks.stream()
 				.filter(t -> prefix.equals(t.getSymbolicName()))
-				.filter(t -> TaskProvider.compare(t.getVersion(), version))
+//				.filter(t -> TaskProvider.compare(t.getVersion(), version))
 				.findFirst()
 				.get();
 	}

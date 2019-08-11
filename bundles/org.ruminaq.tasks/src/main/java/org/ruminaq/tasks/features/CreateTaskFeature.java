@@ -42,11 +42,6 @@ public abstract class CreateTaskFeature extends CreateElementFeature {
 		this.version    = version;
 	}
 
-	public String getPaletteKey()       { return null; }
-	public String getTestPaletteKey()   { return null; }
-	public String getTaskCategory()     { return null; }
-	public String getTestTaskCategory() { return null; }
-
 	protected Object[] create(ICreateContext context, Task task) {
 	    logger.trace("{}", task.getClass().getSimpleName());
 	    task.setBundleName(bundleName);
