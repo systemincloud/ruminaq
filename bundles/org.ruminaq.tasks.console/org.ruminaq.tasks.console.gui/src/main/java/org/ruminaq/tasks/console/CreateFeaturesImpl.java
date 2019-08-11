@@ -6,7 +6,6 @@ import java.util.List;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.osgi.framework.Version;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.CreateFeaturesExtension;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
@@ -26,10 +25,10 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
 		return Arrays.asList(CreateFeature.class);
 	}
 	
-	public class CreateFeature extends CreateTaskFeature implements PaletteCreateFeature {
+	public static class CreateFeature extends CreateTaskFeature implements PaletteCreateFeature {
 
-		public CreateFeature(IFeatureProvider fp, String bundleName, Version version) {
-			super(fp, Console.class, bundleName, version);
+		public CreateFeature(IFeatureProvider fp) {
+			super(fp, Console.class);
 		}
 
 		@Override

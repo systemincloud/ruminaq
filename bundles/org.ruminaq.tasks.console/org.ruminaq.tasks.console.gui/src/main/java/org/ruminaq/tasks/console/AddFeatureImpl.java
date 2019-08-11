@@ -25,7 +25,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
 	}
 
 	@FeatureFilter(Filter.class)
-	public class AddFeature extends AddTaskFeature {
+	public static class AddFeature extends AddTaskFeature {
 
 		public class Filter extends AddFeatureFilter {
 			@Override

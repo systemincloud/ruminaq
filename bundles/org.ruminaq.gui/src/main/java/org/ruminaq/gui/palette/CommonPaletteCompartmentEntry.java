@@ -47,34 +47,40 @@ public class CommonPaletteCompartmentEntry
 		    DEFAULT_COMPARTMENT, null);
 		commonCompartmentEntry.setInitiallyOpen(false);
 
-		StackEntry connectionsStackEntry = new StackEntry(CONNECTIONS_STACK, "",
-		    null);
-		Stream.of(fp.getCreateConnectionFeatures())
-		    .filter(cf -> cf instanceof PaletteCreateFeature)
-		    .map(cf -> (PaletteCreateFeature & ICreateConnectionFeature) cf)
-		    .filter(cf -> isTest ? cf.isTestOnly() : true)
-		    .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
-		    .filter(cf -> CONNECTIONS_STACK.equals(cf.getStack())).forEach(cf -> {
-			    ConnectionCreationToolEntry cte = new ConnectionCreationToolEntry(
-			        cf.getCreateName(), cf.getCreateDescription(),
-			        cf.getCreateImageId(), cf.getCreateLargeImageId());
-			    cte.addCreateConnectionFeature(cf);
-			    connectionsStackEntry.addCreationToolEntry(cte);
-		    });
+		ICreateConnectionFeature[] createConnectionFeatures = fp
+		    .getCreateConnectionFeatures();
 
-		if (connectionsStackEntry.getCreationToolEntries().size() > 0) {
-			commonCompartmentEntry.getToolEntries().add(connectionsStackEntry);
-		}
+		Stream.of(CONNECTIONS_STACK).forEachOrdered(stackName -> {
+			StackEntry connectionsStackEntry = new StackEntry(CONNECTIONS_STACK, "",
+			    null);
+			Stream.of(createConnectionFeatures)
+			    .filter(cf -> cf instanceof PaletteCreateFeature)
+			    .map(cf -> (PaletteCreateFeature & ICreateConnectionFeature) cf)
+			    .filter(cf -> isTest ? cf.isTestOnly() : true)
+			    .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
+			    .filter(cf -> stackName.equals(cf.getStack())).forEach(cf -> {
+				    ConnectionCreationToolEntry cte = new ConnectionCreationToolEntry(
+				        cf.getCreateName(), cf.getCreateDescription(),
+				        cf.getCreateImageId(), cf.getCreateLargeImageId());
+				    cte.addCreateConnectionFeature(cf);
+				    connectionsStackEntry.addCreationToolEntry(cte);
+			    });
+
+			if (connectionsStackEntry.getCreationToolEntries().size() > 0) {
+				commonCompartmentEntry.getToolEntries().add(connectionsStackEntry);
+			}
+		});
+
+		ICreateFeature[] createFeatures = fp.getCreateFeatures();
 
 		Stream.of(PORTS_STACK, SINKS_STACK).forEachOrdered(stackName -> {
 			StackEntry stackEntry = new StackEntry(stackName, "", null);
-			Stream.of(fp.getCreateFeatures())
-			    .filter(cf -> cf instanceof PaletteCreateFeature)
+			Stream.of(createFeatures).filter(cf -> cf instanceof PaletteCreateFeature)
 			    .map(cf -> (PaletteCreateFeature & ICreateFeature) cf)
 			    .filter(cf -> isTest ? !cf.isTestOnly() : true)
 			    .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
-			    .filter(cf -> PORTS_STACK.equals(cf.getStack())).forEach(cf -> {
-			    	stackEntry.addCreationToolEntry(new ObjectCreationToolEntry(
+			    .filter(cf -> stackName.equals(cf.getStack())).forEach(cf -> {
+				    stackEntry.addCreationToolEntry(new ObjectCreationToolEntry(
 				        cf.getCreateName(), cf.getCreateDescription(),
 				        cf.getCreateImageId(), cf.getCreateLargeImageId(), cf));
 			    });
