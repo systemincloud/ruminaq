@@ -43,7 +43,6 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.wizards.IWizardDescriptor;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.consts.Constants.SicPlugin;
 import org.ruminaq.eclipse.util.ConstantsUtil;
@@ -246,13 +245,13 @@ public class PropertySection implements IPropertySection {
 	}
 
 	private void addStyles(boolean test) {
-		root         .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblTaskSelect.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		txtTaskName  .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		btnTaskSelect.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		btnNewDiagram.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		root         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblTaskSelect.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		txtTaskName  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		btnTaskSelect.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		btnNewDiagram.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 		if(test)
-			btnNewTest.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+			btnNewTest.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 	}
 
 	@Override

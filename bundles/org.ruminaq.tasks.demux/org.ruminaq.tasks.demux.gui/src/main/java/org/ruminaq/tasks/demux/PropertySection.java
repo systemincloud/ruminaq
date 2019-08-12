@@ -14,11 +14,11 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.wb.swt.SWTResourceManager;
-import org.ruminaq.tasks.demux.model.demux.Demux;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
+import org.ruminaq.tasks.demux.model.demux.Demux;
 
 public class PropertySection implements IPropertySection {
 
@@ -71,9 +71,9 @@ public class PropertySection implements IPropertySection {
 	}
 
 	private void addStyles() {
-		root        .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblNbOutputs.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		spnNbOutputs.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		root        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblNbOutputs.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		spnNbOutputs.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 	}
 
 	@Override
