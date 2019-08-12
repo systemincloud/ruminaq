@@ -16,18 +16,32 @@ import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomgeneratorFa
 
 public class CreateFeature extends CreateTaskFeature {
 
-	public CreateFeature(IFeatureProvider fp, String bundleName, Version version) {	super(fp, RandomGenerator.class, bundleName, version); }
+	public CreateFeature(IFeatureProvider fp, String bundleName,
+	    Version version) {
+		super(fp, RandomGenerator.class, bundleName, version);
+	}
 
 	@Override
 	public Object[] create(ICreateContext context) {
-		Object[] os = super.create(context, RandomgeneratorFactory.eINSTANCE.createRandomGenerator());
-		((RandomGenerator) os[0]).setDataType(EcoreUtil.copy(((Task) os[0]).getOutputPort().get(0).getDataType().get(0)));
+		Object[] os = super.create(context,
+		    RandomgeneratorFactory.eINSTANCE.createRandomGenerator());
+		((RandomGenerator) os[0]).setDataType(EcoreUtil
+		    .copy(((Task) os[0]).getOutputPort().get(0).getDataType().get(0)));
 		((RandomGenerator) os[0]).setDimensions("1");
 
-		UpdateContext updateCtx = new UpdateContext(Graphiti.getLinkService().getPictogramElements(getDiagram(), (RandomGenerator) os[0]).get(0));
+		UpdateContext updateCtx = new UpdateContext(Graphiti.getLinkService()
+		    .getPictogramElements(getDiagram(), (RandomGenerator) os[0]).get(0));
 		getFeatureProvider().updateIfPossible(updateCtx);
 		return os;
 	}
-	@Override protected Class<? extends PortsDescr> getPortsDescription() { return Port.class; }
-	@Override public    String                      getCreateImageId()    { return Images.K.IMG_RANDOMGENERATOR_PALETTE.name(); }
+
+	@Override
+	protected Class<? extends PortsDescr> getPortsDescription() {
+		return Port.class;
+	}
+
+	@Override
+	public String getCreateImageId() {
+		return Images.K.IMG_RANDOMGENERATOR_PALETTE.name();
+	}
 }
