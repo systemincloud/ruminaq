@@ -40,6 +40,8 @@ public class CommonPaletteCompartmentEntry
 	public static final String PORTS_STACK = "Ports";
 	public static final String SOURCES_STACK = "Sources";
 	public static final String FLOW_STACK = "Flow";
+	public static final String LOGIC_STACK = "Logic";
+	public static final String USERDEFINED_STACK = "User defined";
 	public static final String SINKS_STACK = "Sinks";
 
 	@Override

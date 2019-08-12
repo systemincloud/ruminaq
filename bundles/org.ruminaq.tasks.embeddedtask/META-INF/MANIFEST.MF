@@ -57,6 +57,9 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.eclipse.util,
  org.ruminaq.eclipse.wizards.diagram,
  org.ruminaq.eclipse.wizards.project,
+ org.ruminaq.gui.api,
+ org.ruminaq.gui.features.create,
+ org.ruminaq.gui.palette,
  org.ruminaq.gui.properties,
  org.ruminaq.logs,
  org.ruminaq.model.desc,
@@ -76,5 +79,5 @@ Export-Package: org.ruminaq.tasks.embeddedtask,
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.embeddedtask.TaskApi.xml,
- OSGI-INF/org.ruminaq.tasks.embeddedtask.TaskUiApi.xml
+Service-Component: OSGI-INF/org.ruminaq.tasks.embeddedtask.TaskUiApi.xml,
+ OSGI-INF/org.ruminaq.tasks.embeddedtask.CreateFeaturesImpl.xml
