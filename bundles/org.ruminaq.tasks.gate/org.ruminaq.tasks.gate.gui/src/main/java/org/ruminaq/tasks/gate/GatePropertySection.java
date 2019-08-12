@@ -14,8 +14,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.gate.model.gate.Gate;
@@ -74,9 +74,9 @@ public class GatePropertySection implements IPropertySection {
 	}
 
 	private void addStyles() {
-		root             .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblNumberOfInputs.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		spnNumberOfInputs.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		root             .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblNumberOfInputs.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		spnNumberOfInputs.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 	}
 
 	@Override
