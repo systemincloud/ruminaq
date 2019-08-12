@@ -19,10 +19,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.sipo.model.sipo.Sipo;
@@ -69,9 +69,9 @@ public class PropertySection implements IPropertySection {
         txtSize.setLayoutData(lytSize);
 
         btnIdx     = new Button (root, SWT.CHECK);
-        new CLabel (root, SWT.NONE).setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        new CLabel (root, SWT.NONE).setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
         btnClk     = new Button (root, SWT.CHECK);
-        new CLabel (root, SWT.NONE).setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        new CLabel (root, SWT.NONE).setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
         btnTrig    = new Button (root, SWT.CHECK);
         btnSizeOut = new Button (root, SWT.CHECK);
     }
@@ -200,11 +200,11 @@ public class PropertySection implements IPropertySection {
     }
 
     private void addStyles() {
-        root   .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        lblSize.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        cmpSize.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        spnSize.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        txtSize.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        root   .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        lblSize.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        cmpSize.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        spnSize.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        txtSize.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
     }
 
     @Override

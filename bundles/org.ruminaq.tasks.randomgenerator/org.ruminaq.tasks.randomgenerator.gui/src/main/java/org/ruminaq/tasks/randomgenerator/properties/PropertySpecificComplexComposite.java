@@ -17,9 +17,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
@@ -240,13 +240,13 @@ public class PropertySpecificComplexComposite extends PropertySpecificComposite 
 	}
 
 	private void addStyles() {
-		composite  .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		btnRect    .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		btnPolar   .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblCommonA .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblCommonB .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblPolarMag.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblPolarArg.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		btnRect    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		btnPolar   .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblCommonA .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblCommonB .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblPolarMag.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblPolarArg.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 	}
 
 	@Override

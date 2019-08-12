@@ -14,9 +14,9 @@ import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
@@ -79,9 +79,9 @@ public class PropertySpecificNumericComposite extends PropertySpecificComposite 
 	protected boolean checkIfValue(String value) { return false; }
 
 	private void addStyles() {
-		composite      .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblDistribution.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		txtDistribution.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite      .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblDistribution.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		txtDistribution.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 	}
 
 	@Override

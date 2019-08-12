@@ -5,7 +5,7 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Display;
 import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 
@@ -18,7 +18,7 @@ public class PropertySpecificControlComposite extends PropertySpecificComposite 
 			TransactionalEditingDomain ed) {
 		super(saveListener, specificRoot, pe, ed);
 		composite = new Composite(this.specificRoot, SWT.NONE);
-		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 	}
 
 	@Override

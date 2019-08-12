@@ -13,9 +13,9 @@ import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.randomgenerator.impl.strategy.DecimalStrategy;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
@@ -77,8 +77,8 @@ public class PropertySpecificDecimalComposite extends PropertySpecificNumericCom
 	}
 	
 	private void addStyles() {
-		lblDecimalNumber.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		txtDecimalNumber.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblDecimalNumber.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		txtDecimalNumber.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 	}
 
 	@Override

@@ -20,9 +20,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
@@ -114,11 +114,11 @@ public class PropertySpecificTextComposite extends PropertySpecificComposite {
 	}
 	
 	private void addStyles() {
-		composite  .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblType    .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblAlfaType.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblLength  .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		txtLength  .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblType    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblAlfaType.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblLength  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		txtLength  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 	}
 
 	public static final String TEXT_TYPE = "TEXT_TYPE";
