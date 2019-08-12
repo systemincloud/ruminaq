@@ -30,9 +30,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.dt.Bool;
 import org.ruminaq.model.dt.Complex32;
@@ -148,7 +148,7 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
 		this.noSpecific = new PropertySpecificComposite(this, specificRoot, pe, ed) {
 			{
 				composite = new Composite(this.specificRoot, SWT.NONE);
-				composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+				composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 			}
 			@Override public void initValues(EMap<String, String> eMap) { }
 			@Override public void refresh(EMap<String, String> eMap)    { }
@@ -246,13 +246,13 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
 	}
 
 	private void addStyles() {
-		root        .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblType     .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblDims     .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		txtDims     .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblInterval .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		txtInterval .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		specificRoot.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		root        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblType     .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblDims     .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		txtDims     .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblInterval .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		txtInterval .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		specificRoot.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 	}
 
 	@Override
