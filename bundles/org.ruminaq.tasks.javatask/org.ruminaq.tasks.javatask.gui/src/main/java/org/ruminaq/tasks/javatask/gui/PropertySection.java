@@ -40,7 +40,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.wizards.IWizardDescriptor;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.eclipse.util.ConstantsUtil;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
@@ -200,9 +199,9 @@ public class PropertySection implements IPropertySection, CreateJavaTaskListener
     }
 
     private void addStyles() {
-        root          .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        lblClassSelect.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        txtClassName  .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        root          .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        lblClassSelect.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        txtClassName  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
     }
 
     @Override

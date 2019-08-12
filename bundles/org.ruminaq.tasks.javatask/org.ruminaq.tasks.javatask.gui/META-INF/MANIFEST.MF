@@ -74,7 +74,10 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.consts,
  org.ruminaq.eclipse.api,
  org.ruminaq.eclipse.util,
+ org.ruminaq.gui.api,
+ org.ruminaq.gui.features.create,
  org.ruminaq.gui.features.doubleclick,
+ org.ruminaq.gui.palette,
  org.ruminaq.gui.properties,
  org.ruminaq.model.desc,
  org.ruminaq.model.ruminaq,
@@ -104,4 +107,5 @@ Export-Package: org.ruminaq.tasks.javatask.gui,
  org.ruminaq.tasks.javatask.gui.wizards
 Bundle-ClassPath: .
 Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.gui.TaskUiApi.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.TaskApi.xml
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.TaskApi.xml,
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.CreateFeaturesImpl.xml
