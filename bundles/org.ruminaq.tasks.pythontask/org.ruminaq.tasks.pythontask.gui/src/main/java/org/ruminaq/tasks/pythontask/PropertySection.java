@@ -28,7 +28,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.wizards.IWizardDescriptor;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.python.pydev.shared_ui.EditorUtils;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.util.ConstantsUtil;
@@ -165,9 +164,9 @@ public class PropertySection implements IPropertySection, CreatePythonTaskListen
     }
 
     private void addStyles() {
-        root          .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        lblClassSelect.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        txtClassName  .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        root          .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        lblClassSelect.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        txtClassName  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
     }
 
     @Override

@@ -37,7 +37,6 @@ import org.javatuples.Triplet;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Version;
 import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Component;
 import org.python.pydev.ast.interpreter_managers.InterpreterManagersAPI;
 import org.python.pydev.core.IInterpreterInfo;
 import org.python.pydev.core.IInterpreterManager;
@@ -45,12 +44,10 @@ import org.python.pydev.core.IPythonNature;
 import org.python.pydev.core.IPythonPathNature;
 import org.python.pydev.plugin.nature.PythonNature;
 import org.ruminaq.eclipse.api.EclipseExtension;
-import org.ruminaq.gui.features.tools.IContextButtonPadTool;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.pythontask.features.AddFeature;
-import org.ruminaq.tasks.pythontask.features.ContextButtonPadTool;
 import org.ruminaq.tasks.pythontask.features.CreateFeature;
 import org.ruminaq.tasks.pythontask.features.DoubleClickFeatureFilter;
 import org.ruminaq.tasks.pythontask.features.UpdateFeature;
@@ -160,16 +157,6 @@ public class TaskApi implements ITaskApi, EclipseExtension {
         PythontaskPackage.eINSTANCE.getClass();
     }
 
-    @Override
-    public String getSymbolicName() {
-        return symbolicName;
-    }
-
-    @Override
-    public Version getVersion() {
-        return version;
-    }
-
     public TaskApi(String symbolicName, Version version) {
         this.symbolicName = symbolicName;
         this.version      = version;
@@ -192,11 +179,6 @@ public class TaskApi implements ITaskApi, EclipseExtension {
     @Override
     public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
         return Arrays.asList(new CreateFeature(fp, symbolicName, version));
-    }
-
-    @Override
-    public Optional<List<IContextButtonPadTool>> getContextButtonPadTools(IFeatureProvider fp, Task t) {
-        return ITaskApi.ifInstance(t, PythonTask.class, Arrays.asList(new ContextButtonPadTool(fp)));
     }
 
     @Override
