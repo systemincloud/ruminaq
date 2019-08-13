@@ -7,10 +7,15 @@
 package org.ruminaq.tests.common;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory;
+import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
+import org.eclipse.swtbot.eclipse.finder.waits.WaitForEditor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
+import org.eclipse.ui.IEditorReference;
+import org.hamcrest.Matcher;
 
 /**
  * Create new Ruminaq project.
@@ -43,8 +48,12 @@ public class CreateRuminaqDiagram {
     
     bot.textWithLabel("&Container:").setText(path);
 
-    bot.textWithLabel("&File name:").setText(diagramName);
+    bot.textWithLabel("&File name:").setText(diagramName  + ".rumi");
 
     bot.button("Finish").click();
+    
+    Matcher<IEditorReference> withPartName = WidgetMatcherFactory.withPartName(diagramName);
+    WaitForEditor waitForEditor = Conditions.waitForEditor(withPartName);
+    bot.waitUntilWidgetAppears(waitForEditor);
   }
 }

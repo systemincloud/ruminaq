@@ -14,11 +14,15 @@ import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbench;
@@ -80,9 +84,7 @@ public class CreateRuminaqDiagramTest {
     String path = SourceFolders.DIAGRAM_FOLDER;
     
     String diagramName = "Diagram_"
-        + RandomStringUtils.randomAlphabetic(DIAGRAM_SUFFIX_LENGTH) + ".rumi";
+        + RandomStringUtils.randomAlphabetic(DIAGRAM_SUFFIX_LENGTH);
     new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName);
-    
-    
   }
 }
