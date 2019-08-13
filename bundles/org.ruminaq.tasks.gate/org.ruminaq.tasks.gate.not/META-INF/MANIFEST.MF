@@ -38,21 +38,26 @@ Import-Package: ch.qos.logback.classic,
  org.osgi.service.component.annotations,
  org.ruminaq.consts,
  org.ruminaq.eclipse.api,
+ org.ruminaq.gui.api,
  org.ruminaq.gui.features,
+ org.ruminaq.gui.features.create,
+ org.ruminaq.gui.palette,
  org.ruminaq.model.desc,
  org.ruminaq.model.ruminaq,
  org.ruminaq.tasks,
  org.ruminaq.tasks.api,
  org.ruminaq.tasks.features,
  org.ruminaq.tasks.gate,
- org.ruminaq.tasks.gate.model.gate,
  org.ruminaq.tasks.gate.features,
- org.ruminaq.tasks.gate.not.model.not,
+ org.ruminaq.tasks.gate.model.gate,
  org.ruminaq.tasks.gate.not.impl,
+ org.ruminaq.tasks.gate.not.model.not,
  org.slf4j
 Export-Package: org.ruminaq.tasks.gate.not.features
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.gate.not.TaskApi.xml,
- OSGI-INF/org.ruminaq.tasks.gate.not.TaskUiApi.xml
+ OSGI-INF/org.ruminaq.tasks.gate.not.TaskUiApi.xml,
+ OSGI-INF/org.ruminaq.tasks.gate.not.CreateFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.gate.not.EclipseExtensionImpl.xml
