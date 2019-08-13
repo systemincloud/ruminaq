@@ -9,6 +9,7 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.CreateFeaturesExtension;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
+import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.tasks.features.CreateTaskFeature;
 import org.ruminaq.tasks.gate.Port;
@@ -51,7 +52,7 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
 		@Override
 		public String getCreateImageId() {
-			return Images.K.IMG_XOR_PALETTE.name();
+			return Images.Image.IMG_XOR_PALETTE.name();
 		}
 	}
 }

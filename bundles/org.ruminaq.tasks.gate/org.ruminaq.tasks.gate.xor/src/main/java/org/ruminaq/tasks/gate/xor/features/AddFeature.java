@@ -17,6 +17,6 @@ public class AddFeature extends AddGateFeature {
 
 	@Override
 	protected String getInsideIconId() {
-		return Images.K.IMG_XOR_DIAGRAM.name();
+		return Images.Image.IMG_XOR_DIAGRAM.name();
 	}
 }
