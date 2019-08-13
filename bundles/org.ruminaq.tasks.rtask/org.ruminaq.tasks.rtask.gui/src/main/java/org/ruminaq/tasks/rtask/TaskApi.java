@@ -32,8 +32,6 @@ import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.rtask.features.AddFeature;
-import org.ruminaq.tasks.rtask.features.ContextButtonPadTool;
-import org.ruminaq.tasks.rtask.features.CreateFeature;
 import org.ruminaq.tasks.rtask.features.DoubleClickFeatureFilter;
 import org.ruminaq.tasks.rtask.features.UpdateFeature;
 import org.ruminaq.tasks.rtask.impl.RTaskI;
@@ -75,11 +73,6 @@ public class TaskApi implements ITaskApi, EclipseExtension {
     @Override
     public List<IClasspathEntry> getClasspathEntries(IJavaProject javaProject) {
         return new CreateProjectWizard().createClasspathEntries(javaProject);
-    }
-
-    @Override
-    public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
-        return Arrays.asList(new CreateFeature(fp, symbolicName, version));
     }
 
     @Override
