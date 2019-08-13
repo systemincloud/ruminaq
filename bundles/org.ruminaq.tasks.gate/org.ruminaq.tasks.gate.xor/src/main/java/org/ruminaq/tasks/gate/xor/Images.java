@@ -1,11 +1,5 @@
 package org.ruminaq.tasks.gate.xor;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ImageDescriptor;
 import org.ruminaq.gui.api.ImagesExtension;
