@@ -87,9 +87,11 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.xtext.xbase.lib,
  org.javatuples,
  org.osgi.framework,
+ org.osgi.service.component.annotations;version="1.3.0",
  org.ruminaq.consts,
  org.ruminaq.eclipse.api,
  org.ruminaq.eclipse.util,
+ org.ruminaq.gui.api,
  org.ruminaq.gui.features.doubleclick,
  org.ruminaq.gui.properties,
  org.ruminaq.model,
@@ -119,3 +121,5 @@ Export-Package: org.ruminaq.tasks.rtask,
  org.ruminaq.tasks.rtask.wizards
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
+Service-Component: OSGI-INF/org.ruminaq.tasks.rtask.ContextButtonPadTool.xml
+Bundle-ActivationPolicy: lazy

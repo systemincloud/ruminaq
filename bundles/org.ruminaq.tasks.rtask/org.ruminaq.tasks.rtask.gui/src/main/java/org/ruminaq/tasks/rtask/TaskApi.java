@@ -29,7 +29,6 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.osgi.framework.Version;
 import org.ruminaq.eclipse.api.EclipseExtension;
-import org.ruminaq.gui.features.tools.IContextButtonPadTool;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.rtask.features.AddFeature;
@@ -58,16 +57,6 @@ public class TaskApi implements ITaskApi, EclipseExtension {
         RtaskPackage.eINSTANCE.getClass();
     }
 
-    @Override
-    public String getSymbolicName() {
-        return symbolicName;
-    }
-
-    @Override
-    public Version getVersion() {
-        return version;
-    }
-
     public TaskApi(String symbolicName, Version version) {
         this.symbolicName = symbolicName;
         this.version      = version;
@@ -91,11 +80,6 @@ public class TaskApi implements ITaskApi, EclipseExtension {
     @Override
     public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
         return Arrays.asList(new CreateFeature(fp, symbolicName, version));
-    }
-
-    @Override
-    public Optional<List<IContextButtonPadTool>> getContextButtonPadTools(IFeatureProvider fp, Task t) {
-        return ITaskApi.ifInstance(t, RTask.class, Arrays.asList(new ContextButtonPadTool(fp)));
     }
 
     @Override
