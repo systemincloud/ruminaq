@@ -48,7 +48,6 @@ import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.pythontask.features.AddFeature;
-import org.ruminaq.tasks.pythontask.features.CreateFeature;
 import org.ruminaq.tasks.pythontask.features.DoubleClickFeatureFilter;
 import org.ruminaq.tasks.pythontask.features.UpdateFeature;
 import org.ruminaq.tasks.pythontask.impl.PythonTaskI;
@@ -152,11 +151,6 @@ public class TaskApi implements ITaskApi, EclipseExtension {
 //        });
     }
 
-    @Override
-    public void initEditor() {
-        PythontaskPackage.eINSTANCE.getClass();
-    }
-
     public TaskApi(String symbolicName, Version version) {
         this.symbolicName = symbolicName;
         this.version      = version;
@@ -174,11 +168,6 @@ public class TaskApi implements ITaskApi, EclipseExtension {
     @Override
     public List<IClasspathEntry> getClasspathEntries(IJavaProject javaProject) {
         return new CreateProjectWizard().createClasspathEntries(javaProject);
-    }
-
-    @Override
-    public List<ICreateFeature> getCreateFeatures(IFeatureProvider fp) {
-        return Arrays.asList(new CreateFeature(fp, symbolicName, version));
     }
 
     @Override

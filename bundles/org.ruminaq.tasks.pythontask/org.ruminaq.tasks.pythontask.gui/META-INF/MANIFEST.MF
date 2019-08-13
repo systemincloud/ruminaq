@@ -89,7 +89,9 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.eclipse.api,
  org.ruminaq.eclipse.util,
  org.ruminaq.gui.api,
+ org.ruminaq.gui.features.create,
  org.ruminaq.gui.features.doubleclick,
+ org.ruminaq.gui.palette,
  org.ruminaq.gui.properties,
  org.ruminaq.logs,
  org.ruminaq.model,
@@ -122,4 +124,6 @@ Export-Package: org.ruminaq.tasks.pythontask,
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.pythontask.ContextButtonPadTool.xml
+Service-Component: OSGI-INF/org.ruminaq.tasks.pythontask.ContextButtonPadTool.xml,
+ OSGI-INF/org.ruminaq.tasks.pythontask.CreateFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.pythontask.EclipseExtensionImpl.xml
