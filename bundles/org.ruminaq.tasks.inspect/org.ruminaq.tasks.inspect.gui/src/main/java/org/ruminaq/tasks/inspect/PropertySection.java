@@ -12,7 +12,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Display;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.inspect.model.inspect.Inspect;
@@ -61,8 +61,8 @@ public class PropertySection implements IPropertySection {
     }
 
     private void addStyles() {
-        composite        .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        lblMatricesPretty.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        composite        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+        lblMatricesPretty.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
     }
 
     @Override
