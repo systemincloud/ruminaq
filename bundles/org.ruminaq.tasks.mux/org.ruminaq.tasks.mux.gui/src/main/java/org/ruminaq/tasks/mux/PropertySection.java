@@ -14,8 +14,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.mux.model.mux.Mux;
@@ -93,11 +93,11 @@ public class PropertySection implements IPropertySection {
 	}
 
 	private void addStyles() {
-		root         .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblNbInputs  .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		spnNbInputs  .setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblPortBuffer.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		spnPortBuffer.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		root         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblNbInputs  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		spnNbInputs  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		lblPortBuffer.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+		spnPortBuffer.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 	}
 
 	@Override

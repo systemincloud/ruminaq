@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.eclipse.wizards.project.PomFile;
-import org.ruminaq.tasks.javatask.gui.TaskApi;
+import org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl;
 import org.ruminaq.tests.common.CreateRuminaqProject;
 import org.ruminaq.util.ServiceUtil;
 
@@ -81,7 +81,7 @@ public class CreateRuminaqProjectTest {
     Model model = reader.read(project.getFile(pom).getContents());
     
     var dep = model.getDependencies().stream().filter(
-    		d -> TaskApi.ARTIFACT_ID.equals(d.getArtifactId())).findFirst();
-    Assert.assertEquals("Java dependecy added", TaskApi.VERSION, dep.get().getVersion());
+    		d -> EclipseExtensionImpl.ARTIFACT_ID.equals(d.getArtifactId())).findFirst();
+    Assert.assertEquals("Java dependecy added", EclipseExtensionImpl.VERSION, dep.get().getVersion());
   }
 }

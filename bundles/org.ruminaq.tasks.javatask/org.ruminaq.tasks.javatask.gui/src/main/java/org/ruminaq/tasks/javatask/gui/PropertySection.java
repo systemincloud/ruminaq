@@ -182,7 +182,7 @@ public class PropertySection implements IPropertySection, CreateJavaTaskListener
                  if(descriptor != null) {
                     IWizard wizard = descriptor.createWizard();
                     String folder = ConstantsUtil.isTest(EclipseUtil.getModelPathFromEObject(pe)) ?
-                            TaskApi.TEST_JAVA : TaskApi.MAIN_JAVA;
+                            EclipseExtensionImpl.TEST_JAVA : EclipseExtensionImpl.MAIN_JAVA;
                     String projectName = EclipseUtil.getProjectNameFromDiagram(dtp.getDiagram());
                     IStructuredSelection selection = new StructuredSelection(JavaCore.create(ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getFolder(folder)));
                     ((CreateJavaTaskWizard) wizard).init(PlatformUI.getWorkbench(), selection);
