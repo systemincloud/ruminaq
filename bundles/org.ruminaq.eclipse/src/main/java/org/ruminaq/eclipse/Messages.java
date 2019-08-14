@@ -26,6 +26,7 @@ public final class Messages extends NLS {
   public static String ruminaqFailed;
   public static String createClasspathFileFailed;
   public static String createDiagramWizardTitle;
+  public static String createDiagramWizardDescription;
   public static String createTestDiagramWizardTitle;
   public static String CreateDiagramWizard_PageTitle;
   public static String ProjectValidator_ProjectNatureCheckTitle;

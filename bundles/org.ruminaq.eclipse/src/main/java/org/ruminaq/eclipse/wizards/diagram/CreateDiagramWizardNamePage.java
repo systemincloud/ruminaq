@@ -25,8 +25,6 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -64,14 +62,15 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   public CreateDiagramWizardNamePage(IStructuredSelection selection) {
     super(PAGE_NAME);
-    setTitle(Messages.createDiagramWizardTitle);
-    setDescription("This wizard creates a new System in Cloud Diagram.");
-    setImageDescriptor(ImageUtil.getImageDescriptor(Image.RUMINAQ_LOGO_64X64));
     this.selection = selection;
   }
 
   @Override
   public void createControl(Composite parent) {
+    setTitle(Messages.createDiagramWizardTitle);
+    setDescription(Messages.createDiagramWizardDescription);
+    setImageDescriptor(ImageUtil.getImageDescriptor(Image.RUMINAQ_LOGO_64X64));
+
     Object o = getSelectedObject(selection);
     IProject project = o == null ? null : getProject(o);
 
@@ -167,24 +166,14 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   }
 
   private void initActions(final IProject project) {
-    txtContainer.addModifyListener(new ModifyListener() {
-      @Override
-      public void modifyText(ModifyEvent e) {
-        dialogChanged(project);
-      }
-    });
+    txtContainer.addModifyListener(e -> dialogChanged(project));
     btnContainer.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
         handleBrowse(project);
       }
     });
-    txtFile.addModifyListener(new ModifyListener() {
-      @Override
-      public void modifyText(ModifyEvent e) {
-        dialogChanged(project);
-      }
-    });
+    txtFile.addModifyListener(e -> dialogChanged(project));
   }
 
   private void handleBrowse(IProject project) {
@@ -197,23 +186,30 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     fileDialog.addFilter(new ViewerFilter() {
       @Override
       public boolean select(Viewer arg0, Object parent, Object element) {
-        if (element instanceof IProject)
+        if (element instanceof IProject) {
           return true;
+        }
 
         if (element instanceof IFolder) {
           IPath dirs = ((IFolder) element).getProjectRelativePath();
           IPath mainPath = new Path(SourceFolders.MAIN_RESOURCES);
-          for (int i = 1; i < mainPath.segmentCount(); i++)
-            if (dirs.equals(mainPath.uptoSegment(i)))
+          for (int i = 1; i < mainPath.segmentCount(); i++) {
+            if (dirs.equals(mainPath.uptoSegment(i))) {
               return true;
-          if (dirs.matchingFirstSegments(mainPath) == 3)
+            }
+          }
+          if (dirs.matchingFirstSegments(mainPath) == 3) {
             return true;
+          }
           IPath testPath = new Path(SourceFolders.TEST_RESOURCES);
-          for (int i = 1; i < testPath.segmentCount(); i++)
-            if (dirs.equals(testPath.uptoSegment(i)))
+          for (int i = 1; i < testPath.segmentCount(); i++) {
+            if (dirs.equals(testPath.uptoSegment(i))) {
               return true;
-          if (dirs.matchingFirstSegments(testPath) == 3)
+            }
+          }
+          if (dirs.matchingFirstSegments(testPath) == 3) {
             return true;
+          }
           return false;
         }
 
@@ -231,41 +227,30 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   }
 
   private void dialogChanged(IProject project) {
-    IResource container = ResourcesPlugin.getWorkspace().getRoot().findMember(
-        new Path("/" + project.getName() + "/" + getContainerName()));
-    String fileName = getFileName();
-
     if (getContainerName().length() == 0) {
       updateStatus("File container must be specified");
       return;
     }
+
+    IResource container = ResourcesPlugin.getWorkspace().getRoot().findMember(
+        new Path("/" + project.getName() + "/" + getContainerName()));
+
     if (container == null || (container.getType()
         & (IResource.PROJECT | IResource.FOLDER)) == 0) {
       updateStatus("File container must exist");
-      return;
-    }
-    if (!container.isAccessible()) {
+    } else if (!container.isAccessible()) {
       updateStatus("Project must be writable");
-      return;
-    }
-    if (fileName.length() == 0) {
+    } else if (getFileName().length() == 0) {
       updateStatus("File name must be specified");
-      return;
-    }
-    if (fileName.replace('\\', '/').indexOf('/', 1) > 0) {
+    } else if (getFileName().replace('\\', '/').indexOf('/', 1) > 0) {
       updateStatus("File name must be valid");
-      return;
-    }
-    if (!fileName.endsWith("." + getExtension())) {
+    } else if (!getFileName().endsWith("." + getExtension())) {
       updateStatus("File extension must be \"" + getExtension() + "\"");
-      return;
+    } else if (((IContainer) container).findMember(getFileName()) != null) {
+      updateStatus("File \"" + getFileName() + "\"already exists");
+    } else {
+      updateStatus(null);
     }
-    if (((IContainer) container).findMember(fileName) != null) {
-      updateStatus("File \"" + fileName + "\"already exists");
-      return;
-    }
-
-    updateStatus(null);
   }
 
   protected String getExtension() {
@@ -284,34 +269,4 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   public String getFileName() {
     return txtFile.getText();
   }
-
 }
-/*
- * extends WizardNewFileCreationPage {
- *
- *
- *
- * @SuppressWarnings("unchecked") public
- * CreateDefaultRuminaqDiagramNameWizardPage(IStructuredSelection selection) {
- * super(PAGE_NAME, selection); super.setFileName(DEFAULT_DIAGRAM_NAME);
- *
- *
- * setFileExtension(StringUtils.substringAfter(RuminaqdDiagramConstants.
- * DIAGRAM_EXTENSION, "."));
- *
- *
- * }
- *
- * @Override public boolean isPageComplete() { return getWizard().canFinish(); }
- *
- * @Override protected IStatus validateLinkedResource() { boolean valid =
- * getWizard().canFinish(); if (!valid) { final String errorMessage = String
- * .format("A file with the name '%s' already exists in the project. Choose a different name for the diagram."
- * , getDiagramName()); this.setErrorMessage(errorMessage); return new
- * Status(IStatus.ERROR, RuminaqPlugin.PLUGIN_ID, errorMessage); } return
- * super.validateLinkedResource(); }
- *
- * public String getDiagramName() { if
- * (StringUtils.isNotBlank(super.getFileName())) { return super.getFileName(); }
- * return null; } }
- */
