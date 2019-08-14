@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  org.hamcrest.core,
  org.hamcrest.library,
  javax.annotation,
- org.eclipse.reddeer.junit
+ org.eclipse.reddeer.junit,
+ org.eclipse.equinox.console
 Import-Package: org.apache.commons.lang3,
  org.aspectj.lang,
  org.aspectj.lang.annotation,
@@ -24,5 +25,6 @@ Import-Package: org.apache.commons.lang3,
  org.eclipse.swt,
  org.eclipse.ui,
  org.eclipse.ui.ide,
- org.ruminaq.tests.common
+ org.ruminaq.tests.common,
+ org.ruminaq.gui
 Export-Package: org.ruminaq.eclipse.it.tests

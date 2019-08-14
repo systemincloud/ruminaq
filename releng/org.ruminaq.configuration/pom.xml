@@ -314,10 +314,19 @@
             -javaagent:${user.home}/.m2/repository/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar</argLine>
           <!-- <argLine>-ea -Dosgi.clean=true -Ddebug=true -Dosgi.console.enable.builtin=true</argLine> -->
           <!-- <argLine>-DbuildingWithTycho=true</argLine> -->
-<!--           <defaultStartLevel> -->
-<!--             <level>1</level> -->
-<!--             <autoStart>true</autoStart> -->
-<!--           </defaultStartLevel> -->
+          <!-- <defaultStartLevel> -->
+          <!-- <level>7</level> -->
+          <!-- <autoStart>true</autoStart> -->
+          <!-- </defaultStartLevel> -->
+<!--           <dependency-resolution> -->
+<!--             <extraRequirements> -->
+<!--               <requirement> -->
+<!--                 <type>eclipse-feature</type> -->
+<!--                 <id>org.ruminaq.feature</id> -->
+<!--                 <versionRange>${project.version}</versionRange> -->
+<!--               </requirement> -->
+<!--             </extraRequirements> -->
+<!--           </dependency-resolution> -->
         </configuration>
         <dependencies>
           <dependency>
