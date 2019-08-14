@@ -13,10 +13,6 @@ package org.ruminaq.eclipse;
  */
 public class RuminaqException extends Exception {
 
-  public RuminaqException(String msg) {
-    super(msg);
-  }
-
   public RuminaqException(String msg, Throwable e) {
     super(msg, e);
   }
