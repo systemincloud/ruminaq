@@ -22,7 +22,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -64,30 +63,25 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
     final String containerName = page.getContainerName();
     final String fileName = page.getFileName();
 
-    IRunnableWithProgress op = new IRunnableWithProgress() {
-      @Override
-      public void run(IProgressMonitor monitor)
-          throws InvocationTargetException {
-        try {
-          Optional
-              .ofNullable(
-                  CreateDiagramWizardNamePage.getSelectedObject(selection))
-              .map(o -> CreateDiagramWizardNamePage.getProject(o))
-              .ifPresent(p -> {
-                try {
-                  doFinish("/" + p.getName() + "/" + containerName,
-                      fileName, null);
-                } catch (CoreException e) {
-                  throw new RuminaqRuntimeException(e);
-                }
-              });
-        } catch (RuminaqRuntimeException e) {
-          throw new InvocationTargetException(e);
-        }
-      }
-    };
     try {
-      getContainer().run(true, false, op);
+      getContainer().run(true, false, (IProgressMonitor monitor) -> {
+          try {
+            Optional
+                .ofNullable(
+                    CreateDiagramWizardNamePage.getSelectedObject(selection))
+                .map(o -> CreateDiagramWizardNamePage.getProject(o))
+                .ifPresent(p -> {
+                  try {
+                    doFinish("/" + p.getName() + "/" + containerName,
+                        fileName, null);
+                  } catch (CoreException e) {
+                    throw new RuminaqRuntimeException(e);
+                  }
+                });
+          } catch (RuminaqRuntimeException e) {
+            throw new InvocationTargetException(e);
+          }
+      });
     } catch (InterruptedException e) {
       return false;
     } catch (InvocationTargetException e) {

@@ -24,7 +24,7 @@ import org.ruminaq.validation.ProjectValidator;
  */
 public class RuminaqBuilder extends IncrementalProjectBuilder {
 
-  public static final String BUILDER_ID = "org.ruminaq.eclipse.ruminaqBuilder";
+  public static final String ID = "org.ruminaq.eclipse.ruminaqBuilder";
 
   class RuminaqDeltaVisitor implements IResourceDeltaVisitor {
     IProgressMonitor monitor;

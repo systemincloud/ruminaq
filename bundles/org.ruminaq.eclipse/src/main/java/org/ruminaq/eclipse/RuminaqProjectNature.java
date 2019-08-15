@@ -32,7 +32,7 @@ public class RuminaqProjectNature implements IProjectNature {
     ICommand[] commands = desc.getBuildSpec();
 
     if (Stream.of(commands).map(ICommand::getBuilderName)
-        .filter(name -> RuminaqBuilder.BUILDER_ID.equals(name)).findAny()
+        .filter(name -> RuminaqBuilder.ID.equals(name)).findAny()
         .isPresent()) {
       return;
     }
@@ -40,7 +40,7 @@ public class RuminaqProjectNature implements IProjectNature {
     ICommand[] newCommands = new ICommand[commands.length + 1];
     System.arraycopy(commands, 0, newCommands, 0, commands.length);
     ICommand command = desc.newCommand();
-    command.setBuilderName(RuminaqBuilder.BUILDER_ID);
+    command.setBuilderName(RuminaqBuilder.ID);
     newCommands[newCommands.length - 1] = command;
     desc.setBuildSpec(newCommands);
     project.setDescription(desc, null);
@@ -51,7 +51,7 @@ public class RuminaqProjectNature implements IProjectNature {
     IProjectDescription description = getProject().getDescription();
     ICommand[] commands = description.getBuildSpec();
     for (int i = 0; i < commands.length; ++i) {
-      if (commands[i].getBuilderName().equals(RuminaqBuilder.BUILDER_ID)) {
+      if (commands[i].getBuilderName().equals(RuminaqBuilder.ID)) {
         ICommand[] newCommands = new ICommand[commands.length - 1];
         System.arraycopy(commands, 0, newCommands, 0, i);
         System.arraycopy(commands, i + 1, newCommands, i,
