@@ -4,7 +4,6 @@ Bundle-Name: Ruminaq - Tasks - RTask UI
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.rtask.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.ruminaq.tasks.rtask.ui.Activator
 Require-Bundle: org.eclipse.jface
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core.spi,
@@ -43,7 +42,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.debug.api.dispatcher,
  org.ruminaq.debug.model,
  org.ruminaq.debug.model.vars,
- org.ruminaq.eclipse.wizards.project,
+ org.ruminaq.eclipse,
  org.ruminaq.launch,
  org.ruminaq.logs,
  org.ruminaq.runner.impl.debug.events,

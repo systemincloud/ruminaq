@@ -13,6 +13,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
+import org.ruminaq.eclipse.RuminaqProjectNature;
 
 /**
  * Add eclipse project natures.
@@ -20,8 +21,6 @@ import org.ruminaq.eclipse.RuminaqException;
  * @author Marek Jagielski
  */
 public final class Nature {
-
-  public static final String ID = Nature.class.getCanonicalName();
 
   private Nature() {
   }
@@ -39,7 +38,7 @@ public final class Nature {
     } catch (CoreException e) {
       throw new RuminaqException(Messages.createProjectWizardFailedNature, e);
     }
-    description.setNatureIds(new String[] { JavaCore.NATURE_ID, ID,
+    description.setNatureIds(new String[] { JavaCore.NATURE_ID, RuminaqProjectNature.ID,
         IMavenConstants.NATURE_ID });
     try {
       project.setDescription(description, null);

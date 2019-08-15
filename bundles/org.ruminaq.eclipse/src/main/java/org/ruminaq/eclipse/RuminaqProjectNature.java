@@ -14,12 +14,15 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 import org.ruminaq.eclipse.builder.RuminaqBuilder;
+import org.ruminaq.eclipse.wizards.project.Nature;
 
 /**
  *
  * @author Marek Jagielski
  */
 public class RuminaqProjectNature implements IProjectNature {
+
+  public static final String ID = Nature.class.getCanonicalName();
 
   private IProject project;
 

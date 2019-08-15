@@ -15,7 +15,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Text;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.eclipse.wizards.project.Nature;
+import org.ruminaq.eclipse.RuminaqProjectNature;
+
 import de.walware.ecommons.ui.dialogs.groups.Layouter;
 import de.walware.ecommons.ui.workbench.ContainerSelectionComposite;
 import de.walware.statet.base.core.StatetProject;
@@ -53,7 +54,7 @@ public class SicResourceGroup extends ResourceGroup {
                 final IProject project = container.getProject();
                 try {
                     if(project.hasNature(StatetProject.NATURE_ID) &&
-                       project.hasNature(Nature.ID) &&
+                       project.hasNature(RuminaqProjectNature.ID) &&
                        SicResourceGroup.this.project != null ? SicResourceGroup.this.project == project : true) {
                         if(container instanceof IProject) return true;
                         if(container instanceof IFolder) {
@@ -105,7 +106,7 @@ public class SicResourceGroup extends ResourceGroup {
                 final Object object = it.next();
                 IResource selectedResource = null;
                 if      (object instanceof IResource)  selectedResource = (IResource) object;
-                else if (object instanceof IAdaptable) selectedResource = (IResource) ((IAdaptable) object).getAdapter(IResource.class);
+                else if (object instanceof IAdaptable) selectedResource = ((IAdaptable) object).getAdapter(IResource.class);
 
                 if (selectedResource != null) {
                     if(selectedResource.getType() == IResource.FILE) selectedResource = selectedResource.getParent();
