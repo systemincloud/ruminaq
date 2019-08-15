@@ -23,8 +23,6 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -45,8 +43,6 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
 
   protected CreateDiagramWizardNamePage page;
 
-  private IStructuredSelection structuredSelection;
-
   /**
    * Sets the window title.
    *
@@ -58,14 +54,8 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
   }
 
   @Override
-  public void init(IWorkbench workbench, IStructuredSelection selection) {
-    super.init(workbench, selection);
-    this.structuredSelection = selection;
-  }
-
-  @Override
   public void addPages() {
-    page = new CreateDiagramWizardNamePage(structuredSelection);
+    page = new CreateDiagramWizardNamePage(selection);
     addPage(page);
   }
 
@@ -79,8 +69,7 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
       public void run(IProgressMonitor monitor)
           throws InvocationTargetException {
         try {
-          Object o = CreateDiagramWizardNamePage
-              .getSelectedObject(structuredSelection);
+          Object o = CreateDiagramWizardNamePage.getSelectedObject(selection);
           IProject project = o == null ? null
               : CreateDiagramWizardNamePage.getProject(o);
           doFinish("/" + project.getName() + "/" + containerName, fileName,
@@ -121,12 +110,12 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
     FileService.createEmfFileForDiagram(uri, diagram);
 
     getShell().getDisplay().asyncExec(() -> {
-        IWorkbenchPage page = PlatformUI.getWorkbench()
-            .getActiveWorkbenchWindow().getActivePage();
-        try {
-          IDE.openEditor(page, diagramFile, true);
-        } catch (PartInitException e) {
-        }
+      IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+          .getActivePage();
+      try {
+        IDE.openEditor(page, diagramFile, true);
+      } catch (PartInitException e) {
+      }
     });
   }
 }
