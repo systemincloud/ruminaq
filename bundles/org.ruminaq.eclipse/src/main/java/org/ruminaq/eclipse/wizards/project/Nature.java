@@ -21,7 +21,7 @@ import org.ruminaq.eclipse.RuminaqException;
  */
 public final class Nature {
 
-  public static final String NATURE_ID = "org.ruminaq.eclipse.nature.RuminaqProjectNature"; //$NON-NLS-1$
+  public static final String NATURE_ID = "org.ruminaq.eclipse.nature.RuminaqProjectNature";
 
   private Nature() {
   }
@@ -37,16 +37,14 @@ public final class Nature {
     try {
       description = project.getDescription();
     } catch (CoreException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailedNature,
-          e);
+      throw new RuminaqException(Messages.createProjectWizardFailedNature, e);
     }
     description.setNatureIds(new String[] { JavaCore.NATURE_ID, NATURE_ID,
         IMavenConstants.NATURE_ID });
     try {
       project.setDescription(description, null);
     } catch (CoreException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailedNature,
-          e);
+      throw new RuminaqException(Messages.createProjectWizardFailedNature, e);
     }
   }
 }
