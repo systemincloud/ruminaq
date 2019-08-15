@@ -26,10 +26,15 @@ public class RuminaqPerspective implements IPerspectiveFactory {
   private static final String SHORTCUT_FOLDER = "org.eclipse.ui.wizards.new.folder";
   private static final String SHORTCUT_FILE = "org.eclipse.ui.wizards.new.file";
 
+  private static final String TOP_LEFT_ID = "topLeft";
+  private static final String BOTTOM_LEFT_ID = "bottomLeft";
+  private static final String BOTTOM_RIGHT_ID = "bottomRight";
+
   /**
    * Creates the initial layout for a page.
    *
-   * @see org.eclipse.ui.IPerspectiveFactory#createInitialLayout(IPageLayout layout)
+   * @see org.eclipse.ui.IPerspectiveFactory#createInitialLayout(IPageLayout
+   *      layout)
    *
    * @param layout the page layout
    */
@@ -63,16 +68,16 @@ public class RuminaqPerspective implements IPerspectiveFactory {
   private void defineLayout(IPageLayout layout) {
     String editorArea = layout.getEditorArea();
 
-    IFolderLayout topLeft = layout.createFolder("topLeft", IPageLayout.LEFT,
+    IFolderLayout topLeft = layout.createFolder(TOP_LEFT_ID, IPageLayout.LEFT,
         (float) 0.26, editorArea);
     topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
     topLeft.addPlaceholder(IPageLayout.ID_BOOKMARKS);
 
-    IFolderLayout bottomLeft = layout.createFolder("bottomLeft",
-        IPageLayout.BOTTOM, (float) 0.50, "topLeft");
+    IFolderLayout bottomLeft = layout.createFolder(BOTTOM_LEFT_ID,
+        IPageLayout.BOTTOM, (float) 0.50, TOP_LEFT_ID);
     bottomLeft.addView(ThumbNailView.VIEW_ID);
 
-    IFolderLayout bottomRight = layout.createFolder("bottomRight",
+    IFolderLayout bottomRight = layout.createFolder(BOTTOM_RIGHT_ID,
         IPageLayout.BOTTOM, (float) 0.66, editorArea);
 
     bottomRight.addView(IPageLayout.ID_PROP_SHEET);
