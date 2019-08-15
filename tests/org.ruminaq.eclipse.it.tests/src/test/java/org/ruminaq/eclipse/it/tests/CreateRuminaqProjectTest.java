@@ -100,7 +100,7 @@ public class CreateRuminaqProjectTest {
             project.getFolder(f).exists()));
 
     Assert.assertTrue("Workspace nature should change to Ruminaq",
-        project.hasNature(Nature.NATURE_ID));
+        project.hasNature(Nature.ID));
 
     Assert.assertTrue("Property file created",
         project.exists(new Path(CreateProjectWizard.PROPERTIES_FILE)));

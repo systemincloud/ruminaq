@@ -45,7 +45,7 @@
     <extension
             point="org.eclipse.core.resources.natures"
             name="Ruminaq"
-            id="org.ruminaq.eclipse.nature.RuminaqProjectNature">
+            id="org.ruminaq.eclipse.RuminaqProjectNature">
         <runtime>
             <run class="org.ruminaq.eclipse.RuminaqProjectNature" />
         </runtime>
@@ -135,7 +135,7 @@
                 name="Ruminaq"
                 icon="icons/logo/ruminaq.logo.16x16.png"
                 class="org.ruminaq.eclipse.prefs.ProjectPropsPage">
-            <filter name="nature" value="org.ruminaq.eclipse.nature.RuminaqProjectNature"/>
+            <filter name="nature" value="org.ruminaq.eclipse.RuminaqProjectNature"/>
             <enabledWhen>
                 <adapt type="org.eclipse.core.resources.IProject" />
             </enabledWhen>

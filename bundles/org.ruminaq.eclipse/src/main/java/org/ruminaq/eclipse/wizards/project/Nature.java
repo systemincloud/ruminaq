@@ -21,7 +21,7 @@ import org.ruminaq.eclipse.RuminaqException;
  */
 public final class Nature {
 
-  public static final String NATURE_ID = "org.ruminaq.eclipse.nature.RuminaqProjectNature";
+  public static final String ID = Nature.class.getCanonicalName();
 
   private Nature() {
   }
@@ -39,7 +39,7 @@ public final class Nature {
     } catch (CoreException e) {
       throw new RuminaqException(Messages.createProjectWizardFailedNature, e);
     }
-    description.setNatureIds(new String[] { JavaCore.NATURE_ID, NATURE_ID,
+    description.setNatureIds(new String[] { JavaCore.NATURE_ID, ID,
         IMavenConstants.NATURE_ID });
     try {
       project.setDescription(description, null);

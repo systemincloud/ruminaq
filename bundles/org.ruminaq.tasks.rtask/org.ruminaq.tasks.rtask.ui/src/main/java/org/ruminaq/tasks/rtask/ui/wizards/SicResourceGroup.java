@@ -53,7 +53,7 @@ public class SicResourceGroup extends ResourceGroup {
                 final IProject project = container.getProject();
                 try {
                     if(project.hasNature(StatetProject.NATURE_ID) &&
-                       project.hasNature(Nature.NATURE_ID) &&
+                       project.hasNature(Nature.ID) &&
                        SicResourceGroup.this.project != null ? SicResourceGroup.this.project == project : true) {
                         if(container instanceof IProject) return true;
                         if(container instanceof IFolder) {
