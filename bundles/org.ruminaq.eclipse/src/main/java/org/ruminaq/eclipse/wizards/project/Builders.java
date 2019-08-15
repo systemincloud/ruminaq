@@ -48,7 +48,7 @@ public final class Builders {
           Messages.createProjectWizardFailedConfigureBuilders, e);
     }
 
-    try (InputStream confFile = CreateProjectWizard.class
+    try (InputStream confFile = Builders.class
         .getResourceAsStream(BUILDER_CONFIG_MVN)) {
       IFile outputFile = project.getFolder(EXTERNALTOOLBUILDERS)
           .getFile(BUILDER_CONFIG_MVN);
