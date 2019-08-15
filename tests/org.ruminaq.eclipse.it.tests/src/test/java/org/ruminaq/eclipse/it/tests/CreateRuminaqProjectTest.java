@@ -31,6 +31,7 @@ import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 import org.ruminaq.eclipse.wizards.project.Nature;
 import org.ruminaq.eclipse.wizards.project.PomFile;
+import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.tests.common.CreateRuminaqProject;
 import org.ruminaq.tests.common.SelectView;
 
@@ -87,6 +88,10 @@ public class CreateRuminaqProjectTest {
         perspective.getId());
 
     IProject project = workspace.getRoot().getProject(projectName);
+
+    SourceFolders.SOURCE_FOLDERS.stream()
+        .forEach(f -> Assert.assertTrue("Source directory " + f + "should be created",
+            project.getFolder(f).exists()));
 
     Assert.assertTrue("Workspace nature should change to Ruminaq",
         project.hasNature(Nature.NATURE_ID));

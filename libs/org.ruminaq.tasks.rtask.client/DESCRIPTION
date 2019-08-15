@@ -2,7 +2,7 @@ Package: org.ruminaq.tasks.rtask.client
 Type: Package
 Title: Ruminaq - client
 Version: 1.0.0
-Date: 2019-08-14
+Date: 2019-08-15
 Author: Marek Jagielski
 Maintainer: Marek Jagielski <marek.jagielski@gmail.com>
 Description: Package sicrtask is used for R integration in System in Cloud

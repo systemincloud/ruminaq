@@ -6,6 +6,9 @@
 
 package org.ruminaq.eclipse.wizards.project;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.ruminaq.eclipse.Messages;
@@ -19,13 +22,16 @@ import org.ruminaq.util.EclipseUtil;
  */
 public final class SourceFolders {
 
-  public static final String MAIN_RESOURCES = "src/main/resources"; //$NON-NLS-1$
-  public static final String TEST_RESOURCES = "src/test/resources"; //$NON-NLS-1$
-  public static final String TASK_FOLDER = "tasks"; //$NON-NLS-1$
+  public static final String MAIN_RESOURCES = "src/main/resources";
+  public static final String TEST_RESOURCES = "src/test/resources";
+  public static final String TASK_FOLDER = "tasks";
   public static final String DIAGRAM_FOLDER = MAIN_RESOURCES + "/" + TASK_FOLDER
-      + "/"; //$NON-NLS-1$
+      + "/";
   public static final String TEST_DIAGRAM_FOLDER = TEST_RESOURCES + "/"
-      + TASK_FOLDER + "/"; //$NON-NLS-1$
+      + TASK_FOLDER + "/";
+
+  public static final List<String> SOURCE_FOLDERS = Arrays
+      .asList(MAIN_RESOURCES, TEST_RESOURCES, TASK_FOLDER, DIAGRAM_FOLDER);
 
   private SourceFolders() {
   }
@@ -37,13 +43,12 @@ public final class SourceFolders {
    * @throws RuminaqException something went wrong
    */
   static void createSourceFolders(IProject project) throws RuminaqException {
-    try {
-      EclipseUtil.createFolderWithParents(project, MAIN_RESOURCES);
-      EclipseUtil.createFolderWithParents(project, DIAGRAM_FOLDER);
-      EclipseUtil.createFolderWithParents(project, TEST_RESOURCES);
-      EclipseUtil.createFolderWithParents(project, TEST_DIAGRAM_FOLDER);
-    } catch (CoreException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailed, e);
-    }
+    SOURCE_FOLDERS.stream().forEach(f -> {
+      try {
+        EclipseUtil.createFolderWithParents(project, f);
+      } catch (CoreException e) {
+        throw new RuminaqException(Messages.createProjectWizardFailed, e);
+      }
+    });
   }
 }

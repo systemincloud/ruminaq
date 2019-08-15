@@ -31,6 +31,7 @@ public final class Nature {
    * Add eclipse project natures.
    *
    * @param project Eclipse IProject reference
+   * @throws RuminaqException something went wrong
    */
   static void setNatureIds(IProject project) throws RuminaqException {
     IProjectDescription description;

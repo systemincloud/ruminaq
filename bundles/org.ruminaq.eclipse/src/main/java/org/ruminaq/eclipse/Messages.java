@@ -14,13 +14,13 @@ import org.ruminaq.util.PlatformUtil;
  *
  * @author Marek Jagielski
  */
-@SuppressWarnings("squid:S1820")
 public final class Messages extends NLS {
 
   public static String createProjectWizardTitle;
   public static String createProjectWizardDescription;
   public static String createProjectWizardWindowTitle;
   public static String createProjectWizardFailed;
+  public static String createProjectWizardFailedPropertiesFile;
   public static String createNatureFailed;
   public static String createPomFileFailed;
   public static String ruminaqFailed;
@@ -28,28 +28,28 @@ public final class Messages extends NLS {
   public static String createDiagramWizardTitle;
   public static String createDiagramWizardDescription;
   public static String createTestDiagramWizardTitle;
-  public static String CreateDiagramWizard_PageTitle;
-  public static String ProjectValidator_ProjectNatureCheckTitle;
-  public static String ProjectValidator_ProjectNatureCheckMessage;
-  public static String ProjectValidator_ProjectNatureCheckToogle;
-  public static String ProjectPreferences_ProjectPreferencesDescription;
-  public static String ProjectPreferences_SystemCredentials;
-  public static String ProjectPreferences_ShowSecredKey;
-  public static String ProjectPreferences_SystemCredentials_AccountId;
-  public static String ProjectPreferences_SystemCredentials_SystemId;
-  public static String ProjectPreferences_SystemCredentials_SystemKey;
-  public static String RuminaqProjectPreferencePage_grpRuminaq_text;
-  public static String RuminaqProjectPreferencePage_lblNewLabel_text;
-  public static String RuminaqProjectPreferencePage_lblSystemKey_text;
-  public static String RuminaqProjectPreferencePage_lblSystemid_text;
-  public static String RuminaqProjectPreferencePage_lblAccountId_text;
-  public static String RuminaqProjectPreferencePage_lblSystemKey_text_1;
-  public static String RuminaqProjectPreferencePage_hideSecretKeyCheckbox;
-  public static String RuminaqProjectPreferencePage_btnTest_text;
-  public static String RuminaqProjectPreferencePage_lblNewLabel_text_1;
-  public static String RuminaqProjectPreferencePage_grpGeneral_text;
-  public static String RuminaqProjectPreferencePage_lblVersion_text;
-  public static String RuminaqProjectPreferencePage_btnUpdate_text;
+  public static String createDiagramWizardPageTitle;
+  public static String projectValidatorProjectNatureCheckTitle;
+  public static String projectValidatorProjectNatureCheckMessage;
+  public static String projectValidatorProjectNatureCheckToogle;
+  public static String projectPreferencesProjectPreferencesDescription;
+  public static String projectPreferencesSystemCredentials;
+  public static String projectPreferencesShowSecredKey;
+  public static String projectPreferencesSystemCredentialsAccountId;
+  public static String projectPreferencesSystemCredentialsSystemId;
+  public static String projectPreferencesSystemCredentialsSystemKey;
+  public static String ruminaqProjectPreferencePageGrpRuminaqText;
+  public static String ruminaqProjectPreferencePageLblNewLabelText;
+  public static String ruminaqProjectPreferencePageLblSystemKeyText;
+  public static String ruminaqProjectPreferencePageLblSystemidText;
+  public static String ruminaqProjectPreferencePageLblAccountIdText;
+  public static String ruminaqProjectPreferencePageLblSystemKeyText1;
+  public static String ruminaqProjectPreferencePageHideSecretKeyCheckbox;
+  public static String ruminaqProjectPreferencePageBtnTestText;
+  public static String ruminaqProjectPreferencePageLblNewLabelText1;
+  public static String ruminaqProjectPreferencePageGrpGeneralText;
+  public static String ruminaqProjectPreferencePageLblVersionText;
+  public static String ruminaqProjectPreferencePageBtnUpdateText;
 
   static {
     NLS.initializeMessages(

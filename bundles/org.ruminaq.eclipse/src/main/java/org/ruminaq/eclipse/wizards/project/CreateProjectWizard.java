@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Properties;
 
 import org.eclipse.core.resources.ICommand;
@@ -56,23 +55,19 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(CreateProjectWizard.class);
 
-  private static final String BASIC_NEW_PROJECT_PAGE_NAME = "basicNewProjectPage"; //$NON-NLS-1$
+  private static final String BASIC_NEW_PROJECT_PAGE_NAME = "basicNewProjectPage";
 
   public static final String PROPERTIES_FILE = SourceFolders.MAIN_RESOURCES
-      + "/ruminaq.properties"; //$NON-NLS-1$
+      + "/ruminaq.properties";
 
-  private static final String OUTPUT_CLASSES = "target/classes"; //$NON-NLS-1$
+  private static final String OUTPUT_CLASSES = "target/classes";
 
-  private static final String EXTERNALTOOLBUILDERS = ".externalToolBuilders"; //$NON-NLS-1$
+  private static final String EXTERNALTOOLBUILDERS = ".externalToolBuilders";
 
   private static final String BUILDER_CONFIG_MVN = IMavenConstants.BUILDER_ID
-      + ".launch"; //$NON-NLS-1$
+      + ".launch";
 
-  private static final String MAIN_MODULE = "MAIN_MODULE"; //$NON-NLS-1$
-
-  private Collection<EclipseExtension> extensions = ServiceUtil
-      .getServicesAtLatestVersion(CreateProjectWizard.class,
-          EclipseExtension.class);
+  private static final String MAIN_MODULE = "MAIN_MODULE";
 
   /**
    * New project wizard.
@@ -119,7 +114,9 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
         deleteBinDirectory(newProject);
 
-        extensions.stream()
+        ServiceUtil
+        .getServicesAtLatestVersion(CreateProjectWizard.class,
+            EclipseExtension.class).stream()
             .forEach(e -> e.createProjectWizardPerformFinish(javaProject));
 
         updateProject(newProject);
@@ -142,8 +139,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
    *
    * @param projet eclipse project reference
    */
-  private static void deleteBinDirectory(IProject projet)
-      throws RuminaqException {
+  private static void deleteBinDirectory(IProject projet) {
     try {
       EclipseUtil.deleteProjectDirectoryIfExists(projet,
           EclipseUtil.BIN_DIRECTORY);
@@ -152,7 +148,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void updateProject(IProject project) throws RuminaqException {
+  private static void updateProject(IProject project) {
     IProjectConfigurationManager configurationManager = MavenPlugin
         .getProjectConfigurationManager();
     MavenUpdateRequest request = new MavenUpdateRequest(project, true, true);
@@ -174,8 +170,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     super.setWindowTitle(Messages.createProjectWizardWindowTitle);
   }
 
-  private static void createOutputLocation(IJavaProject javaProject)
-      throws RuminaqException {
+  private static void createOutputLocation(IJavaProject javaProject) {
     IPath targetPath = javaProject.getPath().append(OUTPUT_CLASSES);
     try {
       javaProject.setOutputLocation(targetPath, null);
@@ -184,8 +179,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void configureBuilders(IProject project)
-      throws RuminaqException {
+  private static void configureBuilders(IProject project) {
     try {
       EclipseUtil.createFolderWithParents(project, EXTERNALTOOLBUILDERS);
     } catch (CoreException e) {
@@ -210,8 +204,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void createPropertiesFile(IProject newProject)
-      throws RuminaqException {
+  private static void createPropertiesFile(IProject newProject) {
     Properties prop = new Properties();
     try (OutputStream output = new ByteArrayOutputStream()) {
       prop.setProperty(MAIN_MODULE,
@@ -223,7 +216,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
       outputFile.create(new ByteArrayInputStream(
           ((ByteArrayOutputStream) output).toByteArray()), true, null);
     } catch (IOException | CoreException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailed, e);
+      throw new RuminaqException(Messages.createProjectWizardFailedPropertiesFile, e);
     }
   }
 }
