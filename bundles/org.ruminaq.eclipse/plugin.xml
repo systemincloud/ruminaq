@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="4.3"?>
 <plugin>
 
-    <!--
-     | Perspective
-     -->
     <extension point="org.eclipse.ui.perspectives">
         <perspective
                 name="Ruminaq"
-                id="org.ruminaq.eclipse.perspective.RuminaqPerspective"
+                id="org.ruminaq.eclipse.RuminaqPerspective"
                 fixed="false"
                 icon="icons/logo/ruminaq.logo.16x16.png"
                 class="org.ruminaq.eclipse.RuminaqPerspective">
         </perspective>
     </extension>
 
-    <!--
-     | Wizards
-     -->
     <extension point="org.eclipse.ui.newWizards">
         <category
                 id="org.ruminaq.eclipse.newWizards.category"
@@ -27,46 +20,37 @@
                 id="org.ruminaq.eclipse.wizards.project.CreateProjectWizard"
                 category="org.ruminaq.eclipse.newWizards.category"
                 class="org.ruminaq.eclipse.wizards.project.CreateProjectWizard"
-                finalPerspective="org.ruminaq.eclipse.perspective.RuminaqPerspective"
+                finalPerspective="org.ruminaq.eclipse.RuminaqPerspective"
                 icon="icons/logo/ruminaq.logo.16x16.png"
                 project="true">
-            <description>Create a new Ruminaq Project with a basic folder structure.</description>
         </wizard>
         <wizard
                 name="Ruminaq Diagram"
                 id="org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard"
                 category="org.ruminaq.eclipse.newWizards.category"
                 class="org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard"
-                finalPerspective="org.ruminaq.eclipse.perspective.RuminaqPerspective"
+                finalPerspective="org.ruminaq.eclipse.RuminaqPerspective"
                 icon="icons/main.png">
-            <description>Create a new Ruminaq Diagram.</description>
         </wizard>
         <wizard
                 name="Ruminaq Diagram Test"
                 id="org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard"
                 category="org.ruminaq.eclipse.newWizards.category"
                 class="org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard"
-                finalPerspective="org.ruminaq.eclipse.perspective.RuminaqPerspective"
+                finalPerspective="org.ruminaq.eclipse.RuminaqPerspective"
                 icon="icons/test.png">
-            <description>Create a new Ruminaq Diagram Test.</description>
         </wizard>
     </extension>
 
-    <!--
-     | Project Nature
-     -->
     <extension
             point="org.eclipse.core.resources.natures"
             name="Ruminaq"
             id="org.ruminaq.eclipse.nature.RuminaqProjectNature">
         <runtime>
-            <run class="org.ruminaq.eclipse.nature.RuminaqProjectNature" />
+            <run class="org.ruminaq.eclipse.RuminaqProjectNature" />
         </runtime>
     </extension>
 
-    <!--
-     | Editors
-     -->
     <extension point="org.eclipse.ui.editors">
         <editor
                 name="Ruminaq Editor"
@@ -81,9 +65,6 @@
          </editor>
     </extension>
 
-    <!--
-     | Content Type
-     -->
     <extension point="org.eclipse.core.contenttype.contentTypes">
         <content-type
                 name="Ruminaq Diagram"
@@ -94,9 +75,6 @@
         </content-type>
     </extension>
 
-    <!--
-     | Link Helper
-     -->
     <extension point="org.eclipse.ui.navigator.linkHelper">
         <linkHelper
                   class="org.ruminaq.eclipse.navigator.EditorLinkHelper"
@@ -120,21 +98,14 @@
         </viewerContentBinding>
     </extension>
 
-    <!--
-     | Builder
-     -->
-    <extension
+    <extension point="org.eclipse.core.resources.builders"
             name="Ruminaq Builder"
-            id="org.ruminaq.eclipse.ruminaqBuilder"
-            point="org.eclipse.core.resources.builders">
+            id="org.ruminaq.eclipse.ruminaqBuilder">
         <builder hasNature="true">
             <run class="org.ruminaq.eclipse.builder.RuminaqBuilder"/>
         </builder>
     </extension>
 
-    <!--
-     | Menus
-     -->
     <extension point="org.eclipse.ui.menus">
         <menuContribution locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
             <menu
@@ -145,18 +116,12 @@
         </menuContribution>
     </extension>
 
-    <!--
-     | Commands
-     -->
     <extension point="org.eclipse.ui.commands">
     </extension>
 
     <extension point="org.eclipse.ui.commandImages">
     </extension>
 
-    <!--
-     | Preferences
-     -->
     <extension point="org.eclipse.ui.preferencePages">
         <page
                 id="org.ruminaq.Preferences"

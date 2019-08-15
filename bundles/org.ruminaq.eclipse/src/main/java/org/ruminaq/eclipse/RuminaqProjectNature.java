@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.eclipse.nature;
+package org.ruminaq.eclipse;
 
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
