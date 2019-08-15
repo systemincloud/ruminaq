@@ -36,11 +36,10 @@ public final class SourceFolders {
    * Creates directories for eclipse sources.
    *
    * @param project Eclipse IProject reference
-   * @throws RuminaqException something went wrong
    */
-  static void createSourceFolders(IProject project) throws RuminaqException {
+  static void createSourceFolders(IProject project) {
     Arrays.asList(MAIN_RESOURCES, TEST_RESOURCES, TASK_FOLDER, DIAGRAM_FOLDER)
-        .stream().forEach(f -> {
+        .stream().forEach((String f) -> {
           try {
             EclipseUtil.createFolderWithParents(project, f);
           } catch (CoreException e) {
