@@ -116,12 +116,6 @@
         </menuContribution>
     </extension>
 
-    <extension point="org.eclipse.ui.commands">
-    </extension>
-
-    <extension point="org.eclipse.ui.commandImages">
-    </extension>
-
     <extension point="org.eclipse.ui.preferencePages">
         <page
                 id="org.ruminaq.Preferences"

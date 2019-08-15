@@ -85,7 +85,6 @@ Export-Package:
  org.ruminaq.eclipse,
  org.ruminaq.eclipse.api,
  org.ruminaq.eclipse.builder,
- org.ruminaq.eclipse.cmd,
  org.ruminaq.eclipse.editor,
  org.ruminaq.eclipse.navigator,
  org.ruminaq.eclipse.prefs,
