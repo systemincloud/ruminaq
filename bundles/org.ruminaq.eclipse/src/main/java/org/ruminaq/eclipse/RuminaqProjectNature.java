@@ -6,6 +6,8 @@
 
 package org.ruminaq.eclipse;
 
+import java.util.stream.Stream;
+
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -26,10 +28,10 @@ public class RuminaqProjectNature implements IProjectNature {
     IProjectDescription desc = project.getDescription();
     ICommand[] commands = desc.getBuildSpec();
 
-    for (int i = 0; i < commands.length; ++i) {
-      if (commands[i].getBuilderName().equals(RuminaqBuilder.BUILDER_ID)) {
-        return;
-      }
+    if (Stream.of(commands).map(ICommand::getBuilderName)
+        .filter(name -> RuminaqBuilder.BUILDER_ID.equals(name)).findAny()
+        .isPresent()) {
+      return;
     }
 
     ICommand[] newCommands = new ICommand[commands.length + 1];
