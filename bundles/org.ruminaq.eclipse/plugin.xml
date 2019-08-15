@@ -11,7 +11,7 @@
                 id="org.ruminaq.eclipse.perspective.RuminaqPerspective"
                 fixed="false"
                 icon="icons/logo/ruminaq.logo.16x16.png"
-                class="org.ruminaq.eclipse.perspective.RuminaqPerspective">
+                class="org.ruminaq.eclipse.RuminaqPerspective">
         </perspective>
     </extension>
 

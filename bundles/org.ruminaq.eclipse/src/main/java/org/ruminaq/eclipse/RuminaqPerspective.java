@@ -4,18 +4,25 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.eclipse.perspective;
+package org.ruminaq.eclipse;
 
+import org.eclipse.graphiti.ui.internal.editor.ThumbNailView;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.console.IConsoleConstants;
+import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 
 /**
+ * Ruminaq default eclipse perspective
  *
  * @author Marek Jagielski
  */
 public class RuminaqPerspective implements IPerspectiveFactory {
+
+  private static final String ID_MARKERS_VIEW = "org.eclipse.ui.views.AllMarkersView";
+  private static final String SHORTCUT_FOLDER = "org.eclipse.ui.wizards.new.folder";
+  private static final String SHORTCUT_FILE = "org.eclipse.ui.wizards.new.file";
 
   @Override
   public void createInitialLayout(IPageLayout layout) {
@@ -26,49 +33,43 @@ public class RuminaqPerspective implements IPerspectiveFactory {
   private void defineActions(IPageLayout layout) {
 
     // Add "new wizards".
-    layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.folder"); //$NON-NLS-1$
-    layout.addNewWizardShortcut("org.eclipse.ui.wizards.new.file"); //$NON-NLS-1$
+    layout.addNewWizardShortcut(SHORTCUT_FOLDER);
+    layout.addNewWizardShortcut(SHORTCUT_FILE);
+    layout.addNewWizardShortcut(CreateProjectWizard.ID);
     layout.addNewWizardShortcut(
-        "org.ruminaq.eclipse.wizards.project.CreateProjectWizard"); //$NON-NLS-1$
+        "org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard");
     layout.addNewWizardShortcut(
-        "org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard"); //$NON-NLS-1$
-    layout.addNewWizardShortcut(
-        "org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard"); //$NON-NLS-1$
+        "org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard");
 
     // Add "show views".
     layout.addShowViewShortcut(IPageLayout.ID_PROJECT_EXPLORER);
     layout.addShowViewShortcut(IPageLayout.ID_BOOKMARKS);
-    layout.addShowViewShortcut(
-        "org.eclipse.graphiti.ui.internal.editor.thumbnailview"); //$NON-NLS-1$
+    layout.addShowViewShortcut(ThumbNailView.VIEW_ID);
     layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
-    layout.addShowViewShortcut("org.eclipse.ui.views.AllMarkersView"); //$NON-NLS-1$
-    layout.addShowViewShortcut(IConsoleConstants.ID_CONSOLE_VIEW); // $NON-NLS-1$
+    layout.addShowViewShortcut(ID_MARKERS_VIEW);
+    layout.addShowViewShortcut(IConsoleConstants.ID_CONSOLE_VIEW);
 
     layout.addActionSet(IPageLayout.ID_NAVIGATE_ACTION_SET);
-    layout.addActionSet("org.eclipse.debug.ui.launchActionSet"); //$NON-NLS-1$
+    layout.addActionSet("org.eclipse.debug.ui.launchActionSet");
   }
 
   private void defineLayout(IPageLayout layout) {
-    // Editors are placed for free.
     String editorArea = layout.getEditorArea();
 
-    // Top left.
-    IFolderLayout topLeft = layout.createFolder("topLeft", IPageLayout.LEFT, //$NON-NLS-1$
+    IFolderLayout topLeft = layout.createFolder("topLeft", IPageLayout.LEFT,
         (float) 0.26, editorArea);
     topLeft.addView(IPageLayout.ID_PROJECT_EXPLORER);
     topLeft.addPlaceholder(IPageLayout.ID_BOOKMARKS);
 
-    // Bottom left.
-    IFolderLayout bottomLeft = layout.createFolder("bottomLeft", //$NON-NLS-1$
+    IFolderLayout bottomLeft = layout.createFolder("bottomLeft",
         IPageLayout.BOTTOM, (float) 0.50, "topLeft");
-    bottomLeft.addView("org.eclipse.graphiti.ui.internal.editor.thumbnailview");//$NON-NLS-1$
+    bottomLeft.addView(ThumbNailView.VIEW_ID);
 
-    // Bottom right.
-    IFolderLayout bottomRight = layout.createFolder("bottomRight", //$NON-NLS-1$
+    IFolderLayout bottomRight = layout.createFolder("bottomRight",
         IPageLayout.BOTTOM, (float) 0.66, editorArea);
 
     bottomRight.addView(IPageLayout.ID_PROP_SHEET);
-    bottomRight.addView("org.eclipse.ui.views.AllMarkersView");//$NON-NLS-1$
+    bottomRight.addView(ID_MARKERS_VIEW);
     bottomRight.addView(IConsoleConstants.ID_CONSOLE_VIEW);
   }
 }

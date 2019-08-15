@@ -9,6 +9,7 @@
 		<accessrules>
 			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/*"/>
 			<accessrule kind="accessible" pattern="org/eclipse/m2e/**"/>
+			<accessrule kind="accessible" pattern="org/eclipse/graphiti/ui/internal/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src/main/java"/>

@@ -51,6 +51,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(CreateProjectWizard.class);
 
+  public static final String ID = CreateProjectWizard.class.getCanonicalName();
+
   private static final String BASIC_NEW_PROJECT_PAGE_NAME = "basicNewProjectPage";
 
   public static final String PROPERTIES_FILE = SourceFolders.MAIN_RESOURCES
