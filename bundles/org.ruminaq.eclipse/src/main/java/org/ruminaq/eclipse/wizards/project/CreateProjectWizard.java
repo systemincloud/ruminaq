@@ -9,12 +9,9 @@ package org.ruminaq.eclipse.wizards.project;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
 import java.util.Properties;
 
-import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -25,7 +22,6 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.m2e.core.MavenPlugin;
-import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.eclipse.m2e.core.project.IProjectConfigurationManager;
 import org.eclipse.m2e.core.project.MavenUpdateRequest;
 import org.eclipse.swt.widgets.Composite;
@@ -61,11 +57,6 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
       + "/ruminaq.properties";
 
   private static final String OUTPUT_CLASSES = "target/classes";
-
-  private static final String EXTERNALTOOLBUILDERS = ".externalToolBuilders";
-
-  private static final String BUILDER_CONFIG_MVN = IMavenConstants.BUILDER_ID
-      + ".launch";
 
   private static final String MAIN_MODULE = "MAIN_MODULE";
 
@@ -106,7 +97,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
         createOutputLocation(javaProject);
 
         new PomFile().createPomFile(newProject);
-        configureBuilders(newProject);
+        Builders.configureBuilders(newProject);
         createPropertiesFile(newProject);
 
         ProjectProps.getInstance(newProject).put(ProjectProps.MODELER_VERSION,
@@ -115,8 +106,9 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
         deleteBinDirectory(newProject);
 
         ServiceUtil
-        .getServicesAtLatestVersion(CreateProjectWizard.class,
-            EclipseExtension.class).stream()
+            .getServicesAtLatestVersion(CreateProjectWizard.class,
+                EclipseExtension.class)
+            .stream()
             .forEach(e -> e.createProjectWizardPerformFinish(javaProject));
 
         updateProject(newProject);
@@ -135,7 +127,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
   /**
    * Newly created project by default has output directory bin. Eclipse will
-   * manage to create this directory before we change after classpath file.
+   * manage to create this directory before we change classpath file.
    *
    * @param projet eclipse project reference
    */
@@ -179,32 +171,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void configureBuilders(IProject project) {
-    try {
-      EclipseUtil.createFolderWithParents(project, EXTERNALTOOLBUILDERS);
-    } catch (CoreException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailed, e);
-    }
-
-    try (InputStream confFile = CreateProjectWizard.class
-        .getResourceAsStream(BUILDER_CONFIG_MVN)) {
-      IFile outputFile = project.getFolder(EXTERNALTOOLBUILDERS)
-          .getFile(BUILDER_CONFIG_MVN);
-      outputFile.create(confFile, true, null);
-      ICommand command = Arrays.stream(project.getDescription().getBuildSpec())
-          .filter(
-              cmd -> IMavenConstants.BUILDER_ID.equals(cmd.getBuilderName()))
-          .findFirst().orElseThrow(IOException::new);
-      command
-          .setBuilderName("org.eclipse.ui.externaltools.ExternalToolBuilder");
-      command.getArguments().put("LaunchConfigHandle",
-          "<project>/.externalToolBuilders/org.eclipse.m2e.core.maven2Builder.launch");
-    } catch (CoreException | IOException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailed, e);
-    }
-  }
-
-  private static void createPropertiesFile(IProject newProject) {
+  private static void createPropertiesFile(IProject project) {
     Properties prop = new Properties();
     try (OutputStream output = new ByteArrayOutputStream()) {
       prop.setProperty(MAIN_MODULE,
@@ -212,11 +179,12 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
               + CreateDiagramWizardNamePage.DEFAULT_DIAGRAM_NAME
               + Constants.DIAGRAM_EXTENSION_DOT);
       prop.store(output, null);
-      IFile outputFile = newProject.getFile(PROPERTIES_FILE);
+      IFile outputFile = project.getFile(PROPERTIES_FILE);
       outputFile.create(new ByteArrayInputStream(
           ((ByteArrayOutputStream) output).toByteArray()), true, null);
     } catch (IOException | CoreException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailedPropertiesFile, e);
+      throw new RuminaqException(
+          Messages.createProjectWizardFailedPropertiesFile, e);
     }
   }
 }

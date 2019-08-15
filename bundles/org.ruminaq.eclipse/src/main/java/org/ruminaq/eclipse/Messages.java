@@ -16,10 +16,11 @@ import org.ruminaq.util.PlatformUtil;
  */
 public final class Messages extends NLS {
 
+  public static String createProjectWizardWindowTitle;
   public static String createProjectWizardTitle;
   public static String createProjectWizardDescription;
-  public static String createProjectWizardWindowTitle;
   public static String createProjectWizardFailed;
+  public static String createProjectWizardFailedConfigureBuilders;
   public static String createProjectWizardFailedPropertiesFile;
   public static String createNatureFailed;
   public static String createPomFileFailed;

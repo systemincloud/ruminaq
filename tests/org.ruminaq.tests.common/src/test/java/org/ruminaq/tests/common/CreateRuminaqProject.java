@@ -31,17 +31,18 @@ public class CreateRuminaqProject {
    * @param name name of project
    */
   public void execute(SWTWorkbenchBot bot, String name) {
-    bot.menu("File").menu("New").menu("Project...").click();
-
-    bot.tree().getTreeItem("Ruminaq").expand();
-
-    bot.tree().getTreeItem("Ruminaq").getNode("Ruminaq Project").select();
-
-    bot.button("Next >").click();
+    chooseProjectFromMainMenu(bot);
 
     bot.textWithLabel("&Project name:").setText(name);
 
     bot.button("Finish").click();
+  }
+
+  public void chooseProjectFromMainMenu(SWTWorkbenchBot bot) {
+    bot.menu("File").menu("New").menu("Project...").click();
+    bot.tree().getTreeItem("Ruminaq").expand();
+    bot.tree().getTreeItem("Ruminaq").getNode("Ruminaq Project").select();
+    bot.button("Next >").click();
   }
 
   /**
@@ -56,7 +57,7 @@ public class CreateRuminaqProject {
 
     bot.waitUntil(shellCloses(shellOpenPerspective));
   }
-  
+
   /**
    * Accept perspective change if pop ups.
    *
