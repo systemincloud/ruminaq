@@ -142,8 +142,9 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
    * manage to create this directory before we change classpath file.
    *
    * @param projet eclipse project reference
+   * @throws RuminaqException
    */
-  private static void deleteBinDirectory(IProject projet) {
+  private static void deleteBinDirectory(IProject projet) throws RuminaqException {
     try {
       EclipseUtil.deleteProjectDirectoryIfExists(projet,
           EclipseUtil.BIN_DIRECTORY);
@@ -152,7 +153,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void updateProject(IProject project) {
+  private static void updateProject(IProject project) throws RuminaqException {
     IProjectConfigurationManager configurationManager = MavenPlugin
         .getProjectConfigurationManager();
     MavenUpdateRequest request = new MavenUpdateRequest(project, true, true);
@@ -164,7 +165,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void createOutputLocation(IJavaProject javaProject) {
+  private static void createOutputLocation(IJavaProject javaProject) throws RuminaqException {
     IPath targetPath = javaProject.getPath().append(OUTPUT_CLASSES);
     try {
       javaProject.setOutputLocation(targetPath, null);
@@ -173,7 +174,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void createPropertiesFile(IProject project) {
+  private static void createPropertiesFile(IProject project) throws RuminaqException {
     Properties prop = new Properties();
     try (OutputStream output = new ByteArrayOutputStream()) {
       prop.setProperty(MAIN_MODULE,

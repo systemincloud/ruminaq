@@ -52,7 +52,7 @@ public final class PomFile {
    * Creates maven pom file.
    *
    * @param project Eclipse IProject reference
-   * @throws RuminaqException something went wrong
+   * @throws RuminaqException
    */
   public void createPomFile(IProject project) throws RuminaqException {
     var reader = new MavenXpp3Reader();
