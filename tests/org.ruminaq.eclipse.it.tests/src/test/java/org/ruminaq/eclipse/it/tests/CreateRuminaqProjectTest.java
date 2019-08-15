@@ -29,6 +29,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.eclipse.RuminaqPerspective;
 import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 import org.ruminaq.eclipse.wizards.project.Nature;
 import org.ruminaq.eclipse.wizards.project.PomFile;
@@ -85,7 +86,7 @@ public class CreateRuminaqProjectTest {
       }
     });
     Assert.assertEquals("Perspective should be changed",
-        "org.ruminaq.eclipse.RuminaqPerspective",
+        RuminaqPerspective.class.getCanonicalName(),
         perspective.getId());
 
     IProject project = workspace.getRoot().getProject(projectName);
