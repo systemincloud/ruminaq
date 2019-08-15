@@ -85,7 +85,7 @@ public class CreateRuminaqProjectTest {
       }
     });
     Assert.assertEquals("Perspective should be changed",
-        "org.ruminaq.eclipse.perspective.RuminaqPerspective",
+        "org.ruminaq.eclipse.RuminaqPerspective",
         perspective.getId());
 
     IProject project = workspace.getRoot().getProject(projectName);
