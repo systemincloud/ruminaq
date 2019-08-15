@@ -6,10 +6,6 @@
 
 package org.ruminaq.eclipse.it.tests;
 
-import java.io.IOException;
-
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.AfterClass;
@@ -46,9 +42,8 @@ public class CreatingRuminaqProjectTest {
   }
 
   @Test
-  public final void testChoosingProjectFromMainMenu()
-      throws CoreException, IOException, XmlPullParserException {
-    new CreateRuminaqProject().chooseProjectFromMainMenu(bot);
+  public final void testChoosingProjectFromMainMenu() {
+    new CreateRuminaqProject().openProjectWizardFromMainMenu(bot);
 
     Assert.assertEquals("Window of title should be set", "New Ruminaq Project",
         bot.activeShell().getText());

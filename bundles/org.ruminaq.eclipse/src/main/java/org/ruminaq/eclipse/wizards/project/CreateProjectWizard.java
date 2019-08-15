@@ -61,6 +61,16 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
   private static final String MAIN_MODULE = "MAIN_MODULE";
 
   /**
+   * Sets the window title.
+   *
+   * @see org.eclipse.jface.wizard.Wizard#setWindowTitle()
+   */
+  @Override
+  public void setWindowTitle(final String newTitle) {
+    super.setWindowTitle(Messages.createProjectWizardWindowTitle);
+  }
+
+  /**
    * New project wizard.
    *
    * @see org.eclipse.jface.wizard.Wizard#createPageControls(org.eclipse.swt.widgets.Composite)
@@ -150,16 +160,6 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     } catch (CoreException e) {
       throw new RuminaqException(Messages.createProjectWizardFailed, e);
     }
-  }
-
-  /**
-   * Sets the window title.
-   *
-   * @see org.eclipse.jface.wizard.Wizard#setWindowTitle()
-   */
-  @Override
-  public void setWindowTitle(final String newTitle) {
-    super.setWindowTitle(Messages.createProjectWizardWindowTitle);
   }
 
   private static void createOutputLocation(IJavaProject javaProject) {

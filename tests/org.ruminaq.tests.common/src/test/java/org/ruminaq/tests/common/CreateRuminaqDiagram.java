@@ -24,36 +24,40 @@ import org.hamcrest.Matcher;
  *
  */
 public class CreateRuminaqDiagram {
-  
+
   /**
    * Create new Ruminaq daigram.
    *
    * @param bot SWTWorkbenchBot
    * @param name name of project
-   * @param diagramName 
-   * @param path 
+   * @param diagramName
+   * @param path
    */
   public void execute(SWTWorkbenchBot bot, String projectName, String path, String diagramName) {
-  	SWTBotView pe = SelectView.getProjectExplorer(bot);
-  	SWTBotTree selector = pe.bot().tree();
-  	selector.select(projectName);
-  	SWTBotMenu menu = new SWTBotMenu(
-			ContextMenuHelper.contextMenu(selector, new String[] { "New", "Other..." }));
-  	menu.click();
-    bot.tree().getTreeItem("Ruminaq").expand();
+    openDiagramWizardFromProjectContextMenu(bot, projectName);
 
-    bot.tree().getTreeItem("Ruminaq").getNode("Ruminaq Diagram").select();
-    
-    bot.button("Next >").click();
-    
     bot.textWithLabel("&Container:").setText(path);
 
     bot.textWithLabel("&File name:").setText(diagramName  + ".rumi");
 
     bot.button("Finish").click();
-    
+
     Matcher<IEditorReference> withPartName = WidgetMatcherFactory.withPartName(diagramName);
     WaitForEditor waitForEditor = Conditions.waitForEditor(withPartName);
     bot.waitUntilWidgetAppears(waitForEditor);
+  }
+
+  public void openDiagramWizardFromProjectContextMenu(SWTWorkbenchBot bot, String projectName) {
+    SWTBotView pe = SelectView.getProjectExplorer(bot);
+    SWTBotTree selector = pe.bot().tree();
+    selector.select(projectName);
+    SWTBotMenu menu = new SWTBotMenu(
+      ContextMenuHelper.contextMenu(selector, new String[] { "New", "Other..." }));
+    menu.click();
+    bot.tree().getTreeItem("Ruminaq").expand();
+
+    bot.tree().getTreeItem("Ruminaq").getNode("Ruminaq Diagram").select();
+
+    bot.button("Next >").click();
   }
 }

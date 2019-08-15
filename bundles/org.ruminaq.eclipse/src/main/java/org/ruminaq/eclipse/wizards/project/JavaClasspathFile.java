@@ -72,7 +72,7 @@ public final class JavaClasspathFile {
       javaProject.setRawClasspath(
           entries.toArray(new IClasspathEntry[entries.size()]), null);
     } catch (JavaModelException e) {
-      throw new RuminaqException(Messages.createClasspathFileFailed, e);
+      throw new RuminaqException(Messages.createProjectWizardFailedClasspathFile, e);
     }
   }
 }

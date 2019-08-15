@@ -24,6 +24,7 @@ public class CreateRuminaqProject {
 
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(CreateRuminaqProject.class);
+
   /**
    * Create new Ruminaq project.
    *
@@ -31,14 +32,20 @@ public class CreateRuminaqProject {
    * @param name name of project
    */
   public void execute(SWTWorkbenchBot bot, String name) {
-    chooseProjectFromMainMenu(bot);
+    openProjectWizardFromMainMenu(bot);
 
     bot.textWithLabel("&Project name:").setText(name);
 
     bot.button("Finish").click();
   }
 
-  public void chooseProjectFromMainMenu(SWTWorkbenchBot bot) {
+  /**
+   * Open new project wizard File => New.
+   *
+   * @param bot SWTWorkbenchBot
+   * @param name name of project
+   */
+  public void openProjectWizardFromMainMenu(SWTWorkbenchBot bot) {
     bot.menu("File").menu("New").menu("Project...").click();
     bot.tree().getTreeItem("Ruminaq").expand();
     bot.tree().getTreeItem("Ruminaq").getNode("Ruminaq Project").select();

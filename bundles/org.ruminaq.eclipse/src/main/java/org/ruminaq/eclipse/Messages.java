@@ -22,10 +22,11 @@ public final class Messages extends NLS {
   public static String createProjectWizardFailed;
   public static String createProjectWizardFailedConfigureBuilders;
   public static String createProjectWizardFailedPropertiesFile;
-  public static String createNatureFailed;
-  public static String createPomFileFailed;
+  public static String createProjectWizardFailedNature;
+  public static String createProjectWizardFailedPom;
+  public static String createProjectWizardFailedClasspathFile;
+  public static String createProjectWizardFailedSourceFolders;
   public static String ruminaqFailed;
-  public static String createClasspathFileFailed;
   public static String createDiagramWizardTitle;
   public static String createDiagramWizardDescription;
   public static String createTestDiagramWizardTitle;

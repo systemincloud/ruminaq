@@ -47,7 +47,7 @@ public final class SourceFolders {
       try {
         EclipseUtil.createFolderWithParents(project, f);
       } catch (CoreException e) {
-        throw new RuminaqException(Messages.createProjectWizardFailed, e);
+        throw new RuminaqException(Messages.createProjectWizardFailedSourceFolders, e);
       }
     });
   }

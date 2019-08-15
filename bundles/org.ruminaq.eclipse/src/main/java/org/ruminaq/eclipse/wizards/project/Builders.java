@@ -44,7 +44,8 @@ public final class Builders {
     try {
       EclipseUtil.createFolderWithParents(project, EXTERNALTOOLBUILDERS);
     } catch (CoreException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailed, e);
+      throw new RuminaqException(
+          Messages.createProjectWizardFailedConfigureBuilders, e);
     }
 
     try (InputStream confFile = CreateProjectWizard.class

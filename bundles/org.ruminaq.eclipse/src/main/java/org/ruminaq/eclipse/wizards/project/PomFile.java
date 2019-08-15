@@ -60,7 +60,7 @@ public final class PomFile {
     try (var pom = PomFile.class.getResourceAsStream(POM_TEMPLATE)) {
       model = reader.read(pom);
     } catch (IOException | XmlPullParserException e) {
-      throw new RuminaqException(Messages.createPomFileFailed, e);
+      throw new RuminaqException(Messages.createProjectWizardFailedPom, e);
     }
 
     model.getDependencies().addAll(
@@ -80,7 +80,7 @@ public final class PomFile {
     try {
       writer.write(contentWriter, model);
     } catch (IOException e) {
-      throw new RuminaqException(Messages.createPomFileFailed, e);
+      throw new RuminaqException(Messages.createProjectWizardFailedPom, e);
     }
 
     var content = contentWriter.toString();
@@ -89,7 +89,7 @@ public final class PomFile {
     try (var is = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8))) {
       pomFile.create(is, true, new NullProgressMonitor());
     } catch (CoreException | IOException e) {
-      throw new RuminaqException(Messages.createPomFileFailed, e);
+      throw new RuminaqException(Messages.createProjectWizardFailedPom, e);
     }
   }
 }
