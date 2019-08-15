@@ -6,11 +6,10 @@
 
 package org.ruminaq.eclipse.wizards.diagram;
 
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IWorkbench;
 import org.ruminaq.eclipse.Messages;
 
 /**
+ * Creates new Ruminaq test diagram.
  *
  * @author Marek Jagielski
  */
@@ -18,16 +17,18 @@ public class CreateTestDiagramWizard extends CreateDiagramWizard {
 
   public static final String ID = CreateTestDiagramWizard.class.getCanonicalName();
 
+  /**
+   * Sets the window title.
+   *
+   * @see org.eclipse.jface.wizard.Wizard#setWindowTitle()
+   */
   @Override
-  public void init(IWorkbench workbench,
-      IStructuredSelection currentSelection) {
-    super.init(workbench, currentSelection);
-    setWindowTitle(Messages.createTestDiagramWizardTitle);
+  public void setWindowTitle(final String newTitle) {
+    super.setWindowTitle(Messages.createTestDiagramWizardTitle);
   }
 
   @Override
   public void addPages() {
-    page = new CreateTestDiagramWizardNamePage(getSelection());
-    addPage(page);
+    addPage(new CreateTestDiagramWizardNamePage(getSelection()));
   }
 }

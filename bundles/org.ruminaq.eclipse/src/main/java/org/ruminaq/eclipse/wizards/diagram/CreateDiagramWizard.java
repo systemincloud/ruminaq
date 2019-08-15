@@ -7,11 +7,11 @@
 package org.ruminaq.eclipse.wizards.diagram;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -30,6 +30,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Messages;
+import org.ruminaq.eclipse.RuminaqRuntimeException;
 import org.ruminaq.model.FileService;
 
 /**
@@ -40,8 +41,6 @@ import org.ruminaq.model.FileService;
 public class CreateDiagramWizard extends BasicNewResourceWizard {
 
   public static final String ID = CreateDiagramWizard.class.getCanonicalName();
-
-  protected CreateDiagramWizardNamePage page;
 
   /**
    * Sets the window title.
@@ -55,12 +54,13 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
 
   @Override
   public void addPages() {
-    page = new CreateDiagramWizardNamePage(selection);
-    addPage(page);
+    addPage(new CreateDiagramWizardNamePage(selection));
   }
 
   @Override
   public boolean performFinish() {
+    CreateDiagramWizardNamePage page = ((CreateDiagramWizardNamePage) getPage(
+        CreateDiagramWizardNamePage.PAGE_NAME));
     final String containerName = page.getContainerName();
     final String fileName = page.getFileName();
 
@@ -69,12 +69,19 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
       public void run(IProgressMonitor monitor)
           throws InvocationTargetException {
         try {
-          Object o = CreateDiagramWizardNamePage.getSelectedObject(selection);
-          IProject project = o == null ? null
-              : CreateDiagramWizardNamePage.getProject(o);
-          doFinish("/" + project.getName() + "/" + containerName, fileName,
-              null);
-        } catch (CoreException e) {
+          Optional
+              .ofNullable(
+                  CreateDiagramWizardNamePage.getSelectedObject(selection))
+              .map(o -> CreateDiagramWizardNamePage.getProject(o))
+              .ifPresent(p -> {
+                try {
+                  doFinish("/" + p.getName() + "/" + containerName,
+                      fileName, null);
+                } catch (CoreException e) {
+                  throw new RuminaqRuntimeException(e);
+                }
+              });
+        } catch (RuminaqRuntimeException e) {
           throw new InvocationTargetException(e);
         }
       }
