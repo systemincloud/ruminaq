@@ -7,6 +7,7 @@
 package org.ruminaq.eclipse.it.tests;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.maven.model.Model;
@@ -89,8 +90,12 @@ public class CreateRuminaqProjectTest {
 
     IProject project = workspace.getRoot().getProject(projectName);
 
-    SourceFolders.SOURCE_FOLDERS.stream()
-        .forEach(f -> Assert.assertTrue("Source directory " + f + "should be created",
+    Arrays
+        .asList(SourceFolders.MAIN_RESOURCES, SourceFolders.TEST_RESOURCES,
+            SourceFolders.TASK_FOLDER, SourceFolders.DIAGRAM_FOLDER)
+        .stream()
+        .forEach(f -> Assert.assertTrue(
+            "Source directory " + f + "should be created",
             project.getFolder(f).exists()));
 
     Assert.assertTrue("Workspace nature should change to Ruminaq",

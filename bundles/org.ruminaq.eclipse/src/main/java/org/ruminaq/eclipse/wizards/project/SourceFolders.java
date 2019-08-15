@@ -7,8 +7,6 @@
 package org.ruminaq.eclipse.wizards.project;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -31,10 +29,6 @@ public final class SourceFolders {
   public static final String TEST_DIAGRAM_FOLDER = TEST_RESOURCES + "/"
       + TASK_FOLDER + "/";
 
-  public static final List<String> SOURCE_FOLDERS = Collections
-      .unmodifiableList(Arrays.asList(MAIN_RESOURCES, TEST_RESOURCES,
-          TASK_FOLDER, DIAGRAM_FOLDER));
-
   private SourceFolders() {
   }
 
@@ -45,13 +39,14 @@ public final class SourceFolders {
    * @throws RuminaqException something went wrong
    */
   static void createSourceFolders(IProject project) throws RuminaqException {
-    SOURCE_FOLDERS.stream().forEach(f -> {
-      try {
-        EclipseUtil.createFolderWithParents(project, f);
-      } catch (CoreException e) {
-        throw new RuminaqException(
-            Messages.createProjectWizardFailedSourceFolders, e);
-      }
-    });
+    Arrays.asList(MAIN_RESOURCES, TEST_RESOURCES, TASK_FOLDER, DIAGRAM_FOLDER)
+        .stream().forEach(f -> {
+          try {
+            EclipseUtil.createFolderWithParents(project, f);
+          } catch (CoreException e) {
+            throw new RuminaqException(
+                Messages.createProjectWizardFailedSourceFolders, e);
+          }
+        });
   }
 }
