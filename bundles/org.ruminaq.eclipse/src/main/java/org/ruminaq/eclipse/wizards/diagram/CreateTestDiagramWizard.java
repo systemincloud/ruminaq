@@ -16,7 +16,7 @@ import org.ruminaq.eclipse.Messages;
  */
 public class CreateTestDiagramWizard extends CreateDiagramWizard {
 
-  public static final String ID = "org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard";
+  public static final String ID = CreateTestDiagramWizard.class.getCanonicalName();
 
   @Override
   public void init(IWorkbench workbench,

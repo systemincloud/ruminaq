@@ -11,6 +11,8 @@ import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.console.IConsoleConstants;
+import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
+import org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 
 /**
@@ -24,6 +26,13 @@ public class RuminaqPerspective implements IPerspectiveFactory {
   private static final String SHORTCUT_FOLDER = "org.eclipse.ui.wizards.new.folder";
   private static final String SHORTCUT_FILE = "org.eclipse.ui.wizards.new.file";
 
+  /**
+   * Creates the initial layout for a page.
+   *
+   * @see org.eclipse.ui.IPerspectiveFactory#createInitialLayout(IPageLayout layout)
+   *
+   * @param layout the page layout
+   */
   @Override
   public void createInitialLayout(IPageLayout layout) {
     defineActions(layout);
@@ -36,10 +45,8 @@ public class RuminaqPerspective implements IPerspectiveFactory {
     layout.addNewWizardShortcut(SHORTCUT_FOLDER);
     layout.addNewWizardShortcut(SHORTCUT_FILE);
     layout.addNewWizardShortcut(CreateProjectWizard.ID);
-    layout.addNewWizardShortcut(
-        "org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard");
-    layout.addNewWizardShortcut(
-        "org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard");
+    layout.addNewWizardShortcut(CreateDiagramWizard.ID);
+    layout.addNewWizardShortcut(CreateTestDiagramWizard.ID);
 
     // Add "show views".
     layout.addShowViewShortcut(IPageLayout.ID_PROJECT_EXPLORER);

@@ -41,7 +41,7 @@ import org.ruminaq.model.FileService;
  */
 public class CreateDiagramWizard extends BasicNewResourceWizard {
 
-  public static final String ID = "org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard";
+  public static final String ID = CreateDiagramWizard.class.getCanonicalName();
 
   protected CreateDiagramWizardNamePage page;
 
