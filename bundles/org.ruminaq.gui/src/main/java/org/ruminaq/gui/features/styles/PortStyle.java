@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.styles;
 
 import org.eclipse.graphiti.mm.algorithms.styles.Style;
@@ -22,7 +28,7 @@ public class PortStyle {
 			style = gaService.createStyle(diagram, styleId);
 			style.setForeground(gaService.manageColor(diagram, PORT_FOREGROUND));
 			style.setBackground(gaService.manageColor(diagram, PORT_BACKROUND));
-			
+
 		}
 		return style;
 	}

@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.update;
 
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -21,22 +27,23 @@ public class UpdateMainTaskFeature extends AbstractUpdateFeature {
 		return false;
 	}
 
-	@Override public boolean update(IUpdateContext context) { 
+	@Override public boolean update(IUpdateContext context) {
 		String path = EclipseUtil.getModelPathFromEObject(getDiagram()).path();
 		String tmp = path.substring(0, path.lastIndexOf("."));
 		final String fileName = tmp.substring(tmp.lastIndexOf("/") + 1);
-		
+
 		TransactionalEditingDomain editingDomain = getDiagramBehavior().getEditingDomain();
 
 		ModelUtil.runModelChange(new Runnable() {
-			public void run() {
+			@Override
+      public void run() {
 				getDiagram().setName(fileName);
 			}
 		}, editingDomain, "Update diagram name");
-		
+
 		return true;
 	}
-	
+
 	@Override public IReason updateNeeded(IUpdateContext context) {
 		Diagram d = (Diagram) context.getPictogramElement();
 		String path = EclipseUtil.getModelPathFromEObject(d).path();

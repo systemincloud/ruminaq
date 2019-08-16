@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.update;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -6,7 +12,6 @@ import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.ruminaq.gui.features.update.UpdateBaseElementFeature;
 import org.ruminaq.model.ruminaq.InputPort;
 
 public class UpdateInputPortFeature extends UpdateBaseElementFeature {
