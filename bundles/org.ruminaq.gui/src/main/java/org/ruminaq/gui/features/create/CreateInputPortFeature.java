@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.create;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -14,12 +20,12 @@ public class CreateInputPortFeature extends CreateElementFeature implements Pale
 	public CreateInputPortFeature(IFeatureProvider fp) {
 		super(fp, InputPort.class);
 	}
-	
+
 	@Override
 	public String getCompartment() {
 		return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
 	}
-	
+
 	@Override
 	public String getStack() {
 		return CommonPaletteCompartmentEntry.PORTS_STACK;

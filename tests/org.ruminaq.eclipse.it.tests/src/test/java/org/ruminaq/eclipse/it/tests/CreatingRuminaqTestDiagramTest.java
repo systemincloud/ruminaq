@@ -13,8 +13,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.tests.common.CreateRuminaqDiagram;
 import org.ruminaq.tests.common.CreateRuminaqProject;
+import org.ruminaq.tests.common.CreateRuminaqTestDiagram;
 import org.ruminaq.tests.common.SelectView;
 
 /**
@@ -51,10 +51,10 @@ public class CreatingRuminaqTestDiagramTest {
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
-    new CreateRuminaqDiagram().openDiagramWizardFromProjectContextMenu(bot,
+    new CreateRuminaqTestDiagram().openDiagramWizardFromProjectContextMenu(bot,
         projectName);
 
     bot.textWithLabel("New Test Diagram");
-    bot.text("This wizard creates a new Ruminaq Diagram.");
+    bot.text("This wizard creates a new Ruminaq Diagram Test.");
   }
 }

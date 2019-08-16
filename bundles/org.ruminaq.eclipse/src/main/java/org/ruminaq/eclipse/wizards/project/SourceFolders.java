@@ -41,8 +41,8 @@ public final class SourceFolders {
    */
   static void createSourceFolders(IProject project) throws RuminaqException {
     try {
-      Arrays.asList(MAIN_RESOURCES, TEST_RESOURCES, TASK_FOLDER, DIAGRAM_FOLDER)
-          .stream().forEach((String f) -> {
+      Arrays.asList(MAIN_RESOURCES, TEST_RESOURCES, TASK_FOLDER, DIAGRAM_FOLDER,
+          TEST_DIAGRAM_FOLDER).stream().forEach((String f) -> {
             try {
               EclipseUtil.createFolderWithParents(project, f);
             } catch (CoreException e) {

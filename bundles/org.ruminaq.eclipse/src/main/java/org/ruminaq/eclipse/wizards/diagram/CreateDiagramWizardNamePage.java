@@ -63,21 +63,12 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   public CreateDiagramWizardNamePage(IStructuredSelection selection) {
     super(PAGE_NAME);
     this.selection = selection;
-  }
-
-  /**
-   * Sets the window title.
-   *
-   * @see org.eclipse.jface.wizard.WizardPage#setTitle()
-   */
-  @Override
-  public void setTitle(String title) {
     super.setTitle(Messages.createDiagramWizardTitle);
+    super.setDescription(Messages.createDiagramWizardDescription);
   }
 
   @Override
   public void createControl(Composite parent) {
-    setDescription(Messages.createDiagramWizardDescription);
     setImageDescriptor(ImageUtil.getImageDescriptor(Image.RUMINAQ_LOGO_64X64));
 
     Object o = getSelectedObject(selection);

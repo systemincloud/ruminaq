@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features;
 
 import java.util.function.Predicate;
@@ -10,7 +16,8 @@ public interface FeaturePredicate<T> extends Predicate<T> {
 		return test(context);
 	}
 
-	default boolean test(T context) {
+	@Override
+  default boolean test(T context) {
 		return true;
 	}
 }

@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.contextbuttonpad;
 
 import java.util.function.Predicate;
@@ -29,7 +35,7 @@ public class ContextButtonPadPortTool implements ContextButtonPadLocationExtensi
 			    .getBusinessObjectForPictogramElement(pe) instanceof Port;
 		}
 	}
-	
+
 	@Override
 	public IRectangle getPadLocation(IRectangle rectangle) {
 		rectangle.setHeight(30);

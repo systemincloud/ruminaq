@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.add;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -29,7 +35,7 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
 			return SimpleConnection.class;
 		}
 	}
-	
+
 	public static final String ARROW_DECORATOR = "ARROW_DECORATOR";
 
 	public AddSimpleConnectionFeature(IFeatureProvider fp) {

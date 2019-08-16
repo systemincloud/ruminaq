@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.ruminaq.eclipse.builder.RuminaqBuilder;
 
 /**
+ * Eclipse project nature configuration.
  *
  * @author Marek Jagielski
  */

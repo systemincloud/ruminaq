@@ -23,7 +23,7 @@ public class CreateTestDiagramWizardNamePage
   public CreateTestDiagramWizardNamePage(IStructuredSelection selection) {
     super(selection);
     setTitle(Messages.createTestDiagramWizardTitle);
-    setDescription("This wizard creates a new System in Cloud Diagram Test.");
+    setDescription(Messages.createTestDiagramWizardDescription);
   }
 
   @Override

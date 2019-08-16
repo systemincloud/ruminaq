@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.create;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -21,7 +27,7 @@ public class CreateSimpleConnectionFeature
 	public CreateSimpleConnectionFeature(IFeatureProvider fp) {
 		super(fp, "Simple Connection", null);
 	}
-	
+
 	@Override
 	public boolean canStartConnection(ICreateConnectionContext context) {
 		if (getFlowSource(context.getSourceAnchor()) != null)
