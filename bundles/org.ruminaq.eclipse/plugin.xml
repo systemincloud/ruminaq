@@ -45,7 +45,7 @@
     <extension
             point="org.eclipse.core.resources.natures"
             name="Ruminaq"
-            id="org.ruminaq.eclipse.RuminaqProjectNature">
+            id="RuminaqProjectNature">
         <runtime>
             <run class="org.ruminaq.eclipse.RuminaqProjectNature" />
         </runtime>
