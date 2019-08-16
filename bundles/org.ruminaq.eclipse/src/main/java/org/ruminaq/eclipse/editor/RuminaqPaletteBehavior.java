@@ -6,12 +6,12 @@ import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 
 public class RuminaqPaletteBehavior extends DefaultPaletteBehavior {
 
-	public RuminaqPaletteBehavior(DiagramBehavior diagramBehavior) {
-		super(diagramBehavior);
-	}
+  public RuminaqPaletteBehavior(DiagramBehavior diagramBehavior) {
+    super(diagramBehavior);
+  }
 
-	@Override
-	protected PaletteViewerProvider createPaletteViewerProvider() {
-		return super.createPaletteViewerProvider();
-	}
+  @Override
+  protected PaletteViewerProvider createPaletteViewerProvider() {
+    return super.createPaletteViewerProvider();
+  }
 }

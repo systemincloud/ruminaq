@@ -5,8 +5,8 @@ import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 
 public class PaletteTreeViewerProvider extends PaletteViewerProvider {
 
-	public PaletteTreeViewerProvider(DiagramBehavior diagramBehavior) {
-		super(diagramBehavior.getEditDomain());
-	}
+  public PaletteTreeViewerProvider(DiagramBehavior diagramBehavior) {
+    super(diagramBehavior.getEditDomain());
+  }
 
 }

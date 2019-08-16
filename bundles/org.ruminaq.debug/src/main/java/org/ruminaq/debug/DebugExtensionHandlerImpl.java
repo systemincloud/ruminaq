@@ -26,7 +26,8 @@ public class DebugExtensionHandlerImpl implements DebugExtensionHandler {
 
   private Collection<DebugExtension> extensions;
 
-  @Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
+  @Reference(cardinality = ReferenceCardinality.MULTIPLE,
+      policy = ReferencePolicy.DYNAMIC)
   protected void bind(DebugExtension extension) {
     if (extensions == null) {
       extensions = new ArrayList<>();
@@ -39,11 +40,10 @@ public class DebugExtensionHandlerImpl implements DebugExtensionHandler {
   }
 
   @Override
-  public Collection<? extends IDebugTarget> getDebugTargets(ILaunch launch, IProject project,
-      EventDispatchJob dispatcher) {
+  public Collection<? extends IDebugTarget> getDebugTargets(ILaunch launch,
+      IProject project, EventDispatchJob dispatcher) {
     return extensions.stream()
         .map(ext -> ext.getDebugTargets(launch, project, dispatcher))
-        .flatMap(Collection::stream)
-        .collect(Collectors.toList());
+        .flatMap(Collection::stream).collect(Collectors.toList());
   }
 }

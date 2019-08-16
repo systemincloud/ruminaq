@@ -17,30 +17,30 @@ import org.ruminaq.gui.api.ImagesExtension;
 @Component(property = { "service.ranking:Integer=5" })
 public class Images implements ImagesExtension {
 
-	public enum Image implements ImageDescriptor {
-		IMG_CONTEXT_SIMPLECONNECTION("/icons/context.simpleconnection.gif"),
-		IMG_PALETTE_INPUTPORT("/icons/palette.inputport.png"),
-		IMG_PALETTE_OUTPUTPORT("/icons/palette.outputport.png")
-		;
+  public enum Image implements ImageDescriptor {
+    IMG_CONTEXT_SIMPLECONNECTION("/icons/context.simpleconnection.gif"),
+    IMG_PALETTE_INPUTPORT("/icons/palette.inputport.png"),
+    IMG_PALETTE_OUTPUTPORT("/icons/palette.outputport.png");
 
-		private String path;
+    private String path;
 
-		Image(String path) {
-			this.path = path;
-		}
+    Image(String path) {
+      this.path = path;
+    }
 
-		@Override
-		public String path() {
-			return path;
-		}
+    @Override
+    public String path() {
+      return path;
+    }
 
-		@Override
-		public Class<?> clazz() {
-			return Image.class;
-		}
-	}
-	
-	public ImageDescriptor[] getImageDecriptors() {
-		return Image.values();
-	}
+    @Override
+    public Class<?> clazz() {
+      return Image.class;
+    }
+  }
+
+  @Override
+  public ImageDescriptor[] getImageDecriptors() {
+    return Image.values();
+  }
 }

@@ -49,7 +49,8 @@ public class SicDebugModelPresentation implements IDebugModelPresentation {
   @Override
   public String getEditorId(IEditorInput input, Object element) {
     if (element instanceof IFile)
-      return PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(((IFile) element).getName()).getId();
+      return PlatformUI.getWorkbench().getEditorRegistry()
+          .getDefaultEditor(((IFile) element).getName()).getId();
 
     return null;
   }
@@ -70,8 +71,8 @@ public class SicDebugModelPresentation implements IDebugModelPresentation {
 
   @Override
   public void computeDetail(IValue value, IValueDetailListener listener) {
-        if(value instanceof SicVariable)
-            listener.detailComputed(value, ((SicVariable) value).getDetailText());
+    if (value instanceof SicVariable)
+      listener.detailComputed(value, ((SicVariable) value).getDetailText());
   }
 
 }

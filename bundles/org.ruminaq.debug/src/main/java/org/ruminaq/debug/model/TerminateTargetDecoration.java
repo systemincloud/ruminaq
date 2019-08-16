@@ -14,22 +14,25 @@ import org.ruminaq.runner.impl.debug.events.debugger.TerminatedEvent;
 
 public class TerminateTargetDecoration implements IEventProcessor {
 
-  private ISicTarget       target;
+  private ISicTarget target;
   private EventDispatchJob dispatcher;
 
-  public TerminateTargetDecoration(ISicTarget target, EventDispatchJob dispatcher) {
-    this.target     = target;
+  public TerminateTargetDecoration(ISicTarget target,
+      EventDispatchJob dispatcher) {
+    this.target = target;
     this.dispatcher = dispatcher;
   }
 
   @Override
   public void handleEvent(IDebugEvent event) {
-       target.handleEvent(event);
-       if(event instanceof StartedEvent) target.setState(MainState.RUNNING);
-       else if(event instanceof TerminatedEvent) {
-         target.setState(MainState.TERMINATED);
-         if(!dispatcher.isTerminated()) dispatcher.terminate();
-         target.fireTerminateEvent();
-       }
+    target.handleEvent(event);
+    if (event instanceof StartedEvent)
+      target.setState(MainState.RUNNING);
+    else if (event instanceof TerminatedEvent) {
+      target.setState(MainState.TERMINATED);
+      if (!dispatcher.isTerminated())
+        dispatcher.terminate();
+      target.fireTerminateEvent();
+    }
   }
 }

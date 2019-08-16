@@ -13,40 +13,97 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IValue;
 import org.eclipse.debug.core.model.IVariable;
 
-public abstract class SicVariable extends PlatformObject implements IVariable, IValue {
+public abstract class SicVariable extends PlatformObject
+    implements IVariable, IValue {
 
   private final IDebugTarget target;
-  private final String       name;
-  private final String       type;
+  private final String name;
+  private final String type;
 
-  @Override public IDebugTarget getDebugTarget()       { return target; }
-  @Override public ILaunch      getLaunch()            { return target.getLaunch(); }
-  @Override public String       getModelIdentifier()   { return target.getModelIdentifier(); }
-  @Override public String       getName()              { return name; }
-  @Override public String       getReferenceTypeName() { return type; }
+  @Override
+  public IDebugTarget getDebugTarget() {
+    return target;
+  }
 
-  @Override public IValue  getValue()                  { return this; }
-  @Override public boolean supportsValueModification() { return false; }
-  @Override public void    setValue(IValue value)      { }
-  @Override public void    setValue(String value)      { }
-  @Override public boolean hasValueChanged()           { return false; }
+  @Override
+  public ILaunch getLaunch() {
+    return target.getLaunch();
+  }
 
-  @Override public boolean verifyValue(String value) { return false; }
-  @Override public boolean verifyValue(IValue value) { return false; }
+  @Override
+  public String getModelIdentifier() {
+    return target.getModelIdentifier();
+  }
 
-  @Override public IVariable[] getVariables() { return new IVariable[0]; }
-  @Override public boolean     hasVariables() { return false; }
+  @Override
+  public String getName() {
+    return name;
+  }
 
-  @Override public boolean isAllocated() { return true; }
+  @Override
+  public String getReferenceTypeName() {
+    return type;
+  }
+
+  @Override
+  public IValue getValue() {
+    return this;
+  }
+
+  @Override
+  public boolean supportsValueModification() {
+    return false;
+  }
+
+  @Override
+  public void setValue(IValue value) {
+  }
+
+  @Override
+  public void setValue(String value) {
+  }
+
+  @Override
+  public boolean hasValueChanged() {
+    return false;
+  }
+
+  @Override
+  public boolean verifyValue(String value) {
+    return false;
+  }
+
+  @Override
+  public boolean verifyValue(IValue value) {
+    return false;
+  }
+
+  @Override
+  public IVariable[] getVariables() {
+    return new IVariable[0];
+  }
+
+  @Override
+  public boolean hasVariables() {
+    return false;
+  }
+
+  @Override
+  public boolean isAllocated() {
+    return true;
+  }
 
   public SicVariable(IDebugTarget target, String name, String type) {
     this.target = target;
-    this.name   = name;
-    this.type   = type;
+    this.name = name;
+    this.type = type;
   }
 
   public String getDetailText() {
-    try { return getValueString();
-    } catch (DebugException e) { return ""; }
+    try {
+      return getValueString();
+    } catch (DebugException e) {
+      return "";
+    }
   }
 }

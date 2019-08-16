@@ -65,22 +65,22 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
 
     try {
       getContainer().run(true, false, (IProgressMonitor monitor) -> {
-          try {
-            Optional
-                .ofNullable(
-                    CreateDiagramWizardNamePage.getSelectedObject(selection))
-                .map(o -> CreateDiagramWizardNamePage.getProject(o))
-                .ifPresent(p -> {
-                  try {
-                    doFinish("/" + p.getName() + "/" + containerName,
-                        fileName, null);
-                  } catch (CoreException e) {
-                    throw new RuminaqRuntimeException(e);
-                  }
-                });
-          } catch (RuminaqRuntimeException e) {
-            throw new InvocationTargetException(e);
-          }
+        try {
+          Optional
+              .ofNullable(
+                  CreateDiagramWizardNamePage.getSelectedObject(selection))
+              .map(o -> CreateDiagramWizardNamePage.getProject(o))
+              .ifPresent(p -> {
+                try {
+                  doFinish("/" + p.getName() + "/" + containerName, fileName,
+                      null);
+                } catch (CoreException e) {
+                  throw new RuminaqRuntimeException(e);
+                }
+              });
+        } catch (RuminaqRuntimeException e) {
+          throw new InvocationTargetException(e);
+        }
       });
     } catch (InterruptedException e) {
       return false;

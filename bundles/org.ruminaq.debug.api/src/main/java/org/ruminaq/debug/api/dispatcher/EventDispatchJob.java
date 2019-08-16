@@ -14,53 +14,78 @@ import org.ruminaq.runner.impl.debug.events.IModelRequest;
 
 public class EventDispatchJob extends Job {
 
-	private List<IDebugEvent>     events     = new ArrayList<IDebugEvent>();
-	private boolean               terminated = false;
-	private List<IEventProcessor> hosts      = new LinkedList<>();
-	private IEventProcessor       debugger;
+  private List<IDebugEvent> events = new ArrayList<IDebugEvent>();
+  private boolean terminated = false;
+  private List<IEventProcessor> hosts = new LinkedList<>();
+  private IEventProcessor debugger;
 
-	public void addHost    (IEventProcessor host)     { this.hosts.add(host); }
-	public void setDebugger(IEventProcessor debugger) { this.debugger = debugger; }
+  public void addHost(IEventProcessor host) {
+    this.hosts.add(host);
+  }
 
-	public boolean isTerminated() { return terminated; }
+  public void setDebugger(IEventProcessor debugger) {
+    this.debugger = debugger;
+  }
 
-	public EventDispatchJob() {
-		super("System in Cloud Debugger event dispatcher");
-		setSystem(true);
-	}
+  public boolean isTerminated() {
+    return terminated;
+  }
 
-	public void addEvent(final IDebugEvent event) {
-		synchronized(events) { events.add(event); }
-		synchronized(this)   { notifyAll(); }
-	}
+  public EventDispatchJob() {
+    super("System in Cloud Debugger event dispatcher");
+    setSystem(true);
+  }
 
-	@Override
-	protected IStatus run(final IProgressMonitor monitor) {
-		while(!terminated) {
-			if(events.isEmpty()) {
-				try { synchronized(this) { wait(); }
-				} catch (InterruptedException e) { }
-			}
-			if(!monitor.isCanceled()) {
-				IDebugEvent event = null;
-				synchronized(events) { if(!events.isEmpty()) event = events.remove(0); }
-				if(event != null) handleEvent(event);
-			} else terminate();
-		}
-		return Status.OK_STATUS;
-	}
+  public void addEvent(final IDebugEvent event) {
+    synchronized (events) {
+      events.add(event);
+    }
+    synchronized (this) {
+      notifyAll();
+    }
+  }
 
-	private void handleEvent(final IDebugEvent event) {
-		if(event instanceof IDebuggerEvent)
-			for(IEventProcessor host : hosts) host.handleEvent(event);
+  @Override
+  protected IStatus run(final IProgressMonitor monitor) {
+    while (!terminated) {
+      if (events.isEmpty()) {
+        try {
+          synchronized (this) {
+            wait();
+          }
+        } catch (InterruptedException e) {
+        }
+      }
+      if (!monitor.isCanceled()) {
+        IDebugEvent event = null;
+        synchronized (events) {
+          if (!events.isEmpty())
+            event = events.remove(0);
+        }
+        if (event != null)
+          handleEvent(event);
+      } else
+        terminate();
+    }
+    return Status.OK_STATUS;
+  }
 
-		else if(event instanceof IModelRequest) debugger.handleEvent(event);
+  private void handleEvent(final IDebugEvent event) {
+    if (event instanceof IDebuggerEvent)
+      for (IEventProcessor host : hosts)
+        host.handleEvent(event);
 
-		else throw new RuntimeException("Unknown event detected: " + event);
-	}
+    else if (event instanceof IModelRequest)
+      debugger.handleEvent(event);
 
-	public void terminate() {
-		terminated = true;
-		synchronized(this) { notifyAll(); }
-	}
+    else
+      throw new RuntimeException("Unknown event detected: " + event);
+  }
+
+  public void terminate() {
+    terminated = true;
+    synchronized (this) {
+      notifyAll();
+    }
+  }
 }

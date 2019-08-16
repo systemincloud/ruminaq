@@ -13,6 +13,5 @@ import org.eclipse.graphiti.features.custom.ICustomFeature;
 
 public interface ContextMenuEntryExtension {
 
-	Predicate<ICustomFeature> isAvailable(ICustomContext context);
-
+  Predicate<ICustomFeature> isAvailable(ICustomContext context);
 }

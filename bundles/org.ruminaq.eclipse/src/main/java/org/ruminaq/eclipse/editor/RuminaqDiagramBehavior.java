@@ -6,11 +6,11 @@ import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
 
 public class RuminaqDiagramBehavior extends DiagramBehavior {
 
-	public RuminaqDiagramBehavior(IDiagramContainerUI diagramContainer) {
-		super(diagramContainer);
-	}
-	
-	@Override
+  public RuminaqDiagramBehavior(IDiagramContainerUI diagramContainer) {
+    super(diagramContainer);
+  }
+
+  @Override
   protected DefaultPaletteBehavior createPaletteBehaviour() {
     return new RuminaqPaletteBehavior(this);
   }

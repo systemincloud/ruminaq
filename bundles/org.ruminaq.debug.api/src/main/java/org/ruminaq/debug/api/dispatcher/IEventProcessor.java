@@ -18,5 +18,5 @@ package org.ruminaq.debug.api.dispatcher;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 
 public interface IEventProcessor {
-    void handleEvent(IDebugEvent event);
+  void handleEvent(IDebugEvent event);
 }
