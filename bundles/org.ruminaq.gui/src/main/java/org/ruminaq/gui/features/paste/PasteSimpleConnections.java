@@ -31,130 +31,130 @@ import org.ruminaq.model.ruminaq.SimpleConnection;
 
 public class PasteSimpleConnections extends RuminaqPasteFeature {
 
-	private Map<FlowSource, Anchor> oldFlowSources;
-	private Map<FlowTarget, Anchor> oldFlowTargets;
-	private Map<Connection, List<SimpleConnection>> oldDiagramElementBusinessObjects;
-	private Map<Anchor, Anchor> oldAnchorNewAnchor;
+  private Map<FlowSource, Anchor> oldFlowSources;
+  private Map<FlowTarget, Anchor> oldFlowTargets;
+  private Map<Connection, List<SimpleConnection>> oldDiagramElementBusinessObjects;
+  private Map<Anchor, Anchor> oldAnchorNewAnchor;
 
-	private IFeatureProvider fp;
+  private IFeatureProvider fp;
 
-	private Map<SimpleConnection, SimpleConnection> oldSCnewSC = new HashMap<>();
-	private Map<Connection, Connection> newColdC = new HashMap<>();
+  private Map<SimpleConnection, SimpleConnection> oldSCnewSC = new HashMap<>();
+  private Map<Connection, Connection> newColdC = new HashMap<>();
 
-	@Override
-	public List<PictogramElement> getNewPictogramElements() {
-		return newPes;
-	}
+  @Override
+  public List<PictogramElement> getNewPictogramElements() {
+    return newPes;
+  }
 
-	public PasteSimpleConnections(Map<FlowSource, Anchor> flowSources,
-	    Map<FlowTarget, Anchor> flowTargets,
-	    Map<Connection, List<SimpleConnection>> peBos,
-	    Map<Anchor, Anchor> anchors, IFeatureProvider fp) {
-		super(fp);
-		this.oldFlowSources = flowSources;
-		this.oldFlowTargets = flowTargets;
-		this.oldDiagramElementBusinessObjects = peBos;
-		this.oldAnchorNewAnchor = anchors;
-		this.fp = fp;
-	}
+  public PasteSimpleConnections(Map<FlowSource, Anchor> flowSources,
+      Map<FlowTarget, Anchor> flowTargets,
+      Map<Connection, List<SimpleConnection>> peBos,
+      Map<Anchor, Anchor> anchors, IFeatureProvider fp) {
+    super(fp);
+    this.oldFlowSources = flowSources;
+    this.oldFlowTargets = flowTargets;
+    this.oldDiagramElementBusinessObjects = peBos;
+    this.oldAnchorNewAnchor = anchors;
+    this.fp = fp;
+  }
 
-	@Override
-	public void paste(IPasteContext context) {
-		// Create business objects
-		for (List<SimpleConnection> lsc : oldDiagramElementBusinessObjects.values())
-			for (SimpleConnection sc : lsc)
-				if (!oldSCnewSC.containsKey(sc)) {
-					SimpleConnection newSc = EcoreUtil.copy(sc);
-					Object o1 = fp.getBusinessObjectForPictogramElement(oldAnchorNewAnchor
-					    .get(oldFlowSources.get(newSc.getSourceRef())).getParent());
-					if (o1 instanceof FlowSource)
-						newSc.setSourceRef((FlowSource) o1);
-					Object o2 = fp.getBusinessObjectForPictogramElement(oldAnchorNewAnchor
-					    .get(oldFlowTargets.get(newSc.getTargetRef())).getParent());
-					if (o2 instanceof FlowTarget)
-						newSc.setTargetRef((FlowTarget) o2);
-					MainTask mt = ModelHandler
-					    .getModel(fp.getDiagramTypeProvider().getDiagram(), fp);
-					mt.getConnection().add(newSc);
-					oldSCnewSC.put(sc, newSc);
-				}
+  @Override
+  public void paste(IPasteContext context) {
+    // Create business objects
+    for (List<SimpleConnection> lsc : oldDiagramElementBusinessObjects.values())
+      for (SimpleConnection sc : lsc)
+        if (!oldSCnewSC.containsKey(sc)) {
+          SimpleConnection newSc = EcoreUtil.copy(sc);
+          Object o1 = fp.getBusinessObjectForPictogramElement(oldAnchorNewAnchor
+              .get(oldFlowSources.get(newSc.getSourceRef())).getParent());
+          if (o1 instanceof FlowSource)
+            newSc.setSourceRef((FlowSource) o1);
+          Object o2 = fp.getBusinessObjectForPictogramElement(oldAnchorNewAnchor
+              .get(oldFlowTargets.get(newSc.getTargetRef())).getParent());
+          if (o2 instanceof FlowTarget)
+            newSc.setTargetRef((FlowTarget) o2);
+          MainTask mt = ModelHandler
+              .getModel(fp.getDiagramTypeProvider().getDiagram(), fp);
+          mt.getConnection().add(newSc);
+          oldSCnewSC.put(sc, newSc);
+        }
 
-		for (Entry<FlowSource, Anchor> fs : oldFlowSources.entrySet()) {
-			Anchor oldAnchor = fs.getValue();
-			int oldX = Graphiti.getPeLayoutService()
-			    .getLocationRelativeToDiagram(oldAnchor).getX();
-			int oldY = Graphiti.getPeLayoutService()
-			    .getLocationRelativeToDiagram(oldAnchor).getY();
-			Anchor newAnchor = oldAnchorNewAnchor.get(oldAnchor);
-			int newX = Graphiti.getPeLayoutService()
-			    .getLocationRelativeToDiagram(newAnchor).getX();
-			int newY = Graphiti.getPeLayoutService()
-			    .getLocationRelativeToDiagram(newAnchor).getY();
-			int deltaX = newX - oldX;
-			int deltaY = newY - oldY;
-			for (Connection c : oldAnchor.getOutgoingConnections()) {
-				if (oldDiagramElementBusinessObjects.containsKey(c)) {
-					Connection newC = EcoreUtil.copy(c);
-					newPes.add(newC);
-					newC.setStart(newAnchor);
-					for (Point p : ((FreeFormConnection) newC).getBendpoints()) {
-						p.setX(p.getX() + deltaX);
-						p.setY(p.getY() + deltaY);
-					}
-					newC.setEnd(getEndAnchor(c, deltaX, deltaY));
-					newColdC.put(newC, c);
-					fp.getDiagramTypeProvider().getDiagram().getConnections().add(newC);
-				}
-			}
-		}
+    for (Entry<FlowSource, Anchor> fs : oldFlowSources.entrySet()) {
+      Anchor oldAnchor = fs.getValue();
+      int oldX = Graphiti.getPeLayoutService()
+          .getLocationRelativeToDiagram(oldAnchor).getX();
+      int oldY = Graphiti.getPeLayoutService()
+          .getLocationRelativeToDiagram(oldAnchor).getY();
+      Anchor newAnchor = oldAnchorNewAnchor.get(oldAnchor);
+      int newX = Graphiti.getPeLayoutService()
+          .getLocationRelativeToDiagram(newAnchor).getX();
+      int newY = Graphiti.getPeLayoutService()
+          .getLocationRelativeToDiagram(newAnchor).getY();
+      int deltaX = newX - oldX;
+      int deltaY = newY - oldY;
+      for (Connection c : oldAnchor.getOutgoingConnections()) {
+        if (oldDiagramElementBusinessObjects.containsKey(c)) {
+          Connection newC = EcoreUtil.copy(c);
+          newPes.add(newC);
+          newC.setStart(newAnchor);
+          for (Point p : ((FreeFormConnection) newC).getBendpoints()) {
+            p.setX(p.getX() + deltaX);
+            p.setY(p.getY() + deltaY);
+          }
+          newC.setEnd(getEndAnchor(c, deltaX, deltaY));
+          newColdC.put(newC, c);
+          fp.getDiagramTypeProvider().getDiagram().getConnections().add(newC);
+        }
+      }
+    }
 
-		for (Entry<Connection, Connection> c : newColdC.entrySet()) {
-			List<SimpleConnection> newSc = new LinkedList<>();
-			for (SimpleConnection old : oldDiagramElementBusinessObjects
-			    .get(c.getValue()))
-				newSc.add(oldSCnewSC.get(old));
+    for (Entry<Connection, Connection> c : newColdC.entrySet()) {
+      List<SimpleConnection> newSc = new LinkedList<>();
+      for (SimpleConnection old : oldDiagramElementBusinessObjects
+          .get(c.getValue()))
+        newSc.add(oldSCnewSC.get(old));
 
-			fp.link(c.getKey(), newSc.toArray(new Object[newSc.size()]));
-		}
-	}
+      fp.link(c.getKey(), newSc.toArray(new Object[newSc.size()]));
+    }
+  }
 
-	private Anchor getEndAnchor(Connection c, int deltaX, int deltaY) {
-		Anchor ret = null;
-		if (oldAnchorNewAnchor.containsKey(c.getEnd()))
-			ret = oldAnchorNewAnchor.get(c.getEnd());
-		else {
-			Shape end = (Shape) c.getEnd().getParent();
-			if (Graphiti.getPeService().getPropertyValue(end,
-			    Constants.SIMPLE_CONNECTION_POINT) != null) {
-				Shape newSCP = EcoreUtil.copy(end);
-				newPes.add(newSCP);
-				newSCP.getGraphicsAlgorithm()
-				    .setX(newSCP.getGraphicsAlgorithm().getX() + deltaX);
-				newSCP.getGraphicsAlgorithm()
-				    .setY(newSCP.getGraphicsAlgorithm().getY() + deltaY);
-				fp.getDiagramTypeProvider().getDiagram().getChildren().add(newSCP);
-				ret = newSCP.getAnchors().get(0);
-				for (Connection c2 : end.getAnchors().get(0).getOutgoingConnections()) {
-					if (oldDiagramElementBusinessObjects.containsKey(c2)) {
-						Connection newC = EcoreUtil.copy(c2);
-						newPes.add(newC);
-						newC.setStart(ret);
-						for (Point p : ((FreeFormConnection) newC).getBendpoints()) {
-							p.setX(p.getX() + deltaX);
-							p.setY(p.getY() + deltaY);
-						}
-						newC.setEnd(getEndAnchor(c2, deltaX, deltaY));
-						newColdC.put(newC, c);
-						fp.getDiagramTypeProvider().getDiagram().getConnections().add(newC);
-					}
-				}
-			}
-		}
-		return ret;
-	}
+  private Anchor getEndAnchor(Connection c, int deltaX, int deltaY) {
+    Anchor ret = null;
+    if (oldAnchorNewAnchor.containsKey(c.getEnd()))
+      ret = oldAnchorNewAnchor.get(c.getEnd());
+    else {
+      Shape end = (Shape) c.getEnd().getParent();
+      if (Graphiti.getPeService().getPropertyValue(end,
+          Constants.SIMPLE_CONNECTION_POINT) != null) {
+        Shape newSCP = EcoreUtil.copy(end);
+        newPes.add(newSCP);
+        newSCP.getGraphicsAlgorithm()
+            .setX(newSCP.getGraphicsAlgorithm().getX() + deltaX);
+        newSCP.getGraphicsAlgorithm()
+            .setY(newSCP.getGraphicsAlgorithm().getY() + deltaY);
+        fp.getDiagramTypeProvider().getDiagram().getChildren().add(newSCP);
+        ret = newSCP.getAnchors().get(0);
+        for (Connection c2 : end.getAnchors().get(0).getOutgoingConnections()) {
+          if (oldDiagramElementBusinessObjects.containsKey(c2)) {
+            Connection newC = EcoreUtil.copy(c2);
+            newPes.add(newC);
+            newC.setStart(ret);
+            for (Point p : ((FreeFormConnection) newC).getBendpoints()) {
+              p.setX(p.getX() + deltaX);
+              p.setY(p.getY() + deltaY);
+            }
+            newC.setEnd(getEndAnchor(c2, deltaX, deltaY));
+            newColdC.put(newC, c);
+            fp.getDiagramTypeProvider().getDiagram().getConnections().add(newC);
+          }
+        }
+      }
+    }
+    return ret;
+  }
 
-	@Override
-	public boolean canPaste(IPasteContext context) {
-		return true;
-	}
+  @Override
+  public boolean canPaste(IPasteContext context) {
+    return true;
+  }
 }
