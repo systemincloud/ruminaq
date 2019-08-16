@@ -86,8 +86,7 @@ Export-Package: org.ruminaq.gui,
  org.ruminaq.gui.features.styles,
  org.ruminaq.gui.features.update,
  org.ruminaq.gui.palette,
- org.ruminaq.gui.properties,
- org.ruminaq.gui.providers
+ org.ruminaq.gui.properties
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Service-Component: OSGI-INF/org.ruminaq.gui.Images.xml,
  OSGI-INF/org.ruminaq.gui.features.copy.CopyFeatures.xml,
