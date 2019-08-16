@@ -13,38 +13,38 @@ import org.eclipse.graphiti.tb.IToolBehaviorProvider;
 public class RuminaqDiagramTypeProvider extends AbstractDiagramTypeProvider
     implements IDiagramTypeProvider {
 
-	private IToolBehaviorProvider[] toolBehaviorProviders;
+  private IToolBehaviorProvider[] toolBehaviorProviders;
 
-	public RuminaqDiagramTypeProvider() {
-		setFeatureProvider(new RuminaqFeatureProvider(this));
-	}
+  public RuminaqDiagramTypeProvider() {
+    setFeatureProvider(new RuminaqFeatureProvider(this));
+  }
 
-	@Override
-	public IToolBehaviorProvider[] getAvailableToolBehaviorProviders() {
-		if (toolBehaviorProviders == null) {
-			toolBehaviorProviders = new IToolBehaviorProvider[] {
-			    new RuminaqBehaviorProvider(this) };
-		}
-		return toolBehaviorProviders;
-	}
+  @Override
+  public IToolBehaviorProvider[] getAvailableToolBehaviorProviders() {
+    if (toolBehaviorProviders == null) {
+      toolBehaviorProviders = new IToolBehaviorProvider[] {
+          new RuminaqBehaviorProvider(this) };
+    }
+    return toolBehaviorProviders;
+  }
 
-	@Override
-	public boolean isAutoUpdateAtRuntime() {
-		return true;
-	}
+  @Override
+  public boolean isAutoUpdateAtRuntime() {
+    return true;
+  }
 
-	@Override
-	public boolean isAutoUpdateAtRuntimeWhenEditorIsSaved() {
-		return false;
-	}
+  @Override
+  public boolean isAutoUpdateAtRuntimeWhenEditorIsSaved() {
+    return false;
+  }
 
-	@Override
-	public boolean isAutoUpdateAtStartup() {
-		return true;
-	}
+  @Override
+  public boolean isAutoUpdateAtStartup() {
+    return true;
+  }
 
-	@Override
-	public boolean isAutoUpdateAtReset() {
-		return true;
-	}
+  @Override
+  public boolean isAutoUpdateAtReset() {
+    return true;
+  }
 }
