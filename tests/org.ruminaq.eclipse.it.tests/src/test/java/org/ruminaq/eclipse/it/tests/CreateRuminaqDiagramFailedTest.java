@@ -68,5 +68,7 @@ public class CreateRuminaqDiagramFailedTest {
     failureWindow.activate();
 
     Assert.assertNotNull("Failure window should appear", failureWindow);
+
+    bot.button("OK").click();
   }
 }
