@@ -16,7 +16,7 @@ import org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 
 /**
- * Ruminaq default eclipse perspective
+ * Ruminaq default eclipse perspective.
  *
  * @author Marek Jagielski
  */
@@ -31,9 +31,9 @@ public class RuminaqPerspective implements IPerspectiveFactory {
   private static final String BOTTOM_LEFT_ID = "bottomLeft";
   private static final String BOTTOM_RIGHT_ID = "bottomRight";
 
-  private static final float TOP_LEFT_RATIO = 0.26f;
-  private static final float BOTTOM_LEFT_RATIO = 0.50f;
-  private static final float BOTTOM_RIGHT_RATIO = 0.66f;
+  private static final float TOP_LEFT_RATIO = 0.26F;
+  private static final float BOTTOM_LEFT_RATIO = 0.50F;
+  private static final float BOTTOM_RIGHT_RATIO = 0.66F;
 
   /**
    * Creates the initial layout for a page.
