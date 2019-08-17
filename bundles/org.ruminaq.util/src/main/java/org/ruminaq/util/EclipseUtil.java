@@ -7,7 +7,9 @@
 package org.ruminaq.util;
 
 import java.io.ByteArrayInputStream;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -180,14 +182,13 @@ public final class EclipseUtil {
 
   public static void createFolderWithParents(IProject project, String path)
       throws CoreException {
-    String[] tree = path.split("/");
-    for (int i = 0; i < tree.length; i++) {
-      StringBuilder tmpPath = new StringBuilder();
-      for (int j = 0; j <= i; j++)
-        tmpPath.append(tree[j]).append("/");
-      IFolder tmpFolder = project.getFolder(tmpPath.toString());
-      if (!tmpFolder.exists())
+    List<String> tree = Arrays.asList(path.split("/"));
+    for (int i = 1; i <= tree.size(); i++) {
+      IFolder tmpFolder = project.getFolder(String.join("/",
+          tree.stream().limit(i).collect(Collectors.toList())));
+      if (!tmpFolder.exists()) {
         tmpFolder.create(true, true, new NullProgressMonitor());
+      }
     }
   }
 
