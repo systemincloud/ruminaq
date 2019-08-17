@@ -1,6 +1,8 @@
 <aspectj>
   <aspects>
     <aspect
+      name="org.ruminaq.eclipse.it.tests.CreateDiagramWizardAspect" />
+    <aspect
       name="org.ruminaq.eclipse.it.tests.JavaProjectAspect" />
   </aspects>
 </aspectj>

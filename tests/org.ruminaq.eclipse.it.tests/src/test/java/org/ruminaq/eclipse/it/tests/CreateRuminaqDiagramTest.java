@@ -72,5 +72,7 @@ public class CreateRuminaqDiagramTest {
     String diagramName = "Diagram_"
         + RandomStringUtils.randomAlphabetic(DIAGRAM_SUFFIX_LENGTH);
     new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName);
+
+    new CreateRuminaqDiagram().waitUntilDiagramOpens(bot, diagramName);
   }
 }

@@ -41,10 +41,6 @@ public class CreateRuminaqDiagram {
     bot.textWithLabel("&File name:").setText(diagramName  + ".rumi");
 
     bot.button("Finish").click();
-
-    Matcher<IEditorReference> withPartName = WidgetMatcherFactory.withPartName(diagramName);
-    WaitForEditor waitForEditor = Conditions.waitForEditor(withPartName);
-    bot.waitUntilWidgetAppears(waitForEditor);
   }
 
   public void openDiagramWizardFromProjectContextMenu(SWTWorkbenchBot bot, String projectName) {
@@ -59,5 +55,11 @@ public class CreateRuminaqDiagram {
     bot.tree().getTreeItem("Ruminaq").getNode("Ruminaq Diagram").select();
 
     bot.button("Next >").click();
+  }
+
+  public void waitUntilDiagramOpens(SWTWorkbenchBot bot, String diagramName) {
+    Matcher<IEditorReference> withPartName = WidgetMatcherFactory.withPartName(diagramName);
+    WaitForEditor waitForEditor = Conditions.waitForEditor(withPartName);
+    bot.waitUntilWidgetAppears(waitForEditor);
   }
 }

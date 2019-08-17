@@ -15,8 +15,8 @@ public class CreateProjectWizard {
 
     private void createSourceFolders(IProject project) throws CoreException {
         EclipseUtil.createFolderWithParents  (project, EclipseExtensionImpl.MAIN_JAVA);
-        EclipseUtil.createPlaceholderInFolder(project, EclipseExtensionImpl.MAIN_JAVA, "_FOR_JAVA");
+        EclipseUtil.createFileInFolder(project, EclipseExtensionImpl.MAIN_JAVA, "PLACEHOLDER_FOR_JAVA");
         EclipseUtil.createFolderWithParents  (project, EclipseExtensionImpl.TEST_JAVA);
-        EclipseUtil.createPlaceholderInFolder(project, EclipseExtensionImpl.TEST_JAVA, "_FOR_JAVA");
+        EclipseUtil.createFileInFolder(project, EclipseExtensionImpl.TEST_JAVA, "PLACEHOLDER_FOR_JAVA");
     }
 }

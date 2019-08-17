@@ -62,6 +62,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
   private static final String MAIN_MODULE = "MAIN_MODULE";
 
+  public static final String BIN_DIRECTORY = "bin";
+
   /**
    * Sets the window title.
    *
@@ -144,10 +146,10 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
    * @param projet eclipse project reference
    * @throws RuminaqException smth went wrong
    */
-  private static void deleteBinDirectory(IProject projet) throws RuminaqException {
+  private static void deleteBinDirectory(IProject projet)
+      throws RuminaqException {
     try {
-      EclipseUtil.deleteProjectDirectoryIfExists(projet,
-          EclipseUtil.BIN_DIRECTORY);
+      EclipseUtil.deleteProjectDirectoryIfExists(projet, BIN_DIRECTORY);
     } catch (CoreException e) {
       throw new RuminaqException(Messages.createProjectWizardFailed, e);
     }
@@ -165,7 +167,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void createOutputLocation(IJavaProject javaProject) throws RuminaqException {
+  private static void createOutputLocation(IJavaProject javaProject)
+      throws RuminaqException {
     IPath targetPath = javaProject.getPath().append(OUTPUT_CLASSES);
     try {
       javaProject.setOutputLocation(targetPath, null);
@@ -174,7 +177,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     }
   }
 
-  private static void createPropertiesFile(IProject project) throws RuminaqException {
+  private static void createPropertiesFile(IProject project)
+      throws RuminaqException {
     Properties prop = new Properties();
     try (OutputStream output = new ByteArrayOutputStream()) {
       prop.setProperty(MAIN_MODULE,

@@ -9,7 +9,9 @@ package org.ruminaq.eclipse.it.tests;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,9 +64,9 @@ public class CreateRuminaqDiagramFailedTest {
         diagramName);
     new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName);
 
-//    SWTBotShell failureWindow = bot.shell("Ruminaq failure");
-//    failureWindow.activate();
-//
-//    Assert.assertNotNull("Failure window should appear", failureWindow);
+    SWTBotShell failureWindow = bot.shell("Ruminaq failure");
+    failureWindow.activate();
+
+    Assert.assertNotNull("Failure window should appear", failureWindow);
   }
 }

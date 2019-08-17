@@ -24,67 +24,76 @@ import org.ruminaq.util.EclipseUtil;
 
 public class CreateProjectWizard {
 
-    private static final String PYDEVPROJECT = ".pydevproject";
+  private static final String PYDEVPROJECT = ".pydevproject";
 
-    public boolean performFinish(IJavaProject newProject) throws CoreException {
-        setNatureIds(newProject.getProject());
-        addPyBuilder(newProject.getProject());
-        createSourceFolders(newProject.getProject());
-        //createPyDevProjectFile(newProject.getProject());
-        return true;
+  public boolean performFinish(IJavaProject newProject) throws CoreException {
+    setNatureIds(newProject.getProject());
+    addPyBuilder(newProject.getProject());
+    createSourceFolders(newProject.getProject());
+    // createPyDevProjectFile(newProject.getProject());
+    return true;
+  }
+
+  public List<IClasspathEntry> createClasspathEntries(
+      IJavaProject javaProject) {
+    List<IClasspathEntry> entries = new LinkedList<>();
+    IPath srcPath1 = javaProject.getPath().append(Constants.MAIN_PYTHON);
+    IPath srcPath2 = javaProject.getPath().append(Constants.TEST_PYTHON);
+    entries.add(JavaCore.newSourceEntry(srcPath1,
+        new IPath[] { new Path("**/__pycache__/**") }));
+    entries.add(JavaCore.newSourceEntry(srcPath2,
+        new IPath[] { new Path("**/__pycache__/**") }));
+    return entries;
+  }
+
+  private void setNatureIds(IProject newProject) throws CoreException {
+    IProjectDescription description = newProject.getDescription();
+    description.setNatureIds(ArrayUtils.add(description.getNatureIds(),
+        PythonNature.PYTHON_NATURE_ID));
+    newProject.setDescription(description, null);
+  }
+
+  private void addPyBuilder(IProject project) throws CoreException {
+    IProjectDescription description = project.getDescription();
+    ICommand[] commands = description.getBuildSpec();
+    ICommand[] newCommands = new ICommand[commands.length + 1];
+
+    int j = 0;
+    for (int i = 0; i < commands.length; i++)
+      newCommands[j++] = commands[i];
+
+    ICommand command = description.newCommand();
+
+    command.setBuilderName("org.python.pydev.PyDevBuilder");
+
+    newCommands[newCommands.length - 1] = command;
+
+    description.setBuildSpec(newCommands);
+
+    project.setDescription(description, null);
+  }
+
+  private void createSourceFolders(IProject project) throws CoreException {
+    EclipseUtil.createFolderWithParents(project, Constants.MAIN_PYTHON);
+    EclipseUtil.createFileInFolder(project, Constants.MAIN_PYTHON, "PLACEHOLDER_FOR_PY");
+    EclipseUtil.createFolderWithParents(project, Constants.TEST_PYTHON);
+    EclipseUtil.createFileInFolder(project, Constants.TEST_PYTHON, "PLACEHOLDER_FOR_PY");
+  }
+
+  private void createPyDevProjectFile(IProject project) throws CoreException {
+    String pythonType = InterpreterManagersAPI.getPythonInterpreterManager(true)
+        .getInterpreterInfos().length > 0 ? "python" : "jython";
+    try {
+      String content = IOUtils
+          .toString(CreateProjectWizard.class.getResourceAsStream(PYDEVPROJECT))
+          .replace("${process-version}", PythonTaskI.PROCESS_LIB_VERSION)
+          .replace("${python-type}", pythonType);
+      // TODO:content =
+      // PythonTaskExtensionManager.INSTANCE.editPyDevProjectFile(content);
+      IFile outputFile = project.getFile(PYDEVPROJECT);
+      outputFile.create(IOUtils.toInputStream(content), true, null);
+    } catch (IOException e) {
     }
 
-    public List<IClasspathEntry> createClasspathEntries(IJavaProject javaProject) {
-        List<IClasspathEntry> entries = new LinkedList<>();
-        IPath srcPath1 = javaProject.getPath().append(Constants.MAIN_PYTHON);
-        IPath srcPath2 = javaProject.getPath().append(Constants.TEST_PYTHON);
-        entries.add(JavaCore.newSourceEntry(srcPath1, new IPath[] { new Path("**/__pycache__/**") }));
-        entries.add(JavaCore.newSourceEntry(srcPath2, new IPath[] { new Path("**/__pycache__/**") }));
-        return entries;
-    }
-
-    private void setNatureIds(IProject newProject) throws CoreException {
-        IProjectDescription description = newProject.getDescription();
-        description.setNatureIds(ArrayUtils.add(description.getNatureIds(), PythonNature.PYTHON_NATURE_ID));
-        newProject.setDescription(description, null);
-    }
-
-    private void addPyBuilder(IProject project) throws CoreException {
-        IProjectDescription description = project .getDescription();
-        ICommand[] commands             = description.getBuildSpec();
-        ICommand[] newCommands          = new ICommand[commands.length + 1];
-
-        int j = 0;
-        for(int i = 0; i < commands.length; i++)
-            newCommands[j++] = commands[i];
-
-        ICommand command = description.newCommand();
-
-        command.setBuilderName("org.python.pydev.PyDevBuilder");
-
-        newCommands[newCommands.length - 1] = command;
-
-        description.setBuildSpec(newCommands);
-
-        project.setDescription(description, null);
-    }
-
-    private void createSourceFolders(IProject project) throws CoreException {
-        EclipseUtil.createFolderWithParents  (project, Constants.MAIN_PYTHON);
-        EclipseUtil.createPlaceholderInFolder(project, Constants.MAIN_PYTHON, "_FOR_PY");
-        EclipseUtil.createFolderWithParents  (project, Constants.TEST_PYTHON);
-        EclipseUtil.createPlaceholderInFolder(project, Constants.TEST_PYTHON, "_FOR_PY");
-    }
-
-    private void createPyDevProjectFile(IProject project) throws CoreException {
-        String pythonType = InterpreterManagersAPI.getPythonInterpreterManager(true).getInterpreterInfos().length > 0 ? "python" : "jython";
-        try {
-            String content = IOUtils.toString(CreateProjectWizard.class.getResourceAsStream(PYDEVPROJECT)).replace("${process-version}", PythonTaskI.PROCESS_LIB_VERSION)
-                                                                                                          .replace("${python-type}", pythonType);
-            //TODO:content = PythonTaskExtensionManager.INSTANCE.editPyDevProjectFile(content);
-            IFile outputFile = project.getFile(PYDEVPROJECT);
-            outputFile.create(IOUtils.toInputStream(content), true, null);
-        } catch (IOException e) { }
-
-    }
+  }
 }

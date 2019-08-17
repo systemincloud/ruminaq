@@ -1,5 +1,7 @@
 package org.ruminaq.eclipse.it.tests;
 
+import java.util.Optional;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -26,24 +28,26 @@ public class CreateDiagramWizardAspect {
    *
    */
   @Pointcut("call(* org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard.openEditor(..)) "
-      + "&& args(page, input, activate)")
-  public void openEditor(IWorkbenchPage page, IFile input, boolean activate) {
+      + "&& args(arg0, arg1, arg2)")
+  public void openEditor(IWorkbenchPage arg0, IFile arg1, boolean arg2) {
   }
 
   /**
    * Test failure of opening editor.
    *
    */
-  @Around("openEditor(IPath, IProgressMonitor) && args(page, input, activate)")
-  public Object around(ProceedingJoinPoint point, IWorkbenchPage page,
-      IFile input, boolean activate) throws Throwable {
-    String failingFileName = System.getProperty(FAIL_OPEN_EDITOR_FILE_NAME);
+  @Around("openEditor(IPath, IProgressMonitor) && args(arg0, arg1, arg2)")
+  public Object around(ProceedingJoinPoint point, IWorkbenchPage arg0,
+      IFile arg1, boolean arg2) throws Throwable {
+    Optional<String> failingFileName = Optional
+        .ofNullable(System.getProperty(FAIL_OPEN_EDITOR_FILE_NAME));
 
-    if (input.getName().startsWith(failingFileName)) {
+    if (failingFileName.isPresent()
+        && (arg1.getName().startsWith(failingFileName.get()))) {
       throw new PartInitException(new Status(IStatus.ERROR,
           PlatformUtil.getBundleSymbolicName(getClass()), "Failed"));
     } else {
-      return point.proceed(new Object[] { page, input, activate });
+      return point.proceed(new Object[] { arg0, arg1, arg2 });
     }
   }
 }

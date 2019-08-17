@@ -31,7 +31,6 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Messages;
-import org.ruminaq.eclipse.RuminaqRuntimeException;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.FileService;
 import org.slf4j.Logger;
@@ -75,25 +74,21 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
 
     try {
       getContainer().run(true, false, (IProgressMonitor monitor) -> {
-        try {
           Optional
               .ofNullable(
                   CreateDiagramWizardNamePage.getSelectedObject(selection))
               .map(CreateDiagramWizardNamePage::getProject)
               .ifPresent((IProject p) -> doFinish(
                   "/" + p.getName() + "/" + containerName, fileName));
-        } catch (RuminaqRuntimeException e) {
-          throw new InvocationTargetException(e);
-        }
       });
     } catch (InterruptedException e) {
       LOGGER.error(Messages.createDiagramWizardFailed, e);
-      MessageDialog.openError(getShell(), "Error", e.getMessage());
+      MessageDialog.openError(getShell(), Messages.ruminaqFailed, e.getMessage());
       Thread.currentThread().interrupt();
       return false;
     } catch (InvocationTargetException e) {
       LOGGER.error(Messages.createDiagramWizardFailed, e);
-      MessageDialog.openError(getShell(), "Error",
+      MessageDialog.openError(getShell(), Messages.ruminaqFailed,
           e.getTargetException().getMessage());
       return false;
     }
@@ -122,13 +117,15 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
       try {
         openEditor(page, diagramFile, true);
       } catch (PartInitException e) {
-        throw new RuminaqRuntimeException(e.getMessage(), e);
+        LOGGER.error(Messages.openDiagramFailed, e);
+        MessageDialog.openError(getShell(), Messages.ruminaqFailed,
+            Messages.openDiagramFailed);
       }
     });
   }
 
-  private void openEditor(IWorkbenchPage page, IFile input,
-      boolean activate) throws PartInitException {
+  private void openEditor(IWorkbenchPage page, IFile input, boolean activate)
+      throws PartInitException {
     IDE.openEditor(page, input, true);
   }
 }

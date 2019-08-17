@@ -32,6 +32,7 @@ public final class Messages extends NLS {
   public static String createTestDiagramWizardTitle;
   public static String createTestDiagramWizardDescription;
   public static String createDiagramWizardFailed;
+  public static String openDiagramFailed;
 
   public static String createDiagramWizardPageTitle;
   public static String projectValidatorProjectNatureCheckTitle;

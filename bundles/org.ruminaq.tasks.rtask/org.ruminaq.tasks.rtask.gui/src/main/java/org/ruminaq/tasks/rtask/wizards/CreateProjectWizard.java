@@ -20,54 +20,58 @@ import de.walware.statet.r.core.RProjects;
 
 public class CreateProjectWizard {
 
-    public boolean performFinish(IJavaProject newProject) throws CoreException {
-        setNatureIds(newProject.getProject());
-        addRBuilder(newProject.getProject());
-        createSourceFolders(newProject.getProject());
-        return true;
-    }
+  public boolean performFinish(IJavaProject newProject) throws CoreException {
+    setNatureIds(newProject.getProject());
+    addRBuilder(newProject.getProject());
+    createSourceFolders(newProject.getProject());
+    return true;
+  }
 
-    public List<IClasspathEntry> createClasspathEntries(IJavaProject javaProject) {
-        List<IClasspathEntry> entries = new LinkedList<>();
-        IPath srcPath1 = javaProject.getPath().append(Constants.MAIN_R);
-        IPath srcPath2 = javaProject.getPath().append(Constants.TEST_R);
-        entries.add(JavaCore.newSourceEntry(srcPath1, new IPath[0]));
-        entries.add(JavaCore.newSourceEntry(srcPath2, new IPath[0]));
-        return entries;
-    }
+  public List<IClasspathEntry> createClasspathEntries(
+      IJavaProject javaProject) {
+    List<IClasspathEntry> entries = new LinkedList<>();
+    IPath srcPath1 = javaProject.getPath().append(Constants.MAIN_R);
+    IPath srcPath2 = javaProject.getPath().append(Constants.TEST_R);
+    entries.add(JavaCore.newSourceEntry(srcPath1, new IPath[0]));
+    entries.add(JavaCore.newSourceEntry(srcPath2, new IPath[0]));
+    return entries;
+  }
 
-    private void setNatureIds(IProject newProject) throws CoreException {
-        IProjectDescription description = newProject.getDescription();
-        String[] ns = (String[]) ArrayUtils.add(description.getNatureIds(), StatetProject.NATURE_ID);
-        ns = (String[]) ArrayUtils.add(ns, RProjects.R_NATURE_ID);
-        description.setNatureIds(ns);
-        newProject.setDescription(description, null);
-    }
+  private void setNatureIds(IProject newProject) throws CoreException {
+    IProjectDescription description = newProject.getDescription();
+    String[] ns = ArrayUtils.add(description.getNatureIds(),
+        StatetProject.NATURE_ID);
+    ns = ArrayUtils.add(ns, RProjects.R_NATURE_ID);
+    description.setNatureIds(ns);
+    newProject.setDescription(description, null);
+  }
 
-    private void addRBuilder(IProject project) throws CoreException {
-        IProjectDescription description = project .getDescription();
-        ICommand[] commands             = description.getBuildSpec();
-        ICommand[] newCommands          = new ICommand[commands.length + 1];
+  private void addRBuilder(IProject project) throws CoreException {
+    IProjectDescription description = project.getDescription();
+    ICommand[] commands = description.getBuildSpec();
+    ICommand[] newCommands = new ICommand[commands.length + 1];
 
-        int j = 0;
-        for(int i = 0; i < commands.length; i++)
-            newCommands[j++] = commands[i];
+    int j = 0;
+    for (int i = 0; i < commands.length; i++)
+      newCommands[j++] = commands[i];
 
-        ICommand command = description.newCommand();
+    ICommand command = description.newCommand();
 
-        command.setBuilderName("de.walware.statet.r.builders.RSupport");
+    command.setBuilderName("de.walware.statet.r.builders.RSupport");
 
-        newCommands[newCommands.length - 1] = command;
+    newCommands[newCommands.length - 1] = command;
 
-        description.setBuildSpec(newCommands);
+    description.setBuildSpec(newCommands);
 
-        project.setDescription(description, null);
-    }
+    project.setDescription(description, null);
+  }
 
-    private void createSourceFolders(IProject project) throws CoreException {
-        EclipseUtil.createFolderWithParents  (project, Constants.MAIN_R);
-        EclipseUtil.createPlaceholderInFolder(project, Constants.MAIN_R, "_FOR_R");
-        EclipseUtil.createFolderWithParents  (project, Constants.TEST_R);
-        EclipseUtil.createPlaceholderInFolder(project, Constants.TEST_R, "_FOR_R");
-    }
+  private void createSourceFolders(IProject project) throws CoreException {
+    EclipseUtil.createFolderWithParents(project, Constants.MAIN_R);
+    EclipseUtil.createFileInFolder(project, Constants.MAIN_R,
+        "PLACEHOLDER_FOR_R");
+    EclipseUtil.createFolderWithParents(project, Constants.TEST_R);
+    EclipseUtil.createFileInFolder(project, Constants.TEST_R,
+        "PLACEHOLDER_FOR_R");
+  }
 }
