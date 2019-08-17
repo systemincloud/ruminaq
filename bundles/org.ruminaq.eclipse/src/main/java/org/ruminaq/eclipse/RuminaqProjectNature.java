@@ -6,6 +6,7 @@
 
 package org.ruminaq.eclipse;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -41,7 +42,8 @@ public class RuminaqProjectNature implements IProjectNature {
   @Override
   public void configure() throws CoreException {
     IProjectDescription description = project.getDescription();
-    List<ICommand> commands = Arrays.asList(description.getBuildSpec());
+    List<ICommand> commands = new ArrayList<ICommand>(
+        Arrays.asList(description.getBuildSpec()));
 
     if (commands.stream().map(ICommand::getBuilderName)
         .anyMatch(RuminaqBuilder.ID::equals)) {
