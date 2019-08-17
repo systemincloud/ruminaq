@@ -12,16 +12,18 @@ import java.util.Optional;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -30,7 +32,9 @@ import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqRuntimeException;
+import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.FileService;
+import org.slf4j.Logger;
 
 /**
  * Creates new Ruminaq diagram.
@@ -39,16 +43,16 @@ import org.ruminaq.model.FileService;
  */
 public class CreateDiagramWizard extends BasicNewResourceWizard {
 
+  private static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(CreateDiagramWizard.class);
+
   public static final String ID = CreateDiagramWizard.class.getCanonicalName();
 
-  /**
-   * Sets the window title.
-   *
-   * @see org.eclipse.jface.wizard.Wizard#setWindowTitle()
-   */
   @Override
-  public void setWindowTitle(final String newTitle) {
-    super.setWindowTitle(Messages.createDiagramWizardTitle);
+  public void init(IWorkbench workbench,
+      IStructuredSelection currentSelection) {
+    super.init(workbench, currentSelection);
+    setWindowTitle(Messages.createDiagramWizardTitle);
   }
 
   @Override
@@ -58,8 +62,8 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
 
   @Override
   public boolean performFinish() {
-    CreateDiagramWizardNamePage page = ((CreateDiagramWizardNamePage) getPage(
-        CreateDiagramWizardNamePage.PAGE_NAME));
+    CreateDiagramWizardNamePage page = (CreateDiagramWizardNamePage) getPage(
+        CreateDiagramWizardNamePage.PAGE_NAME);
     final String containerName = page.getContainerName();
     final String fileName = page.getFileName();
 
@@ -69,32 +73,28 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
           Optional
               .ofNullable(
                   CreateDiagramWizardNamePage.getSelectedObject(selection))
-              .map(o -> CreateDiagramWizardNamePage.getProject(o))
-              .ifPresent(p -> {
-                try {
-                  doFinish("/" + p.getName() + "/" + containerName, fileName,
-                      null);
-                } catch (CoreException e) {
-                  throw new RuminaqRuntimeException(e);
-                }
+              .map(CreateDiagramWizardNamePage::getProject)
+              .ifPresent((IProject p) -> {
+                doFinish("/" + p.getName() + "/" + containerName, fileName);
               });
         } catch (RuminaqRuntimeException e) {
           throw new InvocationTargetException(e);
         }
       });
     } catch (InterruptedException e) {
+      LOGGER.error(Messages.createDiagramWizardFailed, e);
+      MessageDialog.openError(getShell(), "Error", e.getMessage());
       return false;
     } catch (InvocationTargetException e) {
-      Throwable realException = e.getTargetException();
-      MessageDialog.openError(getShell(), "Error", realException.getMessage());
+      LOGGER.error(Messages.createDiagramWizardFailed, e);
+      MessageDialog.openError(getShell(), "Error",
+          e.getTargetException().getMessage());
       return false;
     }
     return true;
   }
 
-  private void doFinish(String containerName, String fileName,
-      IProgressMonitor monitor) throws CoreException {
-    // create a sample file
+  private void doFinish(String containerName, String fileName) {
     IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
     IResource resource = root.findMember(new Path(containerName));
 
@@ -116,6 +116,7 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
       try {
         IDE.openEditor(page, diagramFile, true);
       } catch (PartInitException e) {
+
       }
     });
   }

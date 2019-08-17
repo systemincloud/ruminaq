@@ -10,6 +10,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,6 +54,9 @@ public class CreatingRuminaqDiagramTest {
 
     new CreateRuminaqDiagram().openDiagramWizardFromProjectContextMenu(bot,
         projectName);
+
+    Assert.assertEquals("Window of title should be set", "New Diagram",
+        bot.activeShell().getText());
 
     bot.textWithLabel("New Diagram");
     bot.text("This wizard creates a new Ruminaq Diagram.");

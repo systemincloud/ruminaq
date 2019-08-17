@@ -30,6 +30,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.RuminaqPerspective;
+import org.ruminaq.eclipse.RuminaqProjectNature;
 import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 import org.ruminaq.eclipse.wizards.project.PomFile;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
@@ -98,8 +99,8 @@ public class CreateRuminaqProjectTest {
             "Source directory " + f + "should be created",
             project.getFolder(f).exists()));
 
-//    Assert.assertTrue("Workspace nature should change to Ruminaq",
-//        project.hasNature(RuminaqProjectNature.ID));
+    Assert.assertTrue("Workspace nature should change to Ruminaq",
+        project.hasNature(RuminaqProjectNature.ID));
 
     Assert.assertTrue("Property file created",
         project.exists(new Path(CreateProjectWizard.PROPERTIES_FILE)));
