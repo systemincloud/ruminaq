@@ -6,6 +6,8 @@
 
 package org.ruminaq.eclipse;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.eclipse.core.resources.ICommand;
@@ -24,44 +26,7 @@ public class RuminaqProjectNature implements IProjectNature {
 
   public static final String ID = RuminaqProjectNature.class.getCanonicalName();
 
-  private IProject project;
-
-  @Override
-  public void configure() throws CoreException {
-    IProjectDescription desc = project.getDescription();
-    ICommand[] commands = desc.getBuildSpec();
-
-    if (Stream.of(commands).map(ICommand::getBuilderName)
-        .filter(name -> RuminaqBuilder.ID.equals(name)).findAny()
-        .isPresent()) {
-      return;
-    }
-
-    ICommand[] newCommands = new ICommand[commands.length + 1];
-    System.arraycopy(commands, 0, newCommands, 0, commands.length);
-    ICommand command = desc.newCommand();
-    command.setBuilderName(RuminaqBuilder.ID);
-    newCommands[newCommands.length - 1] = command;
-    desc.setBuildSpec(newCommands);
-    project.setDescription(desc, null);
-  }
-
-  @Override
-  public void deconfigure() throws CoreException {
-    IProjectDescription description = getProject().getDescription();
-    ICommand[] commands = description.getBuildSpec();
-    for (int i = 0; i < commands.length; ++i) {
-      if (commands[i].getBuilderName().equals(RuminaqBuilder.ID)) {
-        ICommand[] newCommands = new ICommand[commands.length - 1];
-        System.arraycopy(commands, 0, newCommands, 0, i);
-        System.arraycopy(commands, i + 1, newCommands, i,
-            commands.length - i - 1);
-        description.setBuildSpec(newCommands);
-        project.setDescription(description, null);
-        return;
-      }
-    }
-  }
+  private IProject project = null;
 
   @Override
   public IProject getProject() {
@@ -71,5 +36,32 @@ public class RuminaqProjectNature implements IProjectNature {
   @Override
   public void setProject(IProject project) {
     this.project = project;
+  }
+
+  @Override
+  public void configure() throws CoreException {
+    IProjectDescription description = project.getDescription();
+    List<ICommand> commands = Arrays.asList(description.getBuildSpec());
+
+    if (commands.stream().map(ICommand::getBuilderName)
+        .anyMatch(RuminaqBuilder.ID::equals)) {
+      return;
+    }
+
+    ICommand command = description.newCommand();
+    command.setBuilderName(RuminaqBuilder.ID);
+    commands.add(command);
+
+    description.setBuildSpec(commands.stream().toArray(ICommand[]::new));
+    project.setDescription(description, null);
+  }
+
+  @Override
+  public void deconfigure() throws CoreException {
+    IProjectDescription description = getProject().getDescription();
+    description.setBuildSpec(Stream.of(description.getBuildSpec())
+        .filter(cmd -> !cmd.getBuilderName().equals(RuminaqBuilder.ID))
+        .toArray(ICommand[]::new));
+    project.setDescription(description, null);
   }
 }
