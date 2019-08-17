@@ -120,10 +120,15 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
       IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
           .getActivePage();
       try {
-        IDE.openEditor(page, diagramFile, true);
+        openEditor(page, diagramFile, true);
       } catch (PartInitException e) {
         throw new RuminaqRuntimeException(e.getMessage(), e);
       }
     });
+  }
+
+  private void openEditor(IWorkbenchPage page, IFile input,
+      boolean activate) throws PartInitException {
+    IDE.openEditor(page, input, true);
   }
 }

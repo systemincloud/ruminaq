@@ -17,7 +17,7 @@ import org.ruminaq.util.PlatformUtil;
  * @author Marek Jagielski
  */
 @Aspect
-public class IDEAspect {
+public class CreateDiagramWizardAspect {
 
   public static final String FAIL_OPEN_EDITOR_FILE_NAME = "failOpenEditor";
 
@@ -25,7 +25,7 @@ public class IDEAspect {
    * Pointcut on openEditor.
    *
    */
-  @Pointcut("call(* org.eclipse.ui.ide.IDE.openEditor(..)) "
+  @Pointcut("call(* org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard.openEditor(..)) "
       + "&& args(page, input, activate)")
   public void openEditor(IWorkbenchPage page, IFile input, boolean activate) {
   }

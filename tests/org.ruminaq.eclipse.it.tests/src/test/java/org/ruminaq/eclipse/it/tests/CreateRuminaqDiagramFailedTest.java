@@ -58,7 +58,7 @@ public class CreateRuminaqDiagramFailedTest {
     String diagramName = "Diagram_"
         + RandomStringUtils.randomAlphabetic(SUFFIX_LENGTH);
     System.setProperty(
-        IDEAspect.FAIL_OPEN_EDITOR_FILE_NAME,
+        CreateDiagramWizardAspect.FAIL_OPEN_EDITOR_FILE_NAME,
         diagramName);
     new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName);
 
