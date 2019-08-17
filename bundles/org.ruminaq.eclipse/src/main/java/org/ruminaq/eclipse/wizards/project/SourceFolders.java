@@ -37,7 +37,7 @@ public final class SourceFolders {
    * Creates directories for eclipse sources.
    *
    * @param project Eclipse IProject reference
-   * @throws RuminaqException
+   * @throws RuminaqException smth went wrong
    */
   static void createSourceFolders(IProject project) throws RuminaqException {
     try {

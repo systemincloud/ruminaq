@@ -142,7 +142,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
    * manage to create this directory before we change classpath file.
    *
    * @param projet eclipse project reference
-   * @throws RuminaqException
+   * @throws RuminaqException smth went wrong
    */
   private static void deleteBinDirectory(IProject projet) throws RuminaqException {
     try {
