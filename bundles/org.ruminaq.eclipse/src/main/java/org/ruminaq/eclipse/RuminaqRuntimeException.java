@@ -16,4 +16,8 @@ public class RuminaqRuntimeException extends RuntimeException {
   public RuminaqRuntimeException(Throwable e) {
     super(e);
   }
+
+  public RuminaqRuntimeException(String msg, Throwable e) {
+    super(msg, e);
+  }
 }

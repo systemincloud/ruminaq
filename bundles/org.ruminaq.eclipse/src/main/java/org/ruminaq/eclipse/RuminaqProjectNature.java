@@ -50,17 +50,15 @@ public class RuminaqProjectNature implements IProjectNature {
     List<ICommand> commands = new ArrayList<>(
         Arrays.asList(description.getBuildSpec()));
 
-    if (commands.stream().map(ICommand::getBuilderName)
+    if (!commands.stream().map(ICommand::getBuilderName)
         .anyMatch(RuminaqBuilder.ID::equals)) {
-      return;
+      ICommand command = description.newCommand();
+      command.setBuilderName(RuminaqBuilder.ID);
+      commands.add(command);
+
+      description.setBuildSpec(commands.stream().toArray(ICommand[]::new));
+      project.setDescription(description, null);
     }
-
-    ICommand command = description.newCommand();
-    command.setBuilderName(RuminaqBuilder.ID);
-    commands.add(command);
-
-    description.setBuildSpec(commands.stream().toArray(ICommand[]::new));
-    project.setDescription(description, null);
   }
 
   /**

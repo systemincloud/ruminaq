@@ -48,6 +48,9 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
 
   public static final String ID = CreateDiagramWizard.class.getCanonicalName();
 
+  /**
+   * Set window name.
+   */
   @Override
   public void init(IWorkbench workbench,
       IStructuredSelection currentSelection) {
@@ -60,6 +63,9 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
     addPage(new CreateDiagramWizardNamePage(selection));
   }
 
+  /**
+   * Perform finish processing for wizard.
+   */
   @Override
   public boolean performFinish() {
     CreateDiagramWizardNamePage page = (CreateDiagramWizardNamePage) getPage(
@@ -74,9 +80,8 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
               .ofNullable(
                   CreateDiagramWizardNamePage.getSelectedObject(selection))
               .map(CreateDiagramWizardNamePage::getProject)
-              .ifPresent((IProject p) -> {
-                doFinish("/" + p.getName() + "/" + containerName, fileName);
-              });
+              .ifPresent((IProject p) -> doFinish(
+                  "/" + p.getName() + "/" + containerName, fileName));
         } catch (RuminaqRuntimeException e) {
           throw new InvocationTargetException(e);
         }
@@ -84,6 +89,7 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
     } catch (InterruptedException e) {
       LOGGER.error(Messages.createDiagramWizardFailed, e);
       MessageDialog.openError(getShell(), "Error", e.getMessage());
+      Thread.currentThread().interrupt();
       return false;
     } catch (InvocationTargetException e) {
       LOGGER.error(Messages.createDiagramWizardFailed, e);
@@ -116,7 +122,7 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
       try {
         IDE.openEditor(page, diagramFile, true);
       } catch (PartInitException e) {
-
+        throw new RuminaqRuntimeException(e.getMessage(), e);
       }
     });
   }
