@@ -27,7 +27,7 @@ public class RuminaqProjectNature implements IProjectNature {
 
   public static final String ID = RuminaqProjectNature.class.getCanonicalName();
 
-  private IProject project = null;
+  private IProject project;
 
   @Override
   public IProject getProject() {
@@ -39,10 +39,15 @@ public class RuminaqProjectNature implements IProjectNature {
     this.project = project;
   }
 
+  /**
+   * Configures this nature for its project.
+   *
+   * @see org.eclipse.core.resources.IProjectNature#configure()
+   */
   @Override
   public void configure() throws CoreException {
     IProjectDescription description = project.getDescription();
-    List<ICommand> commands = new ArrayList<ICommand>(
+    List<ICommand> commands = new ArrayList<>(
         Arrays.asList(description.getBuildSpec()));
 
     if (commands.stream().map(ICommand::getBuilderName)
@@ -58,11 +63,16 @@ public class RuminaqProjectNature implements IProjectNature {
     project.setDescription(description, null);
   }
 
+  /**
+   * De-configures this nature for its project.
+   *
+   * @see org.eclipse.core.resources.IProjectNature#deconfigure()
+   */
   @Override
   public void deconfigure() throws CoreException {
     IProjectDescription description = getProject().getDescription();
     description.setBuildSpec(Stream.of(description.getBuildSpec())
-        .filter(cmd -> !cmd.getBuilderName().equals(RuminaqBuilder.ID))
+        .filter(cmd -> !RuminaqBuilder.ID.equals(cmd.getBuilderName()))
         .toArray(ICommand[]::new));
     project.setDescription(description, null);
   }

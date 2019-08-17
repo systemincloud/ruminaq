@@ -12,6 +12,11 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaModelException;
 import org.ruminaq.util.PlatformUtil;
 
+/**
+ * Intercept IJavaProject.
+ *
+ * @author Marek Jagielski
+ */
 @Aspect
 public class JavaProjectAspect {
 
