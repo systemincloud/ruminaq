@@ -73,17 +73,15 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
     final String fileName = page.getFileName();
 
     try {
-      getContainer().run(true, false, (IProgressMonitor monitor) -> {
-          Optional
-              .ofNullable(
-                  CreateDiagramWizardNamePage.getSelectedObject(selection))
-              .map(CreateDiagramWizardNamePage::getProject)
-              .ifPresent((IProject p) -> doFinish(
-                  "/" + p.getName() + "/" + containerName, fileName));
-      });
+      getContainer().run(true, false, (IProgressMonitor monitor) -> Optional
+          .ofNullable(CreateDiagramWizardNamePage.getSelectedObject(selection))
+          .map(CreateDiagramWizardNamePage::getProject).ifPresent(
+              (IProject p) -> doFinish("/" + p.getName() + "/" + containerName,
+                  fileName)));
     } catch (InterruptedException e) {
       LOGGER.error(Messages.createDiagramWizardFailed, e);
-      MessageDialog.openError(getShell(), Messages.ruminaqFailed, e.getMessage());
+      MessageDialog.openError(getShell(), Messages.ruminaqFailed,
+          e.getMessage());
       Thread.currentThread().interrupt();
       return false;
     } catch (InvocationTargetException e) {
@@ -115,7 +113,7 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
       IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
           .getActivePage();
       try {
-        openEditor(page, diagramFile, true);
+        openEditor(page, diagramFile);
       } catch (PartInitException e) {
         LOGGER.error(Messages.openDiagramFailed, e);
         MessageDialog.openError(getShell(), Messages.ruminaqFailed,
@@ -124,7 +122,7 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
     });
   }
 
-  private void openEditor(IWorkbenchPage page, IFile input, boolean activate)
+  private static void openEditor(IWorkbenchPage page, IFile input)
       throws PartInitException {
     IDE.openEditor(page, input, true);
   }
