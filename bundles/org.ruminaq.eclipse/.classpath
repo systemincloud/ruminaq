@@ -10,6 +10,8 @@
 			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/*"/>
 			<accessrule kind="accessible" pattern="org/eclipse/m2e/**"/>
 			<accessrule kind="accessible" pattern="org/eclipse/graphiti/ui/internal/**"/>
+			<accessrule kind="accessible" pattern="org/eclipse/core/internal/**"/>
+			<accessrule kind="accessible" pattern="org/eclipse/jdt/internal/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src/main/java"/>

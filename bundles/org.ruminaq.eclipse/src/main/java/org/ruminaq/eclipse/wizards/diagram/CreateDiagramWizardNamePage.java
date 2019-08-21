@@ -6,6 +6,12 @@
 
 package org.ruminaq.eclipse.wizards.diagram;
 
+import static java.text.MessageFormat.format;
+
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
 import org.eclipse.core.internal.resources.Folder;
 import org.eclipse.core.internal.resources.Project;
 import org.eclipse.core.resources.IContainer;
@@ -42,16 +48,19 @@ import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.util.ImageUtil;
 
 /**
+ * Create new Diagram page
  *
  * @author Marek Jagielski
  */
-@SuppressWarnings("restriction")
 public class CreateDiagramWizardNamePage extends WizardPage {
 
   public static final String PAGE_NAME = "createDefaultRuminaqDiagramNameWizardPage";
   public static final String DEFAULT_DIAGRAM_NAME = "MyTask";
 
   private Composite composite;
+  private CLabel lblProject;
+  private Text txtProject;
+  private Button btnProject;
   private CLabel lblContainer;
   private Text txtContainer;
   private Button btnContainer;
@@ -71,51 +80,50 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   public void createControl(Composite parent) {
     setImageDescriptor(ImageUtil.getImageDescriptor(Image.RUMINAQ_LOGO_64X64));
 
-    Object o = getSelectedObject(selection);
-    IProject project = o == null ? null : getProject(o);
-
-    if (project == null) {
-      return;
-    }
+    Object selected = getSelectedObject(selection);
 
     initLayout(parent);
-    initComponents(project.getName(), o);
-    initActions(project);
+    initComponents(selected);
+    initActions(selected);
 
-    dialogChanged(project);
+    dialogChanged(selected);
     setControl(composite);
   }
 
   static Object getSelectedObject(ISelection selection) {
-    if (selection != null && selection.isEmpty() == false
-        && selection instanceof IStructuredSelection) {
-      IStructuredSelection ssel = (IStructuredSelection) selection;
-      if (ssel.size() > 1)
-        return null;
-      return ssel.getFirstElement();
-    }
-    return null;
+    return Optional.ofNullable(selection)
+        .filter(Predicate.not(ISelection::isEmpty))
+        .filter(s -> s instanceof IStructuredSelection)
+        .map(s -> (IStructuredSelection) selection).filter(ss -> ss.size() == 1)
+        .map(IStructuredSelection::getFirstElement).orElse(null);
   }
 
-  static IProject getProject(Object obj) {
-    String projectName = "";
-    if (obj instanceof Project)
+  static Optional<IProject> getProjectFromSelection(Object obj) {
+    String projectName = null;
+    if (obj instanceof Project) {
       projectName = ((Project) obj).getName();
-    else if (obj instanceof IJavaProject)
+    } else if (obj instanceof IJavaProject) {
       projectName = ((IJavaProject) obj).getElementName();
-    else if (obj instanceof IResource)
+    } else if (obj instanceof IResource) {
       projectName = ((IResource) obj).getProject().getName();
-    else if (obj instanceof PackageFragment)
+    } else if (obj instanceof PackageFragment) {
       projectName = ((PackageFragment) obj).getJavaProject().getElementName();
-    else if (obj instanceof PackageFragmentRoot)
+    } else if (obj instanceof PackageFragmentRoot) {
       projectName = ((PackageFragmentRoot) obj).getJavaProject()
           .getElementName();
-    return ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+    }
+    return Optional.ofNullable(projectName)
+        .map(pn -> ResourcesPlugin.getWorkspace().getRoot().getProject(pn));
   }
 
   private void initLayout(Composite parent) {
     composite = new Composite(parent, SWT.NULL);
     composite.setLayout(new GridLayout(3, false));
+
+    lblProject = new CLabel(composite, SWT.NULL);
+    txtProject = new Text(composite, SWT.BORDER | SWT.SINGLE);
+    txtProject.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+    btnProject = new Button(composite, SWT.PUSH);
 
     lblContainer = new CLabel(composite, SWT.NULL);
     txtContainer = new Text(composite, SWT.BORDER | SWT.SINGLE);
@@ -128,26 +136,36 @@ public class CreateDiagramWizardNamePage extends WizardPage {
         GridData.VERTICAL_ALIGN_BEGINNING, true, false, 2, 1));
   }
 
-  private void initComponents(String projectName, Object obj) {
-    lblContainer.setText("&Container:");
-    btnContainer.setText("Browse...");
-    lblFile.setText("&File name:");
+  private void initComponents(Object selectedObject) {
+    lblProject.setText(Messages.createDiagramWizardProject);
+    btnProject.setText(Messages.createDiagramWizardProjectBrowse);
+    lblContainer.setText(Messages.createDiagramWizardContainer);
+    btnContainer.setText(Messages.createDiagramWizardContainerBrowse);
+    lblFile.setText(Messages.createDiagramWizardFilename);
+
+    Optional<IProject> project = getProjectFromSelection(selectedObject);
+
+    txtProject.setText(project.map(IProject::getName).orElse(""));
 
     String diagramBase = getDiagramFolder();
 
-    String dirPath = null;
-    if (obj instanceof PackageFragment && ((PackageFragment) obj).getPath()
-        .toString().startsWith("/" + projectName + "/" + diagramBase))
-      dirPath = ((PackageFragment) obj).getPath().toString()
-          .substring(projectName.length() + 2);
-    else if (obj instanceof Folder && ((Folder) obj).getFullPath().toString()
-        .startsWith("/" + projectName + "/" + diagramBase))
-      dirPath = ((Folder) obj).getFullPath().toString()
-          .substring(projectName.length() + 2);
-    else
-      dirPath = diagramBase;
-
-    txtContainer.setText(dirPath);
+    txtContainer.setText(project.map(p -> {
+      String dirPath;
+      if (selectedObject instanceof PackageFragment
+          && ((PackageFragment) selectedObject).getPath().toString()
+              .startsWith(format("/{0}/{1}", p.getName(), diagramBase))) {
+        dirPath = ((PackageFragment) selectedObject).getPath().toString()
+            .substring(p.getName().length() + 2);
+      } else if (selectedObject instanceof Folder
+          && ((Folder) selectedObject).getFullPath().toString()
+              .startsWith(format("/{0}/{1}", p.getName(), diagramBase))) {
+        dirPath = ((Folder) selectedObject).getFullPath().toString()
+            .substring(p.getName().length() + 2);
+      } else {
+        dirPath = diagramBase;
+      }
+      return dirPath;
+    }).orElse(""));
 
     String filename = getDefaultName();
     txtFile.setText(filename);
@@ -165,15 +183,44 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     return DEFAULT_DIAGRAM_NAME + Constants.DIAGRAM_EXTENSION_DOT;
   }
 
-  private void initActions(final IProject project) {
-    txtContainer.addModifyListener(e -> dialogChanged(project));
+  private void initActions(Object selectedObject) {
+    txtProject.addModifyListener(e -> dialogChanged(selectedObject));
+    btnProject.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        handleBrowseProject();
+      }
+    });
+    txtContainer.addModifyListener(e -> dialogChanged(selectedObject));
     btnContainer.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
-        handleBrowse(project);
+        handleBrowse(ResourcesPlugin.getWorkspace().getRoot()
+            .getProject(txtProject.getText()));
       }
     });
-    txtFile.addModifyListener(e -> dialogChanged(project));
+    txtFile.addModifyListener(e -> dialogChanged(selectedObject));
+  }
+
+  private void handleBrowseProject() {
+    ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(
+        getShell(), new WorkbenchLabelProvider(),
+        new BaseWorkbenchContentProvider());
+    dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
+    dialog.setTitle(Messages.createDiagramWizardProjectChoose);
+    dialog.setAllowMultiple(false);
+    dialog.addFilter(new ViewerFilter() {
+      @Override
+      public boolean select(Viewer arg0, Object parent, Object element) {
+        return element instanceof IProject;
+      }
+    });
+    dialog.open();
+    Object[] results = dialog.getResult();
+
+    if (results != null) {
+      txtProject.setText(((IProject) results[0]).getName());
+    }
   }
 
   private void handleBrowse(IProject project) {
@@ -181,7 +228,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
         getShell(), new WorkbenchLabelProvider(),
         new BaseWorkbenchContentProvider());
     fileDialog.setInput(project.getFolder(getResourceFolder()));
-    fileDialog.setTitle("Select directory");
+    fileDialog.setTitle(Messages.createDiagramWizardContainerChoose);
     fileDialog.setAllowMultiple(false);
     fileDialog.addFilter(new ViewerFilter() {
       @Override
@@ -212,7 +259,6 @@ public class CreateDiagramWizardNamePage extends WizardPage {
           }
           return false;
         }
-
         return false;
       }
     });
@@ -226,22 +272,30 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     }
   }
 
-  private void dialogChanged(IProject project) {
-    if (getContainerName().length() == 0) {
-      updateStatus("File container must be specified");
+  private void dialogChanged(Object selectedObject) {
+    Optional<IProject> project = Stream
+        .of(ResourcesPlugin.getWorkspace().getRoot().getProjects())
+        .filter(p -> txtProject.getText().equals(p.getName())).findFirst();
+
+    if (!project.isPresent()) {
+      updateStatus(Messages.createDiagramWizardStatusProjectNotSpecified);
       return;
     }
 
-    IResource container = ResourcesPlugin.getWorkspace().getRoot().findMember(
-        new Path("/" + project.getName() + "/" + getContainerName()));
+    if (getContainerName().length() == 0) {
+      updateStatus(Messages.createDiagramWizardStatusContainerNotSpecified);
+      return;
+    }
+
+    IResource container = project.get().findMember(getContainerName());
 
     if (container == null || (container.getType()
         & (IResource.PROJECT | IResource.FOLDER)) == 0) {
-      updateStatus("File container must exist");
+      updateStatus(Messages.createDiagramWizardStatusContainerNotExists);
     } else if (!container.isAccessible()) {
-      updateStatus("Project must be writable");
+      updateStatus(Messages.createDiagramWizardStatusContainerNotWritale);
     } else if (getFileName().length() == 0) {
-      updateStatus("File name must be specified");
+      updateStatus(Messages.createDiagramWizardStatusFileNotSpecified);
     } else if (getFileName().replace('\\', '/').indexOf('/', 1) > 0) {
       updateStatus("File name must be valid");
     } else if (!getFileName().endsWith("." + getExtension())) {
@@ -260,6 +314,10 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   private void updateStatus(String message) {
     setErrorMessage(message);
     setPageComplete(message == null);
+  }
+
+  public String getProjectName() {
+    return txtProject.getText();
   }
 
   public String getContainerName() {

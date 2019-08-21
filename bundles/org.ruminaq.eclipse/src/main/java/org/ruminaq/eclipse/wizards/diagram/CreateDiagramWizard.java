@@ -7,12 +7,10 @@
 package org.ruminaq.eclipse.wizards.diagram;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Optional;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -69,15 +67,13 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
   public boolean performFinish() {
     CreateDiagramWizardNamePage page = (CreateDiagramWizardNamePage) getPage(
         CreateDiagramWizardNamePage.PAGE_NAME);
+    final String projectName = page.getProjectName();
     final String containerName = page.getContainerName();
     final String fileName = page.getFileName();
 
     try {
-      getContainer().run(true, false, (IProgressMonitor monitor) -> Optional
-          .ofNullable(CreateDiagramWizardNamePage.getSelectedObject(selection))
-          .map(CreateDiagramWizardNamePage::getProject).ifPresent(
-              (IProject p) -> doFinish("/" + p.getName() + "/" + containerName,
-                  fileName)));
+      getContainer().run(true, false, (IProgressMonitor monitor) -> doFinish(
+          "/" + projectName + "/" + containerName, fileName));
     } catch (InterruptedException e) {
       LOGGER.error(Messages.createDiagramWizardFailed, e);
       MessageDialog.openError(getShell(), Messages.ruminaqFailed,

@@ -33,29 +33,18 @@ public final class Messages extends NLS {
   public static String createTestDiagramWizardDescription;
   public static String createDiagramWizardFailed;
   public static String openDiagramFailed;
-
-  public static String createDiagramWizardPageTitle;
-  public static String projectValidatorProjectNatureCheckTitle;
-  public static String projectValidatorProjectNatureCheckMessage;
-  public static String projectValidatorProjectNatureCheckToogle;
-  public static String projectPreferencesProjectPreferencesDescription;
-  public static String projectPreferencesSystemCredentials;
-  public static String projectPreferencesShowSecredKey;
-  public static String projectPreferencesSystemCredentialsAccountId;
-  public static String projectPreferencesSystemCredentialsSystemId;
-  public static String projectPreferencesSystemCredentialsSystemKey;
-  public static String ruminaqProjectPreferencePageGrpRuminaqText;
-  public static String ruminaqProjectPreferencePageLblNewLabelText;
-  public static String ruminaqProjectPreferencePageLblSystemKeyText;
-  public static String ruminaqProjectPreferencePageLblSystemidText;
-  public static String ruminaqProjectPreferencePageLblAccountIdText;
-  public static String ruminaqProjectPreferencePageLblSystemKeyText1;
-  public static String ruminaqProjectPreferencePageHideSecretKeyCheckbox;
-  public static String ruminaqProjectPreferencePageBtnTestText;
-  public static String ruminaqProjectPreferencePageLblNewLabelText1;
-  public static String ruminaqProjectPreferencePageGrpGeneralText;
-  public static String ruminaqProjectPreferencePageLblVersionText;
-  public static String ruminaqProjectPreferencePageBtnUpdateText;
+  public static String createDiagramWizardProject;
+  public static String createDiagramWizardProjectBrowse;
+  public static String createDiagramWizardContainer;
+  public static String createDiagramWizardContainerBrowse;
+  public static String createDiagramWizardFilename;
+  public static String createDiagramWizardProjectChoose;
+  public static String createDiagramWizardContainerChoose;
+  public static String createDiagramWizardStatusProjectNotSpecified;
+  public static String createDiagramWizardStatusContainerNotSpecified;
+  public static String createDiagramWizardStatusContainerNotExists;
+  public static String createDiagramWizardStatusContainerNotWritale;
+  public static String createDiagramWizardStatusFileNotSpecified;
 
   static {
     NLS.initializeMessages(
