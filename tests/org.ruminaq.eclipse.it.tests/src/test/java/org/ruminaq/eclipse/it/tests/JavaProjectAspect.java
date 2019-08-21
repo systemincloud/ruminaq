@@ -35,7 +35,7 @@ public class JavaProjectAspect {
    * Test failure of creating output location.
    *
    */
-  @Around("setOutputLocation(IPath, IProgressMonitor) && args(arg0, arg1)")
+  @Around("setOutputLocation(arg0, arg1)")
   public Object around(ProceedingJoinPoint point, IPath arg0,
       IProgressMonitor arg1) throws Throwable {
     String failingProjectName = System

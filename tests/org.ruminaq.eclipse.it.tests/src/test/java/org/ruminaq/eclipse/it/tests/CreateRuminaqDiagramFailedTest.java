@@ -48,7 +48,7 @@ public class CreateRuminaqDiagramFailedTest {
   private static final int SUFFIX_LENGTH = 5;
 
   @Test
-  public final void testCreateProjectFailed() {
+  public final void testCreateDiagramFailed() {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(SUFFIX_LENGTH);
 

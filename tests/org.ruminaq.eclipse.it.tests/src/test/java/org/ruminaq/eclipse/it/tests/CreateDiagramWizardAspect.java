@@ -28,17 +28,17 @@ public class CreateDiagramWizardAspect {
    *
    */
   @Pointcut("call(* org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard.openEditor(..)) "
-      + "&& args(arg0, arg1, arg2)")
-  public void openEditor(IWorkbenchPage arg0, IFile arg1, boolean arg2) {
+      + "&& args(arg0, arg1)")
+  public void openEditor(IWorkbenchPage arg0, IFile arg1) {
   }
 
   /**
    * Test failure of opening editor.
    *
    */
-  @Around("openEditor(IPath, IProgressMonitor) && args(arg0, arg1, arg2)")
+  @Around("openEditor(arg0, arg1)")
   public Object around(ProceedingJoinPoint point, IWorkbenchPage arg0,
-      IFile arg1, boolean arg2) throws Throwable {
+      IFile arg1) throws Throwable {
     Optional<String> failingFileName = Optional
         .ofNullable(System.getProperty(FAIL_OPEN_EDITOR_FILE_NAME));
 
@@ -47,7 +47,7 @@ public class CreateDiagramWizardAspect {
       throw new PartInitException(new Status(IStatus.ERROR,
           PlatformUtil.getBundleSymbolicName(getClass()), "Failed"));
     } else {
-      return point.proceed(new Object[] { arg0, arg1, arg2 });
+      return point.proceed(new Object[] { arg0, arg1 });
     }
   }
 }
