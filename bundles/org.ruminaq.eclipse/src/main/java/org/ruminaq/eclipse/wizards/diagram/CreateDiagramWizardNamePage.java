@@ -48,7 +48,7 @@ import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.util.ImageUtil;
 
 /**
- * Create new Diagram page
+ * Create new Diagram page.
  *
  * @author Marek Jagielski
  */
