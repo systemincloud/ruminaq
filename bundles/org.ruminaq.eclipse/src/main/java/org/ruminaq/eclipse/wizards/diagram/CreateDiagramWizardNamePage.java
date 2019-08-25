@@ -216,9 +216,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
       public boolean select(Viewer arg0, Object parent, Object element) {
         if (element instanceof IProject) {
           return true;
-        }
-
-        if (element instanceof IFolder) {
+        } else if (element instanceof IFolder) {
           IPath dirs = ((IFolder) element).getProjectRelativePath();
           IPath mainPath = new Path(SourceFolders.MAIN_RESOURCES);
           for (int i = 1; i < mainPath.segmentCount(); i++) {
@@ -236,8 +234,9 @@ public class CreateDiagramWizardNamePage extends WizardPage {
             }
           }
           return dirs.matchingFirstSegments(testPath) == 3;
+        } else {
+          return false;
         }
-        return false;
       }
     });
     fileDialog.open();
