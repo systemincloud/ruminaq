@@ -2,7 +2,7 @@ package org.ruminaq.launch.ui;
 
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.core.resources.IFile;
-import org.ruminaq.eclipse.util.ConstantsUtil;
+import org.ruminaq.eclipse.ConstantsUtil;
 
 public class InTestDirectoryPropertyTester extends PropertyTester {
 

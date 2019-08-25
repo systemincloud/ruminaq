@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.ruminaq.eclipse.util.ConstantsUtil;
+import org.ruminaq.eclipse.ConstantsUtil;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.util.ModelUtil;
 

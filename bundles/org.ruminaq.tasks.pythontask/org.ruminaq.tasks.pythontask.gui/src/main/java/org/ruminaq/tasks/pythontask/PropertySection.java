@@ -30,7 +30,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.python.pydev.shared_ui.EditorUtils;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.eclipse.util.ConstantsUtil;
+import org.ruminaq.eclipse.ConstantsUtil;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.pythontask.features.UpdateFeature;

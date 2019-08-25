@@ -40,7 +40,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.wizards.IWizardDescriptor;
-import org.ruminaq.eclipse.util.ConstantsUtil;
+import org.ruminaq.eclipse.ConstantsUtil;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;

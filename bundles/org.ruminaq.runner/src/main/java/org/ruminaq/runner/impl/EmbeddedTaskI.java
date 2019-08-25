@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.mm.MmPackage;
-import org.ruminaq.eclipse.util.ConstantsUtil;
+import org.ruminaq.eclipse.ConstantsUtil;
 import org.ruminaq.model.ruminaq.Connection;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.FlowSource;

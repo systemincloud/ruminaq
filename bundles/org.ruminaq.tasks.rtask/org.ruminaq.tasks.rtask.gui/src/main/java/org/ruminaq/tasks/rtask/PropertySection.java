@@ -46,7 +46,7 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.consts.Constants.SicPlugin;
-import org.ruminaq.eclipse.util.ConstantsUtil;
+import org.ruminaq.eclipse.ConstantsUtil;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.rtask.features.UpdateFeature;

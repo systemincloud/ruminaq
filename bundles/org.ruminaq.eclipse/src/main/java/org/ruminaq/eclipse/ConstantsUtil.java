@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.eclipse.util;
+package org.ruminaq.eclipse;
 
 import java.io.File;
 

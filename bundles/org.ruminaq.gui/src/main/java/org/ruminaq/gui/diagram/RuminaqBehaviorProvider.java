@@ -29,7 +29,7 @@ import org.eclipse.graphiti.tb.IContextButtonPadData;
 import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IDecorator;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.eclipse.util.ConstantsUtil;
+import org.ruminaq.eclipse.ConstantsUtil;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
 import org.ruminaq.gui.api.ContextMenuEntryExtension;
 import org.ruminaq.gui.api.DecoratorExtension;
