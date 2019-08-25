@@ -89,7 +89,6 @@ Export-Package:
  org.ruminaq.eclipse.editor,
  org.ruminaq.eclipse.navigator,
  org.ruminaq.eclipse.prefs,
- org.ruminaq.eclipse.util,
  org.ruminaq.eclipse.wizards.diagram,
  org.ruminaq.eclipse.wizards.project,
  swing2swt.layout
