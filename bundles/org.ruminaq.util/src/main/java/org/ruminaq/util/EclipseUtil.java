@@ -9,6 +9,7 @@ package org.ruminaq.util;
 import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IFile;
@@ -26,6 +27,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.layout.PixelConverter;
 import org.eclipse.jface.resource.JFaceResources;
@@ -207,5 +211,23 @@ public final class EclipseUtil {
     if (directory.exists()) {
       directory.delete(true, new NullProgressMonitor());
     }
+  }
+
+  public static Optional<IProject> getProjectFromSelection(Object obj) {
+    String projectName = null;
+    if (obj instanceof IProject) {
+      projectName = ((IProject) obj).getName();
+    } else if (obj instanceof IJavaProject) {
+      projectName = ((IJavaProject) obj).getElementName();
+    } else if (obj instanceof IResource) {
+      projectName = ((IResource) obj).getProject().getName();
+    } else if (obj instanceof IPackageFragment) {
+      projectName = ((IPackageFragment) obj).getJavaProject().getElementName();
+    } else if (obj instanceof IPackageFragmentRoot) {
+      projectName = ((IPackageFragmentRoot) obj).getJavaProject()
+          .getElementName();
+    }
+    return Optional.ofNullable(projectName)
+        .map(pn -> ResourcesPlugin.getWorkspace().getRoot().getProject(pn));
   }
 }

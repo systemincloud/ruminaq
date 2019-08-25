@@ -55,6 +55,9 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
     setWindowTitle(Messages.createDiagramWizardTitle);
   }
 
+  /**
+   * Add main page to wizard.
+   */
   @Override
   public void addPages() {
     addPage(new CreateDiagramWizardNamePage(selection));

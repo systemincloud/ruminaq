@@ -12,6 +12,7 @@ import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 
 /**
+ * Create new Test Diagram page.
  *
  * @author Marek Jagielski
  */

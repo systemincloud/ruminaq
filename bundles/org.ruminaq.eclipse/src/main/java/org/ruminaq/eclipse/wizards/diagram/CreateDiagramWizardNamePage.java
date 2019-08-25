@@ -13,7 +13,6 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.eclipse.core.internal.resources.Folder;
-import org.eclipse.core.internal.resources.Project;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -21,9 +20,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.core.PackageFragment;
-import org.eclipse.jdt.internal.core.PackageFragmentRoot;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
@@ -45,6 +42,7 @@ import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Image;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.ImageUtil;
 
 /**
@@ -98,23 +96,6 @@ public class CreateDiagramWizardNamePage extends WizardPage {
         .map(IStructuredSelection::getFirstElement).orElse(null);
   }
 
-  static Optional<IProject> getProjectFromSelection(Object obj) {
-    String projectName = null;
-    if (obj instanceof Project) {
-      projectName = ((Project) obj).getName();
-    } else if (obj instanceof IJavaProject) {
-      projectName = ((IJavaProject) obj).getElementName();
-    } else if (obj instanceof IResource) {
-      projectName = ((IResource) obj).getProject().getName();
-    } else if (obj instanceof PackageFragment) {
-      projectName = ((PackageFragment) obj).getJavaProject().getElementName();
-    } else if (obj instanceof PackageFragmentRoot) {
-      projectName = ((PackageFragmentRoot) obj).getJavaProject()
-          .getElementName();
-    }
-    return Optional.ofNullable(projectName)
-        .map(pn -> ResourcesPlugin.getWorkspace().getRoot().getProject(pn));
-  }
 
   private void initLayout(Composite parent) {
     composite = new Composite(parent, SWT.NULL);
@@ -143,7 +124,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     btnContainer.setText(Messages.createDiagramWizardContainerBrowse);
     lblFile.setText(Messages.createDiagramWizardFilename);
 
-    Optional<IProject> project = getProjectFromSelection(selectedObject);
+    Optional<IProject> project = EclipseUtil.getProjectFromSelection(selectedObject);
 
     txtProject.setText(project.map(IProject::getName).orElse(""));
 
@@ -254,10 +235,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
               return true;
             }
           }
-          if (dirs.matchingFirstSegments(testPath) == 3) {
-            return true;
-          }
-          return false;
+          return dirs.matchingFirstSegments(testPath) == 3;
         }
         return false;
       }
