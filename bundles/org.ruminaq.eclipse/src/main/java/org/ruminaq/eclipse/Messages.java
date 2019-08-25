@@ -45,6 +45,9 @@ public final class Messages extends NLS {
   public static String createDiagramWizardStatusContainerNotExists;
   public static String createDiagramWizardStatusContainerNotWritale;
   public static String createDiagramWizardStatusFileNotSpecified;
+  public static String createDiagramWizardStatusFileNotValid;
+  public static String createDiagramWizardStatusFileExtensionNotValid;
+  public static String createDiagramWizardStatusFileExists;
 
   static {
     NLS.initializeMessages(

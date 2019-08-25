@@ -26,6 +26,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -96,7 +97,6 @@ public class CreateDiagramWizardNamePage extends WizardPage {
         .map(IStructuredSelection::getFirstElement).orElse(null);
   }
 
-
   private void initLayout(Composite parent) {
     composite = new Composite(parent, SWT.NULL);
     composite.setLayout(new GridLayout(3, false));
@@ -124,7 +124,8 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     btnContainer.setText(Messages.createDiagramWizardContainerBrowse);
     lblFile.setText(Messages.createDiagramWizardFilename);
 
-    Optional<IProject> project = EclipseUtil.getProjectFromSelection(selectedObject);
+    Optional<IProject> project = EclipseUtil
+        .getProjectFromSelection(selectedObject);
 
     txtProject.setText(project.map(IProject::getName).orElse(""));
 
@@ -274,11 +275,13 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     } else if (getFileName().length() == 0) {
       updateStatus(Messages.createDiagramWizardStatusFileNotSpecified);
     } else if (getFileName().replace('\\', '/').indexOf('/', 1) > 0) {
-      updateStatus("File name must be valid");
+      updateStatus(Messages.createDiagramWizardStatusFileNotValid);
     } else if (!getFileName().endsWith("." + getExtension())) {
-      updateStatus("File extension must be \"" + getExtension() + "\"");
+      updateStatus(
+          NLS.bind(Messages.createDiagramWizardStatusFileExtensionNotValid,
+              getExtension()));
     } else if (((IContainer) container).findMember(getFileName()) != null) {
-      updateStatus("File \"" + getFileName() + "\"already exists");
+      updateStatus(Messages.createDiagramWizardStatusFileExists);
     } else {
       updateStatus(null);
     }
