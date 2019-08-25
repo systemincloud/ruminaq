@@ -30,8 +30,11 @@ Import-Package: org.eclipse.core.expressions,
  org.eclipse.ui.plugin,
  org.osgi.framework,
  org.ruminaq.consts,
- org.ruminaq.eclipse.util,
+ org.ruminaq.eclipse,
  org.ruminaq.launch,
  org.ruminaq.util
-Export-Package: org.ruminaq.launch.ui
+Export-Package: com.systemincloud.modeler.launch.ui,
+ org.eclipse.wb.swt,
+ org.ruminaq.launch.ui,
+ org.ruminaq.launch.ui.actions
 Bundle-RequiredExecutionEnvironment: JavaSE-11
