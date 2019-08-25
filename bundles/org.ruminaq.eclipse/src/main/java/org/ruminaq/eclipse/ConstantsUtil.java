@@ -14,7 +14,6 @@ import org.eclipse.osgi.framework.util.FilePath;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 
-@SuppressWarnings("restriction")
 public class ConstantsUtil {
 
   public static boolean isInTestDirectory(IFile file) {
@@ -25,10 +24,7 @@ public class ConstantsUtil {
       sb.append(segments[i]).append("/");
     sb.deleteCharAt(sb.length() - 1);
     folder = sb.toString();
-    if (folder.startsWith(SourceFolders.TEST_DIAGRAM_FOLDER))
-      return true;
-    else
-      return false;
+    return folder.startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
   }
 
   public static boolean isInTestDirectory(URI uri) {
@@ -40,10 +36,7 @@ public class ConstantsUtil {
       sb.append(segments[i]).append("/");
     sb.deleteCharAt(sb.length() - 1);
     folder = sb.toString();
-    if (folder.startsWith(SourceFolders.TEST_DIAGRAM_FOLDER))
-      return true;
-    else
-      return false;
+    return folder.startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
   }
 
   public static boolean isInTestDirectory(URI uri, String basePath) {
@@ -58,31 +51,21 @@ public class ConstantsUtil {
     if (folder.contains(":"))
       folder = folder.substring(folder.indexOf(":") + 1);
     folder = folder.replace(File.separator, "/");
-    if (folder.startsWith(SourceFolders.TEST_DIAGRAM_FOLDER))
-      return true;
-    else
-      return false;
+    return folder.startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
   }
 
   public static boolean isTest(URI uri) {
-    if (Constants.EXTENSION.equals(uri.fileExtension())
-        && isInTestDirectory(uri))
-      return true;
-    else
-      return false;
+    return Constants.EXTENSION.equals(uri.fileExtension())
+        && isInTestDirectory(uri);
   }
 
   public static boolean isTest(IFile file) {
-    if (Constants.EXTENSION.equals(file.getFileExtension())
-        && isInTestDirectory(file))
-      return true;
-    return false;
+    return Constants.EXTENSION.equals(file.getFileExtension())
+        && isInTestDirectory(file);
   }
 
   public static boolean isTest(URI uri, String basePath) {
-    if (Constants.EXTENSION.equals(uri.fileExtension())
-        && isInTestDirectory(uri, basePath))
-      return true;
-    return false;
+    return Constants.EXTENSION.equals(uri.fileExtension())
+        && isInTestDirectory(uri, basePath);
   }
 }
