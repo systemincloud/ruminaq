@@ -102,8 +102,10 @@ public class CreateRuminaqProjectTest {
     Assert.assertTrue("Workspace nature should change to Ruminaq",
         project.hasNature(RuminaqProjectNature.ID));
 
+    var propertyFile = project.getFile(CreateProjectWizard.PROPERTIES_FILE);
+    System.out.println(propertyFile);
     Assert.assertTrue("Property file created",
-        project.getFile(CreateProjectWizard.PROPERTIES_FILE).exists());
+        propertyFile.exists());
 
     var pom = new Path(PomFile.POM_FILE_PATH);
     Assert.assertTrue("Pom file created", project.exists(pom));
