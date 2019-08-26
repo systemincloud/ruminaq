@@ -189,6 +189,9 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
       IFile outputFile = project.getFile(PROPERTIES_FILE);
       outputFile.create(new ByteArrayInputStream(
           ((ByteArrayOutputStream) output).toByteArray()), true, null);
+      if (!outputFile.exists()) {
+        throw new IOException("Property file not created");
+      }
     } catch (IOException | CoreException e) {
       throw new RuminaqException(
           Messages.createProjectWizardFailedPropertiesFile, e);
