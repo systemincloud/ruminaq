@@ -28,6 +28,7 @@ Import-Package:
  org.eclipse.gef.commands,
  org.eclipse.gef.editparts,
  org.eclipse.gef.ui.palette,
+ org.eclipse.gef.ui.parts,
  org.eclipse.graphiti.features,
  org.eclipse.graphiti.features.context.impl,
  org.eclipse.graphiti.mm.pictograms,
