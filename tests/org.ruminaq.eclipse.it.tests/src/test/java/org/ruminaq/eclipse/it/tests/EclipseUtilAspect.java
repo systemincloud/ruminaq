@@ -21,11 +21,10 @@ public class EclipseUtilAspect {
   public static final String FAIL_CREATE_SOURCE_FOLDERS_PROJECT_NAME = "failCreateSourceFolders";
 
   /**
-   * Pointcut on setOutputLocation.
+   * Pointcut on createFolderWithParents.
    *
    */
-  @Pointcut("call(* org.ruminaq.util.EclipseUtil.createFolderWithParents(..)) "
-      + "&& args(project, path)")
+  @Pointcut("call(* org.ruminaq.util.EclipseUtil.createFolderWithParents(..)) && args(project, path)")
   public void createFolderWithParents(IProject project, String path) {
   }
 
@@ -34,17 +33,16 @@ public class EclipseUtilAspect {
    *
    */
   @Around("createFolderWithParents(project, path)")
-  public Object around(ProceedingJoinPoint point, IProject project, String path)
+  public void around(ProceedingJoinPoint point, IProject project, String path)
       throws Throwable {
     String failingProjectName = System
         .getProperty(FAIL_CREATE_SOURCE_FOLDERS_PROJECT_NAME);
 
-    if (project.getName()
-        .equals(failingProjectName)) {
+    if (project.getName().equals(failingProjectName)) {
       throw new CoreException(new Status(IStatus.ERROR,
           PlatformUtil.getBundleSymbolicName(getClass()), "Failed"));
     } else {
-      return point.proceed(new Object[] { project, path });
+      point.proceed(new Object[] { project, path });
     }
   }
 }
