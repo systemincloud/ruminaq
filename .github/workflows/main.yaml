@@ -1,12 +1,14 @@
 name: Ruminaq CI
 
-on: [push]
-
+on:
+  push:
+    branches:    
+      - master
+      
 jobs:
   build:
 
     runs-on: ubuntu-latest
-
 
     steps:
     - name: Checkout
@@ -42,6 +44,11 @@ jobs:
       uses: jakejarvis/wait-action@master
       with:
         time: '60s'
+        
+    - name: Build plugins
+      run: sudo ./mvnw install --toolchains=.github/toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar
+      
+      
 #      env:
 #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
