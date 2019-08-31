@@ -14,9 +14,11 @@ import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
@@ -90,6 +92,7 @@ public class CreateRuminaqProjectTest {
         perspective.getId());
 
     IProject project = workspace.getRoot().getProject(projectName);
+    project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 
     Arrays
         .asList(SourceFolders.MAIN_RESOURCES, SourceFolders.TEST_RESOURCES,
@@ -103,7 +106,7 @@ public class CreateRuminaqProjectTest {
         project.hasNature(RuminaqProjectNature.ID));
 
     var propertyFile = project.getFile(CreateProjectWizard.PROPERTIES_FILE);
-    System.out.println(propertyFile);
+
     Assert.assertTrue("Property file created",
         propertyFile.exists());
 
