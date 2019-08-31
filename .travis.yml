@@ -46,7 +46,7 @@ script:
   - ./mvnw p2:site --toolchains=.travis-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
   - ./mvnw jetty:run --toolchains=.travis-toolchains.xml -P init -pl releng/org.ruminaq.p2repo &
   - sleep 60
-  - sudo ./mvnw install --toolchains=.travis-toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar
+  - sudo ./mvnw install -T 2C --toolchains=.travis-toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar
 
 cache:
   directories:
