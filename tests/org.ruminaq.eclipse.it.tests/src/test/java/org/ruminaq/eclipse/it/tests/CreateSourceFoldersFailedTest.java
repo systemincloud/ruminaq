@@ -9,7 +9,9 @@ package org.ruminaq.eclipse.it.tests;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,11 +55,11 @@ public class CreateSourceFoldersFailedTest {
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
-//    SWTBotShell failureWindow = bot.shell("Ruminaq failure");
-//    failureWindow.activate();
-//
-//    Assert.assertNotNull("Could not create source folders", failureWindow);
-//
-//    bot.button("OK").click();
+    SWTBotShell failureWindow = bot.shell("Ruminaq failure");
+    failureWindow.activate();
+
+    Assert.assertNotNull("Could not create source folders", failureWindow);
+
+    bot.button("OK").click();
   }
 }

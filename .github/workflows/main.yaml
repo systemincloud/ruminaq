@@ -1,0 +1,47 @@
+name: Ruminaq CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    
+    - name: Set up JDK 1.11
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.11
+        
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.x' 
+        architecture: 'x64'
+        
+    - name: Build tools
+      run: ./mvnw install -pl libs/org.ruminaq.tools
+      
+    - name: Build javatask
+      run: ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
+      
+    - name: Build p2repo project
+      run: ./mvnw install --toolchains=.github/toolchains.xml -P init -pl releng/org.ruminaq.p2repo
+      
+    - name: Build p2repo site
+      run: ./mvnw p2:site --toolchains=.github/toolchains.xml -P init -pl releng/org.ruminaq.p2repo
+      
+    - name: Run p2repo site
+      run: ./mvnw jetty:run --toolchains=.github/toolchains.xml -P init -pl releng/org.ruminaq.p2repo &
+      
+    - name: Sleep for 60 seconds
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '60s'
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

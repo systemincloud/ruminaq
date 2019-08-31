@@ -5,6 +5,10 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.ruminaq.util.PlatformUtil;
 
 /**
  * Intercept EclipseUtil.
@@ -20,8 +24,8 @@ public class EclipseUtilAspect {
    * Pointcut on createFolderWithParents.
    *
    */
-  @Pointcut("call(* org.eclipse.core.resources.IProject.getFolder(String)) && args(name)")
-  public void createFolderWithParents(String name) {
+  @Pointcut("call(* org.ruminaq.util.EclipseUtil.createFolderWithParents(..)) && args(project, path)")
+  public void createFolderWithParents(IProject project, String path) {
   }
 
   /**
@@ -31,14 +35,14 @@ public class EclipseUtilAspect {
   @Around("createFolderWithParents(project, path)")
   public void around(ProceedingJoinPoint point, IProject project, String path)
       throws Throwable {
-//    String failingProjectName = System
-//        .getProperty(FAIL_CREATE_SOURCE_FOLDERS_PROJECT_NAME);
-//
-//    if (project.getName().equals(failingProjectName)) {
-//      throw new CoreException(new Status(IStatus.ERROR,
-//          PlatformUtil.getBundleSymbolicName(getClass()), "Failed"));
-//    } else {
+    String failingProjectName = System
+        .getProperty(FAIL_CREATE_SOURCE_FOLDERS_PROJECT_NAME);
+
+    if (project.getName().equals(failingProjectName)) {
+      throw new CoreException(new Status(IStatus.ERROR,
+          PlatformUtil.getBundleSymbolicName(getClass()), "Failed"));
+    } else {
       point.proceed(new Object[] { project, path });
-//    }
+    }
   }
 }
