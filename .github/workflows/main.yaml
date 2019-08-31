@@ -30,13 +30,7 @@ jobs:
       
     - name: Build javatask
       run: ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
-      
-    - name: Build javatask
-      run: java -version
-      
-    - name: Build javatask
-      run: whereis java
-      
+            
     - name: Build p2repo project
       run: ./mvnw install --toolchains=.github/toolchains.xml -P init -pl releng/org.ruminaq.p2repo
       
