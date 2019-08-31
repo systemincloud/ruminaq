@@ -57,8 +57,8 @@
         <repository location="http://www.pydev.org/updates/"/>
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-        <unit id="de.walware.statet.r.feature.group" version="0.0.0"/>
-        <repository location="http://download.walware.de/eclipse-4.6"/>
+        <unit id="org.eclipse.statet.r.feature.group" version="0.0.0"/>
+        <repository location="https://download.eclipse.org/statet/releases/4.0.1/E201812"/>
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
         <unit id="org.codehaus.groovy.eclipse.feature.feature.group" version="0.0.0"/>

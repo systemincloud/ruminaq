@@ -25,6 +25,10 @@ jobs:
         python-version: '3.x' 
         architecture: 'x64'
         
+    - name: Install packages
+      run: |
+        sudo apt-get update -qq
+        
     - name: Build tools
       run: ./mvnw install -pl libs/org.ruminaq.tools
       
