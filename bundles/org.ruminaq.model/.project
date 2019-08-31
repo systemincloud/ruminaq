@@ -35,6 +35,11 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.statet.r.resourceProjects.RBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
@@ -42,5 +47,7 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+		<nature>org.eclipse.statet.ide.resourceProjects.Statet</nature>
+		<nature>org.eclipse.statet.r.resourceProjects.R</nature>
 	</natures>
 </projectDescription>

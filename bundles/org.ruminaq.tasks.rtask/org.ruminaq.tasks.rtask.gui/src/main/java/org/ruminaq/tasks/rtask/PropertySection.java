@@ -25,6 +25,21 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.statet.ltk.ast.core.AstNode;
+import org.eclipse.statet.ltk.core.LTK;
+import org.eclipse.statet.ltk.model.core.ISourceUnitManager;
+import org.eclipse.statet.r.core.model.IRLangSourceElement;
+import org.eclipse.statet.r.core.model.IRModelInfo;
+import org.eclipse.statet.r.core.model.IRModelManager;
+import org.eclipse.statet.r.core.model.IRWorkspaceSourceUnit;
+import org.eclipse.statet.r.core.model.RElementAccess;
+import org.eclipse.statet.r.core.model.RModel;
+import org.eclipse.statet.r.core.rsource.ast.Assignment;
+import org.eclipse.statet.r.core.rsource.ast.FCall;
+import org.eclipse.statet.r.core.rsource.ast.FCall.Arg;
+import org.eclipse.statet.r.core.rsource.ast.FCall.Args;
+import org.eclipse.statet.r.core.rsource.ast.RAstNode;
+import org.eclipse.statet.r.core.rsource.ast.Symbol;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -54,22 +69,6 @@ import org.ruminaq.tasks.rtask.model.rtask.RTask;
 import org.ruminaq.tasks.rtask.ui.wizards.CreateRTaskListener;
 import org.ruminaq.tasks.rtask.ui.wizards.CreateRTaskWizard;
 import org.ruminaq.util.EclipseUtil;
-
-import de.walware.ecommons.ltk.ISourceUnitManager;
-import de.walware.ecommons.ltk.LTK;
-import de.walware.ecommons.ltk.ast.IAstNode;
-import de.walware.statet.r.core.model.IRLangSourceElement;
-import de.walware.statet.r.core.model.IRModelInfo;
-import de.walware.statet.r.core.model.IRModelManager;
-import de.walware.statet.r.core.model.IRWorkspaceSourceUnit;
-import de.walware.statet.r.core.model.RElementAccess;
-import de.walware.statet.r.core.model.RModel;
-import de.walware.statet.r.core.rsource.ast.Assignment;
-import de.walware.statet.r.core.rsource.ast.FCall;
-import de.walware.statet.r.core.rsource.ast.FCall.Arg;
-import de.walware.statet.r.core.rsource.ast.FCall.Args;
-import de.walware.statet.r.core.rsource.ast.RAstNode;
-import de.walware.statet.r.core.rsource.ast.Symbol;
 
 public class PropertySection implements IPropertySection, CreateRTaskListener {
 
@@ -124,6 +123,7 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
         boolean parse = new UpdateFeature(dtp.getFeatureProvider()).load(txtClassName.getText());
         if(parse) {
             ModelUtil.runModelChange(new Runnable() {
+                @Override
                 public void run() {
                     Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
                     if (bo == null) return;
@@ -142,7 +142,8 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
         txtClassName.addTraverseListener(new TraverseListener() {
             @Override public void keyTraversed(TraverseEvent event) { if(event.detail == SWT.TRAVERSE_RETURN) save(); }
         });
-        btnClassSelect.addSelectionListener(new SelectionAdapter() { public void widgetSelected(SelectionEvent evt) {
+        btnClassSelect.addSelectionListener(new SelectionAdapter() { @Override
+        public void widgetSelected(SelectionEvent evt) {
             Shell shell = txtClassName.getShell();
             final ISourceUnitManager sum = LTK.getSourceUnitManager();
 
@@ -186,9 +187,9 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
                                 IRModelInfo mi = (IRModelInfo) su.getModelInfo(RModel.R_TYPE_ID, IRModelManager.MODEL_FILE, new NullProgressMonitor());
                                 IRLangSourceElement se = mi.getSourceElement();
 
-                                IAstNode node = (IAstNode) se.getAdapter(IAstNode.class);
+                                AstNode node = se.getAdapter(AstNode.class);
                                 for(int i = 0; i < node.getChildCount(); i++) {
-                                    IAstNode el = node.getChild(i);
+                                    AstNode el = node.getChild(i);
                                     if(el instanceof Assignment) {
                                         Assignment a = (Assignment) el;
                                         RAstNode right = a.getRightChild();
@@ -236,6 +237,7 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
                     if (taskPath != null) txtClassName.setText(show);
 
                     ModelUtil.runModelChange(new Runnable() {
+                        @Override
                         public void run() {
                             String implementationPath = txtClassName.getText();
                             if (implementationPath == null) return;
@@ -251,7 +253,8 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
                     }, ed, "Change embedded diagram");
                 }
         }});
-        btnClassNew.addSelectionListener(new SelectionAdapter() { public void widgetSelected(SelectionEvent evt) {
+        btnClassNew.addSelectionListener(new SelectionAdapter() { @Override
+        public void widgetSelected(SelectionEvent evt) {
              IWizardDescriptor descriptor = PlatformUI.getWorkbench().getNewWizardRegistry().findWizard(CreateRTaskWizard.ID);
              try  {
                  if(descriptor != null) {
@@ -259,7 +262,7 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
                     String folder = ConstantsUtil.isTest(EclipseUtil.getModelPathFromEObject(pe)) ? Constants.TEST_R : Constants.MAIN_R;
                     String projectName = EclipseUtil.getProjectNameFromDiagram(dtp.getDiagram());
                     IStructuredSelection selection = new StructuredSelection(ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getFolder(folder));
-                    ((CreateRTaskWizard) wizard).init(PlatformUI.getWorkbench(), selection);
+//                    ((CreateRTaskWizard) wizard).init(PlatformUI.getWorkbench(), selection);
                     ((CreateRTaskWizard) wizard).setListener(PropertySection.this);
                     WizardDialog wd = new WizardDialog(Display.getDefault().getActiveShell(), wizard);
                     wd.setTitle(wizard.getWindowTitle());
@@ -292,6 +295,7 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
     public void created(final String path) {
     	final String p = new Path(path).removeFirstSegments(1).toString();
         ModelUtil.runModelChange(new Runnable() {
+            @Override
             public void run() {
                 Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
                 if (bo == null) return;

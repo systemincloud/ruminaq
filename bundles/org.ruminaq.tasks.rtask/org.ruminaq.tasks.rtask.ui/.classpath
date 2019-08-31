@@ -8,6 +8,7 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins">
 		<accessrules>
 			<accessrule kind="accessible" pattern="org/eclipse/jdt/core/**"/>
+			<accessrule kind="accessible" pattern="org/eclipse/statet/internal/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src/main/java"/>

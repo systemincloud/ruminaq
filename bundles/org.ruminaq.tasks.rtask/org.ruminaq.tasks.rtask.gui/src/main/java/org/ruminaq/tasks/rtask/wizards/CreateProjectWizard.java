@@ -3,7 +3,6 @@ package org.ruminaq.tasks.rtask.wizards;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -14,9 +13,6 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.util.EclipseUtil;
-
-import de.walware.statet.base.core.StatetProject;
-import de.walware.statet.r.core.RProjects;
 
 public class CreateProjectWizard {
 
@@ -39,10 +35,10 @@ public class CreateProjectWizard {
 
   private void setNatureIds(IProject newProject) throws CoreException {
     IProjectDescription description = newProject.getDescription();
-    String[] ns = ArrayUtils.add(description.getNatureIds(),
-        StatetProject.NATURE_ID);
-    ns = ArrayUtils.add(ns, RProjects.R_NATURE_ID);
-    description.setNatureIds(ns);
+//    String[] ns = ArrayUtils.add(description.getNatureIds(),
+//        StatetProject.NATURE_ID);
+//    ns = ArrayUtils.add(ns, RProjects.R_NATURE_ID);
+//    description.setNatureIds(ns);
     newProject.setDescription(description, null);
   }
 
