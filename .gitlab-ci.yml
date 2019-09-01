@@ -7,10 +7,15 @@ cache:
 
 stages:
   - build tools
+  - build javatask client
 
 
-build:
+build tools:
   stage: build tools
   script:
     - ./mvnw install -pl libs/org.ruminaq.tools
-
+    
+build javatask client:
+  stage: build javatask client
+  script:
+    - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
