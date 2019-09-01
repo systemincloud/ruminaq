@@ -29,7 +29,7 @@
                   </path>
                   <sequential>
                     <local name="name" />
-                    <exec executable="mvn">
+                    <exec executable="mvnw">
                       <arg value="install:install-file" />
                       <arg value="-Dfile=@{file}" />
                       <arg value="-Dpackaging=jar" />
