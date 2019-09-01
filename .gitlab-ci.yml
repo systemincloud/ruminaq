@@ -2,10 +2,10 @@ image: openjdk:11
 
 cache:
   paths:
-    - /root/.m2/repository/
+    - .m2/repository/
     
 variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=/root/.m2/repository/"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository/"
 
 stages:
   - build tools
