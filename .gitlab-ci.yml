@@ -26,7 +26,7 @@ build javatask client:
 build plugins:
   stage: build plugins
   script:
-    - ./mvnw install -Dmaven.repo.local=../../.m2/repository/ --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
+    - MAVEN_OPTS=-Dmaven.repo.local=../../.m2/repository/ ./mvnw install --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
     - ./mvnw p2:site --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
     - ./mvnw jetty:run --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo &
     - sleep 60
