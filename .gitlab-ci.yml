@@ -18,6 +18,11 @@ build tools:
   script:
     - ./mvnw install -pl libs/org.ruminaq.tools
     
+build javatask client:
+  stage: build javatask client
+  script:
+    - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
+    
 build plugins:
   stage: build plugins
   script:
