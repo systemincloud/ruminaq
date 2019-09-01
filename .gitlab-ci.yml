@@ -5,7 +5,7 @@ cache:
     - .m2/repository/
     
 variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository/"
 
 stages:
   - build tools
