@@ -6,6 +6,7 @@ cache:
     
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository/"
+  DOCKER_HOST: tcp://localhost:2375
 
 stages:
   - build tools
@@ -25,6 +26,10 @@ build javatask client:
 
 build plugins:
   stage: build plugins
+  variables:
+    DOCKER_DRIVER: overlay
+  services:
+    - docker:dind
   script:
     - MAVEN_OPTS=-Dmaven.repo.local=../../.m2/repository/ ./mvnw install --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
     - ./mvnw p2:site --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
