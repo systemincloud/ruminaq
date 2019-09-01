@@ -2,7 +2,7 @@ image: openjdk:11
 
 cache:
   paths:
-    - .m2/repository/
+    - ~/.m2/repository/
 
 stages:
   - build tools
