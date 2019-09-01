@@ -9,6 +9,7 @@ variables:
   DOCKER_HOST: tcp://localhost:2375
 
 before_script:
+   - apt-get update -qq
    - apt-get install -qq xcftools
 
 stages:
