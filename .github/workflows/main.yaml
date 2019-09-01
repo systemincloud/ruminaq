@@ -39,6 +39,9 @@ jobs:
         sudo apt-get install texlive-fonts-extra
         sudo apt-get install texlive-latex-extra
         sudo apt install r-base
+   
+    - name: Mvn version
+      run: ./mvnw -version
         
     - name: Build tools
       run: ./mvnw install -pl libs/org.ruminaq.tools
