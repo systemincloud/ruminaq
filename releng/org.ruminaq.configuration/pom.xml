@@ -418,6 +418,7 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <configuration>
           <linkXRef>false</linkXRef>
+          <targetJdk>11</targetJdk>
         </configuration>
       </plugin>
       <plugin>
