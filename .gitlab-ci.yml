@@ -52,6 +52,7 @@ build plugins:
     - apt install r-base
     - wget "https://cran.r-project.org/src/contrib/R6_2.4.0.tar.gz"
     - R CMD INSTALL R6_2.4.0.tar.gz
+    - metacity --sm-disable --replace 2> metacity.err &
   script:
     - MAVEN_OPTS=-Dmaven.repo.local=../../.m2/repository/ ./mvnw install --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
     - ./mvnw p2:site --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
