@@ -11,6 +11,7 @@ variables:
 stages:
   - build tools
   - build javatask client
+  - build thrift
   - build plugins
 
 
@@ -24,13 +25,18 @@ build javatask client:
   script:
     - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
 
-build plugins:
-  stage: build plugins
+build thrift:
+  stage: build thrift
   image: docker:latest
   variables:
     DOCKER_DRIVER: overlay
   services:
     - docker:dind
+  script:
+   - ./mvnw --toolchains=.gitlab-toolchains.xml generate-sources -P init -pl bundles/org.ruminaq.runner.thrift
+
+build plugins:
+  stage: build plugins
   before_script:
     - apt-get update -qq
     - apt-get install -qq xcftools
