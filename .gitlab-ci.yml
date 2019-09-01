@@ -8,20 +8,6 @@ variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository/"
   DOCKER_HOST: tcp://localhost:2375
 
-before_script:
-   - apt-get update -qq
-   - apt-get install -qq xcftools
-   - apt-get install -qq metacity
-   - apt-get install at-spi2-core
-   - apt-get -y install python3-pip python-dev
-   - pip3 install -U setuptools
-   - pip3 install -U virtualenvwrapper
-   - apt-get install texlive-latex-base
-   - apt-get install texlive-fonts-recommended
-   - apt-get install texlive-fonts-extra
-   - apt-get install texlive-latex-extra
-   - apt install r-base
-
 stages:
   - build tools
   - build javatask client
@@ -45,6 +31,21 @@ build plugins:
     DOCKER_DRIVER: overlay
   services:
     - docker:dind
+  before_script:
+    - apt-get update -qq
+    - apt-get install -qq xcftools
+    - apt-get install -qq metacity
+    - apt-get install at-spi2-core
+    - apt-get -y install python3-pip python-dev
+    - pip3 install -U setuptools
+    - pip3 install -U virtualenvwrapper
+    - apt-get install texlive-latex-base
+    - apt-get install texlive-fonts-recommended
+    - apt-get install texlive-fonts-extra
+    - apt-get install texlive-latex-extra
+    - apt install r-base
+    - wget "https://cran.r-project.org/src/contrib/R6_2.4.0.tar.gz"
+    - R CMD INSTALL R6_2.4.0.tar.gz
   script:
     - MAVEN_OPTS=-Dmaven.repo.local=../../.m2/repository/ ./mvnw install --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
     - ./mvnw p2:site --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
