@@ -25,7 +25,7 @@
                 <taskdef resource="net/sf/antcontrib/antlib.xml" />
                 <for param="file">
                   <path>
-                    <fileset dir="../../lib" includes="*.jar" />
+                    <fileset dir="lib" includes="*.jar" />
                   </path>
                   <sequential>
                     <local name="name" />
