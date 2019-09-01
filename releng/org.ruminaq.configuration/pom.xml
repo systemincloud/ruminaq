@@ -20,6 +20,9 @@
   </distributionManagement>
 
   <properties>
+    <java.version>11</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
     <tycho.version>1.4.0</tycho.version>
     <aspectj.version>1.9.4</aspectj.version>
     <jaccoco.version>0.8.2</jaccoco.version>
@@ -208,7 +211,7 @@
         <configuration>
           <toolchains>
             <jdk>
-              <version>11</version>
+              <version>${java.version}</version>
             </jdk>
           </toolchains>
         </configuration>
@@ -217,9 +220,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <release>11</release>
-          <source>11</source>
-          <target>11</target>
+          <release>${java.version}</release>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
         </configuration>
       </plugin>
       <plugin>
@@ -246,9 +249,9 @@
           <!-- -warn:+discouraged,forbidden -->
           <useProjectSettings>false</useProjectSettings>
           <!--<encoding>UTF-8</encoding> -->
-          <release>11</release>
-          <source>11</source>
-          <target>11</target>
+          <release>${java.version}</release>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
         </configuration>
       </plugin>
       <plugin>
@@ -418,7 +421,7 @@
         <artifactId>maven-pmd-plugin</artifactId>
         <configuration>
           <linkXRef>false</linkXRef>
-          <targetJdk>11</targetJdk>
+          <targetJdk>${java.version}</targetJdk>
         </configuration>
       </plugin>
       <plugin>
