@@ -30,7 +30,7 @@ build plugins:
     - ./mvnw p2:site --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
     - ./mvnw jetty:run --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo &
     - sleep 60
-    - sudo ./mvnw install --toolchains=.gitlab-toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar
+    - ./mvnw install --toolchains=.gitlab-toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar
     
     
     
