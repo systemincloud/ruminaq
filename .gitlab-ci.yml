@@ -1,0 +1,16 @@
+image: openjdk:11
+
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
+stages:
+  - build tools
+
+
+build:
+  stage: build tools
+  script:
+    - ./mvnw install -pl libs/org.ruminaq.tools
+
