@@ -36,11 +36,11 @@ build plugins:
     - apt-get -y install python3-pip python-dev
     - pip3 install -U setuptools
     - pip3 install -U virtualenvwrapper
-    - apt-get install texlive-latex-base
-    - apt-get install texlive-fonts-recommended
-    - apt-get install texlive-fonts-extra
-    - apt-get install texlive-latex-extra
-    - apt install r-base
+    - apt-get install -qqtexlive-latex-base
+    - apt-get install -qq texlive-fonts-recommended
+    - apt-get install -qq texlive-fonts-extra
+    - apt-get install -qq texlive-latex-extra
+    - apt-get install -qq r-base
     - wget "https://cran.r-project.org/src/contrib/R6_2.4.0.tar.gz"
     - R CMD INSTALL R6_2.4.0.tar.gz
     - metacity --sm-disable --replace 2> metacity.err &
