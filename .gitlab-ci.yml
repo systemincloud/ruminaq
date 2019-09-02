@@ -25,16 +25,6 @@ build javatask client:
   script:
     - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
 
-build thrift:
-  stage: build thrift
-  image: docker:latest
-  variables:
-    DOCKER_DRIVER: overlay
-  services:
-    - docker:dind
-  script:
-   - ./mvnw --toolchains=.gitlab-toolchains.xml generate-sources -P init -pl bundles/org.ruminaq.runner.thrift
-
 build plugins:
   stage: build plugins
   before_script:
@@ -53,6 +43,8 @@ build plugins:
     - wget "https://cran.r-project.org/src/contrib/R6_2.4.0.tar.gz"
     - R CMD INSTALL R6_2.4.0.tar.gz
     - metacity --sm-disable --replace 2> metacity.err &
+  services:
+    - docker:dind
   script:
     - MAVEN_OPTS=-Dmaven.repo.local=../../.m2/repository/ ./mvnw install --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
     - ./mvnw p2:site --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo

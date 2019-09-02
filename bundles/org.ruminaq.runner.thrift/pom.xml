@@ -21,7 +21,7 @@
             <artifactId>maven-antrun-plugin</artifactId>
             <executions>
               <execution>
-            <?m2e ignore?>
+                <?m2e ignore?>
                 <id>generate-sources</id>
                 <phase>generate-sources</phase>
                 <configuration>
