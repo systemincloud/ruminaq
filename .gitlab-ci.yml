@@ -28,6 +28,8 @@ build javatask client:
 generate thrift:
   stage: generate thrift
   image: dind
+  services:
+    - docker:dind
   script:
     - cd bundles/org.ruminaq.runner.thrift
     - mkdir target/generated-sources/thrift
@@ -58,8 +60,6 @@ build plugins:
     - wget "https://cran.r-project.org/src/contrib/R6_2.4.0.tar.gz"
     - R CMD INSTALL R6_2.4.0.tar.gz
     - metacity --sm-disable --replace 2> metacity.err &
-  services:
-    - docker:dind
   script:
     - MAVEN_OPTS=-Dmaven.repo.local=../../.m2/repository/ ./mvnw install --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
     - ./mvnw p2:site --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
