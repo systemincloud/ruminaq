@@ -16,71 +16,71 @@
       <id>init</id>
       <build>
         <plugins>
-          <!-- <plugin> -->
-          <!-- <groupId>org.apache.maven.plugins</groupId> -->
-          <!-- <artifactId>maven-antrun-plugin</artifactId> -->
-          <!-- <executions> -->
-          <!-- <execution> -->
-          <!-- <?m2e ignore?> -->
-          <!-- <id>generate-sources</id> -->
-          <!-- <phase>generate-sources</phase> -->
-          <!-- <configuration> -->
-          <!-- <target xmlns:ac="antlib:net.sf.antcontrib"> -->
-          <!-- <mkdir -->
-          <!-- dir="${basedir}/target/generated-sources/thrift" /> -->
-          <!-- <ac:for param="file"> -->
-          <!-- <path> -->
-          <!-- <fileset dir="src/main/thrift" -->
-          <!-- includes="*.thrift" /> -->
-          <!-- </path> -->
-          <!-- <sequential> -->
-          <!-- <local name="fname" /> -->
-          <!-- <basename file="@{file}" -->
-          <!-- property="fname" /> -->
-          <!-- <echo message="@{file}, ${fname}" /> -->
-          <!-- <exec executable="docker"> -->
-          <!-- <arg value="run" /> -->
-          <!-- <arg value="-v" /> -->
-          <!-- <arg value="${basedir}:/data" /> -->
-          <!-- <arg value="thrift" /> -->
-          <!-- <arg value="thrift" /> -->
-          <!-- <arg value="gen" /> -->
-          <!-- <arg value="java" /> -->
-          <!-- <arg value="-r" /> -->
-          <!-- <arg value="-out" /> -->
-          <!-- <arg -->
-          <!-- value="/data/target/generated-sources/thrift" /> -->
-          <!-- <arg -->
-          <!-- value="/data/src/main/thrift/${fname}" /> -->
-          <!-- </exec> -->
-          <!-- </sequential> -->
-          <!-- </ac:for> -->
-          <!-- <copy -->
-          <!-- todir="${basedir}/../../bundles/org.ruminaq.launch/src/main/resources/org/ruminaq/launch"> -->
-          <!-- <fileset dir="src/main/thrift" -->
-          <!-- includes="**" /> -->
-          <!-- </copy> -->
-          <!-- </target> -->
-          <!-- </configuration> -->
-          <!-- <goals> -->
-          <!-- <goal>run</goal> -->
-          <!-- </goals> -->
-          <!-- </execution> -->
-          <!-- </executions> -->
-          <!-- <dependencies> -->
-          <!-- <dependency> -->
-          <!-- <groupId>ant-contrib</groupId> -->
-          <!-- <artifactId>ant-contrib</artifactId> -->
-          <!-- <version>1.0b3</version> -->
-          <!-- <exclusions> -->
-          <!-- <exclusion> -->
-          <!-- <artifactId>ant</artifactId> -->
-          <!-- <groupId>ant</groupId> -->
-          <!-- </exclusion> -->
-          <!-- </exclusions> -->
-          <!-- </dependency> -->
-          <!-- </dependencies> -->
-          <!-- </plugin> -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <?m2e ignore?>
+                <id>generate-sources</id>
+                <phase>generate-sources</phase>
+                <configuration>
+                  <target xmlns:ac="antlib:net.sf.antcontrib">
+                    <mkdir
+                      dir="${basedir}/target/generated-sources/thrift" />
+                    <ac:for param="file">
+                      <path>
+                        <fileset dir="src/main/thrift"
+                          includes="*.thrift" />
+                      </path>
+                      <sequential>
+                        <local name="fname" />
+                        <basename file="@{file}"
+                          property="fname" />
+                        <echo message="@{file}, ${fname}" />
+                        <exec executable="docker">
+                          <arg value="run" />
+                          <arg value="-v" />
+                          <arg value="${basedir}:/data" />
+                          <arg value="thrift" />
+                          <arg value="thrift" />
+                          <arg value="--gen" />
+                          <arg value="java" />
+                          <arg value="-r" />
+                          <arg value="-out" />
+                          <arg
+                            value="/data/target/generated-sources/thrift" />
+                          <arg
+                            value="/data/src/main/thrift/${fname}" />
+                        </exec>
+                      </sequential>
+                    </ac:for>
+                    <copy
+                      todir="${basedir}/../../bundles/org.ruminaq.launch/src/main/resources/org/ruminaq/launch">
+                      <fileset dir="src/main/thrift"
+                        includes="**" />
+                    </copy>
+                  </target>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+            <dependencies>
+              <dependency>
+                <groupId>ant-contrib</groupId>
+                <artifactId>ant-contrib</artifactId>
+                <version>1.0b3</version>
+                <exclusions>
+                  <exclusion>
+                    <artifactId>ant</artifactId>
+                    <groupId>ant</groupId>
+                  </exclusion>
+                </exclusions>
+              </dependency>
+            </dependencies>
+          </plugin>
         </plugins>
       </build>
     </profile>
@@ -88,68 +88,6 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-                <?m2e ignore?>
-            <id>generate-sources</id>
-            <phase>generate-sources</phase>
-            <configuration>
-              <target xmlns:ac="antlib:net.sf.antcontrib">
-                <mkdir
-                  dir="${basedir}/target/generated-sources/thrift" />
-                <ac:for param="file">
-                  <path>
-                    <fileset dir="src/main/thrift"
-                      includes="*.thrift" />
-                  </path>
-                  <sequential>
-                    <local name="fname" />
-                    <basename file="@{file}" property="fname" />
-                    <echo message="@{file}, ${fname}" />
-                    <exec executable="docker">
-                      <arg value="run" />
-                      <arg value="-v" />
-                      <arg value="${basedir}:/data" />
-                      <arg value="thrift" />
-                      <arg value="thrift" />
-                      <arg value="--gen" />
-                      <arg value="java" />
-                      <arg value="-r" />
-                      <arg value="-out" />
-                      <arg
-                        value="/data/target/generated-sources/thrift" />
-                      <arg value="/data/src/main/thrift/${fname}" />
-                    </exec>
-                  </sequential>
-                </ac:for>
-                <copy
-                  todir="${basedir}/../../bundles/org.ruminaq.launch/src/main/resources/org/ruminaq/launch">
-                  <fileset dir="src/main/thrift" includes="**" />
-                </copy>
-              </target>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>ant-contrib</groupId>
-            <artifactId>ant-contrib</artifactId>
-            <version>1.0b3</version>
-            <exclusions>
-              <exclusion>
-                <artifactId>ant</artifactId>
-                <groupId>ant</groupId>
-              </exclusion>
-            </exclusions>
-          </dependency>
-        </dependencies>
-      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>

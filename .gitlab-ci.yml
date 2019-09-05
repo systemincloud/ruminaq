@@ -11,7 +11,7 @@ variables:
 stages:
   - build tools
   - build javatask client
-  - build thrift
+  - generate thrift
   - build plugins
 
 
@@ -24,6 +24,16 @@ build javatask client:
   stage: build javatask client
   script:
     - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
+
+generate thrift:
+  stage: generate thrift
+  image: dind
+  script:
+    - cd bundles/org.ruminaq.runner.thrift
+    - mkdir target/generated-sources/thrift
+    - docker run -v .:data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/ProcessSideServer.thrift
+    - docker run -v .:data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/RemoteData.thrift
+    - docker run -v .:data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/RunnerSideServer.thrift
 
 build plugins:
   stage: build plugins
