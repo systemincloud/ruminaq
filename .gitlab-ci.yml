@@ -6,7 +6,7 @@ cache:
     
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository/"
-  DOCKER_HOST: tcp://localhost:2375
+  #DOCKER_HOST: tcp://localhost:2375
 
 stages:
   - build tools
