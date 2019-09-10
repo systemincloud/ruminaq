@@ -32,10 +32,11 @@ generate thrift:
     - docker:dind
   script:
     - cd bundles/org.ruminaq.runner.thrift
-    - mkdir target/generated-sources/thrift
+    - mkdir -p target/generated-sources/thrift
     - docker run -v .:data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/ProcessSideServer.thrift
     - docker run -v .:data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/RemoteData.thrift
     - docker run -v .:data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/RunnerSideServer.thrift
+    - cd ../..
 
 build plugins:
   stage: build plugins
