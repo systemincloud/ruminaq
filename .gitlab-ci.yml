@@ -27,7 +27,7 @@ build javatask client:
 
 generate thrift:
   stage: generate thrift
-  image: dind
+  image: docker:latest
   services:
     - docker:dind
   script:
