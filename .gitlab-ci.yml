@@ -40,7 +40,7 @@ build plugins:
   stage: build plugins
   before_script:
     - apt-get update -qq
-    #- DEBIAN_FRONTEND=noninteractive apt-get install -qq keyboard-configuration
+    - DEBIAN_FRONTEND=noninteractive apt-get install -qq keyboard-configuration
     - apt-get install -qq xcftools
     - apt-get install -qq metacity
     - apt-get install at-spi2-core
