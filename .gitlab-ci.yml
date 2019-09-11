@@ -6,14 +6,12 @@ cache:
     
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository/"
-  #DOCKER_HOST: tcp://localhost:2375
 
 stages:
   - build tools
   - build javatask client
   - generate thrift
   - build plugins
-
 
 build tools:
   stage: build tools
@@ -33,9 +31,9 @@ generate thrift:
   script:
     - cd bundles/org.ruminaq.runner.thrift
     - mkdir -p target/generated-sources/thrift
-    - docker run -v .:/data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/ProcessSideServer.thrift
-    - docker run -v .:/data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/RemoteData.thrift
-    - docker run -v .:/data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/RunnerSideServer.thrift
+    - docker run -v $(pwd):/data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/ProcessSideServer.thrift
+    - docker run -v $(pwd):/data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/RemoteData.thrift
+    - docker run -v $(pwd):/data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/RunnerSideServer.thrift
     - cd ../..
 
 build plugins:
