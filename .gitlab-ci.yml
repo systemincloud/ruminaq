@@ -55,7 +55,8 @@ build plugins:
     - apt-get install -qq r-base
     - wget "https://cran.r-project.org/src/contrib/R6_2.4.0.tar.gz"
     - R CMD INSTALL R6_2.4.0.tar.gz
-    - ls org.ruminaq.runner.thriftr/target/generated-sources/thrift
+    - ls bundles
+    - ls bundles/org.ruminaq.runner.thrift/target/generated-sources/thrift
     - metacity --sm-disable --replace 2> metacity.err &
   script:
     - MAVEN_OPTS=-Dmaven.repo.local=../../.m2/repository/ ./mvnw install --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
