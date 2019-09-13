@@ -36,6 +36,9 @@ generate thrift:
     - docker run -v $(pwd):/data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/RunnerSideServer.thrift
     - ls target/generated-sources/thrift
     - cd ../..
+  artifacts:
+    paths:
+    - bundles/org.ruminaq.runner.thrift/target
 
 build plugins:
   stage: build plugins
