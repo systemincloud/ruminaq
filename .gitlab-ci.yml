@@ -46,6 +46,7 @@ build plugins:
     - apt-get update -qq
     - DEBIAN_FRONTEND=noninteractive apt-get install -qq keyboard-configuration
     - apt-get install -qq xcftools
+    - apt-get install -qq imagemagick
     - apt-get install -qq metacity
     - apt-get install at-spi2-core
     - apt-get -y install python3-pip python-dev
