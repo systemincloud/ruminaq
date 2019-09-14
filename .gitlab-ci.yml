@@ -45,7 +45,7 @@ build plugins:
   before_script:
     - apt-get update -qq
     - DEBIAN_FRONTEND=noninteractive apt-get install -qq keyboard-configuration
-    - apt-get install -qq gtk
+    - apt-get install -qq xvf
     - apt-get install -qq xcftools
     - apt-get install -qq imagemagick
     - apt-get install -qq metacity
@@ -62,6 +62,8 @@ build plugins:
     - R CMD INSTALL R6_2.4.0.tar.gz
     - ls bundles/org.ruminaq.runner.thrift/
     - ls bundles/org.ruminaq.runner.thrift/target/generated-sources/thrift
+    - Xvfb :99 &
+    - export DISPLAY=:99
     - metacity --sm-disable --replace 2> metacity.err &
   script:
     - MAVEN_OPTS=-Dmaven.repo.local=../../.m2/repository/ ./mvnw install --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
