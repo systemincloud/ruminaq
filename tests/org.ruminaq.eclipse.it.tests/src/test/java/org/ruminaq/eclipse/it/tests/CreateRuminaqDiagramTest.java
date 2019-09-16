@@ -18,6 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.tests.common.CreateRuminaqDiagram;
 import org.ruminaq.tests.common.CreateRuminaqProject;
 import org.ruminaq.tests.common.SelectView;
 
@@ -70,8 +71,8 @@ public class CreateRuminaqDiagramTest {
 
     String diagramName = "Diagram_"
         + RandomStringUtils.randomAlphabetic(DIAGRAM_SUFFIX_LENGTH);
-//    new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName);
-//
+    new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName);
+
 //    new CreateRuminaqDiagram().waitUntilDiagramOpens(bot, diagramName);
   }
 }
