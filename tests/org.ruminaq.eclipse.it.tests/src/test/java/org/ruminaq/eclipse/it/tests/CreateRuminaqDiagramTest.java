@@ -11,6 +11,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferenceConstants;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.junit.AfterClass;
@@ -62,6 +63,7 @@ public class CreateRuminaqDiagramTest {
 
   @Test
   public final void testCreateDiagram() {
+    System.setProperty(SWTBotPreferenceConstants.KEY_TIMEOUT, "20000");
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
