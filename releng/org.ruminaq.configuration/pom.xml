@@ -315,7 +315,7 @@
           <failIfNoTests>false</failIfNoTests>
           <argLine>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jaccoco.version}/org.jacoco.agent-${jaccoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec
             -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
-            -Dorg.eclipse.swtbot.search.timeout=20000</argLine>
+            -Dorg.eclipse.swtbot.search.timeout=10000</argLine>
           <!-- <argLine>-ea -Dosgi.clean=true -Ddebug=true -Dosgi.console.enable.builtin=true</argLine> -->
           <!-- <argLine>-DbuildingWithTycho=true</argLine> -->
           <!-- <defaultStartLevel> -->

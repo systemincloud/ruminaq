@@ -74,5 +74,7 @@ public class CreateRuminaqDiagramTest {
     new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName);
 
     new CreateRuminaqDiagram().waitUntilDiagramOpens(bot, diagramName);
+
+    bot.editorByTitle(diagramName).setFocus();
   }
 }
