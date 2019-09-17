@@ -70,7 +70,7 @@ build plugins:
     - ./mvnw p2:site --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
     - ./mvnw jetty:run --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo &
     - sleep 60
-    - ./mvnw install --toolchains=.gitlab-toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=systemincloud -Dsonar.login=$SONAR_TOKEN -Dorg.eclipse.swtbot.search.timeout=20000
+    - ./mvnw install --toolchains=.gitlab-toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=systemincloud -Dsonar.login=$SONAR_TOKEN
   allow_failure: true
   after_script:
     - cat tests/org.ruminaq.eclipse.it.tests/target/work/data/.metadata/.log
