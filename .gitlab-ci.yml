@@ -74,6 +74,12 @@ build plugins:
   allow_failure: true
   after_script:
     - cat tests/org.ruminaq.eclipse.it.tests/target/work/data/.metadata/.log
+    - cat tests/org.ruminaq.eclipse.it.tests/target/work/data/.metadata/modeler.log
+  artifacts:
+    paths:
+    - tests/org.ruminaq.eclipse.it.tests/screenshots
+    - tests/org.ruminaq.eclipse.it.tests/target/work/data/.metadata/.log
+    - tests/org.ruminaq.eclipse.it.tests/target/work/data/.metadata/modeler.log
     
     
     
