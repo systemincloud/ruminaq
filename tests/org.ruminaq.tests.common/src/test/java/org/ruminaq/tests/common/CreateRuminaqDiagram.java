@@ -6,6 +6,8 @@
 
 package org.ruminaq.tests.common;
 
+import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
+
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
@@ -13,6 +15,7 @@ import org.eclipse.swtbot.eclipse.finder.waits.WaitForEditor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.ui.IEditorReference;
 import org.hamcrest.Matcher;
@@ -40,7 +43,11 @@ public class CreateRuminaqDiagram {
 
     bot.textWithLabel("&File name:").setText(diagramName  + ".rumi");
 
+    SWTBotShell window = bot.activeShell();
+
     bot.button("Finish").click();
+
+    bot.waitUntil(shellCloses(window));
   }
 
   public void openDiagramWizardFromProjectContextMenu(SWTWorkbenchBot bot, String projectName) {
