@@ -6,6 +6,8 @@
 
 package org.ruminaq.eclipse.it.tests;
 
+import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
+
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -23,6 +25,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -77,8 +80,9 @@ public class CreateRuminaqProjectTest {
       throws CoreException, IOException, XmlPullParserException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
-    new CreateRuminaqProject().execute(bot, projectName);
+    SWTBotShell window = new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
+    bot.waitUntil(shellCloses(window));
 
     Display.getDefault().syncExec(new Runnable() {
       @Override
@@ -90,6 +94,8 @@ public class CreateRuminaqProjectTest {
     Assert.assertEquals("Perspective should be changed",
         RuminaqPerspective.class.getCanonicalName(),
         perspective.getId());
+
+
 
     IProject project = workspace.getRoot().getProject(projectName);
     project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
