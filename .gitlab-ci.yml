@@ -8,20 +8,20 @@ variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository/"
 
 stages:
-  - build tools
-  - build javatask client
+  #- build tools
+  #- build javatask client
   - generate thrift
   - build plugins
 
-build tools:
-  stage: build tools
-  script:
-    - ./mvnw install -pl libs/org.ruminaq.tools
+#build tools:
+#  stage: build tools
+#  script:
+#    - ./mvnw install -pl libs/org.ruminaq.tools
     
-build javatask client:
-  stage: build javatask client
-  script:
-    - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
+#build javatask client:
+#  stage: build javatask client
+#  script:
+#    - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
 
 generate thrift:
   stage: generate thrift
@@ -66,7 +66,10 @@ build plugins:
     - export DISPLAY=:99
     - metacity --sm-disable --replace 2> metacity.err &
   script:
-    - MAVEN_OPTS=-Dmaven.repo.local=../../.m2/repository/ ./mvnw install --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
+  #MAVEN_OPTS=-Dmaven.repo.local=../../.m2/repository/ 
+    - ./mvnw install -pl libs/org.ruminaq.tools
+    - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
+    - ./mvnw install --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
     - ./mvnw p2:site --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
     - ./mvnw jetty:run --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo &
     - sleep 60
