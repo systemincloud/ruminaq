@@ -71,6 +71,7 @@ public class CreateRuminaqProjectFailedTest {
     logFile.createNewFile();
 
     System.setProperty(LoggerAspect.FILE_PATH, logFilePath);
+
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
@@ -80,6 +81,7 @@ public class CreateRuminaqProjectFailedTest {
     Assert.assertNotNull("Failure window should appear", failureWindow);
 
     bot.button("OK").click();
+
     System.setProperty(LoggerAspect.FILE_PATH, "");
 
     Assert.assertEquals("Check logs",
