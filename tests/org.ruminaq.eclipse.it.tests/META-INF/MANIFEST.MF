@@ -15,7 +15,8 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  javax.annotation,
  org.eclipse.reddeer.junit,
  org.eclipse.equinox.console
-Import-Package: org.apache.commons.lang3,
+Import-Package: ch.qos.logback.core.spi,
+ org.apache.commons.lang3,
  org.aspectj.lang,
  org.aspectj.lang.annotation,
  org.aspectj.runtime.internal,
@@ -28,5 +29,6 @@ Import-Package: org.apache.commons.lang3,
  org.eclipse.ui,
  org.eclipse.ui.ide,
  org.ruminaq.tests.common,
- org.ruminaq.gui
+ org.ruminaq.gui,
+ org.slf4j.spi
 Export-Package: org.ruminaq.eclipse.it.tests
