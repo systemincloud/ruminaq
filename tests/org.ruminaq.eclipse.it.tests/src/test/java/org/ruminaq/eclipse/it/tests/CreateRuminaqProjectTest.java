@@ -34,7 +34,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.RuminaqPerspective;
 import org.ruminaq.eclipse.RuminaqProjectNature;
-import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 import org.ruminaq.eclipse.wizards.project.PomFile;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.tests.common.CreateRuminaqProject;
@@ -105,7 +104,7 @@ public class CreateRuminaqProjectTest {
     Assert.assertTrue("Workspace nature should change to Ruminaq",
         project.hasNature(RuminaqProjectNature.ID));
 
-    IFile propertyFile = project.getFile(CreateProjectWizard.PROPERTIES_FILE);
+    IFile propertyFile = project.getFile("src");
 
     Assert.assertTrue("Property file created",
         propertyFile.exists());
