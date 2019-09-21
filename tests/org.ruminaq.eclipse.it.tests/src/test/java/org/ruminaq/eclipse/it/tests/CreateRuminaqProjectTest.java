@@ -6,8 +6,6 @@
 
 package org.ruminaq.eclipse.it.tests;
 
-import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
-
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -82,7 +80,7 @@ public class CreateRuminaqProjectTest {
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     SWTBotShell window = new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
-    bot.waitUntil(shellCloses(window));
+//    bot.waitUntil(shellCloses(window));
 
     Display.getDefault().syncExec(new Runnable() {
       @Override
