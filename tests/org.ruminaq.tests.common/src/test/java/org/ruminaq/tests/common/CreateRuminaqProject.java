@@ -32,16 +32,14 @@ public class CreateRuminaqProject {
    * @param name name of project
    * @return
    */
-  public SWTBotShell execute(SWTWorkbenchBot bot, String name) {
+  public void execute(SWTWorkbenchBot bot, String name) {
     openProjectWizardFromMainMenu(bot);
 
     bot.textWithLabel("&Project name:").setText(name);
 
-    SWTBotShell window = bot.activeShell();
+    bot.activeShell();
 
     bot.button("Finish").click();
-
-    return window;
   }
 
   /**

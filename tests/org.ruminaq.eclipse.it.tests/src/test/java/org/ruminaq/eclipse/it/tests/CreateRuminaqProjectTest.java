@@ -13,6 +13,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -23,7 +24,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
@@ -78,9 +78,8 @@ public class CreateRuminaqProjectTest {
       throws CoreException, IOException, XmlPullParserException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
-    SWTBotShell window = new CreateRuminaqProject().execute(bot, projectName);
+    new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
-//    bot.waitUntil(shellCloses(window));
 
     Display.getDefault().syncExec(new Runnable() {
       @Override
@@ -90,10 +89,7 @@ public class CreateRuminaqProjectTest {
       }
     });
     Assert.assertEquals("Perspective should be changed",
-        RuminaqPerspective.class.getCanonicalName(),
-        perspective.getId());
-
-
+        RuminaqPerspective.class.getCanonicalName(), perspective.getId());
 
     IProject project = workspace.getRoot().getProject(projectName);
     project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
@@ -109,7 +105,7 @@ public class CreateRuminaqProjectTest {
     Assert.assertTrue("Workspace nature should change to Ruminaq",
         project.hasNature(RuminaqProjectNature.ID));
 
-    var propertyFile = project.getFile(CreateProjectWizard.PROPERTIES_FILE);
+    IFile propertyFile = project.getFile(CreateProjectWizard.PROPERTIES_FILE);
 
     Assert.assertTrue("Property file created",
         propertyFile.exists());
