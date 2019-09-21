@@ -187,8 +187,10 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
               + Constants.DIAGRAM_EXTENSION_DOT);
       prop.store(output, null);
       IFile outputFile = project.getFile(PROPERTIES_FILE);
-      outputFile.create(new ByteArrayInputStream(
-          ((ByteArrayOutputStream) output).toByteArray()), true, null);
+      outputFile.create(
+          new ByteArrayInputStream(
+              ((ByteArrayOutputStream) output).toByteArray()),
+          true, new NullProgressMonitor());
     } catch (IOException | CoreException e) {
       throw new RuminaqException(
           Messages.createProjectWizardFailedPropertiesFile, e);

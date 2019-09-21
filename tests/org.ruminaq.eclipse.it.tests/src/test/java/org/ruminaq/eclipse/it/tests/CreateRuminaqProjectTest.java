@@ -110,7 +110,7 @@ public class CreateRuminaqProjectTest {
     Assert.assertTrue("Property file created",
         propertyFile.exists());
 
-    var pom = new Path(PomFile.POM_FILE_PATH);
+    Path pom = new Path(PomFile.POM_FILE_PATH);
     Assert.assertTrue("Pom file created", project.exists(pom));
 
     var reader = new MavenXpp3Reader();
