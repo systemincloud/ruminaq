@@ -60,7 +60,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
   private static final String OUTPUT_CLASSES = "target/classes";
 
-  private static final String MAIN_MODULE = "MAIN_MODULE";
+  public static final String MAIN_MODULE = "MAIN_MODULE";
 
   public static final String BIN_DIRECTORY = "bin";
 

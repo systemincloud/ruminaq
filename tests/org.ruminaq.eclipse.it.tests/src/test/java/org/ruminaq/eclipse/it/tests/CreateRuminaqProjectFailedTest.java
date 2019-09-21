@@ -89,6 +89,5 @@ public class CreateRuminaqProjectFailedTest {
             .toString(CreateRuminaqProjectFailedTest.class.getResourceAsStream(
                 CreateRuminaqProjectFailedTest.class.getSimpleName()
                     + ".log"))));
-    ;
   }
 }

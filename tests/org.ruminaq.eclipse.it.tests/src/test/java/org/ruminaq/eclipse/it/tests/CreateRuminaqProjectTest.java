@@ -8,6 +8,7 @@ package org.ruminaq.eclipse.it.tests;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Properties;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.maven.model.Model;
@@ -32,8 +33,11 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.RuminaqPerspective;
 import org.ruminaq.eclipse.RuminaqProjectNature;
+import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizardNamePage;
+import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 import org.ruminaq.eclipse.wizards.project.PomFile;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.tests.common.CreateRuminaqProject;
@@ -104,10 +108,16 @@ public class CreateRuminaqProjectTest {
     Assert.assertTrue("Workspace nature should change to Ruminaq",
         project.hasNature(RuminaqProjectNature.ID));
 
-    IFile propertyFile = project.getFile("src");
+    IFile propertyFile = project.getFile(CreateProjectWizard.PROPERTIES_FILE);
+    Properties prop = new Properties();
+    prop.load(propertyFile.getContents());
+    Assert.assertEquals("Main module specified",
+        SourceFolders.TASK_FOLDER + "/"
+            + CreateDiagramWizardNamePage.DEFAULT_DIAGRAM_NAME
+            + Constants.DIAGRAM_EXTENSION_DOT,
+        prop.get(CreateProjectWizard.MAIN_MODULE));
 
-    Assert.assertTrue("Property file created",
-        propertyFile.exists());
+    Assert.assertTrue("Property file created", propertyFile.exists());
 
     Path pom = new Path(PomFile.POM_FILE_PATH);
     Assert.assertTrue("Pom file created", project.exists(pom));
