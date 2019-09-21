@@ -76,9 +76,3 @@ Caused by: org.ruminaq.eclipse.RuminaqRuntimeException: org.eclipse.core.runtime
 	at java.base/java.util.Spliterators$ArraySpliterator.forEachRemaining(Spliterators.java:948)
 	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:658)
 	at org.ruminaq.eclipse.wizards.project.SourceFolders.createSourceFolders(SourceFolders.java:45)
-	... 70 more
-Caused by: org.eclipse.core.runtime.CoreException: Failed
-	at org.ruminaq.eclipse.it.tests.EclipseUtilAspect.around(EclipseUtilAspect.java:42)
-	at org.ruminaq.eclipse.wizards.project.SourceFolders.lambda$0(SourceFolders.java:47)
-	... 73 more
-

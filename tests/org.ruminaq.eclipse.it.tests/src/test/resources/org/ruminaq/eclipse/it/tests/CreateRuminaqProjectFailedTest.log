@@ -74,5 +74,3 @@
 Caused by: Java Model Exception: Status ERROR: org.ruminaq.eclipse code=0 Failed null
 	at org.ruminaq.eclipse.it.tests.JavaProjectAspect.around(JavaProjectAspect.java:46)
 	at org.ruminaq.eclipse.wizards.project.CreateProjectWizard.createOutputLocation(CreateProjectWizard.java:174)
-	... 70 more
-

@@ -64,8 +64,8 @@ public class CreateRuminaqProjectFailedTest {
         JavaProjectAspect.FAIL_CREATE_OUTPUT_LOCATION_PROJECT_NAME,
         projectName);
 
-    String logFilePath = "target/logs/" + RandomStringUtils
-        .randomAlphabetic(PROJECT_SUFFIX_LENGTH) + ".log";
+    String logFilePath = "target/logs/"
+        + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH) + ".log";
 
     File logFile = new File(logFilePath);
     logFile.createNewFile();
@@ -84,11 +84,11 @@ public class CreateRuminaqProjectFailedTest {
 
     System.setProperty(LoggerAspect.FILE_PATH, "");
 
-    Assert.assertEquals("Check logs",
-        IOUtil
+    Assert.assertTrue("Check logs",
+        new String(Files.readAllBytes(Paths.get(logFilePath))).startsWith(IOUtil
             .toString(CreateRuminaqProjectFailedTest.class.getResourceAsStream(
-                CreateRuminaqProjectFailedTest.class.getSimpleName() + ".log")),
-            new String(Files.readAllBytes(Paths.get(logFilePath))));
+                CreateRuminaqProjectFailedTest.class.getSimpleName()
+                    + ".log"))));
     ;
   }
 }

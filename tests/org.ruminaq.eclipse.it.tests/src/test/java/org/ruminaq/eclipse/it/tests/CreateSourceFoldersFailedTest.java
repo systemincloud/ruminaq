@@ -82,10 +82,10 @@ public class CreateSourceFoldersFailedTest {
 
     System.setProperty(LoggerAspect.FILE_PATH, "");
 
-    Assert.assertEquals("Check logs",
-        IOUtil
+    Assert.assertTrue("Check logs",
+        new String(Files.readAllBytes(Paths.get(logFilePath))).startsWith(IOUtil
             .toString(CreateSourceFoldersFailedTest.class.getResourceAsStream(
-                CreateSourceFoldersFailedTest.class.getSimpleName() + ".log")),
-            new String(Files.readAllBytes(Paths.get(logFilePath))));
+                CreateSourceFoldersFailedTest.class.getSimpleName()
+                    + ".log"))));
   }
 }
