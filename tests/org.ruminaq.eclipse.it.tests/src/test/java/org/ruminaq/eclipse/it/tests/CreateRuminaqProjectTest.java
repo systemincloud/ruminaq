@@ -78,7 +78,7 @@ public class CreateRuminaqProjectTest {
 
   @Test
   public final void testCreateProject()
-      throws CoreException, IOException, XmlPullParserException {
+      throws CoreException, IOException, XmlPullParserException, InterruptedException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
@@ -107,6 +107,8 @@ public class CreateRuminaqProjectTest {
 
     Assert.assertTrue("Workspace nature should change to Ruminaq",
         project.hasNature(RuminaqProjectNature.ID));
+
+    Thread.sleep(5000);
 
     IFile propertyFile = project.getFile(CreateProjectWizard.PROPERTIES_FILE);
     Properties prop = new Properties();
