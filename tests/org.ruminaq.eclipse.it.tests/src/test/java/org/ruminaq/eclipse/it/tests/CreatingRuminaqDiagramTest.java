@@ -6,12 +6,15 @@
 
 package org.ruminaq.eclipse.it.tests;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.tests.common.CreateRuminaqDiagram;
+import org.ruminaq.tests.common.CreateRuminaqProject;
 import org.ruminaq.tests.common.SelectView;
 
 /**
@@ -43,18 +46,18 @@ public class CreatingRuminaqDiagramTest {
 
   @Test
   public final void testChoosingProjectFromMainMenu() {
-//    String projectName = "test"
-//        + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
-//    new CreateRuminaqProject().execute(bot, projectName);
-//    new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
-//
-//    new CreateRuminaqDiagram().openDiagramWizardFromProjectContextMenu(bot,
-//        projectName);
-//
-//    Assert.assertEquals("Window of title should be set", "New Diagram",
-//        bot.activeShell().getText());
-//
-//    bot.textWithLabel("New Diagram");
-//    bot.text("This wizard creates a new Ruminaq Diagram.");
+    String projectName = "test"
+        + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
+    new CreateRuminaqProject().execute(bot, projectName);
+    new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
+
+    new CreateRuminaqDiagram().openDiagramWizardFromProjectContextMenu(bot,
+        projectName);
+
+    Assert.assertEquals("Window of title should be set", "New Diagram",
+        bot.activeShell().getText());
+
+    bot.textWithLabel("New Diagram");
+    bot.text("This wizard creates a new Ruminaq Diagram.");
   }
 }
