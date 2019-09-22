@@ -20,14 +20,14 @@ import org.ruminaq.util.ServiceUtil;
  */
 public class ImageProvider extends AbstractImageProvider {
 
-	@Override
-	protected void addAvailableImages() {
-		ServiceUtil
-		    .getServicesAtLatestVersion(ImageProvider.class, ImagesExtension.class)
-		    .stream().map(ImagesExtension::getImageKeyPath).map(Map::entrySet)
-		    .flatMap(Collection::stream)
-		    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-		    .entrySet().stream()
-		    .forEach(img -> addImageFilePath(img.getKey(), img.getValue()));
-	}
+  @Override
+  protected void addAvailableImages() {
+    ServiceUtil
+        .getServicesAtLatestVersion(ImageProvider.class, ImagesExtension.class)
+        .stream().map(ImagesExtension::getImageKeyPath).map(Map::entrySet)
+        .flatMap(Collection::stream)
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+        .entrySet().stream()
+        .forEach(img -> addImageFilePath(img.getKey(), img.getValue()));
+  }
 }
