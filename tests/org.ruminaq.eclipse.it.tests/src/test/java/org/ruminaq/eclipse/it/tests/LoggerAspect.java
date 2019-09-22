@@ -46,7 +46,7 @@ public class LoggerAspect {
   public void around(ProceedingJoinPoint point, String arg0, Throwable arg1)
       throws Throwable {
     String loggerFilePath = System.getProperty(FILE_PATH);
-    if ("".equals(loggerFilePath)) {
+    if (loggerFilePath == null || "".equals(loggerFilePath)) {
       point.proceed(new Object[] { arg0, arg1 });
     } else {
       Files.writeString(Paths.get(loggerFilePath), "[ERROR] " + arg0 + "\n",
