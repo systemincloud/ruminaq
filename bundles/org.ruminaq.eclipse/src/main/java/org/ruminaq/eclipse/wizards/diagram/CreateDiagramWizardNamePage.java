@@ -84,6 +84,13 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   }
 
   protected static class ShowDiagramFolder extends ViewerFilter {
+
+    private String diagramFolder;
+
+    public ShowDiagramFolder(String diagramFolder) {
+      this.diagramFolder = diagramFolder;
+    }
+
     @Override
     public boolean select(Viewer arg0, Object parent, Object element) {
       Selectable selectable = Selectable
@@ -93,24 +100,14 @@ public class CreateDiagramWizardNamePage extends WizardPage {
         return true;
       case FOLDER:
         IPath dirs = ((IFolder) element).getProjectRelativePath();
-        IPath mainPath = new Path(SourceFolders.DIAGRAM_FOLDER);
+        IPath mainPath = new Path(diagramFolder);
         for (int i = 1; i < mainPath.segmentCount(); i++) {
           if (dirs.equals(mainPath.uptoSegment(i))) {
             return true;
           }
         }
-        if (dirs
-            .matchingFirstSegments(mainPath) == mainPath.segments().length) {
-          return true;
-        }
-        IPath testPath = new Path(SourceFolders.TEST_DIAGRAM_FOLDER);
-        for (int i = 1; i < testPath.segmentCount(); i++) {
-          if (dirs.equals(testPath.uptoSegment(i))) {
-            return true;
-          }
-        }
         return dirs
-            .matchingFirstSegments(testPath) == testPath.segments().length;
+            .matchingFirstSegments(mainPath) == mainPath.segments().length;
       default:
         return false;
       }
@@ -260,7 +257,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     fileDialog.setInput(project.getFolder(getResourceFolder()));
     fileDialog.setTitle(Messages.createDiagramWizardContainerChoose);
     fileDialog.setAllowMultiple(false);
-    fileDialog.addFilter(new ShowDiagramFolder());
+    fileDialog.addFilter(new ShowDiagramFolder(getDiagramFolder()));
     fileDialog.open();
     Object[] results = fileDialog.getResult();
 
