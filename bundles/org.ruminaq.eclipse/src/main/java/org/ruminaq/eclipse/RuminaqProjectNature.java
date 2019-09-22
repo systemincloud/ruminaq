@@ -9,7 +9,6 @@ package org.ruminaq.eclipse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
@@ -68,10 +67,5 @@ public class RuminaqProjectNature implements IProjectNature {
    */
   @Override
   public void deconfigure() throws CoreException {
-    IProjectDescription description = getProject().getDescription();
-    description.setBuildSpec(Stream.of(description.getBuildSpec())
-        .filter(cmd -> !RuminaqBuilder.ID.equals(cmd.getBuilderName()))
-        .toArray(ICommand[]::new));
-    project.setDescription(description, null);
   }
 }
