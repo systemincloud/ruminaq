@@ -21,6 +21,10 @@ public class CreateTestDiagramWizardNamePage
 
   public static final String DEFAULT_DIAGRAM_NAME = "MyTaskTest";
 
+  /**
+   * Create new Test Diagram page entry constructor.
+   *
+   */
   public CreateTestDiagramWizardNamePage(IStructuredSelection selection) {
     super(selection);
     super.setTitle(Messages.createTestDiagramWizardTitle);
