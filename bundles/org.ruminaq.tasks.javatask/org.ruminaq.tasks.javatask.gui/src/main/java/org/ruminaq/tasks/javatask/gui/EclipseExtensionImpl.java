@@ -21,10 +21,10 @@ public class EclipseExtensionImpl implements EclipseExtension {
 
   public static final String MAIN_JAVA = "src/main/java";
   public static final String TEST_JAVA = "src/test/java";
-  
+
   public static final String GROUP_ID = "org.ruminaq.tasks.javatask";
-  public static final String ARTIFACT_ID = "org.ruminaq.tasks.javatask.api";
-  public static final String VERSION = "0.7.0";
+  public static final String ARTIFACT_ID = "org.ruminaq.tasks.javatask.client";
+  public static final String VERSION = "1.0.0-SNAPSHOT";
 
   @Override
   public boolean createProjectWizardPerformFinish(IJavaProject javaProject) {
