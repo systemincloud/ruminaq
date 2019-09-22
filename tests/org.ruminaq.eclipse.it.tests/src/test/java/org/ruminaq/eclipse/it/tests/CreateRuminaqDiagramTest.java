@@ -6,6 +6,7 @@
 
 package org.ruminaq.eclipse.it.tests;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
@@ -16,6 +17,9 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.tests.common.CreateRuminaqDiagram;
+import org.ruminaq.tests.common.CreateRuminaqProject;
 import org.ruminaq.tests.common.SelectView;
 
 /**
@@ -58,19 +62,19 @@ public class CreateRuminaqDiagramTest {
 
   @Test
   public final void testCreateDiagram() {
-//    String projectName = "test"
-//        + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
-//    new CreateRuminaqProject().execute(bot, projectName);
-//    new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
-//
-//    String path = SourceFolders.DIAGRAM_FOLDER;
+    String projectName = "test"
+        + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
+    new CreateRuminaqProject().execute(bot, projectName);
+    new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
-//    String diagramName = "Diagram_"
-//        + RandomStringUtils.randomAlphabetic(DIAGRAM_SUFFIX_LENGTH);
-//    new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName);
-//
-//    new CreateRuminaqDiagram().waitUntilDiagramOpens(bot, diagramName);
-//
-//    bot.editorByTitle(diagramName).setFocus();
+    String path = SourceFolders.DIAGRAM_FOLDER;
+
+    String diagramName = "Diagram_"
+        + RandomStringUtils.randomAlphabetic(DIAGRAM_SUFFIX_LENGTH);
+    new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName);
+
+    new CreateRuminaqDiagram().waitUntilDiagramOpens(bot, diagramName);
+
+    bot.editorByTitle(diagramName).setFocus();
   }
 }
