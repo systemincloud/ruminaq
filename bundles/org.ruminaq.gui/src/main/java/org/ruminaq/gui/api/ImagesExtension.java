@@ -14,22 +14,21 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.osgi.framework.FrameworkUtil;
 
-
 /**
  * Other plugins can contribute to Graphiti images.
  *
  * @author Marek Jagielski
  */
 public interface ImagesExtension {
-	
-	default Map<String, String> getImageKeyPath() {
-		return Arrays.stream(getImageDecriptors())
-		    .collect(Collectors.toMap(ImageDescriptor::name, i -> FileLocator
-		        .find(FrameworkUtil.getBundle(i.clazz()), new Path(i.path()), null)
-		        .getFile()));
-	}
 
-	default ImageDescriptor[] getImageDecriptors() {
-		return new ImageDescriptor[] {};
-	}
+  default Map<String, String> getImageKeyPath() {
+    return Arrays.stream(getImageDecriptors())
+        .collect(Collectors.toMap(ImageDescriptor::name, i -> FileLocator
+            .find(FrameworkUtil.getBundle(i.clazz()), new Path(i.path()), null)
+            .getFile()));
+  }
+
+  default ImageDescriptor[] getImageDecriptors() {
+    return new ImageDescriptor[] {};
+  }
 }
