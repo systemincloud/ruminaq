@@ -67,5 +67,6 @@ public class RuminaqProjectNature implements IProjectNature {
    */
   @Override
   public void deconfigure() throws CoreException {
+    // Should never do this.
   }
 }

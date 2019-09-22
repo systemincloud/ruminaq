@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.tests.common.CreateRuminaqProject;
 import org.ruminaq.tests.common.CreateRuminaqTestDiagram;
 import org.ruminaq.tests.common.SelectView;
@@ -51,6 +52,17 @@ public class CreatingRuminaqTestDiagramTest {
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
+
+    bot.tree().getTreeItem(projectName).expand();
+    bot.tree().getTreeItem(projectName).getNode(SourceFolders.TEST_RESOURCES)
+        .select();
+    bot.tree().getTreeItem(projectName).getNode(SourceFolders.TEST_RESOURCES)
+        .expand();
+    bot.tree().getTreeItem(projectName).getNode(SourceFolders.TEST_RESOURCES)
+        .getNode(SourceFolders.TASK_FOLDER).select();
+    bot.tree().contextMenu("New").menu("Folder").click();
+    bot.textWithLabel("Folder &name:").setText("modules");
+    bot.button("Finish").click();
 
     new CreateRuminaqTestDiagram().openDiagramWizardFromProjectContextMenu(bot,
         projectName);

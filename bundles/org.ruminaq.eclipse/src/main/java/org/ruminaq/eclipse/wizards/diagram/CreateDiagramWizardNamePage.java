@@ -8,6 +8,7 @@ package org.ruminaq.eclipse.wizards.diagram;
 
 import static java.text.MessageFormat.format;
 
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -70,15 +71,15 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   private static final int COLUMNS_IN_VIEW = 3;
 
-  private static enum Selectable {
+  private enum Selectable {
     PROJECT, FOLDER, FILE;
   }
 
   protected static class ShowOnlyProjects extends ViewerFilter {
     @Override
     public boolean select(Viewer arg0, Object parent, Object element) {
-      Selectable selectable = Selectable
-          .valueOf(element.getClass().getSimpleName().toUpperCase());
+      Selectable selectable = Selectable.valueOf(
+          element.getClass().getSimpleName().toUpperCase(Locale.ENGLISH));
       return selectable == Selectable.PROJECT;
     }
   }
@@ -93,23 +94,23 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
     @Override
     public boolean select(Viewer arg0, Object parent, Object element) {
-      Selectable selectable = Selectable
-          .valueOf(element.getClass().getSimpleName().toUpperCase());
+      Selectable selectable = Selectable.valueOf(
+          element.getClass().getSimpleName().toUpperCase(Locale.ENGLISH));
       switch (selectable) {
-      case PROJECT:
-        return true;
-      case FOLDER:
-        IPath dirs = ((IFolder) element).getProjectRelativePath();
-        IPath mainPath = new Path(diagramFolder);
-        for (int i = 1; i < mainPath.segmentCount(); i++) {
-          if (dirs.equals(mainPath.uptoSegment(i))) {
-            return true;
+        case PROJECT:
+          return true;
+        case FOLDER:
+          IPath dirs = ((IFolder) element).getProjectRelativePath();
+          IPath mainPath = new Path(diagramFolder);
+          for (int i = 1; i < mainPath.segmentCount(); i++) {
+            if (dirs.equals(mainPath.uptoSegment(i))) {
+              return true;
+            }
           }
-        }
-        return dirs
-            .matchingFirstSegments(mainPath) == mainPath.segments().length;
-      default:
-        return false;
+          return dirs
+              .matchingFirstSegments(mainPath) == mainPath.segments().length;
+        default:
+          return false;
       }
     }
   }
@@ -133,7 +134,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
     initLayout(parent);
     initComponents(selected);
-    initActions(selected);
+    initActions();
 
     dialogChanged();
     setControl(composite);
@@ -215,7 +216,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     return DEFAULT_DIAGRAM_NAME + Constants.DIAGRAM_EXTENSION_DOT;
   }
 
-  private void initActions(Object selectedObject) {
+  private void initActions() {
     txtProject.addModifyListener(e -> dialogChanged());
     btnProject.addSelectionListener(new SelectionAdapter() {
       @Override
