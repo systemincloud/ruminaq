@@ -7,7 +7,6 @@
 package org.ruminaq.tasks.javatask.it.tests;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.maven.model.Model;
@@ -18,10 +17,8 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
-import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.junit.AfterClass;
@@ -29,11 +26,10 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.osgi.service.component.annotations.Component;
 import org.ruminaq.eclipse.wizards.project.PomFile;
 import org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl;
 import org.ruminaq.tests.common.CreateRuminaqProject;
-import org.ruminaq.util.ServiceUtil;
+import org.ruminaq.tests.common.SelectView;
 
 /**
  * Test of creating a new eclipse project.
@@ -56,6 +52,7 @@ public class CreateRuminaqProjectTest {
     bot = new SWTWorkbenchBot();
     workbench = PlatformUI.getWorkbench();
     workspace = ResourcesPlugin.getWorkspace();
+    SelectView.closeWelcomeViewIfExists(bot);
   }
 
   @AfterClass
@@ -79,9 +76,11 @@ public class CreateRuminaqProjectTest {
 
     var reader = new MavenXpp3Reader();
     Model model = reader.read(project.getFile(pom).getContents());
-    
-    var dep = model.getDependencies().stream().filter(
-    		d -> EclipseExtensionImpl.ARTIFACT_ID.equals(d.getArtifactId())).findFirst();
-    Assert.assertEquals("Java dependecy added", EclipseExtensionImpl.VERSION, dep.get().getVersion());
+
+    var dep = model.getDependencies().stream()
+        .filter(d -> EclipseExtensionImpl.ARTIFACT_ID.equals(d.getArtifactId()))
+        .findFirst();
+    Assert.assertEquals("Java dependecy added", EclipseExtensionImpl.VERSION,
+        dep.get().getVersion());
   }
 }
