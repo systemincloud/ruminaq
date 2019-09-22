@@ -75,6 +75,8 @@ public class CreateRuminaqDiagramTest {
         + RandomStringUtils.randomAlphabetic(DIAGRAM_SUFFIX_LENGTH);
     new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName);
 
+    Thread.sleep(5000);
+
     new CreateRuminaqDiagram().waitUntilDiagramOpens(bot, diagramName);
 
     bot.editorByTitle(diagramName).setFocus();
