@@ -23,8 +23,8 @@ public class CreateTestDiagramWizardNamePage
 
   public CreateTestDiagramWizardNamePage(IStructuredSelection selection) {
     super(selection);
-    setTitle(Messages.createTestDiagramWizardTitle);
-    setDescription(Messages.createTestDiagramWizardDescription);
+    super.setTitle(Messages.createTestDiagramWizardTitle);
+    super.setDescription(Messages.createTestDiagramWizardDescription);
   }
 
   @Override

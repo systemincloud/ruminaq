@@ -68,6 +68,59 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   private ISelection selection;
 
+  private static final int COLUMNS_IN_VIEW = 3;
+
+  private static enum Selectable {
+    PROJECT, FOLDER, FILE;
+  }
+
+  protected static class ShowOnlyProjects extends ViewerFilter {
+    @Override
+    public boolean select(Viewer arg0, Object parent, Object element) {
+      Selectable selectable = Selectable
+          .valueOf(element.getClass().getSimpleName().toUpperCase());
+      return selectable == Selectable.PROJECT;
+    }
+  }
+
+  protected static class ShowDiagramFolder extends ViewerFilter {
+    @Override
+    public boolean select(Viewer arg0, Object parent, Object element) {
+      Selectable selectable = Selectable
+          .valueOf(element.getClass().getSimpleName().toUpperCase());
+      switch (selectable) {
+      case PROJECT:
+        return true;
+      case FOLDER:
+        IPath dirs = ((IFolder) element).getProjectRelativePath();
+        IPath mainPath = new Path(SourceFolders.DIAGRAM_FOLDER);
+        for (int i = 1; i < mainPath.segmentCount(); i++) {
+          if (dirs.equals(mainPath.uptoSegment(i))) {
+            return true;
+          }
+        }
+        if (dirs
+            .matchingFirstSegments(mainPath) == mainPath.segments().length) {
+          return true;
+        }
+        IPath testPath = new Path(SourceFolders.TEST_DIAGRAM_FOLDER);
+        for (int i = 1; i < testPath.segmentCount(); i++) {
+          if (dirs.equals(testPath.uptoSegment(i))) {
+            return true;
+          }
+        }
+        return dirs
+            .matchingFirstSegments(testPath) == testPath.segments().length;
+      default:
+        return false;
+      }
+    }
+  }
+
+  /**
+   * Create new Diagram page entry constructor.
+   *
+   */
   public CreateDiagramWizardNamePage(IStructuredSelection selection) {
     super(PAGE_NAME);
     this.selection = selection;
@@ -85,7 +138,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     initComponents(selected);
     initActions(selected);
 
-    dialogChanged(selected);
+    dialogChanged();
     setControl(composite);
   }
 
@@ -99,7 +152,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   private void initLayout(Composite parent) {
     composite = new Composite(parent, SWT.NULL);
-    composite.setLayout(new GridLayout(3, false));
+    composite.setLayout(new GridLayout(COLUMNS_IN_VIEW, false));
 
     lblProject = new CLabel(composite, SWT.NULL);
     txtProject = new Text(composite, SWT.BORDER | SWT.SINGLE);
@@ -166,14 +219,14 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   }
 
   private void initActions(Object selectedObject) {
-    txtProject.addModifyListener(e -> dialogChanged(selectedObject));
+    txtProject.addModifyListener(e -> dialogChanged());
     btnProject.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
         handleBrowseProject();
       }
     });
-    txtContainer.addModifyListener(e -> dialogChanged(selectedObject));
+    txtContainer.addModifyListener(e -> dialogChanged());
     btnContainer.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -181,7 +234,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
             .getProject(txtProject.getText()));
       }
     });
-    txtFile.addModifyListener(e -> dialogChanged(selectedObject));
+    txtFile.addModifyListener(e -> dialogChanged());
   }
 
   private void handleBrowseProject() {
@@ -191,12 +244,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     dialog.setInput(ResourcesPlugin.getWorkspace().getRoot());
     dialog.setTitle(Messages.createDiagramWizardProjectChoose);
     dialog.setAllowMultiple(false);
-    dialog.addFilter(new ViewerFilter() {
-      @Override
-      public boolean select(Viewer arg0, Object parent, Object element) {
-        return element instanceof IProject;
-      }
-    });
+    dialog.addFilter(new ShowOnlyProjects());
     dialog.open();
     Object[] results = dialog.getResult();
 
@@ -212,34 +260,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     fileDialog.setInput(project.getFolder(getResourceFolder()));
     fileDialog.setTitle(Messages.createDiagramWizardContainerChoose);
     fileDialog.setAllowMultiple(false);
-    fileDialog.addFilter(new ViewerFilter() {
-      @Override
-      public boolean select(Viewer arg0, Object parent, Object element) {
-        if (element instanceof IProject) {
-          return true;
-        } else if (element instanceof IFolder) {
-          IPath dirs = ((IFolder) element).getProjectRelativePath();
-          IPath mainPath = new Path(SourceFolders.MAIN_RESOURCES);
-          for (int i = 1; i < mainPath.segmentCount(); i++) {
-            if (dirs.equals(mainPath.uptoSegment(i))) {
-              return true;
-            }
-          }
-          if (dirs.matchingFirstSegments(mainPath) == 3) {
-            return true;
-          }
-          IPath testPath = new Path(SourceFolders.TEST_RESOURCES);
-          for (int i = 1; i < testPath.segmentCount(); i++) {
-            if (dirs.equals(testPath.uptoSegment(i))) {
-              return true;
-            }
-          }
-          return dirs.matchingFirstSegments(testPath) == 3;
-        } else {
-          return false;
-        }
-      }
-    });
+    fileDialog.addFilter(new ShowDiagramFolder());
     fileDialog.open();
     Object[] results = fileDialog.getResult();
 
@@ -250,7 +271,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     }
   }
 
-  private void dialogChanged(Object selectedObject) {
+  private void dialogChanged() {
     Optional<IProject> project = Stream
         .of(ResourcesPlugin.getWorkspace().getRoot().getProjects())
         .filter(p -> txtProject.getText().equals(p.getName())).findFirst();
