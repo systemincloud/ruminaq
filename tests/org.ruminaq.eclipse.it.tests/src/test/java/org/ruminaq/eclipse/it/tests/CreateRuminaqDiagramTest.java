@@ -61,7 +61,7 @@ public class CreateRuminaqDiagramTest {
 
 
   @Test
-  public final void testCreateDiagram() {
+  public final void testCreateDiagram() throws InterruptedException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
