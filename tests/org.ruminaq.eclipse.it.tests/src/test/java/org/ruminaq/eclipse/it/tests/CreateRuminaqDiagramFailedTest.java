@@ -6,7 +6,15 @@
 
 package org.ruminaq.eclipse.it.tests;
 
+import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.maven.shared.utils.io.IOUtil;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
@@ -28,6 +36,8 @@ import org.ruminaq.tests.common.SelectView;
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class CreateRuminaqDiagramFailedTest {
 
+  private static final String LOG_DIR = "target/logs/";
+
   private static SWTWorkbenchBot bot;
 
   /**
@@ -36,6 +46,7 @@ public class CreateRuminaqDiagramFailedTest {
    */
   @BeforeClass
   public static void initBot() {
+    new File(LOG_DIR).mkdirs();
     bot = new SWTWorkbenchBot();
     SelectView.closeWelcomeViewIfExists(bot);
   }
@@ -48,19 +59,30 @@ public class CreateRuminaqDiagramFailedTest {
   private static final int SUFFIX_LENGTH = 5;
 
   @Test
-  public final void testCreateDiagramFailed() {
+  public final void testCreateDiagramFailed()
+      throws IOException, InterruptedException {
+
+    String logFilePath = "target/logs/"
+        + RandomStringUtils.randomAlphabetic(SUFFIX_LENGTH) + ".log";
+
+    File logFile = new File(logFilePath);
+    logFile.createNewFile();
+
+    System.setProperty(LoggerAspect.FILE_PATH, logFilePath);
+
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(SUFFIX_LENGTH);
 
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
+    Thread.sleep(5000);
+
     String path = SourceFolders.DIAGRAM_FOLDER;
 
     String diagramName = "Diagram_"
         + RandomStringUtils.randomAlphabetic(SUFFIX_LENGTH);
-    System.setProperty(
-        CreateDiagramWizardAspect.FAIL_OPEN_EDITOR_FILE_NAME,
+    System.setProperty(CreateDiagramWizardAspect.FAIL_OPEN_EDITOR_FILE_NAME,
         diagramName);
     new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName);
 
@@ -70,5 +92,15 @@ public class CreateRuminaqDiagramFailedTest {
     Assert.assertNotNull("Failure window should appear", failureWindow);
 
     bot.button("OK").click();
+
+    bot.waitUntil(shellCloses(failureWindow));
+
+    System.setProperty(LoggerAspect.FILE_PATH, "");
+
+    Assert.assertTrue("Check logs",
+        new String(Files.readAllBytes(Paths.get(logFilePath))).startsWith(IOUtil
+            .toString(CreateRuminaqDiagramFailedTest.class.getResourceAsStream(
+                CreateRuminaqDiagramFailedTest.class.getSimpleName()
+                    + ".log"))));
   }
 }
