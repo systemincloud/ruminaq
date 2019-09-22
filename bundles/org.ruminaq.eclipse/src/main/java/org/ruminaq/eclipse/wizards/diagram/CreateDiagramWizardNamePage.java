@@ -131,7 +131,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
     String diagramBase = getDiagramFolder();
 
-    txtContainer.setText(project.map(p -> {
+    txtContainer.setText(project.map((IProject p) -> {
       String dirPath;
       if (selectedObject instanceof PackageFragment
           && ((PackageFragment) selectedObject).getPath().toString()
