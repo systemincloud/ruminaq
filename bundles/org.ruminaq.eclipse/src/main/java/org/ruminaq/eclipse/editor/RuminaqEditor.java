@@ -91,11 +91,11 @@ public class RuminaqEditor extends DiagramEditor {
             @Override
             public void historyNotification(OperationHistoryEvent event) {
               switch (event.getEventType()) {
-              case OperationHistoryEvent.DONE:
-              case OperationHistoryEvent.REDONE:
-              case OperationHistoryEvent.UNDONE:
-                doSave(new NullProgressMonitor());
-                break;
+                case OperationHistoryEvent.DONE:
+                case OperationHistoryEvent.REDONE:
+                case OperationHistoryEvent.UNDONE:
+                  doSave(new NullProgressMonitor());
+                  break;
               }
             }
           });

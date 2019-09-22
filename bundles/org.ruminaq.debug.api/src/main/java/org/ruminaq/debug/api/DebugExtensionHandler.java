@@ -15,6 +15,6 @@ import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
  * @author Marek Jagielski
  */
 public interface DebugExtensionHandler {
-
-	Collection<? extends IDebugTarget> getDebugTargets(ILaunch launch, IProject project, EventDispatchJob dispatcher);
+  Collection<? extends IDebugTarget> getDebugTargets(ILaunch launch,
+      IProject project, EventDispatchJob dispatcher);
 }

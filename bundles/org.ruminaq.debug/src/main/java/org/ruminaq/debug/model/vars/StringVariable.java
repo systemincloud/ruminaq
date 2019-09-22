@@ -13,24 +13,36 @@ import org.ruminaq.debug.model.IStateElement;
 public class StringVariable extends SicVariable {
 
   private IStateElement se;
-  private IState        showWhen;
+  private IState showWhen;
 
-    protected String type;
-    protected String value;
+  protected String type;
+  protected String value;
 
   private boolean editable;
 
-  public StringVariable(IDebugTarget target, String name, String value, boolean editable, IStateElement se, IState showWhen) {
+  public StringVariable(IDebugTarget target, String name, String value,
+      boolean editable, IStateElement se, IState showWhen) {
     super(target, name, "StringType");
     this.editable = editable;
-    this.se       = se;
+    this.se = se;
     this.showWhen = showWhen;
     setValue(value);
   }
 
-  @Override public void    setValue(String value)      { this.value = value; }
-  @Override public boolean supportsValueModification() { return editable; }
-  @Override public String  getValueString()            { return showWhen == null ? value :
-                                                                                 se.getState().equals(showWhen) ? value :
-                                                                                                                "see only when " + showWhen.toString(); }
+  @Override
+  public void setValue(String value) {
+    this.value = value;
+  }
+
+  @Override
+  public boolean supportsValueModification() {
+    return editable;
+  }
+
+  @Override
+  public String getValueString() {
+    return showWhen == null ? value
+        : se.getState().equals(showWhen) ? value
+            : "see only when " + showWhen.toString();
+  }
 }
