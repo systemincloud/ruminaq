@@ -100,15 +100,12 @@ public class CreateDiagramWizardNamePage extends WizardPage {
         case PROJECT:
           return true;
         case FOLDER:
-          IPath dirs = ((IFolder) element).getProjectRelativePath();
-          IPath mainPath = new Path(diagramFolder);
-          for (int i = 1; i < mainPath.segmentCount(); i++) {
-            if (dirs.equals(mainPath.uptoSegment(i))) {
-              return true;
-            }
-          }
-          return dirs
-              .matchingFirstSegments(mainPath) == mainPath.segments().length;
+          IPath currentPath = ((IFolder) element).getProjectRelativePath();
+          IPath diagramPath = new Path(diagramFolder);
+          return diagramPath.matchingFirstSegments(currentPath) == currentPath
+              .segmentCount()
+              || currentPath.matchingFirstSegments(diagramPath) == diagramPath
+                  .segmentCount();
         default:
           return false;
       }
