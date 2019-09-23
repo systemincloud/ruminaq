@@ -24,15 +24,16 @@ import org.slf4j.Logger;
 
 public class TextStrategy extends AbstractConstantStrategy {
 
-    private static final Logger LOGGER = RunnerLoggerFactory.getLogger(TextStrategy.class);
+  private static final Logger LOGGER = RunnerLoggerFactory
+      .getLogger(TextStrategy.class);
 
-    public TextStrategy(ConstantI task, String value) {
-        super(task, value);
-    }
+  public TextStrategy(ConstantI task, String value) {
+    super(task, value);
+  }
 
-    @Override
-    public void execute() {
-        LOGGER.trace("creating Text");
-        task.putData(Port.OUT, new TextI(value));
-    }
+  @Override
+  public void execute() {
+    LOGGER.trace("creating Text");
+    task.putData(Port.OUT, new TextI(value));
+  }
 }

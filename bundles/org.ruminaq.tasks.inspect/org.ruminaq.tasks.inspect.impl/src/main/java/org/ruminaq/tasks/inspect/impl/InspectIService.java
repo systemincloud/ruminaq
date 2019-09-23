@@ -4,8 +4,11 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface InspectIService extends Remote {
-	void   addListener(InspectWindowService tvWindowService)    throws RemoteException;
-	void   removeListener(InspectWindowService tvWindowService) throws RemoteException;
-	String getLastValue()                                       throws RemoteException;
-	
+  void addListener(InspectWindowService tvWindowService) throws RemoteException;
+
+  void removeListener(InspectWindowService tvWindowService)
+      throws RemoteException;
+
+  String getLastValue() throws RemoteException;
+
 }

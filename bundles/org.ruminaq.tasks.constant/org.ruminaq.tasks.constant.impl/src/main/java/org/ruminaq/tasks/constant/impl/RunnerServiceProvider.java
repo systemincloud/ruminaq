@@ -25,13 +25,13 @@ import org.ruminaq.tasks.constant.model.constant.ConstantPackage;
 
 public final class RunnerServiceProvider extends AbstractRunnerService {
 
-    @Override
-    public void initModelPackages() {
-        ConstantPackage.eINSTANCE.getClass();
-    }
+  @Override
+  public void initModelPackages() {
+    ConstantPackage.eINSTANCE.getClass();
+  }
 
-    @Override
-    public TaskI getImplementation(EmbeddedTaskI parent, Task task) {
-        return task instanceof Constant ? new ConstantI(parent, task) : null;
-    }
+  @Override
+  public TaskI getImplementation(EmbeddedTaskI parent, Task task) {
+    return task instanceof Constant ? new ConstantI(parent, task) : null;
+  }
 }

@@ -13,21 +13,23 @@ import org.ruminaq.gui.diagram.FeatureProviderRemoveDecorator;
 
 public class RuminaqDeleteFeature extends DefaultDeleteFeature {
 
-	private boolean isUserDecision = true;
+  private boolean isUserDecision = true;
 
-	public RuminaqDeleteFeature(IFeatureProvider fp) {
-		super(new FeatureProviderRemoveDecorator(fp.getDiagramTypeProvider()));
-	}
+  public RuminaqDeleteFeature(IFeatureProvider fp) {
+    super(new FeatureProviderRemoveDecorator(fp.getDiagramTypeProvider()));
+  }
 
-	public RuminaqDeleteFeature(IFeatureProvider fp, boolean isUserDecision) {
-		super(new FeatureProviderRemoveDecorator(fp.getDiagramTypeProvider()));
-		this.isUserDecision = isUserDecision;
-	}
+  public RuminaqDeleteFeature(IFeatureProvider fp, boolean isUserDecision) {
+    super(new FeatureProviderRemoveDecorator(fp.getDiagramTypeProvider()));
+    this.isUserDecision = isUserDecision;
+  }
 
-	@Override
-	protected boolean getUserDecision(IDeleteContext context) {
-		if(isUserDecision) return super.getUserDecision(context);
-		else return true;
-	}
+  @Override
+  protected boolean getUserDecision(IDeleteContext context) {
+    if (isUserDecision)
+      return super.getUserDecision(context);
+    else
+      return true;
+  }
 
 }

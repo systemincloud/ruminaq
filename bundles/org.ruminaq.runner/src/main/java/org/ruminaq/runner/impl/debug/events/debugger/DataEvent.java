@@ -7,16 +7,20 @@ import org.ruminaq.runner.impl.debug.events.IDebuggerEvent;
 
 public class DataEvent extends AbstractPortEvent implements IDebuggerEvent {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private DataI data;
+  private DataI data;
 
-	public DataI getData() { return data; }
+  public DataI getData() {
+    return data;
+  }
 
-	public DataEvent(DataI data, AbstractPortEventListener apel) {
-		super(apel);
-		this.data = data;
-	}
+  public DataEvent(DataI data, AbstractPortEventListener apel) {
+    super(apel);
+    this.data = data;
+  }
 
-	@Override public void preevaluate() { }
+  @Override
+  public void preevaluate() {
+  }
 }

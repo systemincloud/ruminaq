@@ -31,28 +31,28 @@ import org.ruminaq.util.ServiceFilterArgs;
 public class CreateSimpleConnectionPointContextMenu
     implements ContextMenuEntryExtension {
 
-	static class Filter implements Predicate<ServiceFilterArgs> {
+  static class Filter implements Predicate<ServiceFilterArgs> {
 
-		@Override
-		public boolean test(ServiceFilterArgs args) {
-			IFeatureProvider fp = (IFeatureProvider) args.getArgs().get(0);
-			ICustomContext context = (ICustomContext) args.getArgs().get(1);
-			PictogramElement[] pes = context.getPictogramElements();
-			List<Object> bos = Stream.of(pes)
-			    .map(pe -> fp.getBusinessObjectForPictogramElement(pe))
-			    .collect(Collectors.toList());
-			return bos.size() == 1 && bos.get(0) instanceof SimpleConnection
-			    && GraphicsUtil.distanceToConnection((FreeFormConnection) pes[0],
-			        context.getX(), context.getY(), Constants.INTERNAL_PORT) < 5;
-		}
-	}
+    @Override
+    public boolean test(ServiceFilterArgs args) {
+      IFeatureProvider fp = (IFeatureProvider) args.getArgs().get(0);
+      ICustomContext context = (ICustomContext) args.getArgs().get(1);
+      PictogramElement[] pes = context.getPictogramElements();
+      List<Object> bos = Stream.of(pes)
+          .map(pe -> fp.getBusinessObjectForPictogramElement(pe))
+          .collect(Collectors.toList());
+      return bos.size() == 1 && bos.get(0) instanceof SimpleConnection
+          && GraphicsUtil.distanceToConnection((FreeFormConnection) pes[0],
+              context.getX(), context.getY(), Constants.INTERNAL_PORT) < 5;
+    }
+  }
 
-	@Override
-	public Predicate<ICustomFeature> isAvailable(ICustomContext context) {
-		return customFeature -> {
-			return customFeature.isAvailable(context) && customFeature.getName()
-			    .equals(CreateSimpleConnectionPointFeature.NAME);
-		};
-	}
+  @Override
+  public Predicate<ICustomFeature> isAvailable(ICustomContext context) {
+    return customFeature -> {
+      return customFeature.isAvailable(context) && customFeature.getName()
+          .equals(CreateSimpleConnectionPointFeature.NAME);
+    };
+  }
 
 }

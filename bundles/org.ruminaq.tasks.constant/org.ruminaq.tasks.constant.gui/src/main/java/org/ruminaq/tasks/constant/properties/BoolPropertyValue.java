@@ -35,109 +35,111 @@ import org.ruminaq.tasks.constant.api.ValueSaveListener;
 import org.ruminaq.tasks.constant.model.constant.Constant;
 import org.ruminaq.util.NumericUtil;
 
-public class BoolPropertyValue extends PropertyValueComposite{
+public class BoolPropertyValue extends PropertyValueComposite {
 
-    private static final String DEFINE = "define";
-    private static final int WIDTH = 75;
+  private static final String DEFINE = "define";
+  private static final int WIDTH = 75;
 
-    private Combo cmbValue;
-    private Text txtValue;
+  private Combo cmbValue;
+  private Text txtValue;
 
-    public BoolPropertyValue(
-            ValueSaveListener listener,
-            Composite valueRoot,
-            PictogramElement pe,
-            TransactionalEditingDomain ed) {
-        super(listener, valueRoot, pe, ed);
+  public BoolPropertyValue(ValueSaveListener listener, Composite valueRoot,
+      PictogramElement pe, TransactionalEditingDomain ed) {
+    super(listener, valueRoot, pe, ed);
 
-        // initLayout
-        composite = new Composite(this.valueRoot, SWT.NONE);
-        GridLayout layout = new GridLayout(1, false);
-        layout.marginWidth = 0;
-        layout.marginHeight = 0;
-        composite.setLayout(layout);
-        cmbValue = new Combo(composite, SWT.READ_ONLY);
-        cmbValue.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
-        txtValue = new Text(composite, SWT.BORDER);
-        GridData layoutDims = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
-        layoutDims.minimumWidth = WIDTH;
-        layoutDims.widthHint = WIDTH;
-        txtValue.setLayoutData(layoutDims);
+    // initLayout
+    composite = new Composite(this.valueRoot, SWT.NONE);
+    GridLayout layout = new GridLayout(1, false);
+    layout.marginWidth = 0;
+    layout.marginHeight = 0;
+    composite.setLayout(layout);
+    cmbValue = new Combo(composite, SWT.READ_ONLY);
+    cmbValue.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
+    txtValue = new Text(composite, SWT.BORDER);
+    GridData layoutDims = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
+    layoutDims.minimumWidth = WIDTH;
+    layoutDims.widthHint = WIDTH;
+    txtValue.setLayoutData(layoutDims);
 
-        // initComponents
-        cmbValue.setItems(Boolean.FALSE.toString(), Boolean.TRUE.toString(), DEFINE);
-        cmbValue.select(0);
+    // initComponents
+    cmbValue.setItems(Boolean.FALSE.toString(), Boolean.TRUE.toString(),
+        DEFINE);
+    cmbValue.select(0);
 
-        // initActions
-        cmbValue.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                ModelUtil.runModelChange(() -> {
-                    Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-                    if (bo instanceof Constant) {
-                        Constant c = (Constant) bo;
-                        String value = cmbValue.getText();
-                        if(value.equals(DEFINE)) {
-                            c.setValue(txtValue.getText());
-                            txtValue.setVisible(true);
-                        } else {
-                            c.setValue(value);
-                            txtValue.setVisible(false);
-                        }
-                        saveListener.update();
-                    }
-                }, ed, "Change Constant");
-            }
-        });
-        txtValue.addTraverseListener((TraverseEvent e) -> {
-            if (!NumericUtil.isMultiDimsBoolAlsoGV(txtValue.getText())) {
-                MessageDialog.openError(txtValue.getShell(), "Can't edit value", "Don't understant value");
+    // initActions
+    cmbValue.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        ModelUtil.runModelChange(() -> {
+          Object bo = Graphiti.getLinkService()
+              .getBusinessObjectForLinkedPictogramElement(pe);
+          if (bo instanceof Constant) {
+            Constant c = (Constant) bo;
+            String value = cmbValue.getText();
+            if (value.equals(DEFINE)) {
+              c.setValue(txtValue.getText());
+              txtValue.setVisible(true);
             } else {
-                if(e.detail == SWT.TRAVERSE_RETURN) {
-                    ModelUtil.runModelChange(() -> {
-                        Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-                        if (bo instanceof Constant) {
-                            Constant c = (Constant) bo;
-                            c.setValue(txtValue.getText());
-                            saveListener.update();
-                        }
-                    }, ed, "Change Constant");
-                }
+              c.setValue(value);
+              txtValue.setVisible(false);
             }
-        });
-
-        // addStyles
-        composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-
-    }
-
-    @Override
-    public String getValue() {
-        if (cmbValue.getText().equals(DEFINE)) {
-            return txtValue.getText();
-        } else {
-            return cmbValue.getText();
-        }
-    }
-
-    @Override
-    public void refresh(String value) {
-        int j = 0;
-        for (String b : cmbValue.getItems()) {
-            if (b.equals(value)) {
-                break;
+            saveListener.update();
+          }
+        }, ed, "Change Constant");
+      }
+    });
+    txtValue.addTraverseListener((TraverseEvent e) -> {
+      if (!NumericUtil.isMultiDimsBoolAlsoGV(txtValue.getText())) {
+        MessageDialog.openError(txtValue.getShell(), "Can't edit value",
+            "Don't understant value");
+      } else {
+        if (e.detail == SWT.TRAVERSE_RETURN) {
+          ModelUtil.runModelChange(() -> {
+            Object bo = Graphiti.getLinkService()
+                .getBusinessObjectForLinkedPictogramElement(pe);
+            if (bo instanceof Constant) {
+              Constant c = (Constant) bo;
+              c.setValue(txtValue.getText());
+              saveListener.update();
             }
-            j++;
+          }, ed, "Change Constant");
         }
+      }
+    });
 
-        if (j == cmbValue.getItems().length) {
-            txtValue.setText(value);
-            txtValue.setVisible(true);
-            j--;
-        } else {
-            txtValue.setVisible(false);
-        }
+    // addStyles
+    composite
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 
-        cmbValue.select(j);
+  }
+
+  @Override
+  public String getValue() {
+    if (cmbValue.getText().equals(DEFINE)) {
+      return txtValue.getText();
+    } else {
+      return cmbValue.getText();
     }
+  }
+
+  @Override
+  public void refresh(String value) {
+    int j = 0;
+    for (String b : cmbValue.getItems()) {
+      if (b.equals(value)) {
+        break;
+      }
+      j++;
+    }
+
+    if (j == cmbValue.getItems().length) {
+      txtValue.setText(value);
+      txtValue.setVisible(true);
+      j--;
+    } else {
+      txtValue.setVisible(false);
+    }
+
+    cmbValue.select(j);
+  }
 }

@@ -38,8 +38,8 @@ public final class Nature {
     } catch (CoreException e) {
       throw new RuminaqException(Messages.createProjectWizardFailedNature, e);
     }
-    description.setNatureIds(new String[] { JavaCore.NATURE_ID, RuminaqProjectNature.ID,
-        IMavenConstants.NATURE_ID });
+    description.setNatureIds(new String[] { JavaCore.NATURE_ID,
+        RuminaqProjectNature.ID, IMavenConstants.NATURE_ID });
     try {
       project.setDescription(description, null);
     } catch (CoreException e) {

@@ -18,7 +18,7 @@ import org.ruminaq.tasks.javatask.client.data.Data;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD })
 public @interface OutputPortInfo {
-	String name();
+  String name();
 
-	Class<? extends Data>[] dataType() default { Control.class };
+  Class<? extends Data>[] dataType() default { Control.class };
 }

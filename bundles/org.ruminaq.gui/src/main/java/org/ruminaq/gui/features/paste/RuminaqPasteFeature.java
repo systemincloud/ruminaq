@@ -15,11 +15,11 @@ import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
 
 public abstract class RuminaqPasteFeature extends AbstractPasteFeature {
 
-	public RuminaqPasteFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public RuminaqPasteFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	protected List<PictogramElement> newPes = new LinkedList<>();
+  protected List<PictogramElement> newPes = new LinkedList<>();
 
-	public abstract List<PictogramElement> getNewPictogramElements();
+  public abstract List<PictogramElement> getNewPictogramElements();
 }

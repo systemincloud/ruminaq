@@ -18,55 +18,63 @@ import org.slf4j.Logger;
 
 public class InspectI extends BasicTaskI {
 
-	private final Logger logger = RunnerLoggerFactory.getLogger(InspectI.class);
+  private final Logger logger = RunnerLoggerFactory.getLogger(InspectI.class);
 
-	private Inspect inspect;
-	private boolean pretty;
+  private Inspect inspect;
+  private boolean pretty;
 
-	private String  lastValue;
+  private String lastValue;
 
-	private List<InspectWindowService> listeners = new LinkedList<>();
+  private List<InspectWindowService> listeners = new LinkedList<>();
 
-	public InspectI(EmbeddedTaskI parent, Task task) {
-		super(parent, task);
+  public InspectI(EmbeddedTaskI parent, Task task) {
+    super(parent, task);
 
-		this.inspect = (Inspect) task;
-		this.pretty  = inspect.isMatricesPretty();
+    this.inspect = (Inspect) task;
+    this.pretty = inspect.isMatricesPretty();
 
-		DirmiClient.INSTANCE.register(inspect.getBundleName() + ":" + inspect.getVersion(), Util.getUniqueId(inspect, parent.getBasePath()), new InspectIService(){
-			@Override
-			public void addListener(InspectWindowService tvWindowService) throws RemoteException {
-				if(!listeners.contains(tvWindowService))
-					listeners.add(tvWindowService);
-			}
+    DirmiClient.INSTANCE.register(
+        inspect.getBundleName() + ":" + inspect.getVersion(),
+        Util.getUniqueId(inspect, parent.getBasePath()), new InspectIService() {
+          @Override
+          public void addListener(InspectWindowService tvWindowService)
+              throws RemoteException {
+            if (!listeners.contains(tvWindowService))
+              listeners.add(tvWindowService);
+          }
 
-			@Override
-			public void removeListener(InspectWindowService tvWindowService) throws RemoteException {
-				if(listeners.contains(tvWindowService))
-					listeners.remove(tvWindowService);
-			}
-			@Override public String getLastValue() throws RemoteException { return lastValue; }
-		});
-	}
+          @Override
+          public void removeListener(InspectWindowService tvWindowService)
+              throws RemoteException {
+            if (listeners.contains(tvWindowService))
+              listeners.remove(tvWindowService);
+          }
 
-	@Override
-	protected void execute(PortMap portIdData, int grp) {
-		logger.trace("execute");
+          @Override
+          public String getLastValue() throws RemoteException {
+            return lastValue;
+          }
+        });
+  }
 
-		DataI data = portIdData.get(Port.IN);
-		TextI text = data.get(TextI.class);
-		if(text == null){
-			logger.error("No text in port");
-			return;
-		}
-		lastValue = text.toString(pretty, 0, TextI.Separator.SPACE);
+  @Override
+  protected void execute(PortMap portIdData, int grp) {
+    logger.trace("execute");
 
-		for(InspectWindowService service: listeners){
-			try {
-				service.newValue(lastValue);
-			} catch (RemoteException e) {
-				logger.error(e.getMessage());
-			}
-		}
-	}
+    DataI data = portIdData.get(Port.IN);
+    TextI text = data.get(TextI.class);
+    if (text == null) {
+      logger.error("No text in port");
+      return;
+    }
+    lastValue = text.toString(pretty, 0, TextI.Separator.SPACE);
+
+    for (InspectWindowService service : listeners) {
+      try {
+        service.newValue(lastValue);
+      } catch (RemoteException e) {
+        logger.error(e.getMessage());
+      }
+    }
+  }
 }

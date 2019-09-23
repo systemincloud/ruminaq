@@ -9,13 +9,13 @@ import org.ruminaq.tasks.inspect.model.inspect.Inspect;
 import org.ruminaq.tasks.inspect.model.inspect.InspectPackage;
 
 public final class RunnerServiceProvider extends AbstractRunnerService {
-	@Override
-	public void initModelPackages() {
-		InspectPackage.eINSTANCE.getClass();
-	}
+  @Override
+  public void initModelPackages() {
+    InspectPackage.eINSTANCE.getClass();
+  }
 
-	@Override
-	public TaskI getImplementation(EmbeddedTaskI parent, Task task) {
-		return task instanceof Inspect ? new InspectI(parent, task) : null;
-	}
+  @Override
+  public TaskI getImplementation(EmbeddedTaskI parent, Task task) {
+    return task instanceof Inspect ? new InspectI(parent, task) : null;
+  }
 }

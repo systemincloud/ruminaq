@@ -19,68 +19,88 @@ import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.NewTaskEvent;
 import org.slf4j.Logger;
 
-public class PythonTask extends PythonTasksDebugElement implements IThread, IEventProcessor {
+public class PythonTask extends PythonTasksDebugElement
+    implements IThread, IEventProcessor {
 
-	private final Logger logger = ModelerLoggerFactory.getLogger(PythonTask.class);
+  private final Logger logger = ModelerLoggerFactory
+      .getLogger(PythonTask.class);
 
-	private String id;
-	private String name;
-	private String parentPath;
-	private IFile  file;
+  private String id;
+  private String name;
+  private String parentPath;
+  private IFile file;
 
-	public String getParentPath() { return parentPath; }
-	public String getId()         { return id; }
+  public String getParentPath() {
+    return parentPath;
+  }
 
-	protected PythonTask(IDebugTarget target, IProject project, NewTaskEvent event) {
-		super(target);
-		this.id         = event.getId();
-		this.name       = event.getFullId();
-		this.parentPath = event.getParentPath();
-		for(IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-			String prefix = p.getLocation().removeLastSegments(1).toFile().getAbsolutePath();
-			if(parentPath.startsWith(prefix)) {
-				logger.trace("prefix : ", prefix);
-				logger.trace("parentPath : ", parentPath);
-				this.file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(parentPath.replace(prefix, "")));
-				break;
-			}
-		}
+  public String getId() {
+    return id;
+  }
 
-		setState(MainState.RUNNING);
-	}
+  protected PythonTask(IDebugTarget target, IProject project,
+      NewTaskEvent event) {
+    super(target);
+    this.id = event.getId();
+    this.name = event.getFullId();
+    this.parentPath = event.getParentPath();
+    for (IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+      String prefix = p.getLocation().removeLastSegments(1).toFile()
+          .getAbsolutePath();
+      if (parentPath.startsWith(prefix)) {
+        logger.trace("prefix : ", prefix);
+        logger.trace("parentPath : ", parentPath);
+        this.file = ResourcesPlugin.getWorkspace().getRoot()
+            .getFile(new Path(parentPath.replace(prefix, "")));
+        break;
+      }
+    }
 
-	@Override public String        getName()          throws DebugException { return name; }
-	@Override public int           getPriority()      throws DebugException { return 0; }
+    setState(MainState.RUNNING);
+  }
+
+  @Override
+  public String getName() throws DebugException {
+    return name;
+  }
+
+  @Override
+  public int getPriority() throws DebugException {
+    return 0;
+  }
 //	@Override public IStackFrame[] getStackFrames()   throws DebugException { return ports.toArray(new IStackFrame[ports.size()]); }
 
 //	@Override public IStackFrame   getTopStackFrame() throws DebugException { return !ports.isEmpty() ? ports.get(0) : null; }
 //	@Override public boolean       hasStackFrames()   throws DebugException { return !ports.isEmpty(); }
 
-	@Override public IBreakpoint[] getBreakpoints() {
-		List<IBreakpoint> ret = new LinkedList<>();
+  @Override
+  public IBreakpoint[] getBreakpoints() {
+    List<IBreakpoint> ret = new LinkedList<>();
 //		for(Port p : ports)
 //			ret.addAll(p.getBreakpoints());
-		return ret.toArray(new IBreakpoint[ret.size()]);
-	}
+    return ret.toArray(new IBreakpoint[ret.size()]);
+  }
 
-	public IFile getFile() { return file; }
+  public IFile getFile() {
+    return file;
+  }
 
-	@Override
-	public void handleEvent(IDebugEvent event) {
-	}
+  @Override
+  public void handleEvent(IDebugEvent event) {
+  }
 
-	@Override
-	public IStackFrame[] getStackFrames() throws DebugException {
-		return null;
-	}
+  @Override
+  public IStackFrame[] getStackFrames() throws DebugException {
+    return null;
+  }
 
-	@Override
-	public IStackFrame getTopStackFrame() throws DebugException {
-		return null;
-	}
+  @Override
+  public IStackFrame getTopStackFrame() throws DebugException {
+    return null;
+  }
 
-	@Override
-	public boolean hasStackFrames() throws DebugException {
-		return false;
-	}
+  @Override
+  public boolean hasStackFrames() throws DebugException {
+    return false;
+  }
 }

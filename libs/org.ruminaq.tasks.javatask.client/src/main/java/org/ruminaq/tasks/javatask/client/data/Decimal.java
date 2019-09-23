@@ -13,23 +13,23 @@ import java.util.List;
  */
 public class Decimal extends Data {
 
-	private List<BigDecimal> values = new LinkedList<>();
+  private List<BigDecimal> values = new LinkedList<>();
 
-	public Decimal(BigDecimal value) {
-		super(1);
-		this.values.add(value);
-	}
+  public Decimal(BigDecimal value) {
+    super(1);
+    this.values.add(value);
+  }
 
-	public Decimal(List<Integer> dims, List<BigDecimal> values) {
-		super(dims);
-		this.values.addAll(values);
-	}
+  public Decimal(List<Integer> dims, List<BigDecimal> values) {
+    super(dims);
+    this.values.addAll(values);
+  }
 
-	public List<BigDecimal> getValues() {
-		return values;
-	}
+  public List<BigDecimal> getValues() {
+    return values;
+  }
 
-	public BigDecimal getValue() {
-		return values.get(0);
-	}
+  public BigDecimal getValue() {
+    return values.get(0);
+  }
 }

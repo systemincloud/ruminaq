@@ -20,44 +20,45 @@ import org.ruminaq.tasks.features.CreateTaskFeature;
 @Component(property = { "service.ranking:Integer=10" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
-	@Override
-	public List<Class<? extends ICreateFeature>> getFeatures() {
-		return Arrays.asList(CreateFeature.class);
-	}
-	
-	public static class CreateFeature extends CreateTaskFeature implements PaletteCreateFeature {
+  @Override
+  public List<Class<? extends ICreateFeature>> getFeatures() {
+    return Arrays.asList(CreateFeature.class);
+  }
 
-		public CreateFeature(IFeatureProvider fp) {
-			super(fp, Console.class);
-		}
+  public static class CreateFeature extends CreateTaskFeature
+      implements PaletteCreateFeature {
 
-		@Override
-		public String getCompartment() {
-			return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
-		}
-		
-		@Override
-		public String getStack() {
-			return CommonPaletteCompartmentEntry.SINKS_STACK;
-		}
+    public CreateFeature(IFeatureProvider fp) {
+      super(fp, Console.class);
+    }
 
-		@Override
-		public Object[] create(ICreateContext context) {
-			Console console = ConsoleFactory.eINSTANCE.createConsole();
-			console.setOnlyLocal(true);
-			console.setConsoleType(ConsoleType.IN);
-			console.setNewLine(true);
-			return super.create(context, console);
-		}
+    @Override
+    public String getCompartment() {
+      return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
+    }
 
-		@Override
-		protected Class<? extends PortsDescr> getPortsDescription() {
-			return Port.class;
-		}
+    @Override
+    public String getStack() {
+      return CommonPaletteCompartmentEntry.SINKS_STACK;
+    }
 
-		@Override
-		public String getCreateImageId() {
-			return Images.K.IMG_CONSOLE_PALETTE.name();
-		}
-	}
+    @Override
+    public Object[] create(ICreateContext context) {
+      Console console = ConsoleFactory.eINSTANCE.createConsole();
+      console.setOnlyLocal(true);
+      console.setConsoleType(ConsoleType.IN);
+      console.setNewLine(true);
+      return super.create(context, console);
+    }
+
+    @Override
+    protected Class<? extends PortsDescr> getPortsDescription() {
+      return Port.class;
+    }
+
+    @Override
+    public String getCreateImageId() {
+      return Images.K.IMG_CONSOLE_PALETTE.name();
+    }
+  }
 }

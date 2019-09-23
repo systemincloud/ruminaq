@@ -33,125 +33,196 @@ import org.ruminaq.tasks.debug.ui.InternalPortBreakpoint;
 import org.ruminaq.tasks.debug.ui.InternalPortBreakpoint.SuspendPolicy;
 import org.slf4j.Logger;
 
-public abstract class Port extends TasksDebugElement implements IStackFrame, DiagramSource, IEventProcessor, IBreakpointListener, AbstractPortEventListener {
+public abstract class Port extends TasksDebugElement
+    implements IStackFrame, DiagramSource, IEventProcessor, IBreakpointListener,
+    AbstractPortEventListener {
 
-	private final Logger logger = ModelerLoggerFactory.getLogger(Task.class);
+  private final Logger logger = ModelerLoggerFactory.getLogger(Task.class);
 
-	protected final Task   task;
-	protected final String id;
+  protected final Task task;
+  protected final String id;
 
-	public Task   getTask() { return task; }
-	public String getId()   { return id; }
+  public Task getTask() {
+    return task;
+  }
 
-	private List<IBreakpoint> breakpoints = new LinkedList<>();
+  public String getId() {
+    return id;
+  }
 
-	public List<IBreakpoint> getBreakpoints() { return breakpoints; }
+  private List<IBreakpoint> breakpoints = new LinkedList<>();
 
-	protected boolean dirtyVars = true;
+  public List<IBreakpoint> getBreakpoints() {
+    return breakpoints;
+  }
 
-	protected Port(IDebugTarget target, String id, Task task) {
-		super(target);
-		this.task = task;
-		this.id   = id;
-		setState(MainState.RUNNING);
-	}
+  protected boolean dirtyVars = true;
 
-	@Override public IFile getSourceFile() { return task.getFile(); }
+  protected Port(IDebugTarget target, String id, Task task) {
+    super(target);
+    this.task = task;
+    this.id = id;
+    setState(MainState.RUNNING);
+  }
 
-	@Override
-	public boolean hasVariables() throws DebugException {
-		return getVariables().length > 0;
-	}
+  @Override
+  public IFile getSourceFile() {
+    return task.getFile();
+  }
 
-	@Override public boolean canResume()   { return isSuspended(); }
-	@Override public boolean canSuspend()  { return !isSuspended() && !isTerminated(); }
-	@Override public boolean canStepOver() { return isSuspended(); }
-	@Override public boolean isSuspended() { return this.state == MainState.SUSPENDED && !isTerminated(); }
-	@Override public boolean isStepping()  { return this.state == MainState.STEPPING && !isTerminated(); }
+  @Override
+  public boolean hasVariables() throws DebugException {
+    return getVariables().length > 0;
+  }
 
-	@Override public void resume() throws DebugException {
-		logger.trace("resume");
-		dirtyVars = true;
-		getDebugTarget().fireModelEvent(new ResumePortRequest(this));
-	}
+  @Override
+  public boolean canResume() {
+    return isSuspended();
+  }
 
-	@Override public void suspend() throws DebugException {
-		logger.trace("suspend");
-		getDebugTarget().fireModelEvent(new SuspendPortRequest(this));
-	}
+  @Override
+  public boolean canSuspend() {
+    return !isSuspended() && !isTerminated();
+  }
 
-	@Override
-	public void stepOver() {
-		getDebugTarget().fireModelEvent(new ResumePortRequest(ResumePortRequest.Type.STEP_OVER, this));
-	}
+  @Override
+  public boolean canStepOver() {
+    return isSuspended();
+  }
 
-	@Override
-	public void handleEvent(IDebugEvent event) {
-		logger.trace("handleEvent {}", event.getClass().getSimpleName());
-		if(event instanceof StartedEvent) {
-			DebugPlugin.getDefault().getBreakpointManager().addBreakpointListener(this);
-			IBreakpoint[] breakpoints = DebugPlugin.getDefault().getBreakpointManager().getBreakpoints(InternalPortBreakpoint.ID);
-			for(IBreakpoint breakpoint : breakpoints) breakpointAdded(breakpoint);
+  @Override
+  public boolean isSuspended() {
+    return this.state == MainState.SUSPENDED && !isTerminated();
+  }
 
-		} else if(event instanceof TerminatedEvent) DebugPlugin.getDefault().getBreakpointManager().removeBreakpointListener(this);
+  @Override
+  public boolean isStepping() {
+    return this.state == MainState.STEPPING && !isTerminated();
+  }
 
-		if(event instanceof ResumedPortEvent && ((AbstractPortEvent) event).compare(this)) {
-			if(((ResumedPortEvent) event).getType().equals(ResumedPortEvent.Type.NORMAL)) {
-				this.state = MainState.RUNNING;
-				fireResumeEvent(DebugEvent.UNSPECIFIED);
-			} else if(((ResumedPortEvent) event).getType().equals(ResumedPortEvent.Type.STEP_OVER)) {
-				this.state = MainState.STEPPING;
-				fireResumeEvent(DebugEvent.STEP_OVER);
-			}
+  @Override
+  public void resume() throws DebugException {
+    logger.trace("resume");
+    dirtyVars = true;
+    getDebugTarget().fireModelEvent(new ResumePortRequest(this));
+  }
 
-		} else if(event instanceof SuspendedPortEvent && ((AbstractPortEvent) event).compare(this)) {
-			switch(((SuspendedPortEvent) event).getType()) {
-				case CLIENT:     this.state = MainState.SUSPENDED; break;
-				case STEP_OVER:  this.state = MainState.SUSPENDED; break;
-				case BREAKPOINT: this.state = MainState.SUSPENDED; break;
-			    default:         this.state = MainState.SUSPENDED; break;
-			}
-			fireSuspendEvent(((SuspendedPortEvent) event).getType().getDebugType());
-			suspended();
-		}
-	}
+  @Override
+  public void suspend() throws DebugException {
+    logger.trace("suspend");
+    getDebugTarget().fireModelEvent(new SuspendPortRequest(this));
+  }
 
-	protected abstract void suspended();
+  @Override
+  public void stepOver() {
+    getDebugTarget().fireModelEvent(
+        new ResumePortRequest(ResumePortRequest.Type.STEP_OVER, this));
+  }
 
-	private boolean supportsBreakpoint(InternalPortBreakpoint bp) {
-		logger.trace("task.getParentPath() : {}", task.getParentPath());
-		logger.trace("bp.getDiagramPath()  : {}", bp.getDiagramPath());
-		logger.trace("task.getId() : {}, bp.getTaskId() : {}", task.getId(), bp.getTaskId());
-		logger.trace("id  : {}, bp.getPortId()) : {}", id, bp.getPortId());
-		return Paths.get(task.getParentPath()).equals(Paths.get(bp.getDiagramPath())) &&
-			   task.getId().equals(bp.getTaskId()) &&
-			   id.equals(bp.getPortId());
-	}
+  @Override
+  public void handleEvent(IDebugEvent event) {
+    logger.trace("handleEvent {}", event.getClass().getSimpleName());
+    if (event instanceof StartedEvent) {
+      DebugPlugin.getDefault().getBreakpointManager()
+          .addBreakpointListener(this);
+      IBreakpoint[] breakpoints = DebugPlugin.getDefault()
+          .getBreakpointManager().getBreakpoints(InternalPortBreakpoint.ID);
+      for (IBreakpoint breakpoint : breakpoints)
+        breakpointAdded(breakpoint);
 
-	@Override
-	public void breakpointAdded(IBreakpoint breakpoint) {
-		if(breakpoint instanceof InternalPortBreakpoint && supportsBreakpoint((InternalPortBreakpoint) breakpoint) && getDebugTarget().isEnabledBreakpoint(breakpoint)) {
-			InternalPortBreakpoint bp = (InternalPortBreakpoint) breakpoint;
-			getDebugTarget().fireModelEvent(new PortBreakpointRequest(PortBreakpointRequest.Type.ADDED, bp.getHitCount(), bp.getSuspendPolicy() == SuspendPolicy.SUSPEND_RUNNER, this));
-			breakpoints.add(breakpoint);
-		}
-	}
+    } else if (event instanceof TerminatedEvent)
+      DebugPlugin.getDefault().getBreakpointManager()
+          .removeBreakpointListener(this);
 
-	@Override
-	public void breakpointRemoved(final IBreakpoint breakpoint, final IMarkerDelta delta) {
-		if(breakpoint instanceof InternalPortBreakpoint && supportsBreakpoint((InternalPortBreakpoint) breakpoint)) {
-			getDebugTarget().fireModelEvent(new PortBreakpointRequest(PortBreakpointRequest.Type.REMOVED, this));
-			breakpoints.remove(breakpoint);
-		}
-	}
+    if (event instanceof ResumedPortEvent
+        && ((AbstractPortEvent) event).compare(this)) {
+      if (((ResumedPortEvent) event).getType()
+          .equals(ResumedPortEvent.Type.NORMAL)) {
+        this.state = MainState.RUNNING;
+        fireResumeEvent(DebugEvent.UNSPECIFIED);
+      } else if (((ResumedPortEvent) event).getType()
+          .equals(ResumedPortEvent.Type.STEP_OVER)) {
+        this.state = MainState.STEPPING;
+        fireResumeEvent(DebugEvent.STEP_OVER);
+      }
 
-	@Override
-	public void breakpointChanged(final IBreakpoint breakpoint, final IMarkerDelta delta) {
-		breakpointRemoved(breakpoint, delta);
-		breakpointAdded(breakpoint);
-	}
+    } else if (event instanceof SuspendedPortEvent
+        && ((AbstractPortEvent) event).compare(this)) {
+      switch (((SuspendedPortEvent) event).getType()) {
+        case CLIENT:
+          this.state = MainState.SUSPENDED;
+          break;
+        case STEP_OVER:
+          this.state = MainState.SUSPENDED;
+          break;
+        case BREAKPOINT:
+          this.state = MainState.SUSPENDED;
+          break;
+        default:
+          this.state = MainState.SUSPENDED;
+          break;
+      }
+      fireSuspendEvent(((SuspendedPortEvent) event).getType().getDebugType());
+      suspended();
+    }
+  }
 
-	@Override public String getDiagramPath() { return task.getParentPath(); }
-	@Override public String getTaskId()      { return task.getId(); }
-	@Override public String getPortId()      { return id; }
+  protected abstract void suspended();
+
+  private boolean supportsBreakpoint(InternalPortBreakpoint bp) {
+    logger.trace("task.getParentPath() : {}", task.getParentPath());
+    logger.trace("bp.getDiagramPath()  : {}", bp.getDiagramPath());
+    logger.trace("task.getId() : {}, bp.getTaskId() : {}", task.getId(),
+        bp.getTaskId());
+    logger.trace("id  : {}, bp.getPortId()) : {}", id, bp.getPortId());
+    return Paths.get(task.getParentPath())
+        .equals(Paths.get(bp.getDiagramPath()))
+        && task.getId().equals(bp.getTaskId()) && id.equals(bp.getPortId());
+  }
+
+  @Override
+  public void breakpointAdded(IBreakpoint breakpoint) {
+    if (breakpoint instanceof InternalPortBreakpoint
+        && supportsBreakpoint((InternalPortBreakpoint) breakpoint)
+        && getDebugTarget().isEnabledBreakpoint(breakpoint)) {
+      InternalPortBreakpoint bp = (InternalPortBreakpoint) breakpoint;
+      getDebugTarget().fireModelEvent(new PortBreakpointRequest(
+          PortBreakpointRequest.Type.ADDED, bp.getHitCount(),
+          bp.getSuspendPolicy() == SuspendPolicy.SUSPEND_RUNNER, this));
+      breakpoints.add(breakpoint);
+    }
+  }
+
+  @Override
+  public void breakpointRemoved(final IBreakpoint breakpoint,
+      final IMarkerDelta delta) {
+    if (breakpoint instanceof InternalPortBreakpoint
+        && supportsBreakpoint((InternalPortBreakpoint) breakpoint)) {
+      getDebugTarget().fireModelEvent(
+          new PortBreakpointRequest(PortBreakpointRequest.Type.REMOVED, this));
+      breakpoints.remove(breakpoint);
+    }
+  }
+
+  @Override
+  public void breakpointChanged(final IBreakpoint breakpoint,
+      final IMarkerDelta delta) {
+    breakpointRemoved(breakpoint, delta);
+    breakpointAdded(breakpoint);
+  }
+
+  @Override
+  public String getDiagramPath() {
+    return task.getParentPath();
+  }
+
+  @Override
+  public String getTaskId() {
+    return task.getId();
+  }
+
+  @Override
+  public String getPortId() {
+    return id;
+  }
 }

@@ -25,101 +25,123 @@ import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.util.TasksUtil;
 
-public class PasteTaskFeature extends RuminaqPasteFeature implements PasteAnchorTracker {
+public class PasteTaskFeature extends RuminaqPasteFeature
+    implements PasteAnchorTracker {
 
-	private PictogramElement oldPe;
-	private int              xMin;
-	private int              yMin;
+  private PictogramElement oldPe;
+  private int xMin;
+  private int yMin;
 
-	private Map<Anchor, Anchor> anchors = new HashMap<>();
+  private Map<Anchor, Anchor> anchors = new HashMap<>();
 
-	@Override public List<PictogramElement> getNewPictogramElements() { return newPes; }
+  @Override
+  public List<PictogramElement> getNewPictogramElements() {
+    return newPes;
+  }
 
-	public PasteTaskFeature(IFeatureProvider fp, PictogramElement oldPe, int xMin, int yMin) {
-		super(fp);
-		this.oldPe = oldPe;
-		this.xMin  = xMin;
-		this.yMin  = yMin;
-	}
+  public PasteTaskFeature(IFeatureProvider fp, PictogramElement oldPe, int xMin,
+      int yMin) {
+    super(fp);
+    this.oldPe = oldPe;
+    this.xMin = xMin;
+    this.yMin = yMin;
+  }
 
-	@Override
-	public boolean canPaste(IPasteContext context) {
-        PictogramElement[] pes = context.getPictogramElements();
-        if(pes.length != 1 || !(pes[0] instanceof Diagram)) return false;
-        return true;
-	}
+  @Override
+  public boolean canPaste(IPasteContext context) {
+    PictogramElement[] pes = context.getPictogramElements();
+    if (pes.length != 1 || !(pes[0] instanceof Diagram))
+      return false;
+    return true;
+  }
 
-	@Override
-	public void paste(IPasteContext context) {
-		PictogramElement[] pes = context.getPictogramElements();
-		int x = context.getX();
-		int y = context.getY();
+  @Override
+  public void paste(IPasteContext context) {
+    PictogramElement[] pes = context.getPictogramElements();
+    int x = context.getX();
+    int y = context.getY();
 
-		Diagram diagram = (Diagram) pes[0];
+    Diagram diagram = (Diagram) pes[0];
 
-		Task           oldBo    = null;
-	  	ContainerShape oldLabel = null;
+    Task oldBo = null;
+    ContainerShape oldLabel = null;
 
-	  	for(Object o : getAllBusinessObjectsForPictogramElement(oldPe)) {
-	  		if(o instanceof Task)               oldBo = (Task) o;
-	  		if(AddElementFeature.isLabel(o)) oldLabel = (ContainerShape) o;
-	  	}
+    for (Object o : getAllBusinessObjectsForPictogramElement(oldPe)) {
+      if (o instanceof Task)
+        oldBo = (Task) o;
+      if (AddElementFeature.isLabel(o))
+        oldLabel = (ContainerShape) o;
+    }
 
-	    PictogramElement newPe    = EcoreUtil.copy(oldPe);
-	    newPes.add(newPe);
-	    Task             newBo    = EcoreUtil.copy(oldBo);
+    PictogramElement newPe = EcoreUtil.copy(oldPe);
+    newPes.add(newPe);
+    Task newBo = EcoreUtil.copy(oldBo);
 
-  		MainTask mt = ModelHandler.getModel(getDiagram(), getFeatureProvider());
-  		mt.getTask().add((Task) newBo);
+    MainTask mt = ModelHandler.getModel(getDiagram(), getFeatureProvider());
+    mt.getTask().add((Task) newBo);
 
-  		newPe.getGraphicsAlgorithm().setX(x + newPe.getGraphicsAlgorithm().getX() - xMin);
-  		newPe.getGraphicsAlgorithm().setY(y + newPe.getGraphicsAlgorithm().getY() - yMin);
+    newPe.getGraphicsAlgorithm()
+        .setX(x + newPe.getGraphicsAlgorithm().getX() - xMin);
+    newPe.getGraphicsAlgorithm()
+        .setY(y + newPe.getGraphicsAlgorithm().getY() - yMin);
 
-  		String newId = PasteDefaultElementFeature.setId(newBo.getId(), newBo, diagram);
+    String newId = PasteDefaultElementFeature.setId(newBo.getId(), newBo,
+        diagram);
 
-  		diagram.getChildren().add((Shape) newPe);
+    diagram.getChildren().add((Shape) newPe);
 
-  		ContainerShape newLabel = PasteDefaultElementFeature.addLabel(oldPe, oldLabel, x, y, newId, diagram, newPe);
-  		newPes.add(newLabel);
+    ContainerShape newLabel = PasteDefaultElementFeature.addLabel(oldPe,
+        oldLabel, x, y, newId, diagram, newPe);
+    newPes.add(newLabel);
 
-  		link(newPe,    new Object[] { newBo, newLabel });
-  		link(newLabel, new Object[] { newBo, newPe });
+    link(newPe, new Object[] { newBo, newLabel });
+    link(newLabel, new Object[] { newBo, newPe });
 
-  		updatePictogramElement(newPe);
+    updatePictogramElement(newPe);
 
-  		updatePictogramElement(newLabel);
-	  	layoutPictogramElement(newLabel);
+    updatePictogramElement(newLabel);
+    layoutPictogramElement(newLabel);
 
-	  	updateInternalPorts(newBo, (ContainerShape) newPe);
+    updateInternalPorts(newBo, (ContainerShape) newPe);
 
-	  	Iterator<Shape> itNewChild = ((ContainerShape) newPe).getChildren().iterator();
-	  	Iterator<Shape> itOldChild = ((ContainerShape) oldPe).getChildren().iterator();
-	  	while(itNewChild.hasNext() && itOldChild.hasNext()) {
-		  	Iterator<Anchor> itOld = itOldChild.next().getAnchors().iterator();
-		  	Iterator<Anchor> itNew = itNewChild.next().getAnchors().iterator();
-		  	while(itOld.hasNext() && itNew.hasNext())
-		  		anchors.put(itOld.next(), itNew.next());
-	  	}
-	}
+    Iterator<Shape> itNewChild = ((ContainerShape) newPe).getChildren()
+        .iterator();
+    Iterator<Shape> itOldChild = ((ContainerShape) oldPe).getChildren()
+        .iterator();
+    while (itNewChild.hasNext() && itOldChild.hasNext()) {
+      Iterator<Anchor> itOld = itOldChild.next().getAnchors().iterator();
+      Iterator<Anchor> itNew = itNewChild.next().getAnchors().iterator();
+      while (itOld.hasNext() && itNew.hasNext())
+        anchors.put(itOld.next(), itNew.next());
+    }
+  }
 
-	private void updateInternalPorts(Task newBo, ContainerShape newPe) {
-		for(Shape newPortShape : newPe.getChildren()) {
-			if(AddTaskFeature.isInternalPortLabel(newPortShape)) continue;
-			EList<EObject> os = newPortShape.getLink().getBusinessObjects();
-			String id = null;
-			ContainerShape l = null;
-			for(EObject o : os)
-				if     (o instanceof InternalPort)   id = ((InternalPort) o).getId();
-				else if(o instanceof ContainerShape) l  = (ContainerShape) o;
-			InternalPort ip = TasksUtil.getInternalPort(newBo, id);
+  private void updateInternalPorts(Task newBo, ContainerShape newPe) {
+    for (Shape newPortShape : newPe.getChildren()) {
+      if (AddTaskFeature.isInternalPortLabel(newPortShape))
+        continue;
+      EList<EObject> os = newPortShape.getLink().getBusinessObjects();
+      String id = null;
+      ContainerShape l = null;
+      for (EObject o : os)
+        if (o instanceof InternalPort)
+          id = ((InternalPort) o).getId();
+        else if (o instanceof ContainerShape)
+          l = (ContainerShape) o;
+      InternalPort ip = TasksUtil.getInternalPort(newBo, id);
 
-			while(newPortShape.getLink().getBusinessObjects().size() > 0) newPortShape.getLink().getBusinessObjects().remove(0);
-			while(newPortShape.getLink().getBusinessObjects().size() > 0) newPortShape.getLink().getBusinessObjects().remove(0);
+      while (newPortShape.getLink().getBusinessObjects().size() > 0)
+        newPortShape.getLink().getBusinessObjects().remove(0);
+      while (newPortShape.getLink().getBusinessObjects().size() > 0)
+        newPortShape.getLink().getBusinessObjects().remove(0);
 
-			link(newPortShape, new Object[] { ip, l });
-			link(l, new Object[] { ip, newPortShape });
-		}
-	}
+      link(newPortShape, new Object[] { ip, l });
+      link(l, new Object[] { ip, newPortShape });
+    }
+  }
 
-	@Override public Map<Anchor, Anchor> getAnchors() { return anchors; }
+  @Override
+  public Map<Anchor, Anchor> getAnchors() {
+    return anchors;
+  }
 }

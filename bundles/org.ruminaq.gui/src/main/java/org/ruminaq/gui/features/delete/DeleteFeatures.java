@@ -16,9 +16,9 @@ import org.ruminaq.gui.api.DeleteFeatureExtension;
 @Component(property = { "service.ranking:Integer=5" })
 public class DeleteFeatures implements DeleteFeatureExtension {
 
-	@Override
-	public List<Class<? extends IDeleteFeature>> getFeatures() {
-		return Arrays.asList(DeleteLabelFeature.class, DeleteForbiddenFeature.class,
-		    DeleteFeature.class);
-	}
+  @Override
+  public List<Class<? extends IDeleteFeature>> getFeatures() {
+    return Arrays.asList(DeleteLabelFeature.class, DeleteForbiddenFeature.class,
+        DeleteFeature.class);
+  }
 }

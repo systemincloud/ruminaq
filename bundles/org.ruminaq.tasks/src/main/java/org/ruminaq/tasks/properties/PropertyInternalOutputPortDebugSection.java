@@ -14,47 +14,47 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 public class PropertyInternalOutputPortDebugSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
-	private Composite root;
+  private Composite root;
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public void createControls(Composite parent,
-	    TabbedPropertySheetPage tabbedPropertySheetPage) {
-		super.createControls(parent, tabbedPropertySheetPage);
+  /**
+   * @wbp.parser.entryPoint
+   */
+  @Override
+  public void createControls(Composite parent,
+      TabbedPropertySheetPage tabbedPropertySheetPage) {
+    super.createControls(parent, tabbedPropertySheetPage);
 
-		initLayout(parent);
-		initActions();
-		initComponents();
-		addStyles();
-	}
+    initLayout(parent);
+    initActions();
+    initComponents();
+    addStyles();
+  }
 
-	private void initLayout(Composite parent) {
-		((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
-		((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
+  private void initLayout(Composite parent) {
+    ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
+    ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
-		root = new Composite(parent, SWT.NULL);
-		root.setLayout(new GridLayout(1, false));
-	}
+    root = new Composite(parent, SWT.NULL);
+    root.setLayout(new GridLayout(1, false));
+  }
 
-	private void initActions() {
+  private void initActions() {
 
-	}
+  }
 
-	private void initComponents() {
-	}
+  private void initComponents() {
+  }
 
-	private void addStyles() {
-		root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-	}
+  private void addStyles() {
+    root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+  }
 
-	@Override
-	public void refresh() {
-	}
+  @Override
+  public void refresh() {
+  }
 
-	@Override
-	public void setInput(IWorkbenchPart part, ISelection selection) {
-		super.setInput(part, selection);
-	}
+  @Override
+  public void setInput(IWorkbenchPart part, ISelection selection) {
+    super.setInput(part, selection);
+  }
 }

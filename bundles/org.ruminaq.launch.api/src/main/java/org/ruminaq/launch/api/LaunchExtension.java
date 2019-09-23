@@ -15,15 +15,15 @@ import org.eclipse.core.resources.IProject;
  */
 public interface LaunchExtension {
 
-	default Collection<String> getPluginIdsToRunnerClasspath() {
-		return Collections.emptyList();
-	}
+  default Collection<String> getPluginIdsToRunnerClasspath() {
+    return Collections.emptyList();
+  }
 
-	default String getVMArguments() {
-		return "";
-	}
+  default String getVMArguments() {
+    return "";
+  }
 
-	default NavigableSet<String> getProgramArguments(IProject p) {
-		return Collections.emptyNavigableSet();
-	}
+  default NavigableSet<String> getProgramArguments(IProject p) {
+    return Collections.emptyNavigableSet();
+  }
 }

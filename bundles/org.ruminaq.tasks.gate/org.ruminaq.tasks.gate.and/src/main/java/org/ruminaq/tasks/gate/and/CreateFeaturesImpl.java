@@ -19,40 +19,41 @@ import org.ruminaq.tasks.gate.and.model.and.AndFactory;
 @Component(property = { "service.ranking:Integer=10" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
-	@Override
-	public List<Class<? extends ICreateFeature>> getFeatures() {
-		return Arrays.asList(CreateFeature.class);
-	}
-	
-	public static class CreateFeature extends CreateTaskFeature implements PaletteCreateFeature {
+  @Override
+  public List<Class<? extends ICreateFeature>> getFeatures() {
+    return Arrays.asList(CreateFeature.class);
+  }
 
-		public CreateFeature(IFeatureProvider fp) {
-			super(fp, Demux.class);
-		}
+  public static class CreateFeature extends CreateTaskFeature
+      implements PaletteCreateFeature {
 
-		@Override
-		public String getCompartment() {
-			return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
-		}
-		
-		@Override
-		public String getStack() {
-			return CommonPaletteCompartmentEntry.LOGIC_STACK;
-		}
+    public CreateFeature(IFeatureProvider fp) {
+      super(fp, Demux.class);
+    }
 
-		@Override
-		public Object[] create(ICreateContext context) {
-			return super.create(context, AndFactory.eINSTANCE.createAnd());
-		}
+    @Override
+    public String getCompartment() {
+      return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
+    }
 
-		@Override
-		protected Class<? extends PortsDescr> getPortsDescription() {
-			return Port.class;
-		}
+    @Override
+    public String getStack() {
+      return CommonPaletteCompartmentEntry.LOGIC_STACK;
+    }
 
-		@Override
-		public String getCreateImageId() {
-			return Images.K.IMG_AND_PALETTE.name();
-		}
-	}
+    @Override
+    public Object[] create(ICreateContext context) {
+      return super.create(context, AndFactory.eINSTANCE.createAnd());
+    }
+
+    @Override
+    protected Class<? extends PortsDescr> getPortsDescription() {
+      return Port.class;
+    }
+
+    @Override
+    public String getCreateImageId() {
+      return Images.K.IMG_AND_PALETTE.name();
+    }
+  }
 }

@@ -45,10 +45,11 @@ public class CreateRuminaqDiagramTest {
     workspace = ResourcesPlugin.getWorkspace();
     SelectView.closeWelcomeViewIfExists(bot);
   }
+
   /**
    * Open new project wizard File => New.
    *
-   * @param bot SWTWorkbenchBot
+   * @param bot  SWTWorkbenchBot
    * @param name name of project
    */
   @AfterClass
@@ -58,7 +59,6 @@ public class CreateRuminaqDiagramTest {
 
   private static final int PROJECT_SUFFIX_LENGTH = 5;
   private static final int DIAGRAM_SUFFIX_LENGTH = 5;
-
 
   @Test
   public final void testCreateDiagram() throws InterruptedException {

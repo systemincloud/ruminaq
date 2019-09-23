@@ -27,36 +27,36 @@ import org.ruminaq.model.ruminaq.MainTask;
 @Component(property = { "service.ranking:Integer=5" })
 public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
-	@Override
-	public List<Class<? extends IUpdateFeature>> getFeatures() {
-		return Arrays.asList(UpdateLabelFeature.class, UpdateMainTaskFeature.class,
-		    UpdateInputPortFeature.class, UpdateBaseElementFeature.class);
-	}
+  @Override
+  public List<Class<? extends IUpdateFeature>> getFeatures() {
+    return Arrays.asList(UpdateLabelFeature.class, UpdateMainTaskFeature.class,
+        UpdateInputPortFeature.class, UpdateBaseElementFeature.class);
+  }
 
-	@Override
-	public Predicate<? super Class<? extends IUpdateFeature>> filter(
-	    IContext context, IFeatureProvider fp) {
-		IUpdateContext updateContext = (IUpdateContext) context;
-		PictogramElement pe = updateContext.getPictogramElement();
-		Object bo = fp.getBusinessObjectForPictogramElement(pe);
-		return (Class<?> clazz) -> {
-			if (clazz.isAssignableFrom(UpdateLabelFeature.class)) {
-				if (pe instanceof ContainerShape) {
-					ContainerShape cs = (ContainerShape) updateContext
-					    .getPictogramElement();
-					String labelProperty = Graphiti.getPeService().getPropertyValue(cs,
-					    Constants.LABEL_PROPERTY);
-					return Boolean.parseBoolean(labelProperty);
-				}
-			} else if (clazz.isAssignableFrom(UpdateMainTaskFeature.class)) {
-				return bo instanceof MainTask;
-			} else if (clazz.isAssignableFrom(UpdateInputPortFeature.class)) {
-				return bo instanceof InputPort;
-			} else if (clazz.isAssignableFrom(UpdateBaseElementFeature.class)) {
-				return bo instanceof BaseElement;
-			}
+  @Override
+  public Predicate<? super Class<? extends IUpdateFeature>> filter(
+      IContext context, IFeatureProvider fp) {
+    IUpdateContext updateContext = (IUpdateContext) context;
+    PictogramElement pe = updateContext.getPictogramElement();
+    Object bo = fp.getBusinessObjectForPictogramElement(pe);
+    return (Class<?> clazz) -> {
+      if (clazz.isAssignableFrom(UpdateLabelFeature.class)) {
+        if (pe instanceof ContainerShape) {
+          ContainerShape cs = (ContainerShape) updateContext
+              .getPictogramElement();
+          String labelProperty = Graphiti.getPeService().getPropertyValue(cs,
+              Constants.LABEL_PROPERTY);
+          return Boolean.parseBoolean(labelProperty);
+        }
+      } else if (clazz.isAssignableFrom(UpdateMainTaskFeature.class)) {
+        return bo instanceof MainTask;
+      } else if (clazz.isAssignableFrom(UpdateInputPortFeature.class)) {
+        return bo instanceof InputPort;
+      } else if (clazz.isAssignableFrom(UpdateBaseElementFeature.class)) {
+        return bo instanceof BaseElement;
+      }
 
-			return true;
-		};
-	}
+      return true;
+    };
+  }
 }

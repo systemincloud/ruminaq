@@ -7,10 +7,17 @@
 package org.ruminaq.debug.model;
 
 public enum MainState implements IState {
-  NOT_STARTED(""), RUNNING("running"), SUSPENDED("suspended"), STEPPING("stepping"), TERMINATED("terminated");
+  NOT_STARTED(""), RUNNING("running"), SUSPENDED("suspended"),
+  STEPPING("stepping"), TERMINATED("terminated");
 
   private final String name;
-  MainState(String name) { this.name = name; }
 
-  @Override public String toString() { return name; }
+  MainState(String name) {
+    this.name = name;
+  }
+
+  @Override
+  public String toString() {
+    return name;
+  }
 }

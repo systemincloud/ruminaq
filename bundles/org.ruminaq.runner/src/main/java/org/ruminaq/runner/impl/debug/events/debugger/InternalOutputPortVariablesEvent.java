@@ -8,18 +8,24 @@ import org.ruminaq.runner.impl.debug.events.AbstractPortEvent;
 import org.ruminaq.runner.impl.debug.events.AbstractPortEventListener;
 import org.ruminaq.runner.impl.debug.events.IDebuggerEvent;
 
-public class InternalOutputPortVariablesEvent extends AbstractPortEvent implements IDebuggerEvent {
+public class InternalOutputPortVariablesEvent extends AbstractPortEvent
+    implements IDebuggerEvent {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private Map<Variable, Object> variables;
+  private Map<Variable, Object> variables;
 
-	public Map<Variable, Object> getVariables() { return variables; }
+  public Map<Variable, Object> getVariables() {
+    return variables;
+  }
 
-	public InternalOutputPortVariablesEvent(VariableDebugVisitor visitor, AbstractPortEventListener apel) {
-		super(apel);
-		this.variables = visitor.getVariables();
-	}
+  public InternalOutputPortVariablesEvent(VariableDebugVisitor visitor,
+      AbstractPortEventListener apel) {
+    super(apel);
+    this.variables = visitor.getVariables();
+  }
 
-	@Override public void preevaluate() { }
+  @Override
+  public void preevaluate() {
+  }
 }

@@ -13,5 +13,6 @@ import org.eclipse.graphiti.features.IReconnectionFeature;
  *
  * @author Marek Jagielski
  */
-public interface ReconnectionFeatureExtension extends BestFeatureExtension<IReconnectionFeature> {
+public interface ReconnectionFeatureExtension
+    extends BestFeatureExtension<IReconnectionFeature> {
 }

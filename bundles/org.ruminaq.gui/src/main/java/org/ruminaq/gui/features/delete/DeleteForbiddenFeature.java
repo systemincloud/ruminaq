@@ -19,24 +19,24 @@ import org.ruminaq.gui.features.delete.DeleteForbiddenFeature.Filter;
 @FeatureFilter(Filter.class)
 public class DeleteForbiddenFeature extends DefaultDeleteFeature {
 
-	public static class Filter implements FeaturePredicate<IContext> {
-		@Override
-		public boolean test(IContext context) {
-			IDeleteContext deleteContext = (IDeleteContext) context;
-			String portProperty = Graphiti.getPeService().getPropertyValue(
-			    deleteContext.getPictogramElement(), Constants.INTERNAL_PORT);
-			String canDeleteProperty = Graphiti.getPeService().getPropertyValue(
-			    deleteContext.getPictogramElement(), Constants.CAN_DELETE);
-			return portProperty != null && canDeleteProperty == null;
-		}
-	}
+  public static class Filter implements FeaturePredicate<IContext> {
+    @Override
+    public boolean test(IContext context) {
+      IDeleteContext deleteContext = (IDeleteContext) context;
+      String portProperty = Graphiti.getPeService().getPropertyValue(
+          deleteContext.getPictogramElement(), Constants.INTERNAL_PORT);
+      String canDeleteProperty = Graphiti.getPeService().getPropertyValue(
+          deleteContext.getPictogramElement(), Constants.CAN_DELETE);
+      return portProperty != null && canDeleteProperty == null;
+    }
+  }
 
-	public DeleteForbiddenFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public DeleteForbiddenFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public boolean canDelete(IDeleteContext context) {
-		return false;
-	}
+  @Override
+  public boolean canDelete(IDeleteContext context) {
+    return false;
+  }
 }

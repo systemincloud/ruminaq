@@ -20,14 +20,17 @@ import org.slf4j.Logger;
 
 public abstract class AbstractConstantStrategy {
 
-    private static final Logger LOGGER = RunnerLoggerFactory.getLogger(AbstractConstantStrategy.class);
+  private static final Logger LOGGER = RunnerLoggerFactory
+      .getLogger(AbstractConstantStrategy.class);
 
-    protected ConstantI task;
-    protected String value;
-    public AbstractConstantStrategy(ConstantI task, String value) {
-        this.task  = task;
-        this.value = value;
-        LOGGER.trace("Value of constant is: {}", value);
-    }
-    public abstract void execute();
+  protected ConstantI task;
+  protected String value;
+
+  public AbstractConstantStrategy(ConstantI task, String value) {
+    this.task = task;
+    this.value = value;
+    LOGGER.trace("Value of constant is: {}", value);
+  }
+
+  public abstract void execute();
 }

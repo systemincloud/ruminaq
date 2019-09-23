@@ -12,16 +12,27 @@ import org.ruminaq.model.ruminaq.DataType;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface IN {
-	String                      name();
-	boolean                     asynchronous() default false;
-	int                         group()        default -1;
-    boolean                     hold()         default false;
-    String                      queue()        default "1";
-	Class<? extends DataType>[] type()         default {};
-	Class<? extends EFactory>   factory()      default DatatypeFactory.class;
-	boolean                     opt()          default false;
-	int                         n()            default 1;
-	NGroup                      ngroup()       default NGroup.SAME;
-	Position                    pos()          default Position.LEFT;
-	boolean                     label()        default true;
+  String name();
+
+  boolean asynchronous() default false;
+
+  int group() default -1;
+
+  boolean hold() default false;
+
+  String queue() default "1";
+
+  Class<? extends DataType>[] type() default {};
+
+  Class<? extends EFactory> factory() default DatatypeFactory.class;
+
+  boolean opt() default false;
+
+  int n() default 1;
+
+  NGroup ngroup() default NGroup.SAME;
+
+  Position pos() default Position.LEFT;
+
+  boolean label() default true;
 }

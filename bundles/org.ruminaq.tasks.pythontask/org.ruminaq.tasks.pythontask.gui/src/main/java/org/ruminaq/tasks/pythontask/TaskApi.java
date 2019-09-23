@@ -62,17 +62,17 @@ import ch.qos.logback.classic.Logger;
 //@Component
 public class TaskApi implements ITaskApi, EclipseExtension {
 
-    private final Logger logger = ModelerLoggerFactory.getLogger(TaskApi.class);
+  private final Logger logger = ModelerLoggerFactory.getLogger(TaskApi.class);
 
-    private String  symbolicName;
-    private Version version;
-    private String jythonPath;
+  private String symbolicName;
+  private Version version;
+  private String jythonPath;
 
-    public TaskApi() {
-    }
+  public TaskApi() {
+  }
 
-    @Activate
-    void activate(Map<String, Object> properties) {
+  @Activate
+  void activate(Map<String, Object> properties) {
 //        Executors.newSingleThreadExecutor().submit(new Runnable() {
 //            @Override
 //            public void run() {
@@ -149,116 +149,136 @@ public class TaskApi implements ITaskApi, EclipseExtension {
 //                } catch(CoreException e) { }
 //            }
 //        });
+  }
+
+  public TaskApi(String symbolicName, Version version) {
+    this.symbolicName = symbolicName;
+    this.version = version;
+  }
+
+  @Override
+  public boolean createProjectWizardPerformFinish(IJavaProject newProject) {
+    try {
+      return new CreateProjectWizard().performFinish(newProject);
+    } catch (CoreException e) {
+      return false;
+    }
+  }
+
+  @Override
+  public List<IClasspathEntry> getClasspathEntries(IJavaProject javaProject) {
+    return new CreateProjectWizard().createClasspathEntries(javaProject);
+  }
+
+  @Override
+  public List<Dependency> getMavenDependencies() {
+    var pythonApi = new Dependency();
+    pythonApi.setGroupId(PythonTaskI.PROCESS_LIB_GROUPID);
+    pythonApi.setArtifactId(PythonTaskI.PROCESS_LIB_ARTIFACT);
+    pythonApi.setVersion(PythonTaskI.PROCESS_LIB_VERSION);
+    return Arrays.asList(pythonApi);
+  }
+
+  @Override
+  public LinkedHashSet<String> getProgramArguments(IProject p) {
+    LinkedHashSet<String> ret = new LinkedHashSet<>();
+    PythonNature nature = PythonNature.getPythonNature(p);
+    if (nature == null)
+      return ret;
+    IPythonPathNature pythonPathNature = nature.getPythonPathNature();
+    IInterpreterManager im = InterpreterManagersAPI
+        .getInterpreterManager(nature);
+    IInterpreterInfo ii = null;
+    String iname = "Default";
+    try {
+      iname = nature.getProjectInterpreterName();
+    } catch (CoreException e2) {
+    }
+    if ("Default".equals(iname) && im.getInterpreterInfos().length > 0)
+      ii = im.getInterpreterInfos()[0];
+    else
+      for (IInterpreterInfo i : im.getInterpreterInfos())
+        if (i.getName().equals(iname))
+          ii = i;
+    if (ii == null)
+      return ret;
+
+    int type = ii.getInterpreterType();
+
+    ret.add("-" + PythonTaskI.ATTR_PY_TYPE);
+    ret.add(Integer.toString(type));
+
+    String bin = ii.getExecutableOrJar();
+    ret.add("-" + PythonTaskI.ATTR_PY_BIN);
+    ret.add(bin);
+
+    StringBuilder sb;
+    String[] envars = ii.getEnvVariables();
+    if (envars != null) {
+      sb = new StringBuilder();
+      ret.add("-" + PythonTaskI.ATTR_PY_ENV);
+      for (String e : envars)
+        sb.append(e).append(";");
+      ret.add(sb.toString());
     }
 
-    public TaskApi(String symbolicName, Version version) {
-        this.symbolicName = symbolicName;
-        this.version      = version;
-    }
+    List<String> path = ii.getPythonPath();
+    ret.add("-" + PythonTaskI.ATTR_PY_PATH);
+    sb = new StringBuilder();
+    if (!path.isEmpty())
+      for (String pt : path)
+        sb.append(pt).append(";");
 
-    @Override
-    public boolean createProjectWizardPerformFinish(IJavaProject newProject) {
-        try {
-            return new CreateProjectWizard().performFinish(newProject);
-        } catch (CoreException e) {
-            return false;
-        }
-    }
+    if (type == IPythonNature.INTERPRETER_TYPE_PYTHON)
+      CpythonProgramArguments.INSTANCE.addToPath(sb, ret, p, nature,
+          pythonPathNature, im, ii);
+    else
+      JythonProgramArguments.INSTANCE.addToPath(sb, ret, p, nature,
+          pythonPathNature, im, ii);
 
-    @Override
-    public List<IClasspathEntry> getClasspathEntries(IJavaProject javaProject) {
-        return new CreateProjectWizard().createClasspathEntries(javaProject);
-    }
+    ret.add(sb.toString());
 
-    @Override
-    public List<Dependency> getMavenDependencies() {
-      var pythonApi = new Dependency();
-      pythonApi.setGroupId(PythonTaskI.PROCESS_LIB_GROUPID);
-      pythonApi.setArtifactId(PythonTaskI.PROCESS_LIB_ARTIFACT);
-      pythonApi.setVersion(PythonTaskI.PROCESS_LIB_VERSION);
-      return Arrays.asList(pythonApi);
-    }
-
-    @Override
-    public LinkedHashSet<String> getProgramArguments(IProject p) {
-        LinkedHashSet<String> ret = new LinkedHashSet<>();
-        PythonNature        nature           = PythonNature.getPythonNature(p);
-        if(nature == null) return ret;
-        IPythonPathNature   pythonPathNature = nature.getPythonPathNature();
-        IInterpreterManager im               = InterpreterManagersAPI.getInterpreterManager(nature);
-        IInterpreterInfo    ii = null;
-        String iname = "Default";
-        try { iname = nature.getProjectInterpreterName();
-        } catch (CoreException e2) { }
-        if("Default".equals(iname) && im.getInterpreterInfos().length > 0) ii = im.getInterpreterInfos()[0];
-        else
-            for(IInterpreterInfo i : im.getInterpreterInfos())
-                if(i.getName().equals(iname)) ii = i;
-        if(ii == null) return ret;
-
-        int type = ii.getInterpreterType();
-
-        ret.add("-" + PythonTaskI.ATTR_PY_TYPE);
-        ret.add(Integer.toString(type));
-
-        String bin = ii.getExecutableOrJar();
-        ret.add("-" + PythonTaskI.ATTR_PY_BIN);
-        ret.add(bin);
-
-        StringBuilder sb;
-        String[] envars = ii.getEnvVariables();
-        if(envars != null) {
-            sb = new StringBuilder();
-            ret.add("-" + PythonTaskI.ATTR_PY_ENV);
-            for(String e : envars) sb.append(e).append(";");
-            ret.add(sb.toString());
-        }
-
-
-        List<String> path = ii.getPythonPath();
-        ret.add("-" + PythonTaskI.ATTR_PY_PATH);
+    try {
+      List<String> projectExternalSourcePath = pythonPathNature
+          .getProjectExternalSourcePathAsList(true);
+      if (!projectExternalSourcePath.isEmpty()) {
         sb = new StringBuilder();
-        if(!path.isEmpty())
-            for(String pt : path) sb.append(pt).append(";");
-
-        if(type == IPythonNature.INTERPRETER_TYPE_PYTHON) CpythonProgramArguments.INSTANCE.addToPath(sb, ret, p, nature, pythonPathNature, im, ii);
-        else                                              JythonProgramArguments .INSTANCE.addToPath(sb, ret, p, nature, pythonPathNature, im, ii);
-
+        ret.add("-" + PythonTaskI.ATTR_PY_EXT_LIBS);
+        for (String el : projectExternalSourcePath)
+          sb.append(el).append(";");
         ret.add(sb.toString());
-
-
-        try {
-            List<String> projectExternalSourcePath = pythonPathNature.getProjectExternalSourcePathAsList(true);
-            if(!projectExternalSourcePath.isEmpty()) {
-                sb = new StringBuilder();
-                ret.add("-" + PythonTaskI.ATTR_PY_EXT_LIBS);
-                for(String el : projectExternalSourcePath) sb.append(el).append(";");
-                ret.add(sb.toString());
-            }
-        } catch (CoreException e) { }
-
-        if(type != IPythonNature.INTERPRETER_TYPE_PYTHON) JythonProgramArguments .INSTANCE.getProgramArguments(ret, p, nature, pythonPathNature, im, ii);
-
-        return ret;
+      }
+    } catch (CoreException e) {
     }
 
-    @Override
-    public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t, IFeatureProvider fp) {
-        return ITaskApi.ifInstance(t, PythonTask.class, new AddFeature(fp));
-    }
+    if (type != IPythonNature.INTERPRETER_TYPE_PYTHON)
+      JythonProgramArguments.INSTANCE.getProgramArguments(ret, p, nature,
+          pythonPathNature, im, ii);
 
-    @Override
-    public Optional<ICustomFeature> getDoubleClickFeature(IDoubleClickContext cxt, Task t, IFeatureProvider fp) {
-        return ITaskApi.ifInstance(t, PythonTask.class, new DoubleClickFeatureFilter().filter(t, fp));
-    }
+    return ret;
+  }
 
-    @Override
-    public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t, IFeatureProvider fp) {
-        return ITaskApi.ifInstance(t, PythonTask.class, new UpdateFeature(fp));
-    }
+  @Override
+  public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t,
+      IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, PythonTask.class, new AddFeature(fp));
+  }
 
-    @Override
-    public Map<String, String> getImageKeyPath() {
-        return Images.getImageKeyPath();
-    }
+  @Override
+  public Optional<ICustomFeature> getDoubleClickFeature(IDoubleClickContext cxt,
+      Task t, IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, PythonTask.class,
+        new DoubleClickFeatureFilter().filter(t, fp));
+  }
+
+  @Override
+  public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t,
+      IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, PythonTask.class, new UpdateFeature(fp));
+  }
+
+  @Override
+  public Map<String, String> getImageKeyPath() {
+    return Images.getImageKeyPath();
+  }
 }

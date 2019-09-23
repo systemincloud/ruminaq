@@ -46,17 +46,15 @@ public final class JavaClasspathFile {
    * @param javaProject Eclipse IJavaProject reference
    * @throws RuminaqException something went wrong
    */
-  public void setClasspathEntries(IJavaProject javaProject) throws RuminaqException {
+  public void setClasspathEntries(IJavaProject javaProject)
+      throws RuminaqException {
     List<IClasspathEntry> entries = new LinkedList<>();
     IPath[] javaPath = new IPath[] { new Path(JAVA_PATH) };
     IPath testOutputLocation = javaProject.getPath().append(TARGET_PATH);
 
-    entries.addAll(
-        extensions
-          .stream()
-          .<List<IClasspathEntry>>map(e -> e.getClasspathEntries(javaProject))
-          .<IClasspathEntry>flatMap(List::stream)
-          .collect(Collectors.toList()));
+    entries.addAll(extensions.stream()
+        .<List<IClasspathEntry>>map(e -> e.getClasspathEntries(javaProject))
+        .<IClasspathEntry>flatMap(List::stream).collect(Collectors.toList()));
 
     entries.add(JavaCore.newSourceEntry(
         javaProject.getPath().append(SourceFolders.MAIN_RESOURCES), javaPath));
@@ -65,14 +63,15 @@ public final class JavaClasspathFile {
         testOutputLocation));
 
     entries.add(JavaRuntime.getDefaultJREContainerEntry());
-    entries.add(JavaCore.newContainerEntry(
-        new Path(IClasspathManager.CONTAINER_ID)));
+    entries.add(
+        JavaCore.newContainerEntry(new Path(IClasspathManager.CONTAINER_ID)));
 
     try {
       javaProject.setRawClasspath(
           entries.toArray(new IClasspathEntry[entries.size()]), null);
     } catch (JavaModelException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailedClasspathFile, e);
+      throw new RuminaqException(
+          Messages.createProjectWizardFailedClasspathFile, e);
     }
   }
 }

@@ -25,94 +25,122 @@ import org.ruminaq.runner.util.Util;
 
 public class InspectWindow extends JFrame implements LaunchListener, SicWindow {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private JScrollPane root;
-	private JTextArea   text;
-	private Inspect     inspect;
-	private String      displayedValue = "";
+  private JScrollPane root;
+  private JTextArea text;
+  private Inspect inspect;
+  private String displayedValue = "";
 
-	private InspectWindowService windowApi = new InspectWindowService(){
-		@Override
-		public void newValue(final String value) throws RemoteException {
-			Display.getDefault().syncExec(new Runnable() {
-			    public void run() {
-			    	displayedValue = value;
-			    	text.setText(displayedValue);
-			    }});
-		}};
+  private InspectWindowService windowApi = new InspectWindowService() {
+    @Override
+    public void newValue(final String value) throws RemoteException {
+      Display.getDefault().syncExec(new Runnable() {
+        public void run() {
+          displayedValue = value;
+          text.setText(displayedValue);
+        }
+      });
+    }
+  };
 
-	public void init(Object o) {
-		this.inspect = (Inspect) o;
+  public void init(Object o) {
+    this.inspect = (Inspect) o;
 
-		RuminaqLaunchDelegate.addLaunchListener(this);
-		addWindowServiceListener();
-		setTitle(inspect.getId());
+    RuminaqLaunchDelegate.addLaunchListener(this);
+    addWindowServiceListener();
+    setTitle(inspect.getId());
 
-		InspectIService api = DirmiServer.INSTANCE.getRemote(Util.getUniqueId(inspect), InspectIService.class);
-		if(api != null)	try {
-            String lastValue = api.getLastValue();
-            displayedValue = lastValue;
-	    } catch (RemoteException e) { }
+    InspectIService api = DirmiServer.INSTANCE
+        .getRemote(Util.getUniqueId(inspect), InspectIService.class);
+    if (api != null)
+      try {
+        String lastValue = api.getLastValue();
+        displayedValue = lastValue;
+      } catch (RemoteException e) {
+      }
 
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try { InspectWindow.this.setVisible(true);
-				} catch (Exception e) {	}
-			}});
-	}
+    EventQueue.invokeLater(new Runnable() {
+      public void run() {
+        try {
+          InspectWindow.this.setVisible(true);
+        } catch (Exception e) {
+        }
+      }
+    });
+  }
 
-	public InspectWindow() {
-		initLayout();
-		initComponents();
-		initActions();
+  public InspectWindow() {
+    initLayout();
+    initComponents();
+    initActions();
 
-		pack();
-	}
+    pack();
+  }
 
-	private void initLayout() {
-		setLocationRelativeTo(null);
+  private void initLayout() {
+    setLocationRelativeTo(null);
 
-		text = new JTextArea(displayedValue);
-		root = new JScrollPane(text, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		root.setPreferredSize(new Dimension(200, 30));
-		setContentPane(root);
-	}
+    text = new JTextArea(displayedValue);
+    root = new JScrollPane(text, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+        JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    root.setPreferredSize(new Dimension(200, 30));
+    setContentPane(root);
+  }
 
-	private void initComponents() {
-		text.setBorder(null);
-		text.setEditable(false);
-		text.setLineWrap(true);
-		text.setWrapStyleWord(true);
-		setVisible(true);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setAlwaysOnTop(true);
-	}
+  private void initComponents() {
+    text.setBorder(null);
+    text.setEditable(false);
+    text.setLineWrap(true);
+    text.setWrapStyleWord(true);
+    setVisible(true);
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    setAlwaysOnTop(true);
+  }
 
-	private void initActions() {
-		root.addComponentListener(new ComponentAdapter() {
-			@Override public void componentResized(ComponentEvent e) {
-			}});
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		addWindowListener(new WindowAdapter() {
-			@Override public void windowClosing(WindowEvent e) {
-				Windows.INSTANCE.disconnectWindow(inspect);
-				RuminaqLaunchDelegate.removeLaunchListener(InspectWindow.this);
-				try {
-					InspectIService cs = DirmiServer.INSTANCE.getRemote(Util.getUniqueId(inspect), InspectIService.class);
-					if(cs != null) cs.removeListener(windowApi);
-				} catch (RemoteException ex) { }
-			}});
-	}
+  private void initActions() {
+    root.addComponentListener(new ComponentAdapter() {
+      @Override
+      public void componentResized(ComponentEvent e) {
+      }
+    });
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    addWindowListener(new WindowAdapter() {
+      @Override
+      public void windowClosing(WindowEvent e) {
+        Windows.INSTANCE.disconnectWindow(inspect);
+        RuminaqLaunchDelegate.removeLaunchListener(InspectWindow.this);
+        try {
+          InspectIService cs = DirmiServer.INSTANCE
+              .getRemote(Util.getUniqueId(inspect), InspectIService.class);
+          if (cs != null)
+            cs.removeListener(windowApi);
+        } catch (RemoteException ex) {
+        }
+      }
+    });
+  }
 
-	@Override public void dirmiStarted() { }
-	@Override public void launched()     { addWindowServiceListener(); }
-	@Override public void stopped()      { }
+  @Override
+  public void dirmiStarted() {
+  }
 
-	public void addWindowServiceListener() {
-		try {
-			InspectIService cs = DirmiServer.INSTANCE.getRemote(Util.getUniqueId(inspect), InspectIService.class);
-			if(cs != null) cs.addListener(windowApi);
-		} catch (RemoteException e) { }
-	}
+  @Override
+  public void launched() {
+    addWindowServiceListener();
+  }
+
+  @Override
+  public void stopped() {
+  }
+
+  public void addWindowServiceListener() {
+    try {
+      InspectIService cs = DirmiServer.INSTANCE
+          .getRemote(Util.getUniqueId(inspect), InspectIService.class);
+      if (cs != null)
+        cs.addListener(windowApi);
+    } catch (RemoteException e) {
+    }
+  }
 }

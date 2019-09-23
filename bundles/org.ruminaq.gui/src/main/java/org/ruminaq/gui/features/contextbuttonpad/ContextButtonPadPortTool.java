@@ -21,24 +21,24 @@ import org.ruminaq.util.ServiceFilterArgs;
 
 @Component(property = { "service.ranking:Integer=5" })
 @ServiceFilter(Filter.class)
-public class ContextButtonPadPortTool implements ContextButtonPadLocationExtension {
+public class ContextButtonPadPortTool
+    implements ContextButtonPadLocationExtension {
 
-	static class Filter implements Predicate<ServiceFilterArgs> {
+  static class Filter implements Predicate<ServiceFilterArgs> {
 
-		@Override
-		public boolean test(ServiceFilterArgs args) {
-			IFeatureProvider fp = (IFeatureProvider) args.getArgs().get(0);
-			IPictogramElementContext context = (IPictogramElementContext) args
-			    .getArgs().get(1);
-			PictogramElement pe = context.getPictogramElement();
-			return fp
-			    .getBusinessObjectForPictogramElement(pe) instanceof Port;
-		}
-	}
+    @Override
+    public boolean test(ServiceFilterArgs args) {
+      IFeatureProvider fp = (IFeatureProvider) args.getArgs().get(0);
+      IPictogramElementContext context = (IPictogramElementContext) args
+          .getArgs().get(1);
+      PictogramElement pe = context.getPictogramElement();
+      return fp.getBusinessObjectForPictogramElement(pe) instanceof Port;
+    }
+  }
 
-	@Override
-	public IRectangle getPadLocation(IRectangle rectangle) {
-		rectangle.setHeight(30);
-		return rectangle;
-	}
+  @Override
+  public IRectangle getPadLocation(IRectangle rectangle) {
+    rectangle.setHeight(30);
+    return rectangle;
+  }
 }

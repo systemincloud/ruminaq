@@ -25,27 +25,27 @@ import org.ruminaq.util.ServiceFilterArgs;
 public class ContextButtonPadInternalPortTool implements
     GenericContextButtonPadDataExtension, ContextButtonPadLocationExtension {
 
-	static class Filter implements Predicate<ServiceFilterArgs> {
+  static class Filter implements Predicate<ServiceFilterArgs> {
 
-		@Override
-		public boolean test(ServiceFilterArgs args) {
-			IFeatureProvider fp = (IFeatureProvider) args.getArgs().get(0);
-			IPictogramElementContext context = (IPictogramElementContext) args
-			    .getArgs().get(1);
-			PictogramElement pe = context.getPictogramElement();
-			return fp
-			    .getBusinessObjectForPictogramElement(pe) instanceof InternalPort;
-		}
-	}
+    @Override
+    public boolean test(ServiceFilterArgs args) {
+      IFeatureProvider fp = (IFeatureProvider) args.getArgs().get(0);
+      IPictogramElementContext context = (IPictogramElementContext) args
+          .getArgs().get(1);
+      PictogramElement pe = context.getPictogramElement();
+      return fp
+          .getBusinessObjectForPictogramElement(pe) instanceof InternalPort;
+    }
+  }
 
-	@Override
-	public int getGenericContextButtons() {
-		return 0;
-	}
+  @Override
+  public int getGenericContextButtons() {
+    return 0;
+  }
 
-	@Override
-	public IRectangle getPadLocation(IRectangle rectangle) {
-		rectangle.setHeight(80);
-		return rectangle;
-	}
+  @Override
+  public IRectangle getPadLocation(IRectangle rectangle) {
+    rectangle.setHeight(80);
+    return rectangle;
+  }
 }

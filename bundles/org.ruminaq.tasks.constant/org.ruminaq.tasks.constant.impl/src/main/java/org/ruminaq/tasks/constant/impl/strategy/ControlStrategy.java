@@ -24,15 +24,16 @@ import org.slf4j.Logger;
 
 public class ControlStrategy extends AbstractConstantStrategy {
 
-    private static final Logger LOGGER = RunnerLoggerFactory.getLogger(ControlStrategy.class);
+  private static final Logger LOGGER = RunnerLoggerFactory
+      .getLogger(ControlStrategy.class);
 
-    public ControlStrategy(ConstantI task, String value) {
-        super(task, value);
-    }
+  public ControlStrategy(ConstantI task, String value) {
+    super(task, value);
+  }
 
-    @Override
-    public void execute() {
-        LOGGER.trace("create Control");
-        task.putData(Port.OUT, new ControlI());
-    }
+  @Override
+  public void execute() {
+    LOGGER.trace("create Control");
+    task.putData(Port.OUT, new ControlI());
+  }
 }

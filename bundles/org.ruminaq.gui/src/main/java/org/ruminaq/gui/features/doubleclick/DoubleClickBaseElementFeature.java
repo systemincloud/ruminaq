@@ -25,61 +25,61 @@ import org.ruminaq.model.ruminaq.BaseElement;
 @FeatureFilter(Filter.class)
 public class DoubleClickBaseElementFeature extends AbstractCustomFeature {
 
-	public static class Filter implements FeaturePredicate<IContext> {
-		@Override
-		public boolean test(IContext context, IFeatureProvider fp) {
-			IDoubleClickContext doubleClickContext = (IDoubleClickContext) context;
-			Object bo = null;
-			for (Object o : Graphiti.getLinkService()
-			    .getAllBusinessObjectsForLinkedPictogramElement(
-			        doubleClickContext.getPictogramElements()[0]))
-				if (o instanceof BaseElement) {
-					bo = o;
-					break;
-				}
+  public static class Filter implements FeaturePredicate<IContext> {
+    @Override
+    public boolean test(IContext context, IFeatureProvider fp) {
+      IDoubleClickContext doubleClickContext = (IDoubleClickContext) context;
+      Object bo = null;
+      for (Object o : Graphiti.getLinkService()
+          .getAllBusinessObjectsForLinkedPictogramElement(
+              doubleClickContext.getPictogramElements()[0]))
+        if (o instanceof BaseElement) {
+          bo = o;
+          break;
+        }
 
-			return bo instanceof BaseElement;
-		}
-	}
+      return bo instanceof BaseElement;
+    }
+  }
 
-	public DoubleClickBaseElementFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public DoubleClickBaseElementFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public boolean canExecute(ICustomContext context) {
-		return true;
-	}
+  @Override
+  public boolean canExecute(ICustomContext context) {
+    return true;
+  }
 
-	@Override
-	public boolean hasDoneChanges() {
-		return false;
-	}
+  @Override
+  public boolean hasDoneChanges() {
+    return false;
+  }
 
-	@Override
-	public void execute(ICustomContext context) {
-		BaseElement bo = null;
-		for (Object o : Graphiti.getLinkService()
-		    .getAllBusinessObjectsForLinkedPictogramElement(
-		        context.getPictogramElements()[0]))
-			if (o instanceof BaseElement) {
-				bo = (BaseElement) o;
-				break;
-			}
-		if (bo == null)
-			return;
+  @Override
+  public void execute(ICustomContext context) {
+    BaseElement bo = null;
+    for (Object o : Graphiti.getLinkService()
+        .getAllBusinessObjectsForLinkedPictogramElement(
+            context.getPictogramElements()[0]))
+      if (o instanceof BaseElement) {
+        bo = (BaseElement) o;
+        break;
+      }
+    if (bo == null)
+      return;
 
-		IWorkbenchWindow window = PlatformUI.getWorkbench()
-		    .getActiveWorkbenchWindow();
-		if (window != null) {
-			IWorkbenchPage page = window.getActivePage();
-			if (page != null) {
-				try {
-					page.showView(IPageLayout.ID_PROP_SHEET);
-				} catch (PartInitException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+    IWorkbenchWindow window = PlatformUI.getWorkbench()
+        .getActiveWorkbenchWindow();
+    if (window != null) {
+      IWorkbenchPage page = window.getActivePage();
+      if (page != null) {
+        try {
+          page.showView(IPageLayout.ID_PROP_SHEET);
+        } catch (PartInitException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+  }
 }

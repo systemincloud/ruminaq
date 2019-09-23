@@ -15,7 +15,7 @@ import org.ruminaq.runner.impl.data.DataI;
 public class Data extends SicVariable {
 
   private IStateElement se;
-  private DataI         data;
+  private DataI data;
 
   public Data(IDebugTarget target, DataI data, int i) {
     super(target, "[" + i + "]", "");
@@ -25,13 +25,29 @@ public class Data extends SicVariable {
   public Data(IDebugTarget target, DataI data, IStateElement se) {
     super(target, "data", "");
     this.data = data;
-    this.se   = se;
+    this.se = se;
   }
 
-  @Override public String getDetailText()  { return data == null ? "" : data.toString(); }
-  @Override public String getValueString() { return se != null && se.getState() != MainState.SUSPENDED ? "see only when suspended" : data == null ? "no data" : data.toShortString(); }
+  @Override
+  public String getDetailText() {
+    return data == null ? "" : data.toString();
+  }
+
+  @Override
+  public String getValueString() {
+    return se != null && se.getState() != MainState.SUSPENDED
+        ? "see only when suspended"
+        : data == null ? "no data" : data.toShortString();
+  }
 
   // TODO : if the variable can be split to smaller ones
-  @Override public IVariable[] getVariables() { return new IVariable[0]; }
-  @Override public boolean     hasVariables() { return false; }
+  @Override
+  public IVariable[] getVariables() {
+    return new IVariable[0];
+  }
+
+  @Override
+  public boolean hasVariables() {
+    return false;
+  }
 }

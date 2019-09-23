@@ -9,28 +9,29 @@ import org.ruminaq.runner.thrift.RemoteData;
 
 public interface RunnerService {
 
-    default void initModelPackages() {
-    }
+  default void initModelPackages() {
+  }
 
-    String getBundleName();
-    String getVersion();
+  String getBundleName();
 
-    default TaskI  getImplementation(EmbeddedTaskI parent, Task task) {
-        return null;
-    }
+  String getVersion();
 
-    default void addOptions(Options options) {
-    }
+  default TaskI getImplementation(EmbeddedTaskI parent, Task task) {
+    return null;
+  }
 
-    default Class<DataI> getDataFromName(String name) {
-        return null;
-    }
+  default void addOptions(Options options) {
+  }
 
-    default RemoteData toRemoteData(DataI dataI) {
-        return null;
-    }
+  default Class<DataI> getDataFromName(String name) {
+    return null;
+  }
 
-    default DataI fromRemoteData(RemoteData data) {
-        return null;
-    }
+  default RemoteData toRemoteData(DataI dataI) {
+    return null;
+  }
+
+  default DataI fromRemoteData(RemoteData data) {
+    return null;
+  }
 }

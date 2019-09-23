@@ -18,36 +18,36 @@ import org.ruminaq.tasks.api.TasksExtensionHandler;
 @Component(immediate = true)
 public class TasksExtensionHandlerImpl implements TasksExtensionHandler {
 
-	private Collection<TasksExtension> extensions;
+  private Collection<TasksExtension> extensions;
 
-	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
-	protected void bind(TasksExtension extension) {
-		if (extensions == null) {
-			extensions = new ArrayList<>();
-		}
-		extensions.add(extension);
-	}
+  @Reference(cardinality = ReferenceCardinality.MULTIPLE,
+      policy = ReferencePolicy.DYNAMIC)
+  protected void bind(TasksExtension extension) {
+    if (extensions == null) {
+      extensions = new ArrayList<>();
+    }
+    extensions.add(extension);
+  }
 
-	protected void unbind(TasksExtension extension) {
-		extensions.remove(extension);
-	}
+  protected void unbind(TasksExtension extension) {
+    extensions.remove(extension);
+  }
 
-	@Override
-	public void init(BundleContext ctx) {
-		extensions.forEach(t -> t.init(ctx));
-	}
+  @Override
+  public void init(BundleContext ctx) {
+    extensions.forEach(t -> t.init(ctx));
+  }
 
-	@Override
-	public Collection<String> getListJson() {
-		return extensions
-				.stream()
-				.map(TasksExtension::getListJson)
-				.collect(Collectors.toList());
-	}
+  @Override
+  public Collection<String> getListJson() {
+    return extensions.stream().map(TasksExtension::getListJson)
+        .collect(Collectors.toList());
+  }
 
-	@Override
-	public Object getDebugTargets(ILaunch launch, IProject project, EventDispatchJob dispatcher) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public Object getDebugTargets(ILaunch launch, IProject project,
+      EventDispatchJob dispatcher) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }

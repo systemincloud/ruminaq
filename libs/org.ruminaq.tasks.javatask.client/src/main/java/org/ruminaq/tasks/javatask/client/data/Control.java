@@ -9,7 +9,7 @@ package org.ruminaq.tasks.javatask.client.data;
  */
 public class Control extends Data {
 
-	public Control() {
-		super(1);
-	}
+  public Control() {
+    super(1);
+  }
 }

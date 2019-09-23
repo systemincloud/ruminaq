@@ -19,14 +19,15 @@ import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
 
-    private static final String BUNDLE_NAME = "org.ruminaq.tasks.constant.messages"; //$NON-NLS-1$
-    public static String Properties_Constant_label_type;
-    public static String Properties_Constant_label_value;
-    public static String PropertyConstantTaskSection_valueNumericText_text;
+  private static final String BUNDLE_NAME = "org.ruminaq.tasks.constant.messages"; //$NON-NLS-1$
+  public static String Properties_Constant_label_type;
+  public static String Properties_Constant_label_value;
+  public static String PropertyConstantTaskSection_valueNumericText_text;
 
-    static {
-        NLS.initializeMessages(BUNDLE_NAME, Messages.class);
-    }
+  static {
+    NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+  }
 
-    private Messages() { }
+  private Messages() {
+  }
 }

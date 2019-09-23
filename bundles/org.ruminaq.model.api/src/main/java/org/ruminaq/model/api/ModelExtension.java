@@ -14,11 +14,13 @@ import org.ruminaq.model.ruminaq.DataType;
  */
 public interface ModelExtension {
 
-	List<Class<? extends DataType>> getDataTypes();
+  List<Class<? extends DataType>> getDataTypes();
 
-	Optional<DataType> getDataTypeFromName(String name);
+  Optional<DataType> getDataTypeFromName(String name);
 
-	boolean canCastFromTo(Class<? extends DataType> from, Class<? extends DataType> to);
+  boolean canCastFromTo(Class<? extends DataType> from,
+      Class<? extends DataType> to);
 
-	boolean isLossyCastFromTo(Class<? extends DataType> from, Class<? extends DataType> to);
+  boolean isLossyCastFromTo(Class<? extends DataType> from,
+      Class<? extends DataType> to);
 }

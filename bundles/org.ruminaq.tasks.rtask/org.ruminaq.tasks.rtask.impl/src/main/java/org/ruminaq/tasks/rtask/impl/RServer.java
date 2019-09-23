@@ -27,67 +27,87 @@ import de.walware.rj.servi.pool.RServiNodeFactory;
 
 @SuppressWarnings("restriction")
 public enum RServer {
-	INSTANCE;
+  INSTANCE;
 
-	private final Logger logger = RunnerLoggerFactory.getLogger(RServer.class);
+  private final Logger logger = RunnerLoggerFactory.getLogger(RServer.class);
 
-	private EmbeddedRServiManager newEmbeddedR = null;
+  private EmbeddedRServiManager newEmbeddedR = null;
 
-	private Set<RServi> servis = new HashSet<>();
+  private Set<RServi> servis = new HashSet<>();
 
-	public synchronized void init(String rHome, String workdir, String rPolicy, String rLibsUsr, String rjPath) {
-		if(newEmbeddedR == null) {
-			try {
-				final RServiNodeConfig rConfig = new RServiNodeConfig();
-				rConfig.setRHome(rHome);
+  public synchronized void init(String rHome, String workdir, String rPolicy,
+      String rLibsUsr, String rjPath) {
+    if (newEmbeddedR == null) {
+      try {
+        final RServiNodeConfig rConfig = new RServiNodeConfig();
+        rConfig.setRHome(rHome);
 
-				rConfig.setJavaArgs(rConfig.getJavaArgs() + " " + "-Djava.security.policy=file://" + rPolicy);
-				rConfig.setJavaArgs(rConfig.getJavaArgs() + " " + "-Djava.security.manager");
-				rConfig.setJavaArgs(rConfig.getJavaArgs() + " " + "-Dde.walware.rj.rpkg.path=" + rjPath);
-				rConfig.setJavaArgs(rConfig.getJavaArgs() + " " + "-Dde.walware.rj.debug");
+        rConfig.setJavaArgs(rConfig.getJavaArgs() + " "
+            + "-Djava.security.policy=file://" + rPolicy);
+        rConfig.setJavaArgs(
+            rConfig.getJavaArgs() + " " + "-Djava.security.manager");
+        rConfig.setJavaArgs(rConfig.getJavaArgs() + " "
+            + "-Dde.walware.rj.rpkg.path=" + rjPath);
+        rConfig
+            .setJavaArgs(rConfig.getJavaArgs() + " " + "-Dde.walware.rj.debug");
 
-				rConfig.addToClasspath(NodeController       .class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-				rConfig.addToClasspath(AbstractServerControl.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-				rConfig.addToClasspath(RJIOExternalizable   .class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+        rConfig.addToClasspath(NodeController.class.getProtectionDomain()
+            .getCodeSource().getLocation().toURI().getPath());
+        rConfig.addToClasspath(AbstractServerControl.class.getProtectionDomain()
+            .getCodeSource().getLocation().toURI().getPath());
+        rConfig.addToClasspath(RJIOExternalizable.class.getProtectionDomain()
+            .getCodeSource().getLocation().toURI().getPath());
 
-				rConfig.setNodeArgs(rConfig.getNodeArgs() + " -embedded");
+        rConfig.setNodeArgs(rConfig.getNodeArgs() + " -embedded");
 
-				rConfig.setBaseWorkingDirectory(workdir);
-				rConfig.setEnableVerbose(true);
+        rConfig.setBaseWorkingDirectory(workdir);
+        rConfig.setEnableVerbose(true);
 
-		        ERJContext context = new ERJContext();
-				ECommons.init("dummy_id", new ECommons.IAppEnvironment() {
-					@Override public void removeStoppingListener(IDisposable arg0) { } //System.out.println("removeStoppingListener"); }
-					@Override public void log(IStatus arg0)                        { } //System.out.println("log"); }
-					@Override public void addStoppingListener(IDisposable arg0)    { } //System.out.println("addStoppingListener"); }
-				});
-				RMIUtil.INSTANCE.setEmbeddedPrivateMode(false);
-				RMIRegistry registry = RMIUtil.INSTANCE.getEmbeddedPrivateRegistry(new NullProgressMonitor());
-				RServiNodeFactory nodeFactory = RServiImplE.createLocalNodeFactory("pool", context);
-				nodeFactory.setRegistry(registry);
-				nodeFactory.setConfig(rConfig);
+        ERJContext context = new ERJContext();
+        ECommons.init("dummy_id", new ECommons.IAppEnvironment() {
+          @Override
+          public void removeStoppingListener(IDisposable arg0) {
+          } // System.out.println("removeStoppingListener"); }
 
-				this.newEmbeddedR = RServiImplE.createEmbeddedRServi("pool", registry, nodeFactory);
-			} catch (Exception e) {
-				logger.error(e.getMessage());
-				e.printStackTrace();
-			}
-		}
-	}
+          @Override
+          public void log(IStatus arg0) {
+          } // System.out.println("log"); }
 
-	public RServi getRServi(String name) {
-		try {
-			RServi rs = RServiUtil.getRServi(newEmbeddedR, name);
-			servis.add(rs);
-			return rs;
-		} catch (NoSuchElementException | CoreException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+          @Override
+          public void addStoppingListener(IDisposable arg0) {
+          } // System.out.println("addStoppingListener"); }
+        });
+        RMIUtil.INSTANCE.setEmbeddedPrivateMode(false);
+        RMIRegistry registry = RMIUtil.INSTANCE
+            .getEmbeddedPrivateRegistry(new NullProgressMonitor());
+        RServiNodeFactory nodeFactory = RServiImplE
+            .createLocalNodeFactory("pool", context);
+        nodeFactory.setRegistry(registry);
+        nodeFactory.setConfig(rConfig);
 
-	public synchronized void stop(RServi fRservi) {
-		servis.remove(fRservi);
-		if(servis.isEmpty()) newEmbeddedR.stop();
-	}
+        this.newEmbeddedR = RServiImplE.createEmbeddedRServi("pool", registry,
+            nodeFactory);
+      } catch (Exception e) {
+        logger.error(e.getMessage());
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public RServi getRServi(String name) {
+    try {
+      RServi rs = RServiUtil.getRServi(newEmbeddedR, name);
+      servis.add(rs);
+      return rs;
+    } catch (NoSuchElementException | CoreException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public synchronized void stop(RServi fRservi) {
+    servis.remove(fRservi);
+    if (servis.isEmpty())
+      newEmbeddedR.stop();
+  }
 }

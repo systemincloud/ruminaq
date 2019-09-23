@@ -37,37 +37,37 @@ import org.ruminaq.tasks.rtask.wizards.CreateProjectWizard;
 
 public class TaskApi implements ITaskApi, EclipseExtension {
 
-    private String symbolicName;
-    private Version version;
+  private String symbolicName;
+  private Version version;
 
-    @Override
-    public void initEditor() {
-        RtaskPackage.eINSTANCE.getClass();
+  @Override
+  public void initEditor() {
+    RtaskPackage.eINSTANCE.getClass();
+  }
+
+  public TaskApi(String symbolicName, Version version) {
+    this.symbolicName = symbolicName;
+    this.version = version;
+  }
+
+  @Override
+  public boolean createProjectWizardPerformFinish(IJavaProject newProject) {
+    try {
+      return new CreateProjectWizard().performFinish(newProject);
+    } catch (CoreException e) {
+      e.printStackTrace();
+      return false;
     }
+  }
 
-    public TaskApi(String symbolicName, Version version) {
-        this.symbolicName = symbolicName;
-        this.version      = version;
-    }
+  @Override
+  public List<IClasspathEntry> getClasspathEntries(IJavaProject javaProject) {
+    return new CreateProjectWizard().createClasspathEntries(javaProject);
+  }
 
-    @Override
-    public boolean createProjectWizardPerformFinish(IJavaProject newProject) {
-        try {
-            return new CreateProjectWizard().performFinish(newProject);
-        } catch (CoreException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    @Override
-    public List<IClasspathEntry> getClasspathEntries(IJavaProject javaProject) {
-        return new CreateProjectWizard().createClasspathEntries(javaProject);
-    }
-
-    @Override
-    public LinkedHashSet<String> getProgramArguments(IProject p) {
-        LinkedHashSet<String> ret = new LinkedHashSet<>();
+  @Override
+  public LinkedHashSet<String> getProgramArguments(IProject p) {
+    LinkedHashSet<String> ret = new LinkedHashSet<>();
 //        IREnvManager rm = RCore.getREnvManager();
 //        REnv dr = rm.getDefault();
 //        IREnvConfiguration conf = dr.getConfig();
@@ -110,8 +110,8 @@ public class TaskApi implements ITaskApi, EclipseExtension {
 //          ret.add(rjPath);
 //        }
 
-        return ret;
-    }
+    return ret;
+  }
 
   private String getUserHome() {
     IPath path = new Path(System.getProperty("user.home")); //$NON-NLS-1$
@@ -119,43 +119,49 @@ public class TaskApi implements ITaskApi, EclipseExtension {
     return path.toOSString();
   }
 
-    public void installPackage(String rHome, String rLibsUsr, String pkgName, String url) {
-        File pkg = new File(rLibsUsr + "/" + pkgName);
-        if(!pkg.exists()) {
+  public void installPackage(String rHome, String rLibsUsr, String pkgName,
+      String url) {
+    File pkg = new File(rLibsUsr + "/" + pkgName);
+    if (!pkg.exists()) {
       try {
         String tar = rLibsUsr + "/" + pkgName + ".tar.gz";
-        if(!new File(tar).exists()) {
+        if (!new File(tar).exists()) {
           URL website = new URL(url);
           ReadableByteChannel rbc = Channels.newChannel(website.openStream());
           FileOutputStream fos = new FileOutputStream(tar);
           fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
           fos.close();
         }
-        Process ps = new ProcessBuilder(rHome + "/bin/R", "CMD", "INSTALL", "-l", rLibsUsr, tar).start();
-            ps.waitFor();
+        Process ps = new ProcessBuilder(rHome + "/bin/R", "CMD", "INSTALL",
+            "-l", rLibsUsr, tar).start();
+        ps.waitFor();
       } catch (IOException | InterruptedException e) {
         e.printStackTrace();
       }
-        }
     }
+  }
 
-    @Override
-    public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t, IFeatureProvider fp) {
-        return ITaskApi.ifInstance(t, RTask.class, new AddFeature(fp));
-    }
+  @Override
+  public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t,
+      IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, RTask.class, new AddFeature(fp));
+  }
 
-    @Override
-    public Optional<ICustomFeature> getDoubleClickFeature(IDoubleClickContext cxt, Task t, IFeatureProvider fp) {
-        return ITaskApi.ifInstance(t, RTask.class, new DoubleClickFeatureFilter().filter(t, fp));
-    }
+  @Override
+  public Optional<ICustomFeature> getDoubleClickFeature(IDoubleClickContext cxt,
+      Task t, IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, RTask.class,
+        new DoubleClickFeatureFilter().filter(t, fp));
+  }
 
-    @Override
-    public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t, IFeatureProvider fp) {
-        return ITaskApi.ifInstance(t, RTask.class, new UpdateFeature(fp));
-    }
+  @Override
+  public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t,
+      IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, RTask.class, new UpdateFeature(fp));
+  }
 
-    @Override
-    public Map<String, String> getImageKeyPath() {
-        return Images.getImageKeyPath();
-    }
+  @Override
+  public Map<String, String> getImageKeyPath() {
+    return Images.getImageKeyPath();
+  }
 }

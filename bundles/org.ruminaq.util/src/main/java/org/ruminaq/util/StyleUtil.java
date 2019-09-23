@@ -26,26 +26,27 @@ import org.eclipse.graphiti.util.IColorConstant;
 
 public class StyleUtil {
 
-	public static Style findStyle(StyleContainer styleContainer, String id) {
-		Collection<Style> styles = styleContainer.getStyles();
-		if(styles != null)
-			for(Style style : styles)
-				if(id.equals(style.getId())) return style;
-		return null;
-	}
+  public static Style findStyle(StyleContainer styleContainer, String id) {
+    Collection<Style> styles = styleContainer.getStyles();
+    if (styles != null)
+      for (Style style : styles)
+        if (id.equals(style.getId()))
+          return style;
+    return null;
+  }
 
-	public static Style getStyleForPolygon(Diagram diagram) {
-		final String styleId = "POLYGON-ARROW"; //$NON-NLS-1$
+  public static Style getStyleForPolygon(Diagram diagram) {
+    final String styleId = "POLYGON-ARROW"; //$NON-NLS-1$
 
-		Style style = findStyle(diagram, styleId);
+    Style style = findStyle(diagram, styleId);
 
-		if(style == null) {
-			IGaService gaService = Graphiti.getGaService();
-			style = gaService.createStyle(diagram, styleId);
-			style.setForeground(gaService.manageColor(diagram, IColorConstant.BLACK));
-			style.setBackground(gaService.manageColor(diagram, IColorConstant.BLACK));
-			style.setLineWidth(1);
-		}
-		return style;
-	}
+    if (style == null) {
+      IGaService gaService = Graphiti.getGaService();
+      style = gaService.createStyle(diagram, styleId);
+      style.setForeground(gaService.manageColor(diagram, IColorConstant.BLACK));
+      style.setBackground(gaService.manageColor(diagram, IColorConstant.BLACK));
+      style.setLineWidth(1);
+    }
+    return style;
+  }
 }

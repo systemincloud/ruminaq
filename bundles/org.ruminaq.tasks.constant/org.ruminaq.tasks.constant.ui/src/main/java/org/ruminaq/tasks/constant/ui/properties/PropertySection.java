@@ -14,11 +14,11 @@ public class PropertySection extends AbstractTaskPropertySection {
 
   @Override
   protected void initLaunchListener() {
-      RuminaqLaunchDelegate.addLaunchListener(this);
+    RuminaqLaunchDelegate.addLaunchListener(this);
   }
 
   @Override
   protected boolean isRunning() {
-      return RuminaqLaunchDelegate.isRunning();
+    return RuminaqLaunchDelegate.isRunning();
   }
 }

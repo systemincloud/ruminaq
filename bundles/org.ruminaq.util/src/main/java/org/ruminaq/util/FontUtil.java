@@ -22,11 +22,12 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 public class FontUtil {
 
-	public static Font findFont(Diagram diagram, String name, int size) {
-		Collection<Font> fonts = diagram.getFonts();
-		if(fonts != null)
-			for(Font font : fonts)
-				if(name.equals(font.getName()) && size == font.getSize()) return font;
-		return null;
-	}
+  public static Font findFont(Diagram diagram, String name, int size) {
+    Collection<Font> fonts = diagram.getFonts();
+    if (fonts != null)
+      for (Font font : fonts)
+        if (name.equals(font.getName()) && size == font.getSize())
+          return font;
+    return null;
+  }
 }

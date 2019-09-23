@@ -10,6 +10,6 @@ import org.ruminaq.tasks.javatask.client.data.Data;
  */
 public interface JavaTaskExtensionHandler {
 
-	Collection<? extends Class<? extends Data>> getJavaTaskDatas();
+  Collection<? extends Class<? extends Data>> getJavaTaskDatas();
 
 }

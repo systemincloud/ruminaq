@@ -19,40 +19,41 @@ import org.ruminaq.tasks.gate.xor.model.xor.XorFactory;
 @Component(property = { "service.ranking:Integer=10" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
-	@Override
-	public List<Class<? extends ICreateFeature>> getFeatures() {
-		return Arrays.asList(CreateFeature.class);
-	}
-	
-	public static class CreateFeature extends CreateTaskFeature implements PaletteCreateFeature {
+  @Override
+  public List<Class<? extends ICreateFeature>> getFeatures() {
+    return Arrays.asList(CreateFeature.class);
+  }
 
-		public CreateFeature(IFeatureProvider fp) {
-			super(fp, Xor.class);
-		}
+  public static class CreateFeature extends CreateTaskFeature
+      implements PaletteCreateFeature {
 
-		@Override
-		public String getCompartment() {
-			return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
-		}
-		
-		@Override
-		public String getStack() {
-			return CommonPaletteCompartmentEntry.LOGIC_STACK;
-		}
+    public CreateFeature(IFeatureProvider fp) {
+      super(fp, Xor.class);
+    }
 
-		@Override
-		public Object[] create(ICreateContext context) {
-			return super.create(context, XorFactory.eINSTANCE.createXor());
-		}
+    @Override
+    public String getCompartment() {
+      return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
+    }
 
-		@Override
-		protected Class<? extends PortsDescr> getPortsDescription() {
-			return Port.class;
-		}
+    @Override
+    public String getStack() {
+      return CommonPaletteCompartmentEntry.LOGIC_STACK;
+    }
 
-		@Override
-		public String getCreateImageId() {
-			return Images.Image.IMG_XOR_PALETTE.name();
-		}
-	}
+    @Override
+    public Object[] create(ICreateContext context) {
+      return super.create(context, XorFactory.eINSTANCE.createXor());
+    }
+
+    @Override
+    protected Class<? extends PortsDescr> getPortsDescription() {
+      return Port.class;
+    }
+
+    @Override
+    public String getCreateImageId() {
+      return Images.Image.IMG_XOR_PALETTE.name();
+    }
+  }
 }

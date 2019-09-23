@@ -16,22 +16,26 @@ import org.ruminaq.model.ruminaq.BaseElement;
 
 public class UpdateBaseElementFeature extends AbstractUpdateFeature {
 
-	public UpdateBaseElementFeature(IFeatureProvider fp) { super(fp); }
+  public UpdateBaseElementFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public boolean canUpdate(IUpdateContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return (bo instanceof BaseElement) && (context.getPictogramElement() instanceof ContainerShape);
-	}
+  @Override
+  public boolean canUpdate(IUpdateContext context) {
+    Object bo = getBusinessObjectForPictogramElement(
+        context.getPictogramElement());
+    return (bo instanceof BaseElement)
+        && (context.getPictogramElement() instanceof ContainerShape);
+  }
 
-	@Override
-	public IReason updateNeeded(IUpdateContext context) {
-		return Reason.createFalseReason();
-	}
+  @Override
+  public IReason updateNeeded(IUpdateContext context) {
+    return Reason.createFalseReason();
+  }
 
-	@Override
-	public boolean update(IUpdateContext context) {
-		return false;
-	}
+  @Override
+  public boolean update(IUpdateContext context) {
+    return false;
+  }
 
 }

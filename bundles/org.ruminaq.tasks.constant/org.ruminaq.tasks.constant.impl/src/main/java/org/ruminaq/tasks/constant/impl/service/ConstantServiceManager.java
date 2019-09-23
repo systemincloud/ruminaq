@@ -25,20 +25,19 @@ import org.ruminaq.tasks.constant.impl.AbstractConstantStrategy;
 
 public enum ConstantServiceManager {
 
-    INSTANCE;
+  INSTANCE;
 
-    private List<ConstantService> services = new ArrayList<>();
+  private List<ConstantService> services = new ArrayList<>();
 
-    ConstantServiceManager() {
-        ServiceLoader<ConstantService> sl = ServiceLoader.load(ConstantService.class);
-        sl.forEach(srv -> services.add(srv));
-    }
+  ConstantServiceManager() {
+    ServiceLoader<ConstantService> sl = ServiceLoader
+        .load(ConstantService.class);
+    sl.forEach(srv -> services.add(srv));
+  }
 
-    public Optional<AbstractConstantStrategy> getStrategy(DataType dt, String value) {
-        return services.stream()
-                .map(srv -> srv.getStrategy(dt, value))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .findFirst();
-    }
+  public Optional<AbstractConstantStrategy> getStrategy(DataType dt,
+      String value) {
+    return services.stream().map(srv -> srv.getStrategy(dt, value))
+        .filter(Optional::isPresent).map(Optional::get).findFirst();
+  }
 }

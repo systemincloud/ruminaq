@@ -4,8 +4,8 @@ import org.ruminaq.runner.service.AbstractRunnerService;
 import org.ruminaq.tasks.gate.model.gate.GatePackage;
 
 public final class RunnerServiceProvider extends AbstractRunnerService {
-	@Override
-	public void initModelPackages() {
-		GatePackage.eINSTANCE.getClass();
-	}
+  @Override
+  public void initModelPackages() {
+    GatePackage.eINSTANCE.getClass();
+  }
 }

@@ -6,17 +6,17 @@ import org.ruminaq.tasks.gate.features.AddGateFeature;
 
 public class AddFeature extends AddGateFeature {
 
-	public AddFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public AddFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	protected boolean useIconInsideShape() {
-		return true;
-	}
+  @Override
+  protected boolean useIconInsideShape() {
+    return true;
+  }
 
-	@Override
-	protected String getInsideIconId() {
-		return Images.K.IMG_AND_DIAGRAM.name();
-	}
+  @Override
+  protected String getInsideIconId() {
+    return Images.K.IMG_AND_DIAGRAM.name();
+  }
 }

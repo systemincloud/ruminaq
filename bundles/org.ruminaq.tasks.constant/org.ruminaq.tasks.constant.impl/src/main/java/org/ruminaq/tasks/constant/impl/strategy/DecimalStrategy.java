@@ -29,25 +29,26 @@ import org.slf4j.Logger;
 
 public class DecimalStrategy extends AbstractConstantStrategy {
 
-    private static final Logger LOGGER = RunnerLoggerFactory.getLogger(Int32Strategy.class);
+  private static final Logger LOGGER = RunnerLoggerFactory
+      .getLogger(Int32Strategy.class);
 
-    public static final String DEFAULT_VALUE = "0";
+  public static final String DEFAULT_VALUE = "0";
 
-    public DecimalStrategy(ConstantI task, String value) {
-        super(task, value);
+  public DecimalStrategy(ConstantI task, String value) {
+    super(task, value);
+  }
+
+  @Override
+  public void execute() {
+    LOGGER.trace("create Int32");
+    if (NumericUtil.isMultiDimsNumeric(value)) {
+      List<Integer> dims = NumericUtil.getMutliDimsNumericDimensions(value);
+      String[] vs = NumericUtil.getMutliDimsValues(value);
+      List<BigDecimal> values = new LinkedList<>();
+      for (String v : vs) {
+        values.add(new BigDecimal(v));
+      }
+      task.putData(Port.OUT, new DecimalI(values, dims));
     }
-
-    @Override
-    public void execute() {
-        LOGGER.trace("create Int32");
-        if(NumericUtil.isMultiDimsNumeric(value)) {
-            List<Integer> dims = NumericUtil.getMutliDimsNumericDimensions(value);
-            String[] vs = NumericUtil.getMutliDimsValues(value);
-            List<BigDecimal> values = new LinkedList<>();
-            for (String v : vs) {
-                values.add(new BigDecimal(v));
-            }
-            task.putData(Port.OUT, new DecimalI(values, dims));
-        }
-    }
+  }
 }

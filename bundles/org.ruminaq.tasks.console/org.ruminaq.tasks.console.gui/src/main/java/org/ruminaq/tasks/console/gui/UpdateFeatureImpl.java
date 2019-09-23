@@ -22,97 +22,124 @@ import org.ruminaq.tasks.features.UpdateTaskFeature;
 @Component(property = { "service.ranking:Integer=10" })
 public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
-	@Override
-	public List<Class<? extends IUpdateFeature>> getFeatures() {
-		return Arrays.asList(UpdateFeature.class);
-	}
+  @Override
+  public List<Class<? extends IUpdateFeature>> getFeatures() {
+    return Arrays.asList(UpdateFeature.class);
+  }
 
-	@Override
-	public Predicate<? super Class<? extends IUpdateFeature>> filter(
-	    IContext context, IFeatureProvider fp) {
-		IUpdateContext updateContext = (IUpdateContext) context;
-		PictogramElement pe = updateContext.getPictogramElement();
-		Object bo = fp.getBusinessObjectForPictogramElement(pe);
-		return (Class<?> clazz) -> {
-			if (clazz.isAssignableFrom(UpdateFeature.class)) {
-				return bo instanceof Console;
-			}
+  @Override
+  public Predicate<? super Class<? extends IUpdateFeature>> filter(
+      IContext context, IFeatureProvider fp) {
+    IUpdateContext updateContext = (IUpdateContext) context;
+    PictogramElement pe = updateContext.getPictogramElement();
+    Object bo = fp.getBusinessObjectForPictogramElement(pe);
+    return (Class<?> clazz) -> {
+      if (clazz.isAssignableFrom(UpdateFeature.class)) {
+        return bo instanceof Console;
+      }
 
-			return false;
-		};
-	}
-	
-	public static class UpdateFeature extends UpdateTaskFeature {
+      return false;
+    };
+  }
 
-		private boolean updateNeededChecked = false;
+  public static class UpdateFeature extends UpdateTaskFeature {
 
-		private boolean superUpdateNeeded  = false;
-		private boolean inputUpdateNeeded  = false;
-		private boolean outputUpdateNeeded = false;
+    private boolean updateNeededChecked = false;
 
-		public UpdateFeature(IFeatureProvider fp) { super(fp); }
+    private boolean superUpdateNeeded = false;
+    private boolean inputUpdateNeeded = false;
+    private boolean outputUpdateNeeded = false;
 
-		@Override
-		public boolean canUpdate(IUpdateContext context) {
-			Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-			return (bo instanceof Console);
-		}
+    public UpdateFeature(IFeatureProvider fp) {
+      super(fp);
+    }
 
-		@Override
-		public IReason updateNeeded(IUpdateContext context) {
-			this.updateNeededChecked = true;
-			superUpdateNeeded = super.updateNeeded(context).toBoolean();
+    @Override
+    public boolean canUpdate(IUpdateContext context) {
+      Object bo = getBusinessObjectForPictogramElement(
+          context.getPictogramElement());
+      return (bo instanceof Console);
+    }
 
-			ContainerShape parent = (ContainerShape) context.getPictogramElement();
-			Console console = (Console) getBusinessObjectForPictogramElement(parent);
-			switch(console.getConsoleType()) {
-				case IN:
-					if(console.getInputPort() .size() != 1) inputUpdateNeeded  = true;
-					if(console.getOutputPort().size() != 0) outputUpdateNeeded = true;
-					break;
-				case OUT:
-					if(console.getInputPort() .size() != 0) inputUpdateNeeded  = true;
-					if(console.getOutputPort().size() != 1) outputUpdateNeeded = true;
-					break;
-				case INOUT:
-					if(console.getInputPort() .size() != 1) inputUpdateNeeded  = true;
-					if(console.getOutputPort().size() != 1) outputUpdateNeeded = true;
-					break;
-				default: break;
-			}
+    @Override
+    public IReason updateNeeded(IUpdateContext context) {
+      this.updateNeededChecked = true;
+      superUpdateNeeded = super.updateNeeded(context).toBoolean();
 
-			boolean updateNeeded = superUpdateNeeded
-					            || inputUpdateNeeded
-					            || outputUpdateNeeded;
-			return updateNeeded ? Reason.createTrueReason() : Reason.createFalseReason();
-		}
+      ContainerShape parent = (ContainerShape) context.getPictogramElement();
+      Console console = (Console) getBusinessObjectForPictogramElement(parent);
+      switch (console.getConsoleType()) {
+        case IN:
+          if (console.getInputPort().size() != 1)
+            inputUpdateNeeded = true;
+          if (console.getOutputPort().size() != 0)
+            outputUpdateNeeded = true;
+          break;
+        case OUT:
+          if (console.getInputPort().size() != 0)
+            inputUpdateNeeded = true;
+          if (console.getOutputPort().size() != 1)
+            outputUpdateNeeded = true;
+          break;
+        case INOUT:
+          if (console.getInputPort().size() != 1)
+            inputUpdateNeeded = true;
+          if (console.getOutputPort().size() != 1)
+            outputUpdateNeeded = true;
+          break;
+        default:
+          break;
+      }
 
-		@Override
-		public boolean update(IUpdateContext context) {
-			if(!updateNeededChecked)
-				if(!this.updateNeeded(context).toBoolean()) return false;
+      boolean updateNeeded = superUpdateNeeded || inputUpdateNeeded
+          || outputUpdateNeeded;
+      return updateNeeded ? Reason.createTrueReason()
+          : Reason.createFalseReason();
+    }
 
-			Console console = (Console) getBusinessObjectForPictogramElement(context.getPictogramElement());
+    @Override
+    public boolean update(IUpdateContext context) {
+      if (!updateNeededChecked)
+        if (!this.updateNeeded(context).toBoolean())
+          return false;
 
-			boolean updated = false;
-			if(superUpdateNeeded)  updated = updated | super.update(context);
-			if(inputUpdateNeeded)  updated = updated | updateInput (console, (ContainerShape) context.getPictogramElement());
-			if(outputUpdateNeeded) updated = updated | updateOutput(console, (ContainerShape) context.getPictogramElement());
-			return updated;
-		}
+      Console console = (Console) getBusinessObjectForPictogramElement(
+          context.getPictogramElement());
 
-		private boolean updateInput(Console console, ContainerShape parent) {
-			if((console.getConsoleType().equals(ConsoleType.IN)
-			 || console.getConsoleType().equals(ConsoleType.INOUT))   && console.getInputPort().size() < 1)   {  addPort   (console, parent, Port.IN); }
-			else if((console.getConsoleType().equals(ConsoleType.OUT) && console.getInputPort().size() == 1)) {  removePort(console, parent, Port.IN); }
-			return true;
-		}
+      boolean updated = false;
+      if (superUpdateNeeded)
+        updated = updated | super.update(context);
+      if (inputUpdateNeeded)
+        updated = updated | updateInput(console,
+            (ContainerShape) context.getPictogramElement());
+      if (outputUpdateNeeded)
+        updated = updated | updateOutput(console,
+            (ContainerShape) context.getPictogramElement());
+      return updated;
+    }
 
-		private boolean updateOutput(Console console, ContainerShape parent) {
-			if((console.getConsoleType().equals(ConsoleType.OUT)
-			 || console.getConsoleType().equals(ConsoleType.INOUT))  && console.getOutputPort().size() < 1)   { addPort   (console, parent, Port.OUT); }
-			else if((console.getConsoleType().equals(ConsoleType.IN) && console.getOutputPort().size() == 1)) { removePort(console, parent, Port.OUT); }
-			return true;
-		}
-	}
+    private boolean updateInput(Console console, ContainerShape parent) {
+      if ((console.getConsoleType().equals(ConsoleType.IN)
+          || console.getConsoleType().equals(ConsoleType.INOUT))
+          && console.getInputPort().size() < 1) {
+        addPort(console, parent, Port.IN);
+      } else if ((console.getConsoleType().equals(ConsoleType.OUT)
+          && console.getInputPort().size() == 1)) {
+        removePort(console, parent, Port.IN);
+      }
+      return true;
+    }
+
+    private boolean updateOutput(Console console, ContainerShape parent) {
+      if ((console.getConsoleType().equals(ConsoleType.OUT)
+          || console.getConsoleType().equals(ConsoleType.INOUT))
+          && console.getOutputPort().size() < 1) {
+        addPort(console, parent, Port.OUT);
+      } else if ((console.getConsoleType().equals(ConsoleType.IN)
+          && console.getOutputPort().size() == 1)) {
+        removePort(console, parent, Port.OUT);
+      }
+      return true;
+    }
+  }
 }

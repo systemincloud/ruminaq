@@ -15,10 +15,11 @@ import org.ruminaq.tasks.pythontask.ui.debug.PythonTasksDebugTarget;
 @Component(immediate = true)
 public class PythonTasksDebugModelerExtension implements DebugExtension {
 
-	@Override
-	public Collection<? extends IDebugTarget> getDebugTargets(ILaunch launch, IProject project, EventDispatchJob dispatcher) {
-		List<IDebugTarget> targets = new ArrayList<>();
-    	targets.add(new PythonTasksDebugTarget(launch, project, dispatcher));
-		return targets;
-	}
+  @Override
+  public Collection<? extends IDebugTarget> getDebugTargets(ILaunch launch,
+      IProject project, EventDispatchJob dispatcher) {
+    List<IDebugTarget> targets = new ArrayList<>();
+    targets.add(new PythonTasksDebugTarget(launch, project, dispatcher));
+    return targets;
+  }
 }

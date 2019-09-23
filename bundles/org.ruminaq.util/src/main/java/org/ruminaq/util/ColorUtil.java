@@ -22,16 +22,17 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 
 public class ColorUtil {
 
-	public static Color findColor(Diagram diagram, int r, int g, int b) {
-		Collection<Color> colors = diagram.getColors();
-		if (colors != null) {
-			try {
-				return colors.stream()
-				             .filter(c -> c.getRed() == r && c.getGreen() == g && c.getBlue() == b)
-				             .findFirst()
-				             .get();
-			} catch (Exception e) { }
-		}
-		return null;
-	}
+  public static Color findColor(Diagram diagram, int r, int g, int b) {
+    Collection<Color> colors = diagram.getColors();
+    if (colors != null) {
+      try {
+        return colors.stream()
+            .filter(
+                c -> c.getRed() == r && c.getGreen() == g && c.getBlue() == b)
+            .findFirst().get();
+      } catch (Exception e) {
+      }
+    }
+    return null;
+  }
 }

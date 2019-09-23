@@ -33,66 +33,66 @@ import org.ruminaq.model.util.ModelUtil;
 public class PropertyDescriptionSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
-	private Browser b;
+  private Browser b;
 
-	@Override
-	public void createControls(Composite parent,
-	    TabbedPropertySheetPage tabbedPropertySheetPage) {
-		super.createControls(parent, tabbedPropertySheetPage);
+  @Override
+  public void createControls(Composite parent,
+      TabbedPropertySheetPage tabbedPropertySheetPage) {
+    super.createControls(parent, tabbedPropertySheetPage);
 
-		((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
-		((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
+    ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
+    ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
-		b = new Browser(parent, SWT.NONE);
-		parent.setLayout(new GridLayout());
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.grabExcessVerticalSpace = true;
-		gd.grabExcessHorizontalSpace = true;
-		b.setLayoutData(gd);
-		b.addListener(SWT.MenuDetect, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				event.doit = false;
-			}
-		});
+    b = new Browser(parent, SWT.NONE);
+    parent.setLayout(new GridLayout());
+    GridData gd = new GridData(GridData.FILL_BOTH);
+    gd.grabExcessVerticalSpace = true;
+    gd.grabExcessHorizontalSpace = true;
+    b.setLayoutData(gd);
+    b.addListener(SWT.MenuDetect, new Listener() {
+      @Override
+      public void handleEvent(Event event) {
+        event.doit = false;
+      }
+    });
 
-	}
+  }
 
-	@Override
-	public void refresh() {
-		PictogramElement pe = getSelectedPictogramElement();
+  @Override
+  public void refresh() {
+    PictogramElement pe = getSelectedPictogramElement();
 
-		if (pe != null) {
-			EObject bo = Graphiti.getLinkService()
-			    .getBusinessObjectForLinkedPictogramElement(pe);
-			if (bo == null)
-				return;
-			b.setText(getPage(bo));
-		}
-	}
+    if (pe != null) {
+      EObject bo = Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement(pe);
+      if (bo == null)
+        return;
+      b.setText(getPage(bo));
+    }
+  }
 
-	@Override
-	public void setInput(IWorkbenchPart part, ISelection selection) {
-		super.setInput(part, selection);
-	}
+  @Override
+  public void setInput(IWorkbenchPart part, ISelection selection) {
+    super.setInput(part, selection);
+  }
 
-	public Font getDescriptionFont() {
-		Display display = Display.getCurrent();
-		FontData data = display.getSystemFont().getFontData()[0];
-		return new Font(display, data.getName(), data.getHeight() + 1, SWT.NONE);
-	}
+  public Font getDescriptionFont() {
+    Display display = Display.getCurrent();
+    FontData data = display.getSystemFont().getFontData()[0];
+    return new Font(display, data.getName(), data.getHeight() + 1, SWT.NONE);
+  }
 
-	private String getPage(EObject bo) {
-		String fileName = ModelUtil.getName(bo.getClass(), false) + ".html";
-		InputStream is = bo.getClass().getResourceAsStream("/html/" + fileName);
-		if (is == null)
-			return "";
-		try {
-			return IOUtils.toString(is, "UTF-8");
-		} catch (IOException e) {
-		}
-		return "";
-	}
+  private String getPage(EObject bo) {
+    String fileName = ModelUtil.getName(bo.getClass(), false) + ".html";
+    InputStream is = bo.getClass().getResourceAsStream("/html/" + fileName);
+    if (is == null)
+      return "";
+    try {
+      return IOUtils.toString(is, "UTF-8");
+    } catch (IOException e) {
+    }
+    return "";
+  }
 
 //	private String getDescriptionUrl(EObject bo) {
 //    	String fileName = ModelUtil.getName(bo.getClass(), false) + ".html";

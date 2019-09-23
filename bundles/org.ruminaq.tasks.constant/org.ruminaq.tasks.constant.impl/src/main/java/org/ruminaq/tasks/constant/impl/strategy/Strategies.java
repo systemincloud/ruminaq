@@ -31,39 +31,36 @@ import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.tasks.constant.impl.AbstractConstantStrategy;
 
 public enum Strategies {
-    TEXT(Text.class, TextStrategy.class),
-    BOOL(Bool.class, BoolStrategy.class),
-    COMPLEX32(Complex32.class, Complex32Strategy.class),
-    COMPLEX64(Complex64.class, Complex64Strategy.class),
-    CONTROL(Control.class, ControlStrategy.class),
-    INT32(Int32.class, Int32Strategy.class),
-    INT64(Int64.class, Int64Strategy.class),
-    FLOAT32(Float32.class, Float32Strategy.class),
-    FLOAT64(Float64.class, Float64Strategy.class),
-    DECIMAL(Decimal.class, DecimalStrategy.class),
-    ;
+  TEXT(Text.class, TextStrategy.class), BOOL(Bool.class, BoolStrategy.class),
+  COMPLEX32(Complex32.class, Complex32Strategy.class),
+  COMPLEX64(Complex64.class, Complex64Strategy.class),
+  CONTROL(Control.class, ControlStrategy.class),
+  INT32(Int32.class, Int32Strategy.class),
+  INT64(Int64.class, Int64Strategy.class),
+  FLOAT32(Float32.class, Float32Strategy.class),
+  FLOAT64(Float64.class, Float64Strategy.class),
+  DECIMAL(Decimal.class, DecimalStrategy.class),;
 
-    private Class<? extends DataType> dataType;
-    private Class<? extends AbstractConstantStrategy> strategy;
+  private Class<? extends DataType> dataType;
+  private Class<? extends AbstractConstantStrategy> strategy;
 
-    Strategies(
-            Class<? extends DataType> dataType,
-            Class<? extends AbstractConstantStrategy> strategy) {
-        this.dataType = dataType;
-        this.strategy = strategy;
-    }
+  Strategies(Class<? extends DataType> dataType,
+      Class<? extends AbstractConstantStrategy> strategy) {
+    this.dataType = dataType;
+    this.strategy = strategy;
+  }
 
-    public Class<? extends DataType> getDataType() {
-        return dataType;
-    }
+  public Class<? extends DataType> getDataType() {
+    return dataType;
+  }
 
-    public Class<? extends AbstractConstantStrategy> getStrategy() {
-        return strategy;
-    }
+  public Class<? extends AbstractConstantStrategy> getStrategy() {
+    return strategy;
+  }
 
-    public static Optional<Strategies> getByDataType(DataType dt) {
-        return Arrays.stream(Strategies.values())
-                .filter(s -> s.getDataType().isAssignableFrom(dt.getClass()))
-                .findFirst();
-    }
+  public static Optional<Strategies> getByDataType(DataType dt) {
+    return Arrays.stream(Strategies.values())
+        .filter(s -> s.getDataType().isAssignableFrom(dt.getClass()))
+        .findFirst();
+  }
 }

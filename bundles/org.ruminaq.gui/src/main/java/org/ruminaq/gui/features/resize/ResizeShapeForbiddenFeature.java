@@ -22,41 +22,41 @@ import org.ruminaq.model.ruminaq.Port;
 @FeatureFilter(Filter.class)
 public class ResizeShapeForbiddenFeature extends DefaultResizeShapeFeature {
 
-	public static class Filter implements FeaturePredicate<IContext> {
-		@Override
-		public boolean test(IContext context, IFeatureProvider fp) {
-			IResizeShapeContext resizeShapeContext = (IResizeShapeContext) context;
-			String labelProperty = Graphiti.getPeService().getPropertyValue(
-			    resizeShapeContext.getShape(), Constants.LABEL_PROPERTY);
-			if (Boolean.parseBoolean(labelProperty)) {
-				return true;
-			}
+  public static class Filter implements FeaturePredicate<IContext> {
+    @Override
+    public boolean test(IContext context, IFeatureProvider fp) {
+      IResizeShapeContext resizeShapeContext = (IResizeShapeContext) context;
+      String labelProperty = Graphiti.getPeService().getPropertyValue(
+          resizeShapeContext.getShape(), Constants.LABEL_PROPERTY);
+      if (Boolean.parseBoolean(labelProperty)) {
+        return true;
+      }
 
-			String connectionPointProperty = Graphiti.getPeService().getPropertyValue(
-			    resizeShapeContext.getShape(), Constants.SIMPLE_CONNECTION_POINT);
-			if (Boolean.parseBoolean(connectionPointProperty)) {
-				return true;
-			}
+      String connectionPointProperty = Graphiti.getPeService().getPropertyValue(
+          resizeShapeContext.getShape(), Constants.SIMPLE_CONNECTION_POINT);
+      if (Boolean.parseBoolean(connectionPointProperty)) {
+        return true;
+      }
 
-			Shape shape = resizeShapeContext.getShape();
-			Object bo = fp.getBusinessObjectForPictogramElement(shape);
+      Shape shape = resizeShapeContext.getShape();
+      Object bo = fp.getBusinessObjectForPictogramElement(shape);
 
-			if (bo instanceof InternalPort) {
-				return true;
-			} else if (bo instanceof Port) {
-				return true;
-			}
+      if (bo instanceof InternalPort) {
+        return true;
+      } else if (bo instanceof Port) {
+        return true;
+      }
 
-			return false;
-		}
-	}
+      return false;
+    }
+  }
 
-	public ResizeShapeForbiddenFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public ResizeShapeForbiddenFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public boolean canResizeShape(IResizeShapeContext context) {
-		return false;
-	}
+  @Override
+  public boolean canResizeShape(IResizeShapeContext context) {
+    return false;
+  }
 }

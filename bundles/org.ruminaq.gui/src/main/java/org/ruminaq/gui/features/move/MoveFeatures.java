@@ -16,8 +16,8 @@ import org.ruminaq.gui.api.MoveShapeFeatureExtension;
 @Component(property = { "service.ranking:Integer=5" })
 public class MoveFeatures implements MoveShapeFeatureExtension {
 
-	@Override
-	public List<Class<? extends IMoveShapeFeature>> getFeatures() {
-		return Arrays.asList(MoveLabelFeature.class, MoveElementFeature.class);
-	}
+  @Override
+  public List<Class<? extends IMoveShapeFeature>> getFeatures() {
+    return Arrays.asList(MoveLabelFeature.class, MoveElementFeature.class);
+  }
 }

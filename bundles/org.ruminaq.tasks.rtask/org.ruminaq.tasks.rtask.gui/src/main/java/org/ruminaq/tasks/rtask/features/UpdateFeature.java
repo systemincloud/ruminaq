@@ -47,53 +47,64 @@ import org.ruminaq.util.EclipseUtil;
 public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
 //    private IRLangSourceElement se = null;
-    private String desc = AddFeature.NOT_CHOSEN;
+  private String desc = AddFeature.NOT_CHOSEN;
 
-    public UpdateFeature(IFeatureProvider fp) {
-        super(fp);
-    }
+  public UpdateFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-    @Override
-    public boolean canUpdate(IUpdateContext context) {
-        Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-        return (bo instanceof RTask);
-    }
+  @Override
+  public boolean canUpdate(IUpdateContext context) {
+    Object bo = getBusinessObjectForPictogramElement(
+        context.getPictogramElement());
+    return (bo instanceof RTask);
+  }
 
-    @Override
-    protected String getResource(Object bo) {
-        RTask be = (RTask) bo;
-        return be.getImplementation();
-    }
+  @Override
+  protected String getResource(Object bo) {
+    RTask be = (RTask) bo;
+    return be.getImplementation();
+  }
 
-    @Override
-    public boolean load(String path) {
-        if("".equals(path) || (!path.startsWith(Constants.MAIN_R) && !path.startsWith(Constants.TEST_R))) return false;
-        IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram()));
+  @Override
+  public boolean load(String path) {
+    if ("".equals(path) || (!path.startsWith(Constants.MAIN_R)
+        && !path.startsWith(Constants.TEST_R)))
+      return false;
+    IProject p = ResourcesPlugin.getWorkspace().getRoot()
+        .getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram()));
 
-        this.desc = new Path(path).lastSegment();
+    this.desc = new Path(path).lastSegment();
 
-        IFile file = p.getFile(path);
+    IFile file = p.getFile(path);
 
-        if(file == null) return false;
-        if(file.getFileExtension() == null) return false;
+    if (file == null)
+      return false;
+    if (file.getFileExtension() == null)
+      return false;
 
-        String ext = file.getFileExtension();
-        if(ext.equals("R")) {
-            try {
-                ISourceUnitManager sum = LTK.getSourceUnitManager();
-                IContentDescription contentDescription = file.getContentDescription();
-                IContentType contentType = contentDescription.getContentType();
-                IRWorkspaceSourceUnit su = (IRWorkspaceSourceUnit) sum.getSourceUnit(LTK.PERSISTENCE_CONTEXT, file, contentType, true, null);
-                IRModelInfo mi = (IRModelInfo) su.getModelInfo(RModel.R_TYPE_ID, IRModelManager.MODEL_FILE, new NullProgressMonitor());
+    String ext = file.getFileExtension();
+    if (ext.equals("R")) {
+      try {
+        ISourceUnitManager sum = LTK.getSourceUnitManager();
+        IContentDescription contentDescription = file.getContentDescription();
+        IContentType contentType = contentDescription.getContentType();
+        IRWorkspaceSourceUnit su = (IRWorkspaceSourceUnit) sum.getSourceUnit(
+            LTK.PERSISTENCE_CONTEXT, file, contentType, true, null);
+        IRModelInfo mi = (IRModelInfo) su.getModelInfo(RModel.R_TYPE_ID,
+            IRModelManager.MODEL_FILE, new NullProgressMonitor());
 //                this.se = mi.getSourceElement();
-                return true;
-            } catch (CoreException e) { }
-        }
-        return false;
+        return true;
+      } catch (CoreException e) {
+      }
     }
+    return false;
+  }
 
-    @Override
-    protected void loadIconDesc() { this.iconDesc = desc; }
+  @Override
+  protected void loadIconDesc() {
+    this.iconDesc = desc;
+  }
 //
 //    protected Args getPublic() {
 //        IAstNode node = (IAstNode) this.se.getAdapter(IAstNode.class);
@@ -298,34 +309,34 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 //        this.onlyLocal = false;
 //    }
 
-    @Override
-    protected Map<String, String> getParameters(UserDefinedTask udt) {
-        final Map<String, String> ret = new HashMap<>();
-        return ret;
-    }
+  @Override
+  protected Map<String, String> getParameters(UserDefinedTask udt) {
+    final Map<String, String> ret = new HashMap<>();
+    return ret;
+  }
 
-@Override
-protected void loadInputPorts() {
-  // TODO Auto-generated method stub
+  @Override
+  protected void loadInputPorts() {
+    // TODO Auto-generated method stub
 
-}
+  }
 
-@Override
-protected void loadOutputPorts() {
-  // TODO Auto-generated method stub
+  @Override
+  protected void loadOutputPorts() {
+    // TODO Auto-generated method stub
 
-}
+  }
 
-@Override
-protected void loadAtomic() {
-  // TODO Auto-generated method stub
+  @Override
+  protected void loadAtomic() {
+    // TODO Auto-generated method stub
 
-}
+  }
 
-@Override
-protected void loadOnlyLocal() {
-  // TODO Auto-generated method stub
+  @Override
+  protected void loadOnlyLocal() {
+    // TODO Auto-generated method stub
 
-}
+  }
 
 }

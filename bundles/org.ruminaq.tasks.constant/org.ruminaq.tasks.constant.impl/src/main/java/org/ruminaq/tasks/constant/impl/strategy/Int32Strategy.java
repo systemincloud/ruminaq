@@ -27,24 +27,25 @@ import org.slf4j.Logger;
 
 public class Int32Strategy extends AbstractConstantStrategy {
 
-    private static final Logger LOGGER = RunnerLoggerFactory.getLogger(Int32Strategy.class);
+  private static final Logger LOGGER = RunnerLoggerFactory
+      .getLogger(Int32Strategy.class);
 
-    public static final String DEFAULT_VALUE = "0";
+  public static final String DEFAULT_VALUE = "0";
 
-    public Int32Strategy(ConstantI task, String value) {
-        super(task, value);
+  public Int32Strategy(ConstantI task, String value) {
+    super(task, value);
+  }
+
+  @Override
+  public void execute() {
+    LOGGER.trace("create Int32");
+    List<Integer> dims = NumericUtil.getMultiDimsIntegerDimensions(value);
+    String[] vs = NumericUtil.getMutliDimsValues(value);
+    int n = dims.stream().reduce(1, (a, b) -> a * b);
+    int[] values = new int[n];
+    for (int i = 0; i < n; i++) {
+      values[i] = Integer.parseInt(vs[i]);
     }
-
-    @Override
-    public void execute() {
-        LOGGER.trace("create Int32");
-        List<Integer> dims = NumericUtil.getMultiDimsIntegerDimensions(value);
-        String[] vs        = NumericUtil.getMutliDimsValues(value);
-        int n = dims.stream().reduce(1, (a, b) -> a * b);
-        int[] values = new int[n];
-        for (int i = 0; i < n; i++) {
-            values[i] = Integer.parseInt(vs[i]);
-        }
-        task.putData(Port.OUT, new Int32I(values, dims));
-    }
+    task.putData(Port.OUT, new Int32I(values, dims));
+  }
 }

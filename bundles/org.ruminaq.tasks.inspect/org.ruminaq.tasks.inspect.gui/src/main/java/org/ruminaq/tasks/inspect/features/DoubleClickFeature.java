@@ -10,15 +10,23 @@ import org.ruminaq.tasks.inspect.model.inspect.Inspect;
 
 public class DoubleClickFeature extends DoubleClickBaseElementFeature {
 
-	public DoubleClickFeature(IFeatureProvider fp) { super(fp); }
+  public DoubleClickFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public void execute(ICustomContext context) {
-		Inspect bo = null;
-		for(Object o : Graphiti.getLinkService().getAllBusinessObjectsForLinkedPictogramElement(context.getPictogramElements()[0]))
-			if(o instanceof Inspect) { bo = (Inspect) o; break; }
-		if(bo == null) return;
+  @Override
+  public void execute(ICustomContext context) {
+    Inspect bo = null;
+    for (Object o : Graphiti.getLinkService()
+        .getAllBusinessObjectsForLinkedPictogramElement(
+            context.getPictogramElements()[0]))
+      if (o instanceof Inspect) {
+        bo = (Inspect) o;
+        break;
+      }
+    if (bo == null)
+      return;
 
-		Windows.INSTANCE.connectWindow(InspectWindow.class, bo);
-	}
+    Windows.INSTANCE.connectWindow(InspectWindow.class, bo);
+  }
 }

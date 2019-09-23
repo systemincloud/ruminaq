@@ -11,57 +11,65 @@ import org.ruminaq.tasks.features.UpdateTaskFeature;
 
 public class UpdateFeature extends UpdateTaskFeature {
 
-	private boolean updateNeededChecked = false;
+  private boolean updateNeededChecked = false;
 
-	private boolean superUpdateNeeded   = false;
-	private boolean outputsUpdateNeeded = false;
+  private boolean superUpdateNeeded = false;
+  private boolean outputsUpdateNeeded = false;
 
-	public UpdateFeature(IFeatureProvider fp) { super(fp); }
+  public UpdateFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public boolean canUpdate(IUpdateContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return (bo instanceof Demux);
-	}
+  @Override
+  public boolean canUpdate(IUpdateContext context) {
+    Object bo = getBusinessObjectForPictogramElement(
+        context.getPictogramElement());
+    return (bo instanceof Demux);
+  }
 
-	@Override
-	public IReason updateNeeded(IUpdateContext context) {
-		this.updateNeededChecked = true;
-		superUpdateNeeded = super.updateNeeded(context).toBoolean();
+  @Override
+  public IReason updateNeeded(IUpdateContext context) {
+    this.updateNeededChecked = true;
+    superUpdateNeeded = super.updateNeeded(context).toBoolean();
 
-		ContainerShape parent = (ContainerShape) context.getPictogramElement();
-		Demux dmx = (Demux) getBusinessObjectForPictogramElement(parent);
+    ContainerShape parent = (ContainerShape) context.getPictogramElement();
+    Demux dmx = (Demux) getBusinessObjectForPictogramElement(parent);
 
-		this.outputsUpdateNeeded = dmx.getSize() != dmx.getOutputPort().size();
+    this.outputsUpdateNeeded = dmx.getSize() != dmx.getOutputPort().size();
 
-		boolean updateNeeded = superUpdateNeeded
-				            || outputsUpdateNeeded;
-		return updateNeeded ?  Reason.createTrueReason() : Reason.createFalseReason();
-	}
+    boolean updateNeeded = superUpdateNeeded || outputsUpdateNeeded;
+    return updateNeeded ? Reason.createTrueReason()
+        : Reason.createFalseReason();
+  }
 
-	@Override
-	public boolean update(IUpdateContext context) {
-		if(!updateNeededChecked)
-			if(!this.updateNeeded(context).toBoolean()) return false;
+  @Override
+  public boolean update(IUpdateContext context) {
+    if (!updateNeededChecked)
+      if (!this.updateNeeded(context).toBoolean())
+        return false;
 
-		boolean updated = false;
-		if(superUpdateNeeded) updated = updated | super.update(context);
+    boolean updated = false;
+    if (superUpdateNeeded)
+      updated = updated | super.update(context);
 
-		ContainerShape parent = (ContainerShape) context.getPictogramElement();
-		Demux dmx = (Demux) getBusinessObjectForPictogramElement(parent);
+    ContainerShape parent = (ContainerShape) context.getPictogramElement();
+    Demux dmx = (Demux) getBusinessObjectForPictogramElement(parent);
 
-		if(outputsUpdateNeeded) updated = updated | outputsUpdate(parent, dmx);
+    if (outputsUpdateNeeded)
+      updated = updated | outputsUpdate(parent, dmx);
 
-		return updated;
-	}
+    return updated;
+  }
 
-	private boolean outputsUpdate(ContainerShape parent, Demux dmx) {
-		int n = dmx.getSize() - dmx.getOutputPort().size();
-		if(n > 0)
-			for(int i = 0; i < n; i++) addPort(dmx, parent, Port.OUT);
-		else if(n < 0)
-			for(int i = 0; i < -n; i++) removePort(dmx, parent, Port.OUT);
+  private boolean outputsUpdate(ContainerShape parent, Demux dmx) {
+    int n = dmx.getSize() - dmx.getOutputPort().size();
+    if (n > 0)
+      for (int i = 0; i < n; i++)
+        addPort(dmx, parent, Port.OUT);
+    else if (n < 0)
+      for (int i = 0; i < -n; i++)
+        removePort(dmx, parent, Port.OUT);
 
-		return true;
-	}
+    return true;
+  }
 }

@@ -9,13 +9,15 @@ import org.ruminaq.util.NumericUtil;
 
 public class Int64Property {
 
-	public static PropertySpecificComposite createSpecificComposite(ValueSaveListener listener, Composite specificRoot,
-			PictogramElement pe, TransactionalEditingDomain ed) {
-		return new PropertySpecificNumericComposite(listener, specificRoot, pe, ed) {
-			@Override
-			protected boolean checkIfValue(String value) {
-				return NumericUtil.isMultiDimsNumeric(value);
-			}
-		};
-	}
+  public static PropertySpecificComposite createSpecificComposite(
+      ValueSaveListener listener, Composite specificRoot, PictogramElement pe,
+      TransactionalEditingDomain ed) {
+    return new PropertySpecificNumericComposite(listener, specificRoot, pe,
+        ed) {
+      @Override
+      protected boolean checkIfValue(String value) {
+        return NumericUtil.isMultiDimsNumeric(value);
+      }
+    };
+  }
 }

@@ -5,8 +5,8 @@
  ******************************************************************************/
 
 /**
-* Reusable actions done with Ruminaq
-*
-* @author Marek Jagielski
-*/
+ * Reusable actions done with Ruminaq
+ *
+ * @author Marek Jagielski
+ */
 package org.ruminaq.tests.common;

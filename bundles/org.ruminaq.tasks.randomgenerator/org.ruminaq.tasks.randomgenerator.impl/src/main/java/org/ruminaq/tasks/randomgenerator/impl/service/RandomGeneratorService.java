@@ -12,5 +12,5 @@ import org.ruminaq.tasks.randomgenerator.impl.strategy.RandomGeneratorStrategy;
  * @author Marek Jagielski
  */
 public interface RandomGeneratorService {
-	RandomGeneratorStrategy getStrategy(DataType dt, EMap<String, String> eMap);
+  RandomGeneratorStrategy getStrategy(DataType dt, EMap<String, String> eMap);
 }

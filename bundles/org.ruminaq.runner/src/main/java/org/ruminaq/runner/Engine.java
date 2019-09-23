@@ -31,184 +31,212 @@ import com.google.common.util.concurrent.MoreExecutors;
 
 public class Engine {
 
-    private final Logger logger = RunnerLoggerFactory.getLogger(Engine.class);
+  private final Logger logger = RunnerLoggerFactory.getLogger(Engine.class);
 
-    private AdapterTask adapterTask;
-    private ListeningExecutorService                generatorsExecutor = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
-    private List<ListenableFuture<ExecutionReport>> generatorFutures   = new ArrayList<>();
-    private ListeningExecutorService                tasksExecutor      = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
-    private List<ListenableFuture<ExecutionReport>> tasksFutures       = new ArrayList<>();
+  private AdapterTask adapterTask;
+  private ListeningExecutorService generatorsExecutor = MoreExecutors
+      .listeningDecorator(Executors.newCachedThreadPool());
+  private List<ListenableFuture<ExecutionReport>> generatorFutures = new ArrayList<>();
+  private ListeningExecutorService tasksExecutor = MoreExecutors
+      .listeningDecorator(Executors.newCachedThreadPool());
+  private List<ListenableFuture<ExecutionReport>> tasksFutures = new ArrayList<>();
 
-    private List<TaskI> runningReadyTasks = Collections.synchronizedList(new LinkedList<TaskI>());
+  private List<TaskI> runningReadyTasks = Collections
+      .synchronizedList(new LinkedList<TaskI>());
 
-    private Lock      lockEngine = new ReentrantLock();
-    public  Lock      getLock() { return lockEngine; }
-    private Condition condEngine = lockEngine.newCondition();
-    public  Condition getCondition() { return condEngine; }
+  private Lock lockEngine = new ReentrantLock();
 
-    private volatile boolean toBeBroke = false;
+  public Lock getLock() {
+    return lockEngine;
+  }
 
-    public Engine(AdapterTask adapterTask) {
-        this.adapterTask = adapterTask;
-        adapterTask.setEngine(this);
-    }
+  private Condition condEngine = lockEngine.newCondition();
 
-    public void run() {
-        try {
-            adapterTask.runnerStart();
-            logger.trace("Start engine");
+  public Condition getCondition() {
+    return condEngine;
+  }
 
-            adapterTask.executeConstants();
+  private volatile boolean toBeBroke = false;
 
-            for(final GeneratorI gen : adapterTask.getAllGenerators()) {
-                logger.debug("{}:{}: start", gen.getClass().getSimpleName(), gen.getId());
-                ListenableFuture<ExecutionReport> g = generatorsExecutor.submit(gen.getGenerateCallable());
-                generatorFutures.add(g);
-                Futures.addCallback(g, new FutureCallback<ExecutionReport>() {
-                    @Override
-                    public void onSuccess(ExecutionReport r) {
-                        logger.trace("{} finished", r.getTask().getId());
-                        lockEngine.lock();
-                        condEngine.signal();
-                        lockEngine.unlock();
-                    }
-                    @Override
-                    public void onFailure(Throwable thrown) {
-                        thrown.printStackTrace();
-                        logger.error("{}:{}: failure",  gen.getClass().getSimpleName(), gen.getId());
-                        logger.error("\n{}\n{}", thrown.getMessage(), Joiner.on("\n").join(thrown.getStackTrace()));
-                    }
-                }, MoreExecutors.directExecutor());
+  public Engine(AdapterTask adapterTask) {
+    this.adapterTask = adapterTask;
+    adapterTask.setEngine(this);
+  }
+
+  public void run() {
+    try {
+      adapterTask.runnerStart();
+      logger.trace("Start engine");
+
+      adapterTask.executeConstants();
+
+      for (final GeneratorI gen : adapterTask.getAllGenerators()) {
+        logger.debug("{}:{}: start", gen.getClass().getSimpleName(),
+            gen.getId());
+        ListenableFuture<ExecutionReport> g = generatorsExecutor
+            .submit(gen.getGenerateCallable());
+        generatorFutures.add(g);
+        Futures.addCallback(g, new FutureCallback<ExecutionReport>() {
+          @Override
+          public void onSuccess(ExecutionReport r) {
+            logger.trace("{} finished", r.getTask().getId());
+            lockEngine.lock();
+            condEngine.signal();
+            lockEngine.unlock();
+          }
+
+          @Override
+          public void onFailure(Throwable thrown) {
+            thrown.printStackTrace();
+            logger.error("{}:{}: failure", gen.getClass().getSimpleName(),
+                gen.getId());
+            logger.error("\n{}\n{}", thrown.getMessage(),
+                Joiner.on("\n").join(thrown.getStackTrace()));
+          }
+        }, MoreExecutors.directExecutor());
+      }
+
+      while (true) {
+        lockEngine.lock();
+        logger.trace("Start engine loop");
+        List<Future<ExecutionReport>> toRemove = new ArrayList<Future<ExecutionReport>>();
+        for (Future<ExecutionReport> f : generatorFutures)
+          if (f.isDone())
+            toRemove.add(f);
+        for (Future<ExecutionReport> f : toRemove)
+          generatorFutures.remove(f);
+        toRemove = new ArrayList<>();
+        for (Future<ExecutionReport> f : tasksFutures)
+          if (f.isDone())
+            toRemove.add(f);
+        for (Future<ExecutionReport> f : toRemove)
+          tasksFutures.remove(f);
+
+        boolean generatorFuturesEmpty = generatorFutures.isEmpty();
+        boolean tasksFuturesEmpty = tasksFutures.isEmpty();
+        boolean mainTaskIReady = adapterTask.isReady();
+        boolean mainTaskExternalSource = adapterTask.hasExternalSource();
+
+        logger.trace(
+            "generatorFutures empty: {}, " + "tasksFutures empty: {}, "
+                + "mainTask ready: {}, " + "mainTask hasExternalSrc: {}",
+            generatorFuturesEmpty, tasksFuturesEmpty, mainTaskIReady,
+            mainTaskExternalSource);
+
+        if (generatorFuturesEmpty && tasksFuturesEmpty && !mainTaskIReady
+            && !mainTaskExternalSource) {
+          lockEngine.unlock();
+          break;
+        }
+        if (toBeBroke) {
+          lockEngine.unlock();
+          break;
+        }
+
+        if (mainTaskIReady) {
+          LinkedList<TaskI> rts = adapterTask.getReadyTasks();
+
+          // No ready task that is not running
+          for (TaskI t : rts)
+            if (t.isRunning() && !runningReadyTasks.contains(t)) {
+              logger.trace("{} is running", t.getId());
+              runningReadyTasks.add(t);
             }
+          if (!rts.isEmpty() && rts.size() == runningReadyTasks.size()) {
+            logger.trace("Wait : all ready tasks are running");
+            DebugI.INSTANCE.debug(new SuspendedEvent());
+            try {
+              condEngine.await();
+            } catch (InterruptedException e) {
+            }
+            DebugI.INSTANCE.debug(new ResumedEvent());
+          }
+          // ---------------------------------------
 
-            while (true) {
+          logger.trace("Found {} ready tasks", rts.size());
+
+          Collections.sort(rts, new PriorityComparator());
+
+          for (TaskI t : rts) {
+            if (t.isRunning()) {
+              logger.trace("{} is ready but already running", t.getId());
+              continue; // Don't execute the same task more then once at the
+                        // same time
+            }
+            t.setRunning(true);
+            t.setReady(false);
+            logger.trace("Task to submit {}", t.getId());
+            DebugI.INSTANCE.debug(new SubmitTaskEvent());
+            ListenableFuture<ExecutionReport> f = tasksExecutor.submit(t);
+            tasksFutures.add(f);
+            Futures.addCallback(f, new FutureCallback<ExecutionReport>() {
+              @Override
+              public void onSuccess(ExecutionReport r) {
+                logger.trace("{} finished", r.getTask().getId());
                 lockEngine.lock();
-                logger.trace("Start engine loop");
-                List<Future<ExecutionReport>> toRemove = new ArrayList<Future<ExecutionReport>>();
-                for(Future<ExecutionReport> f : generatorFutures) if(f.isDone()) toRemove.add(f);
-                for(Future<ExecutionReport> f : toRemove) generatorFutures.remove(f);
-                toRemove = new ArrayList<>();
-                for(Future<ExecutionReport> f : tasksFutures) if(f.isDone()) toRemove.add(f);
-                for(Future<ExecutionReport> f : toRemove) tasksFutures.remove(f);
-
-                boolean generatorFuturesEmpty  = generatorFutures.isEmpty();
-                boolean tasksFuturesEmpty      = tasksFutures.isEmpty();
-                boolean mainTaskIReady         = adapterTask.isReady();
-                boolean mainTaskExternalSource = adapterTask.hasExternalSource();
-
-                logger.trace("generatorFutures empty: {}, "
-                           + "tasksFutures empty: {}, "
-                           + "mainTask ready: {}, "
-                           + "mainTask hasExternalSrc: {}", generatorFuturesEmpty,
-                                                            tasksFuturesEmpty,
-                                                            mainTaskIReady,
-                                                            mainTaskExternalSource);
-
-                if(generatorFuturesEmpty &&
-                       tasksFuturesEmpty &&
-                         !mainTaskIReady &&
-                         !mainTaskExternalSource) {
-                    lockEngine.unlock();
-                    break;
-                }
-                if(toBeBroke) {
-                    lockEngine.unlock();
-                    break;
-                }
-
-                if(mainTaskIReady) {
-                    LinkedList<TaskI> rts = adapterTask.getReadyTasks();
-
-                    // No ready task that is not running
-                    for(TaskI t : rts)
-                        if(t.isRunning() && !runningReadyTasks.contains(t)) {
-                            logger.trace("{} is running", t.getId());
-                            runningReadyTasks.add(t);
-                        }
-                    if (!rts.isEmpty() && rts.size() == runningReadyTasks.size()) {
-                        logger.trace("Wait : all ready tasks are running");
-                        DebugI.INSTANCE.debug(new SuspendedEvent());
-                        try { condEngine.await(); } catch (InterruptedException e) { }
-                        DebugI.INSTANCE.debug(new ResumedEvent());
-                    }
-                    // ---------------------------------------
-
-                    logger.trace("Found {} ready tasks", rts.size());
-
-                    Collections.sort(rts, new PriorityComparator());
-
-                    for(TaskI t : rts) {
-                        if(t.isRunning()) {
-                            logger.trace("{} is ready but already running", t.getId());
-                            continue; // Don't execute the same task more then once at the same time
-                        }
-                        t.setRunning(true);
-                        t.setReady(false);
-                        logger.trace("Task to submit {}", t.getId());
-                        DebugI.INSTANCE.debug(new SubmitTaskEvent());
-                        ListenableFuture<ExecutionReport> f = tasksExecutor.submit(t);
-                        tasksFutures.add(f);
-                        Futures.addCallback(f, new FutureCallback<ExecutionReport>() {
-                            @Override
-                            public void onSuccess(ExecutionReport r) {
-                                logger.trace("{} finished", r.getTask().getId());
-                                lockEngine.lock();
-                                r.getTask().setRunning(false);
-                                if(runningReadyTasks.contains(r.getTask())) {
-                                    runningReadyTasks.remove(r.getTask());
-                                }
-                                lockEngine.unlock();
-
-                                if(r.isMoreTimes()) {
-                                    logger.trace("{} once again ready", r.getTask().getId());
-                                    r.getTask().setReadyWithParents(true);
-                                } else {
-                                    lockEngine.lock();
-                                    condEngine.signal();
-                                    lockEngine.unlock();
-                                }
-                                DebugI.INSTANCE.debug(new EndTaskEvent());
-                                logger.trace("{} definitely finished", r.getTask().getId());
-                            }
-                            @Override
-                            public void onFailure(Throwable thrown) { }
-                        }, MoreExecutors.directExecutor());
-                    }
-                } else {
-                    logger.trace("Wait : no ready task");
-                    DebugI.INSTANCE.debug(new SuspendedEvent());
-                    try { condEngine.await(); } catch (InterruptedException e) { }
-                    DebugI.INSTANCE.debug(new ResumedEvent());
+                r.getTask().setRunning(false);
+                if (runningReadyTasks.contains(r.getTask())) {
+                  runningReadyTasks.remove(r.getTask());
                 }
                 lockEngine.unlock();
-            }
 
-            generatorsExecutor.shutdown();
-            tasksExecutor     .shutdown();
-            try {
-                generatorsExecutor.awaitTermination(1500, TimeUnit.MILLISECONDS);
-                tasksExecutor     .awaitTermination(1500, TimeUnit.MILLISECONDS);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if(!generatorsExecutor.isTerminated()) generatorsExecutor.shutdownNow();
-            if(!tasksExecutor.isTerminated())      tasksExecutor.shutdownNow();
+                if (r.isMoreTimes()) {
+                  logger.trace("{} once again ready", r.getTask().getId());
+                  r.getTask().setReadyWithParents(true);
+                } else {
+                  lockEngine.lock();
+                  condEngine.signal();
+                  lockEngine.unlock();
+                }
+                DebugI.INSTANCE.debug(new EndTaskEvent());
+                logger.trace("{} definitely finished", r.getTask().getId());
+              }
 
-        } finally {
-            adapterTask.runnerStop();
+              @Override
+              public void onFailure(Throwable thrown) {
+              }
+            }, MoreExecutors.directExecutor());
+          }
+        } else {
+          logger.trace("Wait : no ready task");
+          DebugI.INSTANCE.debug(new SuspendedEvent());
+          try {
+            condEngine.await();
+          } catch (InterruptedException e) {
+          }
+          DebugI.INSTANCE.debug(new ResumedEvent());
         }
+        lockEngine.unlock();
+      }
+
+      generatorsExecutor.shutdown();
+      tasksExecutor.shutdown();
+      try {
+        generatorsExecutor.awaitTermination(1500, TimeUnit.MILLISECONDS);
+        tasksExecutor.awaitTermination(1500, TimeUnit.MILLISECONDS);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+      if (!generatorsExecutor.isTerminated())
+        generatorsExecutor.shutdownNow();
+      if (!tasksExecutor.isTerminated())
+        tasksExecutor.shutdownNow();
+
+    } finally {
+      adapterTask.runnerStop();
     }
+  }
 
-    public void breakRunner() {
-        logger.trace("Break");
-        this.toBeBroke = true;
-    }
+  public void breakRunner() {
+    logger.trace("Break");
+    this.toBeBroke = true;
+  }
 
-	public void modelEvent(IDebugEvent event) {
-		adapterTask.modelEvent(event);
-	}
+  public void modelEvent(IDebugEvent event) {
+    adapterTask.modelEvent(event);
+  }
 
-	public void initDebugers() {
-		adapterTask.initDebugers();
-	}
+  public void initDebugers() {
+    adapterTask.initDebugers();
+  }
 }

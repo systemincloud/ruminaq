@@ -22,29 +22,34 @@ import groovy.lang.GroovyShell;
 
 public class GroovyExpressionUtil {
 
-	public static boolean isOneDimIntegerAlsoGV(String value) {
-		if(GlobalUtil.isGlobalVariable(value)) return true;
-		String expression = value.replaceAll(GlobalUtil.GV, "1");
-		if(expression.contains(";")) return false;
-		GroovyShell shell = new GroovyShell(new Binding());
-		Object result = shell.evaluate(expression);
-		if(result instanceof Integer) return true;
-		return false;
-	}
+  public static boolean isOneDimIntegerAlsoGV(String value) {
+    if (GlobalUtil.isGlobalVariable(value))
+      return true;
+    String expression = value.replaceAll(GlobalUtil.GV, "1");
+    if (expression.contains(";"))
+      return false;
+    GroovyShell shell = new GroovyShell(new Binding());
+    Object result = shell.evaluate(expression);
+    if (result instanceof Integer)
+      return true;
+    return false;
+  }
 
-	public static boolean isOneDimNumericAlsoGV(String value) {
-		if(GlobalUtil.isGlobalVariable(value)) return true;
-		String expression = value.replaceAll(GlobalUtil.GV, "1");
-		if(expression.contains(";")) return false;
-		GroovyShell shell = new GroovyShell(new Binding());
-		Object result = shell.evaluate(expression);
-		if(result instanceof Integer ||
-		   result instanceof BigDecimal) return true;
-		return false;
-	}
+  public static boolean isOneDimNumericAlsoGV(String value) {
+    if (GlobalUtil.isGlobalVariable(value))
+      return true;
+    String expression = value.replaceAll(GlobalUtil.GV, "1");
+    if (expression.contains(";"))
+      return false;
+    GroovyShell shell = new GroovyShell(new Binding());
+    Object result = shell.evaluate(expression);
+    if (result instanceof Integer || result instanceof BigDecimal)
+      return true;
+    return false;
+  }
 
-	public static Object evaluate(String expression) {
-		GroovyShell shell = new GroovyShell(new Binding());
-		return shell.evaluate(expression);
-	}
+  public static Object evaluate(String expression) {
+    GroovyShell shell = new GroovyShell(new Binding());
+    return shell.evaluate(expression);
+  }
 }

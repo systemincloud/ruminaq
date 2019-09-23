@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface TasksUiManagerHandler {
 
-	List<ITaskUiApi> getTasks(String prefix);
+  List<ITaskUiApi> getTasks(String prefix);
 
 }

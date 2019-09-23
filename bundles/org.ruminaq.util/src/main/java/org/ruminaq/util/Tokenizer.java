@@ -21,53 +21,53 @@ import java.util.regex.Pattern;
 
 public class Tokenizer {
 
-	private class TokenInfo {
-		public final Pattern regex;
-		public final int token;
+  private class TokenInfo {
+    public final Pattern regex;
+    public final int token;
 
-		public TokenInfo(Pattern regex, int token) {
-			super();
-			this.regex = regex;
-			this.token = token;
-		}
-	}
+    public TokenInfo(Pattern regex, int token) {
+      super();
+      this.regex = regex;
+      this.token = token;
+    }
+  }
 
-	public class Token {
-		public final int token;
-		public final String sequence;
+  public class Token {
+    public final int token;
+    public final String sequence;
 
-		public Token(int token, String sequence) {
-			super();
-			this.token = token;
-			this.sequence = sequence;
-		}
+    public Token(int token, String sequence) {
+      super();
+      this.token = token;
+      this.sequence = sequence;
+    }
 
-	}
+  }
 
-	private LinkedList<TokenInfo> tokenInfos = new LinkedList<>();
-	private LinkedList<Token>     tokens     = new LinkedList<>();
+  private LinkedList<TokenInfo> tokenInfos = new LinkedList<>();
+  private LinkedList<Token> tokens = new LinkedList<>();
 
-	public void add(String regex, int token) {
-		tokenInfos.add(new TokenInfo(Pattern.compile(regex), token));
-	}
+  public void add(String regex, int token) {
+    tokenInfos.add(new TokenInfo(Pattern.compile(regex), token));
+  }
 
-	public void tokenize(String str) {
-		String s = str.trim();
-		tokens.clear();
-		while (!s.equals("")) {
-			for (TokenInfo info : tokenInfos) {
-				Matcher m = info.regex.matcher(s);
-				if (m.find()) {
-					String tok = m.group().trim();
-					s = m.replaceFirst("").trim();
-					tokens.add(new Token(info.token, tok));
-					break;
-				}
-			}
-		}
-	}
+  public void tokenize(String str) {
+    String s = str.trim();
+    tokens.clear();
+    while (!s.equals("")) {
+      for (TokenInfo info : tokenInfos) {
+        Matcher m = info.regex.matcher(s);
+        if (m.find()) {
+          String tok = m.group().trim();
+          s = m.replaceFirst("").trim();
+          tokens.add(new Token(info.token, tok));
+          break;
+        }
+      }
+    }
+  }
 
-	public LinkedList<Token> getTokens() {
-		return tokens;
-	}
+  public LinkedList<Token> getTokens() {
+    return tokens;
+  }
 }

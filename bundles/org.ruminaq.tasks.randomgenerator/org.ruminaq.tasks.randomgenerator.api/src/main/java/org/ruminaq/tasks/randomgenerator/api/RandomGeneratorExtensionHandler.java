@@ -19,5 +19,5 @@ import java.util.List;
 import org.ruminaq.model.ruminaq.DataType;
 
 public interface RandomGeneratorExtensionHandler {
-    List<Class<? extends DataType>> getDataTypes();
+  List<Class<? extends DataType>> getDataTypes();
 }

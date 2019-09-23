@@ -36,71 +36,70 @@ import org.ruminaq.tasks.constant.model.constant.Constant;
 
 public class TextPropertyValue extends PropertyValueComposite {
 
-    private Button btnSave;
-    private Text txtValue;
+  private Button btnSave;
+  private Text txtValue;
 
-    public TextPropertyValue(
-            ValueSaveListener listener,
-            Composite valuecRoot,
-            PictogramElement pe,
-            TransactionalEditingDomain ed) {
-        super(listener, valuecRoot, pe, ed);
+  public TextPropertyValue(ValueSaveListener listener, Composite valuecRoot,
+      PictogramElement pe, TransactionalEditingDomain ed) {
+    super(listener, valuecRoot, pe, ed);
 
-        // initLayout
-        composite = new Composite(this.valueRoot, SWT.NONE);
-        GridLayout layout = new GridLayout(1, false);
-        composite.setLayout(layout);
-        btnSave  = new Button(composite, SWT.BORDER | SWT.FLAT);
-        txtValue = new Text(composite, SWT.BORDER | SWT.WRAP | SWT.MULTI);
-        txtValue.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+    // initLayout
+    composite = new Composite(this.valueRoot, SWT.NONE);
+    GridLayout layout = new GridLayout(1, false);
+    composite.setLayout(layout);
+    btnSave = new Button(composite, SWT.BORDER | SWT.FLAT);
+    txtValue = new Text(composite, SWT.BORDER | SWT.WRAP | SWT.MULTI);
+    txtValue.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-        // initComponents
-        btnSave .setText("Save");
-        txtValue.setText("");
+    // initComponents
+    btnSave.setText("Save");
+    txtValue.setText("");
 
-        // initActions
-        btnSave.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                save();
-                saveListener.update();
-            }
-        });
-        txtValue.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent event) {
-                save();
-                saveListener.update();
-            }
-        });
+    // initActions
+    btnSave.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent e) {
+        save();
+        saveListener.update();
+      }
+    });
+    txtValue.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusLost(FocusEvent event) {
+        save();
+        saveListener.update();
+      }
+    });
 
-        // addStyles
-        composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-        btnSave.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    // addStyles
+    composite
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    btnSave.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+  }
+
+  @Override
+  public String getValue() {
+    return txtValue.getText();
+  }
+
+  @Override
+  public void refresh(String value) {
+    if (value != null) {
+      txtValue.setText(value);
+    } else {
+      txtValue.setText("");
     }
+    txtValue.redraw();
+  }
 
-    @Override
-    public String getValue() {
-        return txtValue.getText();
-    }
-
-    @Override
-    public void refresh(String value) {
-        if (value != null) {
-            txtValue.setText(value);
-        } else {
-            txtValue.setText("");
-        }
-        txtValue.redraw();
-    }
-
-    private void save() {
-        ModelUtil.runModelChange(() -> {
-            Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-            if (bo instanceof Constant) {
-                Constant c = (Constant) bo;
-                c.setValue(txtValue.getText());
-            }
-        }, ed, "Change Constant");
-    }
+  private void save() {
+    ModelUtil.runModelChange(() -> {
+      Object bo = Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement(pe);
+      if (bo instanceof Constant) {
+        Constant c = (Constant) bo;
+        c.setValue(txtValue.getText());
+      }
+    }, ed, "Change Constant");
+  }
 }

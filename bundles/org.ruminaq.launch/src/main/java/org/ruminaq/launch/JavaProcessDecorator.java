@@ -15,31 +15,72 @@ import org.ruminaq.runner.impl.debug.events.model.TerminateRequest;
 
 public class JavaProcessDecorator implements IProcess {
 
-    private IProcess p;
+  private IProcess p;
 
-    public JavaProcessDecorator(IProcess p) {
-        this.p = p;
-    }
+  public JavaProcessDecorator(IProcess p) {
+    this.p = p;
+  }
 
-    private boolean sigkill = false;
+  private boolean sigkill = false;
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override public Object        getAdapter(Class arg)                { return p.getAdapter(arg); }
-    @Override public boolean       canTerminate()                       { return p.canTerminate(); }
-    @Override public boolean       isTerminated()                       { return p.isTerminated(); }
-    @Override public String        getAttribute(String s)               { return p.getAttribute(s); }
-    @Override public int           getExitValue() throws DebugException { return p.getExitValue(); }
-    @Override public String        getLabel()                           { return p.getLabel(); }
-    @Override public ILaunch       getLaunch()                          { return p.getLaunch(); }
-    @Override public IStreamsProxy getStreamsProxy()                    { return p.getStreamsProxy(); }
-    @Override public void          setAttribute(String s1, String s2)   {        p.setAttribute(s1, s2); }
-    @Override public void          terminate() throws DebugException    {
-        if(!sigkill) {
-            try {
-                IDebugIService cs = DirmiServer.INSTANCE.getRemote("main", IDebugIService.class);
-                if(cs != null) cs.modelEvent(new TerminateRequest());
-            } catch (RemoteException e) { }
-            this.sigkill = true;
-        } else p.terminate();
-    }
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @Override
+  public Object getAdapter(Class arg) {
+    return p.getAdapter(arg);
+  }
+
+  @Override
+  public boolean canTerminate() {
+    return p.canTerminate();
+  }
+
+  @Override
+  public boolean isTerminated() {
+    return p.isTerminated();
+  }
+
+  @Override
+  public String getAttribute(String s) {
+    return p.getAttribute(s);
+  }
+
+  @Override
+  public int getExitValue() throws DebugException {
+    return p.getExitValue();
+  }
+
+  @Override
+  public String getLabel() {
+    return p.getLabel();
+  }
+
+  @Override
+  public ILaunch getLaunch() {
+    return p.getLaunch();
+  }
+
+  @Override
+  public IStreamsProxy getStreamsProxy() {
+    return p.getStreamsProxy();
+  }
+
+  @Override
+  public void setAttribute(String s1, String s2) {
+    p.setAttribute(s1, s2);
+  }
+
+  @Override
+  public void terminate() throws DebugException {
+    if (!sigkill) {
+      try {
+        IDebugIService cs = DirmiServer.INSTANCE.getRemote("main",
+            IDebugIService.class);
+        if (cs != null)
+          cs.modelEvent(new TerminateRequest());
+      } catch (RemoteException e) {
+      }
+      this.sigkill = true;
+    } else
+      p.terminate();
+  }
 }

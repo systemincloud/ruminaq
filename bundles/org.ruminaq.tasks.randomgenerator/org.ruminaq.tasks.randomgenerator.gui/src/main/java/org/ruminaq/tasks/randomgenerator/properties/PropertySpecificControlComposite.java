@@ -9,28 +9,28 @@ import org.eclipse.swt.widgets.Display;
 import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 
-public class PropertySpecificControlComposite extends PropertySpecificComposite {
+public class PropertySpecificControlComposite
+    extends PropertySpecificComposite {
 
-	public PropertySpecificControlComposite(
-			ValueSaveListener saveListener, 
-			Composite specificRoot, 
-			PictogramElement pe,
-			TransactionalEditingDomain ed) {
-		super(saveListener, specificRoot, pe, ed);
-		composite = new Composite(this.specificRoot, SWT.NONE);
-		composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-	}
+  public PropertySpecificControlComposite(ValueSaveListener saveListener,
+      Composite specificRoot, PictogramElement pe,
+      TransactionalEditingDomain ed) {
+    super(saveListener, specificRoot, pe, ed);
+    composite = new Composite(this.specificRoot, SWT.NONE);
+    composite
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+  }
 
-	@Override
-	public void initValues(EMap<String, String> eMap) {
-	}
+  @Override
+  public void initValues(EMap<String, String> eMap) {
+  }
 
-	@Override
-	public void refresh(EMap<String, String> eMap) {
-	}
+  @Override
+  public void refresh(EMap<String, String> eMap) {
+  }
 
-	@Override 
-	public boolean hasDimensions() { 
-		return false;
-	}
+  @Override
+  public boolean hasDimensions() {
+    return false;
+  }
 }

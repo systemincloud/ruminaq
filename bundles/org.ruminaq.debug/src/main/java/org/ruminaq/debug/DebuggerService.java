@@ -18,13 +18,14 @@ import org.slf4j.Logger;
 
 public class DebuggerService implements IDebugService, IEventProcessor {
 
-  private final Logger logger = ModelerLoggerFactory.getLogger(DebuggerService.class);
+  private final Logger logger = ModelerLoggerFactory
+      .getLogger(DebuggerService.class);
 
   private EventDispatchJob dispatcher;
-  private IDebugIService   dis;
+  private IDebugIService dis;
 
   public DebuggerService(IDebugIService dis, EventDispatchJob dispatcher) {
-    this.dis        = dis;
+    this.dis = dis;
     this.dispatcher = dispatcher;
   }
 
@@ -38,6 +39,7 @@ public class DebuggerService implements IDebugService, IEventProcessor {
     logger.trace("handleEvent {}", event);
     try {
       dis.modelEvent(event);
-    } catch (RemoteException e) { }
+    } catch (RemoteException e) {
+    }
   }
 }

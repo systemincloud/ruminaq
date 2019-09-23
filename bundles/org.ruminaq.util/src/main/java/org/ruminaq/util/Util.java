@@ -37,72 +37,82 @@ import javax.xml.transform.stream.StreamSource;
 
 public class Util {
 
-    public static <T> T[] concat(T[] first, T second) {
-        T[] result = Arrays.copyOf(first, first.length + 1);
-        result[result.length - 1] = second;
-        return result;
+  public static <T> T[] concat(T[] first, T second) {
+    T[] result = Arrays.copyOf(first, first.length + 1);
+    result[result.length - 1] = second;
+    return result;
+  }
+
+  public static <T> T[] concat(T[] first, T[] second) {
+    T[] result = Arrays.copyOf(first, first.length + second.length);
+    System.arraycopy(second, 0, result, first.length, second.length);
+    return result;
+  }
+
+  public static byte[] objectToBytes(Object object) {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ObjectOutputStream os;
+    try {
+      os = new ObjectOutputStream(baos);
+      os.writeObject(object);
+    } catch (IOException e) {
     }
 
-    public static <T> T[] concat(T[] first, T[] second) {
-        T[] result = Arrays.copyOf(first, first.length + second.length);
-        System.arraycopy(second, 0, result, first.length, second.length);
-        return result;
+    return baos.toByteArray();
+  }
+
+  public static int findFreeLocalPort(int startPort) {
+    int port = 0;
+    int lastPort = startPort;
+    while (port == 0) {
+      lastPort++;
+      ServerSocket socket = null;
+      try {
+        socket = new ServerSocket(lastPort);
+      } catch (IOException e) {
+        continue;
+      } finally {
+        if (socket != null)
+          try {
+            socket.close();
+          } catch (IOException e) {
+            /* e.printStackTrace(); */ }
+      }
+      port = lastPort;
     }
+    return port;
+  }
 
-    public static byte[] objectToBytes(Object object) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream os;
-        try {
-            os = new ObjectOutputStream(baos);
-            os.writeObject(object);
-        } catch (IOException e) {}
+  private static TransformerFactory factory = TransformerFactory.newInstance();
 
-        return baos.toByteArray();
+  public static String transform(String xml, String xsl, final String key,
+      final String value) throws TransformerException {
+    return transform(xml, xsl, new HashMap<String, String>() {
+      private static final long serialVersionUID = 1L;
+      {
+        put(key, value);
+      }
+    });
+  }
+
+  public static String transform(String xml, String xsl,
+      Map<String, String> params) throws TransformerException {
+    String resultXml = xml;
+    StringWriter writer = new StringWriter();
+    Source xmlDoc = new StreamSource(
+        new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
+    Source xslDoc = new StreamSource(
+        new ByteArrayInputStream(xsl.getBytes(StandardCharsets.UTF_8)));
+    Result result = new StreamResult(writer);
+    Transformer trans = factory.newTransformer(xslDoc);
+    trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+    if (params != null) {
+      params.forEach((k, v) -> {
+        trans.setParameter(k, v);
+      });
     }
-
-    public static int findFreeLocalPort(int startPort) {
-        int port = 0;
-        int lastPort = startPort;
-        while(port == 0) {
-            lastPort++;
-            ServerSocket socket = null;
-            try {
-                socket = new ServerSocket(lastPort);
-            } catch (IOException e) { continue;
-            } finally {
-                if (socket != null)
-                    try { socket.close();
-                    } catch (IOException e) { /* e.printStackTrace(); */ }
-            }
-            port = lastPort;
-        }
-        return port;
-    }
-
-    private static TransformerFactory factory = TransformerFactory.newInstance();
-
-    public static String transform(String xml, String xsl, final String key, final String value) throws TransformerException {
-        return transform(xml, xsl, new HashMap<String, String>() { 
-        	private static final long serialVersionUID = 1L;
-            { put(key, value); }
-        });
-    }
-
-    public static String transform(String xml, String xsl, Map<String, String> params) throws TransformerException {
-        String resultXml = xml;
-        StringWriter writer = new StringWriter();
-        Source xmlDoc = new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8)));
-        Source xslDoc = new StreamSource(new ByteArrayInputStream(xsl.getBytes(StandardCharsets.UTF_8)));
-        Result result = new StreamResult(writer);
-        Transformer trans = factory.newTransformer(xslDoc);
-        trans.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        if (params != null) {
-        	params.forEach((k,v)-> {
-        		trans.setParameter(k, v);
-        	});
-        }                
-        trans.transform(xmlDoc, result);
-        resultXml = writer.toString();
-        return resultXml;
-    }
+    trans.transform(xmlDoc, result);
+    resultXml = writer.toString();
+    return resultXml;
+  }
 }

@@ -10,5 +10,5 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.graphiti.tb.IDecorator;
 
 public interface RuminaqDecorator extends IDecorator {
-	IFigure decorateFigure(IFigure figure, IDecorator decorator);
+  IFigure decorateFigure(IFigure figure, IDecorator decorator);
 }

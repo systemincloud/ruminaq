@@ -19,42 +19,43 @@ import org.ruminaq.tasks.inspect.model.inspect.InspectFactory;
 @Component(property = { "service.ranking:Integer=10" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
-	@Override
-	public List<Class<? extends ICreateFeature>> getFeatures() {
-		return Arrays.asList(CreateFeature.class);
-	}
-	
-	public static class CreateFeature extends CreateTaskFeature implements PaletteCreateFeature {
+  @Override
+  public List<Class<? extends ICreateFeature>> getFeatures() {
+    return Arrays.asList(CreateFeature.class);
+  }
 
-		public CreateFeature(IFeatureProvider fp) {
-			super(fp, Inspect.class);
-		}
+  public static class CreateFeature extends CreateTaskFeature
+      implements PaletteCreateFeature {
 
-		@Override
-		public String getCompartment() {
-			return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
-		}
-		
-		@Override
-		public String getStack() {
-			return CommonPaletteCompartmentEntry.SINKS_STACK;
-		}
+    public CreateFeature(IFeatureProvider fp) {
+      super(fp, Inspect.class);
+    }
 
-		@Override
-		public Object[] create(ICreateContext context) {
-			Inspect inspect = InspectFactory.eINSTANCE.createInspect();
-			inspect.setOnlyLocal(true);
-			return super.create(context, inspect);
-		}
+    @Override
+    public String getCompartment() {
+      return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
+    }
 
-		@Override
-		protected Class<? extends PortsDescr> getPortsDescription() {
-			return Port.class;
-		}
+    @Override
+    public String getStack() {
+      return CommonPaletteCompartmentEntry.SINKS_STACK;
+    }
 
-		@Override
-		public String getCreateImageId() {
-			return Images.K.IMG_INSPECT_PALETTE.name();
-		}
-	}
+    @Override
+    public Object[] create(ICreateContext context) {
+      Inspect inspect = InspectFactory.eINSTANCE.createInspect();
+      inspect.setOnlyLocal(true);
+      return super.create(context, inspect);
+    }
+
+    @Override
+    protected Class<? extends PortsDescr> getPortsDescription() {
+      return Port.class;
+    }
+
+    @Override
+    public String getCreateImageId() {
+      return Images.K.IMG_INSPECT_PALETTE.name();
+    }
+  }
 }

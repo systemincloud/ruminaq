@@ -19,128 +19,147 @@ import org.slf4j.Logger;
 
 public class ConsoleI extends BasicTaskI {
 
-	private final Logger logger = RunnerLoggerFactory.getLogger(ConsoleI.class);
+  private final Logger logger = RunnerLoggerFactory.getLogger(ConsoleI.class);
 
-	private static final String NEW_LINE = System.lineSeparator();
+  private static final String NEW_LINE = System.lineSeparator();
 
-	private volatile List<String> cmds = new LinkedList<>();
-	private volatile List<ConsoleViewService> listeners = new LinkedList<>();
+  private volatile List<String> cmds = new LinkedList<>();
+  private volatile List<ConsoleViewService> listeners = new LinkedList<>();
 
-	private Console console;
-	private int     maxNbOfLines;
+  private Console console;
+  private int maxNbOfLines;
 
-	private StringBuilder history = new StringBuilder();
+  private StringBuilder history = new StringBuilder();
 
-	private int nbOfLines = 0;
+  private int nbOfLines = 0;
 
-	public ConsoleI(EmbeddedTaskI parent, Task task) {
-		super(parent, task);
-		this.console      = (Console) task;
-		this.maxNbOfLines = console.getNbOfLines();
-		logger.trace("Max number of lines: {} ", maxNbOfLines);
+  public ConsoleI(EmbeddedTaskI parent, Task task) {
+    super(parent, task);
+    this.console = (Console) task;
+    this.maxNbOfLines = console.getNbOfLines();
+    logger.trace("Max number of lines: {} ", maxNbOfLines);
 
-		if(!task.getOutputPort().isEmpty()) {
-		    setExternalSource(true);
-		}
+    if (!task.getOutputPort().isEmpty()) {
+      setExternalSource(true);
+    }
 
-		DirmiClient.INSTANCE.register(console.getBundleName() + ":" + console.getVersion(), Util.getUniqueId(console, parent.getBasePath()), new ConsoleIService() {
-			@Override public void newCommand(String cmd) {
-				logger.trace("New command: {} ", cmd);
-				ConsoleI.this.cmds.add(cmd);
-				addExternalSrcExecNb(ConsoleI.this.cmds.size());
-				setReadyWithParents(true);
-			}
-			@Override public void addListener(ConsoleViewService viewApi) {
-				if(!listeners.contains(viewApi)) {
-				    logger.trace("Add Console View: {} ", viewApi);
-				    listeners.add(viewApi);
-				}
-			}
-			@Override public void removeListener(ConsoleViewService viewApi) {
-			    logger.trace("Remove Console View: {} ", viewApi);
-			    listeners.remove(viewApi);
-			}
-			@Override public String getHistory() throws RemoteException {
-				logger.trace("Console View ask for history");
-				return history.toString();
-			}
-			@Override public void clearHistory() throws RemoteException {
-				logger.trace("Clear history");
-				history.setLength(0);
-				nbOfLines = 0;
-			}
-		});
-	}
+    DirmiClient.INSTANCE.register(
+        console.getBundleName() + ":" + console.getVersion(),
+        Util.getUniqueId(console, parent.getBasePath()), new ConsoleIService() {
+          @Override
+          public void newCommand(String cmd) {
+            logger.trace("New command: {} ", cmd);
+            ConsoleI.this.cmds.add(cmd);
+            addExternalSrcExecNb(ConsoleI.this.cmds.size());
+            setReadyWithParents(true);
+          }
 
-	@Override public void runnerStart() { clearScreen(); }
+          @Override
+          public void addListener(ConsoleViewService viewApi) {
+            if (!listeners.contains(viewApi)) {
+              logger.trace("Add Console View: {} ", viewApi);
+              listeners.add(viewApi);
+            }
+          }
 
-	@Override
-	protected void executeExternalSrc() {
-		if (cmds.size() > 0) {
-			putData(Port.OUT, new TextI(cmds.remove(0)));
-		}
-	}
+          @Override
+          public void removeListener(ConsoleViewService viewApi) {
+            logger.trace("Remove Console View: {} ", viewApi);
+            listeners.remove(viewApi);
+          }
 
-	@Override
-	protected void execute(PortMap portIdData, int grp) {
-		DataI data = portIdData.get(Port.IN);
-		TextI text = data.get(TextI.class);
+          @Override
+          public String getHistory() throws RemoteException {
+            logger.trace("Console View ask for history");
+            return history.toString();
+          }
 
-		// TODO communicate to client about error
-		if(text == null) return;
+          @Override
+          public void clearHistory() throws RemoteException {
+            logger.trace("Clear history");
+            history.setLength(0);
+            nbOfLines = 0;
+          }
+        });
+  }
 
-		String string = text.toString(console.isMatricesPretty(), -1);
-		int clearSign = string.indexOf("\0");
-		if(clearSign != -1) {
-			string = string.substring(clearSign + 1);
-			clearScreen();
-		}
+  @Override
+  public void runnerStart() {
+    clearScreen();
+  }
 
-		history.append(string);
-		if (console.getNbOfLines() > 0) {
-		    nbOfLines += StringUtils.countMatches(string, "\n");
-		}
-		if(console.isNewLine()) {
-			history.append(NEW_LINE);
-			if(maxNbOfLines > 0) nbOfLines++;
-		}
+  @Override
+  protected void executeExternalSrc() {
+    if (cmds.size() > 0) {
+      putData(Port.OUT, new TextI(cmds.remove(0)));
+    }
+  }
 
-		logger.trace("Number of lines : {}", nbOfLines);
+  @Override
+  protected void execute(PortMap portIdData, int grp) {
+    DataI data = portIdData.get(Port.IN);
+    TextI text = data.get(TextI.class);
 
-		if(nbOfLines > maxNbOfLines && maxNbOfLines > 0) {
-			int i = nbOfLines - maxNbOfLines;
-			logger.trace("{} lines to delete", i);
-			while(i-- > 0) {
-				history.delete(0, history.indexOf("\n") + 1);
-				for(ConsoleViewService view : listeners) {
-					try { view.deleteFirstLine();
-					} catch (RemoteException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			nbOfLines = maxNbOfLines;
-		}
+    // TODO communicate to client about error
+    if (text == null)
+      return;
 
-		for(ConsoleViewService view : listeners) {
-			try {
-				String tmp = string;
-				if(console.isNewLine()) tmp += NEW_LINE;
-				view.newOutput(tmp);
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    String string = text.toString(console.isMatricesPretty(), -1);
+    int clearSign = string.indexOf("\0");
+    if (clearSign != -1) {
+      string = string.substring(clearSign + 1);
+      clearScreen();
+    }
 
-	private void clearScreen() {
-		for(ConsoleViewService view : listeners) {
-			try { view.clearScreen();
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
-		}
-		history.setLength(0);
-		nbOfLines = 0;
-	}
+    history.append(string);
+    if (console.getNbOfLines() > 0) {
+      nbOfLines += StringUtils.countMatches(string, "\n");
+    }
+    if (console.isNewLine()) {
+      history.append(NEW_LINE);
+      if (maxNbOfLines > 0)
+        nbOfLines++;
+    }
+
+    logger.trace("Number of lines : {}", nbOfLines);
+
+    if (nbOfLines > maxNbOfLines && maxNbOfLines > 0) {
+      int i = nbOfLines - maxNbOfLines;
+      logger.trace("{} lines to delete", i);
+      while (i-- > 0) {
+        history.delete(0, history.indexOf("\n") + 1);
+        for (ConsoleViewService view : listeners) {
+          try {
+            view.deleteFirstLine();
+          } catch (RemoteException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+      nbOfLines = maxNbOfLines;
+    }
+
+    for (ConsoleViewService view : listeners) {
+      try {
+        String tmp = string;
+        if (console.isNewLine())
+          tmp += NEW_LINE;
+        view.newOutput(tmp);
+      } catch (RemoteException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  private void clearScreen() {
+    for (ConsoleViewService view : listeners) {
+      try {
+        view.clearScreen();
+      } catch (RemoteException e) {
+        e.printStackTrace();
+      }
+    }
+    history.setLength(0);
+    nbOfLines = 0;
+  }
 }

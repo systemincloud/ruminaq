@@ -7,6 +7,7 @@
 package org.ruminaq.debug.model;
 
 public interface IStateElement {
-  public void   setState(IState state);
+  public void setState(IState state);
+
   public IState getState();
 }

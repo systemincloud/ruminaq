@@ -28,72 +28,86 @@ import com.python.pydev.analysis.additionalinfo.AdditionalSystemInterpreterInfo;
 import com.python.pydev.analysis.additionalinfo.ModInfo;
 
 public enum FindPythonTask {
-    INSTANCE;
+  INSTANCE;
 
-    public AdditionalInfoAndIInfo find(IProject p, String className) {
-        List<AbstractAdditionalTokensInfo> additionalInfo = getInfos(p);
+  public AdditionalInfoAndIInfo find(IProject p, String className) {
+    List<AbstractAdditionalTokensInfo> additionalInfo = getInfos(p);
 
-        List<AdditionalInfoAndIInfo> contentProvider = new LinkedList<>();
+    List<AdditionalInfoAndIInfo> contentProvider = new LinkedList<>();
 
-        for(AbstractAdditionalTokensInfo ai : additionalInfo) {
-            Collection<IInfo> allTokens = new HashSet<IInfo>(ai.getAllTokens());
-            for(IInfo iInfo : allTokens) contentProvider.add(new AdditionalInfoAndIInfo(ai, iInfo));
+    for (AbstractAdditionalTokensInfo ai : additionalInfo) {
+      Collection<IInfo> allTokens = new HashSet<IInfo>(ai.getAllTokens());
+      for (IInfo iInfo : allTokens)
+        contentProvider.add(new AdditionalInfoAndIInfo(ai, iInfo));
 
-            IModulesManager modulesManager = null;
-            try {
-                if(ai instanceof AdditionalProjectInterpreterInfo) {
-                    AdditionalProjectInterpreterInfo projectInterpreterInfo = (AdditionalProjectInterpreterInfo) ai;
-                    IProject project = projectInterpreterInfo.getProject();
-                    PythonNature nature = PythonNature.getPythonNature(project);
-                    if(nature != null) {
-                        ICodeCompletionASTManager astManager = nature.getAstManager();
-                        if(astManager != null) modulesManager = astManager.getModulesManager();
-                    }
-                } else if(ai instanceof AdditionalSystemInterpreterInfo) {
-                    AdditionalSystemInterpreterInfo systemInterpreterInfo = (AdditionalSystemInterpreterInfo) ai;
-                    IInterpreterInfo defaultInterpreterInfo = systemInterpreterInfo.getManager().getDefaultInterpreterInfo(false);
-                    modulesManager = defaultInterpreterInfo.getModulesManager();
-                }
-            } catch (Throwable e) { }
-
-            if (modulesManager != null) {
-                SortedMap<ModulesKey, ModulesKey> allDirectModulesStartingWith = modulesManager.getAllDirectModulesStartingWith("");
-                Collection<ModulesKey> values = allDirectModulesStartingWith.values();
-                for(ModulesKey modulesKey : values) {
-                    contentProvider.add(new AdditionalInfoAndIInfo(ai, new ModInfo(modulesKey.name, null, null, 0, 0)));
-                }
-            }
+      IModulesManager modulesManager = null;
+      try {
+        if (ai instanceof AdditionalProjectInterpreterInfo) {
+          AdditionalProjectInterpreterInfo projectInterpreterInfo = (AdditionalProjectInterpreterInfo) ai;
+          IProject project = projectInterpreterInfo.getProject();
+          PythonNature nature = PythonNature.getPythonNature(project);
+          if (nature != null) {
+            ICodeCompletionASTManager astManager = nature.getAstManager();
+            if (astManager != null)
+              modulesManager = astManager.getModulesManager();
+          }
+        } else if (ai instanceof AdditionalSystemInterpreterInfo) {
+          AdditionalSystemInterpreterInfo systemInterpreterInfo = (AdditionalSystemInterpreterInfo) ai;
+          IInterpreterInfo defaultInterpreterInfo = systemInterpreterInfo
+              .getManager().getDefaultInterpreterInfo(false);
+          modulesManager = defaultInterpreterInfo.getModulesManager();
         }
+      } catch (Throwable e) {
+      }
 
-        SearchPattern headPattern = new SearchPattern();
-        headPattern.setPattern(className);
-
-        AdditionalInfoAndIInfo result = null;
-        for(AdditionalInfoAndIInfo ai : contentProvider)
-            if(MatchHelper.matchItem(headPattern, ai.info)) {
-                result = ai;
-            }
-        return result;
+      if (modulesManager != null) {
+        SortedMap<ModulesKey, ModulesKey> allDirectModulesStartingWith = modulesManager
+            .getAllDirectModulesStartingWith("");
+        Collection<ModulesKey> values = allDirectModulesStartingWith.values();
+        for (ModulesKey modulesKey : values) {
+          contentProvider.add(new AdditionalInfoAndIInfo(ai,
+              new ModInfo(modulesKey.name, null, null, 0, 0)));
+        }
+      }
     }
 
-    public List<AbstractAdditionalTokensInfo> getInfos(IProject p) {
-        PythonNature        pNature = PythonNature.getPythonNature(p);
-        IInterpreterManager manager = pNature.getRelatedInterpreterManager();
-        AbstractAdditionalTokensInfo additionalSystemInfo = null;
-        try { additionalSystemInfo = AdditionalSystemInterpreterInfo.getAdditionalSystemInfo(manager, manager.getDefaultInterpreterInfo(true).getExecutableOrJar());
-        } catch (MisconfigurationException e) { }
+    SearchPattern headPattern = new SearchPattern();
+    headPattern.setPattern(className);
 
-        List<AbstractAdditionalTokensInfo> additionalInfo = new ArrayList<AbstractAdditionalTokensInfo>();
-        additionalInfo.add(additionalSystemInfo);
+    AdditionalInfoAndIInfo result = null;
+    for (AdditionalInfoAndIInfo ai : contentProvider)
+      if (MatchHelper.matchItem(headPattern, ai.info)) {
+        result = ai;
+      }
+    return result;
+  }
 
-        List<IPythonNature> natures = PythonNature.getPythonNaturesRelatedTo(manager.getInterpreterType());
-        for(IPythonNature nature : natures) {
-            AbstractAdditionalDependencyInfo info;
-            try {
-                info = AdditionalProjectInterpreterInfo.getAdditionalInfoForProject(nature);
-                if (info != null) additionalInfo.add(info);
-            } catch (MisconfigurationException e) { }
-        }
-        return additionalInfo;
+  public List<AbstractAdditionalTokensInfo> getInfos(IProject p) {
+    PythonNature pNature = PythonNature.getPythonNature(p);
+    IInterpreterManager manager = pNature.getRelatedInterpreterManager();
+    AbstractAdditionalTokensInfo additionalSystemInfo = null;
+    try {
+      additionalSystemInfo = AdditionalSystemInterpreterInfo
+          .getAdditionalSystemInfo(manager,
+              manager.getDefaultInterpreterInfo(true).getExecutableOrJar());
+    } catch (MisconfigurationException e) {
     }
+
+    List<AbstractAdditionalTokensInfo> additionalInfo = new ArrayList<AbstractAdditionalTokensInfo>();
+    additionalInfo.add(additionalSystemInfo);
+
+    List<IPythonNature> natures = PythonNature
+        .getPythonNaturesRelatedTo(manager.getInterpreterType());
+    for (IPythonNature nature : natures) {
+      AbstractAdditionalDependencyInfo info;
+      try {
+        info = AdditionalProjectInterpreterInfo
+            .getAdditionalInfoForProject(nature);
+        if (info != null)
+          additionalInfo.add(info);
+      } catch (MisconfigurationException e) {
+      }
+    }
+    return additionalInfo;
+  }
 }

@@ -19,29 +19,45 @@ import org.ruminaq.tasks.javatask.ui.wizards.ICreateJavaTaskPage;
 import org.ruminaq.tasks.userdefined.IUserDefinedUiApi;
 
 @Component
-public class TaskUiApi implements ITaskUiApi, IJavaTaskUiApi, IUserDefinedUiApi {
+public class TaskUiApi
+    implements ITaskUiApi, IJavaTaskUiApi, IUserDefinedUiApi {
 
-	private String  symbolicName;
-	private Version version;
+  private String symbolicName;
+  private Version version;
 
-	@Override public String  getSymbolicName() { return symbolicName; }
-	@Override public Version getVersion()      { return version; }
+  @Override
+  public String getSymbolicName() {
+    return symbolicName;
+  }
 
-    @Activate
-    void activate(Map<String, Object> properties) {
-    	Bundle b = FrameworkUtil.getBundle(getClass());
-    	symbolicName = b.getSymbolicName();
-    	version = b.getVersion();
-    }
+  @Override
+  public Version getVersion() {
+    return version;
+  }
 
-	@Override public IPropertySection createPropertySection(Composite parent,
-			                                                PictogramElement pe,
-			                                                TransactionalEditingDomain ed,
-			                                                IDiagramTypeProvider dtp) { return new PropertySection(parent, pe, ed, dtp); }
-	@Override public IPropertySection createParametersSection(Composite parent,
-                                                              PictogramElement pe,
-                                                              TransactionalEditingDomain ed,
-                                                              IDiagramTypeProvider dtp) { return new ParametersSection(parent, pe, ed, dtp); }
+  @Activate
+  void activate(Map<String, Object> properties) {
+    Bundle b = FrameworkUtil.getBundle(getClass());
+    symbolicName = b.getSymbolicName();
+    version = b.getVersion();
+  }
 
-	@Override public ICreateJavaTaskPage getCreateJavaTaskPage() { return new CreateJavaTaskPage("System in Cloud - Java Task"); }
+  @Override
+  public IPropertySection createPropertySection(Composite parent,
+      PictogramElement pe, TransactionalEditingDomain ed,
+      IDiagramTypeProvider dtp) {
+    return new PropertySection(parent, pe, ed, dtp);
+  }
+
+  @Override
+  public IPropertySection createParametersSection(Composite parent,
+      PictogramElement pe, TransactionalEditingDomain ed,
+      IDiagramTypeProvider dtp) {
+    return new ParametersSection(parent, pe, ed, dtp);
+  }
+
+  @Override
+  public ICreateJavaTaskPage getCreateJavaTaskPage() {
+    return new CreateJavaTaskPage("System in Cloud - Java Task");
+  }
 }

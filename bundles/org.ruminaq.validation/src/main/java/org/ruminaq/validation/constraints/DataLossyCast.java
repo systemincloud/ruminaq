@@ -33,40 +33,50 @@ import org.ruminaq.validation.StatusLocationDecorator;
 
 public class DataLossyCast extends AbstractModelConstraint {
 
-	@Override
-	public IStatus validate(IValidationContext ctx) {
-		EObject eObj = ctx.getTarget();
-		if(ctx.getEventType() == EMFEventType.NULL && eObj instanceof Connection)
-			return validate(ctx, (Connection) eObj);
-		return ctx.createSuccessStatus();
-	}
+  @Override
+  public IStatus validate(IValidationContext ctx) {
+    EObject eObj = ctx.getTarget();
+    if (ctx.getEventType() == EMFEventType.NULL && eObj instanceof Connection)
+      return validate(ctx, (Connection) eObj);
+    return ctx.createSuccessStatus();
+  }
 
-	private IStatus validate(IValidationContext ctx, Connection connection) {
-		if(!(connection.getTargetRef() instanceof InternalInputPort)) return ctx.createSuccessStatus();
+  private IStatus validate(IValidationContext ctx, Connection connection) {
+    if (!(connection.getTargetRef() instanceof InternalInputPort))
+      return ctx.createSuccessStatus();
 
-		InternalInputPort dst = (InternalInputPort) connection.getTargetRef();
+    InternalInputPort dst = (InternalInputPort) connection.getTargetRef();
 
-		if(dst.isIgnoreLossyCast()) return ctx.createSuccessStatus();
+    if (dst.isIgnoreLossyCast())
+      return ctx.createSuccessStatus();
 
-		List<Class<? extends DataType>> shouldBe = new LinkedList<>();
-		for(DataType dt : dst.getDataType())
-			shouldBe.add(dt.getClass());
+    List<Class<? extends DataType>> shouldBe = new LinkedList<>();
+    for (DataType dt : dst.getDataType())
+      shouldBe.add(dt.getClass());
 
-		if(shouldBe.size() == 0) return ctx.createSuccessStatus();
+    if (shouldBe.size() == 0)
+      return ctx.createSuccessStatus();
 
-		if(!(connection.getSourceRef() instanceof InternalOutputPort)) return ctx.createSuccessStatus();
+    if (!(connection.getSourceRef() instanceof InternalOutputPort))
+      return ctx.createSuccessStatus();
 
-		InternalOutputPort src = (InternalOutputPort) connection.getSourceRef();
-		List<Class<? extends DataType>> came = new LinkedList<>();
-		for(DataType dt : src.getDataType()) came.add(dt.getClass());
+    InternalOutputPort src = (InternalOutputPort) connection.getSourceRef();
+    List<Class<? extends DataType>> came = new LinkedList<>();
+    for (DataType dt : src.getDataType())
+      came.add(dt.getClass());
 
-		if(came.size() == 0) return ctx.createSuccessStatus();
+    if (came.size() == 0)
+      return ctx.createSuccessStatus();
 
-		for(Class<? extends DataType> c : came)
-			for(Class<? extends DataType> s : shouldBe)
-				if(!DataTypeManager.INSTANCE.isLossyCastFromTo(c, s)) return ctx.createSuccessStatus();
+    for (Class<? extends DataType> c : came)
+      for (Class<? extends DataType> s : shouldBe)
+        if (!DataTypeManager.INSTANCE.isLossyCastFromTo(c, s))
+          return ctx.createSuccessStatus();
 
-		return new StatusLocationDecorator((ConstraintStatus) ctx.createFailureStatus(new Object[] { src.getParent().getId() + ":" + src.getId(),
-				                                                                                     dst.getParent().getId() + ":" + dst.getId(), }), dst.getParent().getId() + ":" + dst.getId());
-	}
+    return new StatusLocationDecorator(
+        (ConstraintStatus) ctx.createFailureStatus(
+            new Object[] { src.getParent().getId() + ":" + src.getId(),
+                dst.getParent().getId() + ":" + dst.getId(), }),
+        dst.getParent().getId() + ":" + dst.getId());
+  }
 }

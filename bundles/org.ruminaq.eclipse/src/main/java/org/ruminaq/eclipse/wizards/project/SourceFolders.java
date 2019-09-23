@@ -26,8 +26,10 @@ public final class SourceFolders {
   public static final String MAIN = "main";
   public static final String TEST = "test";
   public static final String RESOURCES = "resources";
-  public static final String MAIN_RESOURCES = SRC + "/" + MAIN + "/" + RESOURCES;
-  public static final String TEST_RESOURCES = SRC + "/" + TEST + "/" + RESOURCES;
+  public static final String MAIN_RESOURCES = SRC + "/" + MAIN + "/"
+      + RESOURCES;
+  public static final String TEST_RESOURCES = SRC + "/" + TEST + "/"
+      + RESOURCES;
   public static final String TASK_FOLDER = "tasks";
   public static final String DIAGRAM_FOLDER = MAIN_RESOURCES + "/" + TASK_FOLDER
       + "/";

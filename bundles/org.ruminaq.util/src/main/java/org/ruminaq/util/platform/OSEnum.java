@@ -17,6 +17,6 @@ package org.ruminaq.util.platform;
 
 public enum OSEnum {
 
-	Windows, Mac, Linux
+  Windows, Mac, Linux
 
 }

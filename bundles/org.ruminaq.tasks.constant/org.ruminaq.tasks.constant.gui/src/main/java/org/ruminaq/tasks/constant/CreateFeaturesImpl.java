@@ -24,46 +24,49 @@ import org.ruminaq.tasks.features.CreateTaskFeature;
 @Component(property = { "service.ranking:Integer=10" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
-	@Override
-	public List<Class<? extends ICreateFeature>> getFeatures() {
-		return Arrays.asList(CreateFeature.class);
-	}
-	
-	public static class CreateFeature extends CreateTaskFeature implements PaletteCreateFeature {
+  @Override
+  public List<Class<? extends ICreateFeature>> getFeatures() {
+    return Arrays.asList(CreateFeature.class);
+  }
 
-		public CreateFeature(IFeatureProvider fp) {
-			super(fp, Constant.class);
-		}
+  public static class CreateFeature extends CreateTaskFeature
+      implements PaletteCreateFeature {
 
-		@Override
-		public String getCompartment() {
-			return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
-		}
-		
-		@Override
-		public String getStack() {
-			return CommonPaletteCompartmentEntry.SOURCES_STACK;
-		}
+    public CreateFeature(IFeatureProvider fp) {
+      super(fp, Constant.class);
+    }
 
-		@Override
-		public Object[] create(ICreateContext context) {
-			Object[] os = super.create(context, ConstantFactory.eINSTANCE.createConstant());
-			((Constant) os[0]).setDataType(EcoreUtil.copy(((Task) os[0]).getOutputPort().get(0).getDataType().get(0)));
-			((Constant) os[0]).setValue(Int32Strategy.DEFAULT_VALUE);
-			UpdateContext updateCtx = new UpdateContext(
-					Graphiti.getLinkService().getPictogramElements(getDiagram(), (Constant) os[0]).get(0));
-			getFeatureProvider().updateIfPossible(updateCtx);
-			return os;
-		}
+    @Override
+    public String getCompartment() {
+      return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
+    }
 
-		@Override
-		protected Class<? extends PortsDescr> getPortsDescription() {
-			return Port.class;
-		}
+    @Override
+    public String getStack() {
+      return CommonPaletteCompartmentEntry.SOURCES_STACK;
+    }
 
-		@Override
-		public String getCreateImageId() {
-			return Images.K.IMG_CONSTANT_PALETTE.name();
-		}
-	}
+    @Override
+    public Object[] create(ICreateContext context) {
+      Object[] os = super.create(context,
+          ConstantFactory.eINSTANCE.createConstant());
+      ((Constant) os[0]).setDataType(EcoreUtil
+          .copy(((Task) os[0]).getOutputPort().get(0).getDataType().get(0)));
+      ((Constant) os[0]).setValue(Int32Strategy.DEFAULT_VALUE);
+      UpdateContext updateCtx = new UpdateContext(Graphiti.getLinkService()
+          .getPictogramElements(getDiagram(), (Constant) os[0]).get(0));
+      getFeatureProvider().updateIfPossible(updateCtx);
+      return os;
+    }
+
+    @Override
+    protected Class<? extends PortsDescr> getPortsDescription() {
+      return Port.class;
+    }
+
+    @Override
+    public String getCreateImageId() {
+      return Images.K.IMG_CONSTANT_PALETTE.name();
+    }
+  }
 }

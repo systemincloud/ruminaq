@@ -13,5 +13,6 @@ import org.eclipse.graphiti.features.IPasteFeature;
  *
  * @author Marek Jagielski
  */
-public interface PasteFeatureExtension extends BestFeatureExtension<IPasteFeature> {
+public interface PasteFeatureExtension
+    extends BestFeatureExtension<IPasteFeature> {
 }

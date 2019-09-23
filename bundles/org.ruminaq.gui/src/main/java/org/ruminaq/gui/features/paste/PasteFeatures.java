@@ -16,8 +16,8 @@ import org.ruminaq.gui.api.PasteFeatureExtension;
 @Component(property = { "service.ranking:Integer=5" })
 public class PasteFeatures implements PasteFeatureExtension {
 
-	@Override
-	public List<Class<? extends IPasteFeature>> getFeatures() {
-		return Arrays.asList(PasteElementFeature.class);
-	}
+  @Override
+  public List<Class<? extends IPasteFeature>> getFeatures() {
+    return Arrays.asList(PasteElementFeature.class);
+  }
 }

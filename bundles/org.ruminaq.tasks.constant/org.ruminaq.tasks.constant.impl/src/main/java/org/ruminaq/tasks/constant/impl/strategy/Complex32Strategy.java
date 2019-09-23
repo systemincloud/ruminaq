@@ -30,35 +30,38 @@ import org.slf4j.Logger;
 
 public class Complex32Strategy extends AbstractConstantStrategy {
 
-    private static final Logger LOGGER = RunnerLoggerFactory.getLogger(Complex32Strategy.class);
+  private static final Logger LOGGER = RunnerLoggerFactory
+      .getLogger(Complex32Strategy.class);
 
-    private static final Pattern REAL_PATTERN = Pattern.compile("[+-]?[0-9]*\\.?[0-9]+");
-    private static final Pattern IMAG_PATTERN = Pattern.compile("[+-]?[0-9]*\\.?[0-9]+i");
+  private static final Pattern REAL_PATTERN = Pattern
+      .compile("[+-]?[0-9]*\\.?[0-9]+");
+  private static final Pattern IMAG_PATTERN = Pattern
+      .compile("[+-]?[0-9]*\\.?[0-9]+i");
 
-    public Complex32Strategy(ConstantI task, String value) {
-        super(task, value);
+  public Complex32Strategy(ConstantI task, String value) {
+    super(task, value);
+  }
+
+  @Override
+  public void execute() {
+    LOGGER.trace("create Complex32");
+    List<Integer> dims = NumericUtil.getMultiDimsComplexDimensions(value);
+    String[] vs = NumericUtil.getMutliDimsValues(value);
+    int n = dims.stream().reduce(1, (a, b) -> a * b);
+    float[] real = new float[n];
+    float[] imag = new float[n];
+    for (int i = 0; i < n; i++) {
+      String s = vs[i];
+      if (REAL_PATTERN.matcher(s).matches()) {
+        real[i] = Float.parseFloat(s);
+      } else if (IMAG_PATTERN.matcher(s).matches()) {
+        imag[i] = Float.parseFloat(s.replace("i", ""));
+      } else {
+        Complex c = new ComplexFormat().parse(s);
+        real[i] = (float) c.getReal();
+        imag[i] = (float) c.getImaginary();
+      }
     }
-
-    @Override
-    public void execute() {
-        LOGGER.trace("create Complex32");
-        List<Integer> dims = NumericUtil.getMultiDimsComplexDimensions(value);
-        String[] vs = NumericUtil.getMutliDimsValues(value);
-        int n = dims.stream().reduce(1, (a, b) -> a * b);
-        float[] real = new float[n];
-        float[] imag = new float[n];
-        for (int i = 0; i < n; i++) {
-            String s = vs[i];
-            if (REAL_PATTERN.matcher(s).matches()) {
-                real[i] = Float.parseFloat(s);
-            } else if (IMAG_PATTERN.matcher(s).matches()) {
-                imag[i] = Float.parseFloat(s.replace("i", ""));
-            } else {
-                Complex c = new ComplexFormat().parse(s);
-                real[i] = (float) c.getReal();
-                imag[i] = (float) c.getImaginary();
-            }
-        }
-        task.putData(Port.OUT, new Complex32I(real, imag, dims));
-    }
+    task.putData(Port.OUT, new Complex32I(real, imag, dims));
+  }
 }

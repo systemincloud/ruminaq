@@ -13,59 +13,66 @@ import java.util.concurrent.Executors;
 import org.ruminaq.util.Util;
 
 public enum PrintOutServer {
-	INSTACE;
+  INSTACE;
 
-	private int MAIN_PORT = 49252;
+  private int MAIN_PORT = 49252;
 
-	private int port = 0;
-	public  int getPort() { return port; }
+  private int port = 0;
 
-	private List<RTaskI> tasks = new LinkedList<>();
+  public int getPort() {
+    return port;
+  }
 
-	private ServerSocket serverSocket;
+  private List<RTaskI> tasks = new LinkedList<>();
 
-	private Executor acceptor = Executors.newCachedThreadPool();
-	private static volatile boolean run = true;
+  private ServerSocket serverSocket;
 
-	private class Cmd implements Runnable {
-		@Override
-		public void run() {
-			try {
-				Socket client = serverSocket.accept();
-				acceptor.execute(new Cmd());
-				BufferedReader d = new BufferedReader(new InputStreamReader(client.getInputStream()));
-		        while(run) {
-		        	String line = d.readLine();
-		        	if(line == null) break;
-		        	System.out.println(line);
-		        }
-			} catch (IOException e) { }
-		}
-	};
+  private Executor acceptor = Executors.newCachedThreadPool();
+  private static volatile boolean run = true;
 
-	public synchronized void start(RTaskI rTaskI) {
-		if(tasks.isEmpty()) {
-			port = Util.findFreeLocalPort(MAIN_PORT);
-			try {
-				serverSocket = new ServerSocket(port);
-				acceptor.execute(new Cmd());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+  private class Cmd implements Runnable {
+    @Override
+    public void run() {
+      try {
+        Socket client = serverSocket.accept();
+        acceptor.execute(new Cmd());
+        BufferedReader d = new BufferedReader(
+            new InputStreamReader(client.getInputStream()));
+        while (run) {
+          String line = d.readLine();
+          if (line == null)
+            break;
+          System.out.println(line);
+        }
+      } catch (IOException e) {
+      }
+    }
+  };
 
-		tasks.add(rTaskI);
-	}
+  public synchronized void start(RTaskI rTaskI) {
+    if (tasks.isEmpty()) {
+      port = Util.findFreeLocalPort(MAIN_PORT);
+      try {
+        serverSocket = new ServerSocket(port);
+        acceptor.execute(new Cmd());
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
 
-	public synchronized void stop(RTaskI rTaskI) {
-		tasks.remove(rTaskI);
+    tasks.add(rTaskI);
+  }
 
-		if(tasks.isEmpty()) {
-			try { serverSocket.close();
-			PrintOutServer.run = false;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+  public synchronized void stop(RTaskI rTaskI) {
+    tasks.remove(rTaskI);
+
+    if (tasks.isEmpty()) {
+      try {
+        serverSocket.close();
+        PrintOutServer.run = false;
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
 }

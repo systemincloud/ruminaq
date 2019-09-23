@@ -10,32 +10,33 @@ import org.eclipse.ui.PlatformUI;
 
 public class CustomNewClassWizardPage extends NewClassWizardPage {
 
-	public CustomNewClassWizardPage() {
-		setTitle("System in Cloud - Java Task");
-		setDescription("Here you define Java class");
-	}
-	
-	@Override
-	public void createControl(Composite parent) {
-		initializeDialogUnits(parent);
-		
-		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setFont(parent.getFont());
-			
-		int nColumns= 4;
-				
-		GridLayout layout= new GridLayout();
-		layout.numColumns= nColumns;		
-		composite.setLayout(layout);
-				
-		createContainerControls(composite, nColumns);	
-		createPackageControls(composite, nColumns);	
-		createSeparator(composite, nColumns);
-		createTypeNameControls(composite, nColumns);
-		createSuperInterfacesControls(composite, nColumns);
+  public CustomNewClassWizardPage() {
+    setTitle("System in Cloud - Java Task");
+    setDescription("Here you define Java class");
+  }
 
-		setControl(composite);
-		Dialog.applyDialogFont(composite);
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(composite, IJavaHelpContextIds.NEW_CLASS_WIZARD_PAGE);	
-	}
+  @Override
+  public void createControl(Composite parent) {
+    initializeDialogUnits(parent);
+
+    Composite composite = new Composite(parent, SWT.NONE);
+    composite.setFont(parent.getFont());
+
+    int nColumns = 4;
+
+    GridLayout layout = new GridLayout();
+    layout.numColumns = nColumns;
+    composite.setLayout(layout);
+
+    createContainerControls(composite, nColumns);
+    createPackageControls(composite, nColumns);
+    createSeparator(composite, nColumns);
+    createTypeNameControls(composite, nColumns);
+    createSuperInterfacesControls(composite, nColumns);
+
+    setControl(composite);
+    Dialog.applyDialogFont(composite);
+    PlatformUI.getWorkbench().getHelpSystem().setHelp(composite,
+        IJavaHelpContextIds.NEW_CLASS_WIZARD_PAGE);
+  }
 }

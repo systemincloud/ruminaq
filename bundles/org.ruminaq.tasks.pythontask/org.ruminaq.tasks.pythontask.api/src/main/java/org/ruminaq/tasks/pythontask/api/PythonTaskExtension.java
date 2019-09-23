@@ -12,6 +12,7 @@ import org.javatuples.Pair;
  * @author Marek Jagielski
  */
 public interface PythonTaskExtension {
-    List<Pair<String, String>> getPythonTaskDatas();
-    String                     editPyDevProjectFile(String ret);
+  List<Pair<String, String>> getPythonTaskDatas();
+
+  String editPyDevProjectFile(String ret);
 }

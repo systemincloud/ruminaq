@@ -16,71 +16,81 @@ import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 
 public class UpdateFeature extends UpdateTaskFeature {
 
-	private boolean updateNeededChecked = false;
+  private boolean updateNeededChecked = false;
 
-	private boolean superUpdateNeeded = false;
-	private boolean descUpdateNeeded  = false;
+  private boolean superUpdateNeeded = false;
+  private boolean descUpdateNeeded = false;
 
-	public UpdateFeature(IFeatureProvider fp) {	super(fp); }
+  public UpdateFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public boolean canUpdate(IUpdateContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return (bo instanceof RandomGenerator);
-	}
+  @Override
+  public boolean canUpdate(IUpdateContext context) {
+    Object bo = getBusinessObjectForPictogramElement(
+        context.getPictogramElement());
+    return (bo instanceof RandomGenerator);
+  }
 
-	@Override
-	public IReason updateNeeded(IUpdateContext context) {
-		this.updateNeededChecked = true;
-		superUpdateNeeded = super.updateNeeded(context).toBoolean();
+  @Override
+  public IReason updateNeeded(IUpdateContext context) {
+    this.updateNeededChecked = true;
+    superUpdateNeeded = super.updateNeeded(context).toBoolean();
 
-		PictogramElement pictogramElement = context.getPictogramElement();
+    PictogramElement pictogramElement = context.getPictogramElement();
 
-		this.descUpdateNeeded = !compareIconDescription(pictogramElement);
+    this.descUpdateNeeded = !compareIconDescription(pictogramElement);
 
-		boolean updateNeeded = superUpdateNeeded
-	                        || descUpdateNeeded;
-		return updateNeeded ? Reason.createTrueReason() : Reason.createFalseReason();
-	}
+    boolean updateNeeded = superUpdateNeeded || descUpdateNeeded;
+    return updateNeeded ? Reason.createTrueReason()
+        : Reason.createFalseReason();
+  }
 
-	@Override
-	public boolean update(IUpdateContext context) {
-		if(!updateNeededChecked)
-			if(!this.updateNeeded(context).toBoolean()) return false;
+  @Override
+  public boolean update(IUpdateContext context) {
+    if (!updateNeededChecked)
+      if (!this.updateNeeded(context).toBoolean())
+        return false;
 
-		boolean updated = false;
-		if(superUpdateNeeded)   updated = updated | super.update(context);
-		if(descUpdateNeeded)    updated = updated | descUpdate  (context.getPictogramElement());
-		return updated;
-	}
+    boolean updated = false;
+    if (superUpdateNeeded)
+      updated = updated | super.update(context);
+    if (descUpdateNeeded)
+      updated = updated | descUpdate(context.getPictogramElement());
+    return updated;
+  }
 
-	private boolean compareIconDescription(PictogramElement pe) {
-		Object bo = getBusinessObjectForPictogramElement(pe);
-		if(bo instanceof RandomGenerator) {
-			DataType dt = ((RandomGenerator) bo).getDataType();
-			if(dt != null) {
-				String dataType = ModelUtil.getName(dt.getClass(), false);
-				for(GraphicsAlgorithm ga : pe.getGraphicsAlgorithm().getGraphicsAlgorithmChildren())
-					if(Graphiti.getPeService().getProperty(ga, AddTaskFeature.ICON_DESC_PROPERTY) != null)
-						return dataType.equals(((Text) ga).getValue());
-			}
-		}
-		return true;
-	}
+  private boolean compareIconDescription(PictogramElement pe) {
+    Object bo = getBusinessObjectForPictogramElement(pe);
+    if (bo instanceof RandomGenerator) {
+      DataType dt = ((RandomGenerator) bo).getDataType();
+      if (dt != null) {
+        String dataType = ModelUtil.getName(dt.getClass(), false);
+        for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
+            .getGraphicsAlgorithmChildren())
+          if (Graphiti.getPeService().getProperty(ga,
+              AddTaskFeature.ICON_DESC_PROPERTY) != null)
+            return dataType.equals(((Text) ga).getValue());
+      }
+    }
+    return true;
+  }
 
-	private boolean descUpdate(PictogramElement pe) {
-		Object bo = getBusinessObjectForPictogramElement(pe);
-		if(bo instanceof RandomGenerator) {
-			DataType dt = ((RandomGenerator) bo).getDataType();
-			if(dt != null) {
-				String dataType = ModelUtil.getName(dt.getClass(), false);
-				for(GraphicsAlgorithm ga : pe.getGraphicsAlgorithm().getGraphicsAlgorithmChildren())
-					if(Graphiti.getPeService().getProperty(ga, AddTaskFeature.ICON_DESC_PROPERTY) != null) {
-						((Text) ga).setValue(dataType);
-						return true;
-					}
-			}
-		}
-		return false;
-	}
+  private boolean descUpdate(PictogramElement pe) {
+    Object bo = getBusinessObjectForPictogramElement(pe);
+    if (bo instanceof RandomGenerator) {
+      DataType dt = ((RandomGenerator) bo).getDataType();
+      if (dt != null) {
+        String dataType = ModelUtil.getName(dt.getClass(), false);
+        for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
+            .getGraphicsAlgorithmChildren())
+          if (Graphiti.getPeService().getProperty(ga,
+              AddTaskFeature.ICON_DESC_PROPERTY) != null) {
+            ((Text) ga).setValue(dataType);
+            return true;
+          }
+      }
+    }
+    return false;
+  }
 }

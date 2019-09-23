@@ -8,32 +8,32 @@ import org.ruminaq.tasks.mux.impl.Port;
 
 public class AddFeature extends AddTaskFeature {
 
-	public AddFeature(IFeatureProvider fp) {
-	    super(fp);
-	}
+  public AddFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	protected int getHeight() {
-	    return 55;
-	}
+  @Override
+  protected int getHeight() {
+    return 55;
+  }
 
-	@Override
-	protected int getWidth() {
-	    return 55;
-	}
+  @Override
+  protected int getWidth() {
+    return 55;
+  }
 
-	@Override
-	protected boolean useIconInsideShape() {
-	    return true;
-	}
+  @Override
+  protected boolean useIconInsideShape() {
+    return true;
+  }
 
-	@Override
-	protected String getInsideIconId() {
-	    return Images.K.IMG_MUX_DIAGRAM.name();
-	}
+  @Override
+  protected String getInsideIconId() {
+    return Images.K.IMG_MUX_DIAGRAM.name();
+  }
 
-	@Override
-	protected Class<? extends PortsDescr> getPortsDescription() {
-	    return Port.class;
-	}
+  @Override
+  protected Class<? extends PortsDescr> getPortsDescription() {
+    return Port.class;
+  }
 }

@@ -15,7 +15,8 @@ import org.ruminaq.eclipse.Messages;
  */
 public class CreateTestDiagramWizard extends CreateDiagramWizard {
 
-  public static final String ID = CreateTestDiagramWizard.class.getCanonicalName();
+  public static final String ID = CreateTestDiagramWizard.class
+      .getCanonicalName();
 
   /**
    * Sets the window title.

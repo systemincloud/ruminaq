@@ -16,58 +16,62 @@ import org.slf4j.Logger;
 
 public class TextStrategy extends RandomGeneratorStrategy {
 
-	private final Logger logger = RunnerLoggerFactory.getLogger(TextStrategy.class);
+  private final Logger logger = RunnerLoggerFactory
+      .getLogger(TextStrategy.class);
 
-	public enum TextType {
-		ALPHANUMERIC,
-		ALPHABETIC,
-		NUMERIC;
-	}
+  public enum TextType {
+    ALPHANUMERIC, ALPHABETIC, NUMERIC;
+  }
 
-	public enum TextCase {
-		ANY,
-		LOWER,
-		UPPER;
-	}
+  public enum TextCase {
+    ANY, LOWER, UPPER;
+  }
 
-	public static final String TEXT_TYPE = "TEXT_TYPE";
-	public static final String TEXT_CASE = "TEXT_CASE";
-	public static final String TEXT_LENGTH = "TEXT_LENGTH";
-	public static final int DEFAULT_TEXT_LENGTH = 5;
+  public static final String TEXT_TYPE = "TEXT_TYPE";
+  public static final String TEXT_CASE = "TEXT_CASE";
+  public static final String TEXT_LENGTH = "TEXT_LENGTH";
+  public static final int DEFAULT_TEXT_LENGTH = 5;
 
-	private String textType;
-	private String textCase;
-	private String textLength;
-	private int    length = -1;
+  private String textType;
+  private String textCase;
+  private String textLength;
+  private int length = -1;
 
-	public TextStrategy(RandomGeneratorI task, EMap<String, String> eMap) {
-		super(task);
-		textType = eMap.get(TEXT_TYPE);
-		textCase = eMap.get(TEXT_CASE);
-		textLength = eMap.get(TEXT_LENGTH);
-		if(!RandomUtil.containsRandom(task.getParent().replaceVariables(textLength)))
-			length = Integer.parseInt(task.getParent().replaceVariables(textLength));
-	}
+  public TextStrategy(RandomGeneratorI task, EMap<String, String> eMap) {
+    super(task);
+    textType = eMap.get(TEXT_TYPE);
+    textCase = eMap.get(TEXT_CASE);
+    textLength = eMap.get(TEXT_LENGTH);
+    if (!RandomUtil
+        .containsRandom(task.getParent().replaceVariables(textLength)))
+      length = Integer.parseInt(task.getParent().replaceVariables(textLength));
+  }
 
-	@Override 
-	public void generate(List<Integer> dims) {
-		logger.trace("generating Text");
-		int length = this.length != -1 ? this.length : Integer.parseInt(RandomUtil.replaceRandoms(task.getParent().replaceVariables(textLength), true, true));
+  @Override
+  public void generate(List<Integer> dims) {
+    logger.trace("generating Text");
+    int length = this.length != -1 ? this.length
+        : Integer.parseInt(RandomUtil.replaceRandoms(
+            task.getParent().replaceVariables(textLength), true, true));
 
-		int n = 1;
-		for(Integer i : dims) n *= i;
-		List<String> values = new ArrayList<>(n);
+    int n = 1;
+    for (Integer i : dims)
+      n *= i;
+    List<String> values = new ArrayList<>(n);
 
-		if(TextType.ALPHANUMERIC.toString().equals(textType))
-			for(int i = 0; i < n; i++)
-				values.add(TextStrategyUtil.generateRandomString(length, TextStrategyUtil.Mode.ALPHANUMERIC, textCase));
-		else if(TextType.ALPHABETIC.toString().equals(textType))
-			for(int i = 0; i < n; i++)
-				values.add(TextStrategyUtil.generateRandomString(length, TextStrategyUtil.Mode.ALPHA, textCase));
-		else if(TextType.NUMERIC.toString().equals(textType))
-			for(int i = 0; i < n; i++)
-				values.add(TextStrategyUtil.generateRandomString(length, TextStrategyUtil.Mode.NUMERIC, textCase));
+    if (TextType.ALPHANUMERIC.toString().equals(textType))
+      for (int i = 0; i < n; i++)
+        values.add(TextStrategyUtil.generateRandomString(length,
+            TextStrategyUtil.Mode.ALPHANUMERIC, textCase));
+    else if (TextType.ALPHABETIC.toString().equals(textType))
+      for (int i = 0; i < n; i++)
+        values.add(TextStrategyUtil.generateRandomString(length,
+            TextStrategyUtil.Mode.ALPHA, textCase));
+    else if (TextType.NUMERIC.toString().equals(textType))
+      for (int i = 0; i < n; i++)
+        values.add(TextStrategyUtil.generateRandomString(length,
+            TextStrategyUtil.Mode.NUMERIC, textCase));
 
-		task.putData(Port.OUT, new TextI(values, dims));
-	}
+    task.putData(Port.OUT, new TextI(values, dims));
+  }
 }

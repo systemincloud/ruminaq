@@ -21,25 +21,23 @@ import org.eclipse.swt.widgets.Composite;
 import org.ruminaq.tasks.constant.api.ValueSaveListener;
 import org.ruminaq.util.NumericUtil;
 
-public class ComplexPropertyValue extends AbstractPropertyValueNumericComposite {
+public class ComplexPropertyValue
+    extends AbstractPropertyValueNumericComposite {
 
-    private static final String DEFAULT_VALUE = "0 + 0i";
+  private static final String DEFAULT_VALUE = "0 + 0i";
 
-    public ComplexPropertyValue(
-            ValueSaveListener saveListener,
-            Composite valueRoot,
-            PictogramElement pe,
-            TransactionalEditingDomain ed) {
-        super(saveListener, valueRoot, pe, ed);
-    }
+  public ComplexPropertyValue(ValueSaveListener saveListener,
+      Composite valueRoot, PictogramElement pe, TransactionalEditingDomain ed) {
+    super(saveListener, valueRoot, pe, ed);
+  }
 
-    @Override
-    protected boolean verify(String value) {
-        return NumericUtil.isMultiDimsComplexAlsoGV(value);
-    }
+  @Override
+  protected boolean verify(String value) {
+    return NumericUtil.isMultiDimsComplexAlsoGV(value);
+  }
 
-    @Override
-    protected String getDefault() {
-        return DEFAULT_VALUE;
-    }
+  @Override
+  protected String getDefault() {
+    return DEFAULT_VALUE;
+  }
 }

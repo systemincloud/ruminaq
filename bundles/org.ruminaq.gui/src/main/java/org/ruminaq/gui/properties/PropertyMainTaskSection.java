@@ -30,122 +30,122 @@ import org.ruminaq.model.util.ModelUtil;
 public class PropertyMainTaskSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
-	private Composite composite;
+  private Composite composite;
 
-	private CLabel lblVersion;
-	private CLabel versionValue;
-	private Button btnAtomic;
-	private Button btnPreventLost;
-	private Button btnOnlyLocal;
+  private CLabel lblVersion;
+  private CLabel versionValue;
+  private Button btnAtomic;
+  private Button btnPreventLost;
+  private Button btnOnlyLocal;
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public void createControls(Composite parent,
-	    TabbedPropertySheetPage tabbedPropertySheetPage) {
-		super.createControls(parent, tabbedPropertySheetPage);
+  /**
+   * @wbp.parser.entryPoint
+   */
+  @Override
+  public void createControls(Composite parent,
+      TabbedPropertySheetPage tabbedPropertySheetPage) {
+    super.createControls(parent, tabbedPropertySheetPage);
 
-		initLayout(parent);
-		initComponents();
-		addStyles();
-	}
+    initLayout(parent);
+    initComponents();
+    addStyles();
+  }
 
-	private void initLayout(Composite parent) {
-		((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
-		((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
+  private void initLayout(Composite parent) {
+    ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
+    ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
-		composite = new Composite(parent, SWT.NULL);
-		composite.setLayout(new GridLayout(2, false));
+    composite = new Composite(parent, SWT.NULL);
+    composite.setLayout(new GridLayout(2, false));
 
-		lblVersion = new CLabel(composite, SWT.NONE);
-		versionValue = new CLabel(composite, SWT.NONE);
+    lblVersion = new CLabel(composite, SWT.NONE);
+    versionValue = new CLabel(composite, SWT.NONE);
 
-		btnAtomic = new Button(composite, SWT.CHECK);
-		btnPreventLost = new Button(composite, SWT.CHECK);
-		new CLabel(composite, SWT.NONE)
-		    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		btnOnlyLocal = new Button(composite, SWT.CHECK);
-	}
+    btnAtomic = new Button(composite, SWT.CHECK);
+    btnPreventLost = new Button(composite, SWT.CHECK);
+    new CLabel(composite, SWT.NONE)
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    btnOnlyLocal = new Button(composite, SWT.CHECK);
+  }
 
-	private void initActions(final MainTask mt) {
-		btnAtomic.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent se) {
-				TransactionalEditingDomain editingDomain = getDiagramContainer()
-				    .getDiagramBehavior().getEditingDomain();
-				ModelUtil.runModelChange(new Runnable() {
-					@Override
-					public void run() {
-						mt.setAtomic(btnAtomic.getSelection());
-					}
-				}, editingDomain, "Model Update");
-			}
-		});
-		btnPreventLost.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent se) {
-				TransactionalEditingDomain editingDomain = getDiagramContainer()
-				    .getDiagramBehavior().getEditingDomain();
-				ModelUtil.runModelChange(new Runnable() {
-					@Override
-					public void run() {
-						mt.setPreventLosts(btnPreventLost.getSelection());
-					}
-				}, editingDomain, "Model Update");
-			}
-		});
-		btnOnlyLocal.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent se) {
-				TransactionalEditingDomain editingDomain = getDiagramContainer()
-				    .getDiagramBehavior().getEditingDomain();
-				ModelUtil.runModelChange(new Runnable() {
-					@Override
-					public void run() {
-						mt.setOnlyLocal(btnOnlyLocal.getSelection());
-					}
-				}, editingDomain, "Model Update");
-			}
-		});
-	}
+  private void initActions(final MainTask mt) {
+    btnAtomic.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent se) {
+        TransactionalEditingDomain editingDomain = getDiagramContainer()
+            .getDiagramBehavior().getEditingDomain();
+        ModelUtil.runModelChange(new Runnable() {
+          @Override
+          public void run() {
+            mt.setAtomic(btnAtomic.getSelection());
+          }
+        }, editingDomain, "Model Update");
+      }
+    });
+    btnPreventLost.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent se) {
+        TransactionalEditingDomain editingDomain = getDiagramContainer()
+            .getDiagramBehavior().getEditingDomain();
+        ModelUtil.runModelChange(new Runnable() {
+          @Override
+          public void run() {
+            mt.setPreventLosts(btnPreventLost.getSelection());
+          }
+        }, editingDomain, "Model Update");
+      }
+    });
+    btnOnlyLocal.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent se) {
+        TransactionalEditingDomain editingDomain = getDiagramContainer()
+            .getDiagramBehavior().getEditingDomain();
+        ModelUtil.runModelChange(new Runnable() {
+          @Override
+          public void run() {
+            mt.setOnlyLocal(btnOnlyLocal.getSelection());
+          }
+        }, editingDomain, "Model Update");
+      }
+    });
+  }
 
-	private void initComponents() {
-		lblVersion.setText("Version:");
-		btnAtomic.setText("Atomic");
-		btnPreventLost.setText("Prevent data lost");
-		btnOnlyLocal.setText("Only local");
-	}
+  private void initComponents() {
+    lblVersion.setText("Version:");
+    btnAtomic.setText("Atomic");
+    btnPreventLost.setText("Prevent data lost");
+    btnOnlyLocal.setText("Only local");
+  }
 
-	private void addStyles() {
-		composite
-		    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		lblVersion
-		    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		versionValue
-		    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-	}
+  private void addStyles() {
+    composite
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    lblVersion
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    versionValue
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+  }
 
-	@Override
-	public void refresh() {
-		PictogramElement pe = getSelectedPictogramElement();
-		if (pe != null) {
-			Object bo = Graphiti.getLinkService()
-			    .getBusinessObjectForLinkedPictogramElement(pe);
-			if (bo == null)
-				return;
-			MainTask mt = (MainTask) bo;
-			initActions(mt);
-			versionValue.setText(mt.getVersion());
-			btnAtomic.setSelection(mt.isAtomic());
-			btnPreventLost.setSelection(mt.isPreventLosts());
-			btnOnlyLocal.setSelection(mt.isOnlyLocal());
-			btnOnlyLocal.setVisible(!ConstantsUtil.isTest(mt.eResource().getURI()));
-		}
-	}
+  @Override
+  public void refresh() {
+    PictogramElement pe = getSelectedPictogramElement();
+    if (pe != null) {
+      Object bo = Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement(pe);
+      if (bo == null)
+        return;
+      MainTask mt = (MainTask) bo;
+      initActions(mt);
+      versionValue.setText(mt.getVersion());
+      btnAtomic.setSelection(mt.isAtomic());
+      btnPreventLost.setSelection(mt.isPreventLosts());
+      btnOnlyLocal.setSelection(mt.isOnlyLocal());
+      btnOnlyLocal.setVisible(!ConstantsUtil.isTest(mt.eResource().getURI()));
+    }
+  }
 
-	@Override
-	public void setInput(IWorkbenchPart part, ISelection selection) {
-		super.setInput(part, selection);
-	}
+  @Override
+  public void setInput(IWorkbenchPart part, ISelection selection) {
+    super.setInput(part, selection);
+  }
 }

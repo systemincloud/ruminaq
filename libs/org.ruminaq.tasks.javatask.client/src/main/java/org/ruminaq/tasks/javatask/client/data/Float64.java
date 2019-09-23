@@ -11,31 +11,31 @@ import java.util.List;
  */
 public class Float64 extends Data {
 
-	private double[] values;
+  private double[] values;
 
-	public Float64(double value) {
-		super(1);
-		values = new double[] { value };
-	}
+  public Float64(double value) {
+    super(1);
+    values = new double[] { value };
+  }
 
-	public Float64(List<Integer> dims, double[] values) {
-		this(dims, values, false);
-	}
+  public Float64(List<Integer> dims, double[] values) {
+    this(dims, values, false);
+  }
 
-	public Float64(List<Integer> dims, double[] values, boolean copy) {
-		super(dims);
-		if (copy) {
-			this.values = new double[values.length];
-			System.arraycopy(values, 0, this.values, 0, values.length);
-		} else
-			this.values = values;
-	}
+  public Float64(List<Integer> dims, double[] values, boolean copy) {
+    super(dims);
+    if (copy) {
+      this.values = new double[values.length];
+      System.arraycopy(values, 0, this.values, 0, values.length);
+    } else
+      this.values = values;
+  }
 
-	public double[] getValues() {
-		return values;
-	}
+  public double[] getValues() {
+    return values;
+  }
 
-	public double getValue() {
-		return values[0];
-	}
+  public double getValue() {
+    return values[0];
+  }
 }

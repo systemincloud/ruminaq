@@ -9,5 +9,4 @@ package org.ruminaq.tasks.constant.api;
  */
 public interface ConstantExtension {
 
-
 }

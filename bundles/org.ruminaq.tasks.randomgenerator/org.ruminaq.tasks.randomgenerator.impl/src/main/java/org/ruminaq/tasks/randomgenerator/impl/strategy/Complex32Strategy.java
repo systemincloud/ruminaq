@@ -19,25 +19,26 @@ import org.slf4j.Logger;
 
 public class Complex32Strategy extends RandomGeneratorComplexStrategy {
 
-	private final Logger logger = RunnerLoggerFactory.getLogger(Complex32Strategy.class);
+  private final Logger logger = RunnerLoggerFactory
+      .getLogger(Complex32Strategy.class);
 
-	public Complex32Strategy(RandomGeneratorI task, EMap<String, String> eMap) {
-		super(task, eMap);
-	}
+  public Complex32Strategy(RandomGeneratorI task, EMap<String, String> eMap) {
+    super(task, eMap);
+  }
 
-	@Override
-	public void generate(List<Integer> dims) {
-		logger.trace("generating Complex32");
-		int n = dims.stream().reduce(1, (a, b) -> a * b);
-		float[] real = new float[n];
-		float[] imag = new float[n];
+  @Override
+  public void generate(List<Integer> dims) {
+    logger.trace("generating Complex32");
+    int n = dims.stream().reduce(1, (a, b) -> a * b);
+    float[] real = new float[n];
+    float[] imag = new float[n];
 
-		for (int i = 0; i < n; i++) {
-			double[] complex = super.getNextComplex();
-			real[i] = (float) complex[0];
-			imag[i] = (float) complex[1];
-		}
+    for (int i = 0; i < n; i++) {
+      double[] complex = super.getNextComplex();
+      real[i] = (float) complex[0];
+      imag[i] = (float) complex[1];
+    }
 
-		task.putData(Port.OUT, new Complex32I(real, imag, dims));
-	}
+    task.putData(Port.OUT, new Complex32I(real, imag, dims));
+  }
 }

@@ -13,47 +13,50 @@ import org.ruminaq.tasks.api.TasksUiManagerHandler;
 
 public abstract class AbstractTaskViewPart extends ViewPart {
 
-	@Reference
-	private TasksUiManagerHandler tasks;
+  @Reference
+  private TasksUiManagerHandler tasks;
 
-	protected IView view;
-	private Composite parent;
+  protected IView view;
+  private Composite parent;
 
-	public void init(EObject bo, Class<? extends ViewPart> viewClass, TransactionalEditingDomain ed) {
-		if(parent.getChildren().length > 0) return;
-        if(bo instanceof Task) {
-        	Task task = (Task) bo;
-	        for (ITaskUiApi t : tasks.getTasks(getPrefix())) {
+  public void init(EObject bo, Class<? extends ViewPart> viewClass,
+      TransactionalEditingDomain ed) {
+    if (parent.getChildren().length > 0)
+      return;
+    if (bo instanceof Task) {
+      Task task = (Task) bo;
+      for (ITaskUiApi t : tasks.getTasks(getPrefix())) {
 //	        	if(t.getSymbolicName().equals(task.getBundleName())
 //	    	    && TaskProvider.compare(t.getVersion(), Version.parseVersion(task.getVersion()))) {
-	        		view = t.createView(viewClass);
-	        		setPartName(task.getId());
-	        		view.createPartControl(parent, getSite().getShell());
-	        		view.init(bo, ed);
+        view = t.createView(viewClass);
+        setPartName(task.getId());
+        view.createPartControl(parent, getSite().getShell());
+        view.init(bo, ed);
 //	        	}
-	        }
-        }
-        parent.layout();
-	}
-
-	protected abstract String getPrefix();
-
-	@Override
-	public void createPartControl(Composite parent) {
-		this.parent = parent;
-	}
-
-	@Override
-	public void setFocus() {
-		if(view != null) {
-			view.setFocus();
-		}
-	}
-
-    @Override
-    public void dispose() {
-    	if(view != null) view.dispose();
-    	super.dispose();
+      }
     }
+    parent.layout();
+  }
+
+  protected abstract String getPrefix();
+
+  @Override
+  public void createPartControl(Composite parent) {
+    this.parent = parent;
+  }
+
+  @Override
+  public void setFocus() {
+    if (view != null) {
+      view.setFocus();
+    }
+  }
+
+  @Override
+  public void dispose() {
+    if (view != null)
+      view.dispose();
+    super.dispose();
+  }
 
 }

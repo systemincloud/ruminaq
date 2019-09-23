@@ -7,9 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.ruminaq.tasks.api.IPropertySection;
 
 public interface IUserDefinedUiApi {
-	IPropertySection createParametersSection(
-			Composite parent,
-			PictogramElement pe,
-			TransactionalEditingDomain ed,
-			IDiagramTypeProvider dtp);
+  IPropertySection createParametersSection(Composite parent,
+      PictogramElement pe, TransactionalEditingDomain ed,
+      IDiagramTypeProvider dtp);
 }

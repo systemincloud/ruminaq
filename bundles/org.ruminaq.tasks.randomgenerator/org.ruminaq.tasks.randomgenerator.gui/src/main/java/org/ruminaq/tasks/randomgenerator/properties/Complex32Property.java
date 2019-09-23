@@ -8,8 +8,9 @@ import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 
 public class Complex32Property {
 
-	public static PropertySpecificComposite createSpecificComposite(ValueSaveListener listener, Composite specificRoot,
-			PictogramElement pe, TransactionalEditingDomain ed) {
-		return new PropertySpecificComplexComposite(listener, specificRoot, pe, ed);
-	}
+  public static PropertySpecificComposite createSpecificComposite(
+      ValueSaveListener listener, Composite specificRoot, PictogramElement pe,
+      TransactionalEditingDomain ed) {
+    return new PropertySpecificComplexComposite(listener, specificRoot, pe, ed);
+  }
 }

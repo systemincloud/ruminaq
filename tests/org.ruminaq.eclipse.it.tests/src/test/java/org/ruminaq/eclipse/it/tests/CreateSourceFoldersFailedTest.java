@@ -57,8 +57,8 @@ public class CreateSourceFoldersFailedTest {
   @Test
   public final void testCreateProjectFailed() throws IOException {
 
-    String logFilePath = "target/logs/" + RandomStringUtils
-        .randomAlphabetic(PROJECT_SUFFIX_LENGTH) + ".log";
+    String logFilePath = "target/logs/"
+        + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH) + ".log";
 
     File logFile = new File(logFilePath);
     logFile.createNewFile();
@@ -68,8 +68,7 @@ public class CreateSourceFoldersFailedTest {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     System.setProperty(
-        EclipseUtilAspect.FAIL_CREATE_SOURCE_FOLDERS_PROJECT_NAME,
-        projectName);
+        EclipseUtilAspect.FAIL_CREATE_SOURCE_FOLDERS_PROJECT_NAME, projectName);
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 

@@ -19,29 +19,29 @@ import org.ruminaq.model.ruminaq.Port;
 @FeatureFilter(Filter.class)
 public class AddOutputPortFeature extends AddPortFeature {
 
-	public static class Filter extends AddFeatureFilter {
-		@Override
-		public Class<? extends BaseElement> forBusinessObject() {
-			return OutputPort.class;
-		}
-	}
+  public static class Filter extends AddFeatureFilter {
+    @Override
+    public Class<? extends BaseElement> forBusinessObject() {
+      return OutputPort.class;
+    }
+  }
 
-	public AddOutputPortFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public AddOutputPortFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public boolean canAdd(IAddContext context) {
-		return context.getTargetContainer() instanceof Diagram;
-	}
+  @Override
+  public boolean canAdd(IAddContext context) {
+    return context.getTargetContainer() instanceof Diagram;
+  }
 
-	@Override
-	protected int getWidth() {
-		return 2;
-	}
+  @Override
+  protected int getWidth() {
+    return 2;
+  }
 
-	@Override
-	protected LineStyle getLineStyle(Port port) {
-		return LineStyle.SOLID;
-	}
+  @Override
+  protected LineStyle getLineStyle(Port port) {
+    return LineStyle.SOLID;
+  }
 }

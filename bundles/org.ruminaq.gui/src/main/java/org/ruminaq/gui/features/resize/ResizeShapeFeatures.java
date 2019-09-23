@@ -16,8 +16,8 @@ import org.ruminaq.gui.api.ResizeShapeFeatureExtension;
 @Component(property = { "service.ranking:Integer=5" })
 public class ResizeShapeFeatures implements ResizeShapeFeatureExtension {
 
-	@Override
-	public List<Class<? extends IResizeShapeFeature>> getFeatures() {
-		return Arrays.asList(ResizeShapeForbiddenFeature.class);
-	}
+  @Override
+  public List<Class<? extends IResizeShapeFeature>> getFeatures() {
+    return Arrays.asList(ResizeShapeForbiddenFeature.class);
+  }
 }

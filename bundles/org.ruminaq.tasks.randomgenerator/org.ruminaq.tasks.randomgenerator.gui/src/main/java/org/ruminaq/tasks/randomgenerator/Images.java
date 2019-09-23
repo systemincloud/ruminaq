@@ -12,19 +12,27 @@ import org.osgi.framework.FrameworkUtil;
 
 public class Images {
 
-	public enum K {
-		IMG_RANDOMGENERATOR_PALETTE("/icons/palette.randomgenerator.png"),
-		IMG_RANDOMGENERATOR_DIAGRAM("/icons/diagram.randomgenerator.png")
-		;
+  public enum K {
+    IMG_RANDOMGENERATOR_PALETTE("/icons/palette.randomgenerator.png"),
+    IMG_RANDOMGENERATOR_DIAGRAM("/icons/diagram.randomgenerator.png");
 
-		public String path;
-		K(String path) { this.path =  path; }
-	}
+    public String path;
 
-	static Map<String, String> images = new HashMap<String, String>() {	private static final long serialVersionUID = 1L; {
-		for (final K v : K.values())
-			put(v.name(), FileLocator.find(FrameworkUtil.getBundle(this.getClass()), new Path(v.path), null).toString());
-	}};
+    K(String path) {
+      this.path = path;
+    }
+  }
 
-	public static Map<String, String> getImageKeyPath() { return images; }
+  static Map<String, String> images = new HashMap<String, String>() {
+    private static final long serialVersionUID = 1L;
+    {
+      for (final K v : K.values())
+        put(v.name(), FileLocator.find(FrameworkUtil.getBundle(this.getClass()),
+            new Path(v.path), null).toString());
+    }
+  };
+
+  public static Map<String, String> getImageKeyPath() {
+    return images;
+  }
 }

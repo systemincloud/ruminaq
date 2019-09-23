@@ -22,22 +22,22 @@ import org.ruminaq.model.ruminaq.SimpleConnection;
 public class ReconnectionSimpleConnectionFeature
     extends DefaultReconnectionFeature {
 
-	public static class Filter implements FeaturePredicate<IContext> {
-		@Override
-		public boolean test(IContext context, IFeatureProvider fp) {
-			IReconnectionContext reconnectionContext = (IReconnectionContext) context;
-			Connection c = reconnectionContext.getConnection();
-			Object bo = fp.getBusinessObjectForPictogramElement(c);
-			return bo instanceof SimpleConnection;
-		}
-	}
+  public static class Filter implements FeaturePredicate<IContext> {
+    @Override
+    public boolean test(IContext context, IFeatureProvider fp) {
+      IReconnectionContext reconnectionContext = (IReconnectionContext) context;
+      Connection c = reconnectionContext.getConnection();
+      Object bo = fp.getBusinessObjectForPictogramElement(c);
+      return bo instanceof SimpleConnection;
+    }
+  }
 
-	public ReconnectionSimpleConnectionFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public ReconnectionSimpleConnectionFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public boolean canReconnect(IReconnectionContext context) {
+  @Override
+  public boolean canReconnect(IReconnectionContext context) {
 //        FlowSource source = getFlowSource(context.getSourceAnchor());
 //        FlowTarget target = getFlowTarget(context.getTargetAnchor());
 //
@@ -45,16 +45,16 @@ public class ReconnectionSimpleConnectionFeature
 //
 //        if (source != null && target != null) return true;
 //        else return false;
-		return false;
-	}
+    return false;
+  }
 
-	@Override
-	public boolean canStartReconnect(IReconnectionContext context) {
-		if (Graphiti.getPeService().getPropertyValue(
-		    context.getOldAnchor().getParent(),
-		    Constants.SIMPLE_CONNECTION_POINT) != null)
-			return false;
-		return true;
-	}
+  @Override
+  public boolean canStartReconnect(IReconnectionContext context) {
+    if (Graphiti.getPeService().getPropertyValue(
+        context.getOldAnchor().getParent(),
+        Constants.SIMPLE_CONNECTION_POINT) != null)
+      return false;
+    return true;
+  }
 
 }

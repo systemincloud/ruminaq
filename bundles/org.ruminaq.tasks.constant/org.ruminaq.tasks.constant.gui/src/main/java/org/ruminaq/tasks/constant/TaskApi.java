@@ -20,14 +20,16 @@ import org.ruminaq.tasks.constant.model.constant.Constant;
 @Component
 public class TaskApi implements ITaskApi {
 
-    @Override
-    public Optional<IResizeShapeFeature> getResizeShapeFeature(IResizeShapeContext cxt, Task t, IFeatureProvider fp) {
-        return ITaskApi.ifInstance(t, Constant.class, new ResizeShapeFeature(fp));
-    }
+  @Override
+  public Optional<IResizeShapeFeature> getResizeShapeFeature(
+      IResizeShapeContext cxt, Task t, IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, Constant.class, new ResizeShapeFeature(fp));
+  }
 
-    @Override
-    public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t, IFeatureProvider fp) {
-        return ITaskApi.ifInstance(t, Constant.class, new UpdateFeature(fp));
-    }
+  @Override
+  public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t,
+      IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, Constant.class, new UpdateFeature(fp));
+  }
 
 }

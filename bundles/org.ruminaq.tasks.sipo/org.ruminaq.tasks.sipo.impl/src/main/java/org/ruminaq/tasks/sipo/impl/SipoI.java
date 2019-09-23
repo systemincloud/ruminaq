@@ -16,51 +16,55 @@ import org.slf4j.Logger;
 
 public class SipoI extends BasicTaskI {
 
-	private final Logger logger = RunnerLoggerFactory.getLogger(SipoI.class);
+  private final Logger logger = RunnerLoggerFactory.getLogger(SipoI.class);
 
-	private boolean trg;
-	private boolean idx;
-	private boolean nbE;
-	private int     size;
+  private boolean trg;
+  private boolean idx;
+  private boolean nbE;
+  private int size;
 
-	private LinkedList<DataI> queue = new LinkedList<>();
+  private LinkedList<DataI> queue = new LinkedList<>();
 
-	public SipoI(EmbeddedTaskI parent, Task task) {
-		super(parent, task);
-		Sipo sipo = (Sipo) task;
-		this.trg  = sipo.isTrigger();
-		this.idx  = sipo.isIndex();
-		this.nbE  = sipo.isSizeOut();
+  public SipoI(EmbeddedTaskI parent, Task task) {
+    super(parent, task);
+    Sipo sipo = (Sipo) task;
+    this.trg = sipo.isTrigger();
+    this.idx = sipo.isIndex();
+    this.nbE = sipo.isSizeOut();
 
-		this.size = (Integer) GroovyExpressionUtil.evaluate(parent.replaceVariables(sipo.getSize()));
+    this.size = (Integer) GroovyExpressionUtil
+        .evaluate(parent.replaceVariables(sipo.getSize()));
 
-		logger.trace("trigger {}",        trg);
-		logger.trace("index {}",          idx);
-		logger.trace("nb of elem out {}", nbE);
-		logger.trace("size {}",           size);
-	}
+    logger.trace("trigger {}", trg);
+    logger.trace("index {}", idx);
+    logger.trace("nb of elem out {}", nbE);
+    logger.trace("size {}", size);
+  }
 
-	@Override
-	protected void execute(PortMap portIdData, int grp) {
-		if(grp == PortsDescrUtil.getGroup(Port.IN)) {
-			DataI dataI = portIdData.get(Port.IN);
+  @Override
+  protected void execute(PortMap portIdData, int grp) {
+    if (grp == PortsDescrUtil.getGroup(Port.IN)) {
+      DataI dataI = portIdData.get(Port.IN);
 
-			if(queue.size() == size) queue.removeLast();
+      if (queue.size() == size)
+        queue.removeLast();
 
-		    queue.addFirst(dataI);
+      queue.addFirst(dataI);
 
-		    if(!trg && !idx)
-		    	for(int i = 0; i < queue.size(); i++)
-		    		putData(Port.OUT, i, queue.get(i));
+      if (!trg && !idx)
+        for (int i = 0; i < queue.size(); i++)
+          putData(Port.OUT, i, queue.get(i));
 
-		    if(nbE) putData(Port.SIZE, new Int32I(queue.size()));
-		} else if(grp == PortsDescrUtil.getGroup(Port.IDX)) {
-			DataI data = portIdData.get(Port.IDX);
-			int i = data.get(Int32I.class).getValues()[0];
-			if(queue.size() > i) putData(Port.LOUT, queue.get(i));
-		} else if(grp == PortsDescrUtil.getGroup(Port.TRIGGER)) {
-	    	for(int i = 0; i < queue.size(); i++)
-	    		putData(Port.OUT, i, queue.get(i));
-		}
-	}
+      if (nbE)
+        putData(Port.SIZE, new Int32I(queue.size()));
+    } else if (grp == PortsDescrUtil.getGroup(Port.IDX)) {
+      DataI data = portIdData.get(Port.IDX);
+      int i = data.get(Int32I.class).getValues()[0];
+      if (queue.size() > i)
+        putData(Port.LOUT, queue.get(i));
+    } else if (grp == PortsDescrUtil.getGroup(Port.TRIGGER)) {
+      for (int i = 0; i < queue.size(); i++)
+        putData(Port.OUT, i, queue.get(i));
+    }
+  }
 }

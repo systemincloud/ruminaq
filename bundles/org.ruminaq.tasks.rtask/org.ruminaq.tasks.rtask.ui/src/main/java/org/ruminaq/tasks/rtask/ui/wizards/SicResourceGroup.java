@@ -8,14 +8,16 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 
 public class SicResourceGroup { // extends ResourceGroup {
 
-    private IStructuredSelection fResourceSelection;
-    private IProject             project;
+  private IStructuredSelection fResourceSelection;
+  private IProject project;
 
-    public SicResourceGroup(NewElementWizardPage newElementWizardPage, String defaultResourceNameExtension, IStructuredSelection selection, IProject project) {
+  public SicResourceGroup(NewElementWizardPage newElementWizardPage,
+      String defaultResourceNameExtension, IStructuredSelection selection,
+      IProject project) {
 //        newElementWizardPage.super(defaultResourceNameExtension);
-        this.fResourceSelection = selection;
-        this.project            = project;
-    }
+    this.fResourceSelection = selection;
+    this.project = project;
+  }
 
 //    @Override
 //    public void createGroup(final Layouter parentLayouter) {

@@ -8,22 +8,22 @@ import org.ruminaq.tasks.gate.not.impl.Port;
 
 public class AddFeature extends AddGateFeature {
 
-	public AddFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public AddFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	protected boolean useIconInsideShape() {
-		return true;
-	}
+  @Override
+  protected boolean useIconInsideShape() {
+    return true;
+  }
 
-	@Override
-	protected String getInsideIconId() {
-		return Images.K.IMG_NOT_DIAGRAM.name();
-	}
+  @Override
+  protected String getInsideIconId() {
+    return Images.K.IMG_NOT_DIAGRAM.name();
+  }
 
-	@Override
-	protected Class<? extends PortsDescr> getPortsDescription() {
-		return Port.class;
-	}
+  @Override
+  protected Class<? extends PortsDescr> getPortsDescription() {
+    return Port.class;
+  }
 }

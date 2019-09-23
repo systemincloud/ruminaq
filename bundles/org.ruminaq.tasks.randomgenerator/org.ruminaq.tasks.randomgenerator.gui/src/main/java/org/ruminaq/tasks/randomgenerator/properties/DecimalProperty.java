@@ -8,11 +8,9 @@ import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 
 public class DecimalProperty {
 
-	public static PropertySpecificComposite createSpecificComposite(
-			ValueSaveListener listener, 
-			Composite specificRoot,
-			PictogramElement pe, 
-			TransactionalEditingDomain ed) {
-		return new PropertySpecificDecimalComposite(listener, specificRoot, pe, ed);
-	}
+  public static PropertySpecificComposite createSpecificComposite(
+      ValueSaveListener listener, Composite specificRoot, PictogramElement pe,
+      TransactionalEditingDomain ed) {
+    return new PropertySpecificDecimalComposite(listener, specificRoot, pe, ed);
+  }
 }

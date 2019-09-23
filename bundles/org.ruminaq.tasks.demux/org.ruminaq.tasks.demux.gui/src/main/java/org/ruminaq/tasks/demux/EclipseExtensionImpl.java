@@ -9,6 +9,6 @@ public class EclipseExtensionImpl implements EclipseExtension {
 
   @Override
   public void initEditor() {
-  	DemuxPackage.eINSTANCE.getClass();
+    DemuxPackage.eINSTANCE.getClass();
   }
 }

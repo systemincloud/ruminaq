@@ -29,66 +29,66 @@ import org.ruminaq.util.Util;
 @FeatureFilter(Filter.class)
 public class AddSimpleConnectionFeature extends AbstractAddFeature {
 
-	static class Filter extends AddFeatureFilter {
-		@Override
-		public Class<? extends BaseElement> forBusinessObject() {
-			return SimpleConnection.class;
-		}
-	}
+  static class Filter extends AddFeatureFilter {
+    @Override
+    public Class<? extends BaseElement> forBusinessObject() {
+      return SimpleConnection.class;
+    }
+  }
 
-	public static final String ARROW_DECORATOR = "ARROW_DECORATOR";
+  public static final String ARROW_DECORATOR = "ARROW_DECORATOR";
 
-	public AddSimpleConnectionFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public AddSimpleConnectionFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public boolean canAdd(IAddContext context) {
-		return context instanceof IAddConnectionContext;
-	}
+  @Override
+  public boolean canAdd(IAddContext context) {
+    return context instanceof IAddConnectionContext;
+  }
 
-	@Override
-	public PictogramElement add(IAddContext context) {
-		IAddConnectionContext addConContext = (IAddConnectionContext) context;
-		SimpleConnection addedSimpleConnection = (SimpleConnection) context
-		    .getNewObject();
-		IPeCreateService peCreateService = Graphiti.getPeCreateService();
+  @Override
+  public PictogramElement add(IAddContext context) {
+    IAddConnectionContext addConContext = (IAddConnectionContext) context;
+    SimpleConnection addedSimpleConnection = (SimpleConnection) context
+        .getNewObject();
+    IPeCreateService peCreateService = Graphiti.getPeCreateService();
 
-		// CONNECTION WITH POLYLINE
-		Connection connection = peCreateService
-		    .createFreeFormConnection(getDiagram());
-		connection.setStart(addConContext.getSourceAnchor());
-		connection.setEnd(addConContext.getTargetAnchor());
+    // CONNECTION WITH POLYLINE
+    Connection connection = peCreateService
+        .createFreeFormConnection(getDiagram());
+    connection.setStart(addConContext.getSourceAnchor());
+    connection.setEnd(addConContext.getTargetAnchor());
 
-		IGaService gaService = Graphiti.getGaService();
-		Polyline polyline = gaService.createPolyline(connection);
-		polyline.setLineWidth(1);
-		polyline.setForeground(manageColor(IColorConstant.BLACK));
+    IGaService gaService = Graphiti.getGaService();
+    Polyline polyline = gaService.createPolyline(connection);
+    polyline.setLineWidth(1);
+    polyline.setForeground(manageColor(IColorConstant.BLACK));
 
-		ConnectionDecorator cd = peCreateService
-		    .createConnectionDecorator(connection, false, 1.0, true);
-		Graphiti.getPeService().setPropertyValue(cd, ARROW_DECORATOR, "true");
-		GraphicsUtil.createArrow(cd, getDiagram());
+    ConnectionDecorator cd = peCreateService
+        .createConnectionDecorator(connection, false, 1.0, true);
+    Graphiti.getPeService().setPropertyValue(cd, ARROW_DECORATOR, "true");
+    GraphicsUtil.createArrow(cd, getDiagram());
 
-		// create link and wire it
-		link(connection, addedSimpleConnection);
-		linkToConnectionBeforePoint(connection, addedSimpleConnection);
+    // create link and wire it
+    link(connection, addedSimpleConnection);
+    linkToConnectionBeforePoint(connection, addedSimpleConnection);
 
-		return connection;
-	}
+    return connection;
+  }
 
-	public void linkToConnectionBeforePoint(Connection connection,
-	    SimpleConnection addedSimpleConnection) {
-		String connectionPointPropertyStart = Graphiti.getPeService()
-		    .getPropertyValue(connection.getStart().getParent(),
-		        Constants.SIMPLE_CONNECTION_POINT);
-		if (Boolean.parseBoolean(connectionPointPropertyStart)) {
-			for (Connection c : connection.getStart().getIncomingConnections()) {
-				link(c, Util.concat(c.getLink().getBusinessObjects().toArray(),
-				    addedSimpleConnection));
-				linkToConnectionBeforePoint(c, addedSimpleConnection);
-			}
-		}
-	}
+  public void linkToConnectionBeforePoint(Connection connection,
+      SimpleConnection addedSimpleConnection) {
+    String connectionPointPropertyStart = Graphiti.getPeService()
+        .getPropertyValue(connection.getStart().getParent(),
+            Constants.SIMPLE_CONNECTION_POINT);
+    if (Boolean.parseBoolean(connectionPointPropertyStart)) {
+      for (Connection c : connection.getStart().getIncomingConnections()) {
+        link(c, Util.concat(c.getLink().getBusinessObjects().toArray(),
+            addedSimpleConnection));
+        linkToConnectionBeforePoint(c, addedSimpleConnection);
+      }
+    }
+  }
 
 }

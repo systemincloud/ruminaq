@@ -16,21 +16,23 @@ import org.ruminaq.util.StyleUtil;
 
 public class PortStyle {
 
-	private static final IColorConstant PORT_FOREGROUND = new ColorConstant(0, 0, 0);
-	private static final IColorConstant PORT_BACKROUND  = new ColorConstant(255, 255, 255);
+  private static final IColorConstant PORT_FOREGROUND = new ColorConstant(0, 0,
+      0);
+  private static final IColorConstant PORT_BACKROUND = new ColorConstant(255,
+      255, 255);
 
-	public static Style getStyle(Diagram diagram) {
-		final String styleId = "PORT"; //$NON-NLS-1$
+  public static Style getStyle(Diagram diagram) {
+    final String styleId = "PORT"; //$NON-NLS-1$
 
-		Style style = StyleUtil.findStyle(diagram, styleId);
-		if (style == null) {
-			IGaService gaService = Graphiti.getGaService();
-			style = gaService.createStyle(diagram, styleId);
-			style.setForeground(gaService.manageColor(diagram, PORT_FOREGROUND));
-			style.setBackground(gaService.manageColor(diagram, PORT_BACKROUND));
+    Style style = StyleUtil.findStyle(diagram, styleId);
+    if (style == null) {
+      IGaService gaService = Graphiti.getGaService();
+      style = gaService.createStyle(diagram, styleId);
+      style.setForeground(gaService.manageColor(diagram, PORT_FOREGROUND));
+      style.setBackground(gaService.manageColor(diagram, PORT_BACKROUND));
 
-		}
-		return style;
-	}
+    }
+    return style;
+  }
 
 }

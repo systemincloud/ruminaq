@@ -23,49 +23,50 @@ import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomgeneratorFa
 @Component(property = { "service.ranking:Integer=10" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
-	@Override
-	public List<Class<? extends ICreateFeature>> getFeatures() {
-		return Arrays.asList(CreateFeature.class);
-	}
-	
-	public static class CreateFeature extends CreateTaskFeature implements PaletteCreateFeature {
+  @Override
+  public List<Class<? extends ICreateFeature>> getFeatures() {
+    return Arrays.asList(CreateFeature.class);
+  }
 
-		public CreateFeature(IFeatureProvider fp) {
-			super(fp, RandomGenerator.class);
-		}
+  public static class CreateFeature extends CreateTaskFeature
+      implements PaletteCreateFeature {
 
-		@Override
-		public String getCompartment() {
-			return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
-		}
-		
-		@Override
-		public String getStack() {
-			return CommonPaletteCompartmentEntry.SOURCES_STACK;
-		}
+    public CreateFeature(IFeatureProvider fp) {
+      super(fp, RandomGenerator.class);
+    }
 
-		@Override
-		public Object[] create(ICreateContext context) {
-			Object[] os = super.create(context,
-			    RandomgeneratorFactory.eINSTANCE.createRandomGenerator());
-			((RandomGenerator) os[0]).setDataType(EcoreUtil
-			    .copy(((Task) os[0]).getOutputPort().get(0).getDataType().get(0)));
-			((RandomGenerator) os[0]).setDimensions("1");
+    @Override
+    public String getCompartment() {
+      return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
+    }
 
-			UpdateContext updateCtx = new UpdateContext(Graphiti.getLinkService()
-			    .getPictogramElements(getDiagram(), (RandomGenerator) os[0]).get(0));
-			getFeatureProvider().updateIfPossible(updateCtx);
-			return os;
-		}
+    @Override
+    public String getStack() {
+      return CommonPaletteCompartmentEntry.SOURCES_STACK;
+    }
 
-		@Override
-		protected Class<? extends PortsDescr> getPortsDescription() {
-			return Port.class;
-		}
+    @Override
+    public Object[] create(ICreateContext context) {
+      Object[] os = super.create(context,
+          RandomgeneratorFactory.eINSTANCE.createRandomGenerator());
+      ((RandomGenerator) os[0]).setDataType(EcoreUtil
+          .copy(((Task) os[0]).getOutputPort().get(0).getDataType().get(0)));
+      ((RandomGenerator) os[0]).setDimensions("1");
 
-		@Override
-		public String getCreateImageId() {
-			return Images.K.IMG_RANDOMGENERATOR_PALETTE.name();
-		}
-	}
+      UpdateContext updateCtx = new UpdateContext(Graphiti.getLinkService()
+          .getPictogramElements(getDiagram(), (RandomGenerator) os[0]).get(0));
+      getFeatureProvider().updateIfPossible(updateCtx);
+      return os;
+    }
+
+    @Override
+    protected Class<? extends PortsDescr> getPortsDescription() {
+      return Port.class;
+    }
+
+    @Override
+    public String getCreateImageId() {
+      return Images.K.IMG_RANDOMGENERATOR_PALETTE.name();
+    }
+  }
 }

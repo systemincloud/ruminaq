@@ -14,13 +14,13 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
 
-
 /**
  *
  * @author Marek Jagielski
  */
 public interface DebugExtension {
-  default Collection<? extends IDebugTarget> getDebugTargets(ILaunch launch, IProject project, EventDispatchJob dispatcher) {
+  default Collection<? extends IDebugTarget> getDebugTargets(ILaunch launch,
+      IProject project, EventDispatchJob dispatcher) {
     return Collections.emptyList();
   }
 }

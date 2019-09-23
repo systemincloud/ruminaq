@@ -9,13 +9,13 @@ import org.ruminaq.tasks.sipo.model.sipo.SipoPackage;
 
 public final class RunnerServiceProvider extends AbstractRunnerService {
 
-	@Override
-	public void initModelPackages() {
-		SipoPackage.eINSTANCE.getClass();
-	}
+  @Override
+  public void initModelPackages() {
+    SipoPackage.eINSTANCE.getClass();
+  }
 
-	@Override
-	public TaskI getImplementation(EmbeddedTaskI parent, Task task) {
-		return task instanceof Sipo ? new SipoI(parent, task) : null;
-	}
+  @Override
+  public TaskI getImplementation(EmbeddedTaskI parent, Task task) {
+    return task instanceof Sipo ? new SipoI(parent, task) : null;
+  }
 }

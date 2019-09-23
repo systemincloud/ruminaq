@@ -18,22 +18,31 @@ import org.eclipse.graphiti.util.ColorUtil;
 
 public class Styles {
 
-	protected static void addGradientColoredArea(EList<GradientColoredArea> gcas, String colorStart, int locationValueStart, LocationType locationTypeStart, String colorEnd, int locationValueEnd, LocationType locationTypeEnd, Diagram diagram) {
-	    final GradientColoredArea gca = StylesFactory.eINSTANCE.createGradientColoredArea();
-	    gcas.add(gca);
-	    IGaService gaService = Graphiti.getGaService();
+  protected static void addGradientColoredArea(EList<GradientColoredArea> gcas,
+      String colorStart, int locationValueStart, LocationType locationTypeStart,
+      String colorEnd, int locationValueEnd, LocationType locationTypeEnd,
+      Diagram diagram) {
+    final GradientColoredArea gca = StylesFactory.eINSTANCE
+        .createGradientColoredArea();
+    gcas.add(gca);
+    IGaService gaService = Graphiti.getGaService();
 
-	    gca.setStart(StylesFactory.eINSTANCE.createGradientColoredLocation());
-	    final Color startColor = gaService.manageColor(diagram, ColorUtil.getRedFromHex(colorStart), ColorUtil.getGreenFromHex(colorStart), ColorUtil.getBlueFromHex(colorStart));
-	    gca.getStart().setColor(startColor);
-	    gca.getStart().setLocationType(locationTypeStart);
-	    gca.getStart().setLocationValue(locationValueStart);
+    gca.setStart(StylesFactory.eINSTANCE.createGradientColoredLocation());
+    final Color startColor = gaService.manageColor(diagram,
+        ColorUtil.getRedFromHex(colorStart),
+        ColorUtil.getGreenFromHex(colorStart),
+        ColorUtil.getBlueFromHex(colorStart));
+    gca.getStart().setColor(startColor);
+    gca.getStart().setLocationType(locationTypeStart);
+    gca.getStart().setLocationValue(locationValueStart);
 
-	    gca.setEnd(StylesFactory.eINSTANCE.createGradientColoredLocation());
-	    final Color endColor = gaService.manageColor(diagram, ColorUtil.getRedFromHex(colorEnd), ColorUtil.getGreenFromHex(colorEnd), ColorUtil.getBlueFromHex(colorEnd));
-	    gca.getEnd().setColor(endColor);
-	    gca.getEnd().setLocationType(locationTypeEnd);
-	    gca.getEnd().setLocationValue(locationValueEnd);
-	}
+    gca.setEnd(StylesFactory.eINSTANCE.createGradientColoredLocation());
+    final Color endColor = gaService.manageColor(diagram,
+        ColorUtil.getRedFromHex(colorEnd), ColorUtil.getGreenFromHex(colorEnd),
+        ColorUtil.getBlueFromHex(colorEnd));
+    gca.getEnd().setColor(endColor);
+    gca.getEnd().setLocationType(locationTypeEnd);
+    gca.getEnd().setLocationValue(locationValueEnd);
+  }
 
 }

@@ -15,55 +15,53 @@ import org.python.pydev.core.IPythonPathNature;
 import org.python.pydev.plugin.nature.PythonNature;
 
 public enum JythonProgramArguments {
-    INSTANCE;
+  INSTANCE;
 
-	String jythonPath;
-	
-    public void addToPath(StringBuilder sb,
-                          LinkedHashSet<String> ret,
-                          IProject p,
-                          PythonNature nature,
-                          IPythonPathNature pythonPathNature,
-                          IInterpreterManager im,
-                          IInterpreterInfo ii) {
-        try {
-            for (IResource r : pythonPathNature.getProjectSourcePathFolderSet())
-                if (r instanceof IFolder)
-                    for(IResource m : ((IFolder) r).members())
-                        if(m instanceof IFolder) {
-                            String ph = r.getFullPath().toOSString();
-                            if(ph.matches("/.:.*")) ph = ph.substring(1);
-                            sb.append(ph).append(";");
-                        }
-            sb.append(jythonPath + "/Lib").append(";");
+  String jythonPath;
 
-            for(IResource r : pythonPathNature.getProjectSourcePathFolderSet())
-                if(r instanceof IFolder)
-                    addInit((IFolder) r);
+  public void addToPath(StringBuilder sb, LinkedHashSet<String> ret, IProject p,
+      PythonNature nature, IPythonPathNature pythonPathNature,
+      IInterpreterManager im, IInterpreterInfo ii) {
+    try {
+      for (IResource r : pythonPathNature.getProjectSourcePathFolderSet())
+        if (r instanceof IFolder)
+          for (IResource m : ((IFolder) r).members())
+            if (m instanceof IFolder) {
+              String ph = r.getFullPath().toOSString();
+              if (ph.matches("/.:.*"))
+                ph = ph.substring(1);
+              sb.append(ph).append(";");
+            }
+      sb.append(jythonPath + "/Lib").append(";");
 
-            for(String s : pythonPathNature.getProjectExternalSourcePathAsList(true)) sb.append(s).append(";");
+      for (IResource r : pythonPathNature.getProjectSourcePathFolderSet())
+        if (r instanceof IFolder)
+          addInit((IFolder) r);
 
-        } catch(CoreException e1) { }
+      for (String s : pythonPathNature.getProjectExternalSourcePathAsList(true))
+        sb.append(s).append(";");
+
+    } catch (CoreException e1) {
     }
+  }
 
-    private void addInit(IFolder r) {
-        try {
-            IFile f = ((IFolder) r).getFile("__init__.py");
-            if(!f.exists())
-                f.create(new ByteArrayInputStream(new byte[0]), IResource.NONE, null);
-            for(IResource m : r.members())
-               if(m instanceof IFolder)
-                   addInit((IFolder) m);
-        } catch(CoreException e1) { }
+  private void addInit(IFolder r) {
+    try {
+      IFile f = ((IFolder) r).getFile("__init__.py");
+      if (!f.exists())
+        f.create(new ByteArrayInputStream(new byte[0]), IResource.NONE, null);
+      for (IResource m : r.members())
+        if (m instanceof IFolder)
+          addInit((IFolder) m);
+    } catch (CoreException e1) {
     }
+  }
 
-    public void getProgramArguments(LinkedHashSet<String> ret,
-                                    IProject p,
-                                    PythonNature nature,
-                                    IPythonPathNature pythonPathNature,
-                                    IInterpreterManager im,
-                                    IInterpreterInfo ii) {
-    }
+  public void getProgramArguments(LinkedHashSet<String> ret, IProject p,
+      PythonNature nature, IPythonPathNature pythonPathNature,
+      IInterpreterManager im, IInterpreterInfo ii) {
+  }
 
-    public void addOptions(Options options) { }
+  public void addOptions(Options options) {
+  }
 }

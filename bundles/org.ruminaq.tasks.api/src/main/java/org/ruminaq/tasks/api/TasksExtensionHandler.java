@@ -16,9 +16,10 @@ import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
  */
 public interface TasksExtensionHandler {
 
-	void init(BundleContext ctx);
+  void init(BundleContext ctx);
 
-	Collection<String> getListJson();
+  Collection<String> getListJson();
 
-	Object getDebugTargets(ILaunch launch, IProject project, EventDispatchJob dispatcher);
+  Object getDebugTargets(ILaunch launch, IProject project,
+      EventDispatchJob dispatcher);
 }

@@ -8,9 +8,9 @@ package org.ruminaq.gui.api;
 
 public interface ImageDescriptor {
 
-	String name();
+  String name();
 
-	String path();
+  String path();
 
-	Class<?> clazz();
+  Class<?> clazz();
 }

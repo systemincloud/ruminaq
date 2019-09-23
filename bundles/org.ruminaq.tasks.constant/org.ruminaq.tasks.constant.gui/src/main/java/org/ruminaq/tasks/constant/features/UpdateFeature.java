@@ -32,76 +32,101 @@ import org.ruminaq.tasks.styles.TaskStyle;
 
 public class UpdateFeature extends UpdateTaskFeature {
 
-    private boolean updateNeededChecked = false;
+  private boolean updateNeededChecked = false;
 
-    private boolean superUpdateNeeded  = false;
-    private boolean fillingUpdateNeeded  = false;
+  private boolean superUpdateNeeded = false;
+  private boolean fillingUpdateNeeded = false;
 
-    public UpdateFeature(IFeatureProvider fp) {    super(fp); }
+  public UpdateFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-    @Override
-    public boolean canUpdate(IUpdateContext context) {
-        Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-        return (bo instanceof Constant);
+  @Override
+  public boolean canUpdate(IUpdateContext context) {
+    Object bo = getBusinessObjectForPictogramElement(
+        context.getPictogramElement());
+    return (bo instanceof Constant);
+  }
+
+  @Override
+  public IReason updateNeeded(IUpdateContext context) {
+    this.updateNeededChecked = true;
+    superUpdateNeeded = super.updateNeeded(context).toBoolean();
+
+    Constant constant = (Constant) getBusinessObjectForPictogramElement(
+        context.getPictogramElement());
+
+    fillingUpdateNeeded = updateFillingNeeded(constant,
+        (ContainerShape) context.getPictogramElement());
+
+    boolean updateNeeded = superUpdateNeeded || fillingUpdateNeeded;
+    return updateNeeded ? Reason.createTrueReason()
+        : Reason.createFalseReason();
+  }
+
+  @Override
+  public boolean update(IUpdateContext context) {
+    if (!updateNeededChecked)
+      if (!this.updateNeeded(context).toBoolean())
+        return false;
+
+    Constant constant = (Constant) getBusinessObjectForPictogramElement(
+        context.getPictogramElement());
+
+    boolean updated = false;
+    if (superUpdateNeeded)
+      updated = updated | super.update(context);
+    if (fillingUpdateNeeded)
+      updated = updated | updateFilling(constant,
+          (ContainerShape) context.getPictogramElement());
+    return updated;
+  }
+
+  private boolean updateFillingNeeded(Constant constant,
+      ContainerShape pictogramElement) {
+    GraphicsAlgorithm insideText = null;
+    for (GraphicsAlgorithm ga : pictogramElement.getGraphicsAlgorithm()
+        .getGraphicsAlgorithmChildren()) {
+      if (ga instanceof MultiText)
+        insideText = ga;
     }
+    if (insideText == null)
+      return false;
 
-    @Override
-    public IReason updateNeeded(IUpdateContext context) {
-        this.updateNeededChecked = true;
-        superUpdateNeeded = super.updateNeeded(context).toBoolean();
+    if (((MultiText) insideText).getValue() == null)
+      return true;
+    else
+      return !((MultiText) insideText).getValue().equals(constant.getValue());
+  }
 
-        Constant constant = (Constant) getBusinessObjectForPictogramElement(context.getPictogramElement());
-
-        fillingUpdateNeeded = updateFillingNeeded(constant, (ContainerShape) context.getPictogramElement());
-
-        boolean updateNeeded = superUpdateNeeded
-                            || fillingUpdateNeeded;
-        return updateNeeded ? Reason.createTrueReason() : Reason.createFalseReason();
+  private boolean updateFilling(Constant constant,
+      ContainerShape pictogramElement) {
+    IGaService gaService = Graphiti.getGaService();
+    GraphicsAlgorithm insideText = null;
+    RoundedRectangle rr = null;
+    for (GraphicsAlgorithm ga : pictogramElement.getGraphicsAlgorithm()
+        .getGraphicsAlgorithmChildren()) {
+      if (ga instanceof MultiText)
+        insideText = ga;
+      if (ga instanceof RoundedRectangle)
+        rr = (RoundedRectangle) ga;
     }
+    if (insideText == null)
+      return false;
+    else
+      pictogramElement.getGraphicsAlgorithm().getGraphicsAlgorithmChildren()
+          .remove(insideText);
 
-    @Override
-    public boolean update(IUpdateContext context) {
-        if(!updateNeededChecked)
-            if(!this.updateNeeded(context).toBoolean()) return false;
+    String insideString = constant.getValue();
 
-        Constant constant = (Constant) getBusinessObjectForPictogramElement(context.getPictogramElement());
+    MultiText text = gaService.createDefaultMultiText(getDiagram(),
+        pictogramElement.getGraphicsAlgorithm(), insideString);
+    gaService.setLocationAndSize(text, 7, 7, rr.getWidth() - 14,
+        rr.getHeight() - 14);
+    text.setStyle(TaskStyle.getStyle(getDiagram()));
+    text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+    text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 
-        boolean updated = false;
-        if(superUpdateNeeded)   updated = updated | super.update(context);
-        if(fillingUpdateNeeded) updated = updated | updateFilling(constant, (ContainerShape) context.getPictogramElement());
-        return updated;
-    }
-
-    private boolean updateFillingNeeded(Constant constant, ContainerShape pictogramElement) {
-        GraphicsAlgorithm insideText = null;
-        for(GraphicsAlgorithm ga : pictogramElement.getGraphicsAlgorithm().getGraphicsAlgorithmChildren()) {
-            if(ga instanceof MultiText) insideText = ga;
-        }
-        if(insideText == null) return false;
-
-        if(((MultiText) insideText).getValue() == null) return true;
-        else return !((MultiText) insideText).getValue().equals(constant.getValue());
-    }
-
-    private boolean updateFilling(Constant constant, ContainerShape pictogramElement) {
-        IGaService gaService = Graphiti.getGaService();
-        GraphicsAlgorithm insideText = null;
-        RoundedRectangle rr = null;
-        for(GraphicsAlgorithm ga : pictogramElement.getGraphicsAlgorithm().getGraphicsAlgorithmChildren()) {
-            if(ga instanceof MultiText) insideText = ga;
-            if(ga instanceof RoundedRectangle) rr = (RoundedRectangle) ga;
-        }
-        if(insideText == null) return false;
-        else pictogramElement.getGraphicsAlgorithm().getGraphicsAlgorithmChildren().remove(insideText);
-
-        String insideString = constant.getValue();
-
-        MultiText text = gaService.createDefaultMultiText(getDiagram(), pictogramElement.getGraphicsAlgorithm(), insideString);
-        gaService.setLocationAndSize(text, 7, 7, rr.getWidth()-14, rr.getHeight()-14);
-        text.setStyle(TaskStyle.getStyle(getDiagram()));
-        text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-        text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-
-        return true;
-    }
+    return true;
+  }
 }

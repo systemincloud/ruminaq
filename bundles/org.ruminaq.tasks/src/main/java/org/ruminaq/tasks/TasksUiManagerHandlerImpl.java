@@ -18,33 +18,30 @@ import org.ruminaq.tasks.api.TasksUiManagerHandler;
 @Component(immediate = true)
 public class TasksUiManagerHandlerImpl implements TasksUiManagerHandler {
 
-	private List<ITaskUiApi> tasks = new ArrayList<>();
+  private List<ITaskUiApi> tasks = new ArrayList<>();
 
-	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
-	protected void bind(ITaskUiApi extension) {
-		if (tasks == null) {
-			tasks = new ArrayList<>();
-		}
-		tasks.add(extension);
-	}
+  @Reference(cardinality = ReferenceCardinality.MULTIPLE,
+      policy = ReferencePolicy.DYNAMIC)
+  protected void bind(ITaskUiApi extension) {
+    if (tasks == null) {
+      tasks = new ArrayList<>();
+    }
+    tasks.add(extension);
+  }
 
-	protected void unbind(ITaskUiApi extension) {
-		tasks.remove(extension);
-	}
+  protected void unbind(ITaskUiApi extension) {
+    tasks.remove(extension);
+  }
 
-
-	public ITaskUiApi getTask(String prefix, Version version) {
-		return tasks.stream()
-				.filter(t -> prefix.equals(t.getSymbolicName()))
+  public ITaskUiApi getTask(String prefix, Version version) {
+    return tasks.stream().filter(t -> prefix.equals(t.getSymbolicName()))
 //				.filter(t -> TaskProvider.compare(t.getVersion(), version))
-				.findFirst()
-				.get();
-	}
+        .findFirst().get();
+  }
 
-	@Override
-	public List<ITaskUiApi> getTasks(String prefix) {
-		return tasks.stream()
-				.filter(t -> prefix.equals(t.getSymbolicName()))
-				.collect(Collectors.toList());
-	}
+  @Override
+  public List<ITaskUiApi> getTasks(String prefix) {
+    return tasks.stream().filter(t -> prefix.equals(t.getSymbolicName()))
+        .collect(Collectors.toList());
+  }
 }

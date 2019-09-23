@@ -17,14 +17,16 @@ import org.ruminaq.tasks.gate.not.model.not.Not;
 @Component
 public class TaskApi implements ITaskApi {
 
-	@Override
-	public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t, IFeatureProvider fp) {
-	    return ITaskApi.ifInstance(t, Not.class, new AddFeature(fp));
-	}
+  @Override
+  public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t,
+      IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, Not.class, new AddFeature(fp));
+  }
 
-	@Override
-	public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t, IFeatureProvider fp) {
-	    return ITaskApi.ifInstance(t, Not.class, new UpdateGateFeature(fp));
-	}
+  @Override
+  public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t,
+      IFeatureProvider fp) {
+    return ITaskApi.ifInstance(t, Not.class, new UpdateGateFeature(fp));
+  }
 
 }

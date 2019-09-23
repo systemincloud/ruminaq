@@ -16,13 +16,13 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.TYPE })
 public @interface JavaTaskInfo {
-	boolean atomic() default true;
+  boolean atomic() default true;
 
-	boolean generator() default false;
+  boolean generator() default false;
 
-	boolean externalSource() default false;
+  boolean externalSource() default false;
 
-	boolean constant() default false;
+  boolean constant() default false;
 
-	boolean onlyLocal() default false;
+  boolean onlyLocal() default false;
 }

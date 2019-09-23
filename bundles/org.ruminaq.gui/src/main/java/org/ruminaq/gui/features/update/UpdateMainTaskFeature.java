@@ -18,40 +18,48 @@ import org.ruminaq.util.EclipseUtil;
 
 public class UpdateMainTaskFeature extends AbstractUpdateFeature {
 
-	public UpdateMainTaskFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public UpdateMainTaskFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override public boolean canUpdate(IUpdateContext context) {
-		if(updateNeeded(context).toBoolean()) update(context);
-		return false;
-	}
+  @Override
+  public boolean canUpdate(IUpdateContext context) {
+    if (updateNeeded(context).toBoolean())
+      update(context);
+    return false;
+  }
 
-	@Override public boolean update(IUpdateContext context) {
-		String path = EclipseUtil.getModelPathFromEObject(getDiagram()).path();
-		String tmp = path.substring(0, path.lastIndexOf("."));
-		final String fileName = tmp.substring(tmp.lastIndexOf("/") + 1);
+  @Override
+  public boolean update(IUpdateContext context) {
+    String path = EclipseUtil.getModelPathFromEObject(getDiagram()).path();
+    String tmp = path.substring(0, path.lastIndexOf("."));
+    final String fileName = tmp.substring(tmp.lastIndexOf("/") + 1);
 
-		TransactionalEditingDomain editingDomain = getDiagramBehavior().getEditingDomain();
+    TransactionalEditingDomain editingDomain = getDiagramBehavior()
+        .getEditingDomain();
 
-		ModelUtil.runModelChange(new Runnable() {
-			@Override
+    ModelUtil.runModelChange(new Runnable() {
+      @Override
       public void run() {
-				getDiagram().setName(fileName);
-			}
-		}, editingDomain, "Update diagram name");
+        getDiagram().setName(fileName);
+      }
+    }, editingDomain, "Update diagram name");
 
-		return true;
-	}
+    return true;
+  }
 
-	@Override public IReason updateNeeded(IUpdateContext context) {
-		Diagram d = (Diagram) context.getPictogramElement();
-		String path = EclipseUtil.getModelPathFromEObject(d).path();
-		String fileName = path.substring(0, path.lastIndexOf("."));
-		fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
-		boolean updateNeeded = getDiagram().getName().equals(fileName) ? false : true;
+  @Override
+  public IReason updateNeeded(IUpdateContext context) {
+    Diagram d = (Diagram) context.getPictogramElement();
+    String path = EclipseUtil.getModelPathFromEObject(d).path();
+    String fileName = path.substring(0, path.lastIndexOf("."));
+    fileName = fileName.substring(fileName.lastIndexOf("/") + 1);
+    boolean updateNeeded = getDiagram().getName().equals(fileName) ? false
+        : true;
 
-		if(updateNeeded) return Reason.createTrueReason();
-		else             return Reason.createFalseReason();
-	}
+    if (updateNeeded)
+      return Reason.createTrueReason();
+    else
+      return Reason.createFalseReason();
+  }
 }

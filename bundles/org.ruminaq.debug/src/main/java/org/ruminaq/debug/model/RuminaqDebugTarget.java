@@ -22,9 +22,11 @@ import org.ruminaq.runner.impl.debug.events.debugger.ResumedEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.SuspendedEvent;
 import org.slf4j.Logger;
 
-public class RuminaqDebugTarget extends RuminaqDebugElement implements IDebugTarget, ISicTarget {
+public class RuminaqDebugTarget extends RuminaqDebugElement
+    implements IDebugTarget, ISicTarget {
 
-  private final Logger logger = ModelerLoggerFactory.getLogger(RuminaqDebugTarget.class);
+  private final Logger logger = ModelerLoggerFactory
+      .getLogger(RuminaqDebugTarget.class);
 
   private EventDispatchJob dispatcher;
   private ILaunch launch;
@@ -42,13 +44,14 @@ public class RuminaqDebugTarget extends RuminaqDebugElement implements IDebugTar
     super.setState(state);
   }
 
-  public RuminaqDebugTarget(ILaunch launch, IFile mainFile, EventDispatchJob dispatcher) {
+  public RuminaqDebugTarget(ILaunch launch, IFile mainFile,
+      EventDispatchJob dispatcher) {
     super(null);
-    this.launch     = launch;
-    this.mainFile   = mainFile;
+    this.launch = launch;
+    this.mainFile = mainFile;
     this.dispatcher = dispatcher;
-    this.process    = new RuminaqProcess(this);
-    this.mainLoop   = new MainLoop(this);
+    this.process = new RuminaqProcess(this);
+    this.mainLoop = new MainLoop(this);
 
     dispatcher.addHost(new TerminateTargetDecoration(this, dispatcher));
   }
@@ -56,12 +59,14 @@ public class RuminaqDebugTarget extends RuminaqDebugElement implements IDebugTar
   @Override
   public void handleEvent(IDebugEvent event) {
     logger.trace("handleEvent() {}", event);
-    if(event instanceof SuspendedEvent) {
-    } else if(event instanceof ResumedEvent) {
+    if (event instanceof SuspendedEvent) {
+    } else if (event instanceof ResumedEvent) {
     }
   }
 
-  public void fireModelEvent(IDebugEvent event) { dispatcher.addEvent(event); }
+  public void fireModelEvent(IDebugEvent event) {
+    dispatcher.addEvent(event);
+  }
 
   @Override
   public String getName() {
@@ -115,5 +120,7 @@ public class RuminaqDebugTarget extends RuminaqDebugElement implements IDebugTar
     return null;
   }
 
-  public IFile getFile() { return mainFile; }
+  public IFile getFile() {
+    return mainFile;
+  }
 }

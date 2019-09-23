@@ -11,56 +11,64 @@ import org.ruminaq.tasks.gate.model.gate.Gate;
 
 public class UpdateGateFeature extends UpdateTaskFeature {
 
-	private boolean updateNeededChecked = false;
+  private boolean updateNeededChecked = false;
 
-	private boolean superUpdateNeeded   = false;
-	private boolean inputsUpdateNeeded  = false;
+  private boolean superUpdateNeeded = false;
+  private boolean inputsUpdateNeeded = false;
 
-	public UpdateGateFeature(IFeatureProvider fp) { super(fp); }
+  public UpdateGateFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public boolean canUpdate(IUpdateContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return (bo instanceof Gate);
-	}
+  @Override
+  public boolean canUpdate(IUpdateContext context) {
+    Object bo = getBusinessObjectForPictogramElement(
+        context.getPictogramElement());
+    return (bo instanceof Gate);
+  }
 
-	@Override
-	public IReason updateNeeded(IUpdateContext context) {
-		this.updateNeededChecked = true;
-		superUpdateNeeded = super.updateNeeded(context).toBoolean();
+  @Override
+  public IReason updateNeeded(IUpdateContext context) {
+    this.updateNeededChecked = true;
+    superUpdateNeeded = super.updateNeeded(context).toBoolean();
 
-		ContainerShape parent = (ContainerShape) context.getPictogramElement();
-		Gate gt = (Gate) getBusinessObjectForPictogramElement(parent);
+    ContainerShape parent = (ContainerShape) context.getPictogramElement();
+    Gate gt = (Gate) getBusinessObjectForPictogramElement(parent);
 
-		this.inputsUpdateNeeded = gt.getInputNumber() != gt.getInputPort().size();
+    this.inputsUpdateNeeded = gt.getInputNumber() != gt.getInputPort().size();
 
-		boolean updateNeeded = superUpdateNeeded
-				            || inputsUpdateNeeded;
-		return updateNeeded ?  Reason.createTrueReason() : Reason.createFalseReason();
-	}
+    boolean updateNeeded = superUpdateNeeded || inputsUpdateNeeded;
+    return updateNeeded ? Reason.createTrueReason()
+        : Reason.createFalseReason();
+  }
 
-	@Override
-	public boolean update(IUpdateContext context) {
-		if(!updateNeededChecked)
-			if(!this.updateNeeded(context).toBoolean()) return false;
+  @Override
+  public boolean update(IUpdateContext context) {
+    if (!updateNeededChecked)
+      if (!this.updateNeeded(context).toBoolean())
+        return false;
 
-		boolean updated = false;
-		if(superUpdateNeeded) updated = updated | super.update(context);
+    boolean updated = false;
+    if (superUpdateNeeded)
+      updated = updated | super.update(context);
 
-		ContainerShape parent = (ContainerShape) context.getPictogramElement();
-		Gate gt = (Gate) getBusinessObjectForPictogramElement(parent);
+    ContainerShape parent = (ContainerShape) context.getPictogramElement();
+    Gate gt = (Gate) getBusinessObjectForPictogramElement(parent);
 
-		if(inputsUpdateNeeded) updated = updated | inputsUpdate(parent, gt);
+    if (inputsUpdateNeeded)
+      updated = updated | inputsUpdate(parent, gt);
 
-		return updated;
-	}
+    return updated;
+  }
 
-	private boolean inputsUpdate(ContainerShape parent, Gate gt) {
-		int n = gt.getInputNumber() - gt.getInputPort().size();
-		if(n > 0)
-			for(int i = 0; i < n; i++) addPort(gt, parent, Port.IN);
-		else if(n < 0)
-			for(int i = 0; i < -n; i++) removePort(gt, parent, Port.IN);
-		return true;
-	}
+  private boolean inputsUpdate(ContainerShape parent, Gate gt) {
+    int n = gt.getInputNumber() - gt.getInputPort().size();
+    if (n > 0)
+      for (int i = 0; i < n; i++)
+        addPort(gt, parent, Port.IN);
+    else if (n < 0)
+      for (int i = 0; i < -n; i++)
+        removePort(gt, parent, Port.IN);
+    return true;
+  }
 }

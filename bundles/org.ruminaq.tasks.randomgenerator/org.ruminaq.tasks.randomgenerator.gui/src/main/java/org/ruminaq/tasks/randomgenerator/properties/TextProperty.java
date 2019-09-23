@@ -8,8 +8,9 @@ import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 
 public class TextProperty {
 
-	public static PropertySpecificComposite createSpecificComposite(ValueSaveListener listener, Composite specificRoot,
-			PictogramElement pe, TransactionalEditingDomain ed) {
-		return new PropertySpecificTextComposite(listener, specificRoot, pe, ed);
-	}
+  public static PropertySpecificComposite createSpecificComposite(
+      ValueSaveListener listener, Composite specificRoot, PictogramElement pe,
+      TransactionalEditingDomain ed) {
+    return new PropertySpecificTextComposite(listener, specificRoot, pe, ed);
+  }
 }

@@ -4,5 +4,5 @@
 package org.ruminaq.tasks.randomgenerator.impl.distributions;
 
 public interface Distributon {
-	double getNext();
+  double getNext();
 }

@@ -11,31 +11,35 @@ import org.eclipse.debug.internal.ui.viewers.model.provisional.IPresentationCont
 import org.eclipse.jface.viewers.TreePath;
 
 @SuppressWarnings("restriction")
-public class InternalPortBreakpointWorkbenchAdapterFactory implements IAdapterFactory {
+public class InternalPortBreakpointWorkbenchAdapterFactory
+    implements IAdapterFactory {
 
-	@Override
-	@SuppressWarnings("rawtypes")
-	public Object getAdapter(final Object adaptableObject, Class adapterType) {
-		if(adapterType != IElementLabelProvider.class || !(adaptableObject instanceof InternalPortBreakpoint)) return null;
-		return new BreakpointLabelProvider() {
-			@Override
-			protected String getLabel(TreePath tp, IPresentationContext pc, String s) throws CoreException {
-				InternalPortBreakpoint breakpoint = (InternalPortBreakpoint) adaptableObject;
-				StringBuilder sb = new StringBuilder();
-				Path p = Paths.get(breakpoint.getDiagramPath());
-				sb.append(".../");
-				sb.append(p.subpath(p.getNameCount() - 2, p.getNameCount()));
-				sb.append(" - ");
-				sb.append(breakpoint.getTaskId());
-				sb.append(":");
-				sb.append(breakpoint.getPortId());
-				return sb.toString();
-			}
-		};
-	}
+  @Override
+  @SuppressWarnings("rawtypes")
+  public Object getAdapter(final Object adaptableObject, Class adapterType) {
+    if (adapterType != IElementLabelProvider.class
+        || !(adaptableObject instanceof InternalPortBreakpoint))
+      return null;
+    return new BreakpointLabelProvider() {
+      @Override
+      protected String getLabel(TreePath tp, IPresentationContext pc, String s)
+          throws CoreException {
+        InternalPortBreakpoint breakpoint = (InternalPortBreakpoint) adaptableObject;
+        StringBuilder sb = new StringBuilder();
+        Path p = Paths.get(breakpoint.getDiagramPath());
+        sb.append(".../");
+        sb.append(p.subpath(p.getNameCount() - 2, p.getNameCount()));
+        sb.append(" - ");
+        sb.append(breakpoint.getTaskId());
+        sb.append(":");
+        sb.append(breakpoint.getPortId());
+        return sb.toString();
+      }
+    };
+  }
 
-	@Override
-	public Class<?>[] getAdapterList() {
-		return new Class[] { IElementLabelProvider.class };
-	}
+  @Override
+  public Class<?>[] getAdapterList() {
+    return new Class[] { IElementLabelProvider.class };
+  }
 }

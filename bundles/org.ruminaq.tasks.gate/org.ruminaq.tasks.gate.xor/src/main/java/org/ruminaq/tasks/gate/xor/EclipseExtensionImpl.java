@@ -9,6 +9,6 @@ public class EclipseExtensionImpl implements EclipseExtension {
 
   @Override
   public void initEditor() {
-  	XorPackage.eINSTANCE.getClass();
+    XorPackage.eINSTANCE.getClass();
   }
 }

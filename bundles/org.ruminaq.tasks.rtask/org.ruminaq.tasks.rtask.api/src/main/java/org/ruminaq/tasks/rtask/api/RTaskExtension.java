@@ -12,5 +12,5 @@ import org.javatuples.Pair;
  * @author Marek Jagielski
  */
 public interface RTaskExtension {
-    List<Pair<String, String>> getPythonTaskDatas();
+  List<Pair<String, String>> getPythonTaskDatas();
 }

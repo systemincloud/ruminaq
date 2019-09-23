@@ -8,10 +8,11 @@ import org.ruminaq.model.ruminaq.Task;
 
 public interface TaskManagerHandler {
 
-	Collection<ITaskApi> getProjectVersionTasks();
+  Collection<ITaskApi> getProjectVersionTasks();
 
-	Collection<ITaskApi> getTasks();
+  Collection<ITaskApi> getTasks();
 
-	void addToGeneralTab(Composite composite, final Task task, final TransactionalEditingDomain ed);
+  void addToGeneralTab(Composite composite, final Task task,
+      final TransactionalEditingDomain ed);
 
 }

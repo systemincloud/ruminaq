@@ -6,6 +6,7 @@ import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.dt.Bool;
 
 public enum Port implements PortsDescr {
-	@IN (name="In",  type=Bool.class, n=-1, label=false) IN,
-	@OUT(name="Out", type=Bool.class,       label=false) OUT;
+  @IN(name = "In", type = Bool.class, n = -1, label = false)
+  IN, @OUT(name = "Out", type = Bool.class, label = false)
+  OUT;
 }

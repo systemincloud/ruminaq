@@ -12,53 +12,69 @@ import org.eclipse.debug.ui.IDetailPaneFactory;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
-	
-	private Map<String, String> paneNameMap;
 
-	@Override
-	public IDetailPane createDetailPane(String paneID) {
-		if(InternalPortBreakpointDetailPane.DETAIL_PANE_INTERNAL_PORT_BREAKPOINT.equals(paneID)) return new InternalPortBreakpointDetailPane();
-		return null;
-	}
+  private Map<String, String> paneNameMap;
 
-	@Override
-	public String getDefaultDetailPane(IStructuredSelection selection) {
-		if(selection.size() == 1) {
-			Object o = selection.getFirstElement();
-			if(o instanceof IBreakpoint) {
-				IBreakpoint b = (IBreakpoint) o;
-				try {
-					String type = b.getMarker().getType();
-					if(InternalPortBreakpoint.INTERNAL_PORT_BREAKPOINT.equals(type)) return InternalPortBreakpointDetailPane.DETAIL_PANE_INTERNAL_PORT_BREAKPOINT;
-				} catch (CoreException e) {}
-			}
-		}
-		return null;
-	}
+  @Override
+  public IDetailPane createDetailPane(String paneID) {
+    if (InternalPortBreakpointDetailPane.DETAIL_PANE_INTERNAL_PORT_BREAKPOINT
+        .equals(paneID))
+      return new InternalPortBreakpointDetailPane();
+    return null;
+  }
 
-	@Override
-	public Set<String> getDetailPaneTypes(IStructuredSelection selection) {
-		if(selection.size() == 1) {
-			Object o = selection.getFirstElement();
-			if(o instanceof IBreakpoint) {
-				IBreakpoint b = (IBreakpoint) o;
-				try {
-					String type = b.getMarker().getType();
-					if(InternalPortBreakpoint.INTERNAL_PORT_BREAKPOINT.equals(type)) return Collections.singleton(InternalPortBreakpointDetailPane.DETAIL_PANE_INTERNAL_PORT_BREAKPOINT);
-				} catch (CoreException e) { }
-			}
-		}
-		return Collections.emptySet();
-	}
-	
-	@Override public String getDetailPaneDescription(String paneID) { return getNameMap().get(paneID); }
-	@Override public String getDetailPaneName       (String paneID) { return getNameMap().get(paneID); }
-	
-	private Map<String, String> getNameMap() {
-		if(paneNameMap == null) {
-			paneNameMap = new HashMap<String, String>();
-			paneNameMap.put(InternalPortBreakpointDetailPane.DETAIL_PANE_INTERNAL_PORT_BREAKPOINT, InternalPortBreakpointDetailPane.DETAIL_PANE_INTERNAL_PORT_BREAKPOINT);
-		}
-		return paneNameMap;
-	}
+  @Override
+  public String getDefaultDetailPane(IStructuredSelection selection) {
+    if (selection.size() == 1) {
+      Object o = selection.getFirstElement();
+      if (o instanceof IBreakpoint) {
+        IBreakpoint b = (IBreakpoint) o;
+        try {
+          String type = b.getMarker().getType();
+          if (InternalPortBreakpoint.INTERNAL_PORT_BREAKPOINT.equals(type))
+            return InternalPortBreakpointDetailPane.DETAIL_PANE_INTERNAL_PORT_BREAKPOINT;
+        } catch (CoreException e) {
+        }
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public Set<String> getDetailPaneTypes(IStructuredSelection selection) {
+    if (selection.size() == 1) {
+      Object o = selection.getFirstElement();
+      if (o instanceof IBreakpoint) {
+        IBreakpoint b = (IBreakpoint) o;
+        try {
+          String type = b.getMarker().getType();
+          if (InternalPortBreakpoint.INTERNAL_PORT_BREAKPOINT.equals(type))
+            return Collections.singleton(
+                InternalPortBreakpointDetailPane.DETAIL_PANE_INTERNAL_PORT_BREAKPOINT);
+        } catch (CoreException e) {
+        }
+      }
+    }
+    return Collections.emptySet();
+  }
+
+  @Override
+  public String getDetailPaneDescription(String paneID) {
+    return getNameMap().get(paneID);
+  }
+
+  @Override
+  public String getDetailPaneName(String paneID) {
+    return getNameMap().get(paneID);
+  }
+
+  private Map<String, String> getNameMap() {
+    if (paneNameMap == null) {
+      paneNameMap = new HashMap<String, String>();
+      paneNameMap.put(
+          InternalPortBreakpointDetailPane.DETAIL_PANE_INTERNAL_PORT_BREAKPOINT,
+          InternalPortBreakpointDetailPane.DETAIL_PANE_INTERNAL_PORT_BREAKPOINT);
+    }
+    return paneNameMap;
+  }
 }

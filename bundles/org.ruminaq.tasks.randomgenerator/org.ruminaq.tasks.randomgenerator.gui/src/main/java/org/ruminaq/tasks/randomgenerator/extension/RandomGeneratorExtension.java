@@ -11,7 +11,11 @@ import org.ruminaq.tasks.randomgenerator.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.ValueSaveListener;
 
 public interface RandomGeneratorExtension {
-	List<Class<? extends DataType>>        getDataTypes();
-	Map<String, PropertySpecificComposite> getSpecific(ValueSaveListener listener, Composite specificRoot, PictogramElement pe, TransactionalEditingDomain ed);
-	Map<String, String>                    getInitSpecific();
+  List<Class<? extends DataType>> getDataTypes();
+
+  Map<String, PropertySpecificComposite> getSpecific(ValueSaveListener listener,
+      Composite specificRoot, PictogramElement pe,
+      TransactionalEditingDomain ed);
+
+  Map<String, String> getInitSpecific();
 }

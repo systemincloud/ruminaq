@@ -21,12 +21,13 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 public class CreateRuminaqTestDiagram extends CreateRuminaqDiagram {
 
   @Override
-  public void openDiagramWizardFromProjectContextMenu(SWTWorkbenchBot bot, String projectName) {
+  public void openDiagramWizardFromProjectContextMenu(SWTWorkbenchBot bot,
+      String projectName) {
     SWTBotView pe = SelectView.getProjectExplorer(bot);
     SWTBotTree selector = pe.bot().tree();
     selector.select(projectName);
-    SWTBotMenu menu = new SWTBotMenu(
-      ContextMenuHelper.contextMenu(selector, new String[] { "New", "Other..." }));
+    SWTBotMenu menu = new SWTBotMenu(ContextMenuHelper.contextMenu(selector,
+        new String[] { "New", "Other..." }));
     menu.click();
     bot.tree().getTreeItem("Ruminaq").expand();
 

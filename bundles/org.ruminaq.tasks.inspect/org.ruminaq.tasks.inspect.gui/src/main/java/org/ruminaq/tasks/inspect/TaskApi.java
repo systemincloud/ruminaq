@@ -15,27 +15,27 @@ import org.ruminaq.runner.dirmi.DirmiServer;
 @Component
 public class TaskApi implements LaunchListener {
 
-	private String symbolicName;
-	private Version version;
+  private String symbolicName;
+  private Version version;
 
-	@Activate
-	void activate(Map<String, Object> properties) {
-		Bundle b = FrameworkUtil.getBundle(getClass());
-		symbolicName = b.getSymbolicName();
-		version = b.getVersion();
-		RuminaqLaunchDelegate.addLaunchListener(this);
-	}
+  @Activate
+  void activate(Map<String, Object> properties) {
+    Bundle b = FrameworkUtil.getBundle(getClass());
+    symbolicName = b.getSymbolicName();
+    version = b.getVersion();
+    RuminaqLaunchDelegate.addLaunchListener(this);
+  }
 
-	@Deactivate
-	public void deactivate() {
-		RuminaqLaunchDelegate.removeLaunchListener(this);
-	}
+  @Deactivate
+  public void deactivate() {
+    RuminaqLaunchDelegate.removeLaunchListener(this);
+  }
 
-	@Override
-	public void dirmiStarted() {
-		DirmiServer.INSTANCE.createSessionAcceptor(
-		    symbolicName + ":" + version.getMajor() + "." + version.getMinor() + "."
-		        + version.getMicro(),
-		    this.getClass().getClassLoader());
-	}
+  @Override
+  public void dirmiStarted() {
+    DirmiServer.INSTANCE.createSessionAcceptor(
+        symbolicName + ":" + version.getMajor() + "." + version.getMinor() + "."
+            + version.getMicro(),
+        this.getClass().getClassLoader());
+  }
 }

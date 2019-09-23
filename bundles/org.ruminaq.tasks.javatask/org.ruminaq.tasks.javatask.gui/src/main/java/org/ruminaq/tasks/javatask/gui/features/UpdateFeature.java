@@ -59,280 +59,387 @@ import org.ruminaq.util.EclipseUtil;
 @SuppressWarnings("restriction")
 public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
-    private NamedMember type = null;
-    private String      desc = AddFeature.NOT_CHOSEN;
+  private NamedMember type = null;
+  private String desc = AddFeature.NOT_CHOSEN;
 
-    public UpdateFeature(IFeatureProvider fp) {
-        super(fp);
+  public UpdateFeature(IFeatureProvider fp) {
+    super(fp);
+  }
+
+  @Override
+  public boolean canUpdate(IUpdateContext context) {
+    Object bo = getBusinessObjectForPictogramElement(
+        context.getPictogramElement());
+    return (bo instanceof JavaTask);
+  }
+
+  @Override
+  protected String getResource(Object bo) {
+    JavaTask be = (JavaTask) bo;
+    return be.getImplementationClass();
+  }
+
+  @Override
+  public boolean load(String className) {
+    IJavaProject project = JavaCore
+        .create(ResourcesPlugin.getWorkspace().getRoot()
+            .getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram())));
+    IJavaSearchScope scope = SearchEngine
+        .createJavaSearchScope(new IJavaElement[] { project });
+    SearchPattern pattern = SearchPattern.createPattern(className,
+        IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE,
+        SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
+
+    SearchRequestor requestor = new SearchRequestor() {
+      @Override
+      public void acceptSearchMatch(SearchMatch sm) throws CoreException {
+        type = (NamedMember) sm.getElement();
+      }
+    };
+
+    SearchEngine searchEngine = new SearchEngine();
+    try {
+      searchEngine.search(pattern,
+          new SearchParticipant[] {
+              SearchEngine.getDefaultSearchParticipant() },
+          scope, requestor, null);
+    } catch (CoreException e) {
+      return false;
     }
 
-    @Override
-    public boolean canUpdate(IUpdateContext context) {
-        Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-        return (bo instanceof JavaTask);
+    if (type == null)
+      return false;
+    this.desc = "".equals(type.getElementName()) ? AddFeature.NOT_CHOSEN
+        : type.getElementName();
+
+    IAnnotation[] annotations;
+    try {
+      annotations = type.getAnnotations();
+    } catch (JavaModelException e) {
+      return false;
     }
 
-    @Override
-    protected String getResource(Object bo) {
-        JavaTask be = (JavaTask) bo;
-        return be.getImplementationClass();
+    if (annotations == null)
+      return false;
+
+    IAnnotation sicInfo = null;
+    for (IAnnotation a : annotations) {
+      if (a.getElementName().equals(JavaTaskInfo.class.getSimpleName()))
+        sicInfo = a;
     }
 
-    @Override
-    public boolean load(String className) {
-        IJavaProject project = JavaCore.create(ResourcesPlugin.getWorkspace().getRoot().getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram())));
-        IJavaSearchScope scope = SearchEngine.createJavaSearchScope(new IJavaElement[] {project});
-        SearchPattern pattern = SearchPattern.createPattern(className, IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE, SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
+    return sicInfo != null;
+  }
 
-        SearchRequestor requestor = new SearchRequestor() {
-            @Override public void acceptSearchMatch(SearchMatch sm)  throws CoreException {
-                type = (NamedMember) sm.getElement();
-            }
-        };
+  protected void loadIconDesc() {
+    this.iconDesc = desc;
+  }
 
-        SearchEngine searchEngine = new SearchEngine();
-        try {
-            searchEngine.search(pattern, new SearchParticipant[] {SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
-        } catch (CoreException e) {
-            return false;
-        }
-
-        if(type == null) return false;
-        this.desc = "".equals(type.getElementName()) ? AddFeature.NOT_CHOSEN : type.getElementName();
-
+  @Override
+  protected void loadInputPorts() {
+    IJavaSearchScope scope = SearchEngine
+        .createJavaSearchScope(new IJavaElement[] { type });
+    SearchPattern pattern = SearchPattern.createPattern(
+        InputPortInfo.class.getSimpleName(),
+        IJavaSearchConstants.ANNOTATION_TYPE,
+        IJavaSearchConstants.ALL_OCCURRENCES,
+        SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
+    SearchRequestor requestor = new SearchRequestor() {
+      @Override
+      public void acceptSearchMatch(SearchMatch sm) throws CoreException {
+        NamedMember el = (NamedMember) sm.getElement();
         IAnnotation[] annotations;
         try {
-            annotations = type.getAnnotations();
+          annotations = el.getAnnotations();
         } catch (JavaModelException e) {
-            return false;
+          return;
+        }
+        if (annotations == null)
+          return;
+
+        IAnnotation inputPortInfo = null;
+        for (IAnnotation a : annotations)
+          if (a.getElementName().equals(InputPortInfo.class.getSimpleName()))
+            inputPortInfo = a;
+
+        if (inputPortInfo == null)
+          return;
+
+        String name = null;
+        Object[] dataType = null;
+        Boolean asynchronous = null;
+        Integer group = null;
+        Boolean hold = null;
+        Integer queue = null;
+
+        for (IMemberValuePair mvp : inputPortInfo.getMemberValuePairs()) {
+          if ("name".equals(mvp.getMemberName()))
+            name = (String) mvp.getValue();
+          if ("dataType".equals(mvp.getMemberName()))
+            dataType = mvp.getValue() instanceof String
+                ? new Object[] { mvp.getValue() }
+                : (Object[]) mvp.getValue();
+          if ("asynchronous".equals(mvp.getMemberName()))
+            asynchronous = (Boolean) mvp.getValue();
+          if ("group".equals(mvp.getMemberName()))
+            group = (Integer) mvp.getValue();
+          if ("hold".equals(mvp.getMemberName()))
+            hold = (Boolean) mvp.getValue();
+          if ("queue".equals(mvp.getMemberName()))
+            queue = (Integer) mvp.getValue();
         }
 
-        if (annotations == null) return false;
+        if (asynchronous == null)
+          asynchronous = new Boolean(false);
+        if (group == null)
+          group = new Integer(-1);
+        if (hold == null)
+          hold = new Boolean(false);
+        if (queue == null)
+          queue = new Integer(1);
 
-        IAnnotation sicInfo = null;
-        for(IAnnotation a : annotations) {
-            if(a.getElementName().equals(JavaTaskInfo.class.getSimpleName())) sicInfo = a;
+        if (queue == 0)
+          queue = new Integer(1);
+        if (queue < 0)
+          queue = new Integer(-1);
+
+        List<DataType> dts = new LinkedList<>();
+        for (Object d : dataType) {
+          DataType tmp = DataTypeManager.INSTANCE
+              .getDataTypeFromName((String) d);
+          if (tmp != null)
+            dts.add(tmp);
         }
+        String queueSize = queue == -1 ? Constants.INF : queue.toString();
+        inputs.add(
+            new FileInternalInputPort(name, dts, asynchronous.booleanValue(),
+                group.intValue(), hold.booleanValue(), queueSize));
+      }
+    };
 
-        return sicInfo != null;
+    SearchEngine searchEngine = new SearchEngine();
+    try {
+      searchEngine.search(pattern,
+          new SearchParticipant[] {
+              SearchEngine.getDefaultSearchParticipant() },
+          scope, requestor, null);
+    } catch (CoreException e) {
     }
+  }
 
-    protected void loadIconDesc() { this.iconDesc = desc; }
-
-    @Override
-    protected void loadInputPorts() {
-        IJavaSearchScope scope = SearchEngine.createJavaSearchScope(new IJavaElement[] {type});
-        SearchPattern pattern = SearchPattern.createPattern(InputPortInfo.class.getSimpleName(), IJavaSearchConstants.ANNOTATION_TYPE,
-                                                                                                 IJavaSearchConstants.ALL_OCCURRENCES,
-                                                                                                 SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
-        SearchRequestor requestor = new SearchRequestor() {
-            @Override
-            public void acceptSearchMatch(SearchMatch sm)  throws CoreException {
-                NamedMember el = (NamedMember) sm.getElement();
-                IAnnotation[] annotations;
-                try { annotations = el.getAnnotations(); }
-                catch (JavaModelException e) { return; }
-                if (annotations == null) return;
-
-                IAnnotation inputPortInfo = null;
-                for(IAnnotation a : annotations)
-                    if(a.getElementName().equals(InputPortInfo.class.getSimpleName())) inputPortInfo = a;
-
-                if(inputPortInfo == null) return;
-
-                String   name         = null;
-                Object[] dataType     = null;
-                Boolean  asynchronous = null;
-                Integer  group        = null;
-                Boolean  hold         = null;
-                Integer  queue        = null;
-
-                for(IMemberValuePair mvp : inputPortInfo.getMemberValuePairs()) {
-                    if("name"        .equals(mvp.getMemberName()))        name = (String)   mvp.getValue();
-                    if("dataType"    .equals(mvp.getMemberName()))    dataType = mvp.getValue() instanceof String ? new Object[] { mvp.getValue() }
-                                                                                                                  : (Object[]) mvp.getValue();
-                    if("asynchronous".equals(mvp.getMemberName())) asynchronous = (Boolean)  mvp.getValue();
-                    if("group"       .equals(mvp.getMemberName()))        group = (Integer)  mvp.getValue();
-                    if("hold"        .equals(mvp.getMemberName()))         hold = (Boolean)  mvp.getValue();
-                    if("queue"       .equals(mvp.getMemberName()))        queue = (Integer)  mvp.getValue();
-                }
-
-                if(asynchronous == null) asynchronous = new Boolean(false);
-                if(group        == null) group        = new Integer(-1);
-                if(hold         == null) hold         = new Boolean(false);
-                if(queue        == null) queue        = new Integer(1);
-
-                if(queue == 0)          queue = new Integer(1);
-                if(queue < 0)           queue = new Integer(-1);
-
-                List<DataType> dts = new LinkedList<>();
-                for(Object d : dataType) {
-                    DataType tmp = DataTypeManager.INSTANCE.getDataTypeFromName((String) d);
-                    if(tmp != null) dts.add(tmp);
-                }
-                String queueSize = queue == -1 ? Constants.INF : queue.toString();
-                inputs.add(new FileInternalInputPort(name, dts, asynchronous.booleanValue(), group.intValue(), hold.booleanValue(), queueSize));
-            }
-        };
-
-        SearchEngine searchEngine = new SearchEngine();
-        try {
-            searchEngine.search(pattern, new SearchParticipant[] {SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
-        } catch (CoreException e) { }
-    }
-
-    @Override
-    protected void loadOutputPorts() {
-        IJavaSearchScope scope = SearchEngine.createJavaSearchScope(new IJavaElement[] {type});
-        SearchPattern pattern = SearchPattern.createPattern(OutputPortInfo.class.getSimpleName(), IJavaSearchConstants.ANNOTATION_TYPE,
-                                                                                                  IJavaSearchConstants.ALL_OCCURRENCES,
-                                                                                                  SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
-        SearchRequestor requestor = new SearchRequestor() {
-            @Override
-            public void acceptSearchMatch(SearchMatch sm)  throws CoreException {
-                NamedMember el = (NamedMember) sm.getElement();
-                IAnnotation[] annotations;
-                try { annotations = el.getAnnotations(); }
-                catch (JavaModelException e) { return; }
-                if (annotations == null) return;
-
-                IAnnotation outputPortInfo = null;
-                for(IAnnotation a : annotations)
-                    if(a.getElementName().equals(OutputPortInfo.class.getSimpleName())) outputPortInfo = a;
-
-                if(outputPortInfo == null) return;
-
-                String   name        = null;
-                Object[] dataType    = null;
-
-                for(IMemberValuePair mvp : outputPortInfo.getMemberValuePairs()) {
-                    if("name"    .equals(mvp.getMemberName()))     name     = (String)   mvp.getValue();
-                    if("dataType".equals(mvp.getMemberName())) dataType = mvp.getValue() instanceof String ? new Object[] { (String) mvp.getValue() }
-                                                                                                           : (Object[]) mvp.getValue();
-                }
-
-                List<DataType> dts = new LinkedList<>();
-                for(Object d : dataType) {
-                    DataType tmp = DataTypeManager.INSTANCE.getDataTypeFromName((String) d);
-                    if(tmp != null) dts.add(tmp);
-                }
-                outputs.add(new FileInternalOutputPort(name, dts));
-            }
-        };
-
-        SearchEngine searchEngine = new SearchEngine();
-        try {
-            searchEngine.search(pattern, new SearchParticipant[] {SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
-        } catch (CoreException e) {
-        }
-    }
-
-    @Override
-    protected void loadAtomic() {
+  @Override
+  protected void loadOutputPorts() {
+    IJavaSearchScope scope = SearchEngine
+        .createJavaSearchScope(new IJavaElement[] { type });
+    SearchPattern pattern = SearchPattern.createPattern(
+        OutputPortInfo.class.getSimpleName(),
+        IJavaSearchConstants.ANNOTATION_TYPE,
+        IJavaSearchConstants.ALL_OCCURRENCES,
+        SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
+    SearchRequestor requestor = new SearchRequestor() {
+      @Override
+      public void acceptSearchMatch(SearchMatch sm) throws CoreException {
+        NamedMember el = (NamedMember) sm.getElement();
         IAnnotation[] annotations;
-        try { annotations = type.getAnnotations(); }
-        catch (JavaModelException e) { return; }
-
-        if(annotations == null) return;
-
-        IAnnotation sicInfo = null;
-        for(IAnnotation a : annotations)
-            if(a.getElementName().equals(JavaTaskInfo.class.getSimpleName())) sicInfo = a;
-
-        IMemberValuePair[] mvps = null;
         try {
-             mvps = sicInfo.getMemberValuePairs();
-        } catch (JavaModelException e) { }
-        if(mvps == null) return;
-
-        for(IMemberValuePair mvp : mvps)
-            if(mvp.getMemberName().equals("atomic")) atomic = ((Boolean) mvp.getValue()).booleanValue();
-    }
-
-    @Override
-    protected void loadOnlyLocal() {
-        IAnnotation[] annotations;
-        try { annotations = type.getAnnotations(); }
-        catch (JavaModelException e) { return; }
-
-        if(annotations == null) return;
-
-        IAnnotation sicInfo = null;
-        for(IAnnotation a : annotations)
-            if(a.getElementName().equals(JavaTaskInfo.class.getSimpleName())) sicInfo = a;
-
-        IMemberValuePair[] mvps = null;
-        try { mvps = sicInfo.getMemberValuePairs();
-        } catch (JavaModelException e) { }
-        if(mvps == null) return;
-
-        for(IMemberValuePair mvp : mvps)
-            if(mvp.getMemberName().equals("onlyLocal")) onlyLocal = ((Boolean) mvp.getValue()).booleanValue();
-    }
-
-    @Override
-    protected Map<String, String> getParameters(UserDefinedTask udt) {
-        final Map<String, String> ret = new HashMap<>();
-        JavaTask jt = (JavaTask) udt;
-        if(jt != null) {
-            String className = jt.getImplementationClass();
-
-            IJavaSearchScope scope = SearchEngine.createWorkspaceScope();
-            SearchPattern pattern = SearchPattern.createPattern(className, IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE, SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
-            SearchRequestor requestor = new SearchRequestor() {
-                @Override public void acceptSearchMatch(SearchMatch sm)  throws CoreException { type = (NamedMember) sm.getElement(); }
-            };
-
-            SearchEngine searchEngine = new SearchEngine();
-            try { searchEngine.search(pattern, new SearchParticipant[] { SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
-            } catch (Exception e) { return ret; }
-
-            if(type == null) return ret;
-
-            final ICompilationUnit cu = type.getCompilationUnit();
-
-            final CompilationUnit acu = CreateJavaTaskPage.parse(cu);
-
-            acu.accept(new ASTVisitor() { @Override public boolean visit(TypeDeclaration node) {
-                for(Object m : node.modifiers()) {
-                    if(m instanceof SingleMemberAnnotation && ((SingleMemberAnnotation) m).getTypeName().toString().equals(SicParameters.class.getSimpleName())) {
-                        SingleMemberAnnotation sicParametersA = (SingleMemberAnnotation) m;
-                        Object v = sicParametersA.getValue();
-                        if(v instanceof ArrayInitializer) {
-                            for(Object e : ((ArrayInitializer) v).expressions()) {
-                                if(e instanceof NormalAnnotation && ((NormalAnnotation) e).getTypeName().toString().equals(SicParameter.class.getSimpleName())) {
-                                    NormalAnnotation sicParameterA = (NormalAnnotation) e;
-                                    String name         = null;
-                                    String defaultValue = "";
-                                    for(Object i : sicParameterA.values()) {
-                                        if(i instanceof MemberValuePair) {
-                                            MemberValuePair mvp = (MemberValuePair) i;
-                                            if("name".equals(mvp.getName().toString())) {
-                                                Expression e2 = mvp.getValue();
-                                                if(e2 instanceof QualifiedName) {
-                                                    QualifiedName qn = (QualifiedName) e2;
-                                                    IBinding b = qn.resolveBinding();
-                                                    if(b instanceof IVariableBinding) name = (String) ((IVariableBinding) b).getConstantValue();
-                                                } else if(e2 instanceof StringLiteral) name = ((StringLiteral) e2).getLiteralValue();
-                                            } else if("defaultValue".equals(mvp.getName().toString())) {
-                                                Expression e2 = mvp.getValue();
-                                                if(e2 instanceof QualifiedName) {
-                                                    QualifiedName qn = (QualifiedName) e2;
-                                                    IBinding b = qn.resolveBinding();
-                                                    if(b instanceof IVariableBinding) defaultValue = (String) ((IVariableBinding) b).getConstantValue();
-                                                } else if(e2 instanceof StringLiteral) defaultValue = ((StringLiteral) e2).getLiteralValue();
-                                            }
-                                        }
-                                    }
-                                    ret.put(name, defaultValue);
-                                }
-                            }
-                        }
-                    }
-                }
-                return false;
-            }});
+          annotations = el.getAnnotations();
+        } catch (JavaModelException e) {
+          return;
         }
+        if (annotations == null)
+          return;
+
+        IAnnotation outputPortInfo = null;
+        for (IAnnotation a : annotations)
+          if (a.getElementName().equals(OutputPortInfo.class.getSimpleName()))
+            outputPortInfo = a;
+
+        if (outputPortInfo == null)
+          return;
+
+        String name = null;
+        Object[] dataType = null;
+
+        for (IMemberValuePair mvp : outputPortInfo.getMemberValuePairs()) {
+          if ("name".equals(mvp.getMemberName()))
+            name = (String) mvp.getValue();
+          if ("dataType".equals(mvp.getMemberName()))
+            dataType = mvp.getValue() instanceof String
+                ? new Object[] { (String) mvp.getValue() }
+                : (Object[]) mvp.getValue();
+        }
+
+        List<DataType> dts = new LinkedList<>();
+        for (Object d : dataType) {
+          DataType tmp = DataTypeManager.INSTANCE
+              .getDataTypeFromName((String) d);
+          if (tmp != null)
+            dts.add(tmp);
+        }
+        outputs.add(new FileInternalOutputPort(name, dts));
+      }
+    };
+
+    SearchEngine searchEngine = new SearchEngine();
+    try {
+      searchEngine.search(pattern,
+          new SearchParticipant[] {
+              SearchEngine.getDefaultSearchParticipant() },
+          scope, requestor, null);
+    } catch (CoreException e) {
+    }
+  }
+
+  @Override
+  protected void loadAtomic() {
+    IAnnotation[] annotations;
+    try {
+      annotations = type.getAnnotations();
+    } catch (JavaModelException e) {
+      return;
+    }
+
+    if (annotations == null)
+      return;
+
+    IAnnotation sicInfo = null;
+    for (IAnnotation a : annotations)
+      if (a.getElementName().equals(JavaTaskInfo.class.getSimpleName()))
+        sicInfo = a;
+
+    IMemberValuePair[] mvps = null;
+    try {
+      mvps = sicInfo.getMemberValuePairs();
+    } catch (JavaModelException e) {
+    }
+    if (mvps == null)
+      return;
+
+    for (IMemberValuePair mvp : mvps)
+      if (mvp.getMemberName().equals("atomic"))
+        atomic = ((Boolean) mvp.getValue()).booleanValue();
+  }
+
+  @Override
+  protected void loadOnlyLocal() {
+    IAnnotation[] annotations;
+    try {
+      annotations = type.getAnnotations();
+    } catch (JavaModelException e) {
+      return;
+    }
+
+    if (annotations == null)
+      return;
+
+    IAnnotation sicInfo = null;
+    for (IAnnotation a : annotations)
+      if (a.getElementName().equals(JavaTaskInfo.class.getSimpleName()))
+        sicInfo = a;
+
+    IMemberValuePair[] mvps = null;
+    try {
+      mvps = sicInfo.getMemberValuePairs();
+    } catch (JavaModelException e) {
+    }
+    if (mvps == null)
+      return;
+
+    for (IMemberValuePair mvp : mvps)
+      if (mvp.getMemberName().equals("onlyLocal"))
+        onlyLocal = ((Boolean) mvp.getValue()).booleanValue();
+  }
+
+  @Override
+  protected Map<String, String> getParameters(UserDefinedTask udt) {
+    final Map<String, String> ret = new HashMap<>();
+    JavaTask jt = (JavaTask) udt;
+    if (jt != null) {
+      String className = jt.getImplementationClass();
+
+      IJavaSearchScope scope = SearchEngine.createWorkspaceScope();
+      SearchPattern pattern = SearchPattern.createPattern(className,
+          IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE,
+          SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
+      SearchRequestor requestor = new SearchRequestor() {
+        @Override
+        public void acceptSearchMatch(SearchMatch sm) throws CoreException {
+          type = (NamedMember) sm.getElement();
+        }
+      };
+
+      SearchEngine searchEngine = new SearchEngine();
+      try {
+        searchEngine.search(pattern,
+            new SearchParticipant[] {
+                SearchEngine.getDefaultSearchParticipant() },
+            scope, requestor, null);
+      } catch (Exception e) {
         return ret;
+      }
+
+      if (type == null)
+        return ret;
+
+      final ICompilationUnit cu = type.getCompilationUnit();
+
+      final CompilationUnit acu = CreateJavaTaskPage.parse(cu);
+
+      acu.accept(new ASTVisitor() {
+        @Override
+        public boolean visit(TypeDeclaration node) {
+          for (Object m : node.modifiers()) {
+            if (m instanceof SingleMemberAnnotation
+                && ((SingleMemberAnnotation) m).getTypeName().toString()
+                    .equals(SicParameters.class.getSimpleName())) {
+              SingleMemberAnnotation sicParametersA = (SingleMemberAnnotation) m;
+              Object v = sicParametersA.getValue();
+              if (v instanceof ArrayInitializer) {
+                for (Object e : ((ArrayInitializer) v).expressions()) {
+                  if (e instanceof NormalAnnotation
+                      && ((NormalAnnotation) e).getTypeName().toString()
+                          .equals(SicParameter.class.getSimpleName())) {
+                    NormalAnnotation sicParameterA = (NormalAnnotation) e;
+                    String name = null;
+                    String defaultValue = "";
+                    for (Object i : sicParameterA.values()) {
+                      if (i instanceof MemberValuePair) {
+                        MemberValuePair mvp = (MemberValuePair) i;
+                        if ("name".equals(mvp.getName().toString())) {
+                          Expression e2 = mvp.getValue();
+                          if (e2 instanceof QualifiedName) {
+                            QualifiedName qn = (QualifiedName) e2;
+                            IBinding b = qn.resolveBinding();
+                            if (b instanceof IVariableBinding)
+                              name = (String) ((IVariableBinding) b)
+                                  .getConstantValue();
+                          } else if (e2 instanceof StringLiteral)
+                            name = ((StringLiteral) e2).getLiteralValue();
+                        } else if ("defaultValue"
+                            .equals(mvp.getName().toString())) {
+                          Expression e2 = mvp.getValue();
+                          if (e2 instanceof QualifiedName) {
+                            QualifiedName qn = (QualifiedName) e2;
+                            IBinding b = qn.resolveBinding();
+                            if (b instanceof IVariableBinding)
+                              defaultValue = (String) ((IVariableBinding) b)
+                                  .getConstantValue();
+                          } else if (e2 instanceof StringLiteral)
+                            defaultValue = ((StringLiteral) e2)
+                                .getLiteralValue();
+                        }
+                      }
+                    }
+                    ret.put(name, defaultValue);
+                  }
+                }
+              }
+            }
+          }
+          return false;
+        }
+      });
     }
+    return ret;
+  }
 }

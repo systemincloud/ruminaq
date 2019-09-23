@@ -16,45 +16,52 @@ import org.ruminaq.model.ruminaq.InputPort;
 
 public class UpdateInputPortFeature extends UpdateBaseElementFeature {
 
-	private boolean superUpdateNeeded = false;
+  private boolean superUpdateNeeded = false;
 
-	public UpdateInputPortFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public UpdateInputPortFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public boolean canUpdate(IUpdateContext context) {
-		Object bo = getBusinessObjectForPictogramElement(context.getPictogramElement());
-		return (bo instanceof InputPort);
-	}
+  @Override
+  public boolean canUpdate(IUpdateContext context) {
+    Object bo = getBusinessObjectForPictogramElement(
+        context.getPictogramElement());
+    return (bo instanceof InputPort);
+  }
 
-	@Override
-	public IReason updateNeeded(IUpdateContext context) {
-		superUpdateNeeded = super.updateNeeded(context).toBoolean();
+  @Override
+  public IReason updateNeeded(IUpdateContext context) {
+    superUpdateNeeded = super.updateNeeded(context).toBoolean();
 
-		ContainerShape parent = (ContainerShape) context.getPictogramElement();
-		InputPort ip = (InputPort) getBusinessObjectForPictogramElement(parent);
+    ContainerShape parent = (ContainerShape) context.getPictogramElement();
+    InputPort ip = (InputPort) getBusinessObjectForPictogramElement(parent);
 
-		boolean asynchronousEq = ip.isAsynchronous() != LineStyle.SOLID.equals(parent.getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0).getLineStyle());
+    boolean asynchronousEq = ip.isAsynchronous() != LineStyle.SOLID
+        .equals(parent.getGraphicsAlgorithm().getGraphicsAlgorithmChildren()
+            .get(0).getLineStyle());
 
-		boolean updateNeeded = superUpdateNeeded
-	                        || !asynchronousEq;
-		return updateNeeded ?  Reason.createTrueReason() : Reason.createFalseReason();
-	}
+    boolean updateNeeded = superUpdateNeeded || !asynchronousEq;
+    return updateNeeded ? Reason.createTrueReason()
+        : Reason.createFalseReason();
+  }
 
-	@Override
-	public boolean update(IUpdateContext context) {
-		if(superUpdateNeeded) return update(context);
+  @Override
+  public boolean update(IUpdateContext context) {
+    if (superUpdateNeeded)
+      return update(context);
 
-		ContainerShape parent = (ContainerShape) context.getPictogramElement();
-		InputPort ip = (InputPort) getBusinessObjectForPictogramElement(parent);
+    ContainerShape parent = (ContainerShape) context.getPictogramElement();
+    InputPort ip = (InputPort) getBusinessObjectForPictogramElement(parent);
 
-		// ASYNCHRONOUS
-		if(ip.isAsynchronous()) parent.getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0).setLineStyle(LineStyle.DOT);
-		else                    parent.getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0).setLineStyle(LineStyle.SOLID);
+    // ASYNCHRONOUS
+    if (ip.isAsynchronous())
+      parent.getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
+          .setLineStyle(LineStyle.DOT);
+    else
+      parent.getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
+          .setLineStyle(LineStyle.SOLID);
 
-		return true;
-	}
-
+    return true;
+  }
 
 }

@@ -20,18 +20,38 @@ public class KeyValueGroupVariable extends SicVariable {
 
   private Map<String, StringVariable> map = new HashMap<>();
 
-  public KeyValueGroupVariable(IDebugTarget target, String name, IStateElement se) {
+  public KeyValueGroupVariable(IDebugTarget target, String name,
+      IStateElement se) {
     super(target, name, "");
     this.se = se;
   }
 
-  @Override public boolean hasValueChanged() { return false; }
+  @Override
+  public boolean hasValueChanged() {
+    return false;
+  }
 
-  @Override public String getValueString() { return ""; }
+  @Override
+  public String getValueString() {
+    return "";
+  }
 
-  @Override public IVariable[] getVariables() { return map.values().toArray(new IVariable[map.values().size()]); }
-  @Override public boolean     hasVariables() { return !map.isEmpty(); }
+  @Override
+  public IVariable[] getVariables() {
+    return map.values().toArray(new IVariable[map.values().size()]);
+  }
 
-  public void add(String key, String value, boolean editable, IState showWhen) { map.put(key, new StringVariable(getDebugTarget(), key, value, editable, se, showWhen)); }
-  public void clear()                                                          { map.clear(); }
+  @Override
+  public boolean hasVariables() {
+    return !map.isEmpty();
+  }
+
+  public void add(String key, String value, boolean editable, IState showWhen) {
+    map.put(key, new StringVariable(getDebugTarget(), key, value, editable, se,
+        showWhen));
+  }
+
+  public void clear() {
+    map.clear();
+  }
 }

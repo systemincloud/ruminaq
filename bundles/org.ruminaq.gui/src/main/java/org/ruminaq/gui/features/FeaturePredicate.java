@@ -12,12 +12,12 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 
 public interface FeaturePredicate<T> extends Predicate<T> {
 
-	default boolean test(T context, IFeatureProvider fp) {
-		return test(context);
-	}
+  default boolean test(T context, IFeatureProvider fp) {
+    return test(context);
+  }
 
-	@Override
+  @Override
   default boolean test(T context) {
-		return true;
-	}
+    return true;
+  }
 }

@@ -23,79 +23,94 @@ import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.util.GlobalUtil;
 import org.ruminaq.util.NumericUtil;
 
-public class PropertySpecificDecimalComposite extends PropertySpecificNumericComposite {
+public class PropertySpecificDecimalComposite
+    extends PropertySpecificNumericComposite {
 
-	private CLabel lblDecimalNumber;
-	private Text   txtDecimalNumber;
-	
-	public PropertySpecificDecimalComposite(
-			ValueSaveListener saveListener, 
-			Composite specificRoot, 
-			PictogramElement pe,
-			TransactionalEditingDomain ed) {
-		super(saveListener, specificRoot, pe, ed);
-		initLayout();
-		initComponents();
-		initActions();
-		addStyles();
-	}
+  private CLabel lblDecimalNumber;
+  private Text txtDecimalNumber;
 
-	private void initLayout() {
-		lblDecimalNumber = new CLabel(composite, SWT.NONE);
-		txtDecimalNumber = new Text  (composite, SWT.BORDER);
-		GridData layoutDecimalNumber = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		layoutDecimalNumber.minimumWidth = 75; layoutDecimalNumber.widthHint = 75;
-		txtDecimalNumber.setLayoutData(layoutDecimalNumber);
-	}
-	
-	private void initComponents() {
-		lblDecimalNumber.setText("Number of Decimals:");
-	}
-	
-	private void initActions() {
-		txtDecimalNumber.addFocusListener(new FocusAdapter() {
-			@Override public void focusLost(FocusEvent event) {
-				Shell shell = txtDecimalNumber.getShell();
-				boolean parse = GlobalUtil.isIntegerAlsoGVandRand(txtDecimalNumber.getText());
-				if(parse) {
-					ModelUtil.runModelChange(new Runnable() {
-						public void run() {
-							Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-							if (bo == null) return;
-							if (bo instanceof RandomGenerator) {
-								RandomGenerator rg = (RandomGenerator) bo;
-								rg.getSpecific().put(DecimalStrategy.DECIMAL_NUMBER, txtDecimalNumber.getText());
-							}
-						}
-					}, ed, "Change dimensions");
-				} else MessageDialog.openError(shell, "Can't edit value", "Don't understant dimensions");
-			}
-		});
-		txtDecimalNumber.addTraverseListener(new TraverseListener() {
-			@Override public void keyTraversed(TraverseEvent event) { if(event.detail == SWT.TRAVERSE_RETURN) saveListener.setFocus(); }
-		});
-	}
-	
-	private void addStyles() {
-		lblDecimalNumber.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		txtDecimalNumber.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-	}
+  public PropertySpecificDecimalComposite(ValueSaveListener saveListener,
+      Composite specificRoot, PictogramElement pe,
+      TransactionalEditingDomain ed) {
+    super(saveListener, specificRoot, pe, ed);
+    initLayout();
+    initComponents();
+    initActions();
+    addStyles();
+  }
 
-	@Override
-	public void initValues(EMap<String, String> eMap) {
-		String number = eMap.get(DecimalStrategy.DECIMAL_NUMBER);
-		if (number == null) {
-			eMap.put(DecimalStrategy.DECIMAL_NUMBER, Integer.toString(DecimalStrategy.DEFAULT_DECIMAL_NUMBER));
-		}
-	}
+  private void initLayout() {
+    lblDecimalNumber = new CLabel(composite, SWT.NONE);
+    txtDecimalNumber = new Text(composite, SWT.BORDER);
+    GridData layoutDecimalNumber = new GridData(SWT.LEFT, SWT.CENTER, false,
+        false, 1, 1);
+    layoutDecimalNumber.minimumWidth = 75;
+    layoutDecimalNumber.widthHint = 75;
+    txtDecimalNumber.setLayoutData(layoutDecimalNumber);
+  }
 
-	@Override
-	public void refresh(EMap<String, String> eMap) {
-		txtDecimalNumber.setText(eMap.get(DecimalStrategy.DECIMAL_NUMBER));
-	}
-	
-	@Override 
-	protected boolean checkIfValue(String value) { 
-		return NumericUtil.isMultiDimsNumeric(value); 
-	}
+  private void initComponents() {
+    lblDecimalNumber.setText("Number of Decimals:");
+  }
+
+  private void initActions() {
+    txtDecimalNumber.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusLost(FocusEvent event) {
+        Shell shell = txtDecimalNumber.getShell();
+        boolean parse = GlobalUtil
+            .isIntegerAlsoGVandRand(txtDecimalNumber.getText());
+        if (parse) {
+          ModelUtil.runModelChange(new Runnable() {
+            public void run() {
+              Object bo = Graphiti.getLinkService()
+                  .getBusinessObjectForLinkedPictogramElement(pe);
+              if (bo == null)
+                return;
+              if (bo instanceof RandomGenerator) {
+                RandomGenerator rg = (RandomGenerator) bo;
+                rg.getSpecific().put(DecimalStrategy.DECIMAL_NUMBER,
+                    txtDecimalNumber.getText());
+              }
+            }
+          }, ed, "Change dimensions");
+        } else
+          MessageDialog.openError(shell, "Can't edit value",
+              "Don't understant dimensions");
+      }
+    });
+    txtDecimalNumber.addTraverseListener(new TraverseListener() {
+      @Override
+      public void keyTraversed(TraverseEvent event) {
+        if (event.detail == SWT.TRAVERSE_RETURN)
+          saveListener.setFocus();
+      }
+    });
+  }
+
+  private void addStyles() {
+    lblDecimalNumber
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    txtDecimalNumber
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+  }
+
+  @Override
+  public void initValues(EMap<String, String> eMap) {
+    String number = eMap.get(DecimalStrategy.DECIMAL_NUMBER);
+    if (number == null) {
+      eMap.put(DecimalStrategy.DECIMAL_NUMBER,
+          Integer.toString(DecimalStrategy.DEFAULT_DECIMAL_NUMBER));
+    }
+  }
+
+  @Override
+  public void refresh(EMap<String, String> eMap) {
+    txtDecimalNumber.setText(eMap.get(DecimalStrategy.DECIMAL_NUMBER));
+  }
+
+  @Override
+  protected boolean checkIfValue(String value) {
+    return NumericUtil.isMultiDimsNumeric(value);
+  }
 }

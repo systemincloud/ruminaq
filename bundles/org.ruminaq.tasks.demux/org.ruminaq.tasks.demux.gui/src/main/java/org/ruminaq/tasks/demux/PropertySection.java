@@ -22,67 +22,79 @@ import org.ruminaq.tasks.demux.model.demux.Demux;
 
 public class PropertySection implements IPropertySection {
 
-	private Composite root;
-	private CLabel    lblNbOutputs;
-	private Spinner   spnNbOutputs;
+  private Composite root;
+  private CLabel lblNbOutputs;
+  private Spinner spnNbOutputs;
 
-	public PropertySection(Composite parent, PictogramElement pe, TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
-		initLayout(parent);
-		initComponents();
-		initActions(pe, ed, dtp);
-		addStyles();
-	}
+  public PropertySection(Composite parent, PictogramElement pe,
+      TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
+    initLayout(parent);
+    initComponents();
+    initActions(pe, ed, dtp);
+    addStyles();
+  }
 
-	private void initLayout(Composite parent) {
-		((GridData)parent.getLayoutData()).verticalAlignment = SWT.FILL;
-		((GridData)parent.getLayoutData()).grabExcessVerticalSpace = true;
+  private void initLayout(Composite parent) {
+    ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
+    ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
-		root = new Composite(parent, SWT.NULL);
-		root.setLayout(new GridLayout(2, false));
+    root = new Composite(parent, SWT.NULL);
+    root.setLayout(new GridLayout(2, false));
 
-		lblNbOutputs = new CLabel(root, SWT.NONE);
-		spnNbOutputs = new Spinner(root, SWT.BORDER);
-	}
+    lblNbOutputs = new CLabel(root, SWT.NONE);
+    spnNbOutputs = new Spinner(root, SWT.BORDER);
+  }
 
-	private void initComponents() {
-		lblNbOutputs.setText("Nb of outputs:");
-		spnNbOutputs.setMinimum(2);
-	}
+  private void initComponents() {
+    lblNbOutputs.setText("Nb of outputs:");
+    spnNbOutputs.setMinimum(2);
+  }
 
-	private void initActions(final PictogramElement pe, final TransactionalEditingDomain ed, final IDiagramTypeProvider dtp) {
-		spnNbOutputs.addSelectionListener(new SelectionAdapter() {
-			@Override public void widgetSelected(SelectionEvent se) {
-				ModelUtil.runModelChange(new Runnable() {
-					public void run() {
-						Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-						InternalTransaction a = ((InternalTransactionalEditingDomain)ed).getActiveTransaction();
-						if(a==null || a.isReadOnly() == true) return;
-						if(bo == null) return;
-						if(bo instanceof Demux) {
-							Demux element = (Demux) bo;
-							element.setSize(spnNbOutputs.getSelection());
-							UpdateContext context = new UpdateContext(pe);
-							dtp.getFeatureProvider().updateIfPossible(context);
-						}
-					}
-				}, ed, "Model Update");
-				refresh(pe, ed);
-			}});
-	}
+  private void initActions(final PictogramElement pe,
+      final TransactionalEditingDomain ed, final IDiagramTypeProvider dtp) {
+    spnNbOutputs.addSelectionListener(new SelectionAdapter() {
+      @Override
+      public void widgetSelected(SelectionEvent se) {
+        ModelUtil.runModelChange(new Runnable() {
+          public void run() {
+            Object bo = Graphiti.getLinkService()
+                .getBusinessObjectForLinkedPictogramElement(pe);
+            InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
+                .getActiveTransaction();
+            if (a == null || a.isReadOnly() == true)
+              return;
+            if (bo == null)
+              return;
+            if (bo instanceof Demux) {
+              Demux element = (Demux) bo;
+              element.setSize(spnNbOutputs.getSelection());
+              UpdateContext context = new UpdateContext(pe);
+              dtp.getFeatureProvider().updateIfPossible(context);
+            }
+          }
+        }, ed, "Model Update");
+        refresh(pe, ed);
+      }
+    });
+  }
 
-	private void addStyles() {
-		root        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		lblNbOutputs.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		spnNbOutputs.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-	}
+  private void addStyles() {
+    root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    lblNbOutputs
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    spnNbOutputs
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+  }
 
-	@Override
-	public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
-		if(pe != null) {
-			Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-			if (bo == null) return;
-			Demux m = (Demux) bo;
-			spnNbOutputs.setSelection(m.getSize());
-		}
-	}
+  @Override
+  public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
+    if (pe != null) {
+      Object bo = Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement(pe);
+      if (bo == null)
+        return;
+      Demux m = (Demux) bo;
+      spnNbOutputs.setSelection(m.getSize());
+    }
+  }
 }

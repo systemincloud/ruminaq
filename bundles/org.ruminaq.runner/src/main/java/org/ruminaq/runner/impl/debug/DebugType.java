@@ -1,3 +1,4 @@
 package org.ruminaq.runner.impl.debug;
 
-public interface DebugType { }
+public interface DebugType {
+}

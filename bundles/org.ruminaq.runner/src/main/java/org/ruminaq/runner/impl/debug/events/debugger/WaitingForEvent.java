@@ -6,24 +6,34 @@ import org.ruminaq.runner.impl.debug.events.AbstractPortEvent;
 import org.ruminaq.runner.impl.debug.events.AbstractPortEventListener;
 import org.ruminaq.runner.impl.debug.events.IDebuggerEvent;
 
-public class WaitingForEvent extends AbstractPortEvent implements IDebuggerEvent {
+public class WaitingForEvent extends AbstractPortEvent
+    implements IDebuggerEvent {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private boolean waiting;
-	private String  waitingFor;
+  private boolean waiting;
+  private String waitingFor;
 
-	public boolean isWaiting()     { return waiting; }
-	public String  getWaitingFor() { return waitingFor; }
+  public boolean isWaiting() {
+    return waiting;
+  }
 
-	public WaitingForEvent(boolean waiting, SynchronizationI s, AbstractPortEventListener apel) {
-		super(apel);
-		this.waiting = waiting;
-		if(s != null) {
-			InternalPort ip = s.getSyncPort();
-			if(ip != null) 	this.waitingFor = ip.getId();
-		}
-	}
+  public String getWaitingFor() {
+    return waitingFor;
+  }
 
-	@Override public void preevaluate() { }
+  public WaitingForEvent(boolean waiting, SynchronizationI s,
+      AbstractPortEventListener apel) {
+    super(apel);
+    this.waiting = waiting;
+    if (s != null) {
+      InternalPort ip = s.getSyncPort();
+      if (ip != null)
+        this.waitingFor = ip.getId();
+    }
+  }
+
+  @Override
+  public void preevaluate() {
+  }
 }

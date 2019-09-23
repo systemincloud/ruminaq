@@ -77,8 +77,8 @@ public class CreateRuminaqProjectTest {
   private IPerspectiveDescriptor perspective;
 
   @Test
-  public final void testCreateProject()
-      throws CoreException, IOException, XmlPullParserException, InterruptedException {
+  public final void testCreateProject() throws CoreException, IOException,
+      XmlPullParserException, InterruptedException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);

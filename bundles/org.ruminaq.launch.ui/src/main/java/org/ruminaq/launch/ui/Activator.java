@@ -12,20 +12,42 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Version;
 
 public class Activator extends AbstractUIPlugin {
-	
-	private static Activator plugin;
 
-	public Activator() { plugin = this; }
+  private static Activator plugin;
 
-	public static Activator      getDefault()           { return plugin; }
-	public static IWorkspace     getWorkspace()         { return ResourcesPlugin.getWorkspace(); }
-	public static URL            getInstallURL()        { return getDefault().getBundle().getEntry("/"); }
-	public static String         getID()                { return getDefault().getBundle().getSymbolicName(); }
-	public static Version        getVersion()           { return getDefault().getBundle().getVersion(); }
-	public static Shell          getShell()             { return getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(); }
-	public static IWorkbenchPage getActivePage()        { 
-		IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		if (workbenchWindow != null) return workbenchWindow.getActivePage();
-		return null;
-	}
+  public Activator() {
+    plugin = this;
+  }
+
+  public static Activator getDefault() {
+    return plugin;
+  }
+
+  public static IWorkspace getWorkspace() {
+    return ResourcesPlugin.getWorkspace();
+  }
+
+  public static URL getInstallURL() {
+    return getDefault().getBundle().getEntry("/");
+  }
+
+  public static String getID() {
+    return getDefault().getBundle().getSymbolicName();
+  }
+
+  public static Version getVersion() {
+    return getDefault().getBundle().getVersion();
+  }
+
+  public static Shell getShell() {
+    return getDefault().getWorkbench().getActiveWorkbenchWindow().getShell();
+  }
+
+  public static IWorkbenchPage getActivePage() {
+    IWorkbenchWindow workbenchWindow = PlatformUI.getWorkbench()
+        .getActiveWorkbenchWindow();
+    if (workbenchWindow != null)
+      return workbenchWindow.getActivePage();
+    return null;
+  }
 }

@@ -7,12 +7,13 @@ import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
 
-	private static final String BUNDLE_NAME = "org.ruminaq.tasks.console.messages"; //$NON-NLS-1$
-	public static String Properties_Console_label_type;
+  private static final String BUNDLE_NAME = "org.ruminaq.tasks.console.messages"; //$NON-NLS-1$
+  public static String Properties_Console_label_type;
 
-	static {
-		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
-	}
+  static {
+    NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+  }
 
-	private Messages() { }
+  private Messages() {
+  }
 }

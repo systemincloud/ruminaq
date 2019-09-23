@@ -27,24 +27,25 @@ import org.slf4j.Logger;
 
 public class Float64Strategy extends AbstractConstantStrategy {
 
-    private static final Logger LOGGER = RunnerLoggerFactory.getLogger(Int32Strategy.class);
+  private static final Logger LOGGER = RunnerLoggerFactory
+      .getLogger(Int32Strategy.class);
 
-    public static final String DEFAULT_VALUE = "0";
+  public static final String DEFAULT_VALUE = "0";
 
-    public Float64Strategy(ConstantI task, String value) {
-        super(task, value);
+  public Float64Strategy(ConstantI task, String value) {
+    super(task, value);
+  }
+
+  @Override
+  public void execute() {
+    LOGGER.trace("create Float64");
+    List<Integer> dims = NumericUtil.getMutliDimsNumericDimensions(value);
+    String[] vs = NumericUtil.getMutliDimsValues(value);
+    int n = dims.stream().reduce(1, (a, b) -> a * b);
+    double[] values = new double[n];
+    for (int i = 0; i < n; i++) {
+      values[i] = Double.parseDouble(vs[i]);
     }
-
-    @Override
-    public void execute() {
-        LOGGER.trace("create Float64");
-        List<Integer> dims = NumericUtil.getMutliDimsNumericDimensions(value);
-        String[] vs        = NumericUtil.getMutliDimsValues(value);
-        int n = dims.stream().reduce(1, (a, b) -> a * b);
-        double[] values = new double[n];
-        for (int i = 0; i < n; i++) {
-            values[i] = Double.parseDouble(vs[i]);
-        }
-        task.putData(Port.OUT, new Float64I(values, dims));
-    }
+    task.putData(Port.OUT, new Float64I(values, dims));
+  }
 }

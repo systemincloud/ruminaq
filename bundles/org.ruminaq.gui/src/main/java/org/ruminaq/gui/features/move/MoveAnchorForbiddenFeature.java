@@ -12,12 +12,12 @@ import org.eclipse.graphiti.features.impl.DefaultMoveAnchorFeature;
 
 public class MoveAnchorForbiddenFeature extends DefaultMoveAnchorFeature {
 
-	public MoveAnchorForbiddenFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public MoveAnchorForbiddenFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public boolean canMoveAnchor(IMoveAnchorContext context) {
-		return false;
-	}
+  @Override
+  public boolean canMoveAnchor(IMoveAnchorContext context) {
+    return false;
+  }
 }

@@ -48,34 +48,42 @@ public class ErrorUtils {
 //		ErrorDialog.openError(PlatformUI.getWorkbench().getDisplay().getActiveShell(), "An error occured", null, status);
 //	}
 
-	public static void showErrorMessage(final String msg) {
-		Display.getDefault().asyncExec( new Runnable() {
+  public static void showErrorMessage(final String msg) {
+    Display.getDefault().asyncExec(new Runnable() {
 
-			@Override
-			public void run() {
-				IWorkbench wb = PlatformUI.getWorkbench();
-				IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
-				if(win == null)	return;
-				IWorkbenchPage page = win.getActivePage();
-				if(page == null)	return;
-				IWorkbenchPart part = page.getActivePart();
-				if(part == null)	return;
+      @Override
+      public void run() {
+        IWorkbench wb = PlatformUI.getWorkbench();
+        IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+        if (win == null)
+          return;
+        IWorkbenchPage page = win.getActivePage();
+        if (page == null)
+          return;
+        IWorkbenchPart part = page.getActivePart();
+        if (part == null)
+          return;
 
-				IActionBars actionBars = null;
-				IWorkbenchPartSite site = part.getSite();
-				if      (site instanceof IViewSite)   actionBars = ((IViewSite) site).getActionBars();
-				else if (site instanceof IEditorSite) actionBars = ((IEditorSite) site).getActionBars();
+        IActionBars actionBars = null;
+        IWorkbenchPartSite site = part.getSite();
+        if (site instanceof IViewSite)
+          actionBars = ((IViewSite) site).getActionBars();
+        else if (site instanceof IEditorSite)
+          actionBars = ((IEditorSite) site).getActionBars();
 
-				if(actionBars == null) return;
+        if (actionBars == null)
+          return;
 
-				IStatusLineManager statusLineManager = actionBars.getStatusLineManager();
-				if( statusLineManager == null )	return;
+        IStatusLineManager statusLineManager = actionBars
+            .getStatusLineManager();
+        if (statusLineManager == null)
+          return;
 
-				statusLineManager.setErrorMessage(msg);
-				statusLineManager.markDirty();
-				statusLineManager.update(true);
-			}
-		});
-	}
+        statusLineManager.setErrorMessage(msg);
+        statusLineManager.markDirty();
+        statusLineManager.update(true);
+      }
+    });
+  }
 
 }

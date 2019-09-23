@@ -15,36 +15,37 @@ import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 
-public class CreateOutputPortFeature extends CreateElementFeature implements PaletteCreateFeature {
+public class CreateOutputPortFeature extends CreateElementFeature
+    implements PaletteCreateFeature {
 
-	public CreateOutputPortFeature(IFeatureProvider fp) {
-		super(fp, OutputPort.class);
-	}
+  public CreateOutputPortFeature(IFeatureProvider fp) {
+    super(fp, OutputPort.class);
+  }
 
-	@Override
-	public String getCompartment() {
-		return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
-	}
+  @Override
+  public String getCompartment() {
+    return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
+  }
 
-	@Override
-	public String getStack() {
-		return CommonPaletteCompartmentEntry.PORTS_STACK;
-	}
+  @Override
+  public String getStack() {
+    return CommonPaletteCompartmentEntry.PORTS_STACK;
+  }
 
-	@Override
-	public Object[] create(ICreateContext context) {
-		OutputPort outputPort = RuminaqFactory.eINSTANCE.createOutputPort();
-		setDefaultId(outputPort, context);
+  @Override
+  public Object[] create(ICreateContext context) {
+    OutputPort outputPort = RuminaqFactory.eINSTANCE.createOutputPort();
+    setDefaultId(outputPort, context);
 
-		MainTask mt = ModelHandler.getModel(getDiagram(), getFeatureProvider());
-		mt.getOutputPort().add(outputPort);
+    MainTask mt = ModelHandler.getModel(getDiagram(), getFeatureProvider());
+    mt.getOutputPort().add(outputPort);
 
-		addGraphicalRepresentation(context, outputPort);
-		return new Object[] { outputPort };
-	}
+    addGraphicalRepresentation(context, outputPort);
+    return new Object[] { outputPort };
+  }
 
-	@Override
-	public String getCreateImageId() {
-		return Images.Image.IMG_PALETTE_OUTPUTPORT.name();
-	}
+  @Override
+  public String getCreateImageId() {
+    return Images.Image.IMG_PALETTE_OUTPUTPORT.name();
+  }
 }

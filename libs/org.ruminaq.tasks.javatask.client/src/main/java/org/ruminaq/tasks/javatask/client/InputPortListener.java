@@ -11,7 +11,7 @@ import org.ruminaq.tasks.javatask.client.data.Data;
  */
 public interface InputPortListener extends OutputPortListener {
 
-	<T extends Data> T getData(InputPort ip, Class<T> type);
+  <T extends Data> T getData(InputPort ip, Class<T> type);
 
-	void cleanQueue(InputPort ip);
+  void cleanQueue(InputPort ip);
 }

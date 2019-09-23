@@ -15,17 +15,23 @@ import org.eclipse.debug.core.model.ISuspendResume;
 import org.eclipse.debug.core.model.ITerminate;
 import org.ruminaq.runner.impl.debug.events.model.TerminateRequest;
 
-public abstract class RuminaqDebugElement extends DebugElement implements ISuspendResume,
-                                                                                IDisconnect,
-                                                                                ITerminate,
-                                                                                IStep {
+public abstract class RuminaqDebugElement extends DebugElement
+    implements ISuspendResume, IDisconnect, ITerminate, IStep {
 
   protected IState state = MainState.NOT_STARTED;
 
-  protected void   setState(IState state) {        ((RuminaqDebugElement) getDebugTarget()).state = state; }
-  protected IState getState()             { return ((RuminaqDebugElement) getDebugTarget()).state; }
+  protected void setState(IState state) {
+    ((RuminaqDebugElement) getDebugTarget()).state = state;
+  }
 
-  @Override public String getModelIdentifier() { return SicDebugModelPresentation.ID; }
+  protected IState getState() {
+    return ((RuminaqDebugElement) getDebugTarget()).state;
+  }
+
+  @Override
+  public String getModelIdentifier() {
+    return SicDebugModelPresentation.ID;
+  }
 
   protected RuminaqDebugElement(IDebugTarget target) {
     super(target);

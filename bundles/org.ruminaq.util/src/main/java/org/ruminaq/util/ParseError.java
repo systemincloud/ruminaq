@@ -17,9 +17,9 @@ package org.ruminaq.util;
 
 public class ParseError extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public ParseError(String msg) {
-		super(msg);
-	}
+  public ParseError(String msg) {
+    super(msg);
+  }
 }

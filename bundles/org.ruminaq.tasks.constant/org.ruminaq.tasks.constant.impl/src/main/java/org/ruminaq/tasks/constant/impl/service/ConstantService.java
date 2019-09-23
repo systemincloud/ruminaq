@@ -20,5 +20,5 @@ import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.tasks.constant.impl.AbstractConstantStrategy;
 
 public interface ConstantService {
-    Optional<AbstractConstantStrategy> getStrategy(DataType dt, String value);
+  Optional<AbstractConstantStrategy> getStrategy(DataType dt, String value);
 }

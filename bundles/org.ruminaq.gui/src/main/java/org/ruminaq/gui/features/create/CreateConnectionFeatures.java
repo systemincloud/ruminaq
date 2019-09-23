@@ -17,8 +17,8 @@ import org.ruminaq.gui.api.CreateConnectionFeaturesExtension;
 public class CreateConnectionFeatures
     implements CreateConnectionFeaturesExtension {
 
-	@Override
-	public List<Class<? extends ICreateConnectionFeature>> getFeatures() {
-		return Arrays.asList(CreateSimpleConnectionFeature.class);
-	}
+  @Override
+  public List<Class<? extends ICreateConnectionFeature>> getFeatures() {
+    return Arrays.asList(CreateSimpleConnectionFeature.class);
+  }
 }

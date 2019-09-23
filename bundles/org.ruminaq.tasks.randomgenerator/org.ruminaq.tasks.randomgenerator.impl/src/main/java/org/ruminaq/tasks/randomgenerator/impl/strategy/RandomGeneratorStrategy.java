@@ -12,11 +12,11 @@ import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
  * @author Marek Jagielski
  */
 public abstract class RandomGeneratorStrategy {
-	protected RandomGeneratorI task;
+  protected RandomGeneratorI task;
 
-	public RandomGeneratorStrategy(RandomGeneratorI task) {
-		this.task = task;
-	}
+  public RandomGeneratorStrategy(RandomGeneratorI task) {
+    this.task = task;
+  }
 
-	public abstract void generate(List<Integer> dims);
+  public abstract void generate(List<Integer> dims);
 }

@@ -4,5 +4,5 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
 public interface IPropertySection {
-	void refresh(PictogramElement pe, TransactionalEditingDomain ed);
+  void refresh(PictogramElement pe, TransactionalEditingDomain ed);
 }

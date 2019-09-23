@@ -15,23 +15,23 @@ import org.ruminaq.util.ServiceFilterArgs;
 
 @Component(property = { "service.ranking:Integer=10" })
 @ServiceFilter(Filter.class)
-public class ContextButtonPadTool implements GenericContextButtonPadDataExtension {
+public class ContextButtonPadTool
+    implements GenericContextButtonPadDataExtension {
 
-	static class Filter implements Predicate<ServiceFilterArgs> {
+  static class Filter implements Predicate<ServiceFilterArgs> {
 
-		@Override
-		public boolean test(ServiceFilterArgs args) {
-			IFeatureProvider fp = (IFeatureProvider) args.getArgs().get(0);
-			IPictogramElementContext context = (IPictogramElementContext) args
-			    .getArgs().get(1);
-			PictogramElement pe = context.getPictogramElement();
-			return fp
-			    .getBusinessObjectForPictogramElement(pe) instanceof RTask;
-		}
-	}
-	
-	@Override
-	public int getGenericContextButtons() {
-		return Constants.CONTEXT_BUTTON_DELETE | Constants.CONTEXT_BUTTON_UPDATE;
-	}
+    @Override
+    public boolean test(ServiceFilterArgs args) {
+      IFeatureProvider fp = (IFeatureProvider) args.getArgs().get(0);
+      IPictogramElementContext context = (IPictogramElementContext) args
+          .getArgs().get(1);
+      PictogramElement pe = context.getPictogramElement();
+      return fp.getBusinessObjectForPictogramElement(pe) instanceof RTask;
+    }
+  }
+
+  @Override
+  public int getGenericContextButtons() {
+    return Constants.CONTEXT_BUTTON_DELETE | Constants.CONTEXT_BUTTON_UPDATE;
+  }
 }

@@ -22,25 +22,47 @@ public class MainLoop extends RuminaqDebugElement implements IThread {
     super(target);
   }
 
-  @Override public boolean canResume()  { return this.state == MainState.SUSPENDED; }
-  @Override public boolean canSuspend() { return this.state != MainState.SUSPENDED && this.state != MainState.TERMINATED; }
+  @Override
+  public boolean canResume() {
+    return this.state == MainState.SUSPENDED;
+  }
 
-  @Override public void resume() throws DebugException {
+  @Override
+  public boolean canSuspend() {
+    return this.state != MainState.SUSPENDED
+        && this.state != MainState.TERMINATED;
+  }
+
+  @Override
+  public void resume() throws DebugException {
     logger.trace("resume");
     System.out.println("MainLoop : resume");
   }
 
-  @Override public void suspend() throws DebugException {
+  @Override
+  public void suspend() throws DebugException {
     logger.trace("suspend");
     System.out.println("MainLoop : suspend");
   }
 
-  @Override public IBreakpoint[] getBreakpoints() { return null; }
+  @Override
+  public IBreakpoint[] getBreakpoints() {
+    return null;
+  }
 
-  @Override public String        getName()        throws DebugException { return "main loop"; }
-  @Override public int           getPriority()    throws DebugException { return 0; }
-  @Override public IStackFrame[] getStackFrames() throws DebugException {
-    return new IStackFrame[] { new Stats(getDebugTarget(), this)};
+  @Override
+  public String getName() throws DebugException {
+    return "main loop";
+  }
+
+  @Override
+  public int getPriority() throws DebugException {
+    return 0;
+  }
+
+  @Override
+  public IStackFrame[] getStackFrames() throws DebugException {
+    return new IStackFrame[] { new Stats(getDebugTarget(), this) };
   }
 
   @Override
@@ -48,5 +70,8 @@ public class MainLoop extends RuminaqDebugElement implements IThread {
     return null;
   }
 
-  @Override public boolean hasStackFrames() throws DebugException { return true; }
+  @Override
+  public boolean hasStackFrames() throws DebugException {
+    return true;
+  }
 }

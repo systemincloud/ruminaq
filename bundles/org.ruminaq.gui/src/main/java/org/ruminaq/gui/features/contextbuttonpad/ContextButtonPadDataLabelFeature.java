@@ -23,24 +23,24 @@ import org.ruminaq.util.ServiceFilterArgs;
 public class ContextButtonPadDataLabelFeature
     implements GenericContextButtonPadDataExtension {
 
-	static class Filter implements Predicate<ServiceFilterArgs> {
+  static class Filter implements Predicate<ServiceFilterArgs> {
 
-		@Override
-		public boolean test(ServiceFilterArgs args) {
-			IPictogramElementContext context = (IPictogramElementContext) args
-			    .getArgs().get(1);
-			PictogramElement pe = context.getPictogramElement();
-			String labelProperty = Graphiti.getPeService().getPropertyValue(pe,
-			    Constants.LABEL_PROPERTY);
-			String portLabelProperty = Graphiti.getPeService().getPropertyValue(pe,
-			    Constants.PORT_LABEL_PROPERTY);
-			return Boolean.parseBoolean(labelProperty)
-			    || Boolean.parseBoolean(portLabelProperty);
-		}
-	}
+    @Override
+    public boolean test(ServiceFilterArgs args) {
+      IPictogramElementContext context = (IPictogramElementContext) args
+          .getArgs().get(1);
+      PictogramElement pe = context.getPictogramElement();
+      String labelProperty = Graphiti.getPeService().getPropertyValue(pe,
+          Constants.LABEL_PROPERTY);
+      String portLabelProperty = Graphiti.getPeService().getPropertyValue(pe,
+          Constants.PORT_LABEL_PROPERTY);
+      return Boolean.parseBoolean(labelProperty)
+          || Boolean.parseBoolean(portLabelProperty);
+    }
+  }
 
-	@Override
-	public int getGenericContextButtons() {
-		return 0;
-	}
+  @Override
+  public int getGenericContextButtons() {
+    return 0;
+  }
 }

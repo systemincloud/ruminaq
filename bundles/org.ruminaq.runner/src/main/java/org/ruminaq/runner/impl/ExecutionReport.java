@@ -4,19 +4,26 @@ import org.ruminaq.runner.impl.GeneratorI.GeneratorCallable;
 
 public class ExecutionReport {
 
-	private boolean moreTimes;
-	public  boolean isMoreTimes() { return moreTimes; }
-	private TaskI   task;
-	public  TaskI getTask() { return task; }
+  private boolean moreTimes;
 
-	public ExecutionReport(boolean moreTimes, TaskI task) {
-		this.moreTimes = moreTimes;
-		this.task = task;
-	}
+  public boolean isMoreTimes() {
+    return moreTimes;
+  }
 
-	public ExecutionReport(GeneratorCallable generatorCallable) {
-		this.moreTimes = false;
-		this.task = generatorCallable.getGeneratorI();
-	}
+  private TaskI task;
+
+  public TaskI getTask() {
+    return task;
+  }
+
+  public ExecutionReport(boolean moreTimes, TaskI task) {
+    this.moreTimes = moreTimes;
+    this.task = task;
+  }
+
+  public ExecutionReport(GeneratorCallable generatorCallable) {
+    this.moreTimes = false;
+    this.task = generatorCallable.getGeneratorI();
+  }
 
 }

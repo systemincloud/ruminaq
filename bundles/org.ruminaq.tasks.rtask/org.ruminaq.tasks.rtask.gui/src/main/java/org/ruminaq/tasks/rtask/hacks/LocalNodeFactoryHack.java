@@ -9,16 +9,17 @@ import de.walware.rj.servi.internal.NodeHandler;
 
 @Aspect
 @SuppressWarnings("restriction")
-@SuppressAjWarnings({"adviceDidNotMatch"})
+@SuppressAjWarnings({ "adviceDidNotMatch" })
 public class LocalNodeFactoryHack {
 
-	@Around("call(* de.walware.rj.servi.internal.LocalNodeFactory.createNode(..)) && args(poolObj)")
-	public void around(ProceedingJoinPoint point, final NodeHandler poolObj) throws Throwable {
-		System.out.println("XXX");
-		point.proceed();
-	}
+  @Around("call(* de.walware.rj.servi.internal.LocalNodeFactory.createNode(..)) && args(poolObj)")
+  public void around(ProceedingJoinPoint point, final NodeHandler poolObj)
+      throws Throwable {
+    System.out.println("XXX");
+    point.proceed();
+  }
 
-	public static LocalNodeFactoryHack aspectOf() {
-	      return new LocalNodeFactoryHack();
-	}
+  public static LocalNodeFactoryHack aspectOf() {
+    return new LocalNodeFactoryHack();
+  }
 }

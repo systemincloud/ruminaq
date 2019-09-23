@@ -30,58 +30,58 @@ import org.slf4j.Logger;
 
 public class ConstantI extends BasicTaskI {
 
-    private static final Logger LOGGER = RunnerLoggerFactory.getLogger(ConstantI.class);
+  private static final Logger LOGGER = RunnerLoggerFactory
+      .getLogger(ConstantI.class);
 
-    private Constant model;
+  private Constant model;
 
-    private AbstractConstantStrategy strategy;
+  private AbstractConstantStrategy strategy;
 
-    public ConstantI(EmbeddedTaskI parent, Task task) {
-        super(parent, task);
-        setConstant(true);
-        this.model = (Constant) task;
-        DataType dataType = model.getDataType();
+  public ConstantI(EmbeddedTaskI parent, Task task) {
+    super(parent, task);
+    setConstant(true);
+    this.model = (Constant) task;
+    DataType dataType = model.getDataType();
 
-        Optional<AbstractConstantStrategy> str = getStrategy(dataType, parent.replaceVariables(model.getValue()));
-        if (str.isPresent()) {
-            this.strategy = str.get();
-            LOGGER.trace("chosen strategy is {}", this.strategy.getClass().getSimpleName());
-        } else {
-            LOGGER.error("Constant implementation not found for data type {}", dataType.getClass().getName());
-        }
+    Optional<AbstractConstantStrategy> str = getStrategy(dataType,
+        parent.replaceVariables(model.getValue()));
+    if (str.isPresent()) {
+      this.strategy = str.get();
+      LOGGER.trace("chosen strategy is {}",
+          this.strategy.getClass().getSimpleName());
+    } else {
+      LOGGER.error("Constant implementation not found for data type {}",
+          dataType.getClass().getName());
+    }
+  }
+
+  private Optional<AbstractConstantStrategy> getStrategy(DataType dt,
+      String value) {
+    LOGGER.trace("look for strategy for {}", dt);
+    Optional<AbstractConstantStrategy> cs = ConstantServiceManager.INSTANCE
+        .getStrategy(dt, value);
+    if (cs.isPresent()) {
+      return cs;
     }
 
-    private Optional<AbstractConstantStrategy> getStrategy(DataType dt, String value) {
-        LOGGER.trace("look for strategy for {}", dt);
-        Optional<AbstractConstantStrategy> cs = ConstantServiceManager.INSTANCE.getStrategy(dt, value);
-        if (cs.isPresent()) {
-            return cs;
-        }
-
-        Optional<Strategies> strType = Strategies.getByDataType(dt);
-        if (strType.isPresent()) {
-            try {
-                return Optional.of(
-                        strType.get()
-                        .getStrategy()
-                        .getConstructor(ConstantI.class, String.class)
-                        .newInstance(this, value));
-            } catch (
-                    InstantiationException |
-                    IllegalAccessException |
-                    IllegalArgumentException |
-                    InvocationTargetException |
-                    NoSuchMethodException |
-                    SecurityException e) {
-                LOGGER.error("Couldn't create strategy",e);
-            }
-        }
-
-        return Optional.empty();
+    Optional<Strategies> strType = Strategies.getByDataType(dt);
+    if (strType.isPresent()) {
+      try {
+        return Optional.of(strType.get().getStrategy()
+            .getConstructor(ConstantI.class, String.class)
+            .newInstance(this, value));
+      } catch (InstantiationException | IllegalAccessException
+          | IllegalArgumentException | InvocationTargetException
+          | NoSuchMethodException | SecurityException e) {
+        LOGGER.error("Couldn't create strategy", e);
+      }
     }
 
-    @Override
-    protected void executeConstant() {
-        strategy.execute();
-    }
+    return Optional.empty();
+  }
+
+  @Override
+  protected void executeConstant() {
+    strategy.execute();
+  }
 }

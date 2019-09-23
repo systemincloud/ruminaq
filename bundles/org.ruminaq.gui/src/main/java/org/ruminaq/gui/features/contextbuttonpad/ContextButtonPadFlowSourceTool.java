@@ -35,52 +35,52 @@ import org.ruminaq.util.ServiceFilterArgs;
 public class ContextButtonPadFlowSourceTool
     implements DomainContextButtonPadDataExtension {
 
-	static class Filter implements Predicate<ServiceFilterArgs> {
+  static class Filter implements Predicate<ServiceFilterArgs> {
 
-		@Override
-		public boolean test(ServiceFilterArgs args) {
-			IFeatureProvider fp = (IFeatureProvider) args.getArgs().get(0);
-			IPictogramElementContext context = (IPictogramElementContext) args
-			    .getArgs().get(1);
-			PictogramElement pe = context.getPictogramElement();
-			return Boolean
-			    .parseBoolean(Graphiti.getPeService().getPropertyValue(pe,
-			        Constants.SIMPLE_CONNECTION_POINT))
-			    || fp.getBusinessObjectForPictogramElement(pe) instanceof FlowSource;
-		}
-	}
+    @Override
+    public boolean test(ServiceFilterArgs args) {
+      IFeatureProvider fp = (IFeatureProvider) args.getArgs().get(0);
+      IPictogramElementContext context = (IPictogramElementContext) args
+          .getArgs().get(1);
+      PictogramElement pe = context.getPictogramElement();
+      return Boolean
+          .parseBoolean(Graphiti.getPeService().getPropertyValue(pe,
+              Constants.SIMPLE_CONNECTION_POINT))
+          || fp.getBusinessObjectForPictogramElement(pe) instanceof FlowSource;
+    }
+  }
 
-	@Override
-	public Collection<IContextButtonEntry> getContextButtonPad(
-	    IFeatureProvider fp, IPictogramElementContext context) {
-		List<IContextButtonEntry> buttons = new ArrayList<>();
+  @Override
+  public Collection<IContextButtonEntry> getContextButtonPad(
+      IFeatureProvider fp, IPictogramElementContext context) {
+    List<IContextButtonEntry> buttons = new ArrayList<>();
 
-		PictogramElement pe = context.getPictogramElement();
+    PictogramElement pe = context.getPictogramElement();
 
-		CreateConnectionContext ccc = new CreateConnectionContext();
-		ccc.setSourcePictogramElement(pe);
-		Anchor anchor = null;
-		if (pe instanceof Anchor)
-			anchor = (Anchor) pe;
-		else if (pe instanceof AnchorContainer)
-			anchor = Graphiti.getPeService().getChopboxAnchor((AnchorContainer) pe);
-		ccc.setSourceAnchor(anchor);
+    CreateConnectionContext ccc = new CreateConnectionContext();
+    ccc.setSourcePictogramElement(pe);
+    Anchor anchor = null;
+    if (pe instanceof Anchor)
+      anchor = (Anchor) pe;
+    else if (pe instanceof AnchorContainer)
+      anchor = Graphiti.getPeService().getChopboxAnchor((AnchorContainer) pe);
+    ccc.setSourceAnchor(anchor);
 
-		ICreateConnectionFeature[] features = fp.getCreateConnectionFeatures();
-		ContextButtonEntry button = new ContextButtonEntry(null, context);
-		button.setText("Create connection"); //$NON-NLS-1$
-		ArrayList<String> names = new ArrayList<>();
-		button.setIconId(Images.Image.IMG_CONTEXT_SIMPLECONNECTION.name());
-		for (ICreateConnectionFeature feature : features) {
-			if (feature.isAvailable(ccc) && feature.canStartConnection(ccc)) {
-				button.addDragAndDropFeature(feature);
-				names.add(feature.getCreateName());
-			}
-		}
+    ICreateConnectionFeature[] features = fp.getCreateConnectionFeatures();
+    ContextButtonEntry button = new ContextButtonEntry(null, context);
+    button.setText("Create connection"); //$NON-NLS-1$
+    ArrayList<String> names = new ArrayList<>();
+    button.setIconId(Images.Image.IMG_CONTEXT_SIMPLECONNECTION.name());
+    for (ICreateConnectionFeature feature : features) {
+      if (feature.isAvailable(ccc) && feature.canStartConnection(ccc)) {
+        button.addDragAndDropFeature(feature);
+        names.add(feature.getCreateName());
+      }
+    }
 
-		buttons.add(button);
+    buttons.add(button);
 
-		return buttons;
-	}
+    return buttons;
+  }
 
 }

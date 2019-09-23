@@ -19,42 +19,43 @@ import org.ruminaq.tasks.gate.not.model.not.NotFactory;
 @Component(property = { "service.ranking:Integer=10" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
-	@Override
-	public List<Class<? extends ICreateFeature>> getFeatures() {
-		return Arrays.asList(CreateFeature.class);
-	}
-	
-	public static class CreateFeature extends CreateTaskFeature implements PaletteCreateFeature {
+  @Override
+  public List<Class<? extends ICreateFeature>> getFeatures() {
+    return Arrays.asList(CreateFeature.class);
+  }
 
-		public CreateFeature(IFeatureProvider fp) {
-			super(fp, Not.class);
-		}
+  public static class CreateFeature extends CreateTaskFeature
+      implements PaletteCreateFeature {
 
-		@Override
-		public String getCompartment() {
-			return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
-		}
-		
-		@Override
-		public String getStack() {
-			return CommonPaletteCompartmentEntry.LOGIC_STACK;
-		}
+    public CreateFeature(IFeatureProvider fp) {
+      super(fp, Not.class);
+    }
 
-		@Override
-		public Object[] create(ICreateContext context) {
-			Not gt = NotFactory.eINSTANCE.createNot();
-			gt.setInputNumber(1);
-			return super.create(context, gt);
-		}
+    @Override
+    public String getCompartment() {
+      return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
+    }
 
-		@Override
-		protected Class<? extends PortsDescr> getPortsDescription() {
-			return Port.class;
-		}
+    @Override
+    public String getStack() {
+      return CommonPaletteCompartmentEntry.LOGIC_STACK;
+    }
 
-		@Override
-		public String getCreateImageId() {
-			return Images.K.IMG_NOT_PALETTE.name();
-		}
-	}
+    @Override
+    public Object[] create(ICreateContext context) {
+      Not gt = NotFactory.eINSTANCE.createNot();
+      gt.setInputNumber(1);
+      return super.create(context, gt);
+    }
+
+    @Override
+    protected Class<? extends PortsDescr> getPortsDescription() {
+      return Port.class;
+    }
+
+    @Override
+    public String getCreateImageId() {
+      return Images.K.IMG_NOT_PALETTE.name();
+    }
+  }
 }

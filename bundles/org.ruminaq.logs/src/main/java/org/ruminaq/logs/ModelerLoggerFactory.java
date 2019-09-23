@@ -33,7 +33,8 @@ public final class ModelerLoggerFactory {
     LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
     PatternLayoutEncoder ple = new PatternLayoutEncoder();
 
-    ple.setPattern("%date %-5level [%thread] %logger{10} [:%line] %replace(%msg){'[\\r\\n]', ''}%n");
+    ple.setPattern(
+        "%date %-5level [%thread] %logger{10} [:%line] %replace(%msg){'[\\r\\n]', ''}%n");
     ple.setContext(lc);
     ple.start();
 

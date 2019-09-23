@@ -9,5 +9,4 @@ package org.ruminaq.tasks.randomgenerator.api;
  */
 public interface RandomGeneratorExtension {
 
-
 }

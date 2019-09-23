@@ -41,34 +41,62 @@ public class DoubleClickFeature extends AbstractCustomFeature {
     super(fp);
   }
 
-    @Override public boolean canExecute    (ICustomContext context) { return true; }
-  @Override public boolean hasDoneChanges()                       { return false; }
+  @Override
+  public boolean canExecute(ICustomContext context) {
+    return true;
+  }
+
+  @Override
+  public boolean hasDoneChanges() {
+    return false;
+  }
 
   @Override
   public void execute(ICustomContext context) {
     JavaTask bo = null;
-    for(Object o : Graphiti.getLinkService().getAllBusinessObjectsForLinkedPictogramElement(context.getInnerPictogramElement()))
-      if(o instanceof JavaTask) { bo = (JavaTask) o; break; }
-    if(bo == null) return;
-    if(bo.getImplementationClass().equals("")) return;
+    for (Object o : Graphiti.getLinkService()
+        .getAllBusinessObjectsForLinkedPictogramElement(
+            context.getInnerPictogramElement()))
+      if (o instanceof JavaTask) {
+        bo = (JavaTask) o;
+        break;
+      }
+    if (bo == null)
+      return;
+    if (bo.getImplementationClass().equals(""))
+      return;
 
-    IJavaProject project = JavaCore.create(ResourcesPlugin.getWorkspace().getRoot().getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram())));
-    IJavaSearchScope scope = SearchEngine.createJavaSearchScope(new IJavaElement[] { project });
-    SearchPattern pattern = SearchPattern.createPattern(bo.getImplementationClass(), IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE, SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
+    IJavaProject project = JavaCore
+        .create(ResourcesPlugin.getWorkspace().getRoot()
+            .getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram())));
+    IJavaSearchScope scope = SearchEngine
+        .createJavaSearchScope(new IJavaElement[] { project });
+    SearchPattern pattern = SearchPattern.createPattern(
+        bo.getImplementationClass(), IJavaSearchConstants.TYPE,
+        IJavaSearchConstants.TYPE,
+        SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
     SearchRequestor requestor = new SearchRequestor() {
-      @Override public void acceptSearchMatch(SearchMatch sm) throws CoreException {
+      @Override
+      public void acceptSearchMatch(SearchMatch sm) throws CoreException {
         type = (IType) sm.getElement();
       }
     };
     SearchEngine searchEngine = new SearchEngine();
-    try { searchEngine.search(pattern, new SearchParticipant[] {SearchEngine.getDefaultSearchParticipant()}, scope, requestor, null);
-    } catch (CoreException e) {  }
+    try {
+      searchEngine.search(pattern,
+          new SearchParticipant[] {
+              SearchEngine.getDefaultSearchParticipant() },
+          scope, requestor, null);
+    } catch (CoreException e) {
+    }
 
-    if(type == null) return;
+    if (type == null)
+      return;
 
     Display.getCurrent().asyncExec(new Runnable() {
       public void run() {
-        IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        IWorkbenchPage page = PlatformUI.getWorkbench()
+            .getActiveWorkbenchWindow().getActivePage();
         try {
           IResource r = type.getResource();
           IDE.openEditor(page, (IFile) r, true);

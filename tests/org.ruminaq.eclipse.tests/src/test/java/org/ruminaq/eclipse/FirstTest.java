@@ -7,10 +7,10 @@ import org.junit.runner.RunWith;
 @RunWith(JUnitPlatform.class)
 class FirstTest {
 
-    @Test
-    void test() {
-        System.out.println("YYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
+  @Test
+  void test() {
+    System.out.println("YYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
 //        fail("Not yet implemented");
-    }
+  }
 
 }

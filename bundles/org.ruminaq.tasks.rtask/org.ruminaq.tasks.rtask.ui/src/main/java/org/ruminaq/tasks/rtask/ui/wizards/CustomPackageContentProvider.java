@@ -11,30 +11,32 @@ import org.eclipse.jface.viewers.Viewer;
 
 public class CustomPackageContentProvider implements ITreeContentProvider {
 
-    private IProject project;
-    private boolean  selectOnlySourceFolders;
+  private IProject project;
+  private boolean selectOnlySourceFolders;
 
-    public CustomPackageContentProvider(IProject project, boolean selectOnlySourceFolders) {
-        this.project = project;
-        this.selectOnlySourceFolders = selectOnlySourceFolders;
+  public CustomPackageContentProvider(IProject project,
+      boolean selectOnlySourceFolders) {
+    this.project = project;
+    this.selectOnlySourceFolders = selectOnlySourceFolders;
+  }
+
+  public Object[] getChildren(Object parentElement) {
+
+    if (parentElement instanceof IWorkspaceRoot) {
+      IWorkspaceRoot workspaceRoot = (IWorkspaceRoot) parentElement;
+      List<IProject> ret = new ArrayList<IProject>();
+
+      IProject[] projects = workspaceRoot.getProjects();
+      for (IProject project : projects)
+        if (project == this.project)
+          ret.add(project);
+      return ret.toArray(new IProject[0]);
     }
 
-    public Object[] getChildren(Object parentElement) {
-
-        if(parentElement instanceof IWorkspaceRoot) {
-            IWorkspaceRoot workspaceRoot = (IWorkspaceRoot) parentElement;
-            List<IProject> ret = new ArrayList<IProject>();
-
-            IProject[] projects = workspaceRoot.getProjects();
-            for (IProject project : projects)
-                if(project == this.project) ret.add(project);
-            return ret.toArray(new IProject[0]);
-        }
-
-        if (parentElement instanceof IProject) {
-            List<Object> ret = new ArrayList<Object>();
-            IProject project = (IProject) parentElement;
-            if(project == this.project) {
+    if (parentElement instanceof IProject) {
+      List<Object> ret = new ArrayList<Object>();
+      IProject project = (IProject) parentElement;
+      if (project == this.project) {
 //                try {
 //                    IPythonPathNature nature = PythonNature.getPythonPathNature(project);
 //                    String[] srcPaths = PythonNature.getStrAsStrItems(nature.getProjectSourcePath(true));
@@ -51,11 +53,11 @@ public class CustomPackageContentProvider implements ITreeContentProvider {
 //                                if (folder != null) ret.add(new SourceFolder(folder));
 //                        }
 //                    }
-                    return ret.toArray();
+        return ret.toArray();
 //                } catch (CoreException e) {
 //                }
-            }
-        }
+      }
+    }
 
 //        SourceFolder sourceFolder = null;
 //        if(parentElement instanceof SourceFolder) {
@@ -80,29 +82,30 @@ public class CustomPackageContentProvider implements ITreeContentProvider {
 //            return ret.toArray();
 //        }
 
-        return new Object[0];
-    }
+    return new Object[0];
+  }
 
-    public Object getParent(Object element) {
+  public Object getParent(Object element) {
 //        if (element instanceof Package)   return ((Package) element).sourceFolder;
-        if (element instanceof IResource) return ((IResource) element).getParent();
-        return null;
-    }
+    if (element instanceof IResource)
+      return ((IResource) element).getParent();
+    return null;
+  }
 
-    public boolean hasChildren(Object element) {
-        return selectOnlySourceFolders;
+  public boolean hasChildren(Object element) {
+    return selectOnlySourceFolders;
 //        if(selectOnlySourceFolders && element instanceof SourceFolder) return false;
 //        else                                                           return getChildren(element).length > 0;
-    }
+  }
 
-    public Object[] getElements(Object inputElement) {
-        return getChildren(inputElement);
-    }
+  public Object[] getElements(Object inputElement) {
+    return getChildren(inputElement);
+  }
 
-    public void dispose() {
-    }
+  public void dispose() {
+  }
 
-    public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-    }
+  public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+  }
 
 }

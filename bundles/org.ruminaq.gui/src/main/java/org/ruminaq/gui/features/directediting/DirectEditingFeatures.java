@@ -16,8 +16,8 @@ import org.ruminaq.gui.api.DirectEditingFeatureExtension;
 @Component(property = { "service.ranking:Integer=5" })
 public class DirectEditingFeatures implements DirectEditingFeatureExtension {
 
-	@Override
-	public List<Class<? extends IDirectEditingFeature>> getFeatures() {
-		return Arrays.asList(DirectEditLabelFeature.class);
-	}
+  @Override
+  public List<Class<? extends IDirectEditingFeature>> getFeatures() {
+    return Arrays.asList(DirectEditLabelFeature.class);
+  }
 }

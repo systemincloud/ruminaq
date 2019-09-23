@@ -13,7 +13,8 @@ import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
 import org.eclipse.debug.core.model.IVariable;
 
-public class Stats extends RuminaqDebugElement implements IStackFrame, DiagramSource {
+public class Stats extends RuminaqDebugElement
+    implements IStackFrame, DiagramSource {
 
   private final IThread thread;
 
@@ -22,13 +23,35 @@ public class Stats extends RuminaqDebugElement implements IStackFrame, DiagramSo
     this.thread = thread;
   }
 
-  @Override public IThread getThread()     { return thread; }
-  @Override public int     getLineNumber() { return  0; }
-  @Override public int     getCharStart()  { return -1; }
-  @Override public int     getCharEnd()    { return -1; }
-  @Override public String  getName()       { return "Stats"; }
+  @Override
+  public IThread getThread() {
+    return thread;
+  }
 
-  @Override public IFile getSourceFile() { return getDebugTarget().getFile(); }
+  @Override
+  public int getLineNumber() {
+    return 0;
+  }
+
+  @Override
+  public int getCharStart() {
+    return -1;
+  }
+
+  @Override
+  public int getCharEnd() {
+    return -1;
+  }
+
+  @Override
+  public String getName() {
+    return "Stats";
+  }
+
+  @Override
+  public IFile getSourceFile() {
+    return getDebugTarget().getFile();
+  }
 
   @Override
   public IVariable[] getVariables() {

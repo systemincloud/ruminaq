@@ -28,7 +28,7 @@ public class CreateRuminaqProject {
   /**
    * Create new Ruminaq project.
    *
-   * @param bot SWTWorkbenchBot
+   * @param bot  SWTWorkbenchBot
    * @param name name of project
    * @return
    */
@@ -45,7 +45,7 @@ public class CreateRuminaqProject {
   /**
    * Open new project wizard File => New.
    *
-   * @param bot SWTWorkbenchBot
+   * @param bot  SWTWorkbenchBot
    * @param name name of project
    */
   public void openProjectWizardFromMainMenu(SWTWorkbenchBot bot) {
@@ -58,10 +58,11 @@ public class CreateRuminaqProject {
   /**
    * Accept perspective change on new project.
    *
-   * @param bot SWTWorkbenchBot
-]   */
+   * @param bot SWTWorkbenchBot ]
+   */
   public void acceptPerspectiveChange(SWTWorkbenchBot bot) {
-    SWTBotShell shellOpenPerspective = bot.shell("Open Associated Perspective?");
+    SWTBotShell shellOpenPerspective = bot
+        .shell("Open Associated Perspective?");
     shellOpenPerspective.activate();
     bot.button("Open Perspective").click();
 
@@ -71,13 +72,13 @@ public class CreateRuminaqProject {
   /**
    * Accept perspective change if pop ups.
    *
-   * @param bot SWTWorkbenchBot
-]   */
+   * @param bot SWTWorkbenchBot ]
+   */
   public void acceptPerspectiveChangeIfPopUps(SWTWorkbenchBot bot) {
     try {
-    	acceptPerspectiveChange(bot);
-    } catch(WidgetNotFoundException e) {
-    	LOGGER.info("No perspective change request");
+      acceptPerspectiveChange(bot);
+    } catch (WidgetNotFoundException e) {
+      LOGGER.info("No perspective change request");
     }
   }
 }

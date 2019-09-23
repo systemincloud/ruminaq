@@ -10,19 +10,19 @@ import org.ruminaq.model.ruminaq.Task;
 
 public interface ITaskUiApi {
 
-    String getSymbolicName();
+  String getSymbolicName();
 
-    Version getVersion();
+  Version getVersion();
 
-    default boolean checkPropertyFilter(Task task) {
-    	return true;
-    }
+  default boolean checkPropertyFilter(Task task) {
+    return true;
+  }
 
-    IPropertySection createPropertySection(Composite parent, PictogramElement pe, TransactionalEditingDomain ed,
-            IDiagramTypeProvider dtp);
+  IPropertySection createPropertySection(Composite parent, PictogramElement pe,
+      TransactionalEditingDomain ed, IDiagramTypeProvider dtp);
 
-    default IView createView(Class<? extends ViewPart> viewClass) {
-    	return null;
-    }
+  default IView createView(Class<? extends ViewPart> viewClass) {
+    return null;
+  }
 
 }

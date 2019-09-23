@@ -19,127 +19,127 @@ import org.osgi.util.tracker.ServiceTracker;
 
 public final class ServiceUtil {
 
-	private static final String SERVICE_RANKING_PROPERTY = "service.ranking";
+  private static final String SERVICE_RANKING_PROPERTY = "service.ranking";
 
-	private ServiceUtil() {
-	}
+  private ServiceUtil() {
+  }
 
-	public static <T> T getService(Class<T> clazz) {
-		Bundle bundle = FrameworkUtil.getBundle(ServiceUtil.class);
-		if (bundle != null) {
-			ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(),
-			    clazz, null);
-			st.open();
-			try {
-				return st.waitForService(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
+  public static <T> T getService(Class<T> clazz) {
+    Bundle bundle = FrameworkUtil.getBundle(ServiceUtil.class);
+    if (bundle != null) {
+      ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(),
+          clazz, null);
+      st.open();
+      try {
+        return st.waitForService(1000);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+    return null;
+  }
 
-	public static <T> Collection<T> getServices(Class<?> bundleClazz,
-	    Class<T> clazz) {
-		return getServices(bundleClazz, clazz, new ServiceFilterArgs() {
-			@Override
-			public List<?> getArgs() {
-				return Collections.emptyList();
-			}
-		});
-	}
+  public static <T> Collection<T> getServices(Class<?> bundleClazz,
+      Class<T> clazz) {
+    return getServices(bundleClazz, clazz, new ServiceFilterArgs() {
+      @Override
+      public List<?> getArgs() {
+        return Collections.emptyList();
+      }
+    });
+  }
 
-	public static <T> Collection<T> getServices(Class<?> bundleClazz,
-	    Class<T> clazz, ServiceFilterArgs filterArgs) {
-		Bundle bundle = FrameworkUtil.getBundle(bundleClazz);
-		if (bundle != null) {
-			ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(),
-			    clazz, null);
-			st.open();
-			ServiceReference<T>[] srs = st.getServiceReferences();
-			if (srs != null) {
-				return Stream.of(srs)
-				    .sorted(((s1, s2) -> Integer.compare(
-				        (Integer) s2.getProperty(SERVICE_RANKING_PROPERTY),
-				        (Integer) s1.getProperty(SERVICE_RANKING_PROPERTY))))
-				    .<T>map(st::getService).filter(filter(filterArgs))
-				    .collect(Collectors.<T>toList());
-			}
-		}
-		return Collections.emptyList();
-	}
+  public static <T> Collection<T> getServices(Class<?> bundleClazz,
+      Class<T> clazz, ServiceFilterArgs filterArgs) {
+    Bundle bundle = FrameworkUtil.getBundle(bundleClazz);
+    if (bundle != null) {
+      ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(),
+          clazz, null);
+      st.open();
+      ServiceReference<T>[] srs = st.getServiceReferences();
+      if (srs != null) {
+        return Stream.of(srs)
+            .sorted(((s1, s2) -> Integer.compare(
+                (Integer) s2.getProperty(SERVICE_RANKING_PROPERTY),
+                (Integer) s1.getProperty(SERVICE_RANKING_PROPERTY))))
+            .<T>map(st::getService).filter(filter(filterArgs))
+            .collect(Collectors.<T>toList());
+      }
+    }
+    return Collections.emptyList();
+  }
 
-	public static <T> Collection<T> getServicesAtLatestVersion(
-	    Class<?> bundleClazz, Class<T> clazz) {
-		return getServicesAtLatestVersion(bundleClazz, clazz,
-		    new ServiceFilterArgs() {
-			    @Override
-			    public List<?> getArgs() {
-				    return Collections.emptyList();
-			    }
-		    });
-	}
+  public static <T> Collection<T> getServicesAtLatestVersion(
+      Class<?> bundleClazz, Class<T> clazz) {
+    return getServicesAtLatestVersion(bundleClazz, clazz,
+        new ServiceFilterArgs() {
+          @Override
+          public List<?> getArgs() {
+            return Collections.emptyList();
+          }
+        });
+  }
 
-	public static <T> Collection<T> getServicesAtLatestVersion(
-	    Class<?> bundleClazz, Class<T> clazz, ServiceFilterArgs filterArgs) {
-		Bundle bundle = FrameworkUtil.getBundle(bundleClazz);
-		if (bundle != null) {
-			ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(),
-			    clazz, null);
-			st.open();
-			ServiceReference<T>[] srs = st.getServiceReferences();
-			if (srs != null) {
-				return Stream.of(srs).<SimpleEntry<ServiceReference<T>, T>>map(
-				    r -> new SimpleEntry<ServiceReference<T>, T>(r, st.getService(r)))
-				    .collect(Collectors
-				        .groupingBy(e -> e.getKey().getBundle().getSymbolicName()))
-				    .entrySet().stream()
-				    .map(e -> e.getValue().stream()
-				        .max(Comparator
-				            .comparing(r -> r.getKey().getBundle().getVersion()))
-				        .get())
-				    .sorted(
-				        ((s1, s2) -> Integer.compare(
-				            Optional
-				                .ofNullable((Integer) s2.getKey()
-				                    .getProperty(SERVICE_RANKING_PROPERTY))
-				                .orElse(Integer.MAX_VALUE),
-				            Optional
-				                .ofNullable((Integer) s1.getKey()
-				                    .getProperty(SERVICE_RANKING_PROPERTY))
-				                .orElse(Integer.MAX_VALUE))))
-				    .map(SimpleEntry::getValue).filter(filter(filterArgs))
-				    .collect(Collectors.toList());
-			}
-		}
+  public static <T> Collection<T> getServicesAtLatestVersion(
+      Class<?> bundleClazz, Class<T> clazz, ServiceFilterArgs filterArgs) {
+    Bundle bundle = FrameworkUtil.getBundle(bundleClazz);
+    if (bundle != null) {
+      ServiceTracker<T, T> st = new ServiceTracker<>(bundle.getBundleContext(),
+          clazz, null);
+      st.open();
+      ServiceReference<T>[] srs = st.getServiceReferences();
+      if (srs != null) {
+        return Stream.of(srs).<SimpleEntry<ServiceReference<T>, T>>map(
+            r -> new SimpleEntry<ServiceReference<T>, T>(r, st.getService(r)))
+            .collect(Collectors
+                .groupingBy(e -> e.getKey().getBundle().getSymbolicName()))
+            .entrySet().stream()
+            .map(e -> e.getValue().stream()
+                .max(Comparator
+                    .comparing(r -> r.getKey().getBundle().getVersion()))
+                .get())
+            .sorted(
+                ((s1, s2) -> Integer.compare(
+                    Optional
+                        .ofNullable((Integer) s2.getKey()
+                            .getProperty(SERVICE_RANKING_PROPERTY))
+                        .orElse(Integer.MAX_VALUE),
+                    Optional
+                        .ofNullable((Integer) s1.getKey()
+                            .getProperty(SERVICE_RANKING_PROPERTY))
+                        .orElse(Integer.MAX_VALUE))))
+            .map(SimpleEntry::getValue).filter(filter(filterArgs))
+            .collect(Collectors.toList());
+      }
+    }
 
-		return Collections.emptyList();
-	}
+    return Collections.emptyList();
+  }
 
-	static <T> Predicate<T> filter(ServiceFilterArgs filterArgs) {
-		return s -> {
-			return Optional
-			    .ofNullable(s.getClass().getAnnotation(ServiceFilter.class))
-			    .map(ServiceFilter::value)
-			    .<Constructor<? extends Predicate<ServiceFilterArgs>>>map(f -> {
-				    try {
-					    return f.getConstructor();
-				    } catch (NoSuchMethodException | SecurityException e) {
-					    return null;
-				    }
-			    }).<Predicate<ServiceFilterArgs>>map(c -> {
-				    try {
-					    return c.newInstance();
-				    } catch (InstantiationException | IllegalAccessException
-				        | IllegalArgumentException | InvocationTargetException e) {
-					    return null;
-				    }
-			    }).orElse(new Predicate<ServiceFilterArgs>() {
-				    @Override
-				    public boolean test(ServiceFilterArgs arg0) {
-					    return true;
-				    }
-			    }).test(filterArgs);
-		};
-	}
+  static <T> Predicate<T> filter(ServiceFilterArgs filterArgs) {
+    return s -> {
+      return Optional
+          .ofNullable(s.getClass().getAnnotation(ServiceFilter.class))
+          .map(ServiceFilter::value)
+          .<Constructor<? extends Predicate<ServiceFilterArgs>>>map(f -> {
+            try {
+              return f.getConstructor();
+            } catch (NoSuchMethodException | SecurityException e) {
+              return null;
+            }
+          }).<Predicate<ServiceFilterArgs>>map(c -> {
+            try {
+              return c.newInstance();
+            } catch (InstantiationException | IllegalAccessException
+                | IllegalArgumentException | InvocationTargetException e) {
+              return null;
+            }
+          }).orElse(new Predicate<ServiceFilterArgs>() {
+            @Override
+            public boolean test(ServiceFilterArgs arg0) {
+              return true;
+            }
+          }).test(filterArgs);
+    };
+  }
 }

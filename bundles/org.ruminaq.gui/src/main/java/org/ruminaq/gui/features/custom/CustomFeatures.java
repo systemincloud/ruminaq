@@ -17,8 +17,8 @@ import org.ruminaq.gui.features.create.CreateSimpleConnectionPointFeature;
 @Component(property = { "service.ranking:Integer=5" })
 public class CustomFeatures implements CustomFeaturesExtension {
 
-	@Override
-	public List<Class<? extends ICustomFeature>> getFeatures() {
-		return Arrays.asList(CreateSimpleConnectionPointFeature.class);
-	}
+  @Override
+  public List<Class<? extends ICustomFeature>> getFeatures() {
+    return Arrays.asList(CreateSimpleConnectionPointFeature.class);
+  }
 }

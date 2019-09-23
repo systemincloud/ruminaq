@@ -45,7 +45,7 @@ public abstract class AbstractTaskPropertySection extends GFPropertySection
       for (ITaskUiApi t : tasks.getTasks(getPrefix())) {
 //        if (t.getSymbolicName().equals(task.getBundleName()) && TaskProvider
 //            .compare(t.getVersion(), Version.parseVersion(task.getVersion())))
-          return t;
+        return t;
       }
     }
     return null;

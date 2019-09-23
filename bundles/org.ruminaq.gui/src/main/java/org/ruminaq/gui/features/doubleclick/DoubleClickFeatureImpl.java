@@ -16,8 +16,8 @@ import org.ruminaq.gui.api.DoubleClickFeatureExtension;
 @Component(property = { "service.ranking:Integer=5" })
 public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
 
-	@Override
-	public List<Class<? extends ICustomFeature>> getFeatures() {
-		return Arrays.asList(DoubleClickBaseElementFeature.class);
-	}
+  @Override
+  public List<Class<? extends ICustomFeature>> getFeatures() {
+    return Arrays.asList(DoubleClickBaseElementFeature.class);
+  }
 }

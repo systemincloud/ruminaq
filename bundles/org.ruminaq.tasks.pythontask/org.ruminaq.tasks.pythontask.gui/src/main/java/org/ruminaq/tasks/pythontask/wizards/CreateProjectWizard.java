@@ -75,9 +75,11 @@ public class CreateProjectWizard {
 
   private void createSourceFolders(IProject project) throws CoreException {
     EclipseUtil.createFolderWithParents(project, Constants.MAIN_PYTHON);
-    EclipseUtil.createFileInFolder(project, Constants.MAIN_PYTHON, "PLACEHOLDER_FOR_PY");
+    EclipseUtil.createFileInFolder(project, Constants.MAIN_PYTHON,
+        "PLACEHOLDER_FOR_PY");
     EclipseUtil.createFolderWithParents(project, Constants.TEST_PYTHON);
-    EclipseUtil.createFileInFolder(project, Constants.TEST_PYTHON, "PLACEHOLDER_FOR_PY");
+    EclipseUtil.createFileInFolder(project, Constants.TEST_PYTHON,
+        "PLACEHOLDER_FOR_PY");
   }
 
   private void createPyDevProjectFile(IProject project) throws CoreException {

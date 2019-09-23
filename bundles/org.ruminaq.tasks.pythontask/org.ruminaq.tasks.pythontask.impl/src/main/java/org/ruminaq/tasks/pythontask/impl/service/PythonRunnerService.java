@@ -8,9 +8,10 @@ import org.python.util.PythonInterpreter;
 import org.ruminaq.runner.impl.data.DataI;
 
 public interface PythonRunnerService {
-	void importDatas(PythonInterpreter pi);
+  void importDatas(PythonInterpreter pi);
 
-	PyObject toJythonData(PythonInterpreter pi, DataI dataI, PyList pyDims);
+  PyObject toJythonData(PythonInterpreter pi, DataI dataI, PyList pyDims);
 
-	DataI fromJythonData(PythonInterpreter pi, PyObject data, PyObject[] pyValues, List<Integer> dims);
+  DataI fromJythonData(PythonInterpreter pi, PyObject data, PyObject[] pyValues,
+      List<Integer> dims);
 }

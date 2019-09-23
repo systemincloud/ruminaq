@@ -5,11 +5,11 @@
  ******************************************************************************/
 
 /**
-* Test classes for gui project.
-* <p>
-* These tests should check if Diagram Ruminaq works
-* </p>
-*
-* @author Marek Jagielski
-*/
+ * Test classes for gui project.
+ * <p>
+ * These tests should check if Diagram Ruminaq works
+ * </p>
+ *
+ * @author Marek Jagielski
+ */
 package org.ruminaq.gui.it.tests;

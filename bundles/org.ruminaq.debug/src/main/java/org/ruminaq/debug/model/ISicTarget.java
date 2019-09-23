@@ -10,5 +10,6 @@ import org.ruminaq.debug.api.dispatcher.IEventProcessor;
 
 public interface ISicTarget extends IEventProcessor {
   void setState(IState state);
+
   void fireTerminateEvent();
 }

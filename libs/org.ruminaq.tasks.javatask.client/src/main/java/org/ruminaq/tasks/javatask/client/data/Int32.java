@@ -11,31 +11,31 @@ import java.util.List;
  */
 public class Int32 extends Data {
 
-	private int[] values;
+  private int[] values;
 
-	public Int32(int value) {
-		super(1);
-		values = new int[] { value };
-	}
+  public Int32(int value) {
+    super(1);
+    values = new int[] { value };
+  }
 
-	public Int32(List<Integer> dims, int[] values) {
-		this(dims, values, false);
-	}
+  public Int32(List<Integer> dims, int[] values) {
+    this(dims, values, false);
+  }
 
-	public Int32(List<Integer> dims, int[] values, boolean copy) {
-		super(dims);
-		if (copy) {
-			this.values = new int[values.length];
-			System.arraycopy(values, 0, this.values, 0, values.length);
-		} else
-			this.values = values;
-	}
+  public Int32(List<Integer> dims, int[] values, boolean copy) {
+    super(dims);
+    if (copy) {
+      this.values = new int[values.length];
+      System.arraycopy(values, 0, this.values, 0, values.length);
+    } else
+      this.values = values;
+  }
 
-	public int[] getValues() {
-		return values;
-	}
+  public int[] getValues() {
+    return values;
+  }
 
-	public int getValue() {
-		return values[0];
-	}
+  public int getValue() {
+    return values[0];
+  }
 }

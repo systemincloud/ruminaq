@@ -34,137 +34,180 @@ import org.ruminaq.util.GlobalUtil;
 
 public class PropertySpecificTextComposite extends PropertySpecificComposite {
 
-	private CLabel lblType;
-	private Combo  cmbTextType;
-	private CLabel lblAlfaType;
-	private Combo  cmbAlfaType;
-	private CLabel lblLength;
-	private Text   txtLength;
-	
-	public PropertySpecificTextComposite(
-			ValueSaveListener saveListener,
-			Composite specificRoot, 
-			PictogramElement pe, 
-			TransactionalEditingDomain ed) {
-		super(saveListener, specificRoot, pe, ed);
-		initLayout();
-		initComponents();
-		initActions();
-		addStyles();
-	}
+  private CLabel lblType;
+  private Combo cmbTextType;
+  private CLabel lblAlfaType;
+  private Combo cmbAlfaType;
+  private CLabel lblLength;
+  private Text txtLength;
 
-	private void initLayout() {
-		composite = new Composite(this.specificRoot, SWT.NONE);
-		composite.setLayout(new GridLayout(4, false));
-		lblType = new CLabel(composite, SWT.NONE);
-		cmbTextType = new Combo(composite, SWT.READ_ONLY);
-		lblAlfaType = new CLabel(composite, SWT.NONE);
-		cmbAlfaType = new Combo(composite, SWT.READ_ONLY);
-		lblLength = new CLabel(composite, SWT.NONE);
-		txtLength = new Text(composite, SWT.BORDER);
-		GridData layoutLength = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		layoutLength.minimumWidth = 75; layoutLength.widthHint = 75;
-		txtLength.setLayoutData(layoutLength);
-	}
-	
-	private void initComponents() {
-		lblType    .setText("Type:");
-		List<String> types = new LinkedList<>();
-		for(TextType v : TextType.values()) types.add(v.toString());
-		cmbTextType.setItems(types.toArray(new String[types.size()]));
+  public PropertySpecificTextComposite(ValueSaveListener saveListener,
+      Composite specificRoot, PictogramElement pe,
+      TransactionalEditingDomain ed) {
+    super(saveListener, specificRoot, pe, ed);
+    initLayout();
+    initComponents();
+    initActions();
+    addStyles();
+  }
 
-		lblAlfaType.setText("Case:");
-		List<String> cases = new LinkedList<>();
-		for(TextCase v : TextCase.values()) cases.add(v.toString());
-		cmbAlfaType.setItems(cases.toArray(new String[cases.size()]));
+  private void initLayout() {
+    composite = new Composite(this.specificRoot, SWT.NONE);
+    composite.setLayout(new GridLayout(4, false));
+    lblType = new CLabel(composite, SWT.NONE);
+    cmbTextType = new Combo(composite, SWT.READ_ONLY);
+    lblAlfaType = new CLabel(composite, SWT.NONE);
+    cmbAlfaType = new Combo(composite, SWT.READ_ONLY);
+    lblLength = new CLabel(composite, SWT.NONE);
+    txtLength = new Text(composite, SWT.BORDER);
+    GridData layoutLength = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1,
+        1);
+    layoutLength.minimumWidth = 75;
+    layoutLength.widthHint = 75;
+    txtLength.setLayoutData(layoutLength);
+  }
 
-		lblLength  .setText("Length:");
-	}
-	
-	private void initActions() {
-		cmbTextType.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				if(cmbTextType.getText().equals(TextType.NUMERIC.toString())) { lblAlfaType.setVisible(false); cmbAlfaType.setVisible(false); }
-				else                                                          { lblAlfaType.setVisible(true);  cmbAlfaType.setVisible(true);  }
-				save();
-			}
-		});
-		cmbAlfaType.addSelectionListener(new SelectionAdapter() { public void widgetSelected(SelectionEvent e) { save(); } });
-		txtLength.addFocusListener(new FocusAdapter() {
-			@Override public void focusLost(FocusEvent event) {
-				Shell shell = txtLength.getShell();
-				boolean parse = GlobalUtil.isIntegerAlsoGVandRand(txtLength.getText());
-				if(parse) {
-					ModelUtil.runModelChange(new Runnable() {
-						public void run() {
-							Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-							if (bo == null) return;
-							if (bo instanceof RandomGenerator) {
-								RandomGenerator rg = (RandomGenerator) bo;
-								rg.getSpecific().put(TextStrategy.TEXT_LENGTH, txtLength.getText());
-							}
-						}
-					}, ed, "Change dimensions");
-				} else MessageDialog.openError(shell, "Can't edit value", "Don't understant lenght");
-			}
-		});
-		txtLength.addTraverseListener(new TraverseListener() {
-			@Override public void keyTraversed(TraverseEvent event) { if(event.detail == SWT.TRAVERSE_RETURN) specificRoot.setFocus(); }
-		});
-	}
-	
-	private void addStyles() {
-		composite  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		lblType    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		lblAlfaType.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		lblLength  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		txtLength  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-	}
+  private void initComponents() {
+    lblType.setText("Type:");
+    List<String> types = new LinkedList<>();
+    for (TextType v : TextType.values())
+      types.add(v.toString());
+    cmbTextType.setItems(types.toArray(new String[types.size()]));
 
-	public static final String TEXT_TYPE = "TEXT_TYPE";
-	public static final String TEXT_CASE = "TEXT_CASE";
-	public static final String TEXT_LENGTH = "TEXT_LENGTH";
-	public static final int DEFAULT_TEXT_LENGTH = 5;
-	
-	@Override
-	public void initValues(EMap<String, String> eMap) {
-		String textType = eMap.get(TextStrategy.TEXT_TYPE);
-		if(textType == null) eMap.put(TEXT_TYPE, TextType.ALPHANUMERIC.toString());
-		String textCase = eMap.get(TextStrategy.TEXT_CASE);
-		if(textCase == null) eMap.put(TEXT_CASE, TextCase.ANY.toString());
-		String textLength = eMap.get(TextStrategy.TEXT_LENGTH);
-		if(textLength == null) eMap.put(TEXT_LENGTH, Integer.toString(DEFAULT_TEXT_LENGTH));
-	}
+    lblAlfaType.setText("Case:");
+    List<String> cases = new LinkedList<>();
+    for (TextCase v : TextCase.values())
+      cases.add(v.toString());
+    cmbAlfaType.setItems(cases.toArray(new String[cases.size()]));
 
-	@Override
-	public void refresh(EMap<String, String> eMap) {
-		String textType = eMap.get(TextStrategy.TEXT_TYPE);
-		int j = 0;
-		for(String b : cmbTextType.getItems()) { if(b.equals(textType)) break; j++; }
-		cmbTextType.select(j);
+    lblLength.setText("Length:");
+  }
 
-		if(cmbTextType.getText().equals(TextType.NUMERIC.toString())) { lblAlfaType.setVisible(false); cmbAlfaType.setVisible(false); }
-		else                                                          { lblAlfaType.setVisible(true);  cmbAlfaType.setVisible(true);  }
+  private void initActions() {
+    cmbTextType.addSelectionListener(new SelectionAdapter() {
+      public void widgetSelected(SelectionEvent e) {
+        if (cmbTextType.getText().equals(TextType.NUMERIC.toString())) {
+          lblAlfaType.setVisible(false);
+          cmbAlfaType.setVisible(false);
+        } else {
+          lblAlfaType.setVisible(true);
+          cmbAlfaType.setVisible(true);
+        }
+        save();
+      }
+    });
+    cmbAlfaType.addSelectionListener(new SelectionAdapter() {
+      public void widgetSelected(SelectionEvent e) {
+        save();
+      }
+    });
+    txtLength.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusLost(FocusEvent event) {
+        Shell shell = txtLength.getShell();
+        boolean parse = GlobalUtil.isIntegerAlsoGVandRand(txtLength.getText());
+        if (parse) {
+          ModelUtil.runModelChange(new Runnable() {
+            public void run() {
+              Object bo = Graphiti.getLinkService()
+                  .getBusinessObjectForLinkedPictogramElement(pe);
+              if (bo == null)
+                return;
+              if (bo instanceof RandomGenerator) {
+                RandomGenerator rg = (RandomGenerator) bo;
+                rg.getSpecific().put(TextStrategy.TEXT_LENGTH,
+                    txtLength.getText());
+              }
+            }
+          }, ed, "Change dimensions");
+        } else
+          MessageDialog.openError(shell, "Can't edit value",
+              "Don't understant lenght");
+      }
+    });
+    txtLength.addTraverseListener(new TraverseListener() {
+      @Override
+      public void keyTraversed(TraverseEvent event) {
+        if (event.detail == SWT.TRAVERSE_RETURN)
+          specificRoot.setFocus();
+      }
+    });
+  }
 
-		String textCase = eMap.get(TextStrategy.TEXT_CASE);
-		j = 0;
-		for(String b : cmbAlfaType.getItems()) { if(b.equals(textCase)) break; j++; }
-		cmbAlfaType.select(j);
+  private void addStyles() {
+    composite
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    lblType.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    lblAlfaType
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    lblLength
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    txtLength
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+  }
 
-		txtLength.setText(eMap.get(TextStrategy.TEXT_LENGTH));
-	}
-	
-	private void save() {
-		ModelUtil.runModelChange(new Runnable() {
-			public void run() {
-				Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-				if(bo == null) return;
-				if (bo instanceof RandomGenerator) {
-					RandomGenerator rg = (RandomGenerator) bo;
-					rg.getSpecific().put(TextStrategy.TEXT_TYPE, cmbTextType.getText());
-					rg.getSpecific().put(TextStrategy.TEXT_CASE, cmbAlfaType.getText());
-				}
-			}
-		}, ed, "Change random generator");
-	}
+  public static final String TEXT_TYPE = "TEXT_TYPE";
+  public static final String TEXT_CASE = "TEXT_CASE";
+  public static final String TEXT_LENGTH = "TEXT_LENGTH";
+  public static final int DEFAULT_TEXT_LENGTH = 5;
+
+  @Override
+  public void initValues(EMap<String, String> eMap) {
+    String textType = eMap.get(TextStrategy.TEXT_TYPE);
+    if (textType == null)
+      eMap.put(TEXT_TYPE, TextType.ALPHANUMERIC.toString());
+    String textCase = eMap.get(TextStrategy.TEXT_CASE);
+    if (textCase == null)
+      eMap.put(TEXT_CASE, TextCase.ANY.toString());
+    String textLength = eMap.get(TextStrategy.TEXT_LENGTH);
+    if (textLength == null)
+      eMap.put(TEXT_LENGTH, Integer.toString(DEFAULT_TEXT_LENGTH));
+  }
+
+  @Override
+  public void refresh(EMap<String, String> eMap) {
+    String textType = eMap.get(TextStrategy.TEXT_TYPE);
+    int j = 0;
+    for (String b : cmbTextType.getItems()) {
+      if (b.equals(textType))
+        break;
+      j++;
+    }
+    cmbTextType.select(j);
+
+    if (cmbTextType.getText().equals(TextType.NUMERIC.toString())) {
+      lblAlfaType.setVisible(false);
+      cmbAlfaType.setVisible(false);
+    } else {
+      lblAlfaType.setVisible(true);
+      cmbAlfaType.setVisible(true);
+    }
+
+    String textCase = eMap.get(TextStrategy.TEXT_CASE);
+    j = 0;
+    for (String b : cmbAlfaType.getItems()) {
+      if (b.equals(textCase))
+        break;
+      j++;
+    }
+    cmbAlfaType.select(j);
+
+    txtLength.setText(eMap.get(TextStrategy.TEXT_LENGTH));
+  }
+
+  private void save() {
+    ModelUtil.runModelChange(new Runnable() {
+      public void run() {
+        Object bo = Graphiti.getLinkService()
+            .getBusinessObjectForLinkedPictogramElement(pe);
+        if (bo == null)
+          return;
+        if (bo instanceof RandomGenerator) {
+          RandomGenerator rg = (RandomGenerator) bo;
+          rg.getSpecific().put(TextStrategy.TEXT_TYPE, cmbTextType.getText());
+          rg.getSpecific().put(TextStrategy.TEXT_CASE, cmbAlfaType.getText());
+        }
+      }
+    }, ed, "Change random generator");
+  }
 }

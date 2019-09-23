@@ -10,17 +10,16 @@ public class SelectView {
 
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(SelectView.class);
-  
-	public static void closeWelcomeViewIfExists(SWTWorkbenchBot bot) {
-		try {
-		  bot.viewByTitle("Welcome").close();
-		}
-		catch (WidgetNotFoundException e) {
-			LOGGER.debug("Welcom view not found");
-		}
-	}
-	
-	public static SWTBotView getProjectExplorer(SWTWorkbenchBot bot) {
-		return bot.viewByTitle("Project Explorer");
-	}
+
+  public static void closeWelcomeViewIfExists(SWTWorkbenchBot bot) {
+    try {
+      bot.viewByTitle("Welcome").close();
+    } catch (WidgetNotFoundException e) {
+      LOGGER.debug("Welcom view not found");
+    }
+  }
+
+  public static SWTBotView getProjectExplorer(SWTWorkbenchBot bot) {
+    return bot.viewByTitle("Project Explorer");
+  }
 }

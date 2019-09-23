@@ -20,23 +20,26 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.swt.widgets.Composite;
 
 public abstract class PropertyValueComposite {
-    protected ValueSaveListener saveListener;
-    protected Composite         valueRoot;
-    protected PictogramElement           pe;
-    protected TransactionalEditingDomain ed;
+  protected ValueSaveListener saveListener;
+  protected Composite valueRoot;
+  protected PictogramElement pe;
+  protected TransactionalEditingDomain ed;
 
-    protected Composite composite;
-    public Composite getComposite() {
-        return composite;
-    }
+  protected Composite composite;
 
-    public PropertyValueComposite(ValueSaveListener saveListener, Composite valueRoot, PictogramElement pe, TransactionalEditingDomain ed) {
-        this.saveListener = saveListener;
-        this.valueRoot    = valueRoot;
-        this.pe           = pe;
-        this.ed           = ed;
-    }
+  public Composite getComposite() {
+    return composite;
+  }
 
-    public abstract String getValue();
-    public abstract void   refresh(String value);
+  public PropertyValueComposite(ValueSaveListener saveListener,
+      Composite valueRoot, PictogramElement pe, TransactionalEditingDomain ed) {
+    this.saveListener = saveListener;
+    this.valueRoot = valueRoot;
+    this.pe = pe;
+    this.ed = ed;
+  }
+
+  public abstract String getValue();
+
+  public abstract void refresh(String value);
 }

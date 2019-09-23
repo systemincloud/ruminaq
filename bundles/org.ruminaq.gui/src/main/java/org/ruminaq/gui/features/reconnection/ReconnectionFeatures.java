@@ -16,8 +16,8 @@ import org.ruminaq.gui.api.ReconnectionFeatureExtension;
 @Component(property = { "service.ranking:Integer=5" })
 public class ReconnectionFeatures implements ReconnectionFeatureExtension {
 
-	@Override
-	public List<Class<? extends IReconnectionFeature>> getFeatures() {
-		return Arrays.asList(ReconnectionSimpleConnectionFeature.class);
-	}
+  @Override
+  public List<Class<? extends IReconnectionFeature>> getFeatures() {
+    return Arrays.asList(ReconnectionSimpleConnectionFeature.class);
+  }
 }

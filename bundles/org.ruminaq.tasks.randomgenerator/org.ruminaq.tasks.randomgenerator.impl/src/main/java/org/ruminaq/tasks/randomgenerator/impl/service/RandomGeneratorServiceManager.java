@@ -17,23 +17,25 @@ import org.ruminaq.tasks.randomgenerator.impl.strategy.RandomGeneratorStrategy;
  */
 public enum RandomGeneratorServiceManager {
 
-	INSTANCE;
+  INSTANCE;
 
-	private List<RandomGeneratorService> services = new ArrayList<>();
+  private List<RandomGeneratorService> services = new ArrayList<>();
 
-	private RandomGeneratorServiceManager() {
-		ServiceLoader<RandomGeneratorService> sl = ServiceLoader.load(RandomGeneratorService.class);
-		for (RandomGeneratorService srv : sl) {
-			services.add(srv);
-		}
-	}
+  private RandomGeneratorServiceManager() {
+    ServiceLoader<RandomGeneratorService> sl = ServiceLoader
+        .load(RandomGeneratorService.class);
+    for (RandomGeneratorService srv : sl) {
+      services.add(srv);
+    }
+  }
 
-	public RandomGeneratorStrategy getStrategy(DataType dt, EMap<String, String> eMap) {
-		for (RandomGeneratorService srv : services) {
-			RandomGeneratorStrategy strategy = srv.getStrategy(dt, eMap);
-			if (strategy != null)
-				return strategy;
-		}
-		return null;
-	}
+  public RandomGeneratorStrategy getStrategy(DataType dt,
+      EMap<String, String> eMap) {
+    for (RandomGeneratorService srv : services) {
+      RandomGeneratorStrategy strategy = srv.getStrategy(dt, eMap);
+      if (strategy != null)
+        return strategy;
+    }
+    return null;
+  }
 }

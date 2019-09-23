@@ -19,33 +19,33 @@ import org.ruminaq.gui.features.delete.DeleteLabelFeature.Filter;
 @FeatureFilter(Filter.class)
 public class DeleteLabelFeature extends RuminaqDeleteFeature {
 
-	public static class Filter implements FeaturePredicate<IContext> {
-		@Override
-		public boolean test(IContext context) {
-			IDeleteContext deleteContext = (IDeleteContext) context;
-			return Graphiti.getPeService().getPropertyValue(
-			    deleteContext.getPictogramElement(),
-			    Constants.LABEL_PROPERTY) != null;
-		}
-	}
+  public static class Filter implements FeaturePredicate<IContext> {
+    @Override
+    public boolean test(IContext context) {
+      IDeleteContext deleteContext = (IDeleteContext) context;
+      return Graphiti.getPeService().getPropertyValue(
+          deleteContext.getPictogramElement(),
+          Constants.LABEL_PROPERTY) != null;
+    }
+  }
 
-	public DeleteLabelFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public DeleteLabelFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	public boolean canDelete(IDeleteContext context) {
-		PictogramElement[] selection = getFeatureProvider().getDiagramTypeProvider()
-		    .getDiagramBehavior().getDiagramContainer()
-		    .getSelectedPictogramElements();
-		for (PictogramElement s : selection)
-			if (Graphiti.getPeService().getPropertyValue(s,
-			    Constants.LABEL_PROPERTY) == null)
-				return true;
-		return false;
-	}
+  @Override
+  public boolean canDelete(IDeleteContext context) {
+    PictogramElement[] selection = getFeatureProvider().getDiagramTypeProvider()
+        .getDiagramBehavior().getDiagramContainer()
+        .getSelectedPictogramElements();
+    for (PictogramElement s : selection)
+      if (Graphiti.getPeService().getPropertyValue(s,
+          Constants.LABEL_PROPERTY) == null)
+        return true;
+    return false;
+  }
 
-	@Override
-	public void delete(IDeleteContext context) {
-	}
+  @Override
+  public void delete(IDeleteContext context) {
+  }
 }

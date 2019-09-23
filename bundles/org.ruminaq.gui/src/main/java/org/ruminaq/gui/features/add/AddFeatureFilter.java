@@ -13,11 +13,12 @@ import org.ruminaq.model.ruminaq.BaseElement;
 
 public abstract class AddFeatureFilter implements FeaturePredicate<IContext> {
 
-	@Override
-	public boolean test(IContext context) {
-		IAddContext addContext = (IAddContext) context;
-		return forBusinessObject().isAssignableFrom(addContext.getNewObject().getClass());
-	}
+  @Override
+  public boolean test(IContext context) {
+    IAddContext addContext = (IAddContext) context;
+    return forBusinessObject()
+        .isAssignableFrom(addContext.getNewObject().getClass());
+  }
 
-	public abstract Class<? extends BaseElement> forBusinessObject();
+  public abstract Class<? extends BaseElement> forBusinessObject();
 }

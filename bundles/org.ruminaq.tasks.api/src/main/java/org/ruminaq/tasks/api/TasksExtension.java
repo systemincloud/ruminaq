@@ -11,7 +11,7 @@ import org.osgi.framework.BundleContext;
  */
 public interface TasksExtension {
 
-	void init(BundleContext ctx);
+  void init(BundleContext ctx);
 
-	String getListJson();
+  String getListJson();
 }

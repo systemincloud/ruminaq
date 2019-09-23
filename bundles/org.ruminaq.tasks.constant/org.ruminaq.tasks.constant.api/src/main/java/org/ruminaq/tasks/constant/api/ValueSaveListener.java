@@ -16,6 +16,7 @@
 package org.ruminaq.tasks.constant.api;
 
 public interface ValueSaveListener {
-    void setFocus();
-    void update();
+  void setFocus();
+
+  void update();
 }

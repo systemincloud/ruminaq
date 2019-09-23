@@ -26,63 +26,65 @@ import org.ruminaq.gui.features.create.PaletteCreateFeature;
 public class CommonPaletteCompartmentEntry
     implements PaletteCompartmentEntryExtension {
 
-	public static final String DEFAULT_COMPARTMENT = "Commons";
-	public static final String CONNECTIONS_STACK = "Connections";
-	public static final String PORTS_STACK = "Ports";
-	public static final String SOURCES_STACK = "Sources";
-	public static final String FLOW_STACK = "Flow";
-	public static final String LOGIC_STACK = "Logic";
-	public static final String USERDEFINED_STACK = "User defined";
-	public static final String SINKS_STACK = "Sinks";
+  public static final String DEFAULT_COMPARTMENT = "Commons";
+  public static final String CONNECTIONS_STACK = "Connections";
+  public static final String PORTS_STACK = "Ports";
+  public static final String SOURCES_STACK = "Sources";
+  public static final String FLOW_STACK = "Flow";
+  public static final String LOGIC_STACK = "Logic";
+  public static final String USERDEFINED_STACK = "User defined";
+  public static final String SINKS_STACK = "Sinks";
 
-	@Override
-	public Collection<IPaletteCompartmentEntry> getPalette(IFeatureProvider fp,
-	    boolean isTest) {
-		IPaletteCompartmentEntry commonCompartmentEntry = new PaletteCompartmentEntry(
-		    DEFAULT_COMPARTMENT, null);
-		commonCompartmentEntry.setInitiallyOpen(false);
+  @Override
+  public Collection<IPaletteCompartmentEntry> getPalette(IFeatureProvider fp,
+      boolean isTest) {
+    IPaletteCompartmentEntry commonCompartmentEntry = new PaletteCompartmentEntry(
+        DEFAULT_COMPARTMENT, null);
+    commonCompartmentEntry.setInitiallyOpen(false);
 
-		ICreateConnectionFeature[] createConnectionFeatures = fp
-		    .getCreateConnectionFeatures();
+    ICreateConnectionFeature[] createConnectionFeatures = fp
+        .getCreateConnectionFeatures();
 
-		Stream.of(CONNECTIONS_STACK).forEachOrdered(stackName -> {
-			StackEntry connectionsStackEntry = new StackEntry(CONNECTIONS_STACK, "",
-			    null);
-			Stream.of(createConnectionFeatures)
-			    .filter(cf -> cf instanceof PaletteCreateFeature)
-			    .map(cf -> (PaletteCreateFeature & ICreateConnectionFeature) cf)
-			    .filter(cf -> isTest ? cf.isTestOnly() : true)
-			    .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
-			    .filter(cf -> stackName.equals(cf.getStack())).forEach(cf -> {
-				    ConnectionCreationToolEntry cte = new ConnectionCreationToolEntry(
-				        cf.getCreateName(), cf.getCreateDescription(),
-				        cf.getCreateImageId(), cf.getCreateLargeImageId());
-				    cte.addCreateConnectionFeature(cf);
-				    connectionsStackEntry.addCreationToolEntry(cte);
-			    });
+    Stream.of(CONNECTIONS_STACK).forEachOrdered(stackName -> {
+      StackEntry connectionsStackEntry = new StackEntry(CONNECTIONS_STACK, "",
+          null);
+      Stream.of(createConnectionFeatures)
+          .filter(cf -> cf instanceof PaletteCreateFeature)
+          .map(cf -> (PaletteCreateFeature & ICreateConnectionFeature) cf)
+          .filter(cf -> isTest ? cf.isTestOnly() : true)
+          .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
+          .filter(cf -> stackName.equals(cf.getStack())).forEach(cf -> {
+            ConnectionCreationToolEntry cte = new ConnectionCreationToolEntry(
+                cf.getCreateName(), cf.getCreateDescription(),
+                cf.getCreateImageId(), cf.getCreateLargeImageId());
+            cte.addCreateConnectionFeature(cf);
+            connectionsStackEntry.addCreationToolEntry(cte);
+          });
 
-			if (connectionsStackEntry.getCreationToolEntries().size() > 0) {
-				commonCompartmentEntry.getToolEntries().add(connectionsStackEntry);
-			}
-		});
+      if (connectionsStackEntry.getCreationToolEntries().size() > 0) {
+        commonCompartmentEntry.getToolEntries().add(connectionsStackEntry);
+      }
+    });
 
-		ICreateFeature[] createFeatures = fp.getCreateFeatures();
+    ICreateFeature[] createFeatures = fp.getCreateFeatures();
 
-		Stream.of(PORTS_STACK, SOURCES_STACK, SINKS_STACK).forEachOrdered(stackName -> {
-			StackEntry stackEntry = new StackEntry(stackName, "", null);
-			Stream.of(createFeatures).filter(cf -> cf instanceof PaletteCreateFeature)
-			    .map(cf -> (PaletteCreateFeature & ICreateFeature) cf)
-			    .filter(cf -> isTest ? !cf.isTestOnly() : true)
-			    .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
-			    .filter(cf -> stackName.equals(cf.getStack())).forEach(cf -> {
-				    stackEntry.addCreationToolEntry(new ObjectCreationToolEntry(
-				        cf.getCreateName(), cf.getCreateDescription(),
-				        cf.getCreateImageId(), cf.getCreateLargeImageId(), cf));
-			    });
+    Stream.of(PORTS_STACK, SOURCES_STACK, SINKS_STACK)
+        .forEachOrdered(stackName -> {
+          StackEntry stackEntry = new StackEntry(stackName, "", null);
+          Stream.of(createFeatures)
+              .filter(cf -> cf instanceof PaletteCreateFeature)
+              .map(cf -> (PaletteCreateFeature & ICreateFeature) cf)
+              .filter(cf -> isTest ? !cf.isTestOnly() : true)
+              .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
+              .filter(cf -> stackName.equals(cf.getStack())).forEach(cf -> {
+                stackEntry.addCreationToolEntry(new ObjectCreationToolEntry(
+                    cf.getCreateName(), cf.getCreateDescription(),
+                    cf.getCreateImageId(), cf.getCreateLargeImageId(), cf));
+              });
 
-			commonCompartmentEntry.getToolEntries().add(stackEntry);
-		});
+          commonCompartmentEntry.getToolEntries().add(stackEntry);
+        });
 
-		return Arrays.asList(commonCompartmentEntry);
-	}
+    return Arrays.asList(commonCompartmentEntry);
+  }
 }

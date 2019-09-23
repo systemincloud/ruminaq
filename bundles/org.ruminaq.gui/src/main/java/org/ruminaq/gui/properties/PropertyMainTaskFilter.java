@@ -14,14 +14,14 @@ import org.ruminaq.model.ruminaq.MainTask;
 
 public class PropertyMainTaskFilter extends AbstractPropertySectionFilter {
 
-	@Override
-	protected boolean accept(PictogramElement pe) {
-		EObject eObject = Graphiti.getLinkService()
-		    .getBusinessObjectForLinkedPictogramElement(pe);
-		if (eObject instanceof MainTask)
-			return true;
-		else
-			return false;
-	}
+  @Override
+  protected boolean accept(PictogramElement pe) {
+    EObject eObject = Graphiti.getLinkService()
+        .getBusinessObjectForLinkedPictogramElement(pe);
+    if (eObject instanceof MainTask)
+      return true;
+    else
+      return false;
+  }
 
 }

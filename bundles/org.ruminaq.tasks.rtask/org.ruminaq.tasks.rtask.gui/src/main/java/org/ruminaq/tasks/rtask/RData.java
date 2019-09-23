@@ -6,22 +6,22 @@ import java.util.List;
 import org.javatuples.Pair;
 
 public enum RData {
-    INSTANCE;
+  INSTANCE;
 
-    public List<Pair<String, String>> getRTaskDatas() {
-        List<Pair<String, String>> ret = new LinkedList<>();
-        ret.add(new Pair<>("sicrtask", "Bool"));
-        ret.add(new Pair<>("sicrtask", "Complex32"));
-        ret.add(new Pair<>("sicrtask", "Complex64"));
-        ret.add(new Pair<>("sicrtask", "Control"));
-        ret.add(new Pair<>("sicrtask", "Decimal"));
-        ret.add(new Pair<>("sicrtask", "Int32"));
-        ret.add(new Pair<>("sicrtask", "Int64"));
-        ret.add(new Pair<>("sicrtask", "Float32"));
-        ret.add(new Pair<>("sicrtask", "Float64"));
-        ret.add(new Pair<>("sicrtask", "Raw"));
-        ret.add(new Pair<>("sicrtask", "Text"));
-        //TODO:ret.addAll(RTaskExtensionManager.INSTANCE.getPythonTaskDatas());
-        return ret;
-    }
+  public List<Pair<String, String>> getRTaskDatas() {
+    List<Pair<String, String>> ret = new LinkedList<>();
+    ret.add(new Pair<>("sicrtask", "Bool"));
+    ret.add(new Pair<>("sicrtask", "Complex32"));
+    ret.add(new Pair<>("sicrtask", "Complex64"));
+    ret.add(new Pair<>("sicrtask", "Control"));
+    ret.add(new Pair<>("sicrtask", "Decimal"));
+    ret.add(new Pair<>("sicrtask", "Int32"));
+    ret.add(new Pair<>("sicrtask", "Int64"));
+    ret.add(new Pair<>("sicrtask", "Float32"));
+    ret.add(new Pair<>("sicrtask", "Float64"));
+    ret.add(new Pair<>("sicrtask", "Raw"));
+    ret.add(new Pair<>("sicrtask", "Text"));
+    // TODO:ret.addAll(RTaskExtensionManager.INSTANCE.getPythonTaskDatas());
+    return ret;
+  }
 }

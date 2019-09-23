@@ -19,23 +19,24 @@ import org.slf4j.Logger;
  */
 public class BoolStrategy extends RandomGeneratorStrategy {
 
-	private final Logger logger = RunnerLoggerFactory.getLogger(BoolStrategy.class);
+  private final Logger logger = RunnerLoggerFactory
+      .getLogger(BoolStrategy.class);
 
-	public BoolStrategy(RandomGeneratorI task, EMap<String, String> eMap) {
-		super(task);
-	}
+  public BoolStrategy(RandomGeneratorI task, EMap<String, String> eMap) {
+    super(task);
+  }
 
-	@Override
-	public void generate(List<Integer> dims) {
-		logger.trace("generating Bool");
+  @Override
+  public void generate(List<Integer> dims) {
+    logger.trace("generating Bool");
 
-		int n = dims.stream().reduce(1, (a, b) -> a * b);
-		boolean[] values = new boolean[n];
+    int n = dims.stream().reduce(1, (a, b) -> a * b);
+    boolean[] values = new boolean[n];
 
-		for (int i = 0; i < n; i++) {
-			values[i] = ThreadLocalRandom.current().nextBoolean();
-		}
+    for (int i = 0; i < n; i++) {
+      values[i] = ThreadLocalRandom.current().nextBoolean();
+    }
 
-		task.putData(Port.OUT, new BoolI(values, dims));
-	}
+    task.putData(Port.OUT, new BoolI(values, dims));
+  }
 }

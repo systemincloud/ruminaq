@@ -14,32 +14,48 @@ import org.ruminaq.model.ruminaq.InternalPort;
 
 public class InternalPortDoubleClickFeature extends AbstractCustomFeature {
 
-	public InternalPortDoubleClickFeature(IDoubleClickContext context, InternalPort ip, IFeatureProvider fp) {
-		super(fp);
-	}
+  public InternalPortDoubleClickFeature(IDoubleClickContext context,
+      InternalPort ip, IFeatureProvider fp) {
+    super(fp);
+  }
 
-    @Override public boolean canExecute    (ICustomContext context) { return true; }
-	@Override public boolean hasDoneChanges()                       { return false; }
+  @Override
+  public boolean canExecute(ICustomContext context) {
+    return true;
+  }
 
-	@Override
-	public void execute(ICustomContext context) {
-		InternalPortToggleBreakpointFeature.doExecute(context, getFeatureProvider());
+  @Override
+  public boolean hasDoneChanges() {
+    return false;
+  }
 
-		InternalPort bo = null;
-        for(Object o : Graphiti.getLinkService().getAllBusinessObjectsForLinkedPictogramElement(context.getPictogramElements()[0]))
-            if(o instanceof InternalPort) { bo = (InternalPort) o; break; }
-        if(bo == null) return;
+  @Override
+  public void execute(ICustomContext context) {
+    InternalPortToggleBreakpointFeature.doExecute(context,
+        getFeatureProvider());
 
-        IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-        if(window != null) {
-            IWorkbenchPage page = window.getActivePage();
-            if (page != null) {
-                try {
-                    page.showView(IPageLayout.ID_PROP_SHEET);
-                } catch (PartInitException e) {
-                    e.printStackTrace();
-                }
-            }
+    InternalPort bo = null;
+    for (Object o : Graphiti.getLinkService()
+        .getAllBusinessObjectsForLinkedPictogramElement(
+            context.getPictogramElements()[0]))
+      if (o instanceof InternalPort) {
+        bo = (InternalPort) o;
+        break;
+      }
+    if (bo == null)
+      return;
+
+    IWorkbenchWindow window = PlatformUI.getWorkbench()
+        .getActiveWorkbenchWindow();
+    if (window != null) {
+      IWorkbenchPage page = window.getActivePage();
+      if (page != null) {
+        try {
+          page.showView(IPageLayout.ID_PROP_SHEET);
+        } catch (PartInitException e) {
+          e.printStackTrace();
         }
-	}
+      }
+    }
+  }
 }

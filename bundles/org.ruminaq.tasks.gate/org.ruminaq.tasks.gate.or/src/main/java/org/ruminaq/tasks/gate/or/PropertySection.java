@@ -7,9 +7,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.ruminaq.tasks.gate.GatePropertySection;
 
 public class PropertySection extends GatePropertySection {
-	
-	public PropertySection(Composite parent, PictogramElement pe, TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
-		super(parent, pe, ed, dtp);
-	}
+
+  public PropertySection(Composite parent, PictogramElement pe,
+      TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
+    super(parent, pe, ed, dtp);
+  }
 
 }

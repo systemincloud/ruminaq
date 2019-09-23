@@ -5,5 +5,5 @@ import org.ruminaq.runner.impl.debug.events.IDebuggerEvent;
 
 public class SuspendedEvent extends AbstractEvent implements IDebuggerEvent {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 }

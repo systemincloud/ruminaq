@@ -5,26 +5,34 @@ import org.ruminaq.runner.impl.debug.events.AbstractPortEventListener;
 import org.ruminaq.runner.impl.debug.events.IDebuggerEvent;
 import org.ruminaq.runner.impl.debug.events.model.ResumePortRequest;
 
-public class ResumedPortEvent extends AbstractPortEvent implements IDebuggerEvent {
+public class ResumedPortEvent extends AbstractPortEvent
+    implements IDebuggerEvent {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public enum Type { NORMAL, STEP_OVER;
-		public static Type get(ResumePortRequest.Type type) {
-			switch(type) {
-				case NORMAL:    return NORMAL;
-				case STEP_OVER: return STEP_OVER;
-				default:        return NORMAL;
-			}
-		}
-	};
+  public enum Type {
+    NORMAL, STEP_OVER;
 
-	private final Type type;
+    public static Type get(ResumePortRequest.Type type) {
+      switch (type) {
+        case NORMAL:
+          return NORMAL;
+        case STEP_OVER:
+          return STEP_OVER;
+        default:
+          return NORMAL;
+      }
+    }
+  };
 
-	public Type getType() { return type; }
+  private final Type type;
 
-	public ResumedPortEvent(Type type, AbstractPortEventListener apel) {
-		super(apel);
-		this.type = type;
-	}
+  public Type getType() {
+    return type;
+  }
+
+  public ResumedPortEvent(Type type, AbstractPortEventListener apel) {
+    super(apel);
+    this.type = type;
+  }
 }

@@ -34,84 +34,87 @@ import org.ruminaq.tasks.constant.api.PropertyValueComposite;
 import org.ruminaq.tasks.constant.api.ValueSaveListener;
 import org.ruminaq.tasks.constant.model.constant.Constant;
 
-public abstract class AbstractPropertyValueNumericComposite extends PropertyValueComposite {
+public abstract class AbstractPropertyValueNumericComposite
+    extends PropertyValueComposite {
 
-    private static final int WIDTH = 75;
+  private static final int WIDTH = 75;
 
-    private Text txtValue;
+  private Text txtValue;
 
-    public AbstractPropertyValueNumericComposite(
-            ValueSaveListener saveListener,
-            Composite valueRoot,
-            PictogramElement pe,
-            TransactionalEditingDomain ed) {
-        super(saveListener, valueRoot, pe, ed);
-        initLayout();
-        initActions();
-        addStyles();
-    }
+  public AbstractPropertyValueNumericComposite(ValueSaveListener saveListener,
+      Composite valueRoot, PictogramElement pe, TransactionalEditingDomain ed) {
+    super(saveListener, valueRoot, pe, ed);
+    initLayout();
+    initActions();
+    addStyles();
+  }
 
-    private void initLayout() {
-        composite = new Composite(this.valueRoot, SWT.NONE);
-        GridLayout layout = new GridLayout(1, false);
-        layout.marginHeight = 0;
-        layout.marginWidth = 0;
-        layout.horizontalSpacing = 0;
-        composite.setLayout(layout);
+  private void initLayout() {
+    composite = new Composite(this.valueRoot, SWT.NONE);
+    GridLayout layout = new GridLayout(1, false);
+    layout.marginHeight = 0;
+    layout.marginWidth = 0;
+    layout.horizontalSpacing = 0;
+    composite.setLayout(layout);
 
-        txtValue = new Text  (composite, SWT.BORDER);
-        GridData layoutValue = new GridData(SWT.LEFT, SWT.TOP, true, false, 1, 1);
-        layoutValue.minimumWidth = WIDTH;
-        layoutValue.widthHint = WIDTH;
-        txtValue.setLayoutData(layoutValue);
-    }
+    txtValue = new Text(composite, SWT.BORDER);
+    GridData layoutValue = new GridData(SWT.LEFT, SWT.TOP, true, false, 1, 1);
+    layoutValue.minimumWidth = WIDTH;
+    layoutValue.widthHint = WIDTH;
+    txtValue.setLayoutData(layoutValue);
+  }
 
-    private void initActions() {
-        txtValue.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusLost(FocusEvent event) {
-                Shell shell = txtValue.getShell();
-                if (verify(txtValue.getText())) {
-                    ModelUtil.runModelChange(() -> {
-                        Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-                        if (bo instanceof Constant) {
-                            Constant c = (Constant) bo;
-                            c.setValue(txtValue.getText());
-                            saveListener.update();
-                        }
-                    }, ed, "Change Constant");
-                } else {
-                    MessageDialog.openError(shell, "Can't edit value", "Don't understant numeric value");
-                }
+  private void initActions() {
+    txtValue.addFocusListener(new FocusAdapter() {
+      @Override
+      public void focusLost(FocusEvent event) {
+        Shell shell = txtValue.getShell();
+        if (verify(txtValue.getText())) {
+          ModelUtil.runModelChange(() -> {
+            Object bo = Graphiti.getLinkService()
+                .getBusinessObjectForLinkedPictogramElement(pe);
+            if (bo instanceof Constant) {
+              Constant c = (Constant) bo;
+              c.setValue(txtValue.getText());
+              saveListener.update();
             }
-        });
-        txtValue.addTraverseListener((TraverseEvent event) -> {
-            if (event.detail == SWT.TRAVERSE_RETURN) {
-                saveListener.setFocus();
-            }
-        });
-    }
-
-    private void addStyles() {
-        composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-        txtValue.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    }
-
-    @Override
-    public String getValue() {
-        return txtValue.getText();
-    }
-
-    @Override
-    public void refresh(String value) {
-        if (verify(value)) {
-            txtValue.setText(value);
+          }, ed, "Change Constant");
         } else {
-            txtValue.setText(getDefault());
+          MessageDialog.openError(shell, "Can't edit value",
+              "Don't understant numeric value");
         }
-        txtValue.redraw();
-    }
+      }
+    });
+    txtValue.addTraverseListener((TraverseEvent event) -> {
+      if (event.detail == SWT.TRAVERSE_RETURN) {
+        saveListener.setFocus();
+      }
+    });
+  }
 
-    protected abstract boolean verify(String value);
-    protected abstract String getDefault();
+  private void addStyles() {
+    composite
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    txtValue
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+  }
+
+  @Override
+  public String getValue() {
+    return txtValue.getText();
+  }
+
+  @Override
+  public void refresh(String value) {
+    if (verify(value)) {
+      txtValue.setText(value);
+    } else {
+      txtValue.setText(getDefault());
+    }
+    txtValue.redraw();
+  }
+
+  protected abstract boolean verify(String value);
+
+  protected abstract String getDefault();
 }

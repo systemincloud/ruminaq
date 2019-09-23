@@ -21,15 +21,17 @@ import org.ruminaq.tasks.features.ResizeShapeTaskFeature;
 
 public class ResizeShapeFeature extends ResizeShapeTaskFeature {
 
-    public ResizeShapeFeature(IFeatureProvider fp) { super(fp); }
+  public ResizeShapeFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-    @Override
-    public boolean canResizeShape(IResizeShapeContext context) {
-        return super.canResizeShape(context);
-    }
+  @Override
+  public boolean canResizeShape(IResizeShapeContext context) {
+    return super.canResizeShape(context);
+  }
 
-    @Override
-    public void resizeShape(IResizeShapeContext context) {
-        super.resizeShape(context);
-    }
+  @Override
+  public void resizeShape(IResizeShapeContext context) {
+    super.resizeShape(context);
+  }
 }

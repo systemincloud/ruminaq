@@ -9,25 +9,26 @@ import org.slf4j.Logger;
  *
  * @author Marek Jagielski
  */
-public interface JavaTaskListener extends InputPortListener, OutputPortListener {
+public interface JavaTaskListener
+    extends InputPortListener, OutputPortListener {
 
-	void externalData(int i);
+  void externalData(int i);
 
-	void sleep(long l);
+  void sleep(long l);
 
-	void generatorPause();
+  void generatorPause();
 
-	boolean generatorIsPaused();
+  boolean generatorIsPaused();
 
-	void generatorResume();
+  void generatorResume();
 
-	void generatorEnd();
+  void generatorEnd();
 
-	void exitRunner();
+  void exitRunner();
 
-	String getParameter(String key);
+  String getParameter(String key);
 
-	Object runExpression(String expression);
+  Object runExpression(String expression);
 
-	Logger log();
+  Logger log();
 }

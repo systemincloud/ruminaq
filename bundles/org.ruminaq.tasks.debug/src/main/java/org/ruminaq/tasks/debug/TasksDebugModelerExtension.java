@@ -15,10 +15,11 @@ import org.ruminaq.tasks.debug.model.TasksDebugTarget;
 @Component
 public class TasksDebugModelerExtension implements DebugExtension {
 
-	@Override
-	public Collection<? extends IDebugTarget> getDebugTargets(ILaunch launch, IProject project, EventDispatchJob dispatcher) {
-		List<IDebugTarget> targets = new ArrayList<>();
-    	targets.add(new TasksDebugTarget(launch, project, dispatcher));
-		return targets;
-	}
+  @Override
+  public Collection<? extends IDebugTarget> getDebugTargets(ILaunch launch,
+      IProject project, EventDispatchJob dispatcher) {
+    List<IDebugTarget> targets = new ArrayList<>();
+    targets.add(new TasksDebugTarget(launch, project, dispatcher));
+    return targets;
+  }
 }

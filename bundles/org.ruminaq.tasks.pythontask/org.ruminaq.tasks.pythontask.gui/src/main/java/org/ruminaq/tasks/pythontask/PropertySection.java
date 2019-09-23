@@ -44,154 +44,190 @@ import org.ruminaq.util.EclipseUtil;
 import com.python.pydev.analysis.additionalinfo.AdditionalInfoAndIInfo;
 import org.python.pydev.core.IInfo;
 
-public class PropertySection implements IPropertySection, CreatePythonTaskListener {
+public class PropertySection
+    implements IPropertySection, CreatePythonTaskListener {
 
-    private Composite root;
-    private CLabel    lblClassSelect;
-    private Text      txtClassName;
-    private Button    btnClassSelect;
-    private Button    btnClassNew;
+  private Composite root;
+  private CLabel lblClassSelect;
+  private Text txtClassName;
+  private Button btnClassSelect;
+  private Button btnClassNew;
 
-    private PictogramElement pe;
-    private TransactionalEditingDomain ed;
-    private IDiagramTypeProvider dtp;
+  private PictogramElement pe;
+  private TransactionalEditingDomain ed;
+  private IDiagramTypeProvider dtp;
 
-    public PropertySection(Composite parent, PictogramElement pe, TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
-        this.pe  = pe;
-        this.ed  = ed;
-        this.dtp = dtp;
+  public PropertySection(Composite parent, PictogramElement pe,
+      TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
+    this.pe = pe;
+    this.ed = ed;
+    this.dtp = dtp;
 
-        initLayout(parent);
-        initComponents();
-        initActions(pe, ed, dtp);
-        addStyles();
-    }
+    initLayout(parent);
+    initComponents();
+    initActions(pe, ed, dtp);
+    addStyles();
+  }
 
-    private void initLayout(Composite parent) {
-        ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
-        ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
-        root = new Composite(parent,SWT.NULL);
-        root.setLayout(new GridLayout(4, false));
+  private void initLayout(Composite parent) {
+    ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
+    ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
+    root = new Composite(parent, SWT.NULL);
+    root.setLayout(new GridLayout(4, false));
 
-        lblClassSelect = new CLabel(root, SWT.NONE);
-        txtClassName   = new Text(root, SWT.BORDER);
-        txtClassName.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-        btnClassSelect = new Button(root, SWT.NONE);
-        btnClassNew    = new Button(root, SWT.NONE);
-    }
+    lblClassSelect = new CLabel(root, SWT.NONE);
+    txtClassName = new Text(root, SWT.BORDER);
+    txtClassName
+        .setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+    btnClassSelect = new Button(root, SWT.NONE);
+    btnClassNew = new Button(root, SWT.NONE);
+  }
 
-    private void initComponents() {
-        lblClassSelect.setText("Python Task Class:");
-        btnClassSelect.setText("Select class");
-        btnClassNew   .setText("Create");
-    }
+  private void initComponents() {
+    lblClassSelect.setText("Python Task Class:");
+    btnClassSelect.setText("Select class");
+    btnClassNew.setText("Create");
+  }
 
-    private void save() {
-        Shell shell = txtClassName.getShell();
-        boolean parse = new UpdateFeature(dtp.getFeatureProvider()).load(txtClassName.getText());
-        if(parse) {
-            ModelUtil.runModelChange(new Runnable() {
-                public void run() {
-                    Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-                    if (bo == null) return;
-                    if (bo instanceof PythonTask) {
-                        PythonTask pythonTask = (PythonTask) bo;
-                        pythonTask.setImplementation(txtClassName.getText());
-                        UpdateContext context = new UpdateContext(pe);
-                        dtp.getFeatureProvider().updateIfPossible(context);
-                    }
-                }
-            }, ed, "Set Python Class");
-        } else MessageDialog.openError(shell, "Can't edit value", "Class not found or incorrect.");
-    }
-
-    private void initActions(final PictogramElement pe, final TransactionalEditingDomain ed, final IDiagramTypeProvider dtp) {
-        txtClassName.addTraverseListener(new TraverseListener() {
-            @Override public void keyTraversed(TraverseEvent event) { if(event.detail == SWT.TRAVERSE_RETURN) save(); }
-        });
-        btnClassSelect.addSelectionListener(new SelectionAdapter() { public void widgetSelected(SelectionEvent evt) {
-            IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(EclipseUtil.getProjectNameFromPe(pe));
-            SicGlobalsTwoPanelElementSelector2 dialog = new SicGlobalsTwoPanelElementSelector2(EditorUtils.getShell(), true, "", p);
-            dialog.setElements(FindPythonTask.INSTANCE.getInfos(p));
-
-            dialog.open();
-            Object[] result = dialog.getResult();
-            if (result != null && result.length > 0) {
-                for(Object obj : result) {
-                    IInfo entry;
-                    if(obj instanceof AdditionalInfoAndIInfo) {
-                        AdditionalInfoAndIInfo additional = (AdditionalInfoAndIInfo) obj;
-                        entry = additional.info;
-                    } else entry = (IInfo) obj;
-                    txtClassName.setText(entry.getDeclaringModuleName());
-
-                    ModelUtil.runModelChange(new Runnable() {
-                        public void run() {
-                            Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-                            if(bo == null) return;
-                            String implementationName = txtClassName.getText();
-                            if(implementationName != null) {
-                                if(bo instanceof PythonTask) {
-                                    PythonTask pythonTask = (PythonTask) bo;
-                                    pythonTask.setImplementation(implementationName);
-                                    UpdateContext context = new UpdateContext(pe);
-                                    dtp.getFeatureProvider().updateIfPossible(context);
-                                }
-                            }
-                        }
-                    }, ed, "Set Python Class");
-                }
-            }
-        }});
-        btnClassNew.addSelectionListener(new SelectionAdapter() { public void widgetSelected(SelectionEvent evt) {
-             IWizardDescriptor descriptor = PlatformUI.getWorkbench().getNewWizardRegistry().findWizard(CreatePythonTaskWizard.ID);
-             try  {
-                 if(descriptor != null) {
-                    IWizard wizard = descriptor.createWizard();
-                    String folder = ConstantsUtil.isTest(EclipseUtil.getModelPathFromEObject(pe)) ? Constants.TEST_PYTHON : Constants.MAIN_PYTHON;
-                    String projectName = EclipseUtil.getProjectNameFromDiagram(dtp.getDiagram());
-                    IStructuredSelection selection = new StructuredSelection(ResourcesPlugin.getWorkspace().getRoot().getProject(projectName).getFolder(folder));
-                    ((CreatePythonTaskWizard) wizard).init(PlatformUI.getWorkbench(), selection);
-                    ((CreatePythonTaskWizard) wizard).setListener(PropertySection.this);
-                    WizardDialog wd = new WizardDialog(Display.getDefault().getActiveShell(), wizard);
-                    wd.setTitle(wizard.getWindowTitle());
-                    wd.open();
-                 }
-             } catch(CoreException e) {
-                 e.printStackTrace();
-             }
-        }});
-    }
-
-    private void addStyles() {
-        root          .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-        lblClassSelect.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-        txtClassName  .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    }
-
-    @Override
-    public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
-        if (pe != null) {
-            Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-            if (bo == null) return;
-            String className = ((PythonTask) bo).getImplementation();
-            txtClassName.setText(className);
+  private void save() {
+    Shell shell = txtClassName.getShell();
+    boolean parse = new UpdateFeature(dtp.getFeatureProvider())
+        .load(txtClassName.getText());
+    if (parse) {
+      ModelUtil.runModelChange(new Runnable() {
+        public void run() {
+          Object bo = Graphiti.getLinkService()
+              .getBusinessObjectForLinkedPictogramElement(pe);
+          if (bo == null)
+            return;
+          if (bo instanceof PythonTask) {
+            PythonTask pythonTask = (PythonTask) bo;
+            pythonTask.setImplementation(txtClassName.getText());
+            UpdateContext context = new UpdateContext(pe);
+            dtp.getFeatureProvider().updateIfPossible(context);
+          }
         }
-    }
+      }, ed, "Set Python Class");
+    } else
+      MessageDialog.openError(shell, "Can't edit value",
+          "Class not found or incorrect.");
+  }
 
-    @Override
-    public void created(final String path) {
-        ModelUtil.runModelChange(new Runnable() {
-            public void run() {
-                Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-                if (bo == null) return;
-                if (bo instanceof PythonTask) {
+  private void initActions(final PictogramElement pe,
+      final TransactionalEditingDomain ed, final IDiagramTypeProvider dtp) {
+    txtClassName.addTraverseListener(new TraverseListener() {
+      @Override
+      public void keyTraversed(TraverseEvent event) {
+        if (event.detail == SWT.TRAVERSE_RETURN)
+          save();
+      }
+    });
+    btnClassSelect.addSelectionListener(new SelectionAdapter() {
+      public void widgetSelected(SelectionEvent evt) {
+        IProject p = ResourcesPlugin.getWorkspace().getRoot()
+            .getProject(EclipseUtil.getProjectNameFromPe(pe));
+        SicGlobalsTwoPanelElementSelector2 dialog = new SicGlobalsTwoPanelElementSelector2(
+            EditorUtils.getShell(), true, "", p);
+        dialog.setElements(FindPythonTask.INSTANCE.getInfos(p));
+
+        dialog.open();
+        Object[] result = dialog.getResult();
+        if (result != null && result.length > 0) {
+          for (Object obj : result) {
+            IInfo entry;
+            if (obj instanceof AdditionalInfoAndIInfo) {
+              AdditionalInfoAndIInfo additional = (AdditionalInfoAndIInfo) obj;
+              entry = additional.info;
+            } else
+              entry = (IInfo) obj;
+            txtClassName.setText(entry.getDeclaringModuleName());
+
+            ModelUtil.runModelChange(new Runnable() {
+              public void run() {
+                Object bo = Graphiti.getLinkService()
+                    .getBusinessObjectForLinkedPictogramElement(pe);
+                if (bo == null)
+                  return;
+                String implementationName = txtClassName.getText();
+                if (implementationName != null) {
+                  if (bo instanceof PythonTask) {
                     PythonTask pythonTask = (PythonTask) bo;
-                    pythonTask.setImplementation(path);
+                    pythonTask.setImplementation(implementationName);
                     UpdateContext context = new UpdateContext(pe);
                     dtp.getFeatureProvider().updateIfPossible(context);
+                  }
                 }
-            }
-        }, ed, "Set Python Class");
+              }
+            }, ed, "Set Python Class");
+          }
+        }
+      }
+    });
+    btnClassNew.addSelectionListener(new SelectionAdapter() {
+      public void widgetSelected(SelectionEvent evt) {
+        IWizardDescriptor descriptor = PlatformUI.getWorkbench()
+            .getNewWizardRegistry().findWizard(CreatePythonTaskWizard.ID);
+        try {
+          if (descriptor != null) {
+            IWizard wizard = descriptor.createWizard();
+            String folder = ConstantsUtil.isTest(
+                EclipseUtil.getModelPathFromEObject(pe)) ? Constants.TEST_PYTHON
+                    : Constants.MAIN_PYTHON;
+            String projectName = EclipseUtil
+                .getProjectNameFromDiagram(dtp.getDiagram());
+            IStructuredSelection selection = new StructuredSelection(
+                ResourcesPlugin.getWorkspace().getRoot().getProject(projectName)
+                    .getFolder(folder));
+            ((CreatePythonTaskWizard) wizard).init(PlatformUI.getWorkbench(),
+                selection);
+            ((CreatePythonTaskWizard) wizard).setListener(PropertySection.this);
+            WizardDialog wd = new WizardDialog(
+                Display.getDefault().getActiveShell(), wizard);
+            wd.setTitle(wizard.getWindowTitle());
+            wd.open();
+          }
+        } catch (CoreException e) {
+          e.printStackTrace();
+        }
+      }
+    });
+  }
+
+  private void addStyles() {
+    root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    lblClassSelect
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    txtClassName
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+  }
+
+  @Override
+  public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
+    if (pe != null) {
+      Object bo = Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement(pe);
+      if (bo == null)
+        return;
+      String className = ((PythonTask) bo).getImplementation();
+      txtClassName.setText(className);
     }
+  }
+
+  @Override
+  public void created(final String path) {
+    ModelUtil.runModelChange(new Runnable() {
+      public void run() {
+        Object bo = Graphiti.getLinkService()
+            .getBusinessObjectForLinkedPictogramElement(pe);
+        if (bo == null)
+          return;
+        if (bo instanceof PythonTask) {
+          PythonTask pythonTask = (PythonTask) bo;
+          pythonTask.setImplementation(path);
+          UpdateContext context = new UpdateContext(pe);
+          dtp.getFeatureProvider().updateIfPossible(context);
+        }
+      }
+    }, ed, "Set Python Class");
+  }
 }

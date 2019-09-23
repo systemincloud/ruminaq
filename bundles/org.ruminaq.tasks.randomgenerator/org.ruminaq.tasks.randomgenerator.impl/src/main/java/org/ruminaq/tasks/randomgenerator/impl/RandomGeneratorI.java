@@ -44,83 +44,95 @@ import org.slf4j.Logger;
  */
 public class RandomGeneratorI extends GeneratorI {
 
-	private final Logger logger = RunnerLoggerFactory.getLogger(RandomGeneratorI.class);
+  private final Logger logger = RunnerLoggerFactory
+      .getLogger(RandomGeneratorI.class);
 
-	private RandomGenerator randomGenerator;
+  private RandomGenerator randomGenerator;
 
-	private List<Integer> dims;
-	private long interval = -2;
+  private List<Integer> dims;
+  private long interval = -2;
 
-	private RandomGeneratorStrategy strategy;
+  private RandomGeneratorStrategy strategy;
 
-	public RandomGeneratorI(EmbeddedTaskI parent, Task task) {
-		super(parent, task);
-		setGenerator(true);
-		this.randomGenerator = (RandomGenerator) task;
-		DataType dataType = randomGenerator.getDataType();
+  public RandomGeneratorI(EmbeddedTaskI parent, Task task) {
+    super(parent, task);
+    setGenerator(true);
+    this.randomGenerator = (RandomGenerator) task;
+    DataType dataType = randomGenerator.getDataType();
 
-		if (!RandomUtil.containsRandom(parent.replaceVariables(randomGenerator.getDimensions()))) {
-			this.dims = GlobalUtil.getDimensions(parent.replaceVariables(randomGenerator.getDimensions()));
-			logger.trace("dimensions doesn't contain random. There are {} dimensions", this.dims.size());
-		}
+    if (!RandomUtil.containsRandom(
+        parent.replaceVariables(randomGenerator.getDimensions()))) {
+      this.dims = GlobalUtil.getDimensions(
+          parent.replaceVariables(randomGenerator.getDimensions()));
+      logger.trace("dimensions doesn't contain random. There are {} dimensions",
+          this.dims.size());
+    }
 
-		if (!RandomUtil.containsRandom(parent.replaceVariables(randomGenerator.getInterval()))) {
-			this.interval = GlobalUtil.getMilisecondsFromTime(parent.replaceVariables(randomGenerator.getInterval()));
-			logger.trace("interval doesn't contain random. There are {} miliseconds", this.interval);
-		}
+    if (!RandomUtil.containsRandom(
+        parent.replaceVariables(randomGenerator.getInterval()))) {
+      this.interval = GlobalUtil.getMilisecondsFromTime(
+          parent.replaceVariables(randomGenerator.getInterval()));
+      logger.trace("interval doesn't contain random. There are {} miliseconds",
+          this.interval);
+    }
 
-		this.strategy = getStrategy(dataType, randomGenerator.getSpecific(), this.dims);
-		logger.trace("chosen strategy is {}", this.strategy.getClass().getSimpleName());
-	}
+    this.strategy = getStrategy(dataType, randomGenerator.getSpecific(),
+        this.dims);
+    logger.trace("chosen strategy is {}",
+        this.strategy.getClass().getSimpleName());
+  }
 
-	private RandomGeneratorStrategy getStrategy(DataType dt, EMap<String, String> eMap, List<Integer> dims) {
-		logger.trace("look for strategy for {}", dt);
-		RandomGeneratorStrategy rgs = RandomGeneratorServiceManager.INSTANCE.getStrategy(dt, eMap);
-		if (rgs != null)
-			return rgs;
+  private RandomGeneratorStrategy getStrategy(DataType dt,
+      EMap<String, String> eMap, List<Integer> dims) {
+    logger.trace("look for strategy for {}", dt);
+    RandomGeneratorStrategy rgs = RandomGeneratorServiceManager.INSTANCE
+        .getStrategy(dt, eMap);
+    if (rgs != null)
+      return rgs;
 
-		if (dt instanceof Text)
-			return new TextStrategy(this, eMap);
-		if (dt instanceof Bool)
-			return new BoolStrategy(this, eMap);
-		if (dt instanceof Complex32)
-			return new Complex32Strategy(this, eMap);
-		if (dt instanceof Complex64)
-			return new Complex64Strategy(this, eMap);
-		if (dt instanceof Control)
-			return new ControlStrategy(this, eMap);
-		if (dt instanceof Int32)
-			return new Int32Strategy(this, eMap, dims);
-		if (dt instanceof Int64)
-			return new Int64Strategy(this, eMap, dims);
-		if (dt instanceof Float32)
-			return new Float32Strategy(this, eMap, dims);
-		if (dt instanceof Float64)
-			return new Float64Strategy(this, eMap, dims);
-		if (dt instanceof Decimal)
-			return new DecimalStrategy(this, eMap, dims);
+    if (dt instanceof Text)
+      return new TextStrategy(this, eMap);
+    if (dt instanceof Bool)
+      return new BoolStrategy(this, eMap);
+    if (dt instanceof Complex32)
+      return new Complex32Strategy(this, eMap);
+    if (dt instanceof Complex64)
+      return new Complex64Strategy(this, eMap);
+    if (dt instanceof Control)
+      return new ControlStrategy(this, eMap);
+    if (dt instanceof Int32)
+      return new Int32Strategy(this, eMap, dims);
+    if (dt instanceof Int64)
+      return new Int64Strategy(this, eMap, dims);
+    if (dt instanceof Float32)
+      return new Float32Strategy(this, eMap, dims);
+    if (dt instanceof Float64)
+      return new Float64Strategy(this, eMap, dims);
+    if (dt instanceof Decimal)
+      return new DecimalStrategy(this, eMap, dims);
 
-		return null;
-	}
+    return null;
+  }
 
-	@Override
-	protected void generate() {
-		String intervalString = randomGenerator.getInterval();
-		logger.trace("intervalString {}", intervalString);
-		long interval = this.interval != -2 ? this.interval
-				: GlobalUtil.getMilisecondsFromTime(
-						RandomUtil.replaceRandoms(parent.replaceVariables(intervalString), true, true));
-		logger.trace("wait {} ms for next execution", interval);
-		if (interval != -1)
-			sleep(interval);
+  @Override
+  protected void generate() {
+    String intervalString = randomGenerator.getInterval();
+    logger.trace("intervalString {}", intervalString);
+    long interval = this.interval != -2 ? this.interval
+        : GlobalUtil.getMilisecondsFromTime(RandomUtil.replaceRandoms(
+            parent.replaceVariables(intervalString), true, true));
+    logger.trace("wait {} ms for next execution", interval);
+    if (interval != -1)
+      sleep(interval);
 
-		List<Integer> dims = this.dims != null ? this.dims
-				: GlobalUtil.getDimensions(RandomUtil
-						.replaceRandoms(parent.replaceVariables(randomGenerator.getDimensions()), true, true));
-		strategy.generate(dims);
-	}
+    List<Integer> dims = this.dims != null ? this.dims
+        : GlobalUtil.getDimensions(RandomUtil.replaceRandoms(
+            parent.replaceVariables(randomGenerator.getDimensions()), true,
+            true));
+    strategy.generate(dims);
+  }
 
-	@Override
-	protected void execute(PortMap portIdData, int grp) {
-	}
+  @Override
+  protected void execute(PortMap portIdData, int grp) {
+  }
 }

@@ -24,10 +24,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.ruminaq.model.ruminaq.DataType;
 
 public interface ConstantExtensionHandler {
-    List<Class<? extends DataType>> getDataTypes();
-    Map<String, PropertyValueComposite> getValueComposites(
-    		ValueSaveListener propertySection,
-    		Composite valueRoot,
-    		PictogramElement pe,
-    		TransactionalEditingDomain ed);
+  List<Class<? extends DataType>> getDataTypes();
+
+  Map<String, PropertyValueComposite> getValueComposites(
+      ValueSaveListener propertySection, Composite valueRoot,
+      PictogramElement pe, TransactionalEditingDomain ed);
 }

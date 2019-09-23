@@ -18,41 +18,46 @@ import org.ruminaq.model.util.ModelUtil;
 
 public abstract class CreateElementFeature extends AbstractCreateFeature {
 
-	public CreateElementFeature(IFeatureProvider fp, String name, String description) {
-		super(fp, name, description);
-	}
+  public CreateElementFeature(IFeatureProvider fp, String name,
+      String description) {
+    super(fp, name, description);
+  }
 
-	public CreateElementFeature(IFeatureProvider fp, Class<? extends BaseElement> clazz) {
-		super(fp, ModelUtil.getName(clazz), "New " + clazz.getSimpleName());
-	}
+  public CreateElementFeature(IFeatureProvider fp,
+      Class<? extends BaseElement> clazz) {
+    super(fp, ModelUtil.getName(clazz), "New " + clazz.getSimpleName());
+  }
 
-	@Override
-	public boolean canCreate(ICreateContext context) {
-		return context.getTargetContainer().equals(getDiagram());
-	}
+  @Override
+  public boolean canCreate(ICreateContext context) {
+    return context.getTargetContainer().equals(getDiagram());
+  }
 
-	protected void setDefaultId(BaseElement element, ICreateContext context) {
-		String name = "My " + ModelUtil.getName(element.getClass());
-		if(isPresent(name, context.getTargetContainer().getChildren())) {
-			int i = 1;
-			while(isPresent(name + " " + i, context.getTargetContainer().getChildren())) i++;
-			name = name + " " + i;
-		}
+  protected void setDefaultId(BaseElement element, ICreateContext context) {
+    String name = "My " + ModelUtil.getName(element.getClass());
+    if (isPresent(name, context.getTargetContainer().getChildren())) {
+      int i = 1;
+      while (isPresent(name + " " + i,
+          context.getTargetContainer().getChildren()))
+        i++;
+      name = name + " " + i;
+    }
 
-		element.setId(name);
-	}
+    element.setId(name);
+  }
 
-	public static boolean isPresent(String name, EList<Shape> eList) {
-		for(Shape s : eList) {
-			PictogramLink l = s.getLink();
-			if(l != null) {
-				for(EObject o : l.getBusinessObjects()) {
-					if(o instanceof BaseElement) {
-						if(name.equals(((BaseElement) o).getId())) return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
+  public static boolean isPresent(String name, EList<Shape> eList) {
+    for (Shape s : eList) {
+      PictogramLink l = s.getLink();
+      if (l != null) {
+        for (EObject o : l.getBusinessObjects()) {
+          if (o instanceof BaseElement) {
+            if (name.equals(((BaseElement) o).getId()))
+              return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
 }

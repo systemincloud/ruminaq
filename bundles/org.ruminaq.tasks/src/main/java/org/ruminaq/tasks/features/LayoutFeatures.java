@@ -17,40 +17,40 @@ import org.ruminaq.model.ruminaq.Task;
 @Component(property = { "service.ranking:Integer=10" })
 public class LayoutFeatures implements LayoutFeatureExtension {
 
-	public class LayoutTaskFeature extends AbstractLayoutFeature {
+  public class LayoutTaskFeature extends AbstractLayoutFeature {
 
-		public LayoutTaskFeature(IFeatureProvider fp) {
-			super(fp);
-		}
+    public LayoutTaskFeature(IFeatureProvider fp) {
+      super(fp);
+    }
 
-		@Override
-		public boolean canLayout(ILayoutContext context) {
-			return true;
-		}
+    @Override
+    public boolean canLayout(ILayoutContext context) {
+      return true;
+    }
 
-		@Override
-		public boolean layout(ILayoutContext context) {
-			return true;
-		}
-	}
+    @Override
+    public boolean layout(ILayoutContext context) {
+      return true;
+    }
+  }
 
-	@Override
-	public List<Class<? extends ILayoutFeature>> getFeatures() {
-		return Arrays.asList(LayoutTaskFeature.class);
-	}
+  @Override
+  public List<Class<? extends ILayoutFeature>> getFeatures() {
+    return Arrays.asList(LayoutTaskFeature.class);
+  }
 
-	@Override
-	public Predicate<? super Class<? extends ILayoutFeature>> filter(
-	    IContext context, IFeatureProvider fp) {
-		ILayoutContext layoutContext = (ILayoutContext) context;
-		PictogramElement pe = layoutContext.getPictogramElement();
-		Object bo = fp.getBusinessObjectForPictogramElement(pe);
+  @Override
+  public Predicate<? super Class<? extends ILayoutFeature>> filter(
+      IContext context, IFeatureProvider fp) {
+    ILayoutContext layoutContext = (ILayoutContext) context;
+    PictogramElement pe = layoutContext.getPictogramElement();
+    Object bo = fp.getBusinessObjectForPictogramElement(pe);
 
-		return (Class<?> clazz) -> {
-			if (clazz.isAssignableFrom(LayoutTaskFeature.class)) {
-				return bo instanceof Task;
-			}
-			return true;
-		};
-	}
+    return (Class<?> clazz) -> {
+      if (clazz.isAssignableFrom(LayoutTaskFeature.class)) {
+        return bo instanceof Task;
+      }
+      return true;
+    };
+  }
 }

@@ -5,7 +5,8 @@ package org.ruminaq.launch;
 
 public interface RuminaqLaunchConstants {
 
-	  // this should correspond with launchConfigurationType.id attribute in plugin.xml!
+  // this should correspond with launchConfigurationType.id attribute in
+  // plugin.xml!
 //	  public final String LAUNCH_CONFIGURATION_TYPE_ID = "org.ruminaq.ruminaqLaunchConfigurationType"; //$NON-NLS-1$
 
 }

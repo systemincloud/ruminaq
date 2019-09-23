@@ -19,94 +19,94 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 public class PropertyInternalInputPortDebugSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
-	private Composite root;
-	private SashForm sshForm;
+  private Composite root;
+  private SashForm sshForm;
 
-	private Composite cmpLeft;
+  private Composite cmpLeft;
 
-	private Button btnBreakPoint;
+  private Button btnBreakPoint;
 
-	private Composite cmpRight;
+  private Composite cmpRight;
 
-	private TableViewer tblVwLogs;
-	private Table tblLogs;
-	private TableViewerColumn tblclVwLogsTimestamp;
-	private TableViewerColumn tblclVwLogsMessage;
+  private TableViewer tblVwLogs;
+  private Table tblLogs;
+  private TableViewerColumn tblclVwLogsTimestamp;
+  private TableViewerColumn tblclVwLogsMessage;
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	@Override
-	public void createControls(Composite parent,
-	    TabbedPropertySheetPage tabbedPropertySheetPage) {
-		super.createControls(parent, tabbedPropertySheetPage);
+  /**
+   * @wbp.parser.entryPoint
+   */
+  @Override
+  public void createControls(Composite parent,
+      TabbedPropertySheetPage tabbedPropertySheetPage) {
+    super.createControls(parent, tabbedPropertySheetPage);
 
-		initLayout(parent);
-		initActions();
-		initComponents();
-		addStyles();
-	}
+    initLayout(parent);
+    initActions();
+    initComponents();
+    addStyles();
+  }
 
-	private void initLayout(Composite parent) {
-		((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
-		((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
-		((GridData) parent.getLayoutData()).horizontalAlignment = SWT.FILL;
-		((GridData) parent.getLayoutData()).grabExcessHorizontalSpace = true;
-		root = new Composite(parent, SWT.NULL);
-		root.setLayout(new GridLayout(1, false));
+  private void initLayout(Composite parent) {
+    ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
+    ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
+    ((GridData) parent.getLayoutData()).horizontalAlignment = SWT.FILL;
+    ((GridData) parent.getLayoutData()).grabExcessHorizontalSpace = true;
+    root = new Composite(parent, SWT.NULL);
+    root.setLayout(new GridLayout(1, false));
 
-		sshForm = new SashForm(root, SWT.NONE);
-		sshForm.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, true, true, 1, 1));
-		((GridData) sshForm.getLayoutData()).verticalAlignment = SWT.FILL;
-		((GridData) sshForm.getLayoutData()).grabExcessVerticalSpace = true;
-		((GridData) sshForm.getLayoutData()).horizontalAlignment = SWT.FILL;
-		((GridData) sshForm.getLayoutData()).grabExcessHorizontalSpace = true;
+    sshForm = new SashForm(root, SWT.NONE);
+    sshForm.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, true, true, 1, 1));
+    ((GridData) sshForm.getLayoutData()).verticalAlignment = SWT.FILL;
+    ((GridData) sshForm.getLayoutData()).grabExcessVerticalSpace = true;
+    ((GridData) sshForm.getLayoutData()).horizontalAlignment = SWT.FILL;
+    ((GridData) sshForm.getLayoutData()).grabExcessHorizontalSpace = true;
 
-		cmpLeft = new Composite(sshForm, SWT.NONE);
-		cmpLeft.setLayout(new GridLayout(1, false));
+    cmpLeft = new Composite(sshForm, SWT.NONE);
+    cmpLeft.setLayout(new GridLayout(1, false));
 
-		btnBreakPoint = new Button(cmpLeft, SWT.CHECK);
+    btnBreakPoint = new Button(cmpLeft, SWT.CHECK);
 
-		cmpRight = new Composite(sshForm, SWT.NONE);
+    cmpRight = new Composite(sshForm, SWT.NONE);
 
-		tblLogs = new Table(cmpRight, SWT.BORDER | SWT.FULL_SELECTION);
-		tblLogs.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1));
-		tblVwLogs = new TableViewer(tblLogs);
+    tblLogs = new Table(cmpRight, SWT.BORDER | SWT.FULL_SELECTION);
+    tblLogs.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1));
+    tblVwLogs = new TableViewer(tblLogs);
 
-		tblclVwLogsTimestamp = new TableViewerColumn(tblVwLogs, SWT.NONE);
-		tblclVwLogsMessage = new TableViewerColumn(tblVwLogs, SWT.NONE);
-	}
+    tblclVwLogsTimestamp = new TableViewerColumn(tblVwLogs, SWT.NONE);
+    tblclVwLogsMessage = new TableViewerColumn(tblVwLogs, SWT.NONE);
+  }
 
-	private void initActions() {
+  private void initActions() {
 
-	}
+  }
 
-	private void initComponents() {
-		btnBreakPoint.setText("breakpoint");
+  private void initComponents() {
+    btnBreakPoint.setText("breakpoint");
 
-		tblLogs.setHeaderVisible(true);
-		tblLogs.setLinesVisible(true);
-		tblclVwLogsTimestamp.getColumn().setText("Timestamp");
-		tblclVwLogsMessage.getColumn().setText("Message");
+    tblLogs.setHeaderVisible(true);
+    tblLogs.setLinesVisible(true);
+    tblclVwLogsTimestamp.getColumn().setText("Timestamp");
+    tblclVwLogsMessage.getColumn().setText("Message");
 
-	}
+  }
 
-	private void addStyles() {
-		root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		cmpLeft.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		btnBreakPoint
-		    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-		cmpRight
-		    .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-	}
+  private void addStyles() {
+    root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    cmpLeft.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    btnBreakPoint
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    cmpRight
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+  }
 
-	@Override
-	public void refresh() {
+  @Override
+  public void refresh() {
 
-	}
+  }
 
-	@Override
-	public void setInput(IWorkbenchPart part, ISelection selection) {
-		super.setInput(part, selection);
-	}
+  @Override
+  public void setInput(IWorkbenchPart part, ISelection selection) {
+    super.setInput(part, selection);
+  }
 }

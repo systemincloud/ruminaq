@@ -7,9 +7,22 @@ import org.ruminaq.tasks.gate.Port;
 
 public abstract class AddGateFeature extends AddTaskFeature {
 
-	public AddGateFeature(IFeatureProvider fp) { super(fp); }
+  public AddGateFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override protected int                         getHeight()           { return 50; }
-	@Override protected int                         getWidth()            { return 50; }
-	@Override protected Class<? extends PortsDescr> getPortsDescription() { return Port.class; }
+  @Override
+  protected int getHeight() {
+    return 50;
+  }
+
+  @Override
+  protected int getWidth() {
+    return 50;
+  }
+
+  @Override
+  protected Class<? extends PortsDescr> getPortsDescription() {
+    return Port.class;
+  }
 }

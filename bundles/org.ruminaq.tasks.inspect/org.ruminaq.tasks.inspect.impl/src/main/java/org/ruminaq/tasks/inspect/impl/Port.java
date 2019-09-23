@@ -5,5 +5,6 @@ import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.DataType;
 
 public enum Port implements PortsDescr {
-	@IN (name="In", type=DataType.class, label = false) IN,
+  @IN(name = "In", type = DataType.class, label = false)
+  IN,
 }

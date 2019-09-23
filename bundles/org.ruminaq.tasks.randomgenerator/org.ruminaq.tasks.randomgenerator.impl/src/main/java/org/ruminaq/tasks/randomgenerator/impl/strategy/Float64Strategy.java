@@ -16,45 +16,51 @@ import org.slf4j.Logger;
 
 public class Float64Strategy extends RandomGeneratorNumericStrategy {
 
-	private final Logger logger = RunnerLoggerFactory.getLogger(Int32Strategy.class);
+  private final Logger logger = RunnerLoggerFactory
+      .getLogger(Int32Strategy.class);
 
-	public Float64Strategy(RandomGeneratorI task, EMap<String, String> eMap, List<Integer> dims) {
-		super(task, eMap, dims);
-	}
+  public Float64Strategy(RandomGeneratorI task, EMap<String, String> eMap,
+      List<Integer> dims) {
+    super(task, eMap, dims);
+  }
 
-	@Override 
-	public void generateRandom(List<Integer> dims) {
-		logger.trace("generating Float64");
+  @Override
+  public void generateRandom(List<Integer> dims) {
+    logger.trace("generating Float64");
 
-		int n = 1;
-		for(Integer i : dims) n *= i;
-		double[] values = new double[n];
+    int n = 1;
+    for (Integer i : dims)
+      n *= i;
+    double[] values = new double[n];
 
-		for(int i = 0; i < n; i++)
-			values[i] = distribution.getNext();
+    for (int i = 0; i < n; i++)
+      values[i] = distribution.getNext();
 
-		task.putData(Port.OUT, new Float64I(values, dims));
-	}
+    task.putData(Port.OUT, new Float64I(values, dims));
+  }
 
-	@Override 
-	protected boolean isValue(String value) { return NumericUtil.isMultiDimsNumeric(value); }
+  @Override
+  protected boolean isValue(String value) {
+    return NumericUtil.isMultiDimsNumeric(value);
+  }
 
-	@Override 
-	protected DataI getDataOfValue(String value, List<Integer> dims) {
-		String[] vs = NumericUtil.getMutliDimsValues(value);
-		int n = 1;
-		for(Integer i : dims) n *= i;
-		if(vs.length == 1) {
-			double[] values = new double[n];
-			for(int i = 0; i < n; i++)
-				values[i] = Double.parseDouble(vs[0]);
-			return new Float64I(values, dims);
-		} else {
-			double[] values = new double[vs.length];
-			List<Integer> dims2 = NumericUtil.getMutliDimsNumericDimensions(value);
-			for(int i = 0; i < vs.length; i++)
-				values[i] = Double.parseDouble(vs[i]);
-			return new Float64I(values, dims2);
-		}
-	}
+  @Override
+  protected DataI getDataOfValue(String value, List<Integer> dims) {
+    String[] vs = NumericUtil.getMutliDimsValues(value);
+    int n = 1;
+    for (Integer i : dims)
+      n *= i;
+    if (vs.length == 1) {
+      double[] values = new double[n];
+      for (int i = 0; i < n; i++)
+        values[i] = Double.parseDouble(vs[0]);
+      return new Float64I(values, dims);
+    } else {
+      double[] values = new double[vs.length];
+      List<Integer> dims2 = NumericUtil.getMutliDimsNumericDimensions(value);
+      for (int i = 0; i < vs.length; i++)
+        values[i] = Double.parseDouble(vs[i]);
+      return new Float64I(values, dims2);
+    }
+  }
 }

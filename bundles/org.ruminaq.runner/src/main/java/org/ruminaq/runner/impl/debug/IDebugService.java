@@ -6,5 +6,5 @@ import java.rmi.RemoteException;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 
 public interface IDebugService extends Remote {
-	void debuggerEvent(IDebugEvent event) throws RemoteException;
+  void debuggerEvent(IDebugEvent event) throws RemoteException;
 }

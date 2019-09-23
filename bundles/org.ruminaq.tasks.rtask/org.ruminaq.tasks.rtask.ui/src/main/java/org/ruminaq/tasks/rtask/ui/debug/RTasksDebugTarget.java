@@ -23,59 +23,111 @@ import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 import org.slf4j.Logger;
 
-public class RTasksDebugTarget extends RTasksDebugElement implements IDebugTarget, ISicTarget {
+public class RTasksDebugTarget extends RTasksDebugElement
+    implements IDebugTarget, ISicTarget {
 
-    private final Logger logger = ModelerLoggerFactory.getLogger(RTasksDebugTarget.class);
+  private final Logger logger = ModelerLoggerFactory
+      .getLogger(RTasksDebugTarget.class);
 
-    protected EventDispatchJob dispatcher;
-    protected ILaunch          launch;
-    protected IProject         project;
-    protected RTasksProcess    process;
-    protected List<RTask> tasks = Collections.synchronizedList(new LinkedList<RTask>());
+  protected EventDispatchJob dispatcher;
+  protected ILaunch launch;
+  protected IProject project;
+  protected RTasksProcess process;
+  protected List<RTask> tasks = Collections
+      .synchronizedList(new LinkedList<RTask>());
 
-    @Override public RTasksDebugTarget getDebugTarget() { return this; }
+  @Override
+  public RTasksDebugTarget getDebugTarget() {
+    return this;
+  }
 
-    @Override public void setState(IState state) { super.setState(state); }
+  @Override
+  public void setState(IState state) {
+    super.setState(state);
+  }
 
-    public RTasksDebugTarget(ILaunch launch, IProject project, EventDispatchJob dispatcher) {
-        super(null);
-        this.launch     = launch;
-        this.project    = project;
-        this.dispatcher = dispatcher;
-        this.process    = new RTasksProcess(this);
+  public RTasksDebugTarget(ILaunch launch, IProject project,
+      EventDispatchJob dispatcher) {
+    super(null);
+    this.launch = launch;
+    this.project = project;
+    this.dispatcher = dispatcher;
+    this.process = new RTasksProcess(this);
 
-        dispatcher.addHost(new TerminateTargetDecoration(this, dispatcher));
+    dispatcher.addHost(new TerminateTargetDecoration(this, dispatcher));
+  }
+
+  public boolean hasSuspended() {
+    return false;
+  }
+
+  @Override
+  public void handleEvent(IDebugEvent event) {
+    logger.trace("handleEvent() {}", event);
+  }
+
+  public void fireModelEvent(IDebugEvent event) {
+    dispatcher.addEvent(event);
+  }
+
+  @Override
+  public String getName() {
+    return "Python Tasks";
+  }
+
+  @Override
+  public ILaunch getLaunch() {
+    return launch;
+  }
+
+  @Override
+  public IProcess getProcess() {
+    return process;
+  }
+
+  @Override
+  public boolean hasThreads() throws DebugException {
+    return false;
+  }
+
+  @Override
+  public IThread[] getThreads() throws DebugException {
+    return new IThread[0];
+  }
+
+  @Override
+  public boolean supportsBreakpoint(IBreakpoint breakpoint) {
+    return true;
+  }
+
+  @Override
+  public void breakpointAdded(IBreakpoint breakpoint) {
+  }
+
+  @Override
+  public void breakpointRemoved(IBreakpoint breakpoint, IMarkerDelta delta) {
+  }
+
+  @Override
+  public void breakpointChanged(IBreakpoint breakpoint, IMarkerDelta delta) {
+  }
+
+  public boolean isEnabledBreakpoint(IBreakpoint breakpoint) {
+    try {
+      return breakpoint.isEnabled()
+          && DebugPlugin.getDefault().getBreakpointManager().isEnabled();
+    } catch (CoreException e) {
     }
+    return false;
+  }
 
-    public boolean hasSuspended() {
-        return false;
-    }
+  @Override
+  public boolean supportsStorageRetrieval() {
+    return false;
+  }
 
-    @Override
-    public void handleEvent(IDebugEvent event) {
-        logger.trace("handleEvent() {}", event);
-    }
-
-    public void fireModelEvent(IDebugEvent event) { dispatcher.addEvent(event); }
-
-    @Override public String  getName()   { return "Python Tasks"; }
-    @Override public ILaunch getLaunch() { return launch; }
-
-    @Override public IProcess  getProcess()                       { return process; }
-    @Override public boolean   hasThreads() throws DebugException { return false; }
-    @Override public IThread[] getThreads() throws DebugException { return new IThread[0]; }
-
-    @Override public boolean supportsBreakpoint(IBreakpoint breakpoint) { return true; }
-    @Override public void    breakpointAdded   (IBreakpoint breakpoint) { }
-    @Override public void    breakpointRemoved (IBreakpoint breakpoint, IMarkerDelta delta) { }
-    @Override public void    breakpointChanged (IBreakpoint breakpoint, IMarkerDelta delta) { }
-
-    public boolean isEnabledBreakpoint(IBreakpoint breakpoint) {
-        try { return breakpoint.isEnabled() && DebugPlugin.getDefault().getBreakpointManager().isEnabled();
-        } catch (CoreException e) { }
-        return false;
-    }
-
-    @Override public boolean      supportsStorageRetrieval()                               { return false; }
-    @Override public IMemoryBlock getMemoryBlock          (long startAddress, long length) { return null; }
+  @Override
+  public IMemoryBlock getMemoryBlock(long startAddress, long length) {
+    return null;
+  }
 }

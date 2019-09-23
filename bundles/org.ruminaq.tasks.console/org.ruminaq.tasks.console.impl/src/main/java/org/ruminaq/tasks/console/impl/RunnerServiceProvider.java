@@ -12,13 +12,13 @@ import org.ruminaq.tasks.console.model.console.ConsolePackage;
 
 public final class RunnerServiceProvider extends AbstractRunnerService {
 
-	@Override
-	public void initModelPackages() {
-		ConsolePackage.eINSTANCE.getClass();
-	}
+  @Override
+  public void initModelPackages() {
+    ConsolePackage.eINSTANCE.getClass();
+  }
 
-	@Override
-	public TaskI getImplementation(EmbeddedTaskI parent, Task task) {
-		return task instanceof Console ? new ConsoleI(parent, task) : null;
-	}
+  @Override
+  public TaskI getImplementation(EmbeddedTaskI parent, Task task) {
+    return task instanceof Console ? new ConsoleI(parent, task) : null;
+  }
 }

@@ -27,24 +27,25 @@ import org.slf4j.Logger;
 
 public class Float32Strategy extends AbstractConstantStrategy {
 
-    private static final Logger LOGGER = RunnerLoggerFactory.getLogger(Int32Strategy.class);
+  private static final Logger LOGGER = RunnerLoggerFactory
+      .getLogger(Int32Strategy.class);
 
-    public static final String DEFAULT_VALUE = "0";
+  public static final String DEFAULT_VALUE = "0";
 
-    public Float32Strategy(ConstantI task, String value) {
-        super(task, value);
+  public Float32Strategy(ConstantI task, String value) {
+    super(task, value);
+  }
+
+  @Override
+  public void execute() {
+    LOGGER.trace("create Float32");
+    List<Integer> dims = NumericUtil.getMutliDimsNumericDimensions(value);
+    String[] vs = NumericUtil.getMutliDimsValues(value);
+    int n = dims.stream().reduce(1, (a, b) -> a * b);
+    float[] values = new float[n];
+    for (int i = 0; i < n; i++) {
+      values[i] = Float.parseFloat(vs[i]);
     }
-
-    @Override
-    public void execute() {
-        LOGGER.trace("create Float32");
-        List<Integer> dims = NumericUtil.getMutliDimsNumericDimensions(value);
-        String[] vs        = NumericUtil.getMutliDimsValues(value);
-        int n = dims.stream().reduce(1, (a, b) -> a * b);
-        float[] values = new float[n];
-        for (int i = 0; i < n; i++) {
-            values[i] = Float.parseFloat(vs[i]);
-        }
-        task.putData(Port.OUT, new Float32I(values, dims));
-    }
+    task.putData(Port.OUT, new Float32I(values, dims));
+  }
 }

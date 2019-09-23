@@ -6,17 +6,17 @@ import org.ruminaq.tasks.gate.xor.Images;
 
 public class AddFeature extends AddGateFeature {
 
-	public AddFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public AddFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-	@Override
-	protected boolean useIconInsideShape() {
-		return true;
-	}
+  @Override
+  protected boolean useIconInsideShape() {
+    return true;
+  }
 
-	@Override
-	protected String getInsideIconId() {
-		return Images.Image.IMG_XOR_DIAGRAM.name();
-	}
+  @Override
+  protected String getInsideIconId() {
+    return Images.Image.IMG_XOR_DIAGRAM.name();
+  }
 }

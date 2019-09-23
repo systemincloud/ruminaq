@@ -15,40 +15,40 @@ import org.ruminaq.launch.api.LaunchExtensionHandler;
 @Component(immediate = true)
 public class LaunchExtensionHandlerImpl implements LaunchExtensionHandler {
 
-	private Collection<LaunchExtension> extensions;
+  private Collection<LaunchExtension> extensions;
 
-	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
-	protected void bind(LaunchExtension extension) {
-		if (extensions == null) {
-			extensions = new ArrayList<>();
-		}
-		extensions.add(extension);
-	}
+  @Reference(cardinality = ReferenceCardinality.MULTIPLE,
+      policy = ReferencePolicy.DYNAMIC)
+  protected void bind(LaunchExtension extension) {
+    if (extensions == null) {
+      extensions = new ArrayList<>();
+    }
+    extensions.add(extension);
+  }
 
-	protected void unbind(LaunchExtension extension) {
-		extensions.remove(extension);
-	}
+  protected void unbind(LaunchExtension extension) {
+    extensions.remove(extension);
+  }
 
-	@Override
-	public Collection<String> getPluginIdsToRunnerClasspath() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public Collection<String> getPluginIdsToRunnerClasspath() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	@Override
-	public String getVMArguments() {
-		StringBuilder args = new StringBuilder();
-		args.append(" ");
-		extensions.stream()
-			.map(LaunchExtension::getVMArguments)
-			.forEach(a -> args.append(a).append(" "));
-		return args.toString();
-	}
+  @Override
+  public String getVMArguments() {
+    StringBuilder args = new StringBuilder();
+    args.append(" ");
+    extensions.stream().map(LaunchExtension::getVMArguments)
+        .forEach(a -> args.append(a).append(" "));
+    return args.toString();
+  }
 
-	@Override
-	public LinkedHashSet<String> getProgramArguments(IProject p) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public LinkedHashSet<String> getProgramArguments(IProject p) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
 }

@@ -25,119 +25,169 @@ import org.ruminaq.tasks.debug.model.port.in.InputPort;
 import org.ruminaq.tasks.debug.model.port.out.OutputPort;
 import org.slf4j.Logger;
 
-public class Task extends TasksDebugElement implements IThread, IEventProcessor {
+public class Task extends TasksDebugElement
+    implements IThread, IEventProcessor {
 
-    private final Logger logger = ModelerLoggerFactory.getLogger(Task.class);
+  private final Logger logger = ModelerLoggerFactory.getLogger(Task.class);
 
-    private String id;
-    private String name;
-    private String parentPath;
-    private IFile  file;
+  private String id;
+  private String name;
+  private String parentPath;
+  private IFile file;
 
-    public String getParentPath() { return parentPath; }
-    public String getId()         { return id; }
+  public String getParentPath() {
+    return parentPath;
+  }
 
-    private final List<Port> ports = new LinkedList<>();
+  public String getId() {
+    return id;
+  }
 
-    protected Task(IDebugTarget target, IProject project, NewTaskEvent event) {
-        super(target);
-        this.id         = event.getId();
-        this.name       = event.getFullId();
-        this.parentPath = event.getParentPath();
-        for(IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-            String prefix = p.getLocation().removeLastSegments(1).toFile().getAbsolutePath();
-            if(parentPath.startsWith(prefix + File.separator)) {
-                logger.trace("prefix : ", prefix);
-                logger.trace("parentPath : ", parentPath);
-                this.file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(parentPath.replace(prefix, "")));
-                break;
-            }
-        }
+  private final List<Port> ports = new LinkedList<>();
 
-        setState(MainState.RUNNING);
-
-        for(NewInputPort  np : event.getInputPorts())  ports.add(new InputPort(target,  np.getId(), this));
-        for(NewOutputPort np : event.getOutputPorts()) ports.add(new OutputPort(target, np.getId(), this));
+  protected Task(IDebugTarget target, IProject project, NewTaskEvent event) {
+    super(target);
+    this.id = event.getId();
+    this.name = event.getFullId();
+    this.parentPath = event.getParentPath();
+    for (IProject p : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+      String prefix = p.getLocation().removeLastSegments(1).toFile()
+          .getAbsolutePath();
+      if (parentPath.startsWith(prefix + File.separator)) {
+        logger.trace("prefix : ", prefix);
+        logger.trace("parentPath : ", parentPath);
+        this.file = ResourcesPlugin.getWorkspace().getRoot()
+            .getFile(new Path(parentPath.replace(prefix, "")));
+        break;
+      }
     }
 
-    @Override public boolean canResume() {
-        for(Port p : ports)
-            if(p.canResume()) return true;
-        return false;
-    }
+    setState(MainState.RUNNING);
 
-    @Override public boolean canSuspend()  {
-        for(Port p : ports)
-            if(p.canSuspend()) return true;
-        return false;
-    }
+    for (NewInputPort np : event.getInputPorts())
+      ports.add(new InputPort(target, np.getId(), this));
+    for (NewOutputPort np : event.getOutputPorts())
+      ports.add(new OutputPort(target, np.getId(), this));
+  }
 
-    @Override public boolean isSuspended() {
-        if(ports.size() == 0) return false;
-        for(Port p : ports)
-            if(!p.isSuspended()) return false;
+  @Override
+  public boolean canResume() {
+    for (Port p : ports)
+      if (p.canResume())
         return true;
-    }
+    return false;
+  }
 
-    public boolean hasSuspended() {
-        if(ports.size() == 0) return false;
-        for(Port p : ports)
-            if(p.isSuspended()) return true;
+  @Override
+  public boolean canSuspend() {
+    for (Port p : ports)
+      if (p.canSuspend())
+        return true;
+    return false;
+  }
+
+  @Override
+  public boolean isSuspended() {
+    if (ports.size() == 0)
+      return false;
+    for (Port p : ports)
+      if (!p.isSuspended())
         return false;
-    }
+    return true;
+  }
 
-    @Override public boolean canStepOver() {
-        if(ports.size() == 0) return false;
-        for(Port p : ports)
-            if(p.canStepOver()) return true;
-        return false;
-    }
+  public boolean hasSuspended() {
+    if (ports.size() == 0)
+      return false;
+    for (Port p : ports)
+      if (p.isSuspended())
+        return true;
+    return false;
+  }
 
-    @Override
-    public void stepOver() {
-        for(Port p : ports)
-            if(p.canStepOver()) p.stepOver();
-    }
+  @Override
+  public boolean canStepOver() {
+    if (ports.size() == 0)
+      return false;
+    for (Port p : ports)
+      if (p.canStepOver())
+        return true;
+    return false;
+  }
 
-    @Override
-    public boolean isStepping() {
-        if(ports.size() == 0) return false;
-        for(Port p : ports)
-            if(p.isStepping()) return true;
-        return false;
-    }
+  @Override
+  public void stepOver() {
+    for (Port p : ports)
+      if (p.canStepOver())
+        p.stepOver();
+  }
 
-    @Override public void resume() throws DebugException {
-        logger.trace("resume");
-        for(Port p : ports)
-            if(p.canResume()) p.resume();
-    }
+  @Override
+  public boolean isStepping() {
+    if (ports.size() == 0)
+      return false;
+    for (Port p : ports)
+      if (p.isStepping())
+        return true;
+    return false;
+  }
 
-    @Override public void suspend() throws DebugException {
-        logger.trace("suspend");
-        for(Port p : ports)
-            if(p.canSuspend()) p.suspend();
-    }
+  @Override
+  public void resume() throws DebugException {
+    logger.trace("resume");
+    for (Port p : ports)
+      if (p.canResume())
+        p.resume();
+  }
 
-    @Override public String        getName()          throws DebugException { return name; }
-    @Override public int           getPriority()      throws DebugException { return 0; }
-    @Override public IStackFrame[] getStackFrames()   throws DebugException { return ports.toArray(new IStackFrame[ports.size()]); }
+  @Override
+  public void suspend() throws DebugException {
+    logger.trace("suspend");
+    for (Port p : ports)
+      if (p.canSuspend())
+        p.suspend();
+  }
 
-    @Override public IStackFrame   getTopStackFrame() throws DebugException { return !ports.isEmpty() ? ports.get(0) : null; }
-    @Override public boolean       hasStackFrames()   throws DebugException { return !ports.isEmpty(); }
+  @Override
+  public String getName() throws DebugException {
+    return name;
+  }
 
-    @Override public IBreakpoint[] getBreakpoints() {
-        List<IBreakpoint> ret = new LinkedList<>();
-        for(Port p : ports)
-            ret.addAll(p.getBreakpoints());
-        return ret.toArray(new IBreakpoint[ret.size()]);
-    }
+  @Override
+  public int getPriority() throws DebugException {
+    return 0;
+  }
 
-    public IFile getFile() { return file; }
+  @Override
+  public IStackFrame[] getStackFrames() throws DebugException {
+    return ports.toArray(new IStackFrame[ports.size()]);
+  }
 
-    @Override
-    public void handleEvent(IDebugEvent event) {
-        for(Port p : ports)
-            p.handleEvent(event);
-    }
+  @Override
+  public IStackFrame getTopStackFrame() throws DebugException {
+    return !ports.isEmpty() ? ports.get(0) : null;
+  }
+
+  @Override
+  public boolean hasStackFrames() throws DebugException {
+    return !ports.isEmpty();
+  }
+
+  @Override
+  public IBreakpoint[] getBreakpoints() {
+    List<IBreakpoint> ret = new LinkedList<>();
+    for (Port p : ports)
+      ret.addAll(p.getBreakpoints());
+    return ret.toArray(new IBreakpoint[ret.size()]);
+  }
+
+  public IFile getFile() {
+    return file;
+  }
+
+  @Override
+  public void handleEvent(IDebugEvent event) {
+    for (Port p : ports)
+      p.handleEvent(event);
+  }
 }

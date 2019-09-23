@@ -28,38 +28,37 @@ import org.ruminaq.tasks.constant.api.ValueSaveListener;
 
 public class ControlPropertyValue extends PropertyValueComposite {
 
-    private Label lblValue;
+  private Label lblValue;
 
-    public ControlPropertyValue(
-            ValueSaveListener listener,
-            Composite valueRoot,
-            PictogramElement pe,
-            TransactionalEditingDomain ed) {
-        super(listener, valueRoot, pe, ed);
-        // initLayout
-        composite = new Composite(this.valueRoot, SWT.NONE);
-        GridLayout layout = new GridLayout(1, false);
-        layout.marginWidth = 0;
-        layout.marginHeight = 0;
-        composite.setLayout(layout);
-        lblValue = new Label(composite, SWT.NONE);
-        lblValue.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
+  public ControlPropertyValue(ValueSaveListener listener, Composite valueRoot,
+      PictogramElement pe, TransactionalEditingDomain ed) {
+    super(listener, valueRoot, pe, ed);
+    // initLayout
+    composite = new Composite(this.valueRoot, SWT.NONE);
+    GridLayout layout = new GridLayout(1, false);
+    layout.marginWidth = 0;
+    layout.marginHeight = 0;
+    composite.setLayout(layout);
+    lblValue = new Label(composite, SWT.NONE);
+    lblValue.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
 
-        // initComponents
-        lblValue.setText("*");
+    // initComponents
+    lblValue.setText("*");
 
-        // addStyles
-        composite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-        lblValue .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    }
+    // addStyles
+    composite
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+    lblValue
+        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+  }
 
-    @Override
-    public String getValue() {
-        return "*";
-    }
+  @Override
+  public String getValue() {
+    return "*";
+  }
 
-    @Override
-    public void refresh(String value) {
-        lblValue.setText("*");
-    }
+  @Override
+  public void refresh(String value) {
+    lblValue.setText("*");
+  }
 }

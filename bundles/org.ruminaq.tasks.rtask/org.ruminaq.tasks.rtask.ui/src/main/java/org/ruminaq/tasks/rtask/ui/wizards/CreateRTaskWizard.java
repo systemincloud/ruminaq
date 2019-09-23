@@ -12,38 +12,40 @@ import org.ruminaq.tasks.rtask.ui.IRTaskUiApi;
 @SuppressWarnings("restriction")
 public class CreateRTaskWizard extends NewElementWizard {
 
-    public static final String ID = "org.ruminaq.tasks.rtask.ui.wizards.CreateRTaskWizard";
+  public static final String ID = "org.ruminaq.tasks.rtask.ui.wizards.CreateRTaskWizard";
 
-    private IRTaskUiApi              irtua;
-    private CustomNewClassWizardPage cncwp;
-    private ICreateRTaskPage         crtp;
+  private IRTaskUiApi irtua;
+  private CustomNewClassWizardPage cncwp;
+  private ICreateRTaskPage crtp;
 
-    private CreateRTaskListener listener = null;
+  private CreateRTaskListener listener = null;
 
-    public void setListener(CreateRTaskListener listener) { this.listener  = listener; }
+  public void setListener(CreateRTaskListener listener) {
+    this.listener = listener;
+  }
 
 //    private NewRTaskCreator rtaskFile;
 
-    public CreateRTaskWizard() {
+  public CreateRTaskWizard() {
 //        setDialogSettings(DialogUtil.getDialogSettings(RUIPlugin.getDefault(), "NewElementWizard"));
 //        setDefaultPageImageDescriptor(RUI.getImageDescriptor(RUIPlugin.IMG_WIZBAN_NEWRFILE));
-    }
+  }
 
-    @Override
-    public void addPages() {
-        super.addPages();
+  @Override
+  public void addPages() {
+    super.addPages();
 //        this.cncwp = new CustomNewClassWizardPage(getSelection());
 //        this.crtp  = irtua.getCreatePythonTaskPage();
 //        addPage(this.cncwp);
 //        addPage(this.crtp);
-    }
+  }
 
-    @Override
-    public boolean performFinish() {
+  @Override
+  public boolean performFinish() {
 //        this.rtaskFile = new NewRTaskCreator(this.cncwp.fResourceGroup.getContainerFullPath(),
 //                                             this.cncwp.fResourceGroup.getResourceName());
 
-        final boolean result = super.performFinish();
+    final boolean result = super.performFinish();
 //
 //        if(result && this.rtaskFile.getFileHandle() != null) {
 //            selectAndReveal(this.rtaskFile.getFileHandle());
@@ -53,39 +55,40 @@ public class CreateRTaskWizard extends NewElementWizard {
 //        if(listener != null) listener.created(this.cncwp.fResourceGroup.getContainerFullPath() + "/" +
 //                                              this.cncwp.fResourceGroup.getResourceName());
 
-        return result;
-    }
+    return result;
+  }
 
-    @Override
-    protected ISchedulingRule getSchedulingRule() {
+  @Override
+  protected ISchedulingRule getSchedulingRule() {
 //        final ISchedulingRule rule = createRule(rtaskFile.getFileHandle());
 //        if(rule != null) return rule;
-        return super.getSchedulingRule();
-    }
+    return super.getSchedulingRule();
+  }
 
-    protected void doFinish(final IProgressMonitor monitor) throws InterruptedException, CoreException, InvocationTargetException {
-        try {
-            monitor.beginTask("Create new RTask ...", 1000);
+  protected void doFinish(final IProgressMonitor monitor)
+      throws InterruptedException, CoreException, InvocationTargetException {
+    try {
+      monitor.beginTask("Create new RTask ...", 1000);
 //            rtaskFile.createFile(new NullProgressMonitor());
-            this.cncwp.saveSettings();
-            monitor.worked(100);
-        } finally {
-            monitor.done();
-        }
+      this.cncwp.saveSettings();
+      monitor.worked(100);
+    } finally {
+      monitor.done();
     }
+  }
 
-    @Override
-    protected void finishPage(IProgressMonitor arg0)
-        throws InterruptedException, CoreException {
-      // TODO Auto-generated method stub
+  @Override
+  protected void finishPage(IProgressMonitor arg0)
+      throws InterruptedException, CoreException {
+    // TODO Auto-generated method stub
 
-    }
+  }
 
-    @Override
-    public IJavaElement getCreatedElement() {
-      // TODO Auto-generated method stub
-      return null;
-    }
+  @Override
+  public IJavaElement getCreatedElement() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
 //
 //    private class NewRTaskCreator extends NewFileCreator {
@@ -124,4 +127,3 @@ public class CreateRTaskWizard extends NewElementWizard {
 //        }
 //    }
 }
-

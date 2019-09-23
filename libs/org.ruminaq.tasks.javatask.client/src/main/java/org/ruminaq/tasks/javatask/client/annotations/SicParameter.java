@@ -16,9 +16,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.CLASS)
 @Target({ ElementType.TYPE })
 public @interface SicParameter {
-	String name();
+  String name();
 
-	String defaultValue() default "";
+  String defaultValue() default "";
 
-	String description() default "";
+  String description() default "";
 }

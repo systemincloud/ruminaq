@@ -12,11 +12,17 @@ import org.ruminaq.model.ruminaq.DataType;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface OUT {
-	String                      name();
-	Class<? extends DataType>[] type()    default {};
-	Class<? extends EFactory>   factory() default DatatypeFactory.class;
-	boolean                     opt()     default false;
-	int                         n()       default 1;
-	Position                    pos()     default Position.RIGHT;
-	boolean                     label()   default true;
+  String name();
+
+  Class<? extends DataType>[] type() default {};
+
+  Class<? extends EFactory> factory() default DatatypeFactory.class;
+
+  boolean opt() default false;
+
+  int n() default 1;
+
+  Position pos() default Position.RIGHT;
+
+  boolean label() default true;
 }

@@ -17,35 +17,52 @@ import org.ruminaq.util.EclipseUtil;
 
 public class DoubleClickFeature extends AbstractCustomFeature {
 
-	public DoubleClickFeature(IFeatureProvider fp) {
-		super(fp);
-	}
+  public DoubleClickFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-    @Override public boolean canExecute    (ICustomContext context) { return true; }
-	@Override public boolean hasDoneChanges()                       { return false; }
+  @Override
+  public boolean canExecute(ICustomContext context) {
+    return true;
+  }
 
-	@Override
-	public void execute(ICustomContext context) {
-		EmbeddedTask bo = null;
-		for (Object o : Graphiti.getLinkService().getAllBusinessObjectsForLinkedPictogramElement(context.getInnerPictogramElement()))
-			if(o instanceof EmbeddedTask) { bo = (EmbeddedTask) o; break; }
-		if(bo == null) return;
-		if(bo.getImplementationTask().equals("")) return;
+  @Override
+  public boolean hasDoneChanges() {
+    return false;
+  }
 
-		final IFile ifile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(getEmbeddedTaskPath(bo)));
+  @Override
+  public void execute(ICustomContext context) {
+    EmbeddedTask bo = null;
+    for (Object o : Graphiti.getLinkService()
+        .getAllBusinessObjectsForLinkedPictogramElement(
+            context.getInnerPictogramElement()))
+      if (o instanceof EmbeddedTask) {
+        bo = (EmbeddedTask) o;
+        break;
+      }
+    if (bo == null)
+      return;
+    if (bo.getImplementationTask().equals(""))
+      return;
 
-		Display.getCurrent().asyncExec(new Runnable() {
-			public void run() {
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				try {
-					IDE.openEditor(page, ifile, true);
-				} catch (PartInitException e) {
-				}
-			}
-		});
-	}
+    final IFile ifile = ResourcesPlugin.getWorkspace().getRoot()
+        .getFile(new Path(getEmbeddedTaskPath(bo)));
 
-	public String getEmbeddedTaskPath(EmbeddedTask bo) {
-		return EclipseUtil.getModelPathFromEObject(bo).segment(0).toString() + "/" + bo.getImplementationTask();
-	}
+    Display.getCurrent().asyncExec(new Runnable() {
+      public void run() {
+        IWorkbenchPage page = PlatformUI.getWorkbench()
+            .getActiveWorkbenchWindow().getActivePage();
+        try {
+          IDE.openEditor(page, ifile, true);
+        } catch (PartInitException e) {
+        }
+      }
+    });
+  }
+
+  public String getEmbeddedTaskPath(EmbeddedTask bo) {
+    return EclipseUtil.getModelPathFromEObject(bo).segment(0).toString() + "/"
+        + bo.getImplementationTask();
+  }
 }

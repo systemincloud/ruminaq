@@ -23,21 +23,21 @@ import org.ruminaq.gui.api.ImagesExtension;
 @Component(property = { "service.ranking:Integer=5" })
 public class Images implements ImagesExtension {
 
-	public enum K {
-		IMG_CONSOLE_PALETTE("/icons/palette.console.png"),
-		IMG_CONSOLE_DIAGRAM("/icons/diagram.console.png"),;
+  public enum K {
+    IMG_CONSOLE_PALETTE("/icons/palette.console.png"),
+    IMG_CONSOLE_DIAGRAM("/icons/diagram.console.png"),;
 
-		private String path;
+    private String path;
 
-		K(String path) {
-			this.path = path;
-		}
-	}
+    K(String path) {
+      this.path = path;
+    }
+  }
 
-	public Map<String, String> getImageKeyPath() {
-		return Arrays.stream(K.values())
-		    .collect(Collectors.toMap(K::name, i -> FileLocator
-		        .find(FrameworkUtil.getBundle(Images.class), new Path(i.path), null)
-		        .toString()));
-	}
+  public Map<String, String> getImageKeyPath() {
+    return Arrays.stream(K.values())
+        .collect(Collectors.toMap(K::name, i -> FileLocator
+            .find(FrameworkUtil.getBundle(Images.class), new Path(i.path), null)
+            .toString()));
+  }
 }

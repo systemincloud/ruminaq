@@ -24,22 +24,29 @@ import org.ruminaq.model.ruminaq.RuminaqPackage;
 
 public class Selector implements IClientSelector {
 
-	@Override
-    public boolean selects(Object object) {
-		if(object instanceof EObject) {
-			EObject eObj = (EObject) object;
-			if(check(eObj)) return true;
-			if(eObj instanceof PictogramElement) {
-				eObj = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement((PictogramElement)eObj);
-				if(eObj != null && check(eObj)) return true;
-			}
-		}
-		return false;
-	}
+  @Override
+  public boolean selects(Object object) {
+    if (object instanceof EObject) {
+      EObject eObj = (EObject) object;
+      if (check(eObj))
+        return true;
+      if (eObj instanceof PictogramElement) {
+        eObj = Graphiti.getLinkService()
+            .getBusinessObjectForLinkedPictogramElement(
+                (PictogramElement) eObj);
+        if (eObj != null && check(eObj))
+          return true;
+      }
+    }
+    return false;
+  }
 
-	private boolean check(EObject eObj) {
-		if(eObj instanceof BaseElement)                                   return true;
-		if(eObj.eClass().getEPackage() == RuminaqPackage.eINSTANCE) return true;
-		else return false;
-	}
+  private boolean check(EObject eObj) {
+    if (eObj instanceof BaseElement)
+      return true;
+    if (eObj.eClass().getEPackage() == RuminaqPackage.eINSTANCE)
+      return true;
+    else
+      return false;
+  }
 }

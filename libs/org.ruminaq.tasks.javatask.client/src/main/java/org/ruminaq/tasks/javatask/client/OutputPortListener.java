@@ -10,5 +10,5 @@ import org.ruminaq.tasks.javatask.client.data.Data;
  * @author Marek Jagielski
  */
 public interface OutputPortListener {
-	void putData(OutputPort outputPort, Data data, boolean copy);
+  void putData(OutputPort outputPort, Data data, boolean copy);
 }

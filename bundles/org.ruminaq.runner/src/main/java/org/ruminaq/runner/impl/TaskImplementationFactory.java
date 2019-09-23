@@ -8,20 +8,26 @@ import org.slf4j.Logger;
 
 public enum TaskImplementationFactory {
 
-	INSTANCE;
+  INSTANCE;
 
-	private final Logger logger = RunnerLoggerFactory.getLogger(TaskImplementationFactory.class);
+  private final Logger logger = RunnerLoggerFactory
+      .getLogger(TaskImplementationFactory.class);
 
-	public TaskI getImplementation(EmbeddedTaskI parent, Task task, String basePath, boolean inCloud, boolean runOnlyLocalTasks) {
-		logger.trace("Creating Task {}", task.getId());
-		TaskI taskI = RunnerServiceManager.INSTANCE.getImplementation(parent, task);
-		if(taskI != null) return taskI;
-		else if(task instanceof EmbeddedTask) return new EmbeddedTaskI(parent, task, basePath + ((EmbeddedTask)task).getImplementationTask(), ((EmbeddedTask)task).getParameters(), inCloud, runOnlyLocalTasks);
-		else {
+  public TaskI getImplementation(EmbeddedTaskI parent, Task task,
+      String basePath, boolean inCloud, boolean runOnlyLocalTasks) {
+    logger.trace("Creating Task {}", task.getId());
+    TaskI taskI = RunnerServiceManager.INSTANCE.getImplementation(parent, task);
+    if (taskI != null)
+      return taskI;
+    else if (task instanceof EmbeddedTask)
+      return new EmbeddedTaskI(parent, task,
+          basePath + ((EmbeddedTask) task).getImplementationTask(),
+          ((EmbeddedTask) task).getParameters(), inCloud, runOnlyLocalTasks);
+    else {
 
-		}
+    }
 
-		return null;
-	}
+    return null;
+  }
 
 }

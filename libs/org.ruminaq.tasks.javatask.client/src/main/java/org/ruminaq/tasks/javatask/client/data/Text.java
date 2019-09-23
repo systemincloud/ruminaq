@@ -12,24 +12,24 @@ import java.util.List;
  */
 public class Text extends Data {
 
-	private List<String> values = new LinkedList<>();
+  private List<String> values = new LinkedList<>();
 
-	public Text(List<Integer> dims, List<String> values) {
-		super(dims);
-		this.values.addAll(values);
-	}
+  public Text(List<Integer> dims, List<String> values) {
+    super(dims);
+    this.values.addAll(values);
+  }
 
-	public Text(String value) {
-		super(1);
-		this.values.add(value);
-	}
+  public Text(String value) {
+    super(1);
+    this.values.add(value);
+  }
 
-	public List<String> getValues() {
-		return values;
-	}
+  public List<String> getValues() {
+    return values;
+  }
 
-	public String getValue() {
-		return values.get(0);
-	}
+  public String getValue() {
+    return values.get(0);
+  }
 
 }

@@ -10,19 +10,19 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 public class UpdateDiagramCmd extends AbstractHandler {
 
-    @Override
-    public Object execute(ExecutionEvent event) throws ExecutionException {
-        ISelection selection = HandlerUtil.getCurrentSelection(event);
-        if (selection != null & selection instanceof IStructuredSelection) {
-            IStructuredSelection strucSelection = (IStructuredSelection) selection;
-            IResource file = (IResource) strucSelection.getFirstElement();
-            try {
-                new UpdateDiagram().updateDiagram(file);
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
+  @Override
+  public Object execute(ExecutionEvent event) throws ExecutionException {
+    ISelection selection = HandlerUtil.getCurrentSelection(event);
+    if (selection != null & selection instanceof IStructuredSelection) {
+      IStructuredSelection strucSelection = (IStructuredSelection) selection;
+      IResource file = (IResource) strucSelection.getFirstElement();
+      try {
+        new UpdateDiagram().updateDiagram(file);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
+    return null;
+  }
 
 }

@@ -27,22 +27,23 @@ import org.slf4j.Logger;
 
 public class BoolStrategy extends AbstractConstantStrategy {
 
-    private static final Logger LOGGER = RunnerLoggerFactory.getLogger(Complex32Strategy.class);
+  private static final Logger LOGGER = RunnerLoggerFactory
+      .getLogger(Complex32Strategy.class);
 
-    public BoolStrategy(ConstantI task, String value) {
-        super(task, value);
-    }
+  public BoolStrategy(ConstantI task, String value) {
+    super(task, value);
+  }
 
-    @Override
-    public void execute() {
-        LOGGER.trace("create Bool");
-        List<Integer> dims = NumericUtil.getMultiDimsBoolDimensions(value);
-        String[] vs = NumericUtil.getMutliDimsValues(value);
-        int n = dims.stream().reduce(1, (a, b) -> a * b);
-        boolean[] values = new boolean[n];
-        for (int i = 0; i < n; i++) {
-            values[i] = Boolean.parseBoolean(vs[i]);
-        }
-        task.putData(Port.OUT, new BoolI(values, dims));
+  @Override
+  public void execute() {
+    LOGGER.trace("create Bool");
+    List<Integer> dims = NumericUtil.getMultiDimsBoolDimensions(value);
+    String[] vs = NumericUtil.getMutliDimsValues(value);
+    int n = dims.stream().reduce(1, (a, b) -> a * b);
+    boolean[] values = new boolean[n];
+    for (int i = 0; i < n; i++) {
+      values[i] = Boolean.parseBoolean(vs[i]);
     }
+    task.putData(Port.OUT, new BoolI(values, dims));
+  }
 }

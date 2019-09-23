@@ -16,36 +16,49 @@ import org.ruminaq.validation.ValidationStatusAdapter;
 
 public class DecorateTaskFeature {
 
-	public List<IDecorator> getDecorators(IFeatureProvider fp, Task task) {
-		List<IDecorator> decorators = new LinkedList<>();
+  public List<IDecorator> getDecorators(IFeatureProvider fp, Task task) {
+    List<IDecorator> decorators = new LinkedList<>();
 
-		decorators.addAll(validationDecorators(task));
+    decorators.addAll(validationDecorators(task));
 
-		return decorators;
-	}
+    return decorators;
+  }
 
-	private Collection<? extends IDecorator> validationDecorators(Task task) {
-		List<IDecorator> decorators = new LinkedList<>();
-		int x_dec = -5;
-		int y_dec = -5;
+  private Collection<? extends IDecorator> validationDecorators(Task task) {
+    List<IDecorator> decorators = new LinkedList<>();
+    int x_dec = -5;
+    int y_dec = -5;
 
-		ValidationStatusAdapter statusAdapter = (ValidationStatusAdapter) EcoreUtil.getRegisteredAdapter(task, ValidationStatusAdapter.class);
-		if(statusAdapter == null) return decorators;
-		final IImageDecorator decorator;
-		final IStatus status = statusAdapter.getValidationStatus();
-		switch (status.getSeverity()) {
-			case IStatus.INFO:    decorator = new ImageDecorator(IPlatformImageConstants.IMG_ECLIPSE_INFORMATION_TSK); break;
-		    case IStatus.WARNING: decorator = new ImageDecorator(IPlatformImageConstants.IMG_ECLIPSE_WARNING_TSK);     break;
-		    case IStatus.ERROR:   decorator = new ImageDecorator(IPlatformImageConstants.IMG_ECLIPSE_ERROR_TSK);       break;
-		    default:              decorator = null;                                                                    break;
-		}
+    ValidationStatusAdapter statusAdapter = (ValidationStatusAdapter) EcoreUtil
+        .getRegisteredAdapter(task, ValidationStatusAdapter.class);
+    if (statusAdapter == null)
+      return decorators;
+    final IImageDecorator decorator;
+    final IStatus status = statusAdapter.getValidationStatus();
+    switch (status.getSeverity()) {
+      case IStatus.INFO:
+        decorator = new ImageDecorator(
+            IPlatformImageConstants.IMG_ECLIPSE_INFORMATION_TSK);
+        break;
+      case IStatus.WARNING:
+        decorator = new ImageDecorator(
+            IPlatformImageConstants.IMG_ECLIPSE_WARNING_TSK);
+        break;
+      case IStatus.ERROR:
+        decorator = new ImageDecorator(
+            IPlatformImageConstants.IMG_ECLIPSE_ERROR_TSK);
+        break;
+      default:
+        decorator = null;
+        break;
+    }
 
-		if (decorator != null) {
-			decorator.setX(x_dec);
-		    decorator.setY(y_dec);
-		    decorator.setMessage(status.getMessage());
-		    decorators.add(decorator);
-		}
-		return decorators;
-	}
+    if (decorator != null) {
+      decorator.setX(x_dec);
+      decorator.setY(y_dec);
+      decorator.setMessage(status.getMessage());
+      decorators.add(decorator);
+    }
+    return decorators;
+  }
 }

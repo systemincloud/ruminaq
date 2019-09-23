@@ -14,9 +14,9 @@ import org.eclipse.core.resources.IProject;
  */
 public interface LaunchExtensionHandler {
 
-	Collection<String> getPluginIdsToRunnerClasspath();
+  Collection<String> getPluginIdsToRunnerClasspath();
 
-	String getVMArguments();
+  String getVMArguments();
 
-	LinkedHashSet<String> getProgramArguments(IProject p);
+  LinkedHashSet<String> getProgramArguments(IProject p);
 }

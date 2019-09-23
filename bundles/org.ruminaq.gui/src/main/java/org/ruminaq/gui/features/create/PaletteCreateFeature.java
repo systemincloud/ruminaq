@@ -7,11 +7,11 @@
 package org.ruminaq.gui.features.create;
 
 public interface PaletteCreateFeature {
-	default boolean isTestOnly() {
-		return false;
-	}
+  default boolean isTestOnly() {
+    return false;
+  }
 
-	String getCompartment();
+  String getCompartment();
 
-	String getStack();
+  String getStack();
 }

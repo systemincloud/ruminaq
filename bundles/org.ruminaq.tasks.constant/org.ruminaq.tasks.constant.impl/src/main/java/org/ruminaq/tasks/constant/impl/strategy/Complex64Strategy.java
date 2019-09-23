@@ -30,37 +30,40 @@ import org.slf4j.Logger;
 
 public class Complex64Strategy extends AbstractConstantStrategy {
 
-    private static final Logger LOGGER = RunnerLoggerFactory.getLogger(Complex64Strategy.class);
+  private static final Logger LOGGER = RunnerLoggerFactory
+      .getLogger(Complex64Strategy.class);
 
-    private static final Pattern REAL_PATTERN = Pattern.compile("[+-]?[0-9]*\\.?[0-9]+");
-    private static final Pattern IMAG_PATTERN = Pattern.compile("[+-]?[0-9]*\\.?[0-9]+i");
+  private static final Pattern REAL_PATTERN = Pattern
+      .compile("[+-]?[0-9]*\\.?[0-9]+");
+  private static final Pattern IMAG_PATTERN = Pattern
+      .compile("[+-]?[0-9]*\\.?[0-9]+i");
 
-    public static final String DEFAULT_VALUE = "0 + 0i";
+  public static final String DEFAULT_VALUE = "0 + 0i";
 
-    public Complex64Strategy(ConstantI task, String value) {
-        super(task, value);
+  public Complex64Strategy(ConstantI task, String value) {
+    super(task, value);
+  }
+
+  @Override
+  public void execute() {
+    LOGGER.trace("create Complex64");
+    List<Integer> dims = NumericUtil.getMultiDimsComplexDimensions(value);
+    String[] vs = NumericUtil.getMutliDimsValues(value);
+    int n = dims.stream().reduce(1, (a, b) -> a * b);
+    double[] real = new double[n];
+    double[] imag = new double[n];
+    for (int i = 0; i < n; i++) {
+      String s = vs[i];
+      if (REAL_PATTERN.matcher(s).matches()) {
+        real[i] = Double.parseDouble(s);
+      } else if (IMAG_PATTERN.matcher(s).matches()) {
+        imag[i] = Double.parseDouble(s.replace("i", ""));
+      } else {
+        Complex c = new ComplexFormat().parse(s);
+        real[i] = c.getReal();
+        imag[i] = c.getImaginary();
+      }
     }
-
-    @Override
-    public void execute() {
-        LOGGER.trace("create Complex64");
-        List<Integer> dims = NumericUtil.getMultiDimsComplexDimensions(value);
-        String[] vs        = NumericUtil.getMutliDimsValues(value);
-        int n = dims.stream().reduce(1, (a, b) -> a * b);
-        double[] real = new double[n];
-        double[] imag = new double[n];
-        for(int i = 0; i < n; i++) {
-            String s = vs[i];
-            if (REAL_PATTERN.matcher(s).matches()) {
-                real[i] = Double.parseDouble(s);
-            } else if (IMAG_PATTERN.matcher(s).matches()) {
-                imag[i] = Double.parseDouble(s.replace("i", ""));
-            } else {
-                Complex c = new ComplexFormat().parse(s);
-                real[i] = c.getReal();
-                imag[i] = c.getImaginary();
-            }
-        }
-        task.putData(Port.OUT, new Complex64I(real, imag, dims));
-    }
+    task.putData(Port.OUT, new Complex64I(real, imag, dims));
+  }
 }

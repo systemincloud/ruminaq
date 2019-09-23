@@ -14,26 +14,28 @@ import org.slf4j.Logger;
 
 public class Complex64Strategy extends RandomGeneratorComplexStrategy {
 
-	private final Logger logger = RunnerLoggerFactory.getLogger(Complex64Strategy.class);
+  private final Logger logger = RunnerLoggerFactory
+      .getLogger(Complex64Strategy.class);
 
-	public Complex64Strategy(RandomGeneratorI task, EMap<String, String> eMap) {
-		super(task, eMap);
-	}
+  public Complex64Strategy(RandomGeneratorI task, EMap<String, String> eMap) {
+    super(task, eMap);
+  }
 
-	@Override 
-	public void generate(List<Integer> dims) {
-		logger.trace("generating Complex64");
-		int n = 1;
-		for(Integer i : dims) n *= i;
-		double[] real = new double[n];
-		double[] imag = new double[n];
+  @Override
+  public void generate(List<Integer> dims) {
+    logger.trace("generating Complex64");
+    int n = 1;
+    for (Integer i : dims)
+      n *= i;
+    double[] real = new double[n];
+    double[] imag = new double[n];
 
-		for(int i = 0; i < n; i++) {
-			double[] complex = super.getNextComplex();
-			real[i] = complex[0];
-			imag[i] = complex[1];
-		}
+    for (int i = 0; i < n; i++) {
+      double[] complex = super.getNextComplex();
+      real[i] = complex[0];
+      imag[i] = complex[1];
+    }
 
-		task.putData(Port.OUT, new Complex64I(real, imag, dims));
-	}
+    task.putData(Port.OUT, new Complex64I(real, imag, dims));
+  }
 }

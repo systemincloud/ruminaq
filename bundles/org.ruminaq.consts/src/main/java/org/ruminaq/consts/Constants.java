@@ -14,6 +14,7 @@ public final class Constants {
     MODEL_ID("org.ruminaq.model"), LOGS_ID("org.ruminaq.logs"),
     RUNNER_ID("org.ruminaq.runner"), UTIL_ID("org.ruminaq.util"),
     TASKS_ID("org.ruminaq.tasks"), PREFS_ID("org.ruminaq.prefs"),;
+
     private String symbolicName;
 
     SicPlugin(String symbolicName) {

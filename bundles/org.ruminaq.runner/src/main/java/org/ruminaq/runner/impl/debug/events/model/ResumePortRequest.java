@@ -4,22 +4,27 @@ import org.ruminaq.runner.impl.debug.events.AbstractPortEvent;
 import org.ruminaq.runner.impl.debug.events.AbstractPortEventListener;
 import org.ruminaq.runner.impl.debug.events.IModelRequest;
 
-public class ResumePortRequest extends AbstractPortEvent implements IModelRequest {
+public class ResumePortRequest extends AbstractPortEvent
+    implements IModelRequest {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public enum Type { NORMAL, STEP_OVER }
+  public enum Type {
+    NORMAL, STEP_OVER
+  }
 
-	private Type type;
+  private Type type;
 
-	public Type getType() { return type; }
+  public Type getType() {
+    return type;
+  }
 
-	public ResumePortRequest(AbstractPortEventListener apel) {
-		this(Type.NORMAL, apel);
-	}
+  public ResumePortRequest(AbstractPortEventListener apel) {
+    this(Type.NORMAL, apel);
+  }
 
-	public ResumePortRequest(Type type, AbstractPortEventListener apel) {
-		super(apel);
-		this.type = type;
-	}
+  public ResumePortRequest(Type type, AbstractPortEventListener apel) {
+    super(apel);
+    this.type = type;
+  }
 }

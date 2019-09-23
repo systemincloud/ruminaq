@@ -16,5 +16,5 @@ import org.eclipse.graphiti.features.context.IContext;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface FeatureFilter {
-	Class<? extends FeaturePredicate<IContext>> value();
+  Class<? extends FeaturePredicate<IContext>> value();
 }

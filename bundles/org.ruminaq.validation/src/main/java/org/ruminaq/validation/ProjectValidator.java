@@ -13,26 +13,33 @@ import org.eclipse.wst.validation.Validator;
 
 public class ProjectValidator {
 
-	public static void validateOnSave(Resource resource, IProgressMonitor monitor) {
-		String pathString = resource.getURI().toPlatformString(true);
-		IPath path = Path.fromOSString(pathString);
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-		validate(file, monitor);
-	}
+  public static void validateOnSave(Resource resource,
+      IProgressMonitor monitor) {
+    String pathString = resource.getURI().toPlatformString(true);
+    IPath path = Path.fromOSString(pathString);
+    IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+    validate(file, monitor);
+  }
 
-	private static void validate(IFile file, IProgressMonitor monitor) {
-		Validator[] validators = ValidationFramework.getDefault().getValidatorsFor(file);
-		for(Validator v : validators) v.validate(file, IResourceDelta.CHANGED, null, monitor);
-	}
+  private static void validate(IFile file, IProgressMonitor monitor) {
+    Validator[] validators = ValidationFramework.getDefault()
+        .getValidatorsFor(file);
+    for (Validator v : validators)
+      v.validate(file, IResourceDelta.CHANGED, null, monitor);
+  }
 
-    public static void validate(IResource resource, IProgressMonitor monitor) {
-		Validator[] validators = ValidationFramework.getDefault().getValidatorsFor(resource);
-		for(Validator v : validators) 	v.validate(resource, IResourceDelta.CHANGED, null, monitor);
-    }
+  public static void validate(IResource resource, IProgressMonitor monitor) {
+    Validator[] validators = ValidationFramework.getDefault()
+        .getValidatorsFor(resource);
+    for (Validator v : validators)
+      v.validate(resource, IResourceDelta.CHANGED, null, monitor);
+  }
 
-    public static void validate(IResourceDelta delta, IProgressMonitor monitor) {
-		IResource resource = delta.getResource();
-		Validator[] validators = ValidationFramework.getDefault().getValidatorsFor(resource);
-		for(Validator v : validators) v.validate(resource, delta.getKind(), null, monitor);
-    }
+  public static void validate(IResourceDelta delta, IProgressMonitor monitor) {
+    IResource resource = delta.getResource();
+    Validator[] validators = ValidationFramework.getDefault()
+        .getValidatorsFor(resource);
+    for (Validator v : validators)
+      v.validate(resource, delta.getKind(), null, monitor);
+  }
 }

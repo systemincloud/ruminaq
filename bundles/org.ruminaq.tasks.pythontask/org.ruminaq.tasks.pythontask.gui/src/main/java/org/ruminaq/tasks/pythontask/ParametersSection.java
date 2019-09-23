@@ -12,38 +12,53 @@ import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 
-public class ParametersSection extends AbstractParametersSection implements IPropertySection {
+public class ParametersSection extends AbstractParametersSection
+    implements IPropertySection {
 
-	private PythonTask bo;
+  private PythonTask bo;
 
-	private TransactionalEditingDomain ed;
+  private TransactionalEditingDomain ed;
 
-	public ParametersSection(Composite parent, PictogramElement pe, TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
-		super.createControls(parent, null);
-	}
+  public ParametersSection(Composite parent, PictogramElement pe,
+      TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
+    super.createControls(parent, null);
+  }
 
-	@Override protected boolean isDefault() { return true; }
+  @Override
+  protected boolean isDefault() {
+    return true;
+  }
 
-	@Override
-	public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
-		if(pe != null) {
-			Object bo = Graphiti.getLinkService().getBusinessObjectForLinkedPictogramElement(pe);
-			if(bo != null && bo instanceof PythonTask) this.bo = (PythonTask) bo;
-		}
-		this.ed = ed;
-		super.refresh();
-	}
+  @Override
+  public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
+    if (pe != null) {
+      Object bo = Graphiti.getLinkService()
+          .getBusinessObjectForLinkedPictogramElement(pe);
+      if (bo != null && bo instanceof PythonTask)
+        this.bo = (PythonTask) bo;
+    }
+    this.ed = ed;
+    super.refresh();
+  }
 
-	@Override protected Map<String, String> getActualParams()  { return bo.getParameters(); }
-	@Override protected Map<String, String> getDefaultParams() { return bo.getDefaultParameters(); }
+  @Override
+  protected Map<String, String> getActualParams() {
+    return bo.getParameters();
+  }
 
-	@Override
-	protected void saveParameter(final String key, final String value) {
-		ModelUtil.runModelChange(new Runnable() {
-			public void run() {
-				if(bo == null) return;
-				bo.getParameters().put(key, value);
-			}
-		}, ed, "Change parameter");
-	}
+  @Override
+  protected Map<String, String> getDefaultParams() {
+    return bo.getDefaultParameters();
+  }
+
+  @Override
+  protected void saveParameter(final String key, final String value) {
+    ModelUtil.runModelChange(new Runnable() {
+      public void run() {
+        if (bo == null)
+          return;
+        bo.getParameters().put(key, value);
+      }
+    }, ed, "Change parameter");
+  }
 }

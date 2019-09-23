@@ -17,13 +17,14 @@ import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomgeneratorPa
  */
 public final class RunnerServiceProvider extends AbstractRunnerService {
 
-	@Override
-	public void initModelPackages() {
-		RandomgeneratorPackage.eINSTANCE.getClass();
-	}
+  @Override
+  public void initModelPackages() {
+    RandomgeneratorPackage.eINSTANCE.getClass();
+  }
 
-	@Override
-	public TaskI getImplementation(EmbeddedTaskI parent, Task task) {
-		return task instanceof RandomGenerator ? new RandomGeneratorI(parent, task) : null;
-	}
+  @Override
+  public TaskI getImplementation(EmbeddedTaskI parent, Task task) {
+    return task instanceof RandomGenerator ? new RandomGeneratorI(parent, task)
+        : null;
+  }
 }

@@ -136,10 +136,12 @@ public class ProjectPropsPage extends PropertyPage {
     }
     lblVersion.setText(version);
 
-    if (version.equals(PlatformUtil.getBundleVersion(this.getClass()).toString())) {
+    if (version
+        .equals(PlatformUtil.getBundleVersion(this.getClass()).toString())) {
       btnUpgrade.setEnabled(false);
     } else {
-      btnUpgrade.setText("Upgrade to " + PlatformUtil.getBundleVersion(this.getClass()).toString());
+      btnUpgrade.setText("Upgrade to "
+          + PlatformUtil.getBundleVersion(this.getClass()).toString());
     }
 
     grpCredentials.setText("Credentials");
@@ -167,7 +169,8 @@ public class ProjectPropsPage extends PropertyPage {
         if (status) {
           btnUpgrade.setText("Upgrade");
           btnUpgrade.setEnabled(false);
-          lblVersion.setText(PlatformUtil.getBundleVersion(this.getClass()).toString());
+          lblVersion.setText(
+              PlatformUtil.getBundleVersion(this.getClass()).toString());
         }
       }
     });

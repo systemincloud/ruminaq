@@ -1,4 +1,4 @@
 package org.ruminaq.model.desc;
 
-
-public interface PortsDescr { }
+public interface PortsDescr {
+}

@@ -14,15 +14,16 @@ import org.slf4j.Logger;
 
 public class ControlStrategy extends RandomGeneratorStrategy {
 
-	private final Logger logger = RunnerLoggerFactory.getLogger(ControlStrategy.class);
+  private final Logger logger = RunnerLoggerFactory
+      .getLogger(ControlStrategy.class);
 
-	public ControlStrategy(RandomGeneratorI task, EMap<String, String> eMap) {
-		super(task);
-	}
+  public ControlStrategy(RandomGeneratorI task, EMap<String, String> eMap) {
+    super(task);
+  }
 
-	@Override 
-	public void generate(List<Integer> dims) {
-		logger.trace("generating Control");
-		task.putData(Port.OUT, new ControlI());
-	}
+  @Override
+  public void generate(List<Integer> dims) {
+    logger.trace("generating Control");
+    task.putData(Port.OUT, new ControlI());
+  }
 }

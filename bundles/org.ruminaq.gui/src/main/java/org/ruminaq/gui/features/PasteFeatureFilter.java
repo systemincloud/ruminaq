@@ -16,5 +16,5 @@ import org.ruminaq.model.ruminaq.BaseElement;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface PasteFeatureFilter {
-	Class<? extends FeaturePredicate<BaseElement>> value();
+  Class<? extends FeaturePredicate<BaseElement>> value();
 }

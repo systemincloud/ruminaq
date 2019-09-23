@@ -15,7 +15,8 @@ public class SicSourceLocator implements IPersistableSourceLocator {
 
   @Override
   public Object getSourceElement(IStackFrame stackFrame) {
-    if(stackFrame instanceof DiagramSource) return ((DiagramSource) stackFrame).getSourceFile();
+    if (stackFrame instanceof DiagramSource)
+      return ((DiagramSource) stackFrame).getSourceFile();
     return null;
   }
 
@@ -29,7 +30,7 @@ public class SicSourceLocator implements IPersistableSourceLocator {
   }
 
   @Override
-  public void initializeDefaults(ILaunchConfiguration configuration) throws CoreException {
+  public void initializeDefaults(ILaunchConfiguration configuration)
+      throws CoreException {
   }
 }
-

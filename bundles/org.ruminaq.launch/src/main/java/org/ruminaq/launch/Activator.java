@@ -10,36 +10,40 @@ import org.osgi.framework.BundleContext;
 
 public class Activator extends AbstractUIPlugin {
 
-	private static Activator plugin;
+  private static Activator plugin;
 
-	public Activator() { }
+  public Activator() {
+  }
 
-	public static Activator getDefault() {
-		return plugin;
-	}
+  public static Activator getDefault() {
+    return plugin;
+  }
 
-	@Override
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-		plugin = this;
-	}
+  @Override
+  public void start(BundleContext context) throws Exception {
+    super.start(context);
+    plugin = this;
+  }
 
-	@Override
-	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
-	}
+  @Override
+  public void stop(BundleContext context) throws Exception {
+    plugin = null;
+    super.stop(context);
+  }
 
-	public Bundle[] getBundles(String bundleName, String version) {
-		Bundle[] bundles = Platform.getBundles(bundleName, version);
-		if (bundles != null) return bundles;
-		else return null;
-	}
+  public Bundle[] getBundles(String bundleName, String version) {
+    Bundle[] bundles = Platform.getBundles(bundleName, version);
+    if (bundles != null)
+      return bundles;
+    else
+      return null;
+  }
 
-	public Bundle getBundle(String bundleName) {
-		Bundle[] bundles = getBundles(bundleName, null);
-		if (bundles != null && bundles.length > 0) return bundles[0];
-		else return null;
-	}
+  public Bundle getBundle(String bundleName) {
+    Bundle[] bundles = getBundles(bundleName, null);
+    if (bundles != null && bundles.length > 0)
+      return bundles[0];
+    else
+      return null;
+  }
 }
-

@@ -28,29 +28,31 @@ public class CreateRuminaqDiagram {
   /**
    * Create new Ruminaq daigram.
    *
-   * @param bot SWTWorkbenchBot
-   * @param name name of project
+   * @param bot         SWTWorkbenchBot
+   * @param name        name of project
    * @param diagramName
    * @param path
    */
-  public void execute(SWTWorkbenchBot bot, String projectName, String path, String diagramName) {
+  public void execute(SWTWorkbenchBot bot, String projectName, String path,
+      String diagramName) {
     openDiagramWizardFromProjectContextMenu(bot, projectName);
 
     bot.textWithLabel("&Container:").setText(path);
 
-    bot.textWithLabel("&File name:").setText(diagramName  + ".rumi");
+    bot.textWithLabel("&File name:").setText(diagramName + ".rumi");
 
     bot.activeShell();
 
     bot.button("Finish").click();
   }
 
-  public void openDiagramWizardFromProjectContextMenu(SWTWorkbenchBot bot, String projectName) {
+  public void openDiagramWizardFromProjectContextMenu(SWTWorkbenchBot bot,
+      String projectName) {
     SWTBotView pe = SelectView.getProjectExplorer(bot);
     SWTBotTree selector = pe.bot().tree();
     selector.select(projectName);
-    SWTBotMenu menu = new SWTBotMenu(
-      ContextMenuHelper.contextMenu(selector, new String[] { "New", "Other..." }));
+    SWTBotMenu menu = new SWTBotMenu(ContextMenuHelper.contextMenu(selector,
+        new String[] { "New", "Other..." }));
     menu.click();
     bot.tree().getTreeItem("Ruminaq").expand();
 
@@ -60,7 +62,8 @@ public class CreateRuminaqDiagram {
   }
 
   public void waitUntilDiagramOpens(SWTWorkbenchBot bot, String diagramName) {
-    Matcher<IEditorReference> withPartName = WidgetMatcherFactory.withPartName(diagramName);
+    Matcher<IEditorReference> withPartName = WidgetMatcherFactory
+        .withPartName(diagramName);
     WaitForEditor waitForEditor = Conditions.waitForEditor(withPartName);
     bot.waitUntilWidgetAppears(waitForEditor);
   }

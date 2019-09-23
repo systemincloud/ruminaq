@@ -12,31 +12,32 @@ import org.ruminaq.util.Util;
 
 public class Server {
 
-    public static final int MAIN_PORT = 59152;
+  public static final int MAIN_PORT = 59152;
 
-    private TServer server = null;
+  private TServer server = null;
 
-    private Executor service = Executors.newSingleThreadExecutor();
+  private Executor service = Executors.newSingleThreadExecutor();
 
-    @SuppressWarnings("rawtypes")
-    public int init(final RunnerSideServer.Processor processor) {
-        final int port = Util.findFreeLocalPort(MAIN_PORT);
-        service.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    TServerTransport serverTransport = new TServerSocket(port);
-                    server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
-                    server.serve();
-                } catch (Exception e) {
-                    server.stop();
-                }
-            }
-        });
-        return port;
-    }
+  @SuppressWarnings("rawtypes")
+  public int init(final RunnerSideServer.Processor processor) {
+    final int port = Util.findFreeLocalPort(MAIN_PORT);
+    service.execute(new Runnable() {
+      @Override
+      public void run() {
+        try {
+          TServerTransport serverTransport = new TServerSocket(port);
+          server = new TThreadPoolServer(
+              new TThreadPoolServer.Args(serverTransport).processor(processor));
+          server.serve();
+        } catch (Exception e) {
+          server.stop();
+        }
+      }
+    });
+    return port;
+  }
 
-    public void shutdown() {
-        server.stop();
-    }
+  public void shutdown() {
+    server.stop();
+  }
 }

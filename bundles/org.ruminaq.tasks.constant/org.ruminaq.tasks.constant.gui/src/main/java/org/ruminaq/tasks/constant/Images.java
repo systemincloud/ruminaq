@@ -25,25 +25,22 @@ import org.osgi.framework.FrameworkUtil;
 
 public class Images {
 
-    public enum K {
-        IMG_CONSTANT_PALETTE("/icons/palette.constant.png");
+  public enum K {
+    IMG_CONSTANT_PALETTE("/icons/palette.constant.png");
 
-        private String path;
+    private String path;
 
-        K(String path) {
-            this.path = path;
-        }
+    K(String path) {
+      this.path = path;
     }
+  }
 
-    private static Map<String, String> images = Arrays.stream(K.values())
-            .collect(Collectors.toMap(
-                    K::name,
-                    i -> FileLocator.find(
-                            FrameworkUtil.getBundle(Images.class),
-                            new Path(i.path),
-                            null).toString()));
+  private static Map<String, String> images = Arrays.stream(K.values())
+      .collect(Collectors.toMap(K::name, i -> FileLocator
+          .find(FrameworkUtil.getBundle(Images.class), new Path(i.path), null)
+          .toString()));
 
-    public static Map<String, String> getImageKeyPath() {
-        return images;
-    }
+  public static Map<String, String> getImageKeyPath() {
+    return images;
+  }
 }

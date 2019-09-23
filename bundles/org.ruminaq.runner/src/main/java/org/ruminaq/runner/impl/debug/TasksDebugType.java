@@ -1,4 +1,4 @@
 package org.ruminaq.runner.impl.debug;
 
-
-public interface TasksDebugType extends DebugType { }
+public interface TasksDebugType extends DebugType {
+}

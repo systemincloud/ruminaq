@@ -11,45 +11,46 @@ import java.util.List;
  */
 public class Complex64 extends Data {
 
-	private double[] real;
-	private double[] imag;
+  private double[] real;
+  private double[] imag;
 
-	public Complex64(double real, double imag) {
-		super(1);
-		this.real = new double[] { real };
-		this.imag = new double[] { imag };
-	}
+  public Complex64(double real, double imag) {
+    super(1);
+    this.real = new double[] { real };
+    this.imag = new double[] { imag };
+  }
 
-	public Complex64(List<Integer> dims, double[] real, double[] imag) {
-		this(dims, real, imag, false);
-	}
+  public Complex64(List<Integer> dims, double[] real, double[] imag) {
+    this(dims, real, imag, false);
+  }
 
-	public Complex64(List<Integer> dims, double[] real, double[] imag, boolean copy) {
-		super(dims);
-		if (copy) {
-			this.real = new double[real.length];
-			this.imag = new double[imag.length];
-			System.arraycopy(real, 0, this.real, 0, real.length);
-			System.arraycopy(imag, 0, this.imag, 0, imag.length);
-		} else {
-			this.real = real;
-			this.imag = imag;
-		}
-	}
+  public Complex64(List<Integer> dims, double[] real, double[] imag,
+      boolean copy) {
+    super(dims);
+    if (copy) {
+      this.real = new double[real.length];
+      this.imag = new double[imag.length];
+      System.arraycopy(real, 0, this.real, 0, real.length);
+      System.arraycopy(imag, 0, this.imag, 0, imag.length);
+    } else {
+      this.real = real;
+      this.imag = imag;
+    }
+  }
 
-	public double[] getRealValues() {
-		return real;
-	}
+  public double[] getRealValues() {
+    return real;
+  }
 
-	public double[] getImagValues() {
-		return imag;
-	}
+  public double[] getImagValues() {
+    return imag;
+  }
 
-	public double getRealValue() {
-		return real[0];
-	}
+  public double getRealValue() {
+    return real[0];
+  }
 
-	public double getImagValue() {
-		return imag[0];
-	}
+  public double getImagValue() {
+    return imag[0];
+  }
 }
