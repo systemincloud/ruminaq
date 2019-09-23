@@ -53,6 +53,8 @@ public class CreatingRuminaqTestDiagramTest {
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
+    String folder = "modules";
+
     bot.tree().getTreeItem(projectName).expand();
     bot.tree().getTreeItem(projectName).getNode(SourceFolders.TEST_RESOURCES)
         .select();
@@ -61,7 +63,7 @@ public class CreatingRuminaqTestDiagramTest {
     bot.tree().getTreeItem(projectName).getNode(SourceFolders.TEST_RESOURCES)
         .getNode(SourceFolders.TASK_FOLDER).select();
     bot.tree().contextMenu("New").menu("Folder").click();
-    bot.textWithLabel("Folder &name:").setText("modules");
+    bot.textWithLabel("Folder &name:").setText(folder);
     bot.button("Finish").click();
 
     new CreateRuminaqTestDiagram().openDiagramWizardFromProjectContextMenu(bot,
@@ -72,5 +74,23 @@ public class CreatingRuminaqTestDiagramTest {
 
     bot.textWithLabel("New Test Diagram");
     bot.text("This wizard creates a new Ruminaq Diagram Test.");
+
+    bot.button("Browse...").click();
+
+    bot.tree().getTreeItem(projectName).select();
+    bot.tree().getTreeItem(projectName).expand();
+    bot.button("OK").click();
+
+    bot.button("Browse...", 1).click();
+
+    bot.tree().getTreeItem(SourceFolders.TASK_FOLDER).select();
+    bot.tree().getTreeItem(SourceFolders.TASK_FOLDER).expand();
+    bot.tree().getTreeItem(SourceFolders.TASK_FOLDER).getNode(folder).select();
+
+    bot.button("OK").click();
+
+    Assert.assertEquals("Container should be set",
+        "src/main/resources/test/modules",
+        bot.textWithLabel("&Container:").getText());
   }
 }
