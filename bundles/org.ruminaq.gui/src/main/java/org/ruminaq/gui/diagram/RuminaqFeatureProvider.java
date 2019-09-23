@@ -75,165 +75,165 @@ import org.ruminaq.util.ServiceUtil;
 
 public class RuminaqFeatureProvider extends DefaultFeatureProvider {
 
-	public RuminaqFeatureProvider(IDiagramTypeProvider diagramTypeProvider) {
-		super(diagramTypeProvider);
-	}
+  public RuminaqFeatureProvider(IDiagramTypeProvider diagramTypeProvider) {
+    super(diagramTypeProvider);
+  }
 
-	@Override
-	public IRemoveFeature getRemoveFeature(IRemoveContext context) {
-		return null; // remove disabled for the UI
-	}
+  @Override
+  public IRemoveFeature getRemoveFeature(IRemoveContext context) {
+    return null; // remove disabled for the UI
+  }
 
-	protected IRemoveFeature getRemoveFeatureEnabled(IRemoveContext context) {
-		return super.getRemoveFeature(context); // used where we enable remove
-		                                        // (deleting...)
-	}
+  protected IRemoveFeature getRemoveFeatureEnabled(IRemoveContext context) {
+    return super.getRemoveFeature(context); // used where we enable remove
+                                            // (deleting...)
+  }
 
-	@Override
-	public IAddFeature getAddFeature(IAddContext context) {
-		return getFeature(IAddFeature.class, AddFeatureExtension.class, context,
-		    () -> super.getAddFeature(context));
-	}
+  @Override
+  public IAddFeature getAddFeature(IAddContext context) {
+    return getFeature(IAddFeature.class, AddFeatureExtension.class, context,
+        () -> super.getAddFeature(context));
+  }
 
-	@Override
-	public IAddBendpointFeature getAddBendpointFeature(
-	    IAddBendpointContext context) {
-		return super.getAddBendpointFeature(context);
-	}
+  @Override
+  public IAddBendpointFeature getAddBendpointFeature(
+      IAddBendpointContext context) {
+    return super.getAddBendpointFeature(context);
+  }
 
-	@Override
-	public ICreateConnectionFeature[] getCreateConnectionFeatures() {
-		return getFeatures(ICreateConnectionFeature.class,
-		    CreateConnectionFeaturesExtension.class).stream()
-		        .toArray(ICreateConnectionFeature[]::new);
-	}
+  @Override
+  public ICreateConnectionFeature[] getCreateConnectionFeatures() {
+    return getFeatures(ICreateConnectionFeature.class,
+        CreateConnectionFeaturesExtension.class).stream()
+            .toArray(ICreateConnectionFeature[]::new);
+  }
 
-	@Override
-	public ICreateFeature[] getCreateFeatures() {
-		return getFeatures(ICreateFeature.class, CreateFeaturesExtension.class)
-		    .toArray(ICreateFeature[]::new);
-	}
+  @Override
+  public ICreateFeature[] getCreateFeatures() {
+    return getFeatures(ICreateFeature.class, CreateFeaturesExtension.class)
+        .toArray(ICreateFeature[]::new);
+  }
 
-	@Override
-	public ICopyFeature getCopyFeature(ICopyContext context) {
-		return getFeature(ICopyFeature.class, CopyFeatureExtension.class, context,
-		    () -> super.getCopyFeature(context));
-	}
+  @Override
+  public ICopyFeature getCopyFeature(ICopyContext context) {
+    return getFeature(ICopyFeature.class, CopyFeatureExtension.class, context,
+        () -> super.getCopyFeature(context));
+  }
 
-	@Override
-	public ICustomFeature[] getCustomFeatures(ICustomContext context) {
-		return getFeatures(ICustomFeature.class, CustomFeaturesExtension.class)
-		    .toArray(ICustomFeature[]::new);
-	}
+  @Override
+  public ICustomFeature[] getCustomFeatures(ICustomContext context) {
+    return getFeatures(ICustomFeature.class, CustomFeaturesExtension.class)
+        .toArray(ICustomFeature[]::new);
+  }
 
-	@Override
-	public IDeleteFeature getDeleteFeature(IDeleteContext context) {
-		return getFeature(IDeleteFeature.class, DeleteFeatureExtension.class,
-		    context, () -> super.getDeleteFeature(context));
-	}
+  @Override
+  public IDeleteFeature getDeleteFeature(IDeleteContext context) {
+    return getFeature(IDeleteFeature.class, DeleteFeatureExtension.class,
+        context, () -> super.getDeleteFeature(context));
+  }
 
-	@Override
-	public IDirectEditingFeature getDirectEditingFeature(
-	    IDirectEditingContext context) {
-		return getFeature(IDirectEditingFeature.class,
-		    DirectEditingFeatureExtension.class, context,
-		    () -> super.getDirectEditingFeature(context));
-	}
+  @Override
+  public IDirectEditingFeature getDirectEditingFeature(
+      IDirectEditingContext context) {
+    return getFeature(IDirectEditingFeature.class,
+        DirectEditingFeatureExtension.class, context,
+        () -> super.getDirectEditingFeature(context));
+  }
 
-	@Override
-	public IFeature[] getDragAndDropFeatures(IPictogramElementContext context) {
-		return super.getDragAndDropFeatures(context);
-	}
+  @Override
+  public IFeature[] getDragAndDropFeatures(IPictogramElementContext context) {
+    return super.getDragAndDropFeatures(context);
+  }
 
-	@Override
-	public ILayoutFeature getLayoutFeature(ILayoutContext context) {
-		return getFeature(ILayoutFeature.class, LayoutFeatureExtension.class,
-		    context, () -> super.getLayoutFeature(context));
-	}
+  @Override
+  public ILayoutFeature getLayoutFeature(ILayoutContext context) {
+    return getFeature(ILayoutFeature.class, LayoutFeatureExtension.class,
+        context, () -> super.getLayoutFeature(context));
+  }
 
-	@Override
-	public IMoveAnchorFeature getMoveAnchorFeature(IMoveAnchorContext context) {
-		return getFeature(IMoveAnchorFeature.class,
-		    MoveAnchorFeatureExtension.class, context,
-		    () -> super.getMoveAnchorFeature(context));
-	}
+  @Override
+  public IMoveAnchorFeature getMoveAnchorFeature(IMoveAnchorContext context) {
+    return getFeature(IMoveAnchorFeature.class,
+        MoveAnchorFeatureExtension.class, context,
+        () -> super.getMoveAnchorFeature(context));
+  }
 
-	@Override
-	public IMoveBendpointFeature getMoveBendpointFeature(
-	    IMoveBendpointContext context) {
-		return super.getMoveBendpointFeature(context);
-	}
+  @Override
+  public IMoveBendpointFeature getMoveBendpointFeature(
+      IMoveBendpointContext context) {
+    return super.getMoveBendpointFeature(context);
+  }
 
-	@Override
-	public IMoveConnectionDecoratorFeature getMoveConnectionDecoratorFeature(
-	    IMoveConnectionDecoratorContext context) {
-		return super.getMoveConnectionDecoratorFeature(context);
-	}
+  @Override
+  public IMoveConnectionDecoratorFeature getMoveConnectionDecoratorFeature(
+      IMoveConnectionDecoratorContext context) {
+    return super.getMoveConnectionDecoratorFeature(context);
+  }
 
-	@Override
-	public IMoveShapeFeature getMoveShapeFeature(IMoveShapeContext context) {
-		return getFeature(IMoveShapeFeature.class, MoveShapeFeatureExtension.class,
-		    context, () -> super.getMoveShapeFeature(context));
-	}
+  @Override
+  public IMoveShapeFeature getMoveShapeFeature(IMoveShapeContext context) {
+    return getFeature(IMoveShapeFeature.class, MoveShapeFeatureExtension.class,
+        context, () -> super.getMoveShapeFeature(context));
+  }
 
-	@Override
-	public IPasteFeature getPasteFeature(IPasteContext context) {
-		return getFeature(IPasteFeature.class, PasteFeatureExtension.class, context,
-		    () -> super.getPasteFeature(context));
-	}
+  @Override
+  public IPasteFeature getPasteFeature(IPasteContext context) {
+    return getFeature(IPasteFeature.class, PasteFeatureExtension.class, context,
+        () -> super.getPasteFeature(context));
+  }
 
-	@Override
-	public IPrintFeature getPrintFeature() {
-		return super.getPrintFeature();
-	}
+  @Override
+  public IPrintFeature getPrintFeature() {
+    return super.getPrintFeature();
+  }
 
-	@Override
-	public ISaveImageFeature getSaveImageFeature() {
-		return super.getSaveImageFeature();
-	}
+  @Override
+  public ISaveImageFeature getSaveImageFeature() {
+    return super.getSaveImageFeature();
+  }
 
-	@Override
-	public IReconnectionFeature getReconnectionFeature(
-	    IReconnectionContext context) {
-		return getFeature(IReconnectionFeature.class,
-		    ReconnectionFeatureExtension.class, context,
-		    () -> super.getReconnectionFeature(context));
-	}
+  @Override
+  public IReconnectionFeature getReconnectionFeature(
+      IReconnectionContext context) {
+    return getFeature(IReconnectionFeature.class,
+        ReconnectionFeatureExtension.class, context,
+        () -> super.getReconnectionFeature(context));
+  }
 
-	@Override
-	public IRemoveBendpointFeature getRemoveBendpointFeature(
-	    IRemoveBendpointContext context) {
-		return super.getRemoveBendpointFeature(context);
-	}
+  @Override
+  public IRemoveBendpointFeature getRemoveBendpointFeature(
+      IRemoveBendpointContext context) {
+    return super.getRemoveBendpointFeature(context);
+  }
 
-	@Override
-	public IResizeShapeFeature getResizeShapeFeature(
-	    IResizeShapeContext context) {
-		return getFeature(IResizeShapeFeature.class,
-		    ResizeShapeFeatureExtension.class, context,
-		    () -> super.getResizeShapeFeature(context));
-	}
+  @Override
+  public IResizeShapeFeature getResizeShapeFeature(
+      IResizeShapeContext context) {
+    return getFeature(IResizeShapeFeature.class,
+        ResizeShapeFeatureExtension.class, context,
+        () -> super.getResizeShapeFeature(context));
+  }
 
-	@Override
-	public IUpdateFeature getUpdateFeature(IUpdateContext context) {
-		return getFeature(IUpdateFeature.class, UpdateFeatureExtension.class,
-		    context, () -> super.getUpdateFeature(context));
-	}
+  @Override
+  public IUpdateFeature getUpdateFeature(IUpdateContext context) {
+    return getFeature(IUpdateFeature.class, UpdateFeatureExtension.class,
+        context, () -> super.getUpdateFeature(context));
+  }
 
-	private <T extends IFeature> List<T> getFeatures(Class<T> outputClass,
-	    Class<? extends MultipleFeaturesExtension<T>> serviceClass) {
-		return ServiceUtil
-		    .getServicesAtLatestVersion(RuminaqFeatureProvider.class, serviceClass)
-		    .stream().map(ext -> ext.getFeatures(this)).flatMap(Collection::stream)
-		    .collect(Collectors.toList());
-	}
+  private <T extends IFeature> List<T> getFeatures(Class<T> outputClass,
+      Class<? extends MultipleFeaturesExtension<T>> serviceClass) {
+    return ServiceUtil
+        .getServicesAtLatestVersion(RuminaqFeatureProvider.class, serviceClass)
+        .stream().map(ext -> ext.getFeatures(this)).flatMap(Collection::stream)
+        .collect(Collectors.toList());
+  }
 
-	private <T extends IFeature> T getFeature(Class<T> outputClass,
-	    Class<? extends BestFeatureExtension<T>> serviceClass, IContext context,
-	    Supplier<? extends T> superMethod) {
-		return ServiceUtil
-		    .getServicesAtLatestVersion(RuminaqFeatureProvider.class, serviceClass)
-		    .stream().map(ext -> ext.getFeature(context, this))
-		    .filter(Objects::nonNull).findFirst().orElseGet(superMethod);
-	}
+  private <T extends IFeature> T getFeature(Class<T> outputClass,
+      Class<? extends BestFeatureExtension<T>> serviceClass, IContext context,
+      Supplier<? extends T> superMethod) {
+    return ServiceUtil
+        .getServicesAtLatestVersion(RuminaqFeatureProvider.class, serviceClass)
+        .stream().map(ext -> ext.getFeature(context, this))
+        .filter(Objects::nonNull).findFirst().orElseGet(superMethod);
+  }
 }

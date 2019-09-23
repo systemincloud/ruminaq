@@ -13,6 +13,5 @@ import org.eclipse.graphiti.tb.IDecorator;
 
 public interface DecoratorExtension {
 
-	Collection<IDecorator> getDecorators(PictogramElement pe);
-
+  Collection<IDecorator> getDecorators(PictogramElement pe);
 }

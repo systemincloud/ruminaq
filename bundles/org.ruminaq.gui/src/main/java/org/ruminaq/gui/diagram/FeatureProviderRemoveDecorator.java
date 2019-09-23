@@ -12,12 +12,12 @@ import org.eclipse.graphiti.features.context.IRemoveContext;
 
 public class FeatureProviderRemoveDecorator extends RuminaqFeatureProvider {
 
-	public FeatureProviderRemoveDecorator(IDiagramTypeProvider dtp) {
-		super(dtp);
-	}
+  public FeatureProviderRemoveDecorator(IDiagramTypeProvider dtp) {
+    super(dtp);
+  }
 
-	@Override
-	public IRemoveFeature getRemoveFeature(IRemoveContext context) {
-		return super.getRemoveFeatureEnabled(context);
-	}
+  @Override
+  public IRemoveFeature getRemoveFeature(IRemoveContext context) {
+    return super.getRemoveFeatureEnabled(context);
+  }
 }
