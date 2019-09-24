@@ -90,7 +90,7 @@ public class CreatingRuminaqTestDiagramTest {
     bot.button("OK").click();
 
     Assert.assertEquals("Container should be set",
-        "src/main/resources/test/modules",
+        "src/test/resources/tasks/modules",
         bot.textWithLabel("&Container:").getText());
   }
 }
