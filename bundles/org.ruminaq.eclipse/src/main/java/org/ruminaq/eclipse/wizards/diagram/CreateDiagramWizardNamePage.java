@@ -57,6 +57,10 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   public static final String PAGE_NAME = "createDefaultRuminaqDiagramNameWizardPage";
   public static final String DEFAULT_DIAGRAM_NAME = "MyTask";
 
+  private static final int COLUMNS_IN_VIEW = 3;
+  private static final int ONE_CELL = 1;
+  private static final int TWO_CELLS = 2;
+
   private Composite composite;
   private CLabel lblProject;
   private Text txtProject;
@@ -69,10 +73,8 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   private ISelection selection;
 
-  private static final int COLUMNS_IN_VIEW = 3;
-
   private enum Selectable {
-    PROJECT, FOLDER, FILE;
+    PROJECT, FOLDER, FILE, PACKAGEFRAGMENT;
   }
 
   protected static class ShowOnlyProjects extends ViewerFilter {
@@ -96,18 +98,15 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     public boolean select(Viewer arg0, Object parent, Object element) {
       Selectable selectable = Selectable.valueOf(
           element.getClass().getSimpleName().toUpperCase(Locale.ENGLISH));
-      switch (selectable) {
-        case PROJECT:
-          return true;
-        case FOLDER:
-          IPath currentPath = ((IFolder) element).getProjectRelativePath();
-          IPath diagramPath = new Path(diagramFolder);
-          return diagramPath.matchingFirstSegments(currentPath) == currentPath
-              .segmentCount()
-              || currentPath.matchingFirstSegments(diagramPath) == diagramPath
-                  .segmentCount();
-        default:
-          return false;
+      if (selectable == Selectable.FOLDER) {
+        IPath currentPath = ((IFolder) element).getProjectRelativePath();
+        IPath diagramPath = new Path(diagramFolder);
+        return diagramPath.matchingFirstSegments(currentPath) == currentPath
+            .segmentCount()
+            || currentPath.matchingFirstSegments(diagramPath) == diagramPath
+                .segmentCount();
+      } else {
+        return false;
       }
     }
   }
@@ -115,6 +114,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   /**
    * Create new Diagram page entry constructor.
    *
+   * @param selection selected item in Project Explorer
    */
   public CreateDiagramWizardNamePage(IStructuredSelection selection) {
     super(PAGE_NAME);
@@ -123,6 +123,11 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     super.setDescription(Messages.createDiagramWizardDescription);
   }
 
+  /**
+   * Create UI controls.
+   *
+   * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+   */
   @Override
   public void createControl(Composite parent) {
     setImageDescriptor(ImageUtil.getImageDescriptor(Image.RUMINAQ_LOGO_64X64));
@@ -162,7 +167,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     lblFile = new CLabel(composite, SWT.NULL);
     txtFile = new Text(composite, SWT.BORDER | SWT.SINGLE);
     txtFile.setLayoutData(new GridData(GridData.FILL,
-        GridData.VERTICAL_ALIGN_BEGINNING, true, false, 2, 1));
+        GridData.VERTICAL_ALIGN_BEGINNING, true, false, TWO_CELLS, ONE_CELL));
   }
 
   private void initComponents(Object selectedObject) {

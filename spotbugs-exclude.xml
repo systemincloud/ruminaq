@@ -5,4 +5,7 @@
   <Match>
     <Bug pattern="IMC_IMMATURE_CLASS_NO_TOSTRING" />
   </Match>
+  <Match>
+    <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
+  </Match>
 </FindBugsFilter>

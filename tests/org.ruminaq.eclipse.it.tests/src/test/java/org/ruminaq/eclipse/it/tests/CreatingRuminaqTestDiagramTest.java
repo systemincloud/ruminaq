@@ -75,6 +75,8 @@ public class CreatingRuminaqTestDiagramTest {
     bot.textWithLabel("New Test Diagram");
     bot.text("This wizard creates a new Ruminaq Diagram Test.");
 
+    bot.textWithLabel("&Project:").setText("");
+
     bot.button("Browse...").click();
 
     bot.tree().getTreeItem(projectName).select();
