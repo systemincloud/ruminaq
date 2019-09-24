@@ -74,15 +74,19 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   private ISelection selection;
 
   private enum Selectable {
-    PROJECT, FOLDER, FILE, PACKAGEFRAGMENT;
+    PROJECT, FOLDER, FILE, PACKAGEFRAGMENT, OTHER;
+
+    public static Selectable valueOf(Class<?> clazz) {
+      String name = clazz.getSimpleName().toUpperCase(Locale.ENGLISH);
+      return Stream.of(Selectable.values()).filter(s -> s.name().equals(name))
+          .findFirst().orElse(OTHER);
+    }
   }
 
   protected static class ShowOnlyProjects extends ViewerFilter {
     @Override
     public boolean select(Viewer arg0, Object parent, Object element) {
-      Selectable selectable = Selectable.valueOf(
-          element.getClass().getSimpleName().toUpperCase(Locale.ENGLISH));
-      return selectable == Selectable.PROJECT;
+      return Selectable.valueOf(element.getClass()) == Selectable.PROJECT;
     }
   }
 
@@ -96,8 +100,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
     @Override
     public boolean select(Viewer arg0, Object parent, Object element) {
-      Selectable selectable = Selectable.valueOf(
-          element.getClass().getSimpleName().toUpperCase(Locale.ENGLISH));
+      Selectable selectable = Selectable.valueOf(element.getClass());
       if (selectable == Selectable.FOLDER) {
         IPath currentPath = ((IFolder) element).getProjectRelativePath();
         IPath diagramPath = new Path(diagramFolder);
@@ -185,17 +188,18 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     String diagramBase = getDiagramFolder();
 
     txtContainer.setText(project.map((IProject p) -> {
-      String dirPath;
-      if (selectedObject instanceof PackageFragment
-          && ((PackageFragment) selectedObject).getPath().toString()
-              .startsWith(format("/{0}/{1}", p.getName(), diagramBase))) {
-        dirPath = ((PackageFragment) selectedObject).getPath().toString()
-            .substring(p.getName().length() + 2);
-      } else if (selectedObject instanceof Folder
-          && ((Folder) selectedObject).getFullPath().toString()
-              .startsWith(format("/{0}/{1}", p.getName(), diagramBase))) {
-        dirPath = ((Folder) selectedObject).getFullPath().toString()
-            .substring(p.getName().length() + 2);
+      String dirPath = null;
+      Selectable selectable = Selectable.valueOf(selectedObject.getClass());
+      if (selectable == Selectable.PACKAGEFRAGMENT) {
+        String path = ((PackageFragment) selectedObject).getPath().toString();
+        if (path.startsWith(format("/{0}/{1}", p.getName(), diagramBase))) {
+          dirPath = path.substring(p.getName().length() + 2);
+        }
+      } else if (selectable == Selectable.FOLDER) {
+        String path = ((Folder) selectedObject).getFullPath().toString();
+        if (path.startsWith(format("/{0}/{1}", p.getName(), diagramBase))) {
+          dirPath = path.substring(p.getName().length() + 2);
+        }
       } else {
         dirPath = diagramBase;
       }
