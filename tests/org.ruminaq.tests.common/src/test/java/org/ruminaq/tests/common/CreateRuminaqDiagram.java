@@ -10,7 +10,6 @@ import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.matchers.WidgetMatcherFactory;
 import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.eclipse.finder.waits.WaitForEditor;
-import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
@@ -47,10 +46,9 @@ public class CreateRuminaqDiagram {
   }
 
   public void openDiagramWizardFromProjectContextMenu(SWTWorkbenchBot bot,
-      String projectName) {
-    SWTBotView pe = SelectView.getProjectExplorer(bot);
-    SWTBotTree selector = pe.bot().tree();
-    selector.select(projectName);
+      String projectName, String... dirs) {
+    SWTBotTree selector = SelectView.selectInProjectExplorer(bot, projectName,
+        dirs);
     SWTBotMenu menu = new SWTBotMenu(ContextMenuHelper.contextMenu(selector,
         new String[] { "New", "Other..." }));
     menu.click();

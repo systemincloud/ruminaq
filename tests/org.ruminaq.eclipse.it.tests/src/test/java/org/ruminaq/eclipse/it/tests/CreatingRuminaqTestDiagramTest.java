@@ -67,7 +67,8 @@ public class CreatingRuminaqTestDiagramTest {
     bot.button("Finish").click();
 
     new CreateRuminaqTestDiagram().openDiagramWizardFromProjectContextMenu(bot,
-        projectName);
+        projectName, SourceFolders.TEST_RESOURCES, SourceFolders.TASK_FOLDER,
+        folder);
 
     Assert.assertEquals("Window of title should be set", "New Test Diagram",
         bot.activeShell().getText());
@@ -82,6 +83,8 @@ public class CreatingRuminaqTestDiagramTest {
     bot.tree().getTreeItem(projectName).select();
     bot.tree().getTreeItem(projectName).expand();
     bot.button("OK").click();
+
+    bot.textWithLabel("&Container:").setText("");
 
     bot.button("Browse...", 1).click();
 

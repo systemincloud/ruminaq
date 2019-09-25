@@ -33,9 +33,6 @@ public final class Constants {
   public static final String MAIN_R = "src/main/r"; //$NON-NLS-1$
   public static final String TEST_R = "src/test/r"; //$NON-NLS-1$
 
-  public static final String EXTENSION = "rumi"; //$NON-NLS-1$
-  public static final String DIAGRAM_EXTENSION_DOT = "." + EXTENSION; //$NON-NLS-1$
-
   public static final String QUALIFIER = ".qualifier"; //$NON-NLS-1$
   public static final String SNAPSHOT = "-SNAPSHOT"; //$NON-NLS-1$
 

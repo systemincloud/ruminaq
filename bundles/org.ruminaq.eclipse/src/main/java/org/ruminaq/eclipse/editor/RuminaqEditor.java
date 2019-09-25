@@ -108,13 +108,11 @@ public class RuminaqEditor extends DiagramEditor {
     if (!mt.isInitialized()) {
       TransactionalEditingDomain editingDomain = getDiagramBehavior()
           .getEditingDomain();
-      ModelUtil.runModelChange(new Runnable() {
-        @Override
-        public void run() {
-          mt.setVersion(ProjectProps.getInstance(getModelFile().getProject())
-              .get(ProjectProps.MODELER_VERSION));
-        }
-      }, editingDomain, "Model Update");
+      ModelUtil.runModelChange(
+          () -> mt
+              .setVersion(ProjectProps.getInstance(getModelFile().getProject())
+                  .get(ProjectProps.MODELER_VERSION)),
+          editingDomain, "Model Update");
 
       if (ConstantsUtil
           .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())) {
@@ -132,12 +130,8 @@ public class RuminaqEditor extends DiagramEditor {
           }
         }, editingDomain, "Model Update");
       }
-      ModelUtil.runModelChange(new Runnable() {
-        @Override
-        public void run() {
-          mt.setInitialized(true);
-        }
-      }, editingDomain, "Model Update");
+      ModelUtil.runModelChange(() -> mt.setInitialized(true), editingDomain,
+          "Model Update");
     }
   }
 
@@ -193,9 +187,10 @@ public class RuminaqEditor extends DiagramEditor {
         && getDiagramTypeProvider().getDiagram().eResource() != null) {
       String uriString = getDiagramTypeProvider().getDiagram().eResource()
           .getURI().trimFragment().toPlatformString(true);
-      if (uriString != null)
+      if (uriString != null) {
         return ResourcesPlugin.getWorkspace().getRoot()
             .getFile(new Path(uriString));
+      }
     }
     return null;
   }
@@ -203,12 +198,7 @@ public class RuminaqEditor extends DiagramEditor {
   @Override
   public void doSave(final IProgressMonitor monitor) {
     super.doSave(monitor);
-    validationExecutor.execute(new Runnable() {
-      @Override
-      public void run() {
-        ProjectValidator.validateOnSave(
-            getDiagramTypeProvider().getDiagram().eResource(), monitor);
-      }
-    });
+    validationExecutor.execute(() -> ProjectValidator.validateOnSave(
+        getDiagramTypeProvider().getDiagram().eResource(), monitor));
   }
 }

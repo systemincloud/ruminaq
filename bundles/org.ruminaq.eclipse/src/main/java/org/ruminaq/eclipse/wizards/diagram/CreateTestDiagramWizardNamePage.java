@@ -7,7 +7,6 @@
 package org.ruminaq.eclipse.wizards.diagram;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 
@@ -43,6 +42,6 @@ public class CreateTestDiagramWizardNamePage
 
   @Override
   protected String getDefaultName() {
-    return DEFAULT_DIAGRAM_NAME + Constants.DIAGRAM_EXTENSION_DOT;
+    return DEFAULT_DIAGRAM_NAME + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT;
   }
 }

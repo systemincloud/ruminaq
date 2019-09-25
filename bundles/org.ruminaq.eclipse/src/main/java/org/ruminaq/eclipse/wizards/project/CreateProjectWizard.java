@@ -27,11 +27,11 @@ import org.eclipse.m2e.core.project.MavenUpdateRequest;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Image;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
 import org.ruminaq.eclipse.api.EclipseExtension;
+import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizardNamePage;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.prefs.ProjectProps;
@@ -184,7 +184,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
       prop.setProperty(MAIN_MODULE,
           SourceFolders.TASK_FOLDER + "/"
               + CreateDiagramWizardNamePage.DEFAULT_DIAGRAM_NAME
-              + Constants.DIAGRAM_EXTENSION_DOT);
+              + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT);
       prop.store(output, null);
       IFile outputFile = project.getFile(PROPERTIES_FILE);
       outputFile.create(

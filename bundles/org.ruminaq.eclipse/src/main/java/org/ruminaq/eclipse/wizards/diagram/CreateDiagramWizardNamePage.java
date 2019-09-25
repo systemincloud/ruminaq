@@ -8,7 +8,6 @@ package org.ruminaq.eclipse.wizards.diagram;
 
 import static java.text.MessageFormat.format;
 
-import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -72,16 +71,6 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   private ISelection selection;
 
-  private enum Selectable {
-    PROJECT, FOLDER, FILE, PACKAGEFRAGMENT, OTHER;
-
-    public static Selectable valueOf(Class<?> clazz) {
-      String name = clazz.getSimpleName().toUpperCase(Locale.ENGLISH);
-      return Stream.of(Selectable.values()).filter(s -> s.name().equals(name))
-          .findFirst().orElse(OTHER);
-    }
-  }
-
   protected static class ShowOnlyProjects extends ViewerFilter {
     @Override
     public boolean select(Viewer arg0, Object parent, Object element) {
@@ -100,16 +89,17 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     @Override
     public boolean select(Viewer arg0, Object parent, Object element) {
       Selectable selectable = Selectable.valueOf(element.getClass());
-      if (selectable == Selectable.FOLDER) {
-        IPath currentPath = ((IFolder) element).getProjectRelativePath();
-        IPath diagramPath = new Path(diagramFolder);
-        return diagramPath.matchingFirstSegments(currentPath) == currentPath
-            .segmentCount()
-            || currentPath.matchingFirstSegments(diagramPath) == diagramPath
-                .segmentCount();
-      } else {
+
+      if (selectable != Selectable.FOLDER) {
         return false;
       }
+
+      IPath currentPath = ((IFolder) element).getProjectRelativePath();
+      IPath diagramPath = new Path(diagramFolder);
+      return diagramPath.matchingFirstSegments(currentPath) == currentPath
+          .segmentCount()
+          || currentPath.matchingFirstSegments(diagramPath) == diagramPath
+              .segmentCount();
     }
   }
 

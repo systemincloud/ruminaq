@@ -33,9 +33,9 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.RuminaqPerspective;
 import org.ruminaq.eclipse.RuminaqProjectNature;
+import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizardNamePage;
 import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 import org.ruminaq.eclipse.wizards.project.PomFile;
@@ -116,7 +116,7 @@ public class CreateRuminaqProjectTest {
     Assert.assertEquals("Main module specified",
         SourceFolders.TASK_FOLDER + "/"
             + CreateDiagramWizardNamePage.DEFAULT_DIAGRAM_NAME
-            + Constants.DIAGRAM_EXTENSION_DOT,
+            + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT,
         prop.get(CreateProjectWizard.MAIN_MODULE));
 
     Assert.assertTrue("Property file created", propertyFile.exists());
