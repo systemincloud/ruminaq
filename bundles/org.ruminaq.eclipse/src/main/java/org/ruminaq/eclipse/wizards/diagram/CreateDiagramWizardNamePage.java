@@ -40,7 +40,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Image;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
@@ -219,7 +218,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   }
 
   protected String getDefaultName() {
-    return DEFAULT_DIAGRAM_NAME + Constants.DIAGRAM_EXTENSION_DOT;
+    return DEFAULT_DIAGRAM_NAME + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT;
   }
 
   private void initActions() {
@@ -313,7 +312,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   }
 
   protected String getExtension() {
-    return Constants.EXTENSION;
+    return CreateDiagramWizard.EXTENSION;
   }
 
   private void updateStatus(String message) {

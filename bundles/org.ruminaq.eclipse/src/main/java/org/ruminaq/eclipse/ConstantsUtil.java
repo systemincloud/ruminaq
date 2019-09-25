@@ -11,7 +11,7 @@ import java.io.File;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.osgi.framework.util.FilePath;
-import org.ruminaq.consts.Constants;
+import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 
 public class ConstantsUtil {
@@ -55,17 +55,17 @@ public class ConstantsUtil {
   }
 
   public static boolean isTest(URI uri) {
-    return Constants.EXTENSION.equals(uri.fileExtension())
+    return CreateDiagramWizard.EXTENSION.equals(uri.fileExtension())
         && isInTestDirectory(uri);
   }
 
   public static boolean isTest(IFile file) {
-    return Constants.EXTENSION.equals(file.getFileExtension())
+    return CreateDiagramWizard.EXTENSION.equals(file.getFileExtension())
         && isInTestDirectory(file);
   }
 
   public static boolean isTest(URI uri, String basePath) {
-    return Constants.EXTENSION.equals(uri.fileExtension())
+    return CreateDiagramWizard.EXTENSION.equals(uri.fileExtension())
         && isInTestDirectory(uri, basePath);
   }
 }

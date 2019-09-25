@@ -43,7 +43,6 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.wizards.IWizardDescriptor;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.consts.Constants.SicPlugin;
 import org.ruminaq.eclipse.ConstantsUtil;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
@@ -130,6 +129,7 @@ public class PropertySection implements IPropertySection {
     boolean parse = new UpdateFeature(dtp.getFeatureProvider()).load(taskPath);
     if (parse) {
       ModelUtil.runModelChange(new Runnable() {
+        @Override
         public void run() {
           Object bo = Graphiti.getLinkService()
               .getBusinessObjectForLinkedPictogramElement(pe);
@@ -209,7 +209,7 @@ public class PropertySection implements IPropertySection {
                 return false;
 
               String ext = ((IFile) element).getFileExtension();
-              if (ext.equals(Constants.EXTENSION))
+              if (ext.equals(CreateDiagramWizard.EXTENSION))
                 return true;
             }
             return false;
@@ -244,6 +244,7 @@ public class PropertySection implements IPropertySection {
             txtTaskName.setText(show);
 
           ModelUtil.runModelChange(new Runnable() {
+            @Override
             public void run() {
               String implementationPath = txtTaskName.getText();
               if (implementationPath == null)

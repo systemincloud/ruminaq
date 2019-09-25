@@ -27,7 +27,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.FileService;
@@ -44,6 +43,9 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
       .getLogger(CreateDiagramWizard.class);
 
   public static final String ID = CreateDiagramWizard.class.getCanonicalName();
+
+  public static final String EXTENSION = "rumi";
+  public static final String DIAGRAM_EXTENSION_DOT = "." + EXTENSION;
 
   /**
    * Set window name.
@@ -98,7 +100,7 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
 
     IContainer container = (IContainer) resource;
     String name = fileName.substring(0,
-        fileName.lastIndexOf(Constants.DIAGRAM_EXTENSION_DOT));
+        fileName.lastIndexOf(DIAGRAM_EXTENSION_DOT));
 
     Diagram diagram = Graphiti.getPeCreateService().createDiagram("Ruminaq",
         name, -1, false);
