@@ -24,7 +24,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.component.annotations.Reference;
-import org.ruminaq.consts.Constants;
+import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.prefs.ProjectProps;
 import org.ruminaq.tasks.api.ITaskUiApi;
@@ -49,9 +49,9 @@ public class TestDiagramGenerator {
 
     String modelFileNameExt = p.segment(p.segmentCount() - 1);
     String modelFileName = modelFileNameExt.substring(0,
-        modelFileNameExt.lastIndexOf(Constants.DIAGRAM_EXTENSION_DOT));
+        modelFileNameExt.lastIndexOf(CreateDiagramWizard.DIAGRAM_EXTENSION_DOT));
     String modelTestName = modelFileName + "Test";
-    String modelTestNameExt = modelTestName + Constants.DIAGRAM_EXTENSION_DOT;
+    String modelTestNameExt = modelTestName + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT;
 
     String modelFilePath = p.removeFirstSegments(1).toString();
 
@@ -69,9 +69,9 @@ public class TestDiagramGenerator {
       int i = 1;
       do {
         modelTestName = modelFileNameExt.substring(0,
-            modelFileNameExt.lastIndexOf(Constants.DIAGRAM_EXTENSION_DOT))
+            modelFileNameExt.lastIndexOf(CreateDiagramWizard.DIAGRAM_EXTENSION_DOT))
             + "Test_" + i;
-        modelTestNameExt = modelTestName + Constants.DIAGRAM_EXTENSION_DOT;
+        modelTestNameExt = modelTestName + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT;
         fileTmp = diagramFolder.getFile(modelTestNameExt);
         i++;
       } while (fileTmp.exists());
@@ -110,6 +110,7 @@ public class TestDiagramGenerator {
         IResource.FORCE, new NullProgressMonitor());
 
     Display.getCurrent().asyncExec(new Runnable() {
+      @Override
       public void run() {
         IWorkbenchPage page = PlatformUI.getWorkbench()
             .getActiveWorkbenchWindow().getActivePage();

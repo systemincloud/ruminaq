@@ -23,14 +23,15 @@ Import-Package: org.apache.commons.io,
  org.osgi.framework,
  org.osgi.service.component.annotations,
  org.ruminaq.consts,
+ org.ruminaq.eclipse.wizards.diagram,
  org.ruminaq.eclipse.wizards.project,
  org.ruminaq.launch,
  org.ruminaq.prefs,
+ org.ruminaq.runner.dirmi,
  org.ruminaq.tasks,
  org.ruminaq.tasks.api,
  org.ruminaq.tasks.userdefined.properties,
- org.ruminaq.util,
- org.ruminaq.runner.dirmi
+ org.ruminaq.util
 Export-Package: org.ruminaq.tasks.embeddedtask.ui
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
