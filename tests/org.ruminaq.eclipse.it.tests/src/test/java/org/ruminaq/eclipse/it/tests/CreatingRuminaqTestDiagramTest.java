@@ -9,6 +9,7 @@ package org.ruminaq.eclipse.it.tests;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -78,6 +79,10 @@ public class CreatingRuminaqTestDiagramTest {
 
     bot.textWithLabel("&Project:").setText("");
 
+    SWTBotText msg = bot.text(" Project must be specified");
+
+    Assert.assertNotNull(msg);
+
     bot.button("Browse...").click();
 
     bot.tree().getTreeItem(projectName).select();
@@ -85,6 +90,10 @@ public class CreatingRuminaqTestDiagramTest {
     bot.button("OK").click();
 
     bot.textWithLabel("&Container:").setText("");
+
+    msg = bot.text(" File container must be specified");
+
+    Assert.assertNotNull(msg);
 
     bot.button("Browse...", 1).click();
 
