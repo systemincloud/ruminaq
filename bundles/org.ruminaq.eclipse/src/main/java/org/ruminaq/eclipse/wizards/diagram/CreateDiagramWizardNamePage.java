@@ -142,6 +142,11 @@ public class CreateDiagramWizardNamePage extends WizardPage {
         .map(IStructuredSelection::getFirstElement).orElse(null);
   }
 
+  /**
+   * Layout of wizard.
+   *
+   * @param parent outer composite
+   */
   private void initLayout(Composite parent) {
     composite = new Composite(parent, SWT.NULL);
     composite.setLayout(new GridLayout(COLUMNS_IN_VIEW, false));
@@ -162,6 +167,11 @@ public class CreateDiagramWizardNamePage extends WizardPage {
         GridData.VERTICAL_ALIGN_BEGINNING, true, false, TWO_CELLS, ONE_CELL));
   }
 
+  /**
+   * Set default values.
+   *
+   * @param selectedObject object selected in Project Explorer
+   */
   private void initComponents(Object selectedObject) {
     lblProject.setText(Messages.createDiagramWizardProject);
     btnProject.setText(Messages.createDiagramWizardProjectBrowse);
@@ -182,12 +192,12 @@ public class CreateDiagramWizardNamePage extends WizardPage {
       if (selectable == Selectable.PACKAGEFRAGMENT) {
         String path = ((PackageFragment) selectedObject).getPath().toString();
         if (path.startsWith(format("/{0}/{1}", p.getName(), diagramBase))) {
-          dirPath = path.substring(p.getName().length() + 2);
+          dirPath = path.substring(p.getName().length() + "./".length());
         }
       } else if (selectable == Selectable.FOLDER) {
         String path = ((Folder) selectedObject).getFullPath().toString();
         if (path.startsWith(format("/{0}/{1}", p.getName(), diagramBase))) {
-          dirPath = path.substring(p.getName().length() + 2);
+          dirPath = path.substring(p.getName().length() + "./".length());
         }
       } else {
         dirPath = diagramBase;
@@ -211,6 +221,10 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     return DEFAULT_DIAGRAM_NAME + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT;
   }
 
+  /**
+   * Set listeners.
+   *
+   */
   private void initActions() {
     txtProject.addModifyListener(e -> dialogChanged());
     btnProject.addSelectionListener(new SelectionAdapter() {

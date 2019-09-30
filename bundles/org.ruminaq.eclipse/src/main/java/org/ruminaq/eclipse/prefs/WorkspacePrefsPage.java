@@ -10,6 +10,7 @@ import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.ruminaq.eclipse.Messages;
 import org.ruminaq.prefs.WorkspacePrefs;
 
 import ch.qos.logback.classic.Level;
@@ -35,7 +36,7 @@ public class WorkspacePrefsPage extends FieldEditorPreferencePage
   @Override
   public void init(IWorkbench workbench) {
     setPreferenceStore(WorkspacePrefs.INSTANCE.getPreferenceStore());
-    setDescription("System in Cloud global preferences");
+    setDescription(Messages.preferencesDescription);
   }
 
   @Override

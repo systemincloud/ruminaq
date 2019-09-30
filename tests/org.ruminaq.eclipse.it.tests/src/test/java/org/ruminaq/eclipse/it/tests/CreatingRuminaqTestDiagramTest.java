@@ -95,6 +95,13 @@ public class CreatingRuminaqTestDiagramTest {
 
     Assert.assertNotNull(msg);
 
+    bot.textWithLabel("&Container:")
+        .setText("src/test/resources/tasks/notexisting");
+
+    msg = bot.text(" File container must exist");
+
+    Assert.assertNotNull(msg);
+
     bot.button("Browse...", 1).click();
 
     bot.tree().getTreeItem(SourceFolders.TASK_FOLDER).select();
@@ -106,5 +113,11 @@ public class CreatingRuminaqTestDiagramTest {
     Assert.assertEquals("Container should be set",
         "src/test/resources/tasks/modules",
         bot.textWithLabel("&Container:").getText());
+
+    bot.textWithLabel("&File name:").setText("");
+
+    msg = bot.text(" File name must be specified");
+
+    Assert.assertNotNull(msg);
   }
 }
