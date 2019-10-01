@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.PropertyPage;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.prefs.ProjectProps;
@@ -42,19 +41,6 @@ public class ProjectPropsPage extends PropertyPage {
   private Label lblVersionLabel;
   private Label lblVersion;
   private Button btnUpgrade;
-
-  private Group grpCredentials;
-  private Label lblAccountNumber;
-  private Text txtAccountNumber;
-  private Label lblSystemName;
-  private Text txtSystemName;
-  private Label lblSystemKey;
-  private Text txtSystemKey;
-  private Button btnShowSystemKey;
-  private Button btnTestConnection;
-  private Label lblStatus;
-
-  private char secretEchoChar;
 
   private Props projectProps;
   private Props secureProps;
@@ -86,42 +72,6 @@ public class ProjectPropsPage extends PropertyPage {
     lblVersionLabel = new Label(grpGeneral, SWT.NONE);
     lblVersion = new Label(grpGeneral, SWT.NONE);
     btnUpgrade = new Button(grpGeneral, SWT.NONE);
-
-    grpCredentials = new Group(composite, SWT.NONE);
-    grpCredentials
-        .setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-    grpCredentials.setLayout(new GridLayout(2, false));
-    new Label(grpGeneral, SWT.NONE);
-
-    lblAccountNumber = new Label(grpCredentials, SWT.NONE);
-    lblAccountNumber
-        .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-    txtAccountNumber = new Text(grpCredentials, SWT.BORDER);
-    txtAccountNumber
-        .setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-
-    lblSystemName = new Label(grpCredentials, SWT.NONE);
-    lblSystemName
-        .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-    txtSystemName = new Text(grpCredentials, SWT.BORDER);
-    txtSystemName
-        .setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-
-    lblSystemKey = new Label(grpCredentials, SWT.NONE);
-    lblSystemKey
-        .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-    txtSystemKey = new Text(grpCredentials, SWT.BORDER | SWT.PASSWORD);
-    txtSystemKey
-        .setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-    new Label(grpCredentials, SWT.NONE);
-
-    btnShowSystemKey = new Button(grpCredentials, SWT.CHECK);
-
-    btnTestConnection = new Button(grpCredentials, SWT.NONE);
-    btnTestConnection
-        .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-
-    lblStatus = new Label(grpCredentials, SWT.NONE);
   }
 
   private void initComponenets() {
@@ -144,17 +94,7 @@ public class ProjectPropsPage extends PropertyPage {
           + PlatformUtil.getBundleVersion(this.getClass()).toString());
     }
 
-    grpCredentials.setText("Credentials");
-    lblAccountNumber.setText("Account Number:");
-    lblSystemName.setText("System Name:");
-    lblSystemKey.setText("Security Key:");
-
     performDefaults();
-
-    btnShowSystemKey.setText("show Security Key");
-    btnTestConnection.setText("Test");
-
-    secretEchoChar = txtSystemKey.getEchoChar();
   }
 
   private void initActions() {
@@ -174,66 +114,23 @@ public class ProjectPropsPage extends PropertyPage {
         }
       }
     });
-    btnShowSystemKey.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        if (btnShowSystemKey.getSelection()) {
-          txtSystemKey.setEchoChar('\0');
-        } else {
-          txtSystemKey.setEchoChar(secretEchoChar);
-        }
-      }
-    });
-    btnTestConnection.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        grpCredentials.layout();
-      }
-    });
   }
 
   @Override
   public boolean performOk() {
     boolean saveSecure = false;
 
-    String accountNumber = secureProps.get(ProjectPropsSecure.ACCOUNT_NUMBER);
-    String newAccountNumber = txtAccountNumber.getText().replace("\n", "");
-    if ((accountNumber == null && !newAccountNumber.equals(""))
-        || (accountNumber != null && !newAccountNumber.equals(accountNumber))) {
-      secureProps.put(ProjectPropsSecure.ACCOUNT_NUMBER, newAccountNumber);
-      saveSecure = true;
-    }
-
-    String systemName = secureProps.get(ProjectPropsSecure.SYSTEM_NAME);
-    String newSystemName = txtSystemName.getText().replace("\n", "");
-    if ((systemName == null && !newSystemName.equals(""))
-        || (accountNumber != null && !newSystemName.equals(systemName))) {
-      secureProps.put(ProjectPropsSecure.SYSTEM_NAME, newSystemName);
-      saveSecure = true;
-    }
-
-    String systemKey = secureProps.get(ProjectPropsSecure.SYSTEM_KEY);
-    String newSystemKey = txtSystemKey.getText().replace("\n", "");
-    if ((systemKey == null && !newSystemKey.equals(""))
-        || (accountNumber != null && !newSystemKey.equals(systemKey))) {
-      secureProps.put(ProjectPropsSecure.SYSTEM_KEY, newSystemKey);
-      saveSecure = true;
-    }
-
     projectProps.saveProps();
 
-    if (saveSecure)
+    if (saveSecure) {
       secureProps.saveProps();
+    }
 
     return super.performOk();
   }
 
   @Override
   protected void performDefaults() {
-    txtAccountNumber
-        .setText(secureProps.get(ProjectPropsSecure.ACCOUNT_NUMBER, ""));
-    txtSystemName.setText(secureProps.get(ProjectPropsSecure.SYSTEM_NAME, ""));
-    txtSystemKey.setText(secureProps.get(ProjectPropsSecure.SYSTEM_KEY, ""));
     super.performDefaults();
   }
 }
