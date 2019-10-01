@@ -6,6 +6,8 @@
 
 package org.ruminaq.eclipse.prefs;
 
+import java.util.stream.Stream;
+
 import ch.qos.logback.classic.Level;
 
 import org.eclipse.jface.preference.ComboFieldEditor;
@@ -23,12 +25,10 @@ import org.ruminaq.prefs.WorkspacePrefs;
 public class WorkspacePrefsPage extends FieldEditorPreferencePage
     implements IWorkbenchPreferencePage {
 
-  private static final String[][] LOG_LEVELS = new String[][] {
-      { Level.ERROR.levelStr, Level.ERROR.levelStr },
-      { Level.WARN.levelStr, Level.WARN.levelStr },
-      { Level.INFO.levelStr, Level.INFO.levelStr },
-      { Level.DEBUG.levelStr, Level.DEBUG.levelStr },
-      { Level.TRACE.levelStr, Level.TRACE.levelStr } };
+  private static final String[][] LOG_LEVELS = Stream
+      .of(Level.ERROR, Level.WARN, Level.INFO, Level.DEBUG, Level.TRACE)
+      .map(level -> new String[] { level.levelStr, level.levelStr })
+      .toArray(String[][]::new);
 
   public WorkspacePrefsPage() {
     super(GRID);
