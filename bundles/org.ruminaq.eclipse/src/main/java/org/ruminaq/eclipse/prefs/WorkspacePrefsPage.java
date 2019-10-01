@@ -6,9 +6,9 @@
 
 package org.ruminaq.eclipse.prefs;
 
-import java.util.stream.Stream;
-
 import ch.qos.logback.classic.Level;
+
+import java.util.stream.Stream;
 
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
@@ -18,7 +18,7 @@ import org.ruminaq.eclipse.Messages;
 import org.ruminaq.prefs.WorkspacePrefs;
 
 /**
- * Ruminaw prefereneces page
+ * Ruminaq prefereneces page.
  *
  * @author Marek Jagielski
  */
