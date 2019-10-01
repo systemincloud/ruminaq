@@ -41,6 +41,8 @@ public class ChangeWorkspacePreferencesTest {
 
   @Test
   public final void testChangeWorkspacePreferences() {
-
+    bot.menu("Window").menu("Preferences").click();
+    bot.tree().getTreeItem("Ruminaq").select();
+    bot.button("Cancel").click();
   }
 }
