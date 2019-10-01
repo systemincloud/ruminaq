@@ -244,6 +244,10 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     txtFile.addModifyListener(e -> dialogChanged());
   }
 
+  /**
+   * Choose project in workspace.
+   *
+   */
   private void handleBrowseProject() {
     ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(
         getShell(), new WorkbenchLabelProvider(),
@@ -260,6 +264,10 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     }
   }
 
+  /**
+   * Choose folder.
+   *
+   */
   private void handleBrowse(IProject project) {
     ElementTreeSelectionDialog fileDialog = new ElementTreeSelectionDialog(
         getShell(), new WorkbenchLabelProvider(),
@@ -278,6 +286,10 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     }
   }
 
+  /**
+   * Validate fields.
+   *
+   */
   private void dialogChanged() {
     Optional<IProject> project = Stream
         .of(ResourcesPlugin.getWorkspace().getRoot().getProjects())
