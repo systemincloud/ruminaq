@@ -118,6 +118,10 @@ public class CreatingRuminaqTestDiagramTest {
 
     msg = bot.text(" File name must be specified");
 
+    bot.textWithLabel("&File name:").setText("Diagram.txt");
+
+    msg = bot.text(" File extension must be rumi");
+
     Assert.assertNotNull(msg);
   }
 }
