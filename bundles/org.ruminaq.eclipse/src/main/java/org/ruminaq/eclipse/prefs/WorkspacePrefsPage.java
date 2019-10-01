@@ -6,6 +6,8 @@
 
 package org.ruminaq.eclipse.prefs;
 
+import ch.qos.logback.classic.Level;
+
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
@@ -13,9 +15,8 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.prefs.WorkspacePrefs;
 
-import ch.qos.logback.classic.Level;
-
 /**
+ * Ruminaw prefereneces page
  *
  * @author Marek Jagielski
  */
@@ -36,14 +37,16 @@ public class WorkspacePrefsPage extends FieldEditorPreferencePage
   @Override
   public void init(IWorkbench workbench) {
     setPreferenceStore(WorkspacePrefs.INSTANCE.getPreferenceStore());
-    setDescription(Messages.preferencesDescription);
+    setDescription(Messages.workspacePrefsDescription);
   }
 
   @Override
   protected void createFieldEditors() {
     addField(new ComboFieldEditor(WorkspacePrefs.MODELER_LOG_LEVEL,
-        "Modeler log level:", LOG_LEVELS, getFieldEditorParent()));
+        Messages.workspacePrefsModelerLogLevel, LOG_LEVELS,
+        getFieldEditorParent()));
     addField(new ComboFieldEditor(WorkspacePrefs.RUNNER_LOG_LEVEL,
-        "Runner log level:", LOG_LEVELS, getFieldEditorParent()));
+        Messages.workspacePrefsRunnerLogLevel, LOG_LEVELS,
+        getFieldEditorParent()));
   }
 }

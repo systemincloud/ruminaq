@@ -5,16 +5,17 @@ import ch.qos.logback.classic.Level;
 import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.preferences.ScopedPreferenceStore;
-import org.ruminaq.consts.Constants;
 
 public enum WorkspacePrefs {
   INSTANCE;
+
+  public static final String QUALIFIER = "org.ruminaq.prefs";
 
   public static final String MODELER_LOG_LEVEL = "modeler.log.level";
   public static final String RUNNER_LOG_LEVEL = "runner.log.level";
 
   private IPreferenceStore preferenceStore = new ScopedPreferenceStore(
-      ConfigurationScope.INSTANCE, Constants.SicPlugin.PREFS_ID.s());
+      ConfigurationScope.INSTANCE, QUALIFIER);
 
   {
     preferenceStore.setDefault(MODELER_LOG_LEVEL, Level.ERROR.levelStr);

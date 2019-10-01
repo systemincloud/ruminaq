@@ -13,7 +13,7 @@ public final class Constants {
     GUI_ID("org.ruminaq.gui"), LAUNCH_ID("org.ruminaq.launch"),
     MODEL_ID("org.ruminaq.model"), LOGS_ID("org.ruminaq.logs"),
     RUNNER_ID("org.ruminaq.runner"), UTIL_ID("org.ruminaq.util"),
-    TASKS_ID("org.ruminaq.tasks"), PREFS_ID("org.ruminaq.prefs"),;
+    TASKS_ID("org.ruminaq.tasks"),;
 
     private String symbolicName;
 
