@@ -20,7 +20,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.dialogs.PropertyPage;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.prefs.ProjectProps;
-import org.ruminaq.prefs.ProjectPropsSecure;
 import org.ruminaq.prefs.Props;
 import org.ruminaq.upgrade.Upgrade;
 import org.ruminaq.util.PlatformUtil;
@@ -32,7 +31,7 @@ import org.slf4j.Logger;
  */
 public class ProjectPropsPage extends PropertyPage {
 
-  private final Logger logger = ModelerLoggerFactory
+  private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(ProjectPropsPage.class);
 
   private Composite rootComposite;
@@ -43,16 +42,10 @@ public class ProjectPropsPage extends PropertyPage {
   private Button btnUpgrade;
 
   private Props projectProps;
-  private Props secureProps;
-
-  public ProjectPropsPage() {
-  }
 
   @Override
   protected Control createContents(Composite parent) {
     projectProps = ProjectProps
-        .getInstance(getElement().getAdapter(IProject.class));
-    secureProps = ProjectPropsSecure
         .getInstance(getElement().getAdapter(IProject.class));
     rootComposite = new Composite(parent, SWT.NONE);
     initLayout(rootComposite);
@@ -101,7 +94,7 @@ public class ProjectPropsPage extends PropertyPage {
     btnUpgrade.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {
-        logger.trace("Upgrade button pushed");
+        LOGGER.trace("Upgrade button pushed");
         boolean status = new Upgrade(
             projectProps.get(ProjectProps.MODELER_VERSION),
             PlatformUtil.getBundleVersion(this.getClass()).toString(),
@@ -118,19 +111,7 @@ public class ProjectPropsPage extends PropertyPage {
 
   @Override
   public boolean performOk() {
-    boolean saveSecure = false;
-
     projectProps.saveProps();
-
-    if (saveSecure) {
-      secureProps.saveProps();
-    }
-
     return super.performOk();
-  }
-
-  @Override
-  protected void performDefaults() {
-    super.performDefaults();
   }
 }
