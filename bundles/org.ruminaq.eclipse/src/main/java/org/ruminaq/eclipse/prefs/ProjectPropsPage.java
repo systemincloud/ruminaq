@@ -26,6 +26,7 @@ import org.ruminaq.util.PlatformUtil;
 import org.slf4j.Logger;
 
 /**
+ * Ruminaq project properties page.
  *
  * @author Marek Jagielski
  */
