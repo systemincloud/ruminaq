@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.prefs;
 
 import ch.qos.logback.classic.Level;
@@ -17,7 +23,7 @@ public enum WorkspacePrefs {
   private IPreferenceStore preferenceStore = new ScopedPreferenceStore(
       ConfigurationScope.INSTANCE, QUALIFIER);
 
-  {
+  WorkspacePrefs() {
     preferenceStore.setDefault(MODELER_LOG_LEVEL, Level.ERROR.levelStr);
     preferenceStore.setDefault(RUNNER_LOG_LEVEL, Level.ERROR.levelStr);
   }
