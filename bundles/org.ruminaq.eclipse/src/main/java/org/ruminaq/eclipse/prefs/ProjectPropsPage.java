@@ -98,7 +98,7 @@ public class ProjectPropsPage extends PropertyPage {
       btnUpgrade.setEnabled(false);
     } else {
       btnUpgrade.setText("Upgrade to "
-          + PlatformUtil.getBundleVersion(this.getClass()).toString());
+          + PlatformUtil.getBundleVersion(this.getClass()));
     }
 
     performDefaults();
