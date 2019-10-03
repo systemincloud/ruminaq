@@ -34,7 +34,7 @@ public class ProjectPropsPage extends PropertyPage {
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(ProjectPropsPage.class);
 
-  private Composite rootComposite;
+  private static final int COLUMNS_IN_VIEW = 4;
 
   private Group grpGeneral;
   private Label lblVersionLabel;
@@ -43,11 +43,14 @@ public class ProjectPropsPage extends PropertyPage {
 
   private Props projectProps;
 
+  public ProjectPropsPage() {
+  }
+
   @Override
   protected Control createContents(Composite parent) {
     projectProps = ProjectProps
         .getInstance(getElement().getAdapter(IProject.class));
-    rootComposite = new Composite(parent, SWT.NONE);
+    Composite rootComposite = new Composite(parent, SWT.NONE);
     initLayout(rootComposite);
     initComponenets();
     initActions();
@@ -60,7 +63,7 @@ public class ProjectPropsPage extends PropertyPage {
     grpGeneral = new Group(composite, SWT.NONE);
     grpGeneral
         .setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-    grpGeneral.setLayout(new GridLayout(4, false));
+    grpGeneral.setLayout(new GridLayout(COLUMNS_IN_VIEW, false));
 
     lblVersionLabel = new Label(grpGeneral, SWT.NONE);
     lblVersion = new Label(grpGeneral, SWT.NONE);
