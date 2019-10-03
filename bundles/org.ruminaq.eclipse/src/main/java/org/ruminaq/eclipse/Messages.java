@@ -51,6 +51,9 @@ public final class Messages extends NLS {
   public static String workspacePrefsDescription;
   public static String workspacePrefsModelerLogLevel;
   public static String workspacePrefsRunnerLogLevel;
+  public static String projectPropsGeneralGroup;
+  public static String projectPropsVersionLabel;
+  public static String projectPropsUpgradeButton;
 
   static {
     NLS.initializeMessages(

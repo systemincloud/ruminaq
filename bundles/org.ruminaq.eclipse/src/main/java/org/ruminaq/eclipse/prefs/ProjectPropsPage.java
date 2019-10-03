@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.dialogs.PropertyPage;
+import org.ruminaq.eclipse.Messages;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.prefs.ProjectProps;
 import org.ruminaq.prefs.Props;
@@ -45,6 +46,7 @@ public class ProjectPropsPage extends PropertyPage {
   private Props projectProps;
 
   public ProjectPropsPage() {
+    // default constructor
   }
 
   @Override
@@ -58,10 +60,15 @@ public class ProjectPropsPage extends PropertyPage {
     return rootComposite;
   }
 
-  private void initLayout(Composite composite) {
-    composite.setLayout(new GridLayout(1, false));
+  /**
+   * Layout of page.
+   *
+   * @param parent outer composite
+   */
+  private void initLayout(Composite parent) {
+    parent.setLayout(new GridLayout(1, false));
 
-    grpGeneral = new Group(composite, SWT.NONE);
+    grpGeneral = new Group(parent, SWT.NONE);
     grpGeneral
         .setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
     grpGeneral.setLayout(new GridLayout(COLUMNS_IN_VIEW, false));
@@ -71,10 +78,13 @@ public class ProjectPropsPage extends PropertyPage {
     btnUpgrade = new Button(grpGeneral, SWT.NONE);
   }
 
+  /**
+   * Set default values.
+   */
   private void initComponenets() {
-    grpGeneral.setText("General");
-    lblVersionLabel.setText("Modeler Version:");
-    btnUpgrade.setText("Upgrade");
+    grpGeneral.setText(Messages.projectPropsGeneralGroup);
+    lblVersionLabel.setText(Messages.projectPropsVersionLabel);
+    btnUpgrade.setText(Messages.projectPropsUpgradeButton);
 
     String version = projectProps.get(ProjectProps.MODELER_VERSION);
     if (version == null) {
@@ -94,6 +104,9 @@ public class ProjectPropsPage extends PropertyPage {
     performDefaults();
   }
 
+  /**
+   * Set listeners.
+   */
   private void initActions() {
     btnUpgrade.addSelectionListener(new SelectionAdapter() {
       @Override
