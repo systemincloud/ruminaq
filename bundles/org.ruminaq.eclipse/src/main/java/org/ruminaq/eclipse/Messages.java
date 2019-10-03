@@ -54,6 +54,7 @@ public final class Messages extends NLS {
   public static String projectPropsGeneralGroup;
   public static String projectPropsVersionLabel;
   public static String projectPropsUpgradeButton;
+  public static String projectPropsUpgradeButtonEnabled;
 
   static {
     NLS.initializeMessages(

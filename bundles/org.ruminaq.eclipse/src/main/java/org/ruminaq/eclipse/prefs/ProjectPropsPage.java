@@ -97,7 +97,7 @@ public class ProjectPropsPage extends PropertyPage {
         .equals(PlatformUtil.getBundleVersion(this.getClass()).toString())) {
       btnUpgrade.setEnabled(false);
     } else {
-      btnUpgrade.setText("Upgrade to "
+      btnUpgrade.setText(Messages.projectPropsUpgradeButtonEnabled + " "
           + PlatformUtil.getBundleVersion(this.getClass()));
     }
 
@@ -117,7 +117,7 @@ public class ProjectPropsPage extends PropertyPage {
             PlatformUtil.getBundleVersion(this.getClass()).toString(),
             getElement().getAdapter(IProject.class)).execute();
         if (status) {
-          btnUpgrade.setText("Upgrade");
+          btnUpgrade.setText(Messages.projectPropsUpgradeButton);
           btnUpgrade.setEnabled(false);
           lblVersion.setText(
               PlatformUtil.getBundleVersion(this.getClass()).toString());
