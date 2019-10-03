@@ -23,7 +23,7 @@ import org.ruminaq.tests.common.SelectView;
  * @author Marek Jagielski
  */
 @RunWith(SWTBotJunit4ClassRunner.class)
-public class ChangeProjectPropertiesTest {
+public class UpgradeVersionProjectPropertiesTest {
 
   private static SWTWorkbenchBot bot;
 
@@ -53,7 +53,11 @@ public class ChangeProjectPropertiesTest {
 
     Thread.sleep(5000);
 
+    System.setProperty(
+        EclipseUtilAspect.FAIL_CREATE_SOURCE_FOLDERS_PROJECT_NAME, projectName);
+
     new OpenRuminaqProjectProperties().execute(bot, projectName);
+
     new OpenRuminaqProjectProperties().applyAndclose(bot);
   }
 }
