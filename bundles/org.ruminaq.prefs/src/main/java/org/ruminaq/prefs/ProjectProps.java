@@ -9,13 +9,12 @@ package org.ruminaq.prefs;
 import java.util.Hashtable;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
 
 public class ProjectProps extends Props {
 
-  public final static String PROJECT_PROPS = "org.ruminaq.project";
+  public static final String PROJECT_PROPS = "org.ruminaq.project";
 
-  public final static String MODELER_VERSION = "modeler.version";
+  public static final String MODELER_VERSION = "modeler.version";
 
   private static Hashtable<IProject, Props> instances = new Hashtable<>();
 
@@ -28,9 +27,5 @@ public class ProjectProps extends Props {
 
   private ProjectProps(IProject project) {
     super(project, PROJECT_PROPS, false);
-  }
-
-  @Override
-  public void preferenceChange(PreferenceChangeEvent arg0) {
   }
 }
