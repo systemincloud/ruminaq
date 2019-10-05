@@ -45,7 +45,7 @@ public class UpgradeVersionProjectPropertiesTest {
   private static final int PROJECT_SUFFIX_LENGTH = 5;
 
   @Test
-  public final void testChangeProjectProperties() throws InterruptedException {
+  public final void testUpgradeProjectButton() throws InterruptedException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
@@ -54,7 +54,7 @@ public class UpgradeVersionProjectPropertiesTest {
     Thread.sleep(5000);
 
     System.setProperty(
-        EclipseUtilAspect.FAIL_CREATE_SOURCE_FOLDERS_PROJECT_NAME, projectName);
+        PropsAspect.VERSION_PROJECT_NAME, projectName);
 
     new OpenRuminaqProjectProperties().execute(bot, projectName);
 

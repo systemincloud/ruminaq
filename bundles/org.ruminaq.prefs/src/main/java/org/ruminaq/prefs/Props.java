@@ -32,12 +32,14 @@ public abstract class Props implements IPreferenceChangeListener {
 
   private static final String PROPS_DIR = ".settings";
 
+  private IProject project;
   private ISecurePreferences secureNode;
   private IEclipsePreferences propsNode;
 
   private boolean secure;
 
   protected Props(IProject project, String name, boolean secure) {
+    this.project = project;
     ProjectScope ps = new ProjectScope(project);
     this.secure = secure;
 
@@ -146,5 +148,9 @@ public abstract class Props implements IPreferenceChangeListener {
 
   @Override
   public void preferenceChange(PreferenceChangeEvent event) {
+  }
+
+  public IProject getProject() {
+    return project;
   }
 }

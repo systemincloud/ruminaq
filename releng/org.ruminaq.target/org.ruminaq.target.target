@@ -2,6 +2,8 @@
     <locations>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
         <unit id="org.eclipse.equinox.sdk.feature.group" version="0.0.0"/>
+        <unit id="org.eclipse.egit.feature.group" version="0.0.0"/>
+        <unit id="org.eclipse.jgit.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.m2e.feature.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.platform.sdk" version="0.0.0"/>
         <unit id="org.eclipse.graphiti.export.feature.feature.group" version="0.0.0"/>
@@ -46,11 +48,6 @@
         <unit id="org.eclipse.contribution.weaving.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.equinox.weaving.sdk.feature.group" version="0.0.0"/>
         <repository location="http://download.eclipse.org/tools/ajdt/410/dev/update"/>
-      </location>
-      <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-        <unit id="org.eclipse.egit.feature.group" version="0.0.0"/>
-        <unit id="org.eclipse.jgit.feature.group" version="0.0.0"/>
-        <repository location="http://download.eclipse.org/egit/updates"/>
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
         <unit id="org.python.pydev.feature.feature.group" version="0.0.0"/>
