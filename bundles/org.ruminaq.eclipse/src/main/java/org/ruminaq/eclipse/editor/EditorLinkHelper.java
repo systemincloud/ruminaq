@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.eclipse.navigator;
+package org.ruminaq.eclipse.editor;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -23,6 +23,8 @@ import org.eclipse.ui.navigator.ILinkHelper;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
+ * Provides information to the Navigator on how to
+ * link Ruminaq editor with selection of diagram nodes.
  *
  * @author Marek Jagielski
  */

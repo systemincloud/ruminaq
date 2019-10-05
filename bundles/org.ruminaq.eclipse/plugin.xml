@@ -77,7 +77,7 @@
 
     <extension point="org.eclipse.ui.navigator.linkHelper">
         <linkHelper
-                  class="org.ruminaq.eclipse.navigator.EditorLinkHelper"
+                  class="org.ruminaq.eclipse.editor.EditorLinkHelper"
                 id="org.ruminaq.eclipse.linkEditor">
             <editorInputEnablement>
                 <instanceof value="org.eclipse.graphiti.ui.editor.DiagramEditorInput" />
