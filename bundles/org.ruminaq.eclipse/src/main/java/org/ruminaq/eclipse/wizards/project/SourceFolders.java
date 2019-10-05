@@ -31,10 +31,10 @@ public final class SourceFolders {
   public static final String TEST_RESOURCES = SRC + "/" + TEST + "/"
       + RESOURCES;
   public static final String TASK_FOLDER = "tasks";
-  public static final String DIAGRAM_FOLDER = MAIN_RESOURCES + "/" + TASK_FOLDER
-      + "/";
+  public static final String DIAGRAM_FOLDER = MAIN_RESOURCES + "/"
+      + TASK_FOLDER;
   public static final String TEST_DIAGRAM_FOLDER = TEST_RESOURCES + "/"
-      + TASK_FOLDER + "/";
+      + TASK_FOLDER;
 
   private SourceFolders() {
   }

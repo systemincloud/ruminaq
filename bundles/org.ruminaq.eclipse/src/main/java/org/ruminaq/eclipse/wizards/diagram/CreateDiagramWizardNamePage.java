@@ -189,16 +189,16 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     txtContainer.setText(project.map((IProject p) -> {
       String dirPath = null;
       Selectable selectable = Selectable.valueOf(selectedObject.getClass());
+      String path = null;
       if (selectable == Selectable.PACKAGEFRAGMENT) {
-        String path = ((PackageFragment) selectedObject).getPath().toString();
-        if (path.startsWith(format("/{0}/{1}", p.getName(), diagramBase))) {
-          dirPath = path.substring(p.getName().length() + "./".length());
-        }
+        path = ((PackageFragment) selectedObject).getPath().toString();
       } else if (selectable == Selectable.FOLDER) {
-        String path = ((Folder) selectedObject).getFullPath().toString();
-        if (path.startsWith(format("/{0}/{1}", p.getName(), diagramBase))) {
-          dirPath = path.substring(p.getName().length() + "./".length());
-        }
+        path = ((Folder) selectedObject).getFullPath().toString();
+      } else {
+        path = "";
+      }
+      if (path.startsWith(format("/{0}/{1}", p.getName(), diagramBase))) {
+        dirPath = path.substring(p.getName().length() + "./".length());
       } else {
         dirPath = diagramBase;
       }
