@@ -16,6 +16,7 @@ import org.ruminaq.prefs.Props;
 public class PropsAspect {
 
   public static final String VERSION_PROJECT_NAME = "propsVersionProjectName";
+  public static final String VERSION_PROJECT = "propsVersionProject";
 
   /**
    * Pointcut on error.
@@ -29,10 +30,12 @@ public class PropsAspect {
   public Object around(ProceedingJoinPoint point, String arg0)
       throws Throwable {
     String versionProjectName = System
-        .getProperty(PropsAspect.VERSION_PROJECT_NAME);
+        .getProperty(VERSION_PROJECT_NAME);
     if (ProjectProps.MODELER_VERSION.equals(arg0) && ((Props) point.getTarget())
         .getProject().getName().equals(versionProjectName)) {
-      return point.proceed(new Object[] { arg0 });
+      String versionProject = System
+          .getProperty(VERSION_PROJECT);
+      return versionProject;
     } else {
       return point.proceed(new Object[] { arg0 });
     }

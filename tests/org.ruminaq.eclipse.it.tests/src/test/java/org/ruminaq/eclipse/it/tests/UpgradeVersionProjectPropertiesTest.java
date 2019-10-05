@@ -9,7 +9,10 @@ package org.ruminaq.eclipse.it.tests;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotLabel;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,10 +56,21 @@ public class UpgradeVersionProjectPropertiesTest {
 
     Thread.sleep(5000);
 
-    System.setProperty(
-        PropsAspect.VERSION_PROJECT_NAME, projectName);
-
+    System.setProperty(PropsAspect.VERSION_PROJECT_NAME, projectName);
+    System.setProperty(PropsAspect.VERSION_PROJECT, "0.1.0");
     new OpenRuminaqProjectProperties().execute(bot, projectName);
+
+    SWTBotLabel versionLabel = bot.labelInGroup("0.1.0", "General");
+
+    Assert.assertNotNull(versionLabel);
+
+    SWTBotButton btnUpgrade = bot.buttonInGroup("General", 0);
+
+    Assert.assertTrue("Upgrade button has label changed",
+        btnUpgrade.getText().startsWith("Upgrade to"));
+
+    Assert.assertTrue("Upgrade button is enabled",
+        btnUpgrade.isEnabled());
 
     new OpenRuminaqProjectProperties().applyAndclose(bot);
   }

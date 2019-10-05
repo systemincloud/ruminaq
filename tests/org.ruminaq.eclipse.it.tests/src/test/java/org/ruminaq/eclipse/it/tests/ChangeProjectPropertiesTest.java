@@ -9,7 +9,9 @@ package org.ruminaq.eclipse.it.tests;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,6 +56,11 @@ public class ChangeProjectPropertiesTest {
     Thread.sleep(5000);
 
     new OpenRuminaqProjectProperties().execute(bot, projectName);
+
+    SWTBotButton btnUpgrade = bot.buttonInGroup("Upgrade", "General");
+
+    Assert.assertFalse("Upgrade button is disabled", btnUpgrade.isEnabled());
+
     new OpenRuminaqProjectProperties().applyAndclose(bot);
   }
 }
