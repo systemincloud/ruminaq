@@ -20,6 +20,7 @@ import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.tests.common.CreateRuminaqDiagram;
 import org.ruminaq.tests.common.CreateRuminaqProject;
+import org.ruminaq.tests.common.ProjectExplorerUtil;
 import org.ruminaq.tests.common.SelectView;
 
 /**
@@ -80,5 +81,12 @@ public class CreateRuminaqDiagramTest {
     new CreateRuminaqDiagram().waitUntilDiagramOpens(bot, diagramName);
 
     bot.editorByTitle(diagramName).setFocus();
+
+    new ProjectExplorerUtil().select(bot, projectName, new String[0]);
+
+    new ProjectExplorerUtil().show(bot);
+
+    int i = 0;
+    i++;
   }
 }
