@@ -93,6 +93,8 @@ public class CreateRuminaqDiagramTest {
 
     new ProjectExplorerUtil().show(bot);
 
+    Thread.sleep(3000);
+
     ProjectExplorer explorerView = (ProjectExplorer) bot
         .viewById(IPageLayout.ID_PROJECT_EXPLORER).getViewReference()
         .getView(false);
@@ -102,6 +104,6 @@ public class CreateRuminaqDiagramTest {
     assertEquals("File should be selected",
         format("/{0}/src/main/resources/tasks/{1}.rumi", projectName,
             diagramName),
-        s.getFullPath());
+        s.getFullPath().toString());
   }
 }
