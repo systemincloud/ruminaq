@@ -6,13 +6,20 @@
 
 package org.ruminaq.eclipse.it.tests;
 
+import static java.text.MessageFormat.format;
+import static org.junit.Assert.assertEquals;
+
 import org.apache.commons.lang3.RandomStringUtils;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -86,7 +93,15 @@ public class CreateRuminaqDiagramTest {
 
     new ProjectExplorerUtil().show(bot);
 
-    int i = 0;
-    i++;
+    ProjectExplorer explorerView = (ProjectExplorer) bot
+        .viewById(IPageLayout.ID_PROJECT_EXPLORER).getViewReference()
+        .getView(false);
+    IStructuredSelection selection = (IStructuredSelection) explorerView
+        .getCommonViewer().getSelection();
+    IFile s = (IFile) selection.getFirstElement();
+    assertEquals("File should be selected",
+        format("/{0}/src/main/resources/tasks/{1}.rumi", projectName,
+            diagramName),
+        s.getFullPath());
   }
 }
