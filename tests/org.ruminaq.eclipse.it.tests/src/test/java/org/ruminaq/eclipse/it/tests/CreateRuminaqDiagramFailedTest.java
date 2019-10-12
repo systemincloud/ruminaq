@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.maven.shared.utils.io.IOUtil;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
@@ -63,7 +64,7 @@ public class CreateRuminaqDiagramFailedTest {
       throws IOException, InterruptedException {
 
     String logFilePath = "target/logs/"
-        + RandomStringUtils.randomAlphabetic(SUFFIX_LENGTH) + ".log";
+        + FilenameUtils.getName(RandomStringUtils.randomAlphabetic(SUFFIX_LENGTH) + ".log");
 
     File logFile = new File(logFilePath);
     logFile.createNewFile();

@@ -16,6 +16,7 @@ Require-Bundle: org.eclipse.swtbot.eclipse.finder,
  org.eclipse.reddeer.junit,
  org.eclipse.equinox.console
 Import-Package: ch.qos.logback.core.spi,
+ org.apache.commons.io;version="2.6.0",
  org.apache.commons.lang3,
  org.aspectj.lang,
  org.aspectj.lang.annotation,

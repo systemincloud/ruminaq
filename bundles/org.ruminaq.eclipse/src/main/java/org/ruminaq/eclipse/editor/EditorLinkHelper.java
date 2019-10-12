@@ -35,7 +35,7 @@ public class EditorLinkHelper implements ILinkHelper {
     if (editorInput instanceof DiagramEditorInput) {
       DiagramEditorInput diagramEditorInput = (DiagramEditorInput) editorInput;
       final IFile file = getFile(diagramEditorInput.getUri());
-      if (editorInput.exists() && file != null) {
+      if (file != null && editorInput.exists()) {
         return new StructuredSelection(file);
       }
     }
