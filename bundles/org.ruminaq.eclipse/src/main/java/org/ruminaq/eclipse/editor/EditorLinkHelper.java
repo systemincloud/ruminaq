@@ -59,6 +59,10 @@ public class EditorLinkHelper implements ILinkHelper {
   }
 
   private static String getWorkspaceFilePath(URI uri) {
-    return uri.isPlatform() ? uri.toPlatformString(true) : null;
+    if (uri.isPlatform()) {
+      return uri.toPlatformString(true);
+    } else {
+      return null;
+    }
   }
 }
