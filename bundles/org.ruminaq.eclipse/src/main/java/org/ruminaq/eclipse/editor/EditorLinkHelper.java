@@ -35,7 +35,7 @@ public class EditorLinkHelper implements ILinkHelper {
     return Optional.ofNullable(editorInput).filter(IEditorInput::exists)
         .filter(ei -> ei instanceof DiagramEditorInput)
         .map(ei -> (DiagramEditorInput) ei).map(DiagramEditorInput::getUri)
-        .map(uri -> getFile(uri)).map(file -> new StructuredSelection(file))
+        .map(EditorLinkHelper::getFile).map(StructuredSelection::new)
         .orElse(StructuredSelection.EMPTY);
   }
 
@@ -49,10 +49,11 @@ public class EditorLinkHelper implements ILinkHelper {
         .ifPresent(e -> page.bringToTop(e));
   }
 
-  private IFile getFile(URI uri) {
+  private static IFile getFile(URI uri) {
     IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
     return (IFile) Optional.ofNullable(uri).map(URI::trimFragment)
-        .map(u -> getWorkspaceFilePath(u)).map(fp -> workspaceRoot.findMember(fp)).orElseGet(() -> {
+        .map(u -> getWorkspaceFilePath(u))
+        .map(fp -> workspaceRoot.findMember(fp)).orElseGet(() -> {
           IPath location = Path.fromOSString(uri.toString());
           return workspaceRoot.getFileForLocation(location);
         });
