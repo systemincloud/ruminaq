@@ -18,7 +18,7 @@ import org.eclipse.ui.navigator.resources.ProjectExplorer;
  * @author Marek Jagielski
  *
  */
-public class ProjectExplorerUtil {
+public class ProjectExplorerHandler {
 
   /**
    * Select node in Project Explorer.

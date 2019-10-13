@@ -11,23 +11,20 @@ import static org.junit.Assert.assertEquals;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.ui.IPageLayout;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.tests.common.CreateRuminaqDiagram;
 import org.ruminaq.tests.common.CreateRuminaqProject;
-import org.ruminaq.tests.common.ProjectExplorerUtil;
+import org.ruminaq.tests.common.ProjectExplorerHandler;
 import org.ruminaq.tests.common.SelectView;
 
 /**
@@ -39,8 +36,6 @@ import org.ruminaq.tests.common.SelectView;
 public class CreateRuminaqDiagramTest {
 
   private static SWTWorkbenchBot bot;
-  private static IWorkbench workbench;
-  private static IWorkspace workspace;
 
   /**
    * Initialize SWTBot.
@@ -49,8 +44,6 @@ public class CreateRuminaqDiagramTest {
   @BeforeClass
   public static void initBot() {
     bot = new SWTWorkbenchBot();
-    workbench = PlatformUI.getWorkbench();
-    workspace = ResourcesPlugin.getWorkspace();
     SelectView.closeWelcomeViewIfExists(bot);
   }
 
@@ -79,19 +72,27 @@ public class CreateRuminaqDiagramTest {
 
     String path = SourceFolders.DIAGRAM_FOLDER;
 
-    String diagramName = "Diagram_"
+    String diagramName1 = "Diagram_"
         + RandomStringUtils.randomAlphabetic(DIAGRAM_SUFFIX_LENGTH);
-    new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName);
+    new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName1);
 
     Thread.sleep(5000);
 
-    new CreateRuminaqDiagram().waitUntilDiagramOpens(bot, diagramName);
+    new CreateRuminaqDiagram().waitUntilDiagramOpens(bot, diagramName1);
 
-    bot.editorByTitle(diagramName).setFocus();
+    String diagramName2 = "Diagram_"
+        + RandomStringUtils.randomAlphabetic(DIAGRAM_SUFFIX_LENGTH);
+    new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName2);
 
-    new ProjectExplorerUtil().select(bot, projectName, new String[0]);
+    Thread.sleep(5000);
 
-    new ProjectExplorerUtil().show(bot);
+    new CreateRuminaqDiagram().waitUntilDiagramOpens(bot, diagramName2);
+
+    bot.editorByTitle(diagramName2).setFocus();
+
+    new ProjectExplorerHandler().select(bot, projectName, new String[0]);
+
+    new ProjectExplorerHandler().show(bot);
 
     Thread.sleep(3000);
 
@@ -103,7 +104,16 @@ public class CreateRuminaqDiagramTest {
     IFile s = (IFile) selection.getFirstElement();
     assertEquals("File should be selected",
         format("/{0}/src/main/resources/tasks/{1}.rumi", projectName,
-            diagramName),
+            diagramName2),
         s.getFullPath().toString());
+
+    new ProjectExplorerHandler().select(bot, projectName,
+        new String[] { SourceFolders.MAIN_RESOURCES, SourceFolders.TASK_FOLDER,
+            diagramName1 + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT });
+
+    Thread.sleep(2000);
+
+    assertEquals("First diagram should be selected", diagramName1, bot.editors()
+        .stream().filter(e -> e.isActive()).findFirst().get().getTitle());
   }
 }
