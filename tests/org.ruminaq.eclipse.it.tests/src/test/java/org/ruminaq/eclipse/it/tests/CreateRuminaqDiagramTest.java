@@ -94,7 +94,7 @@ public class CreateRuminaqDiagramTest {
 
     new ProjectExplorerHandler().show(bot);
 
-    Thread.sleep(3000);
+    Thread.sleep(5000);
 
     ProjectExplorer explorerView = (ProjectExplorer) bot
         .viewById(IPageLayout.ID_PROJECT_EXPLORER).getViewReference()
@@ -111,7 +111,7 @@ public class CreateRuminaqDiagramTest {
         new String[] { SourceFolders.MAIN_RESOURCES, SourceFolders.TASK_FOLDER,
             diagramName1 + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT });
 
-    Thread.sleep(2000);
+    Thread.sleep(5000);
 
     assertEquals("First diagram should be selected", diagramName1, bot.editors()
         .stream().filter(e -> e.isActive()).findFirst().get().getTitle());

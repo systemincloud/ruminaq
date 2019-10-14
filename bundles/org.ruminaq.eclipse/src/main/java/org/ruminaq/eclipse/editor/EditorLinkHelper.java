@@ -45,15 +45,15 @@ public class EditorLinkHelper implements ILinkHelper {
     Optional.ofNullable(selection).filter(s -> !s.isEmpty())
         .map(IStructuredSelection::getFirstElement)
         .filter(o -> o instanceof IFile).map(s -> (IFile) s)
-        .map(f -> new FileEditorInput(f)).map(fei -> page.findEditor(fei))
-        .ifPresent(e -> page.bringToTop(e));
+        .map(FileEditorInput::new).map(page::findEditor)
+        .ifPresent(page::bringToTop);
   }
 
   private static IFile getFile(URI uri) {
     IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
     return (IFile) Optional.ofNullable(uri).map(URI::trimFragment)
         .map(EditorLinkHelper::getWorkspaceFilePath)
-        .map(fp -> workspaceRoot.findMember(fp)).orElseGet(() -> {
+        .map(workspaceRoot::findMember).orElseGet(() -> {
           IPath location = Path.fromOSString(uri.toString());
           return workspaceRoot.getFileForLocation(location);
         });
