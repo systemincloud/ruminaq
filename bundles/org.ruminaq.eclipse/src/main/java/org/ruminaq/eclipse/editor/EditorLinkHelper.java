@@ -52,7 +52,7 @@ public class EditorLinkHelper implements ILinkHelper {
   private static IFile getFile(URI uri) {
     IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
     return (IFile) Optional.ofNullable(uri).map(URI::trimFragment)
-        .map(u -> getWorkspaceFilePath(u))
+        .map(EditorLinkHelper::getWorkspaceFilePath)
         .map(fp -> workspaceRoot.findMember(fp)).orElseGet(() -> {
           IPath location = Path.fromOSString(uri.toString());
           return workspaceRoot.getFileForLocation(location);
