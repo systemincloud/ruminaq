@@ -7,6 +7,7 @@
 package org.ruminaq.eclipse.editor;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,13 +24,17 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.IWorkspaceCommandStack;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
+import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.swt.widgets.Composite;
@@ -116,17 +121,14 @@ public class RuminaqEditor extends DiagramEditor {
 
       if (ConstantsUtil
           .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())) {
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            if (((ContainerShape) getDiagramTypeProvider().getDiagram())
-                .getChildren().size() != 0) {
-              UpdateContext context = new UpdateContext(
-                  ((ContainerShape) getDiagramTypeProvider().getDiagram())
-                      .getChildren().get(0));
-              getDiagramTypeProvider().getFeatureProvider()
-                  .updateIfPossible(context);
-            }
+        ModelUtil.runModelChange(() -> {
+          if (((ContainerShape) getDiagramTypeProvider().getDiagram())
+              .getChildren().size() != 0) {
+            UpdateContext context = new UpdateContext(
+                ((ContainerShape) getDiagramTypeProvider().getDiagram())
+                    .getChildren().get(0));
+            getDiagramTypeProvider().getFeatureProvider()
+                .updateIfPossible(context);
           }
         }, editingDomain, "Model Update");
       }
@@ -182,17 +184,11 @@ public class RuminaqEditor extends DiagramEditor {
   }
 
   public IFile getModelFile() {
-    if (getDiagramTypeProvider() != null
-        && getDiagramTypeProvider().getDiagram() != null
-        && getDiagramTypeProvider().getDiagram().eResource() != null) {
-      String uriString = getDiagramTypeProvider().getDiagram().eResource()
-          .getURI().trimFragment().toPlatformString(true);
-      if (uriString != null) {
-        return ResourcesPlugin.getWorkspace().getRoot()
-            .getFile(new Path(uriString));
-      }
-    }
-    return null;
+    return Optional.ofNullable(getDiagramTypeProvider())
+        .map(IDiagramTypeProvider::getDiagram).map(Diagram::eResource)
+        .map(Resource::getURI).map(URI::trimFragment)
+        .map(uri -> uri.toPlatformString(true)).map(uriString -> ResourcesPlugin
+            .getWorkspace().getRoot().getFile(new Path(uriString))).get();
   }
 
   @Override

@@ -10,6 +10,11 @@ import org.eclipse.graphiti.ui.editor.DefaultPaletteBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.IDiagramContainerUI;
 
+/**
+ * Provides the common functionality needed to display and manage diagrams.
+ *
+ * @see org.eclipse.graphiti.ui.editor.DiagramBehavior
+ */
 public class RuminaqDiagramBehavior extends DiagramBehavior {
 
   public RuminaqDiagramBehavior(IDiagramContainerUI diagramContainer) {
