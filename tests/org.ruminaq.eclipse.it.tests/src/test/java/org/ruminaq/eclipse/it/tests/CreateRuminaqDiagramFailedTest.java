@@ -94,7 +94,7 @@ public class CreateRuminaqDiagramFailedTest {
 
     bot.button("OK").click();
 
-    bot.waitUntil(shellCloses(failureWindow));
+    bot.waitUntil(shellCloses(failureWindow), 10000);
 
     System.setProperty(LoggerAspect.FILE_PATH, "");
 
