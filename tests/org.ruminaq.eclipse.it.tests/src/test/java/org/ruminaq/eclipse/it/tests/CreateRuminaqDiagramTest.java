@@ -93,7 +93,7 @@ public class CreateRuminaqDiagramTest {
 
     new ProjectExplorerHandler().select(bot, projectName, new String[0]);
 
-    new ProjectExplorerHandler().show(bot, true);
+    new ProjectExplorerHandler().show(bot);
 
     Thread.sleep(5000);
 
@@ -117,11 +117,16 @@ public class CreateRuminaqDiagramTest {
     assertEquals("First diagram should be selected", diagramName1, bot.editors()
         .stream().filter(e -> e.isActive()).findFirst().get().getTitle());
 
-    new ProjectExplorerHandler().show(bot, false);
+    new ProjectExplorerHandler().show(bot);
 
     new EditorLinkHelper().activateEditor(bot.activeView().getViewReference().getPage(),
         selection);
 
     Thread.sleep(5000);
+
+    assertEquals("File should be selected",
+        format("/{0}/src/main/resources/tasks/{1}.rumi", projectName,
+            diagramName2),
+        s.getFullPath().toString());
   }
 }

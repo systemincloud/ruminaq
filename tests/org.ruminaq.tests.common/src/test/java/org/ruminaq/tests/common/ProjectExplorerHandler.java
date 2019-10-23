@@ -38,14 +38,16 @@ public class ProjectExplorerHandler {
    * @param bot SWTWorkbenchBot
    * @return
    */
-  public void show(SWTWorkbenchBot bot, boolean active) {
+  public void show(SWTWorkbenchBot bot) {
     SWTBotView modelExplorerView = bot
         .viewById(IPageLayout.ID_PROJECT_EXPLORER);
     boolean linkWithEditorInitialStatus = modelExplorerView
         .toolbarToggleButton("Link with Editor").isChecked();
+    modelExplorerView.toolbarToggleButton("Link with Editor").click();
     if (!linkWithEditorInitialStatus) {
-      modelExplorerView.toolbarToggleButton("Link with Editor").click();
-      bot.waitUntil(new LinkWithEditorStateCondition(modelExplorerView, active));
+      bot.waitUntil(new LinkWithEditorStateCondition(modelExplorerView, true));
+    } else {
+      bot.waitUntil(new LinkWithEditorStateCondition(modelExplorerView, false));
     }
   }
 
