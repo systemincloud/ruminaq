@@ -54,14 +54,13 @@ import org.ruminaq.validation.ProjectValidator;
 import org.ruminaq.validation.ValidationStatusLoader;
 
 /**
+ * Main Ruminaq editor class.
  *
  * @author Marek Jagielski
  */
 public class RuminaqEditor extends DiagramEditor {
 
   private IResourceChangeListener markerChangeListener;
-
-  ExecutorService validationExecutor = Executors.newSingleThreadExecutor();
 
   @Override
   protected DiagramBehavior createDiagramBehavior() {
@@ -194,7 +193,9 @@ public class RuminaqEditor extends DiagramEditor {
   @Override
   public void doSave(final IProgressMonitor monitor) {
     super.doSave(monitor);
+    ExecutorService validationExecutor = Executors.newSingleThreadExecutor();
     validationExecutor.execute(() -> ProjectValidator.validateOnSave(
         getDiagramTypeProvider().getDiagram().eResource(), monitor));
+    validationExecutor.shutdown();
   }
 }
