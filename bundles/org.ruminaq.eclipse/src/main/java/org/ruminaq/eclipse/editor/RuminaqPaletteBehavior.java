@@ -10,7 +10,7 @@ import org.eclipse.graphiti.ui.editor.DefaultPaletteBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 
 /**
- * The palette appearance and behavior
+ * The palette appearance and behavior.
  *
  * @see org.eclipse.graphiti.ui.editor.DefaultPaletteBehavior
  */

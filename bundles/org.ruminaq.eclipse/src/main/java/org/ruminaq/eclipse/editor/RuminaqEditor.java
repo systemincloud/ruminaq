@@ -187,7 +187,8 @@ public class RuminaqEditor extends DiagramEditor {
         .map(IDiagramTypeProvider::getDiagram).map(Diagram::eResource)
         .map(Resource::getURI).map(URI::trimFragment)
         .map(uri -> uri.toPlatformString(true)).map(uriString -> ResourcesPlugin
-            .getWorkspace().getRoot().getFile(new Path(uriString))).get();
+            .getWorkspace().getRoot().getFile(new Path(uriString)))
+        .get();
   }
 
   @Override
