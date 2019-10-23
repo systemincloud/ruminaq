@@ -20,6 +20,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.eclipse.editor.EditorLinkHelper;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.tests.common.CreateRuminaqDiagram;
@@ -92,7 +93,7 @@ public class CreateRuminaqDiagramTest {
 
     new ProjectExplorerHandler().select(bot, projectName, new String[0]);
 
-    new ProjectExplorerHandler().show(bot);
+    new ProjectExplorerHandler().show(bot, true);
 
     Thread.sleep(5000);
 
@@ -115,5 +116,12 @@ public class CreateRuminaqDiagramTest {
 
     assertEquals("First diagram should be selected", diagramName1, bot.editors()
         .stream().filter(e -> e.isActive()).findFirst().get().getTitle());
+
+    new ProjectExplorerHandler().show(bot, false);
+
+    new EditorLinkHelper().activateEditor(bot.activeView().getViewReference().getPage(),
+        selection);
+
+    Thread.sleep(5000);
   }
 }

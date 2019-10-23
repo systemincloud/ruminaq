@@ -3,7 +3,6 @@
     <aspect
       name="org.ruminaq.eclipse.it.tests.CreateDiagramWizardAspect" />
     <aspect name="org.ruminaq.eclipse.it.tests.EclipseUtilAspect" />
-    <aspect name="org.ruminaq.eclipse.it.tests.EditorLinkHelperAspect" />
     <aspect name="org.ruminaq.eclipse.it.tests.JavaProjectAspect" />
     <aspect name="org.ruminaq.eclipse.it.tests.LoggerAspect" />
     <aspect name="org.ruminaq.eclipse.it.tests.PropsAspect" />
