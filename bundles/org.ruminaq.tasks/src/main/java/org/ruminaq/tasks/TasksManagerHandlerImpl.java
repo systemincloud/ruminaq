@@ -42,7 +42,7 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
-import org.ruminaq.eclipse.ConstantsUtil;
+import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.util.ModelUtil;
@@ -244,7 +244,7 @@ public class TasksManagerHandlerImpl implements TaskManagerHandler {
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 
     // refresh
-    if (ConstantsUtil.isTest(task.eResource().getURI())) {
+    if (RuminaqDiagramUtil.isTest(task.eResource().getURI())) {
       btnOnlyLocalDefault.setVisible(false);
       btnOnlyLocal.setVisible(false);
     } else {

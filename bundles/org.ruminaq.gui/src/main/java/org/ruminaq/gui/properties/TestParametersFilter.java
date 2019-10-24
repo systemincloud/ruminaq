@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
-import org.ruminaq.eclipse.ConstantsUtil;
+import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.util.EclipseUtil;
 
@@ -21,7 +21,7 @@ public class TestParametersFilter extends AbstractPropertySectionFilter {
     EObject eObject = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement(pe);
     if (eObject instanceof MainTask
-        && ConstantsUtil.isTest(EclipseUtil.getModelPathFromEObject(pe)))
+        && RuminaqDiagramUtil.isTest(EclipseUtil.getModelPathFromEObject(pe)))
       return true;
     else
       return false;

@@ -14,7 +14,11 @@ import org.eclipse.osgi.framework.util.FilePath;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 
-public class ConstantsUtil {
+public class RuminaqDiagramUtil {
+
+  private RuminaqDiagramUtil() {
+    // Only static methods class
+  }
 
   public static boolean isInTestDirectory(IFile file) {
     String[] segments = file.getProjectRelativePath().segments();

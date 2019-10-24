@@ -28,12 +28,12 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.IWorkspaceCommandStack;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
@@ -42,7 +42,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.eclipse.ConstantsUtil;
+import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.MainTask;
@@ -80,7 +80,7 @@ public class RuminaqEditor extends DiagramEditor {
   public void createPartControl(Composite parent) {
     super.createPartControl(parent);
     Optional.ofNullable(getGraphicalViewer())
-        .map(gv -> gv.getEditPartRegistry())
+        .map(GraphicalViewer::getEditPartRegistry)
         .map(epr -> epr.get(LayerManager.ID))
         .filter(ScalableFreeformRootEditPart.class::isInstance)
         .map(epr -> (ScalableFreeformRootEditPart) epr)
@@ -89,6 +89,8 @@ public class RuminaqEditor extends DiagramEditor {
   }
 
   /**
+   * Does the initialization of the editor.
+   *
    * @see org.eclipse.graphiti.ui.editor.DiagramEditor#init(IEditorSite,
    *      IEditorInput)
    */
@@ -133,13 +135,13 @@ public class RuminaqEditor extends DiagramEditor {
                   .get(ProjectProps.MODELER_VERSION)),
           editingDomain, "Model Update");
 
-      if (ConstantsUtil
+      if (RuminaqDiagramUtil
           .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())) {
         ModelUtil.runModelChange(() -> {
-          if (((ContainerShape) getDiagramTypeProvider().getDiagram())
-              .getChildren().size() != 0) {
+          if ((getDiagramTypeProvider().getDiagram())
+              .getChildren().isEmpty()) {
             UpdateContext context = new UpdateContext(
-                ((ContainerShape) getDiagramTypeProvider().getDiagram())
+                (getDiagramTypeProvider().getDiagram())
                     .getChildren().get(0));
             getDiagramTypeProvider().getFeatureProvider()
                 .updateIfPossible(context);
@@ -155,7 +157,7 @@ public class RuminaqEditor extends DiagramEditor {
     return Optional.ofNullable(getEditingDomain())
         .map(EditingDomain::getCommandStack)
         .filter(IWorkspaceCommandStack.class::isInstance)
-        .map(ed -> ((IWorkspaceCommandStack) ed))
+        .map(ed -> (IWorkspaceCommandStack) ed)
         .map(IWorkspaceCommandStack::getOperationHistory);
   }
 

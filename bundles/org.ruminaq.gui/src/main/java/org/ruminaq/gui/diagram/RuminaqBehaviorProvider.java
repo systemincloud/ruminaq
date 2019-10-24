@@ -29,7 +29,7 @@ import org.eclipse.graphiti.tb.IContextButtonPadData;
 import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IDecorator;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.eclipse.ConstantsUtil;
+import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
 import org.ruminaq.gui.api.ContextMenuEntryExtension;
 import org.ruminaq.gui.api.DecoratorExtension;
@@ -73,7 +73,7 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 
   @Override
   public IPaletteCompartmentEntry[] getPalette() {
-    boolean isTest = ConstantsUtil
+    boolean isTest = RuminaqDiagramUtil
         .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI());
     return ServiceUtil
         .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,

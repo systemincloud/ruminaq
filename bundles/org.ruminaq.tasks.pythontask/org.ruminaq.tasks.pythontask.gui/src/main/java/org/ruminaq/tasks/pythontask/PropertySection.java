@@ -30,7 +30,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.python.pydev.shared_ui.EditorUtils;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.eclipse.ConstantsUtil;
+import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.pythontask.features.UpdateFeature;
@@ -170,7 +170,7 @@ public class PropertySection
         try {
           if (descriptor != null) {
             IWizard wizard = descriptor.createWizard();
-            String folder = ConstantsUtil.isTest(
+            String folder = RuminaqDiagramUtil.isTest(
                 EclipseUtil.getModelPathFromEObject(pe)) ? Constants.TEST_PYTHON
                     : Constants.MAIN_PYTHON;
             String projectName = EclipseUtil

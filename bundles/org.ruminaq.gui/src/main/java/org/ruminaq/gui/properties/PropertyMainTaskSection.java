@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.ruminaq.eclipse.ConstantsUtil;
+import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.util.ModelUtil;
 
@@ -140,7 +140,7 @@ public class PropertyMainTaskSection extends GFPropertySection
       btnAtomic.setSelection(mt.isAtomic());
       btnPreventLost.setSelection(mt.isPreventLosts());
       btnOnlyLocal.setSelection(mt.isOnlyLocal());
-      btnOnlyLocal.setVisible(!ConstantsUtil.isTest(mt.eResource().getURI()));
+      btnOnlyLocal.setVisible(!RuminaqDiagramUtil.isTest(mt.eResource().getURI()));
     }
   }
 

@@ -61,7 +61,7 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.consts.Constants.SicPlugin;
-import org.ruminaq.eclipse.ConstantsUtil;
+import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.rtask.features.UpdateFeature;
@@ -88,7 +88,7 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
   public PropertySection(Composite parent, PictogramElement pe,
       TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
     String path = EclipseUtil.getModelPathFromEObject(pe).toString();
-    boolean test = ConstantsUtil
+    boolean test = RuminaqDiagramUtil
         .isTest(EclipseUtil.getModelPathFromEObject(pe));
 
     this.pe = pe;
@@ -320,7 +320,7 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
         try {
           if (descriptor != null) {
             IWizard wizard = descriptor.createWizard();
-            String folder = ConstantsUtil.isTest(
+            String folder = RuminaqDiagramUtil.isTest(
                 EclipseUtil.getModelPathFromEObject(pe)) ? Constants.TEST_R
                     : Constants.MAIN_R;
             String projectName = EclipseUtil

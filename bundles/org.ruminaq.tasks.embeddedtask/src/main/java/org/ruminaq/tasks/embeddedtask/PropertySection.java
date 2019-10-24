@@ -44,7 +44,7 @@ import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.ruminaq.consts.Constants.SicPlugin;
-import org.ruminaq.eclipse.ConstantsUtil;
+import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
@@ -73,7 +73,7 @@ public class PropertySection implements IPropertySection {
   public PropertySection(Composite parent, PictogramElement pe,
       TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
     String path = EclipseUtil.getModelPathFromEObject(pe).toString();
-    boolean test = ConstantsUtil
+    boolean test = RuminaqDiagramUtil
         .isTest(EclipseUtil.getModelPathFromEObject(pe));
 
     this.pe = pe;

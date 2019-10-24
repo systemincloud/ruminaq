@@ -19,7 +19,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.eclipse.ConstantsUtil;
+import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.gui.features.update.UpdateBaseElementFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.desc.IN;
@@ -66,7 +66,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
     boolean onlyLocal = task.isOnlyLocalDefault() ? task.isOnlyLocal()
         : task.isOnlyLocalUser();
-    boolean testDiagram = ConstantsUtil.isTest(getFeatureProvider()
+    boolean testDiagram = RuminaqDiagramUtil.isTest(getFeatureProvider()
         .getDiagramTypeProvider().getDiagram().eResource().getURI());
     boolean specialColor = false;
     for (GraphicsAlgorithm c : parent.getGraphicsAlgorithm()
@@ -109,7 +109,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     Task task = (Task) getBusinessObjectForPictogramElement(pe);
     boolean onlyLocal = task.isOnlyLocalDefault() ? task.isOnlyLocal()
         : task.isOnlyLocalUser();
-    boolean testDiagram = ConstantsUtil.isTest(getFeatureProvider()
+    boolean testDiagram = RuminaqDiagramUtil.isTest(getFeatureProvider()
         .getDiagramTypeProvider().getDiagram().eResource().getURI());
     boolean specialColor = false;
     for (GraphicsAlgorithm c : pe.getGraphicsAlgorithm()

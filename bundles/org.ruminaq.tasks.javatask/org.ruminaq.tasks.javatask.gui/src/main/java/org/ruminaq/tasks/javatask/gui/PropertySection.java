@@ -40,7 +40,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.wizards.IWizardDescriptor;
-import org.ruminaq.eclipse.ConstantsUtil;
+import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
@@ -217,7 +217,7 @@ public class PropertySection
         try {
           if (descriptor != null) {
             IWizard wizard = descriptor.createWizard();
-            String folder = ConstantsUtil
+            String folder = RuminaqDiagramUtil
                 .isTest(EclipseUtil.getModelPathFromEObject(pe))
                     ? EclipseExtensionImpl.TEST_JAVA
                     : EclipseExtensionImpl.MAIN_JAVA;

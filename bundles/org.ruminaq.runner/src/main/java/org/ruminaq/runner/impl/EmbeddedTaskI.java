@@ -25,7 +25,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.graphiti.mm.MmPackage;
-import org.ruminaq.eclipse.ConstantsUtil;
+import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.ruminaq.Connection;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.FlowSource;
@@ -228,7 +228,7 @@ public class EmbeddedTaskI extends TaskI {
       if (isOnlyLocal(task) && inCloud)
         continue;
       if (isOnlyLocal(task) && !runOnlyLocal
-          && !ConstantsUtil.isTest(task.eResource().getURI(), getBasePath()))
+          && !RuminaqDiagramUtil.isTest(task.eResource().getURI(), getBasePath()))
         continue;
 
       TaskI taskI = TaskImplementationFactory.INSTANCE.getImplementation(this,
