@@ -23,12 +23,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.IWorkspaceCommandStack;
-import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
@@ -73,18 +71,24 @@ public class RuminaqEditor extends DiagramEditor {
     return new RuminaqDiagramBehavior(this);
   }
 
+  /**
+   * Hides grid on diagram, but you can reenable it.
+   */
   @Override
   public void createPartControl(Composite parent) {
     super.createPartControl(parent);
-    // hides grid on diagram, but you can reenable it
-    if (getGraphicalViewer() != null
-        && getGraphicalViewer().getEditPartRegistry() != null) {
-      ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) getGraphicalViewer()
-          .getEditPartRegistry().get(LayerManager.ID);
-      IFigure gridFigure = ((LayerManager) rootEditPart)
-          .getLayer(LayerConstants.GRID_LAYER);
-      gridFigure.setVisible(false);
-    }
+    Optional.ofNullable(getGraphicalViewer())
+        .map(gv -> gv.getEditPartRegistry())
+        .map(epr -> epr.get(LayerManager.ID))
+        .filter(ScalableFreeformRootEditPart.class::isInstance)
+        .map(epr -> (ScalableFreeformRootEditPart) epr);
+
+//      ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) getGraphicalViewer()
+//          .getEditPartRegistry().get(LayerManager.ID);
+//      IFigure gridFigure = ((LayerManager) rootEditPart)
+//          .getLayer(LayerConstants.GRID_LAYER);
+//      gridFigure.setVisible(false);
+//    }
   }
 
   @Override
