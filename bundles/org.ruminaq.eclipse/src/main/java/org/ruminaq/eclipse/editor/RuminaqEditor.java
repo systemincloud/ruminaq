@@ -62,6 +62,12 @@ public class RuminaqEditor extends DiagramEditor {
 
   private IResourceChangeListener markerChangeListener;
 
+  private ExecutorService validationExecutor;
+
+  public RuminaqEditor() {
+    this.validationExecutor = Executors.newSingleThreadExecutor();
+  }
+
   @Override
   protected DiagramBehavior createDiagramBehavior() {
     return new RuminaqDiagramBehavior(this);
@@ -194,9 +200,13 @@ public class RuminaqEditor extends DiagramEditor {
   @Override
   public void doSave(final IProgressMonitor monitor) {
     super.doSave(monitor);
-    ExecutorService validationExecutor = Executors.newSingleThreadExecutor();
     validationExecutor.execute(() -> ProjectValidator.validateOnSave(
         getDiagramTypeProvider().getDiagram().eResource(), monitor));
+  }
+
+  @Override
+  public void close() {
+    super.close();
     validationExecutor.shutdown();
   }
 }
