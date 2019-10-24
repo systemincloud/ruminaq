@@ -27,6 +27,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.IWorkspaceCommandStack;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
@@ -81,14 +82,10 @@ public class RuminaqEditor extends DiagramEditor {
         .map(gv -> gv.getEditPartRegistry())
         .map(epr -> epr.get(LayerManager.ID))
         .filter(ScalableFreeformRootEditPart.class::isInstance)
-        .map(epr -> (ScalableFreeformRootEditPart) epr);
-
-//      ScalableFreeformRootEditPart rootEditPart = (ScalableFreeformRootEditPart) getGraphicalViewer()
-//          .getEditPartRegistry().get(LayerManager.ID);
-//      IFigure gridFigure = ((LayerManager) rootEditPart)
-//          .getLayer(LayerConstants.GRID_LAYER);
-//      gridFigure.setVisible(false);
-//    }
+        .map(epr -> (ScalableFreeformRootEditPart) epr)
+        .filter(LayerManager.class::isInstance).map(re -> (LayerManager) re)
+        .map(re -> re.getLayer(LayerConstants.GRID_LAYER))
+        .ifPresent(gf -> gf.setVisible(false));
   }
 
   @Override
