@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.IWorkspaceCommandStack;
 import org.eclipse.gef.LayerConstants;
@@ -59,9 +60,9 @@ import org.ruminaq.validation.ValidationStatusLoader;
  */
 public class RuminaqEditor extends DiagramEditor {
 
-  private IResourceChangeListener markerChangeListener;
-
   private ExecutorService validationExecutor;
+
+  private IResourceChangeListener markerChangeListener;
 
   public RuminaqEditor() {
     this.validationExecutor = Executors.newSingleThreadExecutor();
@@ -83,11 +84,14 @@ public class RuminaqEditor extends DiagramEditor {
         .map(epr -> epr.get(LayerManager.ID))
         .filter(ScalableFreeformRootEditPart.class::isInstance)
         .map(epr -> (ScalableFreeformRootEditPart) epr)
-        .filter(LayerManager.class::isInstance).map(re -> (LayerManager) re)
         .map(re -> re.getLayer(LayerConstants.GRID_LAYER))
-        .ifPresent(gf -> gf.setVisible(false));
+        .ifPresent(gf -> gf.setVisible(true));
   }
 
+  /**
+   * @see org.eclipse.graphiti.ui.editor.DiagramEditor#init(IEditorSite,
+   *      IEditorInput)
+   */
   @Override
   public void init(IEditorSite site, IEditorInput input)
       throws PartInitException {
@@ -95,10 +99,13 @@ public class RuminaqEditor extends DiagramEditor {
         .getServicesAtLatestVersion(RuminaqEditor.class, EclipseExtension.class)
         .stream().forEach(EclipseExtension::initEditor);
     super.init(site, input);
-    IOperationHistory history = getOperationHistory();
-    if (history != null) {
-      getOperationHistory()
-          .addOperationHistoryListener(new IOperationHistoryListener() {
+
+    this.markerChangeListener = new MarkerChangeListener(getModelFile().get(),
+        getEditingDomain(), getDiagramBehavior(),
+        getEditorSite().getShell().getDisplay());
+
+    getOperationHistory().ifPresent(oh -> {
+          oh.addOperationHistoryListener(new IOperationHistoryListener() {
             @Override
             public void historyNotification(OperationHistoryEvent event) {
               switch (event.getEventType()) {
@@ -110,7 +117,8 @@ public class RuminaqEditor extends DiagramEditor {
               }
             }
           });
-    }
+    });
+
     addMarkerChangeListener();
 
     final MainTask mt = ModelHandler.getModel(
@@ -120,8 +128,8 @@ public class RuminaqEditor extends DiagramEditor {
       TransactionalEditingDomain editingDomain = getDiagramBehavior()
           .getEditingDomain();
       ModelUtil.runModelChange(
-          () -> mt
-              .setVersion(ProjectProps.getInstance(getModelFile().getProject())
+          () -> mt.setVersion(
+              ProjectProps.getInstance(getModelFile().get().getProject())
                   .get(ProjectProps.MODELER_VERSION)),
           editingDomain, "Model Update");
 
@@ -143,16 +151,12 @@ public class RuminaqEditor extends DiagramEditor {
     }
   }
 
-  private IOperationHistory getOperationHistory() {
-    IOperationHistory history = null;
-    if (getEditingDomain() != null) {
-      final IWorkspaceCommandStack commandStack = (IWorkspaceCommandStack) getEditingDomain()
-          .getCommandStack();
-      if (commandStack != null) {
-        history = commandStack.getOperationHistory();
-      }
-    }
-    return history;
+  private Optional<IOperationHistory> getOperationHistory() {
+    return Optional.ofNullable(getEditingDomain())
+        .map(EditingDomain::getCommandStack)
+        .filter(IWorkspaceCommandStack.class::isInstance)
+        .map(ed -> ((IWorkspaceCommandStack) ed))
+        .map(IWorkspaceCommandStack::getOperationHistory);
   }
 
   @Override
@@ -161,15 +165,9 @@ public class RuminaqEditor extends DiagramEditor {
   }
 
   private void addMarkerChangeListener() {
-    if (getModelFile() != null) {
-      if (markerChangeListener == null) {
-        markerChangeListener = new MarkerChangeListener(getModelFile(),
-            getEditingDomain(), getDiagramBehavior(),
-            getEditorSite().getShell().getDisplay());
-        getModelFile().getWorkspace().addResourceChangeListener(
-            markerChangeListener, IResourceChangeEvent.POST_BUILD);
-      }
-    }
+    getModelFile().map(IFile::getWorkspace)
+        .ifPresent(w -> w.addResourceChangeListener(markerChangeListener,
+            IResourceChangeEvent.POST_BUILD));
   }
 
   @Override
@@ -179,23 +177,22 @@ public class RuminaqEditor extends DiagramEditor {
   }
 
   private void loadMarkers() {
-    if (getModelFile() != null) {
+    getModelFile().ifPresent(mf -> {
       try {
         (new ValidationStatusLoader()).load(getEditingDomain(),
-            Arrays.asList(getModelFile().findMarkers(
-                Constants.VALIDATION_MARKER, true, IResource.DEPTH_ZERO)));
+            Arrays.asList(mf.findMarkers(Constants.VALIDATION_MARKER, true,
+                IResource.DEPTH_ZERO)));
       } catch (CoreException e) {
       }
-    }
+    });
   }
 
-  public IFile getModelFile() {
+  public Optional<IFile> getModelFile() {
     return Optional.ofNullable(getDiagramTypeProvider())
         .map(IDiagramTypeProvider::getDiagram).map(Diagram::eResource)
         .map(Resource::getURI).map(URI::trimFragment)
         .map(uri -> uri.toPlatformString(true)).map(uriString -> ResourcesPlugin
-            .getWorkspace().getRoot().getFile(new Path(uriString)))
-        .get();
+            .getWorkspace().getRoot().getFile(new Path(uriString)));
   }
 
   @Override

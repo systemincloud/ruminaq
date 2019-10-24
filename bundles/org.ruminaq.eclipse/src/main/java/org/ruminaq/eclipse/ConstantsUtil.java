@@ -17,20 +17,17 @@ import org.ruminaq.eclipse.wizards.project.SourceFolders;
 public class ConstantsUtil {
 
   public static boolean isInTestDirectory(IFile file) {
-    String folder = "";
     String[] segments = file.getProjectRelativePath().segments();
-    StringBuilder sb = new StringBuilder("");
-    for (int i = 0; i < segments.length; i++)
-      sb.append(segments[i]).append("/");
-    sb.deleteCharAt(sb.length() - 1);
-    folder = sb.toString();
-    return folder.startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
+    return isInTestDirectory(segments, 0);
   }
 
   public static boolean isInTestDirectory(URI uri) {
-    String folder = "";
     int start = uri.isPlatform() ? 2 : 1;
-    String[] segments = uri.segments();
+    return isInTestDirectory(uri.segments(), start);
+  }
+
+  public static boolean isInTestDirectory(String[] segments, int start) {
+    String folder = "";
     StringBuilder sb = new StringBuilder("");
     for (int i = start; i < segments.length; i++)
       sb.append(segments[i]).append("/");
