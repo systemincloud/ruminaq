@@ -12,7 +12,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.eclipse.core.commands.operations.IOperationHistory;
-import org.eclipse.core.commands.operations.IOperationHistoryListener;
 import org.eclipse.core.commands.operations.OperationHistoryEvent;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -102,24 +101,22 @@ public class RuminaqEditor extends DiagramEditor {
         .stream().forEach(EclipseExtension::initEditor);
     super.init(site, input);
 
-    this.markerChangeListener = new MarkerChangeListener(getModelFile().get(),
-        getEditingDomain(), getDiagramBehavior(),
-        getEditorSite().getShell().getDisplay());
-
-    getOperationHistory().ifPresent(oh -> {
-          oh.addOperationHistoryListener(new IOperationHistoryListener() {
-            @Override
-            public void historyNotification(OperationHistoryEvent event) {
-              switch (event.getEventType()) {
-                case OperationHistoryEvent.DONE:
-                case OperationHistoryEvent.REDONE:
-                case OperationHistoryEvent.UNDONE:
-                  doSave(new NullProgressMonitor());
-                  break;
-              }
-            }
-          });
+    getModelFile().ifPresent((IFile mf) -> {
+      this.markerChangeListener = new MarkerChangeListener(mf,
+          getEditingDomain(), getDiagramBehavior(),
+          getEditorSite().getShell().getDisplay());
     });
+
+    getOperationHistory().ifPresent((IOperationHistory oh) -> oh
+        .addOperationHistoryListener((OperationHistoryEvent event) -> {
+          switch (event.getEventType()) {
+            case OperationHistoryEvent.DONE:
+            case OperationHistoryEvent.REDONE:
+            case OperationHistoryEvent.UNDONE:
+              doSave(new NullProgressMonitor());
+              break;
+          }
+        }));
 
     addMarkerChangeListener();
 
@@ -138,11 +135,9 @@ public class RuminaqEditor extends DiagramEditor {
       if (RuminaqDiagramUtil
           .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())) {
         ModelUtil.runModelChange(() -> {
-          if ((getDiagramTypeProvider().getDiagram())
-              .getChildren().isEmpty()) {
+          if ((getDiagramTypeProvider().getDiagram()).getChildren().isEmpty()) {
             UpdateContext context = new UpdateContext(
-                (getDiagramTypeProvider().getDiagram())
-                    .getChildren().get(0));
+                (getDiagramTypeProvider().getDiagram()).getChildren().get(0));
             getDiagramTypeProvider().getFeatureProvider()
                 .updateIfPossible(context);
           }
