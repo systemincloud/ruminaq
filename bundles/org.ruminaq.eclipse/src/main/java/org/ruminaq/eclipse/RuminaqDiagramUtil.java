@@ -41,7 +41,7 @@ public final class RuminaqDiagramUtil {
     }
   }
 
-  private static boolean isInTestDirectory(String[] segments) {
+  private static boolean isInTestDirectory(String... segments) {
     return Stream.of(segments).collect(Collectors.joining("/"))
         .startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
   }
