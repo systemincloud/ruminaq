@@ -86,7 +86,6 @@ Import-Package:
 Export-Package: 
  org.ruminaq.eclipse,
  org.ruminaq.eclipse.api,
- org.ruminaq.eclipse.builder,
  org.ruminaq.eclipse.editor,
  org.ruminaq.eclipse.prefs,
  org.ruminaq.eclipse.wizards.diagram,

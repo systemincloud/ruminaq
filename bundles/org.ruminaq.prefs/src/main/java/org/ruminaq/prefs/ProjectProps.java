@@ -14,7 +14,7 @@ public class ProjectProps extends Props {
 
   public static final String PROJECT_PROPS = "org.ruminaq.project";
 
-  public static final String MODELER_VERSION = "modeler.version";
+  public static final String RUMINAQ_VERSION = "ruminaq.version";
 
   private static Hashtable<IProject, Props> instances = new Hashtable<>();
 

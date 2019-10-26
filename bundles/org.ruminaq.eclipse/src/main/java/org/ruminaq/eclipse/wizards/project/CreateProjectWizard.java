@@ -114,7 +114,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
         Builders.configureBuilders(newProject);
         createPropertiesFile(newProject);
 
-        ProjectProps.getInstance(newProject).put(ProjectProps.MODELER_VERSION,
+        ProjectProps.getInstance(newProject).put(ProjectProps.RUMINAQ_VERSION,
             PlatformUtil.getBundleVersion(this.getClass()).toString());
 
         deleteBinDirectory(newProject);

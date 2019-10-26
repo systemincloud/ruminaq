@@ -86,10 +86,10 @@ public class ProjectPropsPage extends PropertyPage {
     lblVersionLabel.setText(Messages.projectPropsVersionLabel);
     btnUpgrade.setText(Messages.projectPropsUpgradeButton);
 
-    String version = projectProps.get(ProjectProps.MODELER_VERSION);
+    String version = projectProps.get(ProjectProps.RUMINAQ_VERSION);
     if (version == null) {
       version = PlatformUtil.getBundleVersion(this.getClass()).toString();
-      projectProps.put(ProjectProps.MODELER_VERSION, version);
+      projectProps.put(ProjectProps.RUMINAQ_VERSION, version);
     }
     lblVersion.setText(version);
 
@@ -113,7 +113,7 @@ public class ProjectPropsPage extends PropertyPage {
       public void widgetSelected(SelectionEvent e) {
         LOGGER.trace("Upgrade button pushed");
         boolean status = new Upgrade(
-            projectProps.get(ProjectProps.MODELER_VERSION),
+            projectProps.get(ProjectProps.RUMINAQ_VERSION),
             PlatformUtil.getBundleVersion(this.getClass()).toString(),
             getElement().getAdapter(IProject.class)).execute();
         if (status) {

@@ -56,6 +56,7 @@ public final class Messages extends NLS {
   public static String projectPropsUpgradeButton;
   public static String projectPropsUpgradeButtonEnabled;
   public static String ruminaqEditorLoadMarkersFailed;
+  public static String modelChangeInitialization;
 
   static {
     NLS.initializeMessages(

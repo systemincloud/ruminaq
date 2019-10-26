@@ -102,7 +102,7 @@
             name="Ruminaq Builder"
             id="org.ruminaq.eclipse.ruminaqBuilder">
         <builder hasNature="true">
-            <run class="org.ruminaq.eclipse.builder.RuminaqBuilder"/>
+            <run class="org.ruminaq.eclipse.RuminaqBuilder"/>
         </builder>
     </extension>
 

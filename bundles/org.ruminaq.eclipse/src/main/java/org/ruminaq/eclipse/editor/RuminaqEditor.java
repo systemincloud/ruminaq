@@ -25,7 +25,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.workspace.IWorkspaceCommandStack;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.LayerConstants;
@@ -37,6 +36,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -106,11 +106,11 @@ public class RuminaqEditor extends DiagramEditor {
         .getServicesAtLatestVersion(RuminaqEditor.class, EclipseExtension.class)
         .stream().forEach(EclipseExtension::initEditor);
     super.init(site, input);
+    Display display = getEditorSite().getShell().getDisplay();
 
     getModelFile().ifPresent(
         (IFile mf) -> this.markerChangeListener = new MarkerChangeListener(mf,
-            getEditingDomain(), getDiagramBehavior(),
-            getEditorSite().getShell().getDisplay()));
+            getEditingDomain(), getDiagramBehavior(), display));
 
     getOperationHistory().ifPresent((IOperationHistory oh) -> oh
         .addOperationHistoryListener((OperationHistoryEvent event) -> {
@@ -131,27 +131,21 @@ public class RuminaqEditor extends DiagramEditor {
         getDiagramTypeProvider().getDiagram(),
         getDiagramTypeProvider().getFeatureProvider());
     if (!mt.isInitialized()) {
-      TransactionalEditingDomain editingDomain = getDiagramBehavior()
-          .getEditingDomain();
-      ModelUtil.runModelChange(
-          () -> mt.setVersion(
-              ProjectProps.getInstance(getModelFile().get().getProject())
-                  .get(ProjectProps.MODELER_VERSION)),
-          editingDomain, "Model Update");
-
-      if (RuminaqDiagramUtil
-          .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())) {
-        ModelUtil.runModelChange(() -> {
-          if (getDiagramTypeProvider().getDiagram().getChildren().isEmpty()) {
-            UpdateContext context = new UpdateContext(
-                getDiagramTypeProvider().getDiagram().getChildren().get(0));
-            getDiagramTypeProvider().getFeatureProvider()
-                .updateIfPossible(context);
-          }
-        }, editingDomain, "Model Update");
-      }
-      ModelUtil.runModelChange(() -> mt.setInitialized(true), editingDomain,
-          "Model Update");
+      ModelUtil.runModelChange(() -> {
+        mt.setVersion(
+            ProjectProps.getInstance(getModelFile().get().getProject())
+                .get(ProjectProps.RUMINAQ_VERSION));
+        if (RuminaqDiagramUtil
+            .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())
+            && getDiagramTypeProvider().getDiagram().getChildren().isEmpty()) {
+          UpdateContext context = new UpdateContext(
+              getDiagramTypeProvider().getDiagram().getChildren().get(0));
+          getDiagramTypeProvider().getFeatureProvider()
+              .updateIfPossible(context);
+        }
+        mt.setInitialized(true);
+      }, getDiagramBehavior().getEditingDomain(),
+          Messages.modelChangeInitialization);
     }
   }
 

@@ -82,7 +82,7 @@ public class TestDiagramGenerator {
     List<ITaskUiApi> ts = tasks.getTasks(
         symbolicName.substring(0, symbolicName.length() - ".ui".length()));
     String modelerVersion = ProjectProps.getInstance(project)
-        .get(ProjectProps.MODELER_VERSION);
+        .get(ProjectProps.RUMINAQ_VERSION);
     String versionToFill = "";
     String maxModelerVer = "0.0.0";
     for (ITaskUiApi t : ts) {

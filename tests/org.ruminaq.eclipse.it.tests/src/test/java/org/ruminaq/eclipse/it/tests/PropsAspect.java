@@ -31,7 +31,7 @@ public class PropsAspect {
       throws Throwable {
     String versionProjectName = System
         .getProperty(VERSION_PROJECT_NAME);
-    if (ProjectProps.MODELER_VERSION.equals(arg0) && ((Props) point.getTarget())
+    if (ProjectProps.RUMINAQ_VERSION.equals(arg0) && ((Props) point.getTarget())
         .getProject().getName().equals(versionProjectName)) {
       String versionProject = System
           .getProperty(VERSION_PROJECT);
