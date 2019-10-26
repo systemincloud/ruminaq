@@ -163,6 +163,9 @@ public class RuminaqEditor extends DiagramEditor {
         .map(IWorkspaceCommandStack::getOperationHistory);
   }
 
+  /**
+   * Editor will never be dirty. Editor will save on any change.
+   */
   @Override
   public boolean isDirty() {
     return false;
