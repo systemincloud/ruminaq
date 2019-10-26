@@ -41,8 +41,10 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.eclipse.api.EclipseExtension;
+import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.util.ModelUtil;
@@ -51,6 +53,7 @@ import org.ruminaq.util.ServiceUtil;
 import org.ruminaq.validation.MarkerChangeListener;
 import org.ruminaq.validation.ProjectValidator;
 import org.ruminaq.validation.ValidationStatusLoader;
+import org.slf4j.Logger;
 
 /**
  * Main Ruminaq editor class.
@@ -58,6 +61,9 @@ import org.ruminaq.validation.ValidationStatusLoader;
  * @author Marek Jagielski
  */
 public class RuminaqEditor extends DiagramEditor {
+
+  private static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(RuminaqEditor.class);
 
   private ExecutorService validationExecutor;
 
@@ -101,11 +107,10 @@ public class RuminaqEditor extends DiagramEditor {
         .stream().forEach(EclipseExtension::initEditor);
     super.init(site, input);
 
-    getModelFile().ifPresent((IFile mf) -> {
-      this.markerChangeListener = new MarkerChangeListener(mf,
-          getEditingDomain(), getDiagramBehavior(),
-          getEditorSite().getShell().getDisplay());
-    });
+    getModelFile().ifPresent(
+        (IFile mf) -> this.markerChangeListener = new MarkerChangeListener(mf,
+            getEditingDomain(), getDiagramBehavior(),
+            getEditorSite().getShell().getDisplay()));
 
     getOperationHistory().ifPresent((IOperationHistory oh) -> oh
         .addOperationHistoryListener((OperationHistoryEvent event) -> {
@@ -114,6 +119,8 @@ public class RuminaqEditor extends DiagramEditor {
             case OperationHistoryEvent.REDONE:
             case OperationHistoryEvent.UNDONE:
               doSave(new NullProgressMonitor());
+              break;
+            default:
               break;
           }
         }));
@@ -135,9 +142,9 @@ public class RuminaqEditor extends DiagramEditor {
       if (RuminaqDiagramUtil
           .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())) {
         ModelUtil.runModelChange(() -> {
-          if ((getDiagramTypeProvider().getDiagram()).getChildren().isEmpty()) {
+          if (getDiagramTypeProvider().getDiagram().getChildren().isEmpty()) {
             UpdateContext context = new UpdateContext(
-                (getDiagramTypeProvider().getDiagram()).getChildren().get(0));
+                getDiagramTypeProvider().getDiagram().getChildren().get(0));
             getDiagramTypeProvider().getFeatureProvider()
                 .updateIfPossible(context);
           }
@@ -174,17 +181,18 @@ public class RuminaqEditor extends DiagramEditor {
   }
 
   private void loadMarkers() {
-    getModelFile().ifPresent(mf -> {
+    getModelFile().ifPresent((IFile mf) -> {
       try {
-        (new ValidationStatusLoader()).load(getEditingDomain(),
+        new ValidationStatusLoader().load(getEditingDomain(),
             Arrays.asList(mf.findMarkers(Constants.VALIDATION_MARKER, true,
                 IResource.DEPTH_ZERO)));
       } catch (CoreException e) {
+        LOGGER.error(Messages.ruminaqEditorLoadMarkersFailed, e);
       }
     });
   }
 
-  public Optional<IFile> getModelFile() {
+  private Optional<IFile> getModelFile() {
     return Optional.ofNullable(getDiagramTypeProvider())
         .map(IDiagramTypeProvider::getDiagram).map(Diagram::eResource)
         .map(Resource::getURI).map(URI::trimFragment)

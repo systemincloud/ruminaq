@@ -128,5 +128,9 @@ public class CreateRuminaqDiagramTest {
         format("/{0}/src/main/resources/tasks/{1}.rumi", projectName,
             diagramName2),
         s.getFullPath().toString());
+
+    bot.editorByTitle(diagramName2).close();
+
+    Thread.sleep(5000);
   }
 }
