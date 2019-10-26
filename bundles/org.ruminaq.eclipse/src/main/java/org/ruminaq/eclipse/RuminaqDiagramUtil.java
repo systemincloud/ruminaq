@@ -7,6 +7,8 @@
 package org.ruminaq.eclipse;
 
 import java.io.File;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
@@ -14,6 +16,11 @@ import org.eclipse.osgi.framework.util.FilePath;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 
+/**
+ * Diagram helper functions.
+ *
+ * @author Marek Jagielski
+ */
 public final class RuminaqDiagramUtil {
 
   private RuminaqDiagramUtil() {
@@ -21,35 +28,32 @@ public final class RuminaqDiagramUtil {
   }
 
   public static boolean isInTestDirectory(IFile file) {
-    String[] segments = file.getProjectRelativePath().segments();
-    return isInTestDirectory(segments, 0);
+    return isInTestDirectory(file.getProjectRelativePath().segments());
   }
 
   public static boolean isInTestDirectory(URI uri) {
-    int start = uri.isPlatform() ? 2 : 1;
-    return isInTestDirectory(uri.segments(), start);
+    if (uri.isPlatform()) {
+      return isInTestDirectory(
+          uri.segmentsList().stream().skip(2).toArray(String[]::new));
+    } else {
+      return isInTestDirectory(
+          uri.segmentsList().stream().skip(1).toArray(String[]::new));
+    }
   }
 
-  private static boolean isInTestDirectory(String[] segments, int start) {
-    StringBuilder sb = new StringBuilder();
-    for (int i = start; i < segments.length; i++) {
-      sb.append(segments[i]).append("/");
-    }
-    sb.deleteCharAt(sb.length() - 1);
-    return sb.toString().startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
+  private static boolean isInTestDirectory(String[] segments) {
+    return Stream.of(segments).collect(Collectors.joining("/"))
+        .startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
   }
 
   public static boolean isInTestDirectory(URI uri, String basePath) {
-    String folder = "";
-    String[] segments = (new FilePath(basePath)).getSegments();
-    StringBuilder sb = new StringBuilder(File.separator);
-    for (int i = 0; i < segments.length; i++)
-      sb.append(segments[i]).append(File.separator);
-    String file = uri.toFileString().replace(sb.toString(), "");
-    if (file != null)
-      folder = file.replace(basePath, "");
-    if (folder.contains(":"))
+    String file = uri.toFileString()
+        .replace(Stream.of(new FilePath(basePath).getSegments()).collect(
+            Collectors.joining(File.separator, File.separator, "")), "");
+    String folder = file.replace(basePath, "");
+    if (folder.contains(":")) {
       folder = folder.substring(folder.indexOf(":") + 1);
+    }
     folder = folder.replace(File.separator, "/");
     return folder.startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
   }
