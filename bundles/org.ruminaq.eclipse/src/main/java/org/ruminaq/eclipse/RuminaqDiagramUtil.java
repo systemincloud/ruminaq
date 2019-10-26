@@ -46,13 +46,13 @@ public final class RuminaqDiagramUtil {
         .startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
   }
 
-  public static boolean isInTestDirectory(URI uri, String basePath) {
+  private static boolean isInTestDirectory(URI uri, String basePath) {
     String file = uri.toFileString()
         .replace(Stream.of(new FilePath(basePath).getSegments()).collect(
             Collectors.joining(File.separator, File.separator, "")), "");
     String folder = file.replace(basePath, "");
     if (folder.contains(":")) {
-      folder = folder.substring(folder.indexOf(":") + 1);
+      folder = folder.substring(folder.indexOf(':') + 1);
     }
     folder = folder.replace(File.separator, "/");
     return folder.startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
