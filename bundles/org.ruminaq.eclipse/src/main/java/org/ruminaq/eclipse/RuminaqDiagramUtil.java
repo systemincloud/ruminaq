@@ -14,7 +14,7 @@ import org.eclipse.osgi.framework.util.FilePath;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 
-public class RuminaqDiagramUtil {
+public final class RuminaqDiagramUtil {
 
   private RuminaqDiagramUtil() {
     // Only static methods class
@@ -30,14 +30,13 @@ public class RuminaqDiagramUtil {
     return isInTestDirectory(uri.segments(), start);
   }
 
-  public static boolean isInTestDirectory(String[] segments, int start) {
-    String folder = "";
-    StringBuilder sb = new StringBuilder("");
-    for (int i = start; i < segments.length; i++)
+  private static boolean isInTestDirectory(String[] segments, int start) {
+    StringBuilder sb = new StringBuilder();
+    for (int i = start; i < segments.length; i++) {
       sb.append(segments[i]).append("/");
+    }
     sb.deleteCharAt(sb.length() - 1);
-    folder = sb.toString();
-    return folder.startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
+    return sb.toString().startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
   }
 
   public static boolean isInTestDirectory(URI uri, String basePath) {
