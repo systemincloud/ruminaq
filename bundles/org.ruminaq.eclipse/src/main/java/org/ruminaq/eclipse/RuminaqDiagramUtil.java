@@ -27,11 +27,11 @@ public final class RuminaqDiagramUtil {
     // Only static methods class
   }
 
-  public static boolean isInTestDirectory(IFile file) {
+  private static boolean isInTestDirectory(IFile file) {
     return isInTestDirectory(file.getProjectRelativePath().segments());
   }
 
-  public static boolean isInTestDirectory(URI uri) {
+  private static boolean isInTestDirectory(URI uri) {
     if (uri.isPlatform()) {
       return isInTestDirectory(
           uri.segmentsList().stream().skip(2).toArray(String[]::new));
