@@ -137,7 +137,7 @@ public class RuminaqEditor extends DiagramEditor {
                 .get(ProjectProps.RUMINAQ_VERSION));
         if (RuminaqDiagramUtil
             .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())
-            && getDiagramTypeProvider().getDiagram().getChildren().isEmpty()) {
+            && !getDiagramTypeProvider().getDiagram().getChildren().isEmpty()) {
           UpdateContext context = new UpdateContext(
               getDiagramTypeProvider().getDiagram().getChildren().get(0));
           getDiagramTypeProvider().getFeatureProvider()
