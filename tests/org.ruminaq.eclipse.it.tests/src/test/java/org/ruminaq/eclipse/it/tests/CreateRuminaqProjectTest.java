@@ -99,7 +99,7 @@ public class CreateRuminaqProjectTest {
 
     Arrays
         .asList(SourceFolders.MAIN_RESOURCES, SourceFolders.TEST_RESOURCES,
-            SourceFolders.TASK_FOLDER, SourceFolders.DIAGRAM_FOLDER)
+            SourceFolders.DIAGRAM_FOLDER)
         .stream()
         .forEach(f -> Assert.assertTrue(
             "Source directory " + f + "should be created",
