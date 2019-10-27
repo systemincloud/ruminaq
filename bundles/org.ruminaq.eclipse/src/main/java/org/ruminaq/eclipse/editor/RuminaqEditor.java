@@ -73,6 +73,9 @@ public class RuminaqEditor extends DiagramEditor {
     this.validationExecutor = Executors.newSingleThreadExecutor();
   }
 
+  /**
+   * You can change default behavior of all editors.
+   */
   @Override
   protected DiagramBehavior createDiagramBehavior() {
     return new RuminaqDiagramBehavior(this);

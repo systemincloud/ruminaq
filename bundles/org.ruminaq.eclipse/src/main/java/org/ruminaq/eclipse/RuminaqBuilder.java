@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.ruminaq.validation.ProjectValidator;
 
 /**
+ * Ruminaq builder.
  *
  * @author Marek Jagielski
  */
@@ -27,7 +28,7 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
   public static final String ID = "org.ruminaq.eclipse.ruminaqBuilder";
 
   class RuminaqDeltaVisitor implements IResourceDeltaVisitor {
-    IProgressMonitor monitor;
+    private IProgressMonitor monitor;
 
     public RuminaqDeltaVisitor(IProgressMonitor monitor) {
       this.monitor = monitor;
@@ -37,12 +38,10 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
     public boolean visit(IResourceDelta delta) throws CoreException {
       switch (delta.getKind()) {
         case IResourceDelta.ADDED:
+        case IResourceDelta.CHANGED:
           validate(delta, monitor);
           break;
         case IResourceDelta.REMOVED:
-          break;
-        case IResourceDelta.CHANGED:
-          validate(delta, monitor);
           break;
         default:
           break;
@@ -52,7 +51,7 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
   }
 
   class RuminaqResourceVisitor implements IResourceVisitor {
-    IProgressMonitor monitor;
+    private IProgressMonitor monitor;
 
     public RuminaqResourceVisitor(IProgressMonitor monitor) {
       this.monitor = monitor;
@@ -69,16 +68,17 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
   @SuppressWarnings("rawtypes")
   protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
       throws CoreException {
-    if (kind == FULL_BUILD)
+    if (kind == FULL_BUILD) {
       fullBuild(monitor);
-    else {
+    } else {
       IResourceDelta delta = getDelta(getProject());
-      if (delta == null)
+      if (delta == null) {
         fullBuild(monitor);
-      else
+      } else {
         incrementalBuild(delta, monitor);
+      }
     }
-    return null;
+    return new IProject[0];
   }
 
   protected void incrementalBuild(IResourceDelta delta,
