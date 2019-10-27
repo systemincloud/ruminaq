@@ -36,7 +36,6 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
@@ -109,11 +108,11 @@ public class RuminaqEditor extends DiagramEditor {
         .getServicesAtLatestVersion(RuminaqEditor.class, EclipseExtension.class)
         .stream().forEach(EclipseExtension::initEditor);
     super.init(site, input);
-    Display display = getEditorSite().getShell().getDisplay();
 
-    getModelFile().ifPresent(
-        (IFile mf) -> this.markerChangeListener = new MarkerChangeListener(mf,
-            getEditingDomain(), getDiagramBehavior(), display));
+    getModelFile().ifPresent((
+        IFile mf) -> RuminaqEditor.this.markerChangeListener = new MarkerChangeListener(
+            mf, getEditingDomain(), getDiagramBehavior(),
+            getEditorSite().getShell().getDisplay()));
 
     getOperationHistory().ifPresent((IOperationHistory oh) -> oh
         .addOperationHistoryListener((OperationHistoryEvent event) -> {

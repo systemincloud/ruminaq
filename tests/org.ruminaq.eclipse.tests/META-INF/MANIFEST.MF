@@ -22,3 +22,4 @@ Require-Bundle: org.junit,
  org.opentest4j,
  org.apiguardian,
  org.eclipse.swt
+Import-Package: org.eclipse.core.runtime
