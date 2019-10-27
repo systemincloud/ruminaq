@@ -62,6 +62,13 @@
     </dependency>
     <dependency>
       <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.gui.it.tests</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.prefs</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
