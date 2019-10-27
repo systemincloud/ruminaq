@@ -27,7 +27,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
   @FeatureFilter(Filter.class)
   public static class AddFeature extends AddTaskFeature {
 
-    public class Filter extends AddFeatureFilter {
+    public static class Filter extends AddFeatureFilter {
       @Override
       public Class<? extends BaseElement> forBusinessObject() {
         return Constant.class;
