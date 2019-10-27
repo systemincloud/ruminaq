@@ -26,11 +26,16 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.workspace.IWorkspaceCommandStack;
+import org.eclipse.gef.GraphicalViewer;
+import org.eclipse.gef.LayerConstants;
+import org.eclipse.gef.editparts.LayerManager;
+import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -71,6 +76,21 @@ public class RuminaqEditor extends DiagramEditor {
   @Override
   protected DiagramBehavior createDiagramBehavior() {
     return new RuminaqDiagramBehavior(this);
+  }
+
+  /**
+   * Hides grid on diagram, but you can reenable it.
+   */
+  @Override
+  public void createPartControl(Composite parent) {
+    super.createPartControl(parent);
+    Optional.ofNullable(getGraphicalViewer())
+        .map(GraphicalViewer::getEditPartRegistry)
+        .map(epr -> epr.get(LayerManager.ID))
+        .filter(ScalableFreeformRootEditPart.class::isInstance)
+        .map(epr -> (ScalableFreeformRootEditPart) epr)
+        .map(re -> re.getLayer(LayerConstants.GRID_LAYER))
+        .ifPresent(gf -> gf.setVisible(true));
   }
 
   /**
