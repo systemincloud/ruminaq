@@ -7,15 +7,15 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Fragment-Host: org.ruminaq.gui
 Require-Bundle: org.eclipse.swtbot.eclipse.finder,
- org.eclipse.swtbot.junit4_x,
  org.junit,
- org.eclipse.jdt.junit4.runtime,
  org.hamcrest.core,
  org.hamcrest.library,
  javax.annotation,
  org.eclipse.equinox.console,
  org.eclipse.reddeer.junit,
- org.eclipse.reddeer.go
+ org.eclipse.reddeer.gef,
+ org.eclipse.reddeer.go,
+ org.eclipse.reddeer.graphiti
 Import-Package: org.apache.commons.lang3,
  org.aspectj.lang,
  org.aspectj.lang.annotation,
@@ -26,6 +26,8 @@ Import-Package: org.apache.commons.lang3,
  org.eclipse.swt,
  org.eclipse.ui,
  org.eclipse.ui.ide,
+ org.eclipse.reddeer.junit.runner,
+ org.junit.jupiter.api.extension,
  org.ruminaq.eclipse.wizards.project,
  org.ruminaq.tests.common
 Export-Package: org.ruminaq.gui.it.tests

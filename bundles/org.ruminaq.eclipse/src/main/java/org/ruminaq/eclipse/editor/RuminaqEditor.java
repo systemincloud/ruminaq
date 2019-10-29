@@ -109,10 +109,13 @@ public class RuminaqEditor extends DiagramEditor {
         .stream().forEach(EclipseExtension::initEditor);
     super.init(site, input);
 
-    getModelFile().ifPresent((
-        IFile mf) -> RuminaqEditor.this.markerChangeListener = new MarkerChangeListener(
-            mf, getEditingDomain(), getDiagramBehavior(),
-            getEditorSite().getShell().getDisplay()));
+    Optional<IFile> mf = getModelFile();
+
+    if (mf.isPresent()) {
+      this.markerChangeListener = new MarkerChangeListener(
+          mf.get(), getEditingDomain(), getDiagramBehavior(),
+          getEditorSite().getShell().getDisplay());
+    }
 
     getOperationHistory().ifPresent((IOperationHistory oh) -> oh
         .addOperationHistoryListener((OperationHistoryEvent event) -> {

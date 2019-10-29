@@ -316,25 +316,35 @@
           <argLine>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jaccoco.version}/org.jacoco.agent-${jaccoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec
             -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
             -Dorg.eclipse.swtbot.search.timeout=10000
-          </argLine>  
-<!--             -Dorg.eclipse.swtbot.search.timeout=10000</argLine> -->
+          </argLine>
+          <!-- -Dorg.eclipse.swtbot.search.timeout=10000</argLine> -->
           <!-- <argLine>-ea -Dosgi.clean=true -Ddebug=true -Dosgi.console.enable.builtin=true</argLine> -->
           <!-- <argLine>-DbuildingWithTycho=true</argLine> -->
           <!-- <defaultStartLevel> -->
           <!-- <level>7</level> -->
           <!-- <autoStart>true</autoStart> -->
           <!-- </defaultStartLevel> -->
-<!--           <dependency-resolution> -->
-<!--             <extraRequirements> -->
-<!--               <requirement> -->
-<!--                 <type>eclipse-feature</type> -->
-<!--                 <id>org.ruminaq.feature</id> -->
-<!--                 <versionRange>${project.version}</versionRange> -->
-<!--               </requirement> -->
-<!--             </extraRequirements> -->
-<!--           </dependency-resolution> -->
+          <!-- <dependency-resolution> -->
+          <!-- <extraRequirements> -->
+          <!-- <requirement> -->
+          <!-- <type>eclipse-feature</type> -->
+          <!-- <id>org.ruminaq.feature</id> -->
+          <!-- <versionRange>${project.version}</versionRange> -->
+          <!-- </requirement> -->
+          <!-- </extraRequirements> -->
+          <!-- </dependency-resolution> -->
         </configuration>
         <dependencies>
+<!--           <dependency> -->
+<!--             <groupId>org.junit.platform</groupId> -->
+<!--             <artifactId>junit-platform-surefire-provider</artifactId> -->
+<!--             <version>1.3.2</version> -->
+<!--           </dependency> -->
+<!--           <dependency> -->
+<!--             <groupId>org.junit.jupiter</groupId> -->
+<!--             <artifactId>junit-jupiter-engine</artifactId> -->
+<!--             <version>5.5.24</version> -->
+<!--           </dependency> -->
           <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>

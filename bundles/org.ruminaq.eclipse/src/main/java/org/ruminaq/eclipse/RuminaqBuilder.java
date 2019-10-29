@@ -65,8 +65,7 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
   }
 
   @Override
-  @SuppressWarnings("rawtypes")
-  protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
+  protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor)
       throws CoreException {
     if (kind == FULL_BUILD) {
       fullBuild(monitor);
