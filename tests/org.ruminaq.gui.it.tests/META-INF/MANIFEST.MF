@@ -1,33 +1,20 @@
+Manifest-Version: 1.0
 Automatic-Module-Name: org.ruminaq.gui.it.tests
 Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Gui - Integration Tests
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.gui.it.tests
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-11
 Fragment-Host: org.ruminaq.gui
-Require-Bundle: org.eclipse.swtbot.eclipse.finder,
- org.junit,
- org.hamcrest.core,
- org.hamcrest.library,
- javax.annotation,
- org.eclipse.equinox.console,
- org.eclipse.reddeer.junit,
- org.eclipse.reddeer.gef,
- org.eclipse.reddeer.go,
- org.eclipse.reddeer.graphiti
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.junit,
+ org.eclipse.reddeer.go
 Import-Package: org.apache.commons.lang3,
  org.aspectj.lang,
  org.aspectj.lang.annotation,
  org.aspectj.runtime.internal,
  org.aspectj.runtime.reflect,
- org.eclipse.core.runtime.jobs,
- org.eclipse.jdt.internal.compiler.util,
- org.eclipse.swt,
- org.eclipse.ui,
- org.eclipse.ui.ide,
- org.eclipse.reddeer.junit.runner,
- org.junit.jupiter.api.extension,
- org.ruminaq.eclipse.wizards.project,
- org.ruminaq.tests.common
+ org.eclipse.reddeer.gef.api,
+ org.eclipse.reddeer.gef.editor,
+ org.eclipse.reddeer.graphiti.impl.graphitieditpart
 Export-Package: org.ruminaq.gui.it.tests

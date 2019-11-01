@@ -1,9 +1,3 @@
-/*******************************************************************************
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- ******************************************************************************/
-
 package org.ruminaq.gui.it.tests;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -15,7 +9,6 @@ import org.eclipse.reddeer.eclipse.condition.ProjectExists;
 import org.eclipse.reddeer.eclipse.selectionwizard.NewMenuWizard;
 import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.reddeer.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
-import org.eclipse.reddeer.eclipse.utils.DeleteUtils;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.graphiti.impl.graphitieditpart.LabeledGraphitiEditPart;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
@@ -31,17 +24,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Test of creating a new eclipse project.
+ *
  *
  * @author Marek Jagielski
  */
 @RunWith(RedDeerSuite.class)
-public class CreateRuminaqDiagramTest {
+public class AddInputPortTest {
 
   private static final int PROJECT_SUFFIX_LENGTH = 5;
-
-  private static final String PROJECT_NAME = "test"
-      + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
 
   public class RuminaqProjectWizard extends BasicNewProjectResourceWizard {
 
@@ -74,10 +64,12 @@ public class CreateRuminaqDiagramTest {
 
   @Before
   public void createProject() {
-    new RuminaqProjectWizard().create(PROJECT_NAME);
+    String projectName = "test"
+        + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
+    new RuminaqProjectWizard().create(projectName);
     new ProjectExplorer().open();
-    new WaitUntil(new ProjectExists(PROJECT_NAME), TimePeriod.MEDIUM, false);
-    new ProjectExplorer().getProject("test").select();
+    new WaitUntil(new ProjectExists(projectName), TimePeriod.MEDIUM, false);
+    new ProjectExplorer().getProject(projectName).select();
     new TutorialDiagramWizard().create("test");
   }
 
@@ -86,7 +78,7 @@ public class CreateRuminaqDiagramTest {
     new GEFEditor().close();
     ProjectExplorer projectExplorer = new ProjectExplorer();
     projectExplorer.open();
-    DeleteUtils.forceProjectDeletion(projectExplorer.getProject(PROJECT_NAME),true);
+//    DeleteUtils.forceProjectDeletion(projectExplorer.getProject(projectName),true);
   }
 
   @Test(expected=TestFailureException.class)
