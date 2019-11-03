@@ -1,15 +1,6 @@
 package org.ruminaq.gui.it.tests;
 
-import static org.junit.Assert.*;
-
-import org.eclipse.reddeer.eclipse.jdt.ui.wizards.JavaProjectWizard;
-import org.eclipse.reddeer.eclipse.jdt.ui.wizards.NewClassCreationWizard;
-import org.eclipse.reddeer.eclipse.jdt.ui.wizards.NewClassWizardPage;
-import org.eclipse.reddeer.eclipse.jdt.ui.wizards.NewJavaProjectWizardPageOne;
-import org.eclipse.reddeer.eclipse.ui.views.markers.ProblemsView;
-import org.eclipse.reddeer.eclipse.ui.views.markers.ProblemsView.ProblemType;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
-import org.eclipse.reddeer.workbench.impl.editor.TextEditor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -21,30 +12,30 @@ public class RedDeerTest {
 
 	@Test
 	public void redDeerTestExample() {
-		
-		// Create Java Project
-		JavaProjectWizard projectDlg = new JavaProjectWizard();
-		projectDlg.open();
-		NewJavaProjectWizardPageOne projectPage = new NewJavaProjectWizardPageOne(projectDlg);
-		projectPage.setProjectName("testProject");
-		projectDlg.finish();
-		
-		// Create Java class
-		NewClassCreationWizard classDlg = new NewClassCreationWizard();
-		classDlg.open();
-		NewClassWizardPage classPage = new NewClassWizardPage(classDlg);
-		classPage.setName("RedDeerDemo");
-		classPage.setPackage("org.reddeer.demo");
-		classDlg.finish();
-		
-		// Edit Java class
-		TextEditor textEditor = new TextEditor("RedDeerDemo.java");
-		textEditor.setText("Written by RedDeer");
-		textEditor.save();
-		
-		// Check ProblemsView
-		ProblemsView problemsView = new ProblemsView();
-		problemsView.open();
-		assertFalse(problemsView.getProblems(ProblemType.ERROR).isEmpty());
+
+//		// Create Java Project
+//		JavaProjectWizard projectDlg = new JavaProjectWizard();
+//		projectDlg.open();
+//		NewJavaProjectWizardPageOne projectPage = new NewJavaProjectWizardPageOne(projectDlg);
+//		projectPage.setProjectName("testProject");
+//		projectDlg.finish();
+//
+//		// Create Java class
+//		NewClassCreationWizard classDlg = new NewClassCreationWizard();
+//		classDlg.open();
+//		NewClassWizardPage classPage = new NewClassWizardPage(classDlg);
+//		classPage.setName("RedDeerDemo");
+//		classPage.setPackage("org.reddeer.demo");
+//		classDlg.finish();
+//
+//		// Edit Java class
+//		TextEditor textEditor = new TextEditor("RedDeerDemo.java");
+//		textEditor.setText("Written by RedDeer");
+//		textEditor.save();
+//
+//		// Check ProblemsView
+//		ProblemsView problemsView = new ProblemsView();
+//		problemsView.open();
+//		assertFalse(problemsView.getProblems(ProblemType.ERROR).isEmpty());
 	}
 }

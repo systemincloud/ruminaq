@@ -8,7 +8,6 @@ import org.eclipse.reddeer.core.exception.CoreLayerException;
 import org.eclipse.reddeer.eclipse.condition.ProjectExists;
 import org.eclipse.reddeer.eclipse.selectionwizard.NewMenuWizard;
 import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
-import org.eclipse.reddeer.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.graphiti.impl.graphitieditpart.LabeledGraphitiEditPart;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
@@ -22,6 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.gui.it.tests.AddInputPortTest.RuminaqProjectWizard;
 
 /**
  *
@@ -32,15 +32,6 @@ import org.junit.runner.RunWith;
 public class AddInputPortTest {
 
   private static final int PROJECT_SUFFIX_LENGTH = 5;
-
-  public class RuminaqProjectWizard extends BasicNewProjectResourceWizard {
-
-    public void create(String name) {
-      open();
-      new LabeledText("Project name:").setText(name);
-      finish();
-    }
-  }
 
   public class TutorialDiagramWizard extends NewMenuWizard {
 
