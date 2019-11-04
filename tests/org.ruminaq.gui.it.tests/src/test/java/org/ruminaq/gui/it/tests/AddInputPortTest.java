@@ -6,7 +6,9 @@ import org.eclipse.reddeer.workbench.impl.shell.WorkbenchShell;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.tests.common.reddeer.RuminaqProjectWizard;
 
 /**
  *
@@ -42,7 +44,7 @@ public class AddInputPortTest {
   public void createProject() {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
-//    new RuminaqProjectWizard().create(projectName);
+    new RuminaqProjectWizard().create(projectName);
 //    new ProjectExplorer().open();
 //    new WaitUntil(new ProjectExists(projectName), TimePeriod.MEDIUM, false);
 //    new ProjectExplorer().getProject(projectName).select();
@@ -57,8 +59,8 @@ public class AddInputPortTest {
 //    DeleteUtils.forceProjectDeletion(projectExplorer.getProject(projectName),true);
   }
 
-//  @Test(expected=TestFailureException.class)
-  public void contextButtonTest() {
+  @Test//(expected=TestFailureException.class)
+  public void addInputPortTest() {
 //    GEFEditor gefEditor = new GEFEditor("test");
 //    try {
 //      gefEditor.addToolFromPalette("EClass", 50, 100).setLabel("ClassA");
