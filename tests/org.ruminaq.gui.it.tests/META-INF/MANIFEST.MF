@@ -8,6 +8,7 @@ Bundle-Version: 1.0.0.qualifier
 Fragment-Host: org.ruminaq.gui
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.junit,
+ org.eclipse.reddeer.junit,
  org.eclipse.reddeer.go,
  org.eclipse.reddeer.swt
 Import-Package: org.apache.commons.lang3,
@@ -18,5 +19,7 @@ Import-Package: org.apache.commons.lang3,
  org.eclipse.reddeer.gef.api,
  org.eclipse.reddeer.gef.editor,
  org.eclipse.reddeer.graphiti.impl.graphitieditpart,
+ org.eclipse.reddeer.swt.impl.text,
+ org.eclipse.swt,
  org.ruminaq.tests.common.reddeer
 Export-Package: org.ruminaq.gui.it.tests
