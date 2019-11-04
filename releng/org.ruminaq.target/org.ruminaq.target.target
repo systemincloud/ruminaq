@@ -62,7 +62,7 @@
         <unit id="org.codehaus.groovy.m2eclipse.feature.feature.group" version="0.0.0"/>
         <unit id="org.codehaus.groovy25.feature.feature.group" version="0.0.0"/>
         <unit id="org.codehaus.groovy.jdt.patch.feature.group" version="0.0.0"/>
-        <repository location="https://dist.springsource.org/snapshot/GRECLIPSE/e4.13"/>
+        <repository location="https://dist.springsource.org/release/GRECLIPSE/e4.13"/>
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
         <unit id="org.eclipse.reddeer.eclipse.feature.feature.group" version="0.0.0"/>

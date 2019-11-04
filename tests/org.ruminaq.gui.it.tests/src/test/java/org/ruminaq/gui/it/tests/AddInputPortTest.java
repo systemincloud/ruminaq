@@ -1,6 +1,10 @@
 package org.ruminaq.gui.it.tests;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.eclipse.reddeer.common.wait.TimePeriod;
+import org.eclipse.reddeer.common.wait.WaitUntil;
+import org.eclipse.reddeer.eclipse.condition.ProjectExists;
+import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.reddeer.workbench.impl.shell.WorkbenchShell;
 import org.junit.After;
@@ -8,6 +12,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
+import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.tests.common.reddeer.RuminaqDiagramWizard;
 import org.ruminaq.tests.common.reddeer.RuminaqProjectWizard;
 
 /**
@@ -19,21 +26,7 @@ import org.ruminaq.tests.common.reddeer.RuminaqProjectWizard;
 public class AddInputPortTest {
 
   private static final int PROJECT_SUFFIX_LENGTH = 5;
-
-//  public class TutorialDiagramWizard extends NewMenuWizard {
-//
-//    public TutorialDiagramWizard() {
-//      super("New Diagram", "Other", "Graphiti Example Diagram");
-//    }
-//
-//    public void create(String name) {
-//      open();
-//      new LabeledCombo("Diagram Type").setSelection("tutorial");
-//      next();
-//      new LabeledText("Diagram Name").setText(name);
-//      finish();
-//    }
-//  }
+  private static final int DIAGRAM_SUFFIX_LENGTH = 5;
 
   @BeforeClass
   public static void maximizeWorkbenchShell() {
@@ -45,21 +38,25 @@ public class AddInputPortTest {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new RuminaqProjectWizard().create(projectName);
-//    new ProjectExplorer().open();
-//    new WaitUntil(new ProjectExists(projectName), TimePeriod.MEDIUM, false);
-//    new ProjectExplorer().getProject(projectName).select();
-//    new TutorialDiagramWizard().create("test");
+    new ProjectExplorer().open();
+    new WaitUntil(new ProjectExists(projectName), TimePeriod.MEDIUM, false);
+    new ProjectExplorer().getProject(projectName).select();
+    String diagramName = "Diagram_"
+        + RandomStringUtils.randomAlphabetic(DIAGRAM_SUFFIX_LENGTH)
+        + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT;
+    new RuminaqDiagramWizard().create(projectName, SourceFolders.DIAGRAM_FOLDER,
+        diagramName);
   }
 
   @After
   public void deleteAllProjects() {
 //    new GEFEditor().close();
-//    ProjectExplorer projectExplorer = new ProjectExplorer();
-//    projectExplorer.open();
+    ProjectExplorer projectExplorer = new ProjectExplorer();
+    projectExplorer.open();
 //    DeleteUtils.forceProjectDeletion(projectExplorer.getProject(projectName),true);
   }
 
-  @Test//(expected=TestFailureException.class)
+  @Test // (expected=TestFailureException.class)
   public void addInputPortTest() {
 //    GEFEditor gefEditor = new GEFEditor("test");
 //    try {

@@ -21,5 +21,7 @@ Import-Package: org.apache.commons.lang3,
  org.eclipse.reddeer.graphiti.impl.graphitieditpart,
  org.eclipse.reddeer.swt.impl.text,
  org.eclipse.swt,
+ org.ruminaq.eclipse.wizards.diagram,
+ org.ruminaq.eclipse.wizards.project,
  org.ruminaq.tests.common.reddeer
 Export-Package: org.ruminaq.gui.it.tests
