@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.gui.it.tests.AddInputPortTest.RuminaqProjectWizard;
+import org.ruminaq.tests.common.reddeer.RuminaqProjectWizard;
 
 /**
  *

@@ -21,7 +21,7 @@ public class RuminaqProjectWizard extends NewMenuWizard {
    * Constructs the wizard with "Ruminaq" - "Project".
    */
   public RuminaqProjectWizard() {
-    super("New Project", "Ruminaq", "Project");
+    super("New Ruminaq Project", "Ruminaq", "Ruminaq Project");
   }
 
   public void create(String name) {
