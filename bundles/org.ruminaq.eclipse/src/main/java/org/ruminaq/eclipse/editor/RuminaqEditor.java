@@ -202,6 +202,9 @@ public class RuminaqEditor extends DiagramEditor {
             .getWorkspace().getRoot().getFile(new Path(uriString)));
   }
 
+  /**
+   * Validate diagram after each change.
+   */
   @Override
   public void doSave(final IProgressMonitor monitor) {
     super.doSave(monitor);
