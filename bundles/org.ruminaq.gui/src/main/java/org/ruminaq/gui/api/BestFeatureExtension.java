@@ -21,9 +21,11 @@ import org.ruminaq.gui.features.FeaturePredicate;
 
 /**
  * Super interface for osgi service interfaces that contributes the best
- * matching Graphiti feature
+ * matching Graphiti feature.
  *
  * @author Marek Jagielski
+ *
+ * @param <T> feature java interface
  */
 public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
 
@@ -35,25 +37,24 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
 
   default Predicate<? super Class<? extends T>> filter(IContext context,
       IFeatureProvider fp) {
-    return clazz -> {
-      return Optional.ofNullable(clazz.getAnnotation(FeatureFilter.class))
-          .map(FeatureFilter::value)
-          .<Constructor<? extends FeaturePredicate<IContext>>>map(f -> {
-            try {
-              return f.getConstructor();
-            } catch (NoSuchMethodException | SecurityException e) {
-              return null;
-            }
-          }).<FeaturePredicate<IContext>>map(c -> {
-            try {
-              return c.newInstance();
-            } catch (InstantiationException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException e) {
-              return null;
-            }
-          }).orElse(new FeaturePredicate<IContext>() {
-          }).test(context, fp);
-    };
+    return (Class<? extends T> clazz) -> Optional
+        .ofNullable(clazz.getAnnotation(FeatureFilter.class))
+        .map(FeatureFilter::value)
+        .<Constructor<? extends FeaturePredicate<IContext>>>map(f -> {
+          try {
+            return f.getConstructor();
+          } catch (NoSuchMethodException | SecurityException e) {
+            return null;
+          }
+        }).<FeaturePredicate<IContext>>map(c -> {
+          try {
+            return c.newInstance();
+          } catch (InstantiationException | IllegalAccessException
+              | IllegalArgumentException | InvocationTargetException e) {
+            return null;
+          }
+        }).orElse(new FeaturePredicate<IContext>() {
+        }).test(context, fp);
   }
 
   @Override

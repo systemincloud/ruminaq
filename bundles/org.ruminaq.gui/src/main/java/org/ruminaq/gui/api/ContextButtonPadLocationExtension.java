@@ -8,7 +8,11 @@ package org.ruminaq.gui.api;
 
 import org.eclipse.graphiti.datatypes.IRectangle;
 
+/**
+ * Service api providing ContextButtonPadLocation.
+ *
+ * @author Marek Jagielski
+ */
 public interface ContextButtonPadLocationExtension {
-
   IRectangle getPadLocation(IRectangle rectangle);
 }
