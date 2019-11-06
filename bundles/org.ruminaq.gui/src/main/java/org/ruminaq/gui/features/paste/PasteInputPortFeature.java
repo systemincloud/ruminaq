@@ -21,7 +21,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.PasteFeatureFilter;
-import org.ruminaq.gui.features.add.AddElementFeature;
+import org.ruminaq.gui.features.add.AbstractAddElementFeature;
 import org.ruminaq.gui.features.paste.PasteInputPortFeature.Filter;
 import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.BaseElement;
@@ -80,7 +80,7 @@ public class PasteInputPortFeature extends RuminaqPasteFeature
     for (Object o : getAllBusinessObjectsForPictogramElement(oldPe)) {
       if (o instanceof InputPort)
         oldBo = (InputPort) o;
-      if (AddElementFeature.isLabel(o))
+      if (AbstractAddElementFeature.isLabel(o))
         oldLabel = (ContainerShape) o;
     }
 

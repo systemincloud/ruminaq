@@ -30,8 +30,8 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.services.IPeService;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.GuiUtil;
 import org.ruminaq.gui.features.add.AddSimpleConnectionFeature;
-import org.ruminaq.util.GraphicsUtil;
 
 public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
 
@@ -60,7 +60,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
     IPeService peService = Graphiti.getPeService();
     PictogramElement pe = context.getPictogramElements()[0];
     FreeFormConnection ffc = (FreeFormConnection) pe;
-    Point p = GraphicsUtil.projectOnConnection(ffc, context.getX(),
+    Point p = GuiUtil.projectOnConnection(ffc, context.getX(),
         context.getY(), Constants.INTERNAL_PORT);
 
     Shape s = createConnectionPoint(p.getX(), p.getY(), getDiagram());
@@ -101,7 +101,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
           .createConnectionDecorator(connection, false, 1.0, true);
       peService.setPropertyValue(cd, AddSimpleConnectionFeature.ARROW_DECORATOR,
           "true");
-      GraphicsUtil.createArrow(cd, getDiagram());
+      GuiUtil.createArrow(cd, getDiagram());
     }
 
     // link to new connection all bo from old connection
@@ -132,7 +132,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
       return;
 
     for (int i = 0; i < points.size(); i++)
-      if (GraphicsUtil.distance(points.get(i), p) < d)
+      if (GuiUtil.distance(points.get(i), p) < d)
         points.remove(i);
   }
 
@@ -154,7 +154,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
 
     for (int i = 0; i < points.size(); i++) {
       if (i == 0) {
-        if (GraphicsUtil.pointBelongsToSection(p, x_start, y_start,
+        if (GuiUtil.pointBelongsToSection(p, x_start, y_start,
             points.get(0).getX(), points.get(0).getY(), 1)) {
           while (i < points.size()) {
             deletedPoints.add(points.get(i));
@@ -163,7 +163,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
           return deletedPoints;
         }
       } else {
-        if (GraphicsUtil.pointBelongsToSection(p, points.get(i - 1).getX(),
+        if (GuiUtil.pointBelongsToSection(p, points.get(i - 1).getX(),
             points.get(i - 1).getY(), points.get(i).getX(),
             points.get(i).getY(), 1)) {
           while (i < points.size()) {

@@ -13,16 +13,15 @@ import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeService;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.util.GraphicsUtil;
+import org.ruminaq.gui.GuiUtil;
 
-public abstract class AddElementFeature extends AbstractAddShapeFeature {
+public abstract class AbstractAddElementFeature extends AbstractAddShapeFeature {
 
-  public AddElementFeature(IFeatureProvider fp) {
+  public AbstractAddElementFeature(IFeatureProvider fp) {
     super(fp);
   }
 
@@ -32,7 +31,7 @@ public abstract class AddElementFeature extends AbstractAddShapeFeature {
         shapeY);
   }
 
-  public static ContainerShape addLabel(ContainerShape targetContainer,
+  private static ContainerShape addLabel(ContainerShape targetContainer,
       Diagram diagram, String label, int width, int height, int shapeX,
       int shapeY) {
 
@@ -47,7 +46,7 @@ public abstract class AddElementFeature extends AbstractAddShapeFeature {
     text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
     text.setVerticalAlignment(Orientation.ALIGNMENT_TOP);
 
-    GraphicsUtil.alignWithShape(text, textContainerShape, width, height, shapeX,
+    GuiUtil.alignWithShape(text, textContainerShape, width, height, shapeX,
         shapeY, 0, 0);
 
     Graphiti.getPeService().setPropertyValue(textContainerShape,
@@ -59,14 +58,5 @@ public abstract class AddElementFeature extends AbstractAddShapeFeature {
   public static boolean isLabel(Object o) {
     return o instanceof ContainerShape && Graphiti.getPeService()
         .getPropertyValue((ContainerShape) o, Constants.LABEL_PROPERTY) != null;
-  }
-
-  public static boolean isLabelInDefaultPosition(ContainerShape label,
-      Shape shape) {
-    return GraphicsUtil.isLabelInDefaultPosition(label,
-        shape.getGraphicsAlgorithm().getWidth(),
-        shape.getGraphicsAlgorithm().getHeight(),
-        shape.getGraphicsAlgorithm().getX(),
-        shape.getGraphicsAlgorithm().getY());
   }
 }

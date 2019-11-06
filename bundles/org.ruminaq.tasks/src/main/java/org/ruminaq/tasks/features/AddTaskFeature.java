@@ -26,7 +26,8 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.services.IPeService;
 import org.javatuples.Pair;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.features.add.AddElementFeature;
+import org.ruminaq.gui.GuiUtil;
+import org.ruminaq.gui.features.add.AbstractAddElementFeature;
 import org.ruminaq.model.desc.IN;
 import org.ruminaq.model.desc.OUT;
 import org.ruminaq.model.desc.PortsDescr;
@@ -39,9 +40,8 @@ import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.styles.InternalPortStyle;
 import org.ruminaq.tasks.styles.TaskStyle;
 import org.ruminaq.tasks.util.TasksUtil;
-import org.ruminaq.util.GraphicsUtil;
 
-public abstract class AddTaskFeature extends AddElementFeature {
+public abstract class AddTaskFeature extends AbstractAddElementFeature {
 
   public static final int PORT_SIZE = 10;
   public static final int INPUT_PORT_WIDTH = 1;
@@ -495,19 +495,19 @@ public abstract class AddTaskFeature extends AddElementFeature {
 
     switch (position) {
       case RIGHT:
-        GraphicsUtil.onRightOfShape(text, textContainerShape, width, height, x,
+        GuiUtil.onRightOfShape(text, textContainerShape, width, height, x,
             y, 0, 0);
         break;
       case LEFT:
-        GraphicsUtil.onLeftOfShape(text, textContainerShape, width, height, x,
+        GuiUtil.onLeftOfShape(text, textContainerShape, width, height, x,
             y, 0, 0);
         break;
       case TOP:
-        GraphicsUtil.onTopOfShape(text, textContainerShape, width, height, x, y,
+        GuiUtil.onTopOfShape(text, textContainerShape, width, height, x, y,
             0, 0);
         break;
       case BOTTOM:
-        GraphicsUtil.onBottomOfShape(text, textContainerShape, width, height, x,
+        GuiUtil.onBottomOfShape(text, textContainerShape, width, height, x,
             y, 0, 0);
         break;
     }

@@ -18,11 +18,11 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.GuiUtil;
 import org.ruminaq.gui.api.ContextMenuEntryExtension;
 import org.ruminaq.gui.features.contextmenu.CreateSimpleConnectionPointContextMenu.Filter;
 import org.ruminaq.gui.features.create.CreateSimpleConnectionPointFeature;
 import org.ruminaq.model.ruminaq.SimpleConnection;
-import org.ruminaq.util.GraphicsUtil;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
 
@@ -42,7 +42,7 @@ public class CreateSimpleConnectionPointContextMenu
           .map(pe -> fp.getBusinessObjectForPictogramElement(pe))
           .collect(Collectors.toList());
       return bos.size() == 1 && bos.get(0) instanceof SimpleConnection
-          && GraphicsUtil.distanceToConnection((FreeFormConnection) pes[0],
+          && GuiUtil.distanceToConnection((FreeFormConnection) pes[0],
               context.getX(), context.getY(), Constants.INTERNAL_PORT) < 5;
     }
   }

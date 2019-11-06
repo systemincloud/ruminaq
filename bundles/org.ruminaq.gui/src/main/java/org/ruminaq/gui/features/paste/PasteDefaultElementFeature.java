@@ -15,11 +15,9 @@ import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.ruminaq.gui.features.add.AddElementFeature;
+import org.ruminaq.gui.GuiUtil;
 import org.ruminaq.gui.features.create.CreateElementFeature;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.util.GraphicsUtil;
 
 public class PasteDefaultElementFeature extends RuminaqPasteFeature {
 
@@ -66,8 +64,8 @@ public class PasteDefaultElementFeature extends RuminaqPasteFeature {
   public static ContainerShape addLabel(PictogramElement oldPe,
       ContainerShape oldLabel, int x, int y, String newId, Diagram diagram,
       PictogramElement newPe) {
-    boolean labelInDefaultPosition = AddElementFeature
-        .isLabelInDefaultPosition(oldLabel, (Shape) oldPe);
+    boolean labelInDefaultPosition = GuiUtil
+        .isLabelInDefaultPosition(oldLabel, oldPe);
     ContainerShape newLabel = EcoreUtil.copy(oldLabel);
     newLabel.getGraphicsAlgorithm().setX(newLabel.getGraphicsAlgorithm().getX()
         + x - oldPe.getGraphicsAlgorithm().getX());
@@ -77,7 +75,7 @@ public class PasteDefaultElementFeature extends RuminaqPasteFeature {
         .get(0)).setValue(newId);
     diagram.getChildren().add(newLabel);
     if (labelInDefaultPosition)
-      GraphicsUtil.alignWithShape(
+      GuiUtil.alignWithShape(
           (MultiText) newLabel.getGraphicsAlgorithm()
               .getGraphicsAlgorithmChildren().get(0),
           newLabel, newPe.getGraphicsAlgorithm().getWidth(),

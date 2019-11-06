@@ -15,8 +15,8 @@ import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.ruminaq.gui.GuiUtil;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.util.GraphicsUtil;
 
 public class UpdateLabelFeature extends AbstractUpdateFeature {
 
@@ -76,10 +76,10 @@ public class UpdateLabelFeature extends AbstractUpdateFeature {
         .getGraphicsAlgorithmChildren()) {
       if (ga instanceof MultiText) {
         MultiText text = (MultiText) ga;
-        int widthBefore = GraphicsUtil.getLabelWidth(text);
+        int widthBefore = GuiUtil.getLabelWidth(text);
         text.setValue(businessName);
-        int widthAfter = GraphicsUtil.getLabelWidth(text);
-        text.setWidth(GraphicsUtil.getLabelWidth(text) + 7);
+        int widthAfter = GuiUtil.getLabelWidth(text);
+        text.setWidth(GuiUtil.getLabelWidth(text) + 7);
         pictogramElement.getGraphicsAlgorithm().setWidth(text.getWidth());
         pictogramElement.getGraphicsAlgorithm()
             .setX(pictogramElement.getGraphicsAlgorithm().getX()

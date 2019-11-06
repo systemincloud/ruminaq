@@ -19,11 +19,11 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.GuiUtil;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AddSimpleConnectionFeature.Filter;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.SimpleConnection;
-import org.ruminaq.util.GraphicsUtil;
 import org.ruminaq.util.Util;
 
 @FeatureFilter(Filter.class)
@@ -68,7 +68,7 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
     ConnectionDecorator cd = peCreateService
         .createConnectionDecorator(connection, false, 1.0, true);
     Graphiti.getPeService().setPropertyValue(cd, ARROW_DECORATOR, "true");
-    GraphicsUtil.createArrow(cd, getDiagram());
+    GuiUtil.createArrow(cd, getDiagram());
 
     // create link and wire it
     link(connection, addedSimpleConnection);

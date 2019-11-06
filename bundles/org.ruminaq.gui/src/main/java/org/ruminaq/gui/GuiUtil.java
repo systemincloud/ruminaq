@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ruminaq.util;
+package org.ruminaq.gui;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,8 +40,9 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.ILayoutService;
 import org.eclipse.graphiti.services.IPeService;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
+import org.ruminaq.util.StyleUtil;
 
-public class GraphicsUtil {
+public class GuiUtil {
 
   private static final IGaService gaService = Graphiti.getGaService();
 
@@ -75,6 +76,31 @@ public class GraphicsUtil {
     public int getHeight() {
       return this.height;
     }
+  }
+
+  /**
+   * Check if label was moved
+   *
+   * @param label label shape
+   * @param pe    pictogram element of labeled element
+   * @return label was not moved
+   */
+  public static boolean isLabelInDefaultPosition(ContainerShape label,
+      PictogramElement pe) {
+
+    int shapeX = pe.getGraphicsAlgorithm().getX();
+    int shapeY = pe.getGraphicsAlgorithm().getY();
+    int shapeWidth = pe.getGraphicsAlgorithm().getWidth();
+    int shapeHeight = pe.getGraphicsAlgorithm().getHeight();
+    int textWidth = label.getGraphicsAlgorithm().getWidth();
+    int currentLabelX = label.getGraphicsAlgorithm().getX();
+    int currentLabelY = label.getGraphicsAlgorithm().getY();
+
+    int newShapeX = shapeX - ((textWidth) / 2) + shapeWidth / 2;
+    int newShapeY = shapeY + shapeHeight + 2;
+
+    return almostEqual(currentLabelX, newShapeX, 4)
+        && almostEqual(currentLabelY, newShapeY, 4);
   }
 
   // TODO: Think about line break in the ui...
@@ -127,22 +153,6 @@ public class GraphicsUtil {
         textHeight + SHAPE_PADDING);
     gaService.setLocationAndSize(text, 0, 0, textWidth + TEXT_PADDING,
         textHeight + TEXT_PADDING);
-  }
-
-  public static boolean isLabelInDefaultPosition(ContainerShape label,
-      int width, int height, int x, int y) {
-    final int textWidth = label.getGraphicsAlgorithm().getWidth();
-    int currentLabelX = label.getGraphicsAlgorithm().getX();
-    int currentLabelY = label.getGraphicsAlgorithm().getY();
-
-    int newShapeX = x - ((textWidth) / 2) + width / 2;
-    int newShapeY = y + height + 2;
-
-    if (almostEqual(currentLabelX, newShapeX, 4)
-        && almostEqual(currentLabelY, newShapeY, 4))
-      return true;
-
-    return false;
   }
 
   public static void onRightOfShape(AbstractText text,

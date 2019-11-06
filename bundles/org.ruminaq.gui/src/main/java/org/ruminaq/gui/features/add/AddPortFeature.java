@@ -19,7 +19,7 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.ruminaq.gui.features.styles.PortStyle;
 import org.ruminaq.model.ruminaq.Port;
 
-public abstract class AddPortFeature extends AddElementFeature {
+public abstract class AddPortFeature extends AbstractAddElementFeature {
 
   public AddPortFeature(IFeatureProvider fp) {
     super(fp);

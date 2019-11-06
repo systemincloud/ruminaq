@@ -11,8 +11,8 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.features.add.AddElementFeature;
-import org.ruminaq.util.GraphicsUtil;
+import org.ruminaq.gui.GuiUtil;
+import org.ruminaq.gui.features.add.AbstractAddElementFeature;
 
 public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
 
@@ -31,10 +31,10 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
 
     ContainerShape textContainerShape = null;
     for (EObject o : shape.getLink().getBusinessObjects())
-      if (AddElementFeature.isLabel(o))
+      if (AbstractAddElementFeature.isLabel(o))
         textContainerShape = (ContainerShape) o;
 
-    boolean labelInDefaultPosition = AddElementFeature
+    boolean labelInDefaultPosition = GuiUtil
         .isLabelInDefaultPosition(textContainerShape, shape);
 
     int w_before = shape.getGraphicsAlgorithm().getWidth();
@@ -67,7 +67,7 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
 
     if (labelInDefaultPosition
         || isConflictingWithNewSize(textContainerShape, shape))
-      GraphicsUtil.alignWithShape(
+      GuiUtil.alignWithShape(
           (MultiText) textContainerShape.getGraphicsAlgorithm()
               .getGraphicsAlgorithmChildren().get(0),
           textContainerShape, shape.getGraphicsAlgorithm().getWidth(),
@@ -80,7 +80,7 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
 
   private boolean isConflictingWithNewSize(ContainerShape textContainerShape,
       Shape shape) {
-    return GraphicsUtil.intersectsLabel(textContainerShape, shape);
+    return GuiUtil.intersectsLabel(textContainerShape, shape);
   }
 
   private void alignInternalPorts(Shape shape, int w_before, int h_before,

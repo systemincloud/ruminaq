@@ -9,7 +9,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.util.GraphicsUtil;
+import org.ruminaq.gui.GuiUtil;
 
 public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
 
@@ -49,9 +49,9 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
     if (newY + h > H || newX + w > W)
       return false;
 
-    if (newX < EPSILON || GraphicsUtil.almostEqualRight(W - w, newX, EPSILON)
+    if (newX < EPSILON || GuiUtil.almostEqualRight(W - w, newX, EPSILON)
         || newY < EPSILON
-        || GraphicsUtil.almostEqualRight(H - h, newY, EPSILON))
+        || GuiUtil.almostEqualRight(H - h, newY, EPSILON))
       return true;
     else
       return false;
@@ -80,19 +80,19 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
 
         if (x < EPSILON) {
           context.getPictogramElement().getGraphicsAlgorithm().setX(0);
-          GraphicsUtil.onRightOfShape(text, textContainerShape, w, h, 0, y, 0,
+          GuiUtil.onRightOfShape(text, textContainerShape, w, h, 0, y, 0,
               0);
-        } else if (GraphicsUtil.almostEqualRight(W - w, x, EPSILON)) {
+        } else if (GuiUtil.almostEqualRight(W - w, x, EPSILON)) {
           context.getPictogramElement().getGraphicsAlgorithm().setX(W - w);
-          GraphicsUtil.onLeftOfShape(text, textContainerShape, w, h, W - w, y,
+          GuiUtil.onLeftOfShape(text, textContainerShape, w, h, W - w, y,
               0, 0);
         } else if (y < EPSILON) {
           context.getPictogramElement().getGraphicsAlgorithm().setY(0);
-          GraphicsUtil.onBottomOfShape(text, textContainerShape, w, h, x, 0, 0,
+          GuiUtil.onBottomOfShape(text, textContainerShape, w, h, x, 0, 0,
               0);
-        } else if (GraphicsUtil.almostEqualRight(H - h, y, EPSILON)) {
+        } else if (GuiUtil.almostEqualRight(H - h, y, EPSILON)) {
           context.getPictogramElement().getGraphicsAlgorithm().setY(H - h);
-          GraphicsUtil.onTopOfShape(text, textContainerShape, w, h, x, H - h, 0,
+          GuiUtil.onTopOfShape(text, textContainerShape, w, h, x, H - h, 0,
               0);
         }
 
