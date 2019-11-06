@@ -15,6 +15,7 @@ import org.ruminaq.gui.api.ImagesExtension;
 import org.ruminaq.util.ServiceUtil;
 
 /**
+ * Add all images used in editors.
  *
  * @author Marek Jagielski
  */

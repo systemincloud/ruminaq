@@ -16,6 +16,11 @@ import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.Port;
 
+/**
+ * IAddFeature for InputPort.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class AddInputPortFeature extends AddPortFeature {
 
