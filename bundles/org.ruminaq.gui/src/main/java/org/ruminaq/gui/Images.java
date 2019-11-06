@@ -11,6 +11,7 @@ import org.ruminaq.gui.api.ImageDescriptor;
 import org.ruminaq.gui.api.ImagesExtension;
 
 /**
+ * Images in gui plugin.
  *
  * @author Marek Jagielski
  */
