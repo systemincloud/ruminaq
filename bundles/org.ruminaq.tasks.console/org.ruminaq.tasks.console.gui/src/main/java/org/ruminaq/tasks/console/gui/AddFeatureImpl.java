@@ -8,7 +8,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.AddFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.add.AddFeatureFilter;
+import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.console.gui.AddFeatureImpl.AddFeature.Filter;
@@ -27,7 +27,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
   @FeatureFilter(Filter.class)
   public static class AddFeature extends AddTaskFeature {
 
-    public static class Filter extends AddFeatureFilter {
+    public static class Filter extends AbstractAddFeatureFilter {
       @Override
       public Class<? extends BaseElement> forBusinessObject() {
         return Console.class;

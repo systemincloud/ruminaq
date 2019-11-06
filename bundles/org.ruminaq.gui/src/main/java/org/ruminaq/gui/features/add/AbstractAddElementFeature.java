@@ -18,6 +18,12 @@ import org.eclipse.graphiti.services.IPeService;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.GuiUtil;
 
+/**
+ * Abstract class for all Ruminaque elements.
+ * Elements can have labels assiociated.
+ *
+ * @author Marek Jagielski
+ */
 public abstract class AbstractAddElementFeature
     extends AbstractAddShapeFeature {
 

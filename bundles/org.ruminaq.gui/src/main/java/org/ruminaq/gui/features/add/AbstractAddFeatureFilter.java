@@ -11,7 +11,13 @@ import org.eclipse.graphiti.features.context.IContext;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.model.ruminaq.BaseElement;
 
-public abstract class AddFeatureFilter implements FeaturePredicate<IContext> {
+/**
+ * Inheriting classess can be used in @FeatureFilter
+ * annotations. Used on implmentations of AbstractAddElementFeature.
+ *
+ * @author Marek Jagielski
+ */
+public abstract class AbstractAddFeatureFilter implements FeaturePredicate<IContext> {
 
   @Override
   public boolean test(IContext context) {
