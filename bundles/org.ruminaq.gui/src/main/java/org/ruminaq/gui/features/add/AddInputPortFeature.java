@@ -22,7 +22,7 @@ import org.ruminaq.model.ruminaq.Port;
  * @author Marek Jagielski
  */
 @FeatureFilter(Filter.class)
-public class AddInputPortFeature extends AddPortFeature {
+public class AddInputPortFeature extends AbstractAddPortFeature {
 
   public static class Filter extends AbstractAddFeatureFilter {
     @Override

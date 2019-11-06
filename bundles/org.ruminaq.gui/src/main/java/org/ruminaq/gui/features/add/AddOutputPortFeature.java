@@ -16,8 +16,13 @@ import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.model.ruminaq.Port;
 
+/**
+ * IAddFeature for OutputPort.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
-public class AddOutputPortFeature extends AddPortFeature {
+public class AddOutputPortFeature extends AbstractAddPortFeature {
 
   public static class Filter extends AbstractAddFeatureFilter {
     @Override
