@@ -12,14 +12,14 @@ import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeService;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.GuiUtil;
 
-public abstract class AbstractAddElementFeature extends AbstractAddShapeFeature {
+public abstract class AbstractAddElementFeature
+    extends AbstractAddShapeFeature {
 
   public AbstractAddElementFeature(IFeatureProvider fp) {
     super(fp);
@@ -27,14 +27,6 @@ public abstract class AbstractAddElementFeature extends AbstractAddShapeFeature 
 
   protected ContainerShape addLabel(ContainerShape targetContainer,
       String label, int width, int height, int shapeX, int shapeY) {
-    return addLabel(targetContainer, getDiagram(), label, width, height, shapeX,
-        shapeY);
-  }
-
-  private static ContainerShape addLabel(ContainerShape targetContainer,
-      Diagram diagram, String label, int width, int height, int shapeX,
-      int shapeY) {
-
     IPeService peService = Graphiti.getPeService();
     IGaService gaService = Graphiti.getGaService();
 
@@ -42,7 +34,7 @@ public abstract class AbstractAddElementFeature extends AbstractAddShapeFeature 
         .createContainerShape(targetContainer, true);
 
     Rectangle r = gaService.createInvisibleRectangle(textContainerShape);
-    MultiText text = gaService.createDefaultMultiText(diagram, r, label);
+    MultiText text = gaService.createDefaultMultiText(getDiagram(), r, label);
     text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
     text.setVerticalAlignment(Orientation.ALIGNMENT_TOP);
 
@@ -53,10 +45,5 @@ public abstract class AbstractAddElementFeature extends AbstractAddShapeFeature 
         Constants.LABEL_PROPERTY, "true");
 
     return textContainerShape;
-  }
-
-  public static boolean isLabel(Object o) {
-    return o instanceof ContainerShape && Graphiti.getPeService()
-        .getPropertyValue((ContainerShape) o, Constants.LABEL_PROPERTY) != null;
   }
 }

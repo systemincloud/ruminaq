@@ -12,7 +12,6 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.GuiUtil;
-import org.ruminaq.gui.features.add.AbstractAddElementFeature;
 
 public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
 
@@ -31,7 +30,7 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
 
     ContainerShape textContainerShape = null;
     for (EObject o : shape.getLink().getBusinessObjects())
-      if (AbstractAddElementFeature.isLabel(o))
+      if (GuiUtil.isLabel(o))
         textContainerShape = (ContainerShape) o;
 
     boolean labelInDefaultPosition = GuiUtil

@@ -40,6 +40,7 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.ILayoutService;
 import org.eclipse.graphiti.services.IPeService;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
+import org.ruminaq.consts.Constants;
 import org.ruminaq.util.StyleUtil;
 
 public class GuiUtil {
@@ -101,6 +102,11 @@ public class GuiUtil {
 
     return almostEqual(currentLabelX, newShapeX, 4)
         && almostEqual(currentLabelY, newShapeY, 4);
+  }
+
+  public static boolean isLabel(Object o) {
+    return o instanceof ContainerShape && Graphiti.getPeService()
+        .getPropertyValue((ContainerShape) o, Constants.LABEL_PROPERTY) != null;
   }
 
   // TODO: Think about line break in the ui...
