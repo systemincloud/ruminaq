@@ -16,6 +16,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.GuiUtil;
+import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.create.CreateElementFeature;
 import org.ruminaq.model.ruminaq.BaseElement;
 
@@ -64,7 +65,7 @@ public class PasteDefaultElementFeature extends RuminaqPasteFeature {
   public static ContainerShape addLabel(PictogramElement oldPe,
       ContainerShape oldLabel, int x, int y, String newId, Diagram diagram,
       PictogramElement newPe) {
-    boolean labelInDefaultPosition = GuiUtil
+    boolean labelInDefaultPosition = LabelUtil
         .isLabelInDefaultPosition(oldLabel, oldPe);
     ContainerShape newLabel = EcoreUtil.copy(oldLabel);
     newLabel.getGraphicsAlgorithm().setX(newLabel.getGraphicsAlgorithm().getX()

@@ -15,7 +15,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.ruminaq.gui.GuiUtil;
+import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.paste.PasteAnchorTracker;
 import org.ruminaq.gui.features.paste.PasteDefaultElementFeature;
 import org.ruminaq.gui.features.paste.RuminaqPasteFeature;
@@ -69,7 +69,7 @@ public class PasteTaskFeature extends RuminaqPasteFeature
     for (Object o : getAllBusinessObjectsForPictogramElement(oldPe)) {
       if (o instanceof Task)
         oldBo = (Task) o;
-      if (GuiUtil.isLabel(o))
+      if (LabelUtil.isLabel(o))
         oldLabel = (ContainerShape) o;
     }
 

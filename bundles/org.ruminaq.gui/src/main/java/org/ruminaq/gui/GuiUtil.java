@@ -31,9 +31,13 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.ILayoutService;
 import org.eclipse.graphiti.services.IPeService;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.util.StyleUtil;
 
+/**
+ * Gui utils methods.
+ *
+ * @author Marek Jagielski
+ */
 public class GuiUtil {
 
   private static final IGaService gaService = Graphiti.getGaService();
@@ -52,6 +56,10 @@ public class GuiUtil {
 
   private static final String LINE_BREAK = "\n";
 
+  private GuiUtil() {
+    // Util class
+  }
+
   public static class Size {
     private int width;
     private int height;
@@ -68,36 +76,6 @@ public class GuiUtil {
     public int getHeight() {
       return this.height;
     }
-  }
-
-  /**
-   * Check if label was moved
-   *
-   * @param label label shape
-   * @param pe    pictogram element of labeled element
-   * @return label was not moved
-   */
-  public static boolean isLabelInDefaultPosition(ContainerShape label,
-      PictogramElement pe) {
-
-    int shapeX = pe.getGraphicsAlgorithm().getX();
-    int shapeY = pe.getGraphicsAlgorithm().getY();
-    int shapeWidth = pe.getGraphicsAlgorithm().getWidth();
-    int shapeHeight = pe.getGraphicsAlgorithm().getHeight();
-    int textWidth = label.getGraphicsAlgorithm().getWidth();
-    int currentLabelX = label.getGraphicsAlgorithm().getX();
-    int currentLabelY = label.getGraphicsAlgorithm().getY();
-
-    int newShapeX = shapeX - ((textWidth) / 2) + shapeWidth / 2;
-    int newShapeY = shapeY + shapeHeight + 2;
-
-    return almostEqual(currentLabelX, newShapeX, 4)
-        && almostEqual(currentLabelY, newShapeY, 4);
-  }
-
-  public static boolean isLabel(Object o) {
-    return o instanceof ContainerShape && Graphiti.getPeService()
-        .getPropertyValue((ContainerShape) o, Constants.LABEL_PROPERTY) != null;
   }
 
   // TODO: Think about line break in the ui...
