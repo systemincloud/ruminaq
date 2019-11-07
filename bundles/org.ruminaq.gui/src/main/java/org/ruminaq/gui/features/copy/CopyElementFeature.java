@@ -16,6 +16,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.AbstractCopyFeature;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.model.ruminaq.BaseElement;
 
 public class CopyElementFeature extends AbstractCopyFeature {
@@ -39,7 +40,7 @@ public class CopyElementFeature extends AbstractCopyFeature {
       if (!(bo instanceof BaseElement))
         return false;
       if (pe instanceof Shape && Graphiti.getPeService().getPropertyValue(pe,
-          Constants.LABEL_PROPERTY) == null)
+          LabelUtil.LABEL_PROPERTY) == null)
         onlyLabels = false;
     }
     if (onlyLabels)
@@ -53,7 +54,7 @@ public class CopyElementFeature extends AbstractCopyFeature {
     Set<PictogramElement> pes = new HashSet<>();
     for (PictogramElement pe : context.getPictogramElements())
       if (pe instanceof Shape && Graphiti.getPeService().getPropertyValue(pe,
-          Constants.LABEL_PROPERTY) != null)
+          LabelUtil.LABEL_PROPERTY) != null)
         continue;
       else if (pe instanceof Shape && Graphiti.getPeService()
           .getPropertyValue(pe, Constants.SIMPLE_CONNECTION_POINT) != null)

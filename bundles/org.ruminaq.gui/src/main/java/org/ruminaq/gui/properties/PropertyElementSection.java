@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.directediting.DirectEditLabelFeature;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.util.ModelUtil;
@@ -127,7 +127,7 @@ public class PropertyElementSection extends GFPropertySection
                       .getBusinessObjects()) {
                     if (o instanceof ContainerShape && Graphiti.getPeService()
                         .getPropertyValue((PropertyContainer) o,
-                            Constants.LABEL_PROPERTY) != null) {
+                            LabelUtil.LABEL_PROPERTY) != null) {
                       UpdateContext context = new UpdateContext(
                           (ContainerShape) o);
                       getDiagramTypeProvider().getFeatureProvider()

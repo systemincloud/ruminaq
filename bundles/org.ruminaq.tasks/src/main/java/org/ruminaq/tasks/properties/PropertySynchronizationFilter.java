@@ -4,7 +4,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
-import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.model.ruminaq.Task;
 
 public class PropertySynchronizationFilter
@@ -15,7 +15,7 @@ public class PropertySynchronizationFilter
     EObject eObject = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement(pe);
     if (eObject instanceof Task && Graphiti.getPeService().getPropertyValue(pe,
-        Constants.LABEL_PROPERTY) == null)
+        LabelUtil.LABEL_PROPERTY) == null)
       return true;
     else
       return false;

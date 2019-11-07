@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
-import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.model.ruminaq.InputPort;
 
 public class PropertyInputPortFilter extends AbstractPropertySectionFilter {
@@ -20,7 +20,7 @@ public class PropertyInputPortFilter extends AbstractPropertySectionFilter {
     EObject eObject = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement(pe);
     if (eObject instanceof InputPort && Graphiti.getPeService()
-        .getPropertyValue(pe, Constants.LABEL_PROPERTY) == null)
+        .getPropertyValue(pe, LabelUtil.LABEL_PROPERTY) == null)
       return true;
     else
       return false;

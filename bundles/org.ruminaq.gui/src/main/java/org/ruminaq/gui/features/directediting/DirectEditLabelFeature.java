@@ -15,7 +15,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.directediting.DirectEditLabelFeature.Filter;
@@ -29,7 +29,7 @@ public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
     public boolean test(IContext context) {
       IDirectEditingContext directEditingContext = (IDirectEditingContext) context;
       String labelProperty = Graphiti.getPeService().getPropertyValue(
-          directEditingContext.getPictogramElement(), Constants.LABEL_PROPERTY);
+          directEditingContext.getPictogramElement(), LabelUtil.LABEL_PROPERTY);
       return Boolean.parseBoolean(labelProperty);
     }
   }
@@ -78,7 +78,7 @@ public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
       if (s == pe)
         continue;
       if (Graphiti.getPeService().getPropertyValue(s,
-          Constants.LABEL_PROPERTY) != null) {
+          LabelUtil.LABEL_PROPERTY) != null) {
         if (value.equals(((MultiText) s.getGraphicsAlgorithm()
             .getGraphicsAlgorithmChildren().get(0)).getValue()))
           return true;

@@ -15,8 +15,8 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeService;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.GuiUtil;
+import org.ruminaq.gui.LabelUtil;
 
 /**
  * Abstract class for all Ruminaque elements.
@@ -48,7 +48,7 @@ public abstract class AbstractAddElementFeature
         shapeY, 0, 0);
 
     Graphiti.getPeService().setPropertyValue(textContainerShape,
-        Constants.LABEL_PROPERTY, "true");
+        LabelUtil.LABEL_PROPERTY, "true");
 
     return textContainerShape;
   }

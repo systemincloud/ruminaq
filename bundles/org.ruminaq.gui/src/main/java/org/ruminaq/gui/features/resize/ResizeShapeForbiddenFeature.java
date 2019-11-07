@@ -13,6 +13,7 @@ import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.resize.ResizeShapeForbiddenFeature.Filter;
@@ -27,7 +28,7 @@ public class ResizeShapeForbiddenFeature extends DefaultResizeShapeFeature {
     public boolean test(IContext context, IFeatureProvider fp) {
       IResizeShapeContext resizeShapeContext = (IResizeShapeContext) context;
       String labelProperty = Graphiti.getPeService().getPropertyValue(
-          resizeShapeContext.getShape(), Constants.LABEL_PROPERTY);
+          resizeShapeContext.getShape(), LabelUtil.LABEL_PROPERTY);
       if (Boolean.parseBoolean(labelProperty)) {
         return true;
       }

@@ -18,7 +18,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.osgi.service.component.annotations.Component;
-import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.api.UpdateFeatureExtension;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InputPort;
@@ -45,7 +45,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
           ContainerShape cs = (ContainerShape) updateContext
               .getPictogramElement();
           String labelProperty = Graphiti.getPeService().getPropertyValue(cs,
-              Constants.LABEL_PROPERTY);
+              LabelUtil.LABEL_PROPERTY);
           return Boolean.parseBoolean(labelProperty);
         }
       } else if (clazz.isAssignableFrom(UpdateMainTaskFeature.class)) {

@@ -9,7 +9,6 @@ package org.ruminaq.gui;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.consts.Constants;
 
 /**
  * Label .
@@ -17,6 +16,8 @@ import org.ruminaq.consts.Constants;
  * @author Marek Jagielski
  */
 public class LabelUtil {
+
+  public static final String LABEL_PROPERTY = "label"; //$NON-NLS-1$
 
   private LabelUtil() {
     // Util class
@@ -56,6 +57,6 @@ public class LabelUtil {
    */
   public static boolean isLabel(Object o) {
     return o instanceof ContainerShape && Graphiti.getPeService()
-        .getPropertyValue((ContainerShape) o, Constants.LABEL_PROPERTY) != null;
+        .getPropertyValue((ContainerShape) o, LABEL_PROPERTY) != null;
   }
 }

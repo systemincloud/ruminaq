@@ -7,6 +7,7 @@ import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 import org.osgi.framework.Version;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskUiApi;
 import org.ruminaq.tasks.api.TasksUiManagerHandler;
@@ -20,7 +21,7 @@ public abstract class AbstractTaskPropertyFilter
   @Override
   protected boolean accept(PictogramElement pictogramElement) {
     if (Graphiti.getPeService().getPropertyValue(pictogramElement,
-        Constants.LABEL_PROPERTY) != null)
+        LabelUtil.LABEL_PROPERTY) != null)
       return false;
     EObject bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement(pictogramElement);

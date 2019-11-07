@@ -39,7 +39,6 @@ public final class Constants {
   public static final String DIAGRAM_EDITOR_ID = "org.ruminaq.eclipse.editor.ruminaqEditor"; //$NON-NLS-1$
   public static final String TEST_DIAGRAM_EDITOR_ID = "org.ruminaq.eclipse.editor.ruminaqEditorTest"; //$NON-NLS-1$
 
-  public static final String LABEL_PROPERTY = "label"; //$NON-NLS-1$
   public static final String INTERNAL_PORT = "internal-port"; //$NON-NLS-1$
   public static final String PORT_LABEL_PROPERTY = "port-label"; //$NON-NLS-1$
   public static final String SIMPLE_CONNECTION_POINT = "SIMPLE_CONNECTION_POINT"; //$NON-NLS-1$
