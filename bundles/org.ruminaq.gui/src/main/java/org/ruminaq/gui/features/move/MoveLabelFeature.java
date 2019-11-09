@@ -27,9 +27,7 @@ public class MoveLabelFeature extends DefaultMoveShapeFeature {
     public boolean test(IContext context, IFeatureProvider fp) {
       IMoveShapeContext moveShapeContext = (IMoveShapeContext) context;
       Shape shape = moveShapeContext.getShape();
-
-      return Boolean.parseBoolean(Graphiti.getPeService()
-          .getPropertyValue(shape, LabelUtil.LABEL_PROPERTY));
+      return LabelUtil.isLabel(shape);
     }
   }
 

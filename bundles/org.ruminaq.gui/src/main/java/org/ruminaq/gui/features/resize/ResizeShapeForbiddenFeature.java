@@ -27,9 +27,7 @@ public class ResizeShapeForbiddenFeature extends DefaultResizeShapeFeature {
     @Override
     public boolean test(IContext context, IFeatureProvider fp) {
       IResizeShapeContext resizeShapeContext = (IResizeShapeContext) context;
-      String labelProperty = Graphiti.getPeService().getPropertyValue(
-          resizeShapeContext.getShape(), LabelUtil.LABEL_PROPERTY);
-      if (Boolean.parseBoolean(labelProperty)) {
+      if (LabelUtil.isLabel(resizeShapeContext.getShape())) {
         return true;
       }
 

@@ -9,7 +9,6 @@ package org.ruminaq.gui.properties;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
-import org.eclipse.graphiti.mm.PropertyContainer;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
@@ -125,9 +124,7 @@ public class PropertyElementSection extends GFPropertySection
 
                   for (EObject o : getSelectedPictogramElement().getLink()
                       .getBusinessObjects()) {
-                    if (o instanceof ContainerShape && Graphiti.getPeService()
-                        .getPropertyValue((PropertyContainer) o,
-                            LabelUtil.LABEL_PROPERTY) != null) {
+                    if (o instanceof ContainerShape && LabelUtil.isLabel((PictogramElement) o)) {
                       UpdateContext context = new UpdateContext(
                           (ContainerShape) o);
                       getDiagramTypeProvider().getFeatureProvider()

@@ -20,8 +20,7 @@ public abstract class AbstractTaskPropertyFilter
 
   @Override
   protected boolean accept(PictogramElement pictogramElement) {
-    if (Graphiti.getPeService().getPropertyValue(pictogramElement,
-        LabelUtil.LABEL_PROPERTY) != null)
+    if (LabelUtil.isLabel(pictogramElement))
       return false;
     EObject bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement(pictogramElement);

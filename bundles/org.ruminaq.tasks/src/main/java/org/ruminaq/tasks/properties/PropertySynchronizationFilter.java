@@ -14,10 +14,6 @@ public class PropertySynchronizationFilter
   protected boolean accept(PictogramElement pe) {
     EObject eObject = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement(pe);
-    if (eObject instanceof Task && Graphiti.getPeService().getPropertyValue(pe,
-        LabelUtil.LABEL_PROPERTY) == null)
-      return true;
-    else
-      return false;
+    return eObject instanceof Task && !LabelUtil.isLabel(pe);
   }
 }

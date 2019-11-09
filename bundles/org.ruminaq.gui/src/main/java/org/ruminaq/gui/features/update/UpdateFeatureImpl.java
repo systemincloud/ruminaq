@@ -14,9 +14,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.api.UpdateFeatureExtension;
@@ -41,13 +39,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
     Object bo = fp.getBusinessObjectForPictogramElement(pe);
     return (Class<?> clazz) -> {
       if (clazz.isAssignableFrom(UpdateLabelFeature.class)) {
-        if (pe instanceof ContainerShape) {
-          ContainerShape cs = (ContainerShape) updateContext
-              .getPictogramElement();
-          String labelProperty = Graphiti.getPeService().getPropertyValue(cs,
-              LabelUtil.LABEL_PROPERTY);
-          return Boolean.parseBoolean(labelProperty);
-        }
+        return LabelUtil.isLabel(pe);
       } else if (clazz.isAssignableFrom(UpdateMainTaskFeature.class)) {
         return bo instanceof MainTask;
       } else if (clazz.isAssignableFrom(UpdateInputPortFeature.class)) {
