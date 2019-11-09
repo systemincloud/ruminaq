@@ -78,10 +78,11 @@ public class PasteInputPortFeature extends RuminaqPasteFeature
     ContainerShape oldLabel = null;
 
     for (Object o : getAllBusinessObjectsForPictogramElement(oldPe)) {
-      if (o instanceof InputPort)
+      if (o instanceof InputPort) {
         oldBo = (InputPort) o;
-      if (LabelUtil.isLabel(o))
+      } else if (o instanceof ContainerShape && LabelUtil.isLabel((ContainerShape) o)) {
         oldLabel = (ContainerShape) o;
+      }
     }
 
     PictogramElement newPe = EcoreUtil.copy(oldPe);

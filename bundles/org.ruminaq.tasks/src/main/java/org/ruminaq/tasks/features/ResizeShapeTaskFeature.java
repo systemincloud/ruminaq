@@ -30,9 +30,11 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
     Shape shape = context.getShape();
 
     ContainerShape textContainerShape = null;
-    for (EObject o : shape.getLink().getBusinessObjects())
-      if (LabelUtil.isLabel(o))
+    for (EObject o : shape.getLink().getBusinessObjects()) {
+      if (o instanceof ContainerShape && LabelUtil.isLabel((ContainerShape) o)) {
         textContainerShape = (ContainerShape) o;
+      }
+    }
 
     boolean labelInDefaultPosition = LabelUtil
         .isLabelInDefaultPosition(textContainerShape, shape);

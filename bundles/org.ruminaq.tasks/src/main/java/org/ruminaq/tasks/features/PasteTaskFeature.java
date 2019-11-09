@@ -67,10 +67,11 @@ public class PasteTaskFeature extends RuminaqPasteFeature
     ContainerShape oldLabel = null;
 
     for (Object o : getAllBusinessObjectsForPictogramElement(oldPe)) {
-      if (o instanceof Task)
+      if (o instanceof Task) {
         oldBo = (Task) o;
-      if (LabelUtil.isLabel(o))
+      } else if (o instanceof ContainerShape && LabelUtil.isLabel((ContainerShape) o)) {
         oldLabel = (ContainerShape) o;
+      }
     }
 
     PictogramElement newPe = EcoreUtil.copy(oldPe);

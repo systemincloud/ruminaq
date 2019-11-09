@@ -51,12 +51,10 @@ public class LabelUtil {
   /**
    * Check if shape is label.
    *
-   * @param label label shape
-   * @param pe    pictogram element of labeled element
-   * @return label was not moved
+   * @param cs ContainerShape
+   * @return this ContainerShape is label
    */
-  public static boolean isLabel(Object o) {
-    return o instanceof ContainerShape && Graphiti.getPeService()
-        .getPropertyValue((ContainerShape) o, LABEL_PROPERTY) != null;
+  public static boolean isLabel(ContainerShape cs) {
+    return Graphiti.getPeService().getPropertyValue(cs, LABEL_PROPERTY) != null;
   }
 }
