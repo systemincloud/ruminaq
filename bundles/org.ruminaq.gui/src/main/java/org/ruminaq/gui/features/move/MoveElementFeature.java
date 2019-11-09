@@ -14,7 +14,6 @@ import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
@@ -52,8 +51,7 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
 
     // can move on label place
     for (EObject o : shape.getLink().getBusinessObjects())
-      if (o instanceof Shape && Graphiti.getPeService()
-          .getPropertyValue((Shape) o, LabelUtil.LABEL_PROPERTY) != null)
+      if (o instanceof Shape && LabelUtil.isLabel((Shape) o))
         targetShape = (ContainerShape) o;
     if (targetShape != null && targetShape.equals(context.getTargetContainer()))
       return true;
@@ -69,8 +67,7 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
   @Override
   public void moveShape(IMoveShapeContext context) {
     Shape shape = context.getTargetContainer();
-    if (Graphiti.getPeService().getPropertyValue(shape,
-        LabelUtil.LABEL_PROPERTY) != null) {
+    if (LabelUtil.isLabel(shape)) {
       MoveShapeContext c = (MoveShapeContext) context;
       c.setTargetContainer(shape.getContainer());
       c.setDeltaX(c.getDeltaX() + shape.getGraphicsAlgorithm().getX());
@@ -87,8 +84,7 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
 
     // move also label
     for (EObject o : shape.getLink().getBusinessObjects()) {
-      if (o instanceof Shape && Graphiti.getPeService()
-          .getPropertyValue((Shape) o, LabelUtil.LABEL_PROPERTY) != null) {
+      if (o instanceof Shape && LabelUtil.isLabel((Shape) o)) {
         ContainerShape textContainerShape = (ContainerShape) o;
         int dx = context.getDeltaX();
         int dy = context.getDeltaY();

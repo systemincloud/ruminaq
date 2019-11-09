@@ -47,8 +47,7 @@ public abstract class AbstractAddElementFeature
     GuiUtil.alignWithShape(text, textContainerShape, width, height, shapeX,
         shapeY, 0, 0);
 
-    Graphiti.getPeService().setPropertyValue(textContainerShape,
-        LabelUtil.LABEL_PROPERTY, "true");
+    LabelUtil.setLabel(textContainerShape);
 
     return textContainerShape;
   }

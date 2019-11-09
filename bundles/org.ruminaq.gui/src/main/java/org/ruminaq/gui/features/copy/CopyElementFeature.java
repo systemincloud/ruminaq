@@ -37,11 +37,12 @@ public class CopyElementFeature extends AbstractCopyFeature {
           Constants.SIMPLE_CONNECTION_POINT) != null)
         continue;
       final Object bo = getBusinessObjectForPictogramElement(pe);
-      if (!(bo instanceof BaseElement))
+      if (!(bo instanceof BaseElement)) {
         return false;
-      if (pe instanceof Shape && Graphiti.getPeService().getPropertyValue(pe,
-          LabelUtil.LABEL_PROPERTY) == null)
+      }
+      if (!LabelUtil.isLabel(pe)) {
         onlyLabels = false;
+      }
     }
     if (onlyLabels)
       return false;
@@ -53,9 +54,9 @@ public class CopyElementFeature extends AbstractCopyFeature {
   public void copy(ICopyContext context) {
     Set<PictogramElement> pes = new HashSet<>();
     for (PictogramElement pe : context.getPictogramElements())
-      if (pe instanceof Shape && Graphiti.getPeService().getPropertyValue(pe,
-          LabelUtil.LABEL_PROPERTY) != null)
+      if (LabelUtil.isLabel(pe)) {
         continue;
+      }
       else if (pe instanceof Shape && Graphiti.getPeService()
           .getPropertyValue(pe, Constants.SIMPLE_CONNECTION_POINT) != null)
         continue;

@@ -10,7 +10,6 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
@@ -23,9 +22,7 @@ public class DeleteLabelFeature extends RuminaqDeleteFeature {
     @Override
     public boolean test(IContext context) {
       IDeleteContext deleteContext = (IDeleteContext) context;
-      return Graphiti.getPeService().getPropertyValue(
-          deleteContext.getPictogramElement(),
-          LabelUtil.LABEL_PROPERTY) != null;
+      return LabelUtil.isLabel(deleteContext.getPictogramElement());
     }
   }
 
@@ -38,9 +35,8 @@ public class DeleteLabelFeature extends RuminaqDeleteFeature {
     PictogramElement[] selection = getFeatureProvider().getDiagramTypeProvider()
         .getDiagramBehavior().getDiagramContainer()
         .getSelectedPictogramElements();
-    for (PictogramElement s : selection)
-      if (Graphiti.getPeService().getPropertyValue(s,
-          LabelUtil.LABEL_PROPERTY) == null)
+    for (PictogramElement pe : selection)
+      if (!LabelUtil.isLabel(pe))
         return true;
     return false;
   }

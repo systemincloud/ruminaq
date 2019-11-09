@@ -31,11 +31,9 @@ public class ContextButtonPadDataLabelFeature
       IPictogramElementContext context = (IPictogramElementContext) args
           .getArgs().get(1);
       PictogramElement pe = context.getPictogramElement();
-      String labelProperty = Graphiti.getPeService().getPropertyValue(pe,
-          LabelUtil.LABEL_PROPERTY);
       String portLabelProperty = Graphiti.getPeService().getPropertyValue(pe,
           Constants.PORT_LABEL_PROPERTY);
-      return Boolean.parseBoolean(labelProperty)
+      return LabelUtil.isLabel(pe)
           || Boolean.parseBoolean(portLabelProperty);
     }
   }

@@ -6,6 +6,8 @@
 
 package org.ruminaq.gui;
 
+import java.util.Optional;
+
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
@@ -17,7 +19,8 @@ import org.eclipse.graphiti.services.Graphiti;
  */
 public class LabelUtil {
 
-  public static final String LABEL_PROPERTY = "label"; //$NON-NLS-1$
+  public static final String LABEL_PROPERTY = "label";
+  public static final String LABEL_TRUE = Boolean.TRUE.toString();
 
   private LabelUtil() {
     // Util class
@@ -49,12 +52,20 @@ public class LabelUtil {
   }
 
   /**
-   * Check if shape is label.
+   * Check if PictogramElement is label.
    *
-   * @param cs ContainerShape
+   * @param pe PictogramElement
    * @return this ContainerShape is label
    */
-  public static boolean isLabel(ContainerShape cs) {
-    return Graphiti.getPeService().getPropertyValue(cs, LABEL_PROPERTY) != null;
+  public static boolean isLabel(PictogramElement pe) {
+    return Optional
+        .ofNullable(
+            Graphiti.getPeService().getPropertyValue(pe, LABEL_PROPERTY))
+        .isPresent();
+  }
+
+  public static void setLabel(ContainerShape containerShape) {
+    Graphiti.getPeService().setPropertyValue(containerShape,
+        LabelUtil.LABEL_PROPERTY, LabelUtil.LABEL_TRUE);
   }
 }
