@@ -14,6 +14,6 @@ public class PropertyInternalOutputPortFilter
   protected boolean accept(PictogramElement pe) {
     EObject eObject = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement(pe);
-    return eObject instanceof InternalOutputPort && !LabelUtil.isLabel(pe));
+    return eObject instanceof InternalOutputPort && !LabelUtil.isLabel(pe);
   }
 }
