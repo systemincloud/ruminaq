@@ -1,7 +1,9 @@
 package org.ruminaq.gui.it.tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.reddeer.common.wait.TimePeriod;
 import org.eclipse.reddeer.common.wait.WaitUntil;
 import org.eclipse.reddeer.eclipse.condition.ProjectExists;
@@ -26,11 +28,14 @@ import org.ruminaq.tests.common.reddeer.RuminaqProjectWizard;
  * @author Marek Jagielski
  */
 @RunWith(RedDeerSuite.class)
-public class AddInputPortTest {
+public class AddTest {
 
-  private static String projectName = "test";
+  private static final int PROJECT_SUFFIX_LENGTH = 5;
+  private static final int DIAGRAM_SUFFIX_LENGTH = 5;
 
-  private static String diagramName = "Diagram";
+  private String projectName;
+
+  private String diagramName;
 
   @BeforeClass
   public static void maximizeWorkbenchShell() {
@@ -39,6 +44,11 @@ public class AddInputPortTest {
 
   @Before
   public void createProject() {
+    projectName = "test"
+        + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
+
+    diagramName = "Diagram_"
+        + RandomStringUtils.randomAlphabetic(DIAGRAM_SUFFIX_LENGTH);
     new RuminaqProjectWizard().create(projectName);
     new ProjectExplorer().open();
     new WaitUntil(new ProjectExists(projectName), TimePeriod.MEDIUM, false);
@@ -56,11 +66,13 @@ public class AddInputPortTest {
         true);
   }
 
-  @Test // (expected=TestFailureException.class)
+  @Test
   public void addInputPortTest() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Input Port", 200, 100);
     assertFalse("Editor is always saved", gefEditor.isDirty());
+    assertEquals("2 elements added", 3, gefEditor.getNumberOfEditParts());
+//    new LabeledGraphitiEditPart("").getContextButton("Delete").click();
 //    try {
 //      gefEditor.addToolFromPalette("EClass", 50, 100).setLabel("ClassA");
 //    } catch (CoreLayerException ex) {
@@ -74,6 +86,14 @@ public class AddInputPortTest {
 //    } catch (CoreLayerException ex) {
 //      throw new TestFailureException(ex.toString());
 //    }
+  }
+
+  @Test
+  public void addOutputPortTest() {
+    GEFEditor gefEditor = new GEFEditor(diagramName);
+    gefEditor.addToolFromPalette("Output Port", 200, 100);
+    assertFalse("Editor is always saved", gefEditor.isDirty());
+    assertEquals("2 elements added", 3, gefEditor.getNumberOfEditParts());
   }
 
 //  @Test(expected=TestFailureException.class)

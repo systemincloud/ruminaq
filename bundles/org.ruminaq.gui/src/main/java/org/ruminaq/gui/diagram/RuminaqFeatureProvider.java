@@ -231,10 +231,6 @@ public class RuminaqFeatureProvider extends DefaultFeatureProvider {
   private <T extends IFeature> T getFeature(Class<T> outputClass,
       Class<? extends BestFeatureExtension<T>> serviceClass, IContext context,
       Supplier<? extends T> superMethod) {
-    Collection<T> x = ServiceUtil
-        .getServicesAtLatestVersion(RuminaqFeatureProvider.class, serviceClass)
-        .stream().map(ext -> ext.getFeature(context, this)).collect(Collectors.toList());;
-
     return ServiceUtil
         .getServicesAtLatestVersion(RuminaqFeatureProvider.class, serviceClass)
         .stream().map(ext -> ext.getFeature(context, this))
