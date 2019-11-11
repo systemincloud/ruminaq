@@ -21,6 +21,7 @@ public final class LabelUtil {
 
   public static final String LABEL_PROPERTY = "label";
   public static final String LABEL_TRUE = Boolean.TRUE.toString();
+  public static final int LABEL_POSITION_ERROR_MARGIN = 4;
 
   private LabelUtil() {
     // Util class
@@ -29,11 +30,11 @@ public final class LabelUtil {
   /**
    * Check if label was moved.
    *
-   * @param label label shape
+   * @param label label pe
    * @param pe    pictogram element of labeled element
    * @return label was not moved
    */
-  public static boolean isLabelInDefaultPosition(ContainerShape label,
+  public static boolean isLabelInDefaultPosition(PictogramElement label,
       PictogramElement pe) {
 
     int shapeX = pe.getGraphicsAlgorithm().getX();
@@ -47,8 +48,10 @@ public final class LabelUtil {
     int newShapeX = shapeX - ((textWidth) / 2) + shapeWidth / 2;
     int newShapeY = shapeY + shapeHeight + 2;
 
-    return GuiUtil.almostEqual(currentLabelX, newShapeX, 4)
-        && GuiUtil.almostEqual(currentLabelY, newShapeY, 4);
+    return GuiUtil.almostEqual(currentLabelX, newShapeX,
+        LABEL_POSITION_ERROR_MARGIN)
+        && GuiUtil.almostEqual(currentLabelY, newShapeY,
+            LABEL_POSITION_ERROR_MARGIN);
   }
 
   /**
