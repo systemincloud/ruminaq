@@ -6,7 +6,6 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -31,7 +30,7 @@ public final class ServiceUtil {
           clazz, null);
       st.open();
       try {
-        return st.waitForService(1000);
+        return st.waitForService(2000);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
@@ -41,12 +40,7 @@ public final class ServiceUtil {
 
   public static <T> Collection<T> getServices(Class<?> bundleClazz,
       Class<T> clazz) {
-    return getServices(bundleClazz, clazz, new ServiceFilterArgs() {
-      @Override
-      public List<?> getArgs() {
-        return Collections.emptyList();
-      }
-    });
+    return getServices(bundleClazz, clazz, () -> Collections.emptyList());
   }
 
   public static <T> Collection<T> getServices(Class<?> bundleClazz,
@@ -72,12 +66,7 @@ public final class ServiceUtil {
   public static <T> Collection<T> getServicesAtLatestVersion(
       Class<?> bundleClazz, Class<T> clazz) {
     return getServicesAtLatestVersion(bundleClazz, clazz,
-        new ServiceFilterArgs() {
-          @Override
-          public List<?> getArgs() {
-            return Collections.emptyList();
-          }
-        });
+        () -> Collections.emptyList());
   }
 
   public static <T> Collection<T> getServicesAtLatestVersion(

@@ -13,6 +13,12 @@ import java.lang.annotation.Target;
 
 import org.eclipse.graphiti.features.context.IContext;
 
+/**
+ * Annotation for feature class providers that sepcify filter if providers
+ * relates.
+ *
+ * @author Marek Jagielski
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface FeatureFilter {

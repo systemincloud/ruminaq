@@ -41,6 +41,7 @@ import org.ruminaq.util.ServiceUtil;
 
 public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 
+  public static final int CONTEXT_BUTTON_NONE = 0;
   public static final int CONTEXT_BUTTON_UPDATE = 1 << 1;
   public static final int CONTEXT_BUTTON_REMOVE = 1 << 2;
   public static final int CONTEXT_BUTTON_DELETE = 1 << 3;
@@ -92,41 +93,30 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
     PictogramElement pe = context.getPictogramElement();
 
     setGenericContextButtonsProxy(data, pe,
-        ServiceUtil.getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
-            GenericContextButtonPadDataExtension.class,
-            new ServiceFilterArgs() {
-              @Override
-              public List<?> getArgs() {
-                return Arrays.asList(getFeatureProvider(), context);
-              }
-            }).stream().findFirst().orElse(() -> CONTEXT_BUTTON_DELETE)
+        ServiceUtil
+            .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+                GenericContextButtonPadDataExtension.class,
+                () -> Arrays.asList(getFeatureProvider(), context))
+            .stream().findFirst().orElse(() -> CONTEXT_BUTTON_DELETE)
             .getGenericContextButtons());
 
-    ServiceUtil.getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
-        DomainContextButtonPadDataExtension.class, new ServiceFilterArgs() {
-          @Override
-          public List<?> getArgs() {
-            return Arrays.asList(getFeatureProvider(), context);
-          }
-        }).stream().forEach(e -> {
+    ServiceUtil
+        .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+            DomainContextButtonPadDataExtension.class,
+            () -> Arrays.asList(getFeatureProvider(), context))
+        .stream().forEach(e -> {
           data.getDomainSpecificContextButtons()
               .addAll(e.getContextButtonPad(getFeatureProvider(), context));
         });
 
-    data.getPadLocation().setRectangle(
-        ServiceUtil.getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
-            ContextButtonPadLocationExtension.class, new ServiceFilterArgs() {
-              @Override
-              public List<?> getArgs() {
-                return Arrays.asList(getFeatureProvider(), context);
-              }
-            }).stream().findFirst()
-            .orElse(new ContextButtonPadLocationExtension() {
-              @Override
-              public IRectangle getPadLocation(IRectangle rectangle) {
-                return data.getPadLocation().getRectangleCopy();
-              }
-            }).getPadLocation(data.getPadLocation().getRectangleCopy()));
+    data.getPadLocation().setRectangle(ServiceUtil
+        .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+            ContextButtonPadLocationExtension.class,
+            () -> Arrays.asList(getFeatureProvider(), context))
+        .stream().findFirst()
+        .orElse(
+            (IRectangle rectangle) -> data.getPadLocation().getRectangleCopy())
+        .getPadLocation(data.getPadLocation().getRectangleCopy()));
 
     return data;
   }

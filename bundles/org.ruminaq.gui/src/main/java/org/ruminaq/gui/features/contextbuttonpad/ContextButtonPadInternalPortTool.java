@@ -15,6 +15,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
+import org.ruminaq.gui.diagram.RuminaqBehaviorProvider;
 import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadInternalPortTool.Filter;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.util.ServiceFilter;
@@ -40,7 +41,7 @@ public class ContextButtonPadInternalPortTool implements
 
   @Override
   public int getGenericContextButtons() {
-    return 0;
+    return RuminaqBehaviorProvider.CONTEXT_BUTTON_NONE;
   }
 
   @Override

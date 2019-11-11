@@ -15,6 +15,7 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
+import org.ruminaq.gui.diagram.RuminaqBehaviorProvider;
 import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadDataLabelFeature.Filter;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
@@ -40,6 +41,6 @@ public class ContextButtonPadDataLabelFeature
 
   @Override
   public int getGenericContextButtons() {
-    return 0;
+    return RuminaqBehaviorProvider.CONTEXT_BUTTON_NONE;
   }
 }
