@@ -6,24 +6,28 @@
 
 package org.ruminaq.gui.features.add;
 
+import java.util.Optional;
+
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.IContext;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.model.ruminaq.BaseElement;
 
 /**
- * Inheriting classess can be used in @FeatureFilter
- * annotations. Used on implmentations of AbstractAddElementFeature.
+ * Inheriting classess can be used in @FeatureFilter annotations. Used on
+ * implmentations of AbstractAddElementFeature.
  *
  * @author Marek Jagielski
  */
-public abstract class AbstractAddFeatureFilter implements FeaturePredicate<IContext> {
+public abstract class AbstractAddFeatureFilter
+    implements FeaturePredicate<IContext> {
 
   @Override
   public boolean test(IContext context) {
-    IAddContext addContext = (IAddContext) context;
-    return forBusinessObject()
-        .isAssignableFrom(addContext.getNewObject().getClass());
+    return Optional.of(context).filter(IAddContext.class::isInstance)
+        .map(ctx -> (IAddContext) ctx).map(IAddContext::getNewObject)
+        .map(Object::getClass).map(clazz -> forBusinessObject()
+            .isAssignableFrom(clazz)).orElse(Boolean.FALSE);
   }
 
   public abstract Class<? extends BaseElement> forBusinessObject();

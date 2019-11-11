@@ -28,7 +28,6 @@ import org.eclipse.graphiti.tb.DefaultToolBehaviorProvider;
 import org.eclipse.graphiti.tb.IContextButtonPadData;
 import org.eclipse.graphiti.tb.IContextMenuEntry;
 import org.eclipse.graphiti.tb.IDecorator;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
 import org.ruminaq.gui.api.ContextMenuEntryExtension;
@@ -41,6 +40,10 @@ import org.ruminaq.util.ServiceFilterArgs;
 import org.ruminaq.util.ServiceUtil;
 
 public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
+
+  public static final int CONTEXT_BUTTON_UPDATE = 1 << 1;
+  public static final int CONTEXT_BUTTON_REMOVE = 1 << 2;
+  public static final int CONTEXT_BUTTON_DELETE = 1 << 3;
 
   public RuminaqBehaviorProvider(IDiagramTypeProvider diagramTypeProvider) {
     super(diagramTypeProvider);
@@ -96,13 +99,8 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
               public List<?> getArgs() {
                 return Arrays.asList(getFeatureProvider(), context);
               }
-            }).stream().findFirst()
-            .orElse(new GenericContextButtonPadDataExtension() {
-              @Override
-              public int getGenericContextButtons() {
-                return Constants.CONTEXT_BUTTON_DELETE;
-              }
-            }).getGenericContextButtons());
+            }).stream().findFirst().orElse(() -> CONTEXT_BUTTON_DELETE)
+            .getGenericContextButtons());
 
     ServiceUtil.getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
         DomainContextButtonPadDataExtension.class, new ServiceFilterArgs() {
@@ -188,12 +186,8 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
   @Override
   public IDecorator[] getDecorators(PictogramElement pe) {
     return ServiceUtil.getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
-        DecoratorExtension.class, new ServiceFilterArgs() {
-          @Override
-          public List<?> getArgs() {
-            return Arrays.asList(getFeatureProvider(), pe);
-          }
-        }).stream().map(ext -> ext.getDecorators(pe)).flatMap(x -> x.stream())
+        DecoratorExtension.class, () -> Arrays.asList(getFeatureProvider(), pe))
+        .stream().map(ext -> ext.getDecorators(pe)).flatMap(x -> x.stream())
         .toArray(IDecorator[]::new);
   }
 

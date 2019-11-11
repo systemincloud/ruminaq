@@ -24,7 +24,7 @@ import org.ruminaq.util.ServiceFilterArgs;
 public class ContextButtonPadPortTool
     implements ContextButtonPadLocationExtension {
 
-  static class Filter implements Predicate<ServiceFilterArgs> {
+  public static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {

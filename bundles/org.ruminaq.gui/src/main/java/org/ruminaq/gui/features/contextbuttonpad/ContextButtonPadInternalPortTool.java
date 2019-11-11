@@ -15,7 +15,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
-import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadDataLabelFeature.Filter;
+import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadInternalPortTool.Filter;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
@@ -25,7 +25,7 @@ import org.ruminaq.util.ServiceFilterArgs;
 public class ContextButtonPadInternalPortTool implements
     GenericContextButtonPadDataExtension, ContextButtonPadLocationExtension {
 
-  static class Filter implements Predicate<ServiceFilterArgs> {
+  public static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {

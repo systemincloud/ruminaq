@@ -99,7 +99,7 @@ public final class ServiceUtil {
                     .comparing(r -> r.getKey().getBundle().getVersion()))
                 .get())
             .sorted(
-                ((s1, s2) -> Integer.compare(
+                (s1, s2) -> Integer.compare(
                     Optional
                         .ofNullable((Integer) s2.getKey()
                             .getProperty(SERVICE_RANKING_PROPERTY))
@@ -107,7 +107,7 @@ public final class ServiceUtil {
                     Optional
                         .ofNullable((Integer) s1.getKey()
                             .getProperty(SERVICE_RANKING_PROPERTY))
-                        .orElse(Integer.MAX_VALUE))))
+                        .orElse(Integer.MAX_VALUE)))
             .map(SimpleEntry::getValue).filter(filter(filterArgs))
             .collect(Collectors.toList());
       }
@@ -116,30 +116,25 @@ public final class ServiceUtil {
     return Collections.emptyList();
   }
 
-  static <T> Predicate<T> filter(ServiceFilterArgs filterArgs) {
-    return s -> {
-      return Optional
-          .ofNullable(s.getClass().getAnnotation(ServiceFilter.class))
-          .map(ServiceFilter::value)
-          .<Constructor<? extends Predicate<ServiceFilterArgs>>>map(f -> {
-            try {
-              return f.getConstructor();
-            } catch (NoSuchMethodException | SecurityException e) {
-              return null;
-            }
-          }).<Predicate<ServiceFilterArgs>>map(c -> {
-            try {
-              return c.newInstance();
-            } catch (InstantiationException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException e) {
-              return null;
-            }
-          }).orElse(new Predicate<ServiceFilterArgs>() {
-            @Override
-            public boolean test(ServiceFilterArgs arg0) {
-              return true;
-            }
-          }).test(filterArgs);
-    };
+  private static <T> Predicate<T> filter(ServiceFilterArgs filterArgs) {
+    return (T s) -> Optional
+        .ofNullable(s.getClass().getAnnotation(ServiceFilter.class))
+        .map(ServiceFilter::value)
+        .map((Class<? extends Predicate<ServiceFilterArgs>> f) -> {
+          try {
+            return f.getConstructor();
+          } catch (NoSuchMethodException | SecurityException e) {
+            return null;
+          }
+        }).<Predicate<ServiceFilterArgs>>map(
+            (Constructor<? extends Predicate<ServiceFilterArgs>> c) -> {
+              try {
+                return c.newInstance();
+              } catch (InstantiationException | IllegalAccessException
+                  | IllegalArgumentException | InvocationTargetException e) {
+                return null;
+              }
+            })
+        .orElse((ServiceFilterArgs args) -> true).test(filterArgs);
   }
 }

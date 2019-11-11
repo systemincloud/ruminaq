@@ -43,10 +43,6 @@ public final class Constants {
   public static final String PORT_LABEL_PROPERTY = "port-label"; //$NON-NLS-1$
   public static final String SIMPLE_CONNECTION_POINT = "SIMPLE_CONNECTION_POINT"; //$NON-NLS-1$
 
-  public static final int CONTEXT_BUTTON_UPDATE = 1 << 1;
-  public static final int CONTEXT_BUTTON_REMOVE = 1 << 2;
-  public static final int CONTEXT_BUTTON_DELETE = 1 << 3;
-
   public static final String CAN_DELETE = "can-delete"; //$NON-NLS-1$
 
   public static final String INF = "inf"; //$NON-NLS-1$

@@ -6,8 +6,8 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
+import org.ruminaq.gui.diagram.RuminaqBehaviorProvider;
 import org.ruminaq.tasks.pythontask.ContextButtonPadTool.Filter;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.util.ServiceFilter;
@@ -18,7 +18,7 @@ import org.ruminaq.util.ServiceFilterArgs;
 public class ContextButtonPadTool
     implements GenericContextButtonPadDataExtension {
 
-  static class Filter implements Predicate<ServiceFilterArgs> {
+  public static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {
@@ -32,6 +32,7 @@ public class ContextButtonPadTool
 
   @Override
   public int getGenericContextButtons() {
-    return Constants.CONTEXT_BUTTON_DELETE | Constants.CONTEXT_BUTTON_UPDATE;
+    return RuminaqBehaviorProvider.CONTEXT_BUTTON_DELETE
+        | RuminaqBehaviorProvider.CONTEXT_BUTTON_UPDATE;
   }
 }

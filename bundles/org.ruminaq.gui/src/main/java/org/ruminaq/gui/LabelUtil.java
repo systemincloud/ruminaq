@@ -17,7 +17,7 @@ import org.eclipse.graphiti.services.Graphiti;
  *
  * @author Marek Jagielski
  */
-public class LabelUtil {
+public final class LabelUtil {
 
   public static final String LABEL_PROPERTY = "label";
   public static final String LABEL_TRUE = Boolean.TRUE.toString();

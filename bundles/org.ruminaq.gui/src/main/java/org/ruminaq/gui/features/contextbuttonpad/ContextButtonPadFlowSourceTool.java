@@ -24,6 +24,7 @@ import org.eclipse.graphiti.tb.IContextButtonEntry;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.Images;
+import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.api.DomainContextButtonPadDataExtension;
 import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadFlowSourceTool.Filter;
 import org.ruminaq.model.ruminaq.FlowSource;
@@ -35,7 +36,7 @@ import org.ruminaq.util.ServiceFilterArgs;
 public class ContextButtonPadFlowSourceTool
     implements DomainContextButtonPadDataExtension {
 
-  static class Filter implements Predicate<ServiceFilterArgs> {
+  public static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {
@@ -43,10 +44,10 @@ public class ContextButtonPadFlowSourceTool
       IPictogramElementContext context = (IPictogramElementContext) args
           .getArgs().get(1);
       PictogramElement pe = context.getPictogramElement();
-      return Boolean
+      return !LabelUtil.isLabel(pe) && (Boolean
           .parseBoolean(Graphiti.getPeService().getPropertyValue(pe,
               Constants.SIMPLE_CONNECTION_POINT))
-          || fp.getBusinessObjectForPictogramElement(pe) instanceof FlowSource;
+          || fp.getBusinessObjectForPictogramElement(pe) instanceof FlowSource);
     }
   }
 

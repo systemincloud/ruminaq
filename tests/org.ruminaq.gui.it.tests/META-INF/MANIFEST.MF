@@ -10,7 +10,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.junit,
  org.eclipse.reddeer.junit,
  org.eclipse.reddeer.go,
- org.eclipse.reddeer.swt
+ org.eclipse.reddeer.swt,
+ org.eclipse.swt
 Import-Package: org.apache.commons.lang3,
  org.aspectj.lang,
  org.aspectj.lang.annotation,
