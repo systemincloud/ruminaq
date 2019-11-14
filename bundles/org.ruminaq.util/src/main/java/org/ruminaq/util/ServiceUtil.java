@@ -30,7 +30,7 @@ public final class ServiceUtil {
           clazz, null);
       st.open();
       try {
-        return st.waitForService(2000);
+        return st.waitForService(10000);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }

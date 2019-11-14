@@ -87,6 +87,8 @@ public class CreateRuminaqDiagramFailedTest {
         diagramName);
     new CreateRuminaqDiagram().execute(bot, projectName, path, diagramName);
 
+    Thread.sleep(5000);
+
     SWTBotShell failureWindow = bot.shell("Ruminaq failure");
     failureWindow.activate();
 
