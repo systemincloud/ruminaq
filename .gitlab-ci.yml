@@ -58,7 +58,7 @@ build plugins:
     - apt-get install -qq texlive-fonts-extra
     - apt-get install -qq texlive-latex-extra
     - apt-get install -qq r-base
-    - wget "https://cran.r-project.org/src/contrib/R6_2.4.0.tar.gz"
+    - wget "https://cran.r-project.org/src/contrib/R6_2.4.1.tar.gz"
     - R CMD INSTALL R6_2.4.0.tar.gz
     - ls bundles/org.ruminaq.runner.thrift/
     - ls bundles/org.ruminaq.runner.thrift/target/generated-sources/thrift
