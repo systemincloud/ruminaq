@@ -81,7 +81,8 @@ public final class ServiceUtil {
         return Stream.of(srs).<SimpleEntry<ServiceReference<T>, T>>map(
             r -> new SimpleEntry<ServiceReference<T>, T>(r, st.getService(r)))
             .collect(Collectors
-                .groupingBy(e -> e.getKey().getBundle().getSymbolicName()))
+                .groupingBy(e -> e.getKey().getBundle().getSymbolicName()
+                    + e.getValue().getClass().getSimpleName()))
             .entrySet().stream()
             .map(e -> e.getValue().stream()
                 .max(Comparator

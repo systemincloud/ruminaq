@@ -92,6 +92,11 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
     IContextButtonPadData data = super.getContextButtonPad(context);
     PictogramElement pe = context.getPictogramElement();
 
+    Collection<GenericContextButtonPadDataExtension> x = ServiceUtil
+        .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+            GenericContextButtonPadDataExtension.class,
+            () -> Arrays.asList(getFeatureProvider(), context));
+
     setGenericContextButtonsProxy(data, pe,
         ServiceUtil
             .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
