@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Automatic-Module-Name: org.ruminaq.gui
 Bundle-ManifestVersion: 2
-Bundle-Name: System in Cloud Modeler - Gui
-Bundle-Vendor: System in Cloud
+Bundle-Name: Ruminaq - Gui
+Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.gui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy

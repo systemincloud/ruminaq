@@ -44,15 +44,9 @@ public class GuiUtil {
 
   static final IPeService peService = Graphiti.getPeService();
 
-  public static int DATA_WIDTH = 36;
+  private static final int SHAPE_PADDING = 6;
 
-  public static int DATA_HEIGHT = 50;
-
-  public static int PARTICIPANT_BAND_HEIGHT = 20;
-
-  public static final int SHAPE_PADDING = 6;
-
-  public static final int TEXT_PADDING = 5;
+  private static final int TEXT_PADDING = 5;
 
   private static final String LINE_BREAK = "\n";
 

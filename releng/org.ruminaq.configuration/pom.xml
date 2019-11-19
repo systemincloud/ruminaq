@@ -496,7 +496,7 @@
                 <configuration>
                   <filesets>
                     <fileset>
-                      <directory>${target.emf</directory>
+                      <directory>${target.emf}</directory>
                       <includes>**</includes>
                     </fileset>
                   </filesets>
@@ -529,6 +529,10 @@
                     </dependency>
                     <dependency>
                       <artifactId>org.eclipse.osgi.compatibility.state</artifactId>
+                      <type>eclipse-plugin</type>
+                    </dependency>
+                    <dependency>
+                      <artifactId>org.eclipse.graphiti.mm</artifactId>
                       <type>eclipse-plugin</type>
                     </dependency>
                   </dependencies>
