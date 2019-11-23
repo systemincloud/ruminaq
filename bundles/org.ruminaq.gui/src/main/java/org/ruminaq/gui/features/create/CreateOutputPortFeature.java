@@ -37,7 +37,7 @@ public class CreateOutputPortFeature extends CreateElementFeature
     OutputPort outputPort = RuminaqFactory.eINSTANCE.createOutputPort();
     setDefaultId(outputPort, context);
 
-    MainTask mt = ModelHandler.getModel(getDiagram(), getFeatureProvider());
+    MainTask mt = ModelHandler.getModel(getDiagram());
     mt.getOutputPort().add(outputPort);
 
     addGraphicalRepresentation(context, outputPort);

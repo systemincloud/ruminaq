@@ -42,8 +42,7 @@ public class TestParametersSection extends AbstractParametersSection {
   protected Set<String> getParameters() {
     logger.trace("getParameters");
     final Set<String> ret = new HashSet<>();
-    this.mt = ModelHandler.getModel(getDiagramTypeProvider().getDiagram(),
-        getDiagramTypeProvider().getFeatureProvider());
+    this.mt = ModelHandler.getModel(getDiagramTypeProvider().getDiagram());
     logger.trace("mt = {}", mt);
     String pathString = getDiagramTypeProvider().getDiagram().eResource()
         .getURI().toPlatformString(true);

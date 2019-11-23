@@ -37,7 +37,7 @@ public class CreateInputPortFeature extends CreateElementFeature
     InputPort inputPort = RuminaqFactory.eINSTANCE.createInputPort();
     setDefaultId(inputPort, context);
 
-    MainTask mt = ModelHandler.getModel(getDiagram(), getFeatureProvider());
+    MainTask mt = ModelHandler.getModel(getDiagram());
     mt.getInputPort().add(inputPort);
 
     addGraphicalRepresentation(context, inputPort);

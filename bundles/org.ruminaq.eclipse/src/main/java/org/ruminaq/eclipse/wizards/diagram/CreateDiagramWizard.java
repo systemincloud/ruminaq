@@ -18,6 +18,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramLink;
+import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -30,6 +32,9 @@ import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.FileService;
+import org.ruminaq.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.RuminaqFactory;
+import org.ruminaq.prefs.ProjectProps;
 import org.slf4j.Logger;
 
 /**
@@ -108,7 +113,14 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
     final IFile diagramFile = diagramFolder.getFile(fileName);
     URI uri = URI
         .createPlatformResourceURI(diagramFile.getFullPath().toString(), true);
-    FileService.createEmfFileForDiagram(uri, diagram);
+    MainTask model = RuminaqFactory.eINSTANCE.createMainTask();
+    model.setVersion(
+        ProjectProps.getInstance(resource.getProject())
+            .get(ProjectProps.RUMINAQ_VERSION));
+    PictogramLink link = PictogramsFactory.eINSTANCE.createPictogramLink();
+    link.setPictogramElement(diagram);
+    diagram.getPictogramLinks().add(link);
+    FileService.createEmfFileForDiagram(uri, diagram, model);
 
     getShell().getDisplay().asyncExec(() -> {
       IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()

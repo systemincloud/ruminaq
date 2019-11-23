@@ -74,7 +74,7 @@ public class PasteSimpleConnections extends RuminaqPasteFeature {
           if (o2 instanceof FlowTarget)
             newSc.setTargetRef((FlowTarget) o2);
           MainTask mt = ModelHandler
-              .getModel(fp.getDiagramTypeProvider().getDiagram(), fp);
+              .getModel(fp.getDiagramTypeProvider().getDiagram());
           mt.getConnection().add(newSc);
           oldSCnewSC.put(sc, newSc);
         }

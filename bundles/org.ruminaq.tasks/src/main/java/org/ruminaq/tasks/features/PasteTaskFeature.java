@@ -78,7 +78,7 @@ public class PasteTaskFeature extends RuminaqPasteFeature
     newPes.add(newPe);
     Task newBo = EcoreUtil.copy(oldBo);
 
-    MainTask mt = ModelHandler.getModel(getDiagram(), getFeatureProvider());
+    MainTask mt = ModelHandler.getModel(getDiagram());
     mt.getTask().add(newBo);
 
     newPe.getGraphicsAlgorithm()

@@ -1012,9 +1012,7 @@ public class PropertySynchronizationSection extends GFPropertySection
 
       treclEdOutputPortsTask = new TaskEditingSupport(
           treclVwOutputPortsTask.getViewer(),
-          ModelHandler.getModel(getDiagramTypeProvider().getDiagram(),
-              getDiagramTypeProvider().getFeatureProvider()),
-          t);
+          ModelHandler.getModel(getDiagramTypeProvider().getDiagram()), t);
       treclVwOutputPortsTask.setEditingSupport(treclEdOutputPortsTask);
 
       treclEdOutputPortsSkip = new SkipEditingSupport(
@@ -1039,9 +1037,7 @@ public class PropertySynchronizationSection extends GFPropertySection
 
       treclEdOutputResetTask = new ResetTaskEditingSupport(
           treclVwOutputResetTask.getViewer(),
-          ModelHandler.getModel(getDiagramTypeProvider().getDiagram(),
-              getDiagramTypeProvider().getFeatureProvider()),
-          t);
+          ModelHandler.getModel(getDiagramTypeProvider().getDiagram()), t);
       treclVwOutputResetTask.setEditingSupport(treclEdOutputResetTask);
     }
     for (TreeItem ti : treVwOutputPorts.getTree().getItems())

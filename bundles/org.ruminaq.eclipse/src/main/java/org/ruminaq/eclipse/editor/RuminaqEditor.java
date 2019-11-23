@@ -112,8 +112,8 @@ public class RuminaqEditor extends DiagramEditor {
     Optional<IFile> mf = getModelFile();
 
     if (mf.isPresent()) {
-      this.markerChangeListener = new MarkerChangeListener(
-          mf.get(), getEditingDomain(), getDiagramBehavior(),
+      this.markerChangeListener = new MarkerChangeListener(mf.get(),
+          getEditingDomain(), getDiagramBehavior(),
           getEditorSite().getShell().getDisplay());
     }
 
@@ -132,9 +132,8 @@ public class RuminaqEditor extends DiagramEditor {
 
     addMarkerChangeListener();
 
-    final MainTask mt = ModelHandler.getModel(
-        getDiagramTypeProvider().getDiagram(),
-        getDiagramTypeProvider().getFeatureProvider());
+    final MainTask mt = ModelHandler
+        .getModel(getDiagramTypeProvider().getDiagram());
     if (!mt.isInitialized()) {
       ModelUtil.runModelChange(() -> {
         mt.setVersion(

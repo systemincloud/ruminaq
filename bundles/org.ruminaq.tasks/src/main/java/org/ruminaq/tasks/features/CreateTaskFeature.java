@@ -40,7 +40,7 @@ public abstract class CreateTaskFeature extends CreateElementFeature {
     setDefaultId(task, context);
     addDefaultPorts(task);
 
-    MainTask mt = ModelHandler.getModel(getDiagram(), getFeatureProvider());
+    MainTask mt = ModelHandler.getModel(getDiagram());
     mt.getTask().add(task);
 
     addGraphicalRepresentation(context, task);
@@ -59,7 +59,7 @@ public abstract class CreateTaskFeature extends CreateElementFeature {
         if (in.opt())
           continue;
         for (int i = 0; i < in.n(); i++) {
-          InternalInputPort inputPort = (InternalInputPort) RuminaqFactory.eINSTANCE
+          InternalInputPort inputPort = RuminaqFactory.eINSTANCE
               .createInternalInputPort();
           String id = in.name();
           inputPort.setParent(task);
@@ -116,7 +116,7 @@ public abstract class CreateTaskFeature extends CreateElementFeature {
         if (out.opt())
           continue;
         for (int i = 0; i < out.n(); i++) {
-          InternalOutputPort outputPort = (InternalOutputPort) RuminaqFactory.eINSTANCE
+          InternalOutputPort outputPort = RuminaqFactory.eINSTANCE
               .createInternalOutputPort();
           String id = out.name();
           outputPort.setParent(task);

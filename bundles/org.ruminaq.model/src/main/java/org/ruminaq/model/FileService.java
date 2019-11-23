@@ -13,7 +13,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.RecordingCommand;
@@ -28,7 +27,7 @@ import org.ruminaq.model.ruminaq.MainTask;
 public class FileService {
 
   public static TransactionalEditingDomain createEmfFileForDiagram(
-      URI diagramResourceUri, final EObject diagram) {
+      URI diagramResourceUri, Diagram diagram, MainTask model) {
 
     // Create a resource set and EditingDomain
     final TransactionalEditingDomain editingDomain = GraphitiUiInternal
@@ -43,7 +42,9 @@ public class FileService {
       @Override
       protected void doExecute() {
         resource.setTrackingModification(true);
+        diagram.getLink().getBusinessObjects().add(model);
         resource.getContents().add(diagram);
+        resource.getContents().add(model);
       }
     });
 
@@ -64,9 +65,11 @@ public class FileService {
 
     final Map<URI, Throwable> failedSaves = new HashMap<>();
     final IWorkspaceRunnable wsRunnable = new IWorkspaceRunnable() {
+      @Override
       public void run(final IProgressMonitor monitor) throws CoreException {
 
         final Runnable runnable = new Runnable() {
+          @Override
           public void run() {
             Transaction parentTx;
             if (editingDomain != null
@@ -147,9 +150,5 @@ public class FileService {
 //		resource.getContents().add(obj);
 //
 //	}
-
-  public static void saveModelToDiagramFile(MainTask mt, Diagram diagram) {
-    diagram.eResource().getContents().add(mt);
-  }
 
 }

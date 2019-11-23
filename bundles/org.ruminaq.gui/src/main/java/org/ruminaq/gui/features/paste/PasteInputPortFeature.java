@@ -89,7 +89,7 @@ public class PasteInputPortFeature extends RuminaqPasteFeature
     newPes.add(newPe);
     InputPort newBo = EcoreUtil.copy(oldBo);
 
-    MainTask mt = ModelHandler.getModel(getDiagram(), getFeatureProvider());
+    MainTask mt = ModelHandler.getModel(getDiagram());
     mt.getInputPort().add(newBo);
 
     newPe.getGraphicsAlgorithm()

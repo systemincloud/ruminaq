@@ -20,4 +20,5 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.ecore.xmi.impl,
  org.eclipse.emf.ecore.xmi.util,
  org.eclipse.graphiti.mm,
- org.eclipse.graphiti.mm.pictograms
+ org.eclipse.graphiti.mm.pictograms,
+ org.eclipse.graphiti.mm.pictograms.impl

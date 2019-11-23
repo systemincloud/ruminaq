@@ -101,7 +101,7 @@ public class CreateSimpleConnectionFeature
     simpleConnection.setSourceRef(source);
     simpleConnection.setTargetRef(target);
 
-    MainTask mt = ModelHandler.getModel(getDiagram(), getFeatureProvider());
+    MainTask mt = ModelHandler.getModel(getDiagram());
     mt.getConnection().add(simpleConnection);
 
     return simpleConnection;

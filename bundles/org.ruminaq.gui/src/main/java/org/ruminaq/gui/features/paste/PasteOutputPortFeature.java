@@ -89,7 +89,7 @@ public class PasteOutputPortFeature extends RuminaqPasteFeature
     newPes.add(newPe);
     OutputPort newBo = EcoreUtil.copy(oldBo);
 
-    MainTask mt = ModelHandler.getModel(getDiagram(), getFeatureProvider());
+    MainTask mt = ModelHandler.getModel(getDiagram());
     mt.getOutputPort().add(newBo);
 
     newPe.getGraphicsAlgorithm()
