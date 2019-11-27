@@ -47,7 +47,6 @@ import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.util.ModelUtil;
-import org.ruminaq.prefs.ProjectProps;
 import org.ruminaq.util.ServiceUtil;
 import org.ruminaq.validation.MarkerChangeListener;
 import org.ruminaq.validation.ProjectValidator;
@@ -132,13 +131,12 @@ public class RuminaqEditor extends DiagramEditor {
 
     addMarkerChangeListener();
 
+//    DiagramPackage.eINSTANCE.getClass();
+    System.out.println("XXXXXXXXXXXXXXXXXXXX");
     final MainTask mt = ModelHandler
         .getModel(getDiagramTypeProvider().getDiagram());
     if (!mt.isInitialized()) {
       ModelUtil.runModelChange(() -> {
-        mt.setVersion(
-            ProjectProps.getInstance(getModelFile().get().getProject())
-                .get(ProjectProps.RUMINAQ_VERSION));
         if (RuminaqDiagramUtil
             .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())
             && !getDiagramTypeProvider().getDiagram().getChildren().isEmpty()) {

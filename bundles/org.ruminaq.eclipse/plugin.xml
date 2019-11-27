@@ -1,138 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
-
-    <extension point="org.eclipse.ui.perspectives">
-        <perspective
-                name="Ruminaq"
-                id="org.ruminaq.eclipse.RuminaqPerspective"
-                fixed="false"
-                icon="icons/logo/ruminaq.logo.16x16.png"
-                class="org.ruminaq.eclipse.RuminaqPerspective">
-        </perspective>
-    </extension>
-
-    <extension point="org.eclipse.ui.newWizards">
-        <category
-                id="org.ruminaq.eclipse.newWizards.category"
-                name="Ruminaq"/>
-        <wizard
-                name="Ruminaq Project"
-                id="org.ruminaq.eclipse.wizards.project.CreateProjectWizard"
-                category="org.ruminaq.eclipse.newWizards.category"
-                class="org.ruminaq.eclipse.wizards.project.CreateProjectWizard"
-                finalPerspective="org.ruminaq.eclipse.RuminaqPerspective"
-                icon="icons/logo/ruminaq.logo.16x16.png"
-                project="true">
-        </wizard>
-        <wizard
-                name="Ruminaq Diagram"
-                id="org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard"
-                category="org.ruminaq.eclipse.newWizards.category"
-                class="org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard"
-                finalPerspective="org.ruminaq.eclipse.RuminaqPerspective"
-                icon="icons/main.png">
-        </wizard>
-        <wizard
-                name="Ruminaq Diagram Test"
-                id="org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard"
-                category="org.ruminaq.eclipse.newWizards.category"
-                class="org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard"
-                finalPerspective="org.ruminaq.eclipse.RuminaqPerspective"
-                icon="icons/test.png">
-        </wizard>
-    </extension>
-
-    <extension
-            point="org.eclipse.core.resources.natures"
+   <extension point="org.eclipse.ui.perspectives">
+      <perspective
             name="Ruminaq"
-            id="RuminaqProjectNature">
-        <runtime>
-            <run class="org.ruminaq.eclipse.RuminaqProjectNature" />
-        </runtime>
-    </extension>
+            id="org.ruminaq.eclipse.RuminaqPerspective"
+            fixed="false"
+            icon="icons/logo/ruminaq.logo.16x16.png"
+            class="org.ruminaq.eclipse.RuminaqPerspective">
+      </perspective>
+   </extension>
 
-    <extension point="org.eclipse.ui.editors">
-        <editor
-                name="Ruminaq Editor"
-                 class="org.ruminaq.eclipse.editor.RuminaqEditor"
-                  contributorClass="org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor"
-                  default="true"
-                  extensions="rumi"
-                   icon="icons/main.png"
-                   id="org.ruminaq.eclipse.editor.ruminaqEditor"
-                   matchingStrategy="org.eclipse.graphiti.ui.editor.DiagramEditorMatchingStrategy">
-             <contentTypeBinding contentTypeId="org.ruminaq.gui.editor.diagram.contenttype" />
-         </editor>
-    </extension>
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.ruminaq.eclipse.newWizards.category"
+            name="Ruminaq"/>
+      <wizard
+            name="Ruminaq Project"
+            id="org.ruminaq.eclipse.wizards.project.CreateProjectWizard"
+            category="org.ruminaq.eclipse.newWizards.category"
+            class="org.ruminaq.eclipse.wizards.project.CreateProjectWizard"
+            finalPerspective="org.ruminaq.eclipse.RuminaqPerspective"
+            icon="icons/logo/ruminaq.logo.16x16.png"
+            project="true">
+      </wizard>
+      <wizard
+            name="Ruminaq Diagram"
+            id="org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard"
+            category="org.ruminaq.eclipse.newWizards.category"
+            class="org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard"
+            finalPerspective="org.ruminaq.eclipse.RuminaqPerspective"
+            icon="icons/main.png">
+      </wizard>
+      <wizard
+            name="Ruminaq Diagram Test"
+            id="org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard"
+            category="org.ruminaq.eclipse.newWizards.category"
+            class="org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard"
+            finalPerspective="org.ruminaq.eclipse.RuminaqPerspective"
+            icon="icons/test.png">
+      </wizard>
+   </extension>
 
-    <extension point="org.eclipse.core.contenttype.contentTypes">
-        <content-type
-                name="Ruminaq Diagram"
-                base-type="org.eclipse.core.runtime.xml"
-                file-extensions="rumi"
-                id="org.ruminaq.gui.editor.diagram.contenttype"
-                priority="normal">
-        </content-type>
-    </extension>
+   <extension
+         point="org.eclipse.core.resources.natures"
+         name="Ruminaq"
+         id="RuminaqProjectNature">
+      <runtime>
+         <run class="org.ruminaq.eclipse.RuminaqProjectNature" />
+      </runtime>
+   </extension>
 
-    <extension point="org.eclipse.ui.navigator.linkHelper">
-        <linkHelper
-                  class="org.ruminaq.eclipse.editor.EditorLinkHelper"
-                id="org.ruminaq.eclipse.linkEditor">
-            <editorInputEnablement>
-                <instanceof value="org.eclipse.graphiti.ui.editor.DiagramEditorInput" />
-            </editorInputEnablement>
-            <selectionEnablement>
-                <instanceof value="org.eclipse.core.resources.IFile" />
-            </selectionEnablement>
-        </linkHelper>
-    </extension>
-    <extension point="org.eclipse.ui.navigator.viewer">
-        <viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
-            <includes>
-                <contentExtension
-                        isRoot="false"
-                        pattern="org.ruminaq.eclipse.linkEditor">
-                </contentExtension>
-            </includes>
-        </viewerContentBinding>
-    </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            name="Ruminaq"
+            class="org.ruminaq.eclipse.editor.RuminaqEditor"
+            contributorClass="org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor"
+            default="true"
+            extensions="rumi"
+            icon="icons/main.png"
+            id="org.ruminaq.eclipse.editor.ruminaqEditor"
+            matchingStrategy="org.eclipse.graphiti.ui.editor.DiagramEditorMatchingStrategy">
+         <contentTypeBinding contentTypeId="org.ruminaq.gui.editor.diagram.contenttype" />
+      </editor>
+   </extension>
 
-    <extension point="org.eclipse.core.resources.builders"
-            name="Ruminaq Builder"
-            id="org.ruminaq.eclipse.ruminaqBuilder">
-        <builder hasNature="true">
-            <run class="org.ruminaq.eclipse.RuminaqBuilder"/>
-        </builder>
-    </extension>
+   <extension point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            name="Ruminaq Diagram"
+            base-type="org.eclipse.core.runtime.xml"
+            file-extensions="rumi"
+            id="org.ruminaq.gui.editor.diagram.contenttype"
+            priority="normal">
+      </content-type>
+   </extension>
 
-    <extension point="org.eclipse.ui.menus">
-        <menuContribution locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
-            <menu
-                    id="org.ruminaq.eclipse.popup.ProjectExplorer"
-                    label="Ruminaq"
-                    icon="icons/logo/ruminaq.logo.16x16.png">
-            </menu>
-        </menuContribution>
-    </extension>
+   <extension point="org.eclipse.ui.navigator.linkHelper">
+      <linkHelper
+            class="org.ruminaq.eclipse.editor.EditorLinkHelper"
+            id="org.ruminaq.eclipse.linkEditor">
+         <editorInputEnablement>
+            <instanceof value="org.eclipse.graphiti.ui.editor.DiagramEditorInput" />
+         </editorInputEnablement>
+         <selectionEnablement>
+            <instanceof value="org.eclipse.core.resources.IFile" />
+         </selectionEnablement>
+      </linkHelper>
+   </extension>
+   <extension point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+         <includes>
+            <contentExtension
+                  isRoot="false"
+                  pattern="org.ruminaq.eclipse.linkEditor">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
 
-    <extension point="org.eclipse.ui.preferencePages">
-        <page
-                id="org.ruminaq.Preferences"
-                name="Ruminaq"
-                class="org.ruminaq.eclipse.prefs.WorkspacePrefsPage">
-        </page>
-    </extension>
-    <extension point="org.eclipse.ui.propertyPages">
-        <page
-                id="org.ruminaq.eclipse.prefs.ProjectPropsPage"
-                name="Ruminaq"
-                icon="icons/logo/ruminaq.logo.16x16.png"
-                class="org.ruminaq.eclipse.prefs.ProjectPropsPage">
-            <filter name="nature" value="org.ruminaq.eclipse.RuminaqProjectNature"/>
-            <enabledWhen>
-                <adapt type="org.eclipse.core.resources.IProject" />
-            </enabledWhen>
-        </page>
+   <extension point="org.eclipse.core.resources.builders"
+         name="Ruminaq Builder"
+         id="org.ruminaq.eclipse.ruminaqBuilder">
+      <builder hasNature="true">
+         <run class="org.ruminaq.eclipse.RuminaqBuilder"/>
+      </builder>
+   </extension>
+
+   <extension point="org.eclipse.ui.menus">
+      <menuContribution locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
+         <menu
+               id="org.ruminaq.eclipse.popup.ProjectExplorer"
+               label="Ruminaq"
+               icon="icons/logo/ruminaq.logo.16x16.png">
+         </menu>
+      </menuContribution>
+   </extension>
+
+   <extension point="org.eclipse.ui.preferencePages">
+      <page
+            id="org.ruminaq.Preferences"
+            name="Ruminaq"
+            class="org.ruminaq.eclipse.prefs.WorkspacePrefsPage">
+      </page>
+   </extension>
+   <extension point="org.eclipse.ui.propertyPages">
+      <page
+            id="org.ruminaq.eclipse.prefs.ProjectPropsPage"
+            name="Ruminaq"
+            icon="icons/logo/ruminaq.logo.16x16.png"
+            class="org.ruminaq.eclipse.prefs.ProjectPropsPage">
+         <filter name="nature" value="org.ruminaq.eclipse.RuminaqProjectNature"/>
+         <enabledWhen>
+            <adapt type="org.eclipse.core.resources.IProject" />
+         </enabledWhen>
+      </page>
    </extension>
 </plugin>
