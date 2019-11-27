@@ -9,6 +9,8 @@ Require-Bundle: org.eclipse.jgit,
  org.eclipse.xtext.xbase.lib
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
+ com.python.pydev.analysis,
+ com.python.pydev.analysis.actions,
  com.python.pydev.analysis.additionalinfo,
  org.apache.commons.cli,
  org.apache.commons.io,

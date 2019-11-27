@@ -17,7 +17,6 @@
     <module>org.ruminaq.debug</module>
     <module>org.ruminaq.debug.api</module>
     <module>org.ruminaq.eclipse</module>
-    <module>org.ruminaq.eclipse.api</module>
     <module>org.ruminaq.gui</module>
     <module>org.ruminaq.gui.model</module>
     <module>org.ruminaq.hacks</module>

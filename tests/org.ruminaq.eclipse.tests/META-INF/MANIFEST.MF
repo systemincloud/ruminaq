@@ -23,3 +23,4 @@ Require-Bundle: org.junit,
  org.apiguardian,
  org.eclipse.swt
 Import-Package: org.eclipse.core.runtime
+Export-Package: org.ruminaq.eclipse.tests
