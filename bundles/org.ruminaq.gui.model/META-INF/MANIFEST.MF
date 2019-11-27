@@ -22,3 +22,4 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.graphiti.mm,
  org.eclipse.graphiti.mm.pictograms,
  org.eclipse.graphiti.mm.pictograms.impl
+Export-Package: org.ruminaq.gui.model.diagram

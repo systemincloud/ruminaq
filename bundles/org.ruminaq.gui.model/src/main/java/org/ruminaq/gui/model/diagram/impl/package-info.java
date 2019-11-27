@@ -1,0 +1,1 @@
+package org.ruminaq.gui.model.diagram.impl;

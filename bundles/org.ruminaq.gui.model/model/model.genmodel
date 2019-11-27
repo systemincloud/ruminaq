@@ -8,7 +8,13 @@
   <foreignModel>model.ecore</foreignModel>
   <genPackages prefix="Diagram" basePackage="org.ruminaq.gui.model" resource="XML"
       disposableProviderFactory="true" ecorePackage="model.ecore#/">
-    <genClasses ecoreClass="model.ecore#//RuminaqDiagram"/>
+    <genClasses ecoreClass="model.ecore#//RuminaqDiagram">
+      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getDiagramTypeId"
+          body="return CustomRuminaqDiagramImpl.getDiagramTypeId();"/>
+      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/isVisible" body="return CustomRuminaqDiagramImpl.isVisible();"/>
+      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getGridUnit" body="return CustomRuminaqDiagramImpl.getGridUnit();"/>
+      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/isSnapToGrid" body="return CustomRuminaqDiagramImpl.isSnapToGrid();"/>
+    </genClasses>
     <genClasses ecoreClass="model.ecore#//InputPortShape"/>
   </genPackages>
 </genmodel:GenModel>
