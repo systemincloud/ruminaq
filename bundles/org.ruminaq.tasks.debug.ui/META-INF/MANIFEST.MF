@@ -1,3 +1,4 @@
+Automatic-Module-Name: org.ruminaq.tasks.debug.ui
 Bundle-ManifestVersion: 2
 Bundle-Name: System in Cloud Modeler - Tasks - Debug UI
 Bundle-Vendor: System in Cloud
