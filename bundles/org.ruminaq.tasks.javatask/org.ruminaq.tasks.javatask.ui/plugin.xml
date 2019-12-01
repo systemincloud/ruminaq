@@ -9,8 +9,6 @@
    <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
       <propertyTabs contributorId="Ruminaq.PropertyContributor">
          <propertyTab label="Java Task" id="org.ruminaq.tasks.javaTaskTab" afterTab="org.ruminaq.common.mainTab" category="Graphiti" />
-      </propertyTabs>
-      <propertyTabs contributorId="Ruminaq.PropertyContributor">
          <propertyTab label="Parameters" id="org.ruminaq.tasks.javaTaskParametersTab" afterTab="org.ruminaq.tasks.javaTaskTab" category="Graphiti" />
       </propertyTabs>
    </extension>

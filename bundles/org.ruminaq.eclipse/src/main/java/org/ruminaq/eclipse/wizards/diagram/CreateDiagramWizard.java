@@ -17,10 +17,15 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.internal.IDiagramVersion;
+import org.eclipse.graphiti.internal.util.LookManager;
+import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.pictograms.PictogramLink;
 import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
+import org.eclipse.graphiti.mm.pictograms.PictogramsPackage;
 import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.services.IGaService;
+import org.eclipse.graphiti.util.ILook;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
@@ -30,6 +35,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.ruminaq.eclipse.Messages;
+import org.ruminaq.gui.model.diagram.DiagramFactory;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.FileService;
 import org.ruminaq.model.ruminaq.MainTask;
@@ -104,22 +111,27 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
     IResource resource = root.findMember(new Path(containerName));
 
     IContainer container = (IContainer) resource;
-    String name = fileName.substring(0,
-        fileName.lastIndexOf(DIAGRAM_EXTENSION_DOT));
+    RuminaqDiagram diagram = DiagramFactory.eINSTANCE.createRuminaqDiagram();
+    diagram.eSet(PictogramsPackage.eINSTANCE.getDiagram_Version(),
+        IDiagramVersion.CURRENT);
+    final ILook look = LookManager.getLook();
+    IGaService gaService = Graphiti.getGaService();
+    Rectangle rectangle = gaService.createRectangle(diagram);
+    rectangle.setForeground(
+        gaService.manageColor(diagram, look.getMinorGridLineColor()));
+    rectangle.setBackground(
+        gaService.manageColor(diagram, look.getGridBackgroundColor()));
+    gaService.setSize(rectangle, 1000, 1000);
 
-    Diagram diagram = Graphiti.getPeCreateService().createDiagram("Ruminaq",
-        name, -1, false);
     IFolder diagramFolder = container.getFolder(null);
     final IFile diagramFile = diagramFolder.getFile(fileName);
-    URI uri = URI
-        .createPlatformResourceURI(diagramFile.getFullPath().toString(), true);
     MainTask model = RuminaqFactory.eINSTANCE.createMainTask();
-    model.setVersion(
-        ProjectProps.getInstance(resource.getProject())
-            .get(ProjectProps.RUMINAQ_VERSION));
+    model.setVersion(ProjectProps.getInstance(resource.getProject())
+        .get(ProjectProps.RUMINAQ_VERSION));
     PictogramLink link = PictogramsFactory.eINSTANCE.createPictogramLink();
     link.setPictogramElement(diagram);
-    diagram.getPictogramLinks().add(link);
+    URI uri = URI
+        .createPlatformResourceURI(diagramFile.getFullPath().toString(), true);
     FileService.createEmfFileForDiagram(uri, diagram, model);
 
     getShell().getDisplay().asyncExec(() -> {

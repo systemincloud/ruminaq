@@ -8,9 +8,6 @@
           id="org.ruminaq.tasks.embeddedtaskTab"
           afterTab="org.ruminaq.common.mainTab"
           category="Graphiti" />
-    </propertyTabs>
-    <propertyTabs
-        contributorId="Ruminaq.PropertyContributor">
       <propertyTab
           label="Parameters"
           id="org.ruminaq.tasks.embeddedTaskParametersTab"

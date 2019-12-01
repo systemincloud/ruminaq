@@ -43,6 +43,7 @@ import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.eclipse.api.EclipseExtension;
+import org.ruminaq.gui.model.diagram.DiagramPackage;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.MainTask;
@@ -103,6 +104,7 @@ public class RuminaqEditor extends DiagramEditor {
   @Override
   public void init(IEditorSite site, IEditorInput input)
       throws PartInitException {
+    DiagramPackage.eINSTANCE.eClass();
     ServiceUtil
         .getServicesAtLatestVersion(RuminaqEditor.class, EclipseExtension.class)
         .stream().forEach(EclipseExtension::initEditor);
