@@ -114,14 +114,6 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
     RuminaqDiagram diagram = DiagramFactory.eINSTANCE.createRuminaqDiagram();
     diagram.eSet(PictogramsPackage.eINSTANCE.getDiagram_Version(),
         IDiagramVersion.CURRENT);
-    final ILook look = LookManager.getLook();
-    IGaService gaService = Graphiti.getGaService();
-    Rectangle rectangle = gaService.createRectangle(diagram);
-    rectangle.setForeground(
-        gaService.manageColor(diagram, look.getMinorGridLineColor()));
-    rectangle.setBackground(
-        gaService.manageColor(diagram, look.getGridBackgroundColor()));
-    gaService.setSize(rectangle, 1000, 1000);
 
     IFolder diagramFolder = container.getFolder(null);
     final IFile diagramFile = diagramFolder.getFile(fileName);

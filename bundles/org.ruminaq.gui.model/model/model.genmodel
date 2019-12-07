@@ -15,6 +15,7 @@
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getGridUnit" body="return CustomRuminaqDiagramImpl.getGridUnit();"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getName" body="return CustomRuminaqDiagramImpl.getName(this);"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/isSnapToGrid" body="return CustomRuminaqDiagramImpl.isSnapToGrid();"/>
+      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getGraphicsAlgorithm" body="return CustomRuminaqDiagramImpl.getGraphicsAlgorithm();"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//InputPortShape"/>
   </genPackages>

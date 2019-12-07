@@ -20,6 +20,9 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.ecore.xmi.impl,
  org.eclipse.emf.ecore.xmi.util,
  org.eclipse.graphiti.mm,
+ org.eclipse.graphiti.mm.algorithms;version="0.16.1",
+ org.eclipse.graphiti.mm.algorithms.styles;version="0.16.1",
  org.eclipse.graphiti.mm.pictograms,
- org.eclipse.graphiti.mm.pictograms.impl
+ org.eclipse.graphiti.mm.pictograms.impl,
+ org.eclipse.graphiti.services;version="0.16.1"
 Export-Package: org.ruminaq.gui.model.diagram
