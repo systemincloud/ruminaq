@@ -2,13 +2,11 @@ package org.ruminaq.gui.model.diagram.impl.factories;
 
 import java.util.WeakHashMap;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.impl.RoundedRectangleImpl;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
-import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.model.diagram.PortShape;
 import org.ruminaq.gui.model.diagram.impl.Colors;
