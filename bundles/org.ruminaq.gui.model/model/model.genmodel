@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
-    modelDirectory="model/src/main/java" modelPluginID="org.ruminaq.gui.model"
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="model/src/main/java" modelPluginID="org.ruminaq.gui.model"
     modelName="Diagram" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     suppressEMFTypes="true" codeFormatting="true" importerID="org.eclipse.emf.importer.ecore"
     bundleManifest="false" complianceLevel="8.0" copyrightFields="false" usedGenPackages="platform:/resource/org.eclipse.graphiti.mm/model/graphiti.genmodel#//mm"
@@ -15,8 +15,35 @@
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getGridUnit" body="return CustomRuminaqDiagramImpl.getGridUnit();"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getName" body="return CustomRuminaqDiagramImpl.getName(this);"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/isSnapToGrid" body="return CustomRuminaqDiagramImpl.isSnapToGrid();"/>
-      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getGraphicsAlgorithm" body="return CustomRuminaqDiagramImpl.getGraphicsAlgorithm();"/>
+      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getGraphicsAlgorithm"
+          body="return CustomRuminaqDiagramImpl.getGraphicsAlgorithm();"/>
     </genClasses>
-    <genClasses ecoreClass="model.ecore#//InputPortShape"/>
+    <genClasses ecoreClass="model.ecore#//RuminaqShape">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//RuminaqShape/x"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//RuminaqShape/y"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//RuminaqShape/width"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//RuminaqShape/height"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//RuminaqShape/defaultActive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//RuminaqShape/defaultVisible"/>
+      <genOperations ecoreOperation="model.ecore#//RuminaqShape/isActive" body="return defaultActive;"/>
+      <genOperations ecoreOperation="model.ecore#//RuminaqShape/isVisible" body="return defaultVisible;"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//PortShape">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//PortShape/defaultWidth"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//PortShape/defaultHeight"/>
+      <genOperations ecoreOperation="model.ecore#//PortShape/getWidth" body="return defaultWidth;"/>
+      <genOperations ecoreOperation="model.ecore#//PortShape/getHeight" body="return defaultHeight;"/>
+      <genOperations ecoreOperation="model.ecore#//PortShape/getGraphicsAlgorithm"
+          body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+      <genOperations ecoreOperation="model.ecore#//PortShape/getLineWidth" body="return 0;"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//InputPortShape">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//InputPortShape/defaultLineWidth"/>
+      <genOperations ecoreOperation="model.ecore#//InputPortShape/getLineWidth" body="return defaultLineWidth;"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//OutputPortShape">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//OutputPortShape/defaultLineWidth"/>
+      <genOperations ecoreOperation="model.ecore#//OutputPortShape/getLineWidth" body="return defaultLineWidth;"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

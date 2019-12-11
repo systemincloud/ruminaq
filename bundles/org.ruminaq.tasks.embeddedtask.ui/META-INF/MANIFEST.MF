@@ -1,6 +1,7 @@
 Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - Embedded UI
 Bundle-Vendor: Marek Jagielski
+Automatic-Module-Name: org.ruminaq.tasks.embeddedtask.ui
 Bundle-SymbolicName: org.ruminaq.tasks.embeddedtask.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Import-Package: org.apache.commons.io,
@@ -10,7 +11,7 @@ Import-Package: org.apache.commons.io,
  org.eclipse.emf.common.util,
  org.eclipse.graphiti,
  org.eclipse.graphiti.mm.pictograms,
- org.eclipse.graphiti.services;version="0.13.2",
+ org.eclipse.graphiti.services,
  org.eclipse.graphiti.ui.platform,
  org.eclipse.jdt.launching,
  org.eclipse.jface.viewers,
@@ -32,6 +33,9 @@ Import-Package: org.apache.commons.io,
  org.ruminaq.tasks.api,
  org.ruminaq.tasks.userdefined.properties,
  org.ruminaq.util
-Export-Package: org.ruminaq.tasks.embeddedtask.ui
+Export-Package: com.systemincloud.modeler.tasks.embeddedtask.ui.cmd,
+ org.ruminaq.tasks.embeddedtask.ui,
+ org.ruminaq.tasks.embeddedtask.ui.cmd,
+ org.ruminaq.tasks.embeddedtask.ui.properties
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11

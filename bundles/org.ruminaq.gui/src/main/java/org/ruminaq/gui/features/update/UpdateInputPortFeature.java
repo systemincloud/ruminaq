@@ -33,16 +33,17 @@ public class UpdateInputPortFeature extends UpdateBaseElementFeature {
   public IReason updateNeeded(IUpdateContext context) {
     superUpdateNeeded = super.updateNeeded(context).toBoolean();
 
-    ContainerShape parent = (ContainerShape) context.getPictogramElement();
-    InputPort ip = (InputPort) getBusinessObjectForPictogramElement(parent);
-
-    boolean asynchronousEq = ip.isAsynchronous() != LineStyle.SOLID
-        .equals(parent.getGraphicsAlgorithm().getGraphicsAlgorithmChildren()
-            .get(0).getLineStyle());
-
-    boolean updateNeeded = superUpdateNeeded || !asynchronousEq;
-    return updateNeeded ? Reason.createTrueReason()
-        : Reason.createFalseReason();
+//    ContainerShape parent = (ContainerShape) context.getPictogramElement();
+//    InputPort ip = (InputPort) getBusinessObjectForPictogramElement(parent);
+//
+//    boolean asynchronousEq = ip.isAsynchronous() != LineStyle.SOLID
+//        .equals(parent.getGraphicsAlgorithm().getGraphicsAlgorithmChildren()
+//            .get(0).getLineStyle());
+//
+//    boolean updateNeeded = superUpdateNeeded || !asynchronousEq;
+//    return updateNeeded ? Reason.createTrueReason()
+//        : Reason.createFalseReason();
+    return Reason.createFalseReason();
   }
 
   @Override
