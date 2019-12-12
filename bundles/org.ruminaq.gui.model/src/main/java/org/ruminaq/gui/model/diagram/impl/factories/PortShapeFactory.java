@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.factories;
 
 import java.util.WeakHashMap;
@@ -6,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.impl.RoundedRectangleImpl;
+import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.model.diagram.PortShape;
@@ -20,16 +27,32 @@ public class PortShapeFactory implements Factory {
 
   private WeakHashMap<EObject, PortShapeGA> cacheGraphicsAlgorithms = new WeakHashMap<>();
 
-  public class PortShapeGA extends RoundedRectangleImpl {
+  public static class PortShapeGA extends RoundedRectangleImpl {
 
     private PortShape shape;
 
     PortShapeGA(PortShape shape) {
       this.shape = shape;
-      setCornerWidth(CORNER);
-      setCornerHeight(CORNER);
-      setBackground(Colors.WHITE);
-      setLineStyle(LineStyle.SOLID);
+    }
+    
+    @Override
+    public int getCornerWidth() {
+      return CORNER;
+    }
+    
+    @Override
+    public int getCornerHeight() {
+      return CORNER;
+    }
+    
+    @Override
+    public Color getBackground() {
+      return Colors.WHITE;
+    }
+    
+    @Override
+    public LineStyle getLineStyle() {
+      return LineStyle.SOLID;
     }
 
     @Override
