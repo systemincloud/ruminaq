@@ -15,6 +15,11 @@ import org.ruminaq.gui.model.diagram.PortShape;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.model.ruminaq.Port;
 
+/**
+ * AddPort common class.
+ *
+ * @author Marek Jagielski
+ */
 public abstract class AbstractAddPortFeature extends AbstractAddElementFeature {
 
   public AbstractAddPortFeature(IFeatureProvider fp) {

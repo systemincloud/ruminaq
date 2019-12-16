@@ -134,4 +134,5 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//LabelShape"
         eOpposite="#//LabelShape/labeledShape"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TaskShape" eSuperTypes="#//LabeledRuminaqShape"/>
 </ecore:EPackage>

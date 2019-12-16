@@ -87,18 +87,18 @@ public class PasteTaskFeature extends RuminaqPasteFeature
         diagram);
 
     diagram.getChildren().add((Shape) newPe);
-
-    ContainerShape newLabel = PasteDefaultElementFeature.addLabel(oldPe,
-        oldLabel, x, y, newId, diagram, newPe);
-    newPes.add(newLabel);
-
-    link(newPe, new Object[] { newBo, newLabel });
-    link(newLabel, new Object[] { newBo, newPe });
-
-    updatePictogramElement(newPe);
-
-    updatePictogramElement(newLabel);
-    layoutPictogramElement(newLabel);
+//
+//    ContainerShape newLabel = PasteDefaultElementFeature.addLabel(oldPe,
+//        oldLabel, x, y, newId, diagram, newPe);
+//    newPes.add(newLabel);
+//
+//    link(newPe, new Object[] { newBo, newLabel });
+//    link(newLabel, new Object[] { newBo, newPe });
+//
+//    updatePictogramElement(newPe);
+//
+//    updatePictogramElement(newLabel);
+//    layoutPictogramElement(newLabel);
 
     updateInternalPorts(newBo, (ContainerShape) newPe);
 

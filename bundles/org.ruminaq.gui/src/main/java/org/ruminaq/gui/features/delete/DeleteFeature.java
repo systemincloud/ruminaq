@@ -8,6 +8,7 @@ package org.ruminaq.gui.features.delete;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -30,6 +31,8 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.create.CreateSimpleConnectionFeature;
 import org.ruminaq.gui.features.create.CreateSimpleConnectionPointFeature;
+import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 
 public class DeleteFeature extends RuminaqDeleteFeature {
 
@@ -54,6 +57,14 @@ public class DeleteFeature extends RuminaqDeleteFeature {
   @Override
   public void postDelete(IDeleteContext context) {
     super.postDelete(context);
+
+    Optional.of(context.getPictogramElement())
+        .filter(LabeledRuminaqShape.class::isInstance).map(LabeledRuminaqShape.class::cast)
+        .map(LabeledRuminaqShape::getLabel).ifPresent(l -> {
+          DeleteContext ctx = new DeleteContext(l);
+          getFeatureProvider().getDeleteFeature(ctx).delete(ctx);
+          
+        });
 
     for (AnchorContainer ac : connectionPointsToDelete) {
       RemoveContext ctx = new RemoveContext(ac);

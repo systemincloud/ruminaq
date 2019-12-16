@@ -14,8 +14,8 @@ import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.model.ruminaq.BaseElement;
 
 /**
- * Inheriting classess can be used in @FeatureFilter annotations. Used on
- * implmentations of AbstractAddElementFeature.
+ * Inheriting classes can be used in @FeatureFilter annotations. Used on
+ * implementations of AbstractAddElementFeature.
  *
  * @author Marek Jagielski
  */
