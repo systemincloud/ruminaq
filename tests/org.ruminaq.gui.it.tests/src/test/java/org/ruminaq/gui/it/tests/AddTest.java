@@ -95,25 +95,14 @@ public class AddTest {
     assertEquals("Label shouldn't have any pad buttons", 0,
         ipLabel.getContextButtons().size());
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InputPort.class);
-    Control ctrl = ip.getControl();
     ip.select();
-//    ip.doubleClick();
-//    List<ContextButton> buttons = ip.getContextButtons();
-//    ip.getContextButton("Delete").click();
-//    gefEditor.click(10, 10);
-//    try {
-//      gefEditor.addToolFromPalette("EClass", 50, 100).setLabel("ClassA");
-//    } catch (CoreLayerException ex) {
-//      throw new TestFailureException(ex.getMessage());
-//    }
-//    new LabeledGraphitiEditPart("ClassA").getContextButton("Delete").click();
-//    new DefaultShell("Confirm Delete").setFocus();
-//    new PushButton("Yes").click();
-//    try {
-//      new LabeledGraphitiEditPart("ClassA").select();
-//    } catch (CoreLayerException ex) {
-//      throw new TestFailureException(ex.toString());
-//    }
+    ip.doubleClick();
+
+    List<ContextButton> buttons = ip.getContextButtons();
+    assertEquals("InputPort should have 2 pad buttons", 2, buttons.size());
+
+    ip.getContextButton("Delete").click();
+    assertEquals("0 elements left", 1, gefEditor.getNumberOfEditParts());
   }
 
   @Test
