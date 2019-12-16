@@ -46,7 +46,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
-import org.ruminaq.model.ModelHandler;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.MainTask;
@@ -1012,7 +1012,9 @@ public class PropertySynchronizationSection extends GFPropertySection
 
       treclEdOutputPortsTask = new TaskEditingSupport(
           treclVwOutputPortsTask.getViewer(),
-          ModelHandler.getModel(getDiagramTypeProvider().getDiagram()), t);
+          ((RuminaqDiagram) getDiagramTypeProvider().getDiagram())
+              .getMainTask(),
+          t);
       treclVwOutputPortsTask.setEditingSupport(treclEdOutputPortsTask);
 
       treclEdOutputPortsSkip = new SkipEditingSupport(
@@ -1037,7 +1039,9 @@ public class PropertySynchronizationSection extends GFPropertySection
 
       treclEdOutputResetTask = new ResetTaskEditingSupport(
           treclVwOutputResetTask.getViewer(),
-          ModelHandler.getModel(getDiagramTypeProvider().getDiagram()), t);
+          ((RuminaqDiagram) getDiagramTypeProvider().getDiagram())
+              .getMainTask(),
+          t);
       treclVwOutputResetTask.setEditingSupport(treclEdOutputResetTask);
     }
     for (TreeItem ti : treVwOutputPorts.getTree().getItems())

@@ -15,13 +15,11 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.paste.PasteAnchorTracker;
 import org.ruminaq.gui.features.paste.PasteDefaultElementFeature;
 import org.ruminaq.gui.features.paste.RuminaqPasteFeature;
-import org.ruminaq.model.ModelHandler;
+import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.model.ruminaq.InternalPort;
-import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.util.TasksUtil;
 
@@ -69,7 +67,7 @@ public class PasteTaskFeature extends RuminaqPasteFeature
     for (Object o : getAllBusinessObjectsForPictogramElement(oldPe)) {
       if (o instanceof Task) {
         oldBo = (Task) o;
-      } else if (o instanceof ContainerShape && LabelUtil.isLabel((ContainerShape) o)) {
+      } else if (LabelShape.class.isInstance(o)) {
         oldLabel = (ContainerShape) o;
       }
     }
@@ -78,8 +76,7 @@ public class PasteTaskFeature extends RuminaqPasteFeature
     newPes.add(newPe);
     Task newBo = EcoreUtil.copy(oldBo);
 
-    MainTask mt = ModelHandler.getModel(getDiagram());
-    mt.getTask().add(newBo);
+    getRuminaqDiagram().getMainTask().getTask().add(newBo);
 
     newPe.getGraphicsAlgorithm()
         .setX(x + newPe.getGraphicsAlgorithm().getX() - xMin);

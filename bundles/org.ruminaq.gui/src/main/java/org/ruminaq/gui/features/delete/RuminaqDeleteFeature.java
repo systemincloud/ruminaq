@@ -26,10 +26,11 @@ public class RuminaqDeleteFeature extends DefaultDeleteFeature {
 
   @Override
   protected boolean getUserDecision(IDeleteContext context) {
-    if (isUserDecision)
+    if (isUserDecision) {
       return super.getUserDecision(context);
-    else
-      return true;
+    }
+
+    return true;
   }
 
 }

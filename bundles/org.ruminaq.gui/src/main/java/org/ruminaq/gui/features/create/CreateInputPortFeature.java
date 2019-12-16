@@ -10,9 +10,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.ruminaq.gui.Images;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
-import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.InputPort;
-import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 
 public class CreateInputPortFeature extends CreateElementFeature
@@ -37,8 +35,7 @@ public class CreateInputPortFeature extends CreateElementFeature
     InputPort inputPort = RuminaqFactory.eINSTANCE.createInputPort();
     setDefaultId(inputPort, context);
 
-    MainTask mt = ModelHandler.getModel(getDiagram());
-    mt.getInputPort().add(inputPort);
+    getRuminaqDiagram().getMainTask().getInputPort().add(inputPort);
 
     addGraphicalRepresentation(context, inputPort);
     return new Object[] { inputPort };

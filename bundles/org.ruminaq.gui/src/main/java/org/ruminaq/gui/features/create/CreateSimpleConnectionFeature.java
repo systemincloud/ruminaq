@@ -6,6 +6,8 @@
 
 package org.ruminaq.gui.features.create;
 
+import java.util.Optional;
+
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateConnectionContext;
 import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
@@ -14,10 +16,9 @@ import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.model.ModelHandler;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.model.ruminaq.FlowTarget;
-import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.SimpleConnection;
 
@@ -70,6 +71,10 @@ public class CreateSimpleConnectionFeature
     return newConnection;
   }
 
+  protected RuminaqDiagram getRuminaqDiagram() {
+    return (RuminaqDiagram) getDiagram();
+  }
+
   private FlowSource getFlowSource(Anchor anchor) {
     if (anchor != null) {
       String isConnectionPoint = Graphiti.getPeService().getPropertyValue(
@@ -77,9 +82,11 @@ public class CreateSimpleConnectionFeature
       if (Boolean.parseBoolean(isConnectionPoint)) {
         return getFlowSource(anchor.getIncomingConnections().get(0).getStart());
       } else {
-        Object obj = getBusinessObjectForPictogramElement(anchor.getParent());
-        if (obj instanceof FlowSource)
-          return (FlowSource) obj;
+        Optional<FlowSource> fs = Optional.ofNullable(anchor.getParent())
+            .filter(FlowSource.class::isInstance).map(FlowSource.class::cast);
+        if (fs.isPresent()) {
+          return fs.get();
+        }
       }
     }
     return null;
@@ -101,8 +108,7 @@ public class CreateSimpleConnectionFeature
     simpleConnection.setSourceRef(source);
     simpleConnection.setTargetRef(target);
 
-    MainTask mt = ModelHandler.getModel(getDiagram());
-    mt.getConnection().add(simpleConnection);
+    getRuminaqDiagram().getMainTask().getConnection().add(simpleConnection);
 
     return simpleConnection;
   }

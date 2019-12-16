@@ -19,13 +19,12 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.PasteFeatureFilter;
 import org.ruminaq.gui.features.paste.PasteOutputPortFeature.Filter;
-import org.ruminaq.model.ModelHandler;
+import org.ruminaq.gui.model.diagram.LabelShape;
+import org.ruminaq.gui.model.diagram.OutputPortShape;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.OutputPort;
 
 @PasteFeatureFilter(Filter.class)
@@ -39,7 +38,7 @@ public class PasteOutputPortFeature extends RuminaqPasteFeature
     }
   }
 
-  private PictogramElement oldPe;
+  private OutputPortShape oldPe;
   private int xMin;
   private int yMin;
 
@@ -50,7 +49,7 @@ public class PasteOutputPortFeature extends RuminaqPasteFeature
     return newPes;
   }
 
-  public PasteOutputPortFeature(IFeatureProvider fp, PictogramElement oldPe,
+  public PasteOutputPortFeature(IFeatureProvider fp, OutputPortShape oldPe,
       int xMin, int yMin) {
     super(fp);
     this.oldPe = oldPe;
@@ -74,23 +73,14 @@ public class PasteOutputPortFeature extends RuminaqPasteFeature
 
     Diagram diagram = (Diagram) pes[0];
 
-    OutputPort oldBo = null;
-    ContainerShape oldLabel = null;
-
-    for (Object o : getAllBusinessObjectsForPictogramElement(oldPe)) {
-      if (o instanceof OutputPort) {
-        oldBo = (OutputPort) o;
-      } else if (o instanceof ContainerShape && LabelUtil.isLabel((ContainerShape) o)) {
-        oldLabel = (ContainerShape) o;
-      }
-    }
+    OutputPort oldBo = (OutputPort) oldPe.getModelObject();
+    LabelShape oldLabel = oldPe.getLabel();
 
     PictogramElement newPe = EcoreUtil.copy(oldPe);
     newPes.add(newPe);
     OutputPort newBo = EcoreUtil.copy(oldBo);
 
-    MainTask mt = ModelHandler.getModel(getDiagram());
-    mt.getOutputPort().add(newBo);
+    getRuminaqDiagram().getMainTask().getOutputPort().add(newBo);
 
     newPe.getGraphicsAlgorithm()
         .setX(x + newPe.getGraphicsAlgorithm().getX() - xMin);

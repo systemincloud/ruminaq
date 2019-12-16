@@ -1,5 +1,7 @@
 package org.ruminaq.tasks.features;
 
+import java.util.Optional;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
@@ -13,6 +15,9 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.GuiUtil;
 import org.ruminaq.gui.LabelUtil;
+import org.ruminaq.gui.model.diagram.LabelShape;
+import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
+import org.ruminaq.gui.model.diagram.impl.factories.LabelShapeFactory;
 
 public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
 
@@ -28,16 +33,6 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
   @Override
   public void resizeShape(IResizeShapeContext context) {
     Shape shape = context.getShape();
-
-    ContainerShape textContainerShape = null;
-    for (EObject o : shape.getLink().getBusinessObjects()) {
-      if (o instanceof ContainerShape && LabelUtil.isLabel((ContainerShape) o)) {
-        textContainerShape = (ContainerShape) o;
-      }
-    }
-
-    boolean labelInDefaultPosition = LabelUtil
-        .isLabelInDefaultPosition(textContainerShape, shape);
 
     int w_before = shape.getGraphicsAlgorithm().getWidth();
     int h_before = shape.getGraphicsAlgorithm().getHeight();
@@ -67,15 +62,19 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
 
     alignInternalPorts(shape, w_before, h_before, width, height);
 
-    if (labelInDefaultPosition
-        || isConflictingWithNewSize(textContainerShape, shape))
-      GuiUtil.alignWithShape(
-          (MultiText) textContainerShape.getGraphicsAlgorithm()
-              .getGraphicsAlgorithmChildren().get(0),
-          textContainerShape, shape.getGraphicsAlgorithm().getWidth(),
-          shape.getGraphicsAlgorithm().getHeight(),
-          shape.getGraphicsAlgorithm().getX(),
-          shape.getGraphicsAlgorithm().getY(), 0, 0);
+    Optional<LabeledRuminaqShape> labeledShape = Optional.of(shape)
+        .filter(LabeledRuminaqShape.class::isInstance)
+        .map(LabeledRuminaqShape.class::cast);
+    
+    if (labeledShape.isPresent()) {
+      if (LabelUtil.isLabelInDefaultPosition(labeledShape.get().getLabel(),
+          labeledShape.get())
+          || isConflictingWithNewSize(labeledShape.get().getLabel(),
+              labeledShape.get())) {
+        LabelShapeFactory
+            .placeLabelInDefaultPosition(labeledShape.get().getLabel());
+      }
+    }
 
     layoutPictogramElement(shape);
   }

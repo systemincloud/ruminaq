@@ -29,8 +29,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.directediting.DirectEditLabelFeature;
+import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.util.ModelUtil;
 
@@ -124,7 +124,7 @@ public class PropertyElementSection extends GFPropertySection
 
                   for (EObject o : getSelectedPictogramElement().getLink()
                       .getBusinessObjects()) {
-                    if (o instanceof ContainerShape && LabelUtil.isLabel((PictogramElement) o)) {
+                    if (o instanceof ContainerShape && LabelShape.class.isInstance(o)) {
                       UpdateContext context = new UpdateContext(
                           (ContainerShape) o);
                       getDiagramTypeProvider().getFeatureProvider()

@@ -5,7 +5,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins">
+		<accessrules>
+			<accessrule kind="accessible" pattern="org/eclipse/graphiti/mm/algorithms/impl/*"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry kind="src" path="target/generated-sources/emf/src/main/java"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="output" path="target/classes"/>

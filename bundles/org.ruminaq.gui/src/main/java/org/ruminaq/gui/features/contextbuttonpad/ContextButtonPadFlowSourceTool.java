@@ -9,6 +9,7 @@ package org.ruminaq.gui.features.contextbuttonpad;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
@@ -24,9 +25,10 @@ import org.eclipse.graphiti.tb.IContextButtonEntry;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.Images;
-import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.api.DomainContextButtonPadDataExtension;
 import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadFlowSourceTool.Filter;
+import org.ruminaq.gui.model.diagram.LabelShape;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
@@ -40,14 +42,16 @@ public class ContextButtonPadFlowSourceTool
 
     @Override
     public boolean test(ServiceFilterArgs args) {
-      IFeatureProvider fp = (IFeatureProvider) args.getArgs().get(0);
       IPictogramElementContext context = (IPictogramElementContext) args
           .getArgs().get(1);
       PictogramElement pe = context.getPictogramElement();
-      return !LabelUtil.isLabel(pe) && (Boolean
+      return !LabelShape.class.isInstance(pe) && (Boolean
           .parseBoolean(Graphiti.getPeService().getPropertyValue(pe,
               Constants.SIMPLE_CONNECTION_POINT))
-          || fp.getBusinessObjectForPictogramElement(pe) instanceof FlowSource);
+          || Optional.ofNullable(context.getPictogramElement())
+              .filter(RuminaqShape.class::isInstance)
+              .map(RuminaqShape.class::cast).map(RuminaqShape::getModelObject)
+              .filter(FlowSource.class::isInstance).isPresent());
     }
   }
 

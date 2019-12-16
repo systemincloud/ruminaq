@@ -13,12 +13,13 @@ import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.model.diagram.impl.factories.PortShapeFactory;
 import org.ruminaq.gui.model.diagram.impl.factories.Factory;
+import org.ruminaq.gui.model.diagram.impl.factories.LabelShapeFactory;
 
 public enum GraphicsAlgorithmFactory {
   INSTANCE;
 
   private final List<Factory> factories = Arrays
-      .asList(PortShapeFactory.INSTANCE);
+      .asList(LabelShapeFactory.INSTANCE, PortShapeFactory.INSTANCE);
 
   public GraphicsAlgorithm getGraphicsAlgorithm(Shape shape) {
     return factories.stream().filter((Factory p) -> p.isForThisShape(shape))

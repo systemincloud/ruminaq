@@ -206,6 +206,13 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     }).orElse(""));
 
     String filename = getDefaultName();
+    int i = 1;
+    while (project.isPresent() && Optional.ofNullable(findFile(
+        (IContainer) project.get().findMember(getContainerName()), filename))
+        .isPresent()) {
+      filename = getDefaultName(Integer.toString(i));
+      i++;
+    }
     txtFile.setText(filename);
   }
 
@@ -218,7 +225,12 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   }
 
   protected String getDefaultName() {
-    return DEFAULT_DIAGRAM_NAME + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT;
+    return getDefaultName("");
+  }
+
+  protected String getDefaultName(String suffix) {
+    return DEFAULT_DIAGRAM_NAME + suffix
+        + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT;
   }
 
   /**
@@ -320,11 +332,17 @@ public class CreateDiagramWizardNamePage extends WizardPage {
       updateStatus(
           NLS.bind(Messages.createDiagramWizardStatusFileExtensionNotValid,
               getExtension()));
-    } else if (((IContainer) container).findMember(getFileName()) != null) {
+    } else if (Optional
+        .ofNullable(findFile((IContainer) container, getFileName()))
+        .isPresent()) {
       updateStatus(Messages.createDiagramWizardStatusFileExists);
     } else {
       updateStatus(null);
     }
+  }
+
+  protected IResource findFile(IContainer container, String fileName) {
+    return container.findMember(fileName);
   }
 
   protected String getExtension() {

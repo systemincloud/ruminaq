@@ -14,10 +14,10 @@ import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.move.MoveLabelFeature.Filter;
+import org.ruminaq.gui.model.diagram.LabelShape;
 
 @FeatureFilter(Filter.class)
 public class MoveLabelFeature extends DefaultMoveShapeFeature {
@@ -27,7 +27,7 @@ public class MoveLabelFeature extends DefaultMoveShapeFeature {
     public boolean test(IContext context, IFeatureProvider fp) {
       IMoveShapeContext moveShapeContext = (IMoveShapeContext) context;
       Shape shape = moveShapeContext.getShape();
-      return LabelUtil.isLabel(shape);
+      return LabelShape.class.isInstance(shape);
     }
   }
 

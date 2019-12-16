@@ -42,7 +42,6 @@ public class FileService {
       @Override
       protected void doExecute() {
         resource.setTrackingModification(true);
-        diagram.getLink().getBusinessObjects().add(model);
         resource.getContents().add(diagram);
         resource.getContents().add(model);
       }

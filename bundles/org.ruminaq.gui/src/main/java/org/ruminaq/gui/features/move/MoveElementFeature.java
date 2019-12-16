@@ -18,6 +18,7 @@ import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.move.MoveElementFeature.Filter;
+import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 
 @FeatureFilter(Filter.class)
@@ -51,7 +52,7 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
 
     // can move on label place
     for (EObject o : shape.getLink().getBusinessObjects())
-      if (o instanceof Shape && LabelUtil.isLabel((Shape) o))
+      if (LabelShape.class.isInstance(o))
         targetShape = (ContainerShape) o;
     if (targetShape != null && targetShape.equals(context.getTargetContainer()))
       return true;
@@ -67,7 +68,7 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
   @Override
   public void moveShape(IMoveShapeContext context) {
     Shape shape = context.getTargetContainer();
-    if (LabelUtil.isLabel(shape)) {
+    if (LabelShape.class.isInstance(shape)) {
       MoveShapeContext c = (MoveShapeContext) context;
       c.setTargetContainer(shape.getContainer());
       c.setDeltaX(c.getDeltaX() + shape.getGraphicsAlgorithm().getX());
@@ -84,7 +85,7 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
 
     // move also label
     for (EObject o : shape.getLink().getBusinessObjects()) {
-      if (o instanceof Shape && LabelUtil.isLabel((Shape) o)) {
+      if (LabelShape.class.isInstance(o)) {
         ContainerShape textContainerShape = (ContainerShape) o;
         int dx = context.getDeltaX();
         int dy = context.getDeltaY();

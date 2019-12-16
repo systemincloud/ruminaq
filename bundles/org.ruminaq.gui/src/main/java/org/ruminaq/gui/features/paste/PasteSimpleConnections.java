@@ -23,10 +23,8 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.model.ruminaq.FlowTarget;
-import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.SimpleConnection;
 
 public class PasteSimpleConnections extends RuminaqPasteFeature {
@@ -35,8 +33,6 @@ public class PasteSimpleConnections extends RuminaqPasteFeature {
   private Map<FlowTarget, Anchor> oldFlowTargets;
   private Map<Connection, List<SimpleConnection>> oldDiagramElementBusinessObjects;
   private Map<Anchor, Anchor> oldAnchorNewAnchor;
-
-  private IFeatureProvider fp;
 
   private Map<SimpleConnection, SimpleConnection> oldSCnewSC = new HashMap<>();
   private Map<Connection, Connection> newColdC = new HashMap<>();
@@ -55,7 +51,6 @@ public class PasteSimpleConnections extends RuminaqPasteFeature {
     this.oldFlowTargets = flowTargets;
     this.oldDiagramElementBusinessObjects = peBos;
     this.oldAnchorNewAnchor = anchors;
-    this.fp = fp;
   }
 
   @Override
@@ -65,17 +60,15 @@ public class PasteSimpleConnections extends RuminaqPasteFeature {
       for (SimpleConnection sc : lsc)
         if (!oldSCnewSC.containsKey(sc)) {
           SimpleConnection newSc = EcoreUtil.copy(sc);
-          Object o1 = fp.getBusinessObjectForPictogramElement(oldAnchorNewAnchor
+          Object o1 = getFeatureProvider().getBusinessObjectForPictogramElement(oldAnchorNewAnchor
               .get(oldFlowSources.get(newSc.getSourceRef())).getParent());
           if (o1 instanceof FlowSource)
             newSc.setSourceRef((FlowSource) o1);
-          Object o2 = fp.getBusinessObjectForPictogramElement(oldAnchorNewAnchor
+          Object o2 = getFeatureProvider().getBusinessObjectForPictogramElement(oldAnchorNewAnchor
               .get(oldFlowTargets.get(newSc.getTargetRef())).getParent());
           if (o2 instanceof FlowTarget)
             newSc.setTargetRef((FlowTarget) o2);
-          MainTask mt = ModelHandler
-              .getModel(fp.getDiagramTypeProvider().getDiagram());
-          mt.getConnection().add(newSc);
+          getRuminaqDiagram().getMainTask().getConnection().add(newSc);
           oldSCnewSC.put(sc, newSc);
         }
 
@@ -103,7 +96,7 @@ public class PasteSimpleConnections extends RuminaqPasteFeature {
           }
           newC.setEnd(getEndAnchor(c, deltaX, deltaY));
           newColdC.put(newC, c);
-          fp.getDiagramTypeProvider().getDiagram().getConnections().add(newC);
+          getFeatureProvider().getDiagramTypeProvider().getDiagram().getConnections().add(newC);
         }
       }
     }
@@ -114,7 +107,7 @@ public class PasteSimpleConnections extends RuminaqPasteFeature {
           .get(c.getValue()))
         newSc.add(oldSCnewSC.get(old));
 
-      fp.link(c.getKey(), newSc.toArray(new Object[newSc.size()]));
+      getFeatureProvider().link(c.getKey(), newSc.toArray(new Object[newSc.size()]));
     }
   }
 
@@ -132,7 +125,7 @@ public class PasteSimpleConnections extends RuminaqPasteFeature {
             .setX(newSCP.getGraphicsAlgorithm().getX() + deltaX);
         newSCP.getGraphicsAlgorithm()
             .setY(newSCP.getGraphicsAlgorithm().getY() + deltaY);
-        fp.getDiagramTypeProvider().getDiagram().getChildren().add(newSCP);
+        getFeatureProvider().getDiagramTypeProvider().getDiagram().getChildren().add(newSCP);
         ret = newSCP.getAnchors().get(0);
         for (Connection c2 : end.getAnchors().get(0).getOutgoingConnections()) {
           if (oldDiagramElementBusinessObjects.containsKey(c2)) {
@@ -145,7 +138,7 @@ public class PasteSimpleConnections extends RuminaqPasteFeature {
             }
             newC.setEnd(getEndAnchor(c2, deltaX, deltaY));
             newColdC.put(newC, c);
-            fp.getDiagramTypeProvider().getDiagram().getConnections().add(newC);
+            getFeatureProvider().getDiagramTypeProvider().getDiagram().getConnections().add(newC);
           }
         }
       }

@@ -92,7 +92,7 @@ public class NoResource implements Resource {
 
   @Override
   public boolean isLoaded() {
-    return false;
+    return true;
   }
 
   @Override
@@ -107,18 +107,22 @@ public class NoResource implements Resource {
 
   @Override
   public void load(Map<?, ?> arg0) throws IOException {
+    // Not serializable
   }
 
   @Override
   public void load(InputStream arg0, Map<?, ?> arg1) throws IOException {
+    // Not serializable
   }
 
   @Override
   public void save(Map<?, ?> arg0) throws IOException {
+    // Not serializable
   }
 
   @Override
   public void save(OutputStream arg0, Map<?, ?> arg1) throws IOException {
+    // Not serializable
   }
 
   @Override
@@ -135,10 +139,11 @@ public class NoResource implements Resource {
 
   @Override
   public void setURI(URI arg0) {
+    // Not serializable
   }
 
   @Override
   public void unload() {
+    // Not serializable
   }
-
 }

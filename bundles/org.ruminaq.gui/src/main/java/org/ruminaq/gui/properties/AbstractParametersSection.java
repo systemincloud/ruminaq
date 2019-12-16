@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 
 public abstract class AbstractParametersSection extends GFPropertySection
     implements ITabbedPropertyConstants {
@@ -55,6 +56,10 @@ public abstract class AbstractParametersSection extends GFPropertySection
     initActions();
     initComponents();
     addStyles();
+  }
+  
+  protected RuminaqDiagram getRuminaqDiagram() {
+    return (RuminaqDiagram) getDiagram();
   }
 
   private void initLayout(Composite parent) {

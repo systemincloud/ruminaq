@@ -8,7 +8,6 @@ package org.ruminaq.gui.features.add;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeCreateService;
@@ -34,14 +33,9 @@ public abstract class AbstractAddPortFeature extends AbstractAddElementFeature {
     portShape.setY(context.getY());
     IPeCreateService peCreateService = Graphiti.getPeCreateService();
     peCreateService.createChopboxAnchor(portShape);
-
-    ContainerShape labelCS = addLabel(context.getTargetContainer(),
-        port.getId(), portShape.getWidth(), portShape.getHeight(),
-        context.getX(), context.getY());
-    link(portShape, new Object[] { port, labelCS });
-    link(labelCS, new Object[] { port, portShape });
-    updatePictogramElement(labelCS);
-    layoutPictogramElement(labelCS);
+    
+    portShape.setModelObject(port);
+    addLabel(portShape);
     return portShape;
   }
 }

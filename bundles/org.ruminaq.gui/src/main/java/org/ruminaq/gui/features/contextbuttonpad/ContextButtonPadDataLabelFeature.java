@@ -13,10 +13,10 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
 import org.ruminaq.gui.diagram.RuminaqBehaviorProvider;
 import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadDataLabelFeature.Filter;
+import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
 
@@ -34,7 +34,7 @@ public class ContextButtonPadDataLabelFeature
       PictogramElement pe = context.getPictogramElement();
       String portLabelProperty = Graphiti.getPeService().getPropertyValue(pe,
           Constants.PORT_LABEL_PROPERTY);
-      return LabelUtil.isLabel(pe)
+      return LabelShape.class.isInstance(pe)
           || Boolean.parseBoolean(portLabelProperty);
     }
   }

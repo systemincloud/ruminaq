@@ -23,7 +23,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.model.ModelHandler;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.util.GlobalUtil;
@@ -42,7 +41,7 @@ public class TestParametersSection extends AbstractParametersSection {
   protected Set<String> getParameters() {
     logger.trace("getParameters");
     final Set<String> ret = new HashSet<>();
-    this.mt = ModelHandler.getModel(getDiagramTypeProvider().getDiagram());
+    this.mt = getRuminaqDiagram().getMainTask();
     logger.trace("mt = {}", mt);
     String pathString = getDiagramTypeProvider().getDiagram().eResource()
         .getURI().toPlatformString(true);

@@ -6,6 +6,8 @@
 
 package org.ruminaq.gui.features.update;
 
+import java.util.Optional;
+
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
@@ -16,7 +18,9 @@ import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.GuiUtil;
+import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.InputPort;
 
 public class UpdateLabelFeature extends AbstractUpdateFeature {
 
@@ -31,6 +35,9 @@ public class UpdateLabelFeature extends AbstractUpdateFeature {
 
   @Override
   public IReason updateNeeded(IUpdateContext context) {
+    LabelShape labelShape = Optional.of(context.getPictogramElement())
+        .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
+        .orElseThrow();
     String pictogramName = null;
     PictogramElement pictogramElement = context.getPictogramElement();
     if (pictogramElement instanceof ContainerShape) {
@@ -62,32 +69,29 @@ public class UpdateLabelFeature extends AbstractUpdateFeature {
 
   @Override
   public boolean update(IUpdateContext context) {
-    // retrieve name from business model
-    String businessName = null;
-    PictogramElement pictogramElement = context.getPictogramElement();
-    Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-    if (bo instanceof BaseElement) {
-      BaseElement be = (BaseElement) bo;
-      businessName = be.getId();
-    }
-
-    // Set name in pictogram model
-    for (GraphicsAlgorithm ga : pictogramElement.getGraphicsAlgorithm()
-        .getGraphicsAlgorithmChildren()) {
-      if (ga instanceof MultiText) {
-        MultiText text = (MultiText) ga;
-        int widthBefore = GuiUtil.getLabelWidth(text);
-        text.setValue(businessName);
-        int widthAfter = GuiUtil.getLabelWidth(text);
-        text.setWidth(GuiUtil.getLabelWidth(text) + 7);
-        pictogramElement.getGraphicsAlgorithm().setWidth(text.getWidth());
-        pictogramElement.getGraphicsAlgorithm()
-            .setX(pictogramElement.getGraphicsAlgorithm().getX()
-                - ((widthAfter - widthBefore) >> 1));
-
-        return true;
-      }
-    }
+//    LabelShape labelShape = Optional.of(context.getPictogramElement())
+//        .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
+//        .orElseThrow();
+//    String businessName = Optional.of(labelShape)
+//        .map(LabelShape::getModelObject).map(InputPort.class::isInstance)
+//        .map(InputPort.class::cast).map(InputPort::getId).orElseThrow();
+//
+//    for (GraphicsAlgorithm ga : labelShape.getGraphicsAlgorithm()
+//        .getGraphicsAlgorithmChildren()) {
+//      if (ga instanceof MultiText) {
+//        MultiText text = (MultiText) ga;
+//        int widthBefore = GuiUtil.getLabelWidth(text);
+//        text.setValue(businessName);
+//        int widthAfter = GuiUtil.getLabelWidth(text);
+//        text.setWidth(GuiUtil.getLabelWidth(text) + 7);
+//        labelShape.getGraphicsAlgorithm().setWidth(text.getWidth());
+//        labelShape.getGraphicsAlgorithm()
+//            .setX(labelShape.getGraphicsAlgorithm().getX()
+//                - ((widthAfter - widthBefore) >> 1));
+//
+//        return true;
+//      }
+//    }
 
     return false;
   }

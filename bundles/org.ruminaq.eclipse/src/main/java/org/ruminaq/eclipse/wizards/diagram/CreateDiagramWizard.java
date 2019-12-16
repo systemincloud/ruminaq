@@ -17,15 +17,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.graphiti.internal.IDiagramVersion;
-import org.eclipse.graphiti.internal.util.LookManager;
-import org.eclipse.graphiti.mm.algorithms.Rectangle;
-import org.eclipse.graphiti.mm.pictograms.PictogramLink;
-import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
-import org.eclipse.graphiti.mm.pictograms.PictogramsPackage;
-import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.services.IGaService;
-import org.eclipse.graphiti.util.ILook;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbench;
@@ -112,16 +103,13 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
 
     IContainer container = (IContainer) resource;
     RuminaqDiagram diagram = DiagramFactory.eINSTANCE.createRuminaqDiagram();
-    diagram.eSet(PictogramsPackage.eINSTANCE.getDiagram_Version(),
-        IDiagramVersion.CURRENT);
 
     IFolder diagramFolder = container.getFolder(null);
     final IFile diagramFile = diagramFolder.getFile(fileName);
     MainTask model = RuminaqFactory.eINSTANCE.createMainTask();
     model.setVersion(ProjectProps.getInstance(resource.getProject())
         .get(ProjectProps.RUMINAQ_VERSION));
-    PictogramLink link = PictogramsFactory.eINSTANCE.createPictogramLink();
-    link.setPictogramElement(diagram);
+    diagram.setMainTask(model);
     URI uri = URI
         .createPlatformResourceURI(diagramFile.getFullPath().toString(), true);
     FileService.createEmfFileForDiagram(uri, diagram, model);

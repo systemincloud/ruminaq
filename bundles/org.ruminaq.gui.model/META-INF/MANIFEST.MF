@@ -19,13 +19,17 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.ecore.util,
  org.eclipse.emf.ecore.xmi.impl,
  org.eclipse.emf.ecore.xmi.util,
+ org.eclipse.graphiti.datatypes,
  org.eclipse.graphiti.mm,
  org.eclipse.graphiti.mm.algorithms,
  org.eclipse.graphiti.mm.algorithms.impl,
  org.eclipse.graphiti.mm.algorithms.styles,
  org.eclipse.graphiti.mm.pictograms,
  org.eclipse.graphiti.mm.pictograms.impl,
- org.eclipse.graphiti.services
+ org.eclipse.graphiti.services,
+ org.eclipse.graphiti.ui.services,
+ org.ruminaq.model.ruminaq
 Export-Package: org.ruminaq.gui.model.diagram,
  org.ruminaq.gui.model.diagram.impl,
+ org.ruminaq.gui.model.diagram.impl.factories,
  org.ruminaq.gui.model.diagram.util

@@ -20,7 +20,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//MainTask/task"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//MainTask/connection"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//MainTask/atomic"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//MainTask/initialized"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//MainTask/version"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//MainTask/parameters"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//MainTask/onlyLocal"/>

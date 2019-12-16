@@ -6,6 +6,7 @@
 
 package org.ruminaq.gui.model.diagram.impl.factories;
 
+import java.util.Optional;
 import java.util.WeakHashMap;
 
 import org.eclipse.emf.ecore.EObject;
@@ -17,7 +18,9 @@ import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.model.diagram.PortShape;
 import org.ruminaq.gui.model.diagram.impl.Colors;
+import org.ruminaq.gui.model.diagram.impl.GuiModelException;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
+import org.ruminaq.model.ruminaq.BaseElement;
 
 public class PortShapeFactory implements Factory {
 
@@ -34,22 +37,22 @@ public class PortShapeFactory implements Factory {
     PortShapeGA(PortShape shape) {
       this.shape = shape;
     }
-    
+
     @Override
     public int getCornerWidth() {
       return CORNER;
     }
-    
+
     @Override
     public int getCornerHeight() {
       return CORNER;
     }
-    
+
     @Override
     public Color getBackground() {
       return Colors.WHITE;
     }
-    
+
     @Override
     public LineStyle getLineStyle() {
       return LineStyle.SOLID;
@@ -59,12 +62,12 @@ public class PortShapeFactory implements Factory {
     public void setX(int newX) {
       shape.setX(newX);
     }
-    
+
     @Override
     public int getX() {
       return shape.getX();
     }
-    
+
     @Override
     public void setY(int newY) {
       shape.setY(newY);
@@ -98,15 +101,19 @@ public class PortShapeFactory implements Factory {
 
   @Override
   public boolean isForThisShape(Shape shape) {
-    return PortShape.class.isAssignableFrom(shape.getClass());
+    return PortShape.class.isInstance(shape);
   }
 
   @Override
   public GraphicsAlgorithm getGA(Shape shape) {
-    EObject bo = shape.getLink().getBusinessObjects().get(0);
-    if (!cacheGraphicsAlgorithms.containsKey(bo)) {
-      cacheGraphicsAlgorithms.put(bo, new PortShapeGA((PortShape) shape));
+    Optional<BaseElement> mo = Optional.of(shape).map(s -> (PortShape) shape)
+        .map(PortShape::getModelObject);
+    if (mo.isPresent()) {
+      if (!cacheGraphicsAlgorithms.containsKey(mo.get())) {
+        cacheGraphicsAlgorithms.put(mo.get(), new PortShapeGA((PortShape) shape));
+      }
+      return cacheGraphicsAlgorithms.get(mo.get());
     }
-    return cacheGraphicsAlgorithms.get(bo);
+    throw new GuiModelException("No model object for PortShape");
   }
 }

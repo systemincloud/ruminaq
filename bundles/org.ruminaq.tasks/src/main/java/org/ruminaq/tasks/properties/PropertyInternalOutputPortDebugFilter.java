@@ -4,7 +4,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
-import org.ruminaq.gui.LabelUtil;
+import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 
 public class PropertyInternalOutputPortDebugFilter
@@ -14,6 +14,6 @@ public class PropertyInternalOutputPortDebugFilter
   protected boolean accept(PictogramElement pe) {
     EObject eObject = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement(pe);
-    return eObject instanceof InternalOutputPort && !LabelUtil.isLabel(pe);
+    return eObject instanceof InternalOutputPort && !LabelShape.class.isInstance(pe);
   }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 
 public abstract class RuminaqPasteFeature extends AbstractPasteFeature {
 
@@ -22,4 +23,8 @@ public abstract class RuminaqPasteFeature extends AbstractPasteFeature {
   protected List<PictogramElement> newPes = new LinkedList<>();
 
   public abstract List<PictogramElement> getNewPictogramElements();
+  
+  protected RuminaqDiagram getRuminaqDiagram() {
+    return (RuminaqDiagram) getDiagram();
+  }
 }

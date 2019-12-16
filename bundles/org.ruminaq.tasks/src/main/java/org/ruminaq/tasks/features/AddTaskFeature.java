@@ -28,6 +28,7 @@ import org.javatuples.Pair;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.GuiUtil;
 import org.ruminaq.gui.features.add.AbstractAddElementFeature;
+import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.model.desc.IN;
 import org.ruminaq.model.desc.OUT;
 import org.ruminaq.model.desc.PortsDescr;
@@ -138,8 +139,7 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
     insertInside(peCreateService, gaService, width, height, containerShape,
         invisibleRectangle, addedTask);
 
-    ContainerShape labelShape = addLabel(target, addedTask.getId(), width,
-        height, context.getX(), context.getY());
+    ContainerShape labelShape = addLabel((LabeledRuminaqShape) containerShape);
 
     link(containerShape, new Object[] { addedTask, labelShape });
     link(labelShape, new Object[] { addedTask, containerShape });

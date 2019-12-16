@@ -32,6 +32,7 @@
         <details key="body" value="return CustomRuminaqDiagramImpl.getGraphicsAlgorithm();"/>
       </eAnnotations>
     </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainTask" eType="ecore:EClass ../../org.ruminaq.model.ruminaq/model/model.ecore#//MainTask"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RuminaqShape" eSuperTypes="platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ContainerShape">
     <eOperations name="isActive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
@@ -60,8 +61,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultVisible" ordered="false"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" transient="true"
         defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelObject" eType="ecore:EClass ../../org.ruminaq.model.ruminaq/model/model.ecore#//BaseElement"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PortShape" abstract="true" eSuperTypes="#//RuminaqShape">
+  <eClassifiers xsi:type="ecore:EClass" name="PortShape" abstract="true" eSuperTypes="#//LabeledRuminaqShape">
     <eOperations name="getWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return defaultWidth;"/>
@@ -108,5 +110,28 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultLineWidth" ordered="false"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" changeable="false"
         transient="true" defaultValueLiteral="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LabelShape" eSuperTypes="#//RuminaqShape">
+    <eOperations name="getGraphicsAlgorithm" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//algorithms/GraphicsAlgorithm">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getGraphicsAlgorithm().getWidth();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getHeight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getGraphicsAlgorithm().getHeight();"/>
+      </eAnnotations>
+    </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="labeledShape" eType="#//LabeledRuminaqShape"
+        eOpposite="#//LabeledRuminaqShape/label"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LabeledRuminaqShape" eSuperTypes="#//RuminaqShape">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//LabelShape"
+        eOpposite="#//LabelShape/labeledShape"/>
   </eClassifiers>
 </ecore:EPackage>

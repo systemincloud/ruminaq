@@ -41,12 +41,10 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Messages;
-import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.gui.model.diagram.DiagramPackage;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.model.ModelHandler;
-import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.util.ServiceUtil;
 import org.ruminaq.validation.MarkerChangeListener;
@@ -133,22 +131,13 @@ public class RuminaqEditor extends DiagramEditor {
 
     addMarkerChangeListener();
 
-    final MainTask mt = ModelHandler
-        .getModel(getDiagramTypeProvider().getDiagram());
-    if (!mt.isInitialized()) {
-      ModelUtil.runModelChange(() -> {
-        if (RuminaqDiagramUtil
-            .isTest(getDiagramTypeProvider().getDiagram().eResource().getURI())
-            && !getDiagramTypeProvider().getDiagram().getChildren().isEmpty()) {
-          UpdateContext context = new UpdateContext(
-              getDiagramTypeProvider().getDiagram().getChildren().get(0));
-          getDiagramTypeProvider().getFeatureProvider()
-              .updateIfPossible(context);
-        }
-        mt.setInitialized(true);
-      }, getDiagramBehavior().getEditingDomain(),
-          Messages.modelChangeInitialization);
-    }
+    ModelUtil.runModelChange(() -> {
+      getRuminaqDiagram().getChildren().stream().map(UpdateContext::new).filter(
+          ctx -> getDiagramTypeProvider().getFeatureProvider().canUpdate(ctx).toBoolean())
+          .forEach(ctx -> getDiagramTypeProvider().getFeatureProvider()
+              .updateIfPossible(ctx));
+    }, getDiagramBehavior().getEditingDomain(),
+        Messages.modelChangeInitialization);
   }
 
   private Optional<IOperationHistory> getOperationHistory() {
@@ -171,6 +160,10 @@ public class RuminaqEditor extends DiagramEditor {
     getModelFile().map(IFile::getWorkspace)
         .ifPresent(w -> w.addResourceChangeListener(markerChangeListener,
             IResourceChangeEvent.POST_BUILD));
+  }
+
+  private RuminaqDiagram getRuminaqDiagram() {
+    return ((RuminaqDiagram) getDiagramTypeProvider().getDiagram());
   }
 
   @Override

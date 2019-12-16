@@ -19,14 +19,13 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.PasteFeatureFilter;
 import org.ruminaq.gui.features.paste.PasteInputPortFeature.Filter;
-import org.ruminaq.model.ModelHandler;
+import org.ruminaq.gui.model.diagram.InputPortShape;
+import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InputPort;
-import org.ruminaq.model.ruminaq.MainTask;
 
 @PasteFeatureFilter(Filter.class)
 public class PasteInputPortFeature extends RuminaqPasteFeature
@@ -39,7 +38,7 @@ public class PasteInputPortFeature extends RuminaqPasteFeature
     }
   }
 
-  private PictogramElement oldPe;
+  private InputPortShape oldPe;
   private int xMin;
   private int yMin;
 
@@ -50,7 +49,7 @@ public class PasteInputPortFeature extends RuminaqPasteFeature
     return newPes;
   }
 
-  public PasteInputPortFeature(IFeatureProvider fp, PictogramElement oldPe,
+  public PasteInputPortFeature(IFeatureProvider fp, InputPortShape oldPe,
       int xMin, int yMin) {
     super(fp);
     this.oldPe = oldPe;
@@ -74,23 +73,14 @@ public class PasteInputPortFeature extends RuminaqPasteFeature
 
     Diagram diagram = (Diagram) pes[0];
 
-    InputPort oldBo = null;
-    ContainerShape oldLabel = null;
-
-    for (Object o : getAllBusinessObjectsForPictogramElement(oldPe)) {
-      if (o instanceof InputPort) {
-        oldBo = (InputPort) o;
-      } else if (o instanceof ContainerShape && LabelUtil.isLabel((ContainerShape) o)) {
-        oldLabel = (ContainerShape) o;
-      }
-    }
+    InputPort oldBo = (InputPort) oldPe.getModelObject();
+    LabelShape oldLabel = oldPe.getLabel();
 
     PictogramElement newPe = EcoreUtil.copy(oldPe);
     newPes.add(newPe);
     InputPort newBo = EcoreUtil.copy(oldBo);
 
-    MainTask mt = ModelHandler.getModel(getDiagram());
-    mt.getInputPort().add(newBo);
+    getRuminaqDiagram().getMainTask().getInputPort().add(newBo);
 
     newPe.getGraphicsAlgorithm()
         .setX(x + newPe.getGraphicsAlgorithm().getX() - xMin);

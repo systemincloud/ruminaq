@@ -14,9 +14,11 @@ import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.reddeer.eclipse.utils.DeleteUtils;
 import org.eclipse.reddeer.gef.api.Palette;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
+import org.eclipse.reddeer.graphiti.api.ContextButton;
 import org.eclipse.reddeer.graphiti.impl.graphitieditpart.LabeledGraphitiEditPart;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.reddeer.workbench.impl.shell.WorkbenchShell;
+import org.eclipse.swt.widgets.Control;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -24,8 +26,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.tests.common.reddeer.RuminaqDiagramWizard;
 import org.ruminaq.tests.common.reddeer.RuminaqProjectWizard;
+import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 
 /**
  *
@@ -90,11 +94,11 @@ public class AddTest {
         "My Input Port");
     assertEquals("Label shouldn't have any pad buttons", 0,
         ipLabel.getContextButtons().size());
-//    WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InputPort.class);
-//    Control ctrl = ip.getControl();
-//    List<ContextButton> buttons = ip.getContextButtons();
-//    ip.select();
+    WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InputPort.class);
+    Control ctrl = ip.getControl();
+    ip.select();
 //    ip.doubleClick();
+//    List<ContextButton> buttons = ip.getContextButtons();
 //    ip.getContextButton("Delete").click();
 //    gefEditor.click(10, 10);
 //    try {
