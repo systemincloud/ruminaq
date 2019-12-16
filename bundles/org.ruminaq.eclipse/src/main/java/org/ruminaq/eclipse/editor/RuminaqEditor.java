@@ -131,12 +131,11 @@ public class RuminaqEditor extends DiagramEditor {
 
     addMarkerChangeListener();
 
-    ModelUtil.runModelChange(() -> {
+    ModelUtil.runModelChange(() -> 
       getRuminaqDiagram().getChildren().stream().map(UpdateContext::new).filter(
           ctx -> getDiagramTypeProvider().getFeatureProvider().canUpdate(ctx).toBoolean())
           .forEach(ctx -> getDiagramTypeProvider().getFeatureProvider()
-              .updateIfPossible(ctx));
-    }, getDiagramBehavior().getEditingDomain(),
+              .updateIfPossible(ctx)), getDiagramBehavior().getEditingDomain(),
         Messages.modelChangeInitialization);
   }
 
@@ -163,7 +162,7 @@ public class RuminaqEditor extends DiagramEditor {
   }
 
   private RuminaqDiagram getRuminaqDiagram() {
-    return ((RuminaqDiagram) getDiagramTypeProvider().getDiagram());
+    return (RuminaqDiagram) getDiagramTypeProvider().getDiagram();
   }
 
   @Override

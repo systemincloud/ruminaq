@@ -116,19 +116,4 @@ public class AddTest {
     assertEquals("Label shouldn't have any pad buttons", 0,
         opLabel.getContextButtons().size());
   }
-
-//  @Test(expected=TestFailureException.class)
-  public void doubleClickTest() {
-//    GEFEditor gefEditor = new GEFEditor("test");
-//    try {
-//      gefEditor.addToolFromPalette("EClass", 50, 100).setLabel("ClassA");
-//    } catch (CoreLayerException ex) {
-//      throw new TestFailureException(ex.getMessage());
-//    }
-//    gefEditor.addToolFromPalette("EClass", 200, 100).setLabel("ClassB");
-//
-//    new LabeledGraphitiEditPart("ClassA").doubleClick();
-//    new DefaultShell("Rename EClass").setFocus();
-//    new PushButton("Cancel").click();
-  }
 }
