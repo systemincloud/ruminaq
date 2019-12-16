@@ -98,32 +98,6 @@ public class GuiUtil {
     return 0;
   }
 
-  public static void alignWithShape(AbstractText text,
-      ContainerShape labelContainer, int width, int height, int shapeX,
-      int shapeY, int preShapeX, int preShapeY) {
-    final int textHeight = getLabelHeight(text);
-    final int textWidth = getLabelWidth(text);
-
-    int currentLabelX = labelContainer.getGraphicsAlgorithm().getX();
-    int currentLabelY = labelContainer.getGraphicsAlgorithm().getY();
-
-    int newShapeX = shapeX - ((textWidth + SHAPE_PADDING) / 2) + width / 2;
-    int newShapeY = shapeY + height + 2;
-
-    if (currentLabelX > 0 && preShapeX > 0) {
-      newShapeX = currentLabelX + (shapeX - preShapeX);
-      newShapeY = currentLabelY + (shapeY - preShapeY);
-    }
-
-    IGaService gaService = Graphiti.getGaService();
-
-    gaService.setLocationAndSize(labelContainer.getGraphicsAlgorithm(),
-        newShapeX, newShapeY, textWidth + SHAPE_PADDING,
-        textHeight + SHAPE_PADDING);
-    gaService.setLocationAndSize(text, 0, 0, textWidth + TEXT_PADDING,
-        textHeight + TEXT_PADDING);
-  }
-
   public static void onRightOfShape(AbstractText text,
       ContainerShape labelContainer, int width, int height, int shapeX,
       int shapeY, int preShapeX, int preShapeY) {

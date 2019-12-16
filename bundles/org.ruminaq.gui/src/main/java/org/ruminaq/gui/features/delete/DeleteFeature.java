@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IRemoveFeature;
@@ -59,12 +60,9 @@ public class DeleteFeature extends RuminaqDeleteFeature {
     super.postDelete(context);
 
     Optional.of(context.getPictogramElement())
-        .filter(LabeledRuminaqShape.class::isInstance).map(LabeledRuminaqShape.class::cast)
-        .map(LabeledRuminaqShape::getLabel).ifPresent(l -> {
-          DeleteContext ctx = new DeleteContext(l);
-          getFeatureProvider().getDeleteFeature(ctx).delete(ctx);
-          
-        });
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+        .map(RuminaqShape::getModelObject)
+        .ifPresent(mo -> EcoreUtil.delete(mo, true));
 
     for (AnchorContainer ac : connectionPointsToDelete) {
       RemoveContext ctx = new RemoveContext(ac);
@@ -83,6 +81,10 @@ public class DeleteFeature extends RuminaqDeleteFeature {
   }
 
   private void preDeleteShape(Shape shape) {
+    Optional.of(shape).filter(LabeledRuminaqShape.class::isInstance)
+        .map(LabeledRuminaqShape.class::cast).map(LabeledRuminaqShape::getLabel)
+        .ifPresent(l -> EcoreUtil.delete(l, true));
+
     String connectionPointProperty = Graphiti.getPeService()
         .getPropertyValue(shape, Constants.SIMPLE_CONNECTION_POINT);
     if (Boolean.parseBoolean(connectionPointProperty))
