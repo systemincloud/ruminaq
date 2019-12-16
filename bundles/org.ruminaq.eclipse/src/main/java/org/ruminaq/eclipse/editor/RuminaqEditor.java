@@ -131,11 +131,13 @@ public class RuminaqEditor extends DiagramEditor {
 
     addMarkerChangeListener();
 
-    ModelUtil.runModelChange(() -> 
-      getRuminaqDiagram().getChildren().stream().map(UpdateContext::new).filter(
-          ctx -> getDiagramTypeProvider().getFeatureProvider().canUpdate(ctx).toBoolean())
-          .forEach(ctx -> getDiagramTypeProvider().getFeatureProvider()
-              .updateIfPossible(ctx)), getDiagramBehavior().getEditingDomain(),
+    ModelUtil.runModelChange(
+        () -> getRuminaqDiagram().getChildren().stream().map(UpdateContext::new)
+            .filter(ctx -> getDiagramTypeProvider().getFeatureProvider()
+                .canUpdate(ctx).toBoolean())
+            .forEach(ctx -> getDiagramTypeProvider().getFeatureProvider()
+                .updateIfPossible(ctx)),
+        getDiagramBehavior().getEditingDomain(),
         Messages.modelChangeInitialization);
   }
 
