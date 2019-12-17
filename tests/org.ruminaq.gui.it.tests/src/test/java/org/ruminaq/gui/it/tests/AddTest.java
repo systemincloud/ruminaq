@@ -18,7 +18,6 @@ import org.eclipse.reddeer.graphiti.api.ContextButton;
 import org.eclipse.reddeer.graphiti.impl.graphitieditpart.LabeledGraphitiEditPart;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.reddeer.workbench.impl.shell.WorkbenchShell;
-import org.eclipse.swt.widgets.Control;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -96,7 +95,6 @@ public class AddTest {
         ipLabel.getContextButtons().size());
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InputPort.class);
     ip.select();
-    ip.doubleClick();
 
     List<ContextButton> buttons = ip.getContextButtons();
     assertEquals("InputPort should have 2 pad buttons", 2, buttons.size());
