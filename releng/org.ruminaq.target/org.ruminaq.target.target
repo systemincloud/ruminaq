@@ -55,14 +55,14 @@
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
         <unit id="org.eclipse.statet.r.feature.group" version="0.0.0"/>
-        <repository location="https://download.eclipse.org/statet/releases/4.0.1/E201812"/>
+        <repository location="https://download.eclipse.org/statet/releases/4.0/E201812"/>
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
         <unit id="org.codehaus.groovy.eclipse.feature.feature.group" version="0.0.0"/>
         <unit id="org.codehaus.groovy.m2eclipse.feature.feature.group" version="0.0.0"/>
         <unit id="org.codehaus.groovy25.feature.feature.group" version="0.0.0"/>
         <unit id="org.codehaus.groovy.jdt.patch.feature.group" version="0.0.0"/>
-        <repository location="https://dist.springsource.org/release/GRECLIPSE/e4.13"/>
+        <repository location="https://dist.springsource.org/release/GRECLIPSE/e4.14"/>
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
         <unit id="org.eclipse.reddeer.eclipse.feature.feature.group" version="0.0.0"/>
