@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.factories;
 
 import java.util.Optional;
@@ -26,6 +32,11 @@ import org.ruminaq.gui.model.diagram.impl.Colors;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
 import org.ruminaq.model.ruminaq.BaseElement;
 
+/**
+ * Factory for creating label.
+ *
+ * @author Marek Jagielski
+ */
 public class LabelShapeFactory implements Factory {
 
   public static final LabelShapeFactory INSTANCE = new LabelShapeFactory();
@@ -36,8 +47,8 @@ public class LabelShapeFactory implements Factory {
     FONT.eSet(StylesPackage.eINSTANCE.getFont_Name(), IGaService.DEFAULT_FONT);
     FONT.eSet(StylesPackage.eINSTANCE.getFont_Size(),
         IGaService.DEFAULT_FONT_SIZE);
-    FONT.eSet(StylesPackage.eINSTANCE.getFont_Italic(), false);
-    FONT.eSet(StylesPackage.eINSTANCE.getFont_Bold(), false);
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Italic(), Boolean.FALSE);
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Bold(), Boolean.FALSE);
   }
 
   private static final int SHAPE_LABEL_SPACE = 2;
@@ -54,8 +65,6 @@ public class LabelShapeFactory implements Factory {
     labelShape.setX(labelShapeX);
     labelShape.setY(labelShapeY);
   }
-
-  private WeakHashMap<EObject, LabelShapeGA> cacheGraphicsAlgorithms = new WeakHashMap<>();
 
   public static class LabelShapeGA extends RectangleImpl {
 
@@ -91,12 +100,12 @@ public class LabelShapeFactory implements Factory {
       public Font getFont() {
         return FONT;
       }
-      
+
       @Override
       public Integer getLineWidth() {
         return 1;
       }
-      
+
       @Override
       public LineStyle getLineStyle() {
         return LineStyle.SOLID;
@@ -118,7 +127,7 @@ public class LabelShapeFactory implements Factory {
         return GraphitiUi.getUiLayoutService()
             .calculateTextSize(getValue(), FONT).getWidth() + TEXT_PADDING;
       }
-      
+
       @Override
       public Color getBackground() {
         return Colors.WHITE;
@@ -167,24 +176,24 @@ public class LabelShapeFactory implements Factory {
 
     @Override
     public Boolean getFilled() {
-      return false;
+      return Boolean.FALSE;
     }
 
     @Override
     public Integer getLineWidth() {
       return 1;
     }
-    
+
     @Override
     public LineStyle getLineStyle() {
       return LineStyle.SOLID;
     }
-    
+
     @Override
     public Boolean getLineVisible() {
-      return false;
+      return Boolean.FALSE;
     }
-    
+
     @Override
     public Double getTransparency() {
       return 0D;
@@ -201,6 +210,8 @@ public class LabelShapeFactory implements Factory {
     }
   }
 
+  private WeakHashMap<EObject, LabelShapeGA> cacheGraphicsAlgorithms = new WeakHashMap<>();
+
   @Override
   public boolean isForThisShape(Shape shape) {
     return LabelShape.class.isInstance(shape);
@@ -208,9 +219,14 @@ public class LabelShapeFactory implements Factory {
 
   @Override
   public GraphicsAlgorithm getGA(Shape shape) {
-    if (!cacheGraphicsAlgorithms.containsKey(shape)) {
-      cacheGraphicsAlgorithms.put(shape, new LabelShapeGA((LabelShape) shape));
+    if (shape instanceof LabelShape) {
+      if (!cacheGraphicsAlgorithms.containsKey(shape)) {
+        cacheGraphicsAlgorithms.put(shape,
+            new LabelShapeGA((LabelShape) shape));
+      }
+      return cacheGraphicsAlgorithms.get(shape);
+    } else {
+      return null;
     }
-    return cacheGraphicsAlgorithms.get(shape);
   }
 }

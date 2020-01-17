@@ -9,6 +9,11 @@ package org.ruminaq.gui.model.diagram.impl.factories;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 
+/**
+ * Interface for GraphicAlgorithms factories.
+ *
+ * @author Marek Jagielski
+ */
 public interface Factory {
 
   boolean isForThisShape(Shape shape);
