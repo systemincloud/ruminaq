@@ -13,6 +13,11 @@ import org.eclipse.graphiti.features.ICreateFeature;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.CreateFeaturesExtension;
 
+/**
+ * Service CreateFeaturesExtension implementation.
+ * 
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
