@@ -6,9 +6,9 @@
 
 package org.ruminaq.gui.features.create;
 
+import java.util.Collection;
 import java.util.Objects;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateFeature;
@@ -18,14 +18,15 @@ import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.util.ModelUtil;
 
-public abstract class CreateElementFeature extends AbstractCreateFeature {
+/**
+ * Base class for creating Ruminaq elements.
+ * 
+ * @author Marek Jagielski
+ */
+public abstract class AbstractCreateElementFeature
+    extends AbstractCreateFeature {
 
-  public CreateElementFeature(IFeatureProvider fp, String name,
-      String description) {
-    super(fp, name, description);
-  }
-
-  public CreateElementFeature(IFeatureProvider fp,
+  protected AbstractCreateElementFeature(IFeatureProvider fp,
       Class<? extends BaseElement> clazz) {
     super(fp, ModelUtil.getName(clazz), "New " + clazz.getSimpleName());
   }
@@ -34,29 +35,35 @@ public abstract class CreateElementFeature extends AbstractCreateFeature {
   public boolean canCreate(ICreateContext context) {
     return context.getTargetContainer().equals(getDiagram());
   }
-  
+
   protected RuminaqDiagram getRuminaqDiagram() {
     return (RuminaqDiagram) getDiagram();
   }
 
   protected void setDefaultId(BaseElement element, ICreateContext context) {
-    String name = "My " + ModelUtil.getName(element.getClass());
-    if (isPresent(name, context.getTargetContainer().getChildren())) {
+    String id = "My " + ModelUtil.getName(element.getClass());
+    if (isPresent(id, context.getTargetContainer().getChildren())) {
       int i = 1;
-      while (isPresent(name + " " + i,
+      while (isPresent(id + " " + i,
           context.getTargetContainer().getChildren())) {
         i++;
       }
-      name = name + " " + i;
+      id = id + " " + i;
     }
 
-    element.setId(name);
+    element.setId(id);
   }
 
-  public static boolean isPresent(String name, EList<Shape> eList) {
-    return eList.stream().filter(RuminaqShape.class::isInstance)
-        .map(s -> (RuminaqShape) s).map(RuminaqShape::getModelObject)
+  /**
+   * Does list of shapes contains object of id.
+   * 
+   * @param id of shape
+   * @param shapes collection of shapes
+   */
+  public static boolean isPresent(String id, Collection<Shape> shapes) {
+    return shapes.stream().filter(RuminaqShape.class::isInstance)
+        .map(RuminaqShape.class::cast).map(RuminaqShape::getModelObject)
         .filter(Objects::nonNull).map(BaseElement::getId)
-        .anyMatch(name::equals);
+        .anyMatch(id::equals);
   }
 }

@@ -18,7 +18,7 @@ import org.ruminaq.model.ruminaq.RuminaqFactory;
  * 
  * @author Marek Jagielski
  */
-public class CreateInputPortFeature extends CreateElementFeature
+public class CreateInputPortFeature extends AbstractCreateElementFeature
     implements PaletteCreateFeature {
 
   public CreateInputPortFeature(IFeatureProvider fp) {

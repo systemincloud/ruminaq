@@ -17,7 +17,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.GuiUtil;
 import org.ruminaq.gui.LabelUtil;
-import org.ruminaq.gui.features.create.CreateElementFeature;
+import org.ruminaq.gui.features.create.AbstractCreateElementFeature;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.impl.factories.LabelShapeFactory;
 import org.ruminaq.model.ruminaq.BaseElement;
@@ -49,11 +49,11 @@ public class PasteDefaultElementFeature extends RuminaqPasteFeature {
   public static String setId(String baseId, BaseElement element,
       Diagram diagram) {
     String name = baseId;
-    if (CreateElementFeature.isPresent(name, diagram.getChildren())) {
+    if (AbstractCreateElementFeature.isPresent(name, diagram.getChildren())) {
       name = "(Copy) " + baseId;
-      if (CreateElementFeature.isPresent(name, diagram.getChildren())) {
+      if (AbstractCreateElementFeature.isPresent(name, diagram.getChildren())) {
         int i = 1;
-        while (CreateElementFeature.isPresent(name + " " + i,
+        while (AbstractCreateElementFeature.isPresent(name + " " + i,
             diagram.getChildren()))
           i++;
         name = name + " " + i;

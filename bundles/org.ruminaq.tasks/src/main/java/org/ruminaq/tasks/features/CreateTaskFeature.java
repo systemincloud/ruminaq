@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.ruminaq.gui.features.create.CreateElementFeature;
+import org.ruminaq.gui.features.create.AbstractCreateElementFeature;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.desc.IN;
 import org.ruminaq.model.desc.NGroup;
@@ -20,7 +20,7 @@ import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
 import org.slf4j.Logger;
 
-public abstract class CreateTaskFeature extends CreateElementFeature {
+public abstract class CreateTaskFeature extends AbstractCreateElementFeature {
 
   private final Logger logger = ModelerLoggerFactory
       .getLogger(CreateTaskFeature.class);
