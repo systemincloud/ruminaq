@@ -101,6 +101,16 @@ public class AddTest {
 
     ip.getContextButton("Delete").click();
     assertEquals("0 elements left", 1, gefEditor.getNumberOfEditParts());
+    
+    gefEditor.addToolFromPalette("Input Port", 200, 100);
+    new LabeledGraphitiEditPart(
+        "My Input Port").select();
+    gefEditor.addToolFromPalette("Input Port", 200, 200);
+    new LabeledGraphitiEditPart(
+        "My Input Port 1").select();
+    gefEditor.addToolFromPalette("Input Port", 200, 300);
+    new LabeledGraphitiEditPart(
+        "My Input Port 2").select();
   }
 
   @Test
