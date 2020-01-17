@@ -127,6 +127,9 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
     });
   }
 
+  /**
+   * Open diagram file internal method.
+   */
   private static void openEditor(IWorkbenchPage page, IFile input)
       throws PartInitException {
     IDE.openEditor(page, input, true);
