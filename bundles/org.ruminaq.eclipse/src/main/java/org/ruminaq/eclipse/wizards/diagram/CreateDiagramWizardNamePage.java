@@ -354,14 +354,26 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     setPageComplete(message == null);
   }
 
+  /**
+   * Getter for project.
+   *
+   */
   public String getProjectName() {
     return txtProject.getText();
   }
 
+  /**
+   * Getter for directory.
+   *
+   */
   public String getContainerName() {
     return txtContainer.getText();
   }
 
+  /**
+   * Getter for diagram filename.
+   *
+   */
   public String getFileName() {
     return txtFile.getText();
   }
