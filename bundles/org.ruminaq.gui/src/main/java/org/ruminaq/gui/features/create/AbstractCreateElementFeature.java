@@ -55,7 +55,7 @@ public abstract class AbstractCreateElementFeature
   }
 
   /**
-   * Does list of shapes contains object of id.
+   * Does list of shapes contain shape of object with id.
    * 
    * @param id of shape
    * @param shapes collection of shapes
