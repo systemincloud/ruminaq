@@ -13,6 +13,10 @@ import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.CreateConnectionFeaturesExtension;
 
+/**
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 public class CreateConnectionFeatures
     implements CreateConnectionFeaturesExtension {

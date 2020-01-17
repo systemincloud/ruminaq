@@ -17,11 +17,17 @@ import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.model.ruminaq.FlowTarget;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.SimpleConnection;
 
+/**
+ * SimpleConnection create feature.
+ * 
+ * @author Marek Jagielski
+ */
 public class CreateSimpleConnectionFeature
     extends AbstractCreateConnectionFeature {
 
@@ -31,9 +37,8 @@ public class CreateSimpleConnectionFeature
 
   @Override
   public boolean canStartConnection(ICreateConnectionContext context) {
-    if (getFlowSource(context.getSourceAnchor()) != null)
-      return true;
-    return false;
+    return Optional.ofNullable(getFlowSource(context.getSourceAnchor()))
+        .isPresent();
   }
 
   @Override
@@ -41,14 +46,8 @@ public class CreateSimpleConnectionFeature
     FlowSource source = getFlowSource(context.getSourceAnchor());
     FlowTarget target = getFlowTarget(context.getTargetAnchor());
 
-    if (target != null
-        && context.getTargetAnchor().getIncomingConnections().size() > 0)
-      return false;
-
-    if (source != null && target != null)
-      return true;
-    else
-      return false;
+    return source != null && target != null
+        && context.getTargetAnchor().getIncomingConnections().size() == 0;
   }
 
   @Override
@@ -83,6 +82,8 @@ public class CreateSimpleConnectionFeature
         return getFlowSource(anchor.getIncomingConnections().get(0).getStart());
       } else {
         Optional<FlowSource> fs = Optional.ofNullable(anchor.getParent())
+            .filter(RuminaqShape.class::isInstance)
+            .map(RuminaqShape.class::cast).map(RuminaqShape::getModelObject)
             .filter(FlowSource.class::isInstance).map(FlowSource.class::cast);
         if (fs.isPresent()) {
           return fs.get();
@@ -94,9 +95,14 @@ public class CreateSimpleConnectionFeature
 
   private FlowTarget getFlowTarget(Anchor anchor) {
     if (anchor != null) {
-      Object obj = getBusinessObjectForPictogramElement(anchor.getParent());
-      if (obj instanceof FlowTarget)
-        return (FlowTarget) obj;
+      Optional<FlowTarget> ft = Optional.ofNullable(anchor.getParent())
+          .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+          .map(RuminaqShape::getModelObject)
+          .filter(FlowTarget.class::isInstance).map(FlowTarget.class::cast);
+
+      if (ft.isPresent()) {
+        return ft.get();
+      }
     }
     return null;
   }

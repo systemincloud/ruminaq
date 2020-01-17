@@ -13,6 +13,11 @@ import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 
+/**
+ * OutputPort create feature.
+ * 
+ * @author Marek Jagielski
+ */
 public class CreateOutputPortFeature extends CreateElementFeature
     implements PaletteCreateFeature {
 
