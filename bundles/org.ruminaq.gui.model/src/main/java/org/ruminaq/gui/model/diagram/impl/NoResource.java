@@ -35,14 +35,17 @@ public class NoResource implements Resource {
 
   @Override
   public void eNotify(Notification arg0) {
+    // Do nothing
   }
 
   @Override
   public void eSetDeliver(boolean arg0) {
+    // Do nothing
   }
 
   @Override
   public void delete(Map<?, ?> arg0) throws IOException {
+    // Do nothing
   }
 
   @Override
@@ -127,14 +130,17 @@ public class NoResource implements Resource {
 
   @Override
   public void setModified(boolean arg0) {
+    // Do nothing
   }
 
   @Override
   public void setTimeStamp(long arg0) {
+    // Do nothing
   }
 
   @Override
   public void setTrackingModification(boolean arg0) {
+    // Do nothing
   }
 
   @Override
