@@ -31,7 +31,7 @@ import org.ruminaq.tests.common.reddeer.RuminaqProjectWizard;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 
 /**
- *
+ * Test adding basic elements to diagram.
  *
  * @author Marek Jagielski
  */
@@ -75,7 +75,7 @@ public class AddTest {
   }
 
   @Test
-  public void paletteTest() {
+  public void testPalette() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     Palette palette = gefEditor.getPalette();
     List<String> tools = palette.getTools();
@@ -84,7 +84,7 @@ public class AddTest {
   }
 
   @Test
-  public void addInputPortTest() {
+  public void testAddInputPort() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Input Port", 200, 100);
     assertFalse("Editor is always saved", gefEditor.isDirty());
@@ -114,7 +114,7 @@ public class AddTest {
   }
 
   @Test
-  public void addOutputPortTest() {
+  public void testAddOutputPort() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Output Port", 200, 100);
     assertFalse("Editor is always saved", gefEditor.isDirty());
