@@ -19,7 +19,7 @@ import org.ruminaq.gui.GuiUtil;
 import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.features.create.AbstractCreateElementFeature;
 import org.ruminaq.gui.model.diagram.LabelShape;
-import org.ruminaq.gui.model.diagram.impl.factories.LabelShapeFactory;
+import org.ruminaq.gui.model.diagram.impl.label.LabelShapeFactory;
 import org.ruminaq.model.ruminaq.BaseElement;
 
 public class PasteDefaultElementFeature extends RuminaqPasteFeature {

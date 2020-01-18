@@ -14,7 +14,7 @@ import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.GuiUtil;
 import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
-import org.ruminaq.gui.model.diagram.impl.factories.LabelShapeFactory;
+import org.ruminaq.gui.model.diagram.impl.label.LabelShapeFactory;
 
 public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
 

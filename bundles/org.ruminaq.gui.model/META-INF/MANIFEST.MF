@@ -31,5 +31,6 @@ Import-Package: org.eclipse.emf.common,
  org.ruminaq.model.ruminaq
 Export-Package: org.ruminaq.gui.model.diagram,
  org.ruminaq.gui.model.diagram.impl,
- org.ruminaq.gui.model.diagram.impl.factories,
+ org.ruminaq.gui.model.diagram.impl.label,
+ org.ruminaq.gui.model.diagram.impl.port,
  org.ruminaq.gui.model.diagram.util

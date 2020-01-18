@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.gui.model.diagram.impl.factories;
+package org.ruminaq.gui.model.diagram.impl.port;
 
 import java.util.Optional;
 import java.util.WeakHashMap;
@@ -18,6 +18,7 @@ import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.model.diagram.PortShape;
 import org.ruminaq.gui.model.diagram.impl.Colors;
+import org.ruminaq.gui.model.diagram.impl.Factory;
 import org.ruminaq.gui.model.diagram.impl.GuiModelException;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
 import org.ruminaq.model.ruminaq.BaseElement;
