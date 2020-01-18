@@ -16,7 +16,7 @@ import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.gui.model.diagram.impl.Factory;
 
 /**
- * Factory for creating label.
+ * Factory for creating Label.
  *
  * @author Marek Jagielski
  */
