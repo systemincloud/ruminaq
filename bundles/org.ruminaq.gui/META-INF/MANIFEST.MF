@@ -113,4 +113,5 @@ Service-Component: OSGI-INF/org.ruminaq.gui.Images.xml,
  OSGI-INF/org.ruminaq.gui.features.add.AddFeatureImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.create.CreateFeaturesImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.doubleclick.DoubleClickFeatureImpl.xml,
- OSGI-INF/org.ruminaq.gui.features.update.UpdateFeatureImpl.xml
+ OSGI-INF/org.ruminaq.gui.features.update.UpdateFeatureImpl.xml,
+ OSGI-INF/org.ruminaq.gui.features.create.CreateConnectionFeatureImpl.xml

@@ -13,7 +13,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.ruminaq.gui.model.diagram.PortShape;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
-import org.ruminaq.model.ruminaq.Port;
+import org.ruminaq.model.ruminaq.BaseElement;
 
 /**
  * AddPort common class.
@@ -32,13 +32,13 @@ public abstract class AbstractAddPortFeature extends AbstractAddElementFeature {
   }
   
   public PictogramElement add(IAddContext context, PortShape portShape) {
-    Port port = (Port) context.getNewObject();
     portShape.setContainer(context.getTargetContainer());
     portShape.setX(context.getX());
     portShape.setY(context.getY());
     IPeCreateService peCreateService = Graphiti.getPeCreateService();
     peCreateService.createChopboxAnchor(portShape);
     
+    BaseElement port = (BaseElement) context.getNewObject();
     portShape.setModelObject(port);
     addLabel(portShape);
     return portShape;

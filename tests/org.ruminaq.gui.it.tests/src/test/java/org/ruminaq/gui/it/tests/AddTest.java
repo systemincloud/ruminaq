@@ -26,6 +26,8 @@ import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.model.ruminaq.InputPort;
+import org.ruminaq.model.ruminaq.OutputPort;
+import org.ruminaq.tests.common.reddeer.CreateSimpleConnection;
 import org.ruminaq.tests.common.reddeer.RuminaqDiagramWizard;
 import org.ruminaq.tests.common.reddeer.RuminaqProjectWizard;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
@@ -101,16 +103,13 @@ public class AddTest {
 
     ip.getContextButton("Delete").click();
     assertEquals("0 elements left", 1, gefEditor.getNumberOfEditParts());
-    
+
     gefEditor.addToolFromPalette("Input Port", 200, 100);
-    new LabeledGraphitiEditPart(
-        "My Input Port").select();
+    new LabeledGraphitiEditPart("My Input Port").select();
     gefEditor.addToolFromPalette("Input Port", 200, 200);
-    new LabeledGraphitiEditPart(
-        "My Input Port 1").select();
+    new LabeledGraphitiEditPart("My Input Port 1").select();
     gefEditor.addToolFromPalette("Input Port", 200, 300);
-    new LabeledGraphitiEditPart(
-        "My Input Port 2").select();
+    new LabeledGraphitiEditPart("My Input Port 2").select();
   }
 
   @Test
@@ -123,5 +122,16 @@ public class AddTest {
         "My Output Port");
     assertEquals("Label shouldn't have any pad buttons", 0,
         opLabel.getContextButtons().size());
+  }
+
+  @Test
+  public void testAddSimpleConnection() {
+    GEFEditor gefEditor = new GEFEditor(diagramName);
+    gefEditor.addToolFromPalette("Input Port", 200, 100);
+    gefEditor.addToolFromPalette("Output Port", 400, 300);
+
+    new CreateSimpleConnection(gefEditor, new WithBoGraphitiEditPart(InputPort.class),
+        new WithBoGraphitiEditPart(OutputPort.class)).execute();
+    assertEquals("5 elements", 5, gefEditor.getNumberOfEditParts());
   }
 }

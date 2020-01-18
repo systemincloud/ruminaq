@@ -163,7 +163,7 @@ public class RuminaqEditor extends DiagramEditor {
             IResourceChangeEvent.POST_BUILD));
   }
 
-  private RuminaqDiagram getRuminaqDiagram() {
+  public RuminaqDiagram getRuminaqDiagram() {
     return (RuminaqDiagram) getDiagramTypeProvider().getDiagram();
   }
 
