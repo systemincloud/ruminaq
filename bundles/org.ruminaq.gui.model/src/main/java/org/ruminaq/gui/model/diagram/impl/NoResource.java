@@ -21,6 +21,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
+/**
+ * Used in GraphicalAlgoriths that won't be serialized.
+ *
+ * @author Marek Jagielski
+ */
 public class NoResource implements Resource {
 
   @Override

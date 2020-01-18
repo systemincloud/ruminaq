@@ -22,6 +22,11 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.PaletteCompartmentEntryExtension;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 
+/**
+ * Service PaletteCompartmentEntryExtension implementation.
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 public class CommonPaletteCompartmentEntry
     implements PaletteCompartmentEntryExtension {
@@ -54,7 +59,8 @@ public class CommonPaletteCompartmentEntry
           .map(cf -> (PaletteCreateFeature & ICreateConnectionFeature) cf)
           .filter(cf -> !(isTest && !cf.isTestOnly()))
           .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
-          .filter(cf -> stackName.equals(cf.getStack())).forEach(cf -> {
+          .filter(cf -> stackName.equals(cf.getStack()))
+          .forEach((ICreateConnectionFeature cf) -> {
             ConnectionCreationToolEntry cte = new ConnectionCreationToolEntry(
                 cf.getCreateName(), cf.getCreateDescription(),
                 cf.getCreateImageId(), cf.getCreateLargeImageId());
@@ -70,7 +76,7 @@ public class CommonPaletteCompartmentEntry
     ICreateFeature[] createFeatures = fp.getCreateFeatures();
 
     Stream.of(PORTS_STACK, SOURCES_STACK, SINKS_STACK)
-        .forEachOrdered(stackName -> {
+        .forEachOrdered((String stackName) -> {
           StackEntry stackEntry = new StackEntry(stackName, "", null);
           Stream.of(createFeatures)
               .filter(PaletteCreateFeature.class::isInstance)

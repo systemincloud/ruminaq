@@ -11,7 +11,7 @@ import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory;
 import org.eclipse.graphiti.mm.algorithms.styles.StylesPackage;
 
 /**
- * Graphiti colors constants.
+ * Graphiti color constants.
  * 
  * @author Marek Jagielski
  */

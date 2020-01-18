@@ -4,4 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
+/**
+ * Base classes for overriding Graphiti pictogram model.
+ *
+ * @author Marek Jagielski
+ */
 package org.ruminaq.gui.model.diagram.impl;
