@@ -10,6 +10,11 @@ import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory;
 import org.eclipse.graphiti.mm.algorithms.styles.StylesPackage;
 
+/**
+ * Graphiti colors constants.
+ * 
+ * @author Marek Jagielski
+ */
 public final class Colors {
 
   public static final int V255 = 255;

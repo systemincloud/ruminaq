@@ -13,6 +13,11 @@ import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 
+/**
+ * Dynamic GraphicsAlgorithm for Diagram.
+ * 
+ * @author Marek Jagielski
+ */
 public final class CustomRuminaqDiagramImpl {
 
   private static final String ID = "Ruminaq";
@@ -21,6 +26,10 @@ public final class CustomRuminaqDiagramImpl {
   
   private static final int HEIGHT = 1000;
   
+  private CustomRuminaqDiagramImpl() {
+    // only static methods
+  }
+
   public static String getDiagramTypeId() {
     return ID;
   }
@@ -47,9 +56,5 @@ public final class CustomRuminaqDiagramImpl {
     gaService.setLocationAndSize(graphicsAlgorithm, 0, 0, WIDTH, HEIGHT);
     graphicsAlgorithm.setBackground(Colors.WHITE);
     return graphicsAlgorithm;
-  }
-  
-  private CustomRuminaqDiagramImpl() {
-    // only static methods
   }
 }

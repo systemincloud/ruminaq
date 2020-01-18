@@ -11,10 +11,15 @@ import java.util.List;
 
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.ruminaq.gui.model.diagram.impl.factories.PortShapeFactory;
 import org.ruminaq.gui.model.diagram.impl.factories.Factory;
 import org.ruminaq.gui.model.diagram.impl.factories.LabelShapeFactory;
+import org.ruminaq.gui.model.diagram.impl.factories.PortShapeFactory;
 
+/**
+ * GraphicsAlgorithm factories.
+ * 
+ * @author Marek Jagielski
+ */
 public enum GraphicsAlgorithmFactory {
   INSTANCE;
 
