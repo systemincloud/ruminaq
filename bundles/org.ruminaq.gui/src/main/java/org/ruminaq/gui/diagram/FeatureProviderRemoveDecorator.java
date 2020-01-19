@@ -10,6 +10,11 @@ import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IRemoveFeature;
 import org.eclipse.graphiti.features.context.IRemoveContext;
 
+/**
+ * Add possibility to manage RemoveFeature.
+ *
+ * @author Marek Jagielski
+ */
 public class FeatureProviderRemoveDecorator extends RuminaqFeatureProvider {
 
   public FeatureProviderRemoveDecorator(IDiagramTypeProvider dtp) {
