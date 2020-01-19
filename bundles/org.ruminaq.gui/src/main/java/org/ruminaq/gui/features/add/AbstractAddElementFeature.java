@@ -11,7 +11,7 @@ import org.eclipse.graphiti.features.impl.AbstractAddShapeFeature;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
-import org.ruminaq.gui.model.diagram.impl.label.LabelShapeFactory;
+import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
 
 /**
  * Abstract class for all Ruminaque elements.
@@ -30,7 +30,7 @@ public abstract class AbstractAddElementFeature
     LabelShape labelShape = DiagramFactory.eINSTANCE.createLabelShape(); 
     labeledShape.setLabel(labelShape);
     labelShape.setContainer(labeledShape.getContainer());
-    LabelShapeFactory.placeLabelInDefaultPosition(labelShape);
+    LabelUtil.placeInDefaultPosition(labelShape);
     return labelShape;
   }
 }

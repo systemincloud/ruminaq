@@ -30,8 +30,8 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.services.IPeService;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.GuiUtil;
 import org.ruminaq.gui.features.add.AddSimpleConnectionFeature;
+import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 
 public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
 

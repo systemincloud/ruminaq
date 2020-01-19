@@ -11,9 +11,9 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.GuiUtil;
 import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
+import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 import org.ruminaq.gui.model.diagram.impl.label.LabelShapeFactory;
 
 public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {

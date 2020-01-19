@@ -28,7 +28,8 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.graphiti.mm.pictograms.impl,
  org.eclipse.graphiti.services,
  org.eclipse.graphiti.ui.services,
- org.ruminaq.model.ruminaq
+ org.ruminaq.model.ruminaq,
+ org.ruminaq.util
 Export-Package: org.ruminaq.gui.model.diagram,
  org.ruminaq.gui.model.diagram.impl,
  org.ruminaq.gui.model.diagram.impl.label,

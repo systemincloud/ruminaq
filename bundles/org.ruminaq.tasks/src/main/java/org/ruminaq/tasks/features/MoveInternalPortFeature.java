@@ -9,7 +9,7 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.GuiUtil;
+import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 
 public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
 

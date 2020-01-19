@@ -24,19 +24,6 @@ public class LabelShapeFactory implements Factory {
 
   public static final LabelShapeFactory INSTANCE = new LabelShapeFactory();
 
-  private static final int SHAPE_LABEL_SPACE = 2;
-
-  public static void placeLabelInDefaultPosition(LabelShape labelShape) {
-    LabeledRuminaqShape labeledShape = labelShape.getLabeledShape();
-    int labelShapeX = labeledShape.getX() - (labelShape.getWidth() >> 1)
-        + (labeledShape.getWidth() >> 1);
-    int labelShapeY = labeledShape.getY() + labeledShape.getHeight()
-        + SHAPE_LABEL_SPACE;
-
-    labelShape.setX(labelShapeX);
-    labelShape.setY(labelShapeY);
-  }
-
   private WeakHashMap<EObject, LabelShapeGA> cacheGraphicsAlgorithms = new WeakHashMap<>();
 
   @Override
