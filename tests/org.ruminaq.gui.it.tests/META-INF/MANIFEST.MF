@@ -26,5 +26,7 @@ Import-Package: org.apache.commons.lang3,
  org.eclipse.swt,
  org.ruminaq.eclipse.wizards.diagram,
  org.ruminaq.eclipse.wizards.project,
- org.ruminaq.tests.common.reddeer
+ org.ruminaq.tests.common.reddeer,
+ org.xmlunit.builder,
+ org.xmlunit.diff
 Export-Package: org.ruminaq.gui.it.tests

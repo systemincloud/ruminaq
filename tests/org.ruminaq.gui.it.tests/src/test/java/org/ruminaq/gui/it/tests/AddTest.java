@@ -31,6 +31,9 @@ import org.ruminaq.tests.common.reddeer.CreateSimpleConnection;
 import org.ruminaq.tests.common.reddeer.RuminaqDiagramWizard;
 import org.ruminaq.tests.common.reddeer.RuminaqProjectWizard;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.Diff;
 
 /**
  * Test adding basic elements to diagram.
@@ -122,6 +125,14 @@ public class AddTest {
         "My Output Port");
     assertEquals("Label shouldn't have any pad buttons", 0,
         opLabel.getContextButtons().size());
+
+//    Diff diff = DiffBuilder
+//        .compare(Input.fromStream(
+//            AddTest.class.getResourceAsStream("AddTest.testAddOutputPort.xml")))
+//        .withTest(
+//            Input.fromFile(gefEditor.getAssociatedFile().getAbsolutePath()))
+//        .build();
+//    assertFalse(diff.toString(), diff.hasDifferences());
   }
 
   @Test
@@ -130,8 +141,13 @@ public class AddTest {
     gefEditor.addToolFromPalette("Input Port", 200, 100);
     gefEditor.addToolFromPalette("Output Port", 400, 300);
 
-    new CreateSimpleConnection(gefEditor, new WithBoGraphitiEditPart(InputPort.class),
+    new CreateSimpleConnection(gefEditor,
+        new WithBoGraphitiEditPart(InputPort.class),
         new WithBoGraphitiEditPart(OutputPort.class)).execute();
     assertEquals("5 elements", 5, gefEditor.getNumberOfEditParts());
+
+//    Diff myDiff = DiffBuilder.compare(Input.fromString(control))
+//                  .withTest(Input.fromString(test))
+//                  .build();
   }
 }

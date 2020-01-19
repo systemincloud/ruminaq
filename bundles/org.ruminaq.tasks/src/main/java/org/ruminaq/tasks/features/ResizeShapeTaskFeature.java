@@ -11,10 +11,9 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.LabelUtil;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.gui.model.diagram.impl.GuiUtil;
-import org.ruminaq.gui.model.diagram.impl.label.LabelShapeFactory;
+import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
 
 public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
 
@@ -64,12 +63,11 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
         .map(LabeledRuminaqShape.class::cast);
     
     if (labeledShape.isPresent()) {
-      if (LabelUtil.isLabelInDefaultPosition(labeledShape.get().getLabel(),
-          labeledShape.get())
+      if (LabelUtil.isInDefaultPosition(labeledShape.get().getLabel())
           || isConflictingWithNewSize(labeledShape.get().getLabel(),
               labeledShape.get())) {
-        LabelShapeFactory
-            .placeLabelInDefaultPosition(labeledShape.get().getLabel());
+        LabelUtil
+            .placeInDefaultPosition(labeledShape.get().getLabel());
       }
     }
 

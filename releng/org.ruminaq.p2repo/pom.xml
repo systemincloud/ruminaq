@@ -147,6 +147,9 @@
                 <artifact>
                   <id>org.mockito:mockito-all:jar:1.10.19</id>
                 </artifact>
+                <artifact>
+                  <id>org.xmlunit:xmlunit-core:2.6.3</id>
+                </artifact>
 
                 <artifact>
                   <id>de.walware.rj:de.walware.rj.client:2.1.0-SNAPSHOT</id>
