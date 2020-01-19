@@ -7,7 +7,9 @@ Bundle-SymbolicName: org.ruminaq.gui.model;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Import-Package: org.eclipse.emf.common,
+Import-Package: ch.qos.logback.classic,
+ ch.qos.logback.core.spi,
+ org.eclipse.emf.common,
  org.eclipse.emf.common.notify,
  org.eclipse.emf.common.notify.impl,
  org.eclipse.emf.common.util,
@@ -28,8 +30,10 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.graphiti.mm.pictograms.impl,
  org.eclipse.graphiti.services,
  org.eclipse.graphiti.ui.services,
+ org.ruminaq.logs,
  org.ruminaq.model.ruminaq,
- org.ruminaq.util
+ org.ruminaq.util,
+ org.slf4j;version="1.7.25"
 Export-Package: org.ruminaq.gui.model.diagram,
  org.ruminaq.gui.model.diagram.impl,
  org.ruminaq.gui.model.diagram.impl.label,
