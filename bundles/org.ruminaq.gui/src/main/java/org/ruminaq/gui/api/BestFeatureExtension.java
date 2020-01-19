@@ -53,7 +53,7 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
               | IllegalArgumentException | InvocationTargetException e) {
             return null;
           }
-        }).orElse(new FeaturePredicate<IContext>() {
+        }).orElseGet(() -> new FeaturePredicate<IContext>() {
         }).test(context, fp);
   }
 
