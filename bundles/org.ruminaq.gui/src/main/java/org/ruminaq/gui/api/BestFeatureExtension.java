@@ -46,14 +46,16 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
           } catch (NoSuchMethodException | SecurityException e) {
             return null;
           }
-        }).<FeaturePredicate<IContext>>map(c -> {
-          try {
-            return c.newInstance();
-          } catch (InstantiationException | IllegalAccessException
-              | IllegalArgumentException | InvocationTargetException e) {
-            return null;
-          }
-        }).orElseGet(() -> new FeaturePredicate<IContext>() {
+        }).<FeaturePredicate<IContext>>map(
+            (Constructor<? extends FeaturePredicate<IContext>> c) -> {
+              try {
+                return c.newInstance();
+              } catch (InstantiationException | IllegalAccessException
+                  | IllegalArgumentException | InvocationTargetException e) {
+                return null;
+              }
+            })
+        .orElseGet(() -> new FeaturePredicate<IContext>() {
         }).test(context, fp);
   }
 
