@@ -38,6 +38,11 @@ import org.ruminaq.gui.api.PaletteCompartmentEntryExtension;
 import org.ruminaq.gui.api.SingleClickFeatureExtension;
 import org.ruminaq.util.ServiceUtil;
 
+/**
+ * Graphiti tools controller.
+ *
+ * @author Marek Jagielski
+ */
 public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 
   public static final int CONTEXT_BUTTON_NONE = 0;
