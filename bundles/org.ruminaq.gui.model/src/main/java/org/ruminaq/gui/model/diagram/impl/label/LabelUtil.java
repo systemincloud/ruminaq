@@ -18,9 +18,9 @@ import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 public final class LabelUtil {
 
   private static final int SHAPE_LABEL_SPACE = 2;
-  
+
   private static final int LABEL_POSITION_ERROR_MARGIN = 4;
-  
+
   private LabelUtil() {
     // Util class
   }
@@ -28,7 +28,7 @@ public final class LabelUtil {
   /**
    * Check if label was moved from default position.
    *
-   * @param labelShape
+   * @param labelShape LabelShape
    * @return label was not moved
    */
   public static boolean isInDefaultPosition(LabelShape labelShape) {
@@ -42,19 +42,19 @@ public final class LabelUtil {
     int currentLabelX = labelShape.getX();
     int currentLabelY = labelShape.getY();
 
-    int newShapeX = shapeX - ((textWidth) / 2) + shapeWidth / 2;
-    int newShapeY = shapeY + shapeHeight + 2;
+    int defaultShapeX = shapeX - ((textWidth) >> 1) + shapeWidth >> 1;
+    int defaultShapeY = shapeY + shapeHeight + SHAPE_LABEL_SPACE;
 
-    return GuiUtil.almostEqual(currentLabelX, newShapeX,
+    return GuiUtil.almostEqual(currentLabelX, defaultShapeX,
         LABEL_POSITION_ERROR_MARGIN)
-        && GuiUtil.almostEqual(currentLabelY, newShapeY,
+        && GuiUtil.almostEqual(currentLabelY, defaultShapeY,
             LABEL_POSITION_ERROR_MARGIN);
   }
-  
+
   /**
    * Move label to default position.
    *
-   * @param labelShape
+   * @param labelShape LabelShape
    */
   public static void placeInDefaultPosition(LabelShape labelShape) {
     LabeledRuminaqShape labeledShape = labelShape.getLabeledShape();
