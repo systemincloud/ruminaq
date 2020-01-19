@@ -125,14 +125,14 @@ public class AddTest {
         "My Output Port");
     assertEquals("Label shouldn't have any pad buttons", 0,
         opLabel.getContextButtons().size());
-
-//    Diff diff = DiffBuilder
-//        .compare(Input.fromStream(
-//            AddTest.class.getResourceAsStream("AddTest.testAddOutputPort.xml")))
-//        .withTest(
-//            Input.fromFile(gefEditor.getAssociatedFile().getAbsolutePath()))
-//        .build();
-//    assertFalse(diff.toString(), diff.hasDifferences());
+    
+    Diff diff = DiffBuilder
+        .compare(Input.fromStream(
+            AddTest.class.getResourceAsStream("AddTest.testAddOutputPort.xml")))
+        .withTest(
+            Input.fromFile(gefEditor.getAssociatedFile().getAbsolutePath()))
+        .build();
+    assertFalse(diff.toString(), diff.hasDifferences());
   }
 
   @Test

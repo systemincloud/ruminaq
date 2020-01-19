@@ -150,6 +150,12 @@
                 <artifact>
                   <id>org.xmlunit:xmlunit-core:2.6.3</id>
                 </artifact>
+                <artifact>
+                  <id>jakarta.xml.ws:jakarta.xml.ws-api:2.3.2</id>
+                </artifact>
+                <artifact>
+                  <id>com.sun.xml.ws:jaxws-rt:2.3.2</id>
+                </artifact>
 
                 <artifact>
                   <id>de.walware.rj:de.walware.rj.client:2.1.0-SNAPSHOT</id>
