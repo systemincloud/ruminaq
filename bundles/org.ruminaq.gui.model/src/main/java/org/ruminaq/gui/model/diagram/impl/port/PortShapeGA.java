@@ -21,7 +21,8 @@ import org.ruminaq.gui.model.diagram.impl.NoResource;
  */
 public class PortShapeGA extends RoundedRectangleImpl {
 
-  private static final int CORNER = 20;
+  private static final int CORNER_WIDTH = 20;
+  private static final int CORNER_HEIGHT = 20;
 
   private PortShape shape;
 
@@ -31,12 +32,12 @@ public class PortShapeGA extends RoundedRectangleImpl {
 
   @Override
   public int getCornerWidth() {
-    return CORNER;
+    return CORNER_WIDTH;
   }
 
   @Override
   public int getCornerHeight() {
-    return CORNER;
+    return CORNER_HEIGHT;
   }
 
   @Override
