@@ -20,26 +20,16 @@ import org.eclipse.graphiti.services.IGaService;
  */
 public final class CustomRuminaqDiagramImpl {
 
-  private static final String ID = "Ruminaq";
+  public static final String DIAGRAM_TYPE_ID = "Ruminaq";
   
+  public static final int GRID_UNIT = -1;
+
   private static final int WIDTH = 1000;
   
   private static final int HEIGHT = 1000;
   
   private CustomRuminaqDiagramImpl() {
     // only static methods
-  }
-
-  public static String getDiagramTypeId() {
-    return ID;
-  }
-
-  public static boolean isVisible() {
-    return true;
-  }
-
-  public static int getGridUnit() {
-    return -1;
   }
 
   public static String getName(EObject diagram) {
@@ -50,6 +40,9 @@ public final class CustomRuminaqDiagramImpl {
     return false;
   }
 
+  /**
+   * Used by RuminaqDiagram.
+   */
   public static GraphicsAlgorithm getGraphicsAlgorithm() {
     IGaService gaService = Graphiti.getGaService();
     Rectangle graphicsAlgorithm = AlgorithmsFactory.eINSTANCE.createRectangle();

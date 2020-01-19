@@ -4,17 +4,17 @@
   <eClassifiers xsi:type="ecore:EClass" name="RuminaqDiagram" eSuperTypes="platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Diagram">
     <eOperations name="getDiagramTypeId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return CustomRuminaqDiagramImpl.getDiagramTypeId();"/>
+        <details key="body" value="return CustomRuminaqDiagramImpl.DIAGRAM_TYPE_ID;"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="isVisible" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return CustomRuminaqDiagramImpl.isVisible();"/>
+        <details key="body" value="return true;"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getGridUnit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return CustomRuminaqDiagramImpl.getGridUnit();"/>
+        <details key="body" value="return CustomRuminaqDiagramImpl.GRID_UNIT;"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">

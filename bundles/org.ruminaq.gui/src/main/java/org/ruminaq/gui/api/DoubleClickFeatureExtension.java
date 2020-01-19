@@ -8,6 +8,11 @@ package org.ruminaq.gui.api;
 
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 
+/**
+ * Service api providing Graphiti DoubleClickFeatureExtension.
+ *
+ * @author Marek Jagielski
+ */
 public interface DoubleClickFeatureExtension
     extends BestFeatureExtension<ICustomFeature> {
 }

@@ -10,10 +10,9 @@
       disposableProviderFactory="true" ecorePackage="model.ecore#/">
     <genClasses ecoreClass="model.ecore#//RuminaqDiagram">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RuminaqDiagram/mainTask"/>
-      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getDiagramTypeId"
-          body="return CustomRuminaqDiagramImpl.getDiagramTypeId();"/>
-      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/isVisible" body="return CustomRuminaqDiagramImpl.isVisible();"/>
-      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getGridUnit" body="return CustomRuminaqDiagramImpl.getGridUnit();"/>
+      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getDiagramTypeId" body="return CustomRuminaqDiagramImpl.DIAGRAM_TYPE_ID;"/>
+      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/isVisible" body="return true;"/>
+      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getGridUnit" body="return CustomRuminaqDiagramImpl.GRID_UNIT;"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getName" body="return CustomRuminaqDiagramImpl.getName(this);"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/isSnapToGrid" body="return CustomRuminaqDiagramImpl.isSnapToGrid();"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getGraphicsAlgorithm"

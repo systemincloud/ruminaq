@@ -11,7 +11,11 @@ import java.util.Collection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.tb.IDecorator;
 
+/**
+ * Service api providing Graphiti IDecorators.
+ *
+ * @author Marek Jagielski
+ */
 public interface DecoratorExtension {
-
   Collection<IDecorator> getDecorators(PictogramElement pe);
 }

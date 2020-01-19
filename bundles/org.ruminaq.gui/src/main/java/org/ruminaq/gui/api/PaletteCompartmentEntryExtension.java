@@ -11,6 +11,11 @@ import java.util.Collection;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
 
+/**
+ * Service api providing Graphiti IPaletteCompartmentEntries.
+ *
+ * @author Marek Jagielski
+ */
 public interface PaletteCompartmentEntryExtension {
   Collection<IPaletteCompartmentEntry> getPalette(IFeatureProvider fp,
       boolean isTest);
