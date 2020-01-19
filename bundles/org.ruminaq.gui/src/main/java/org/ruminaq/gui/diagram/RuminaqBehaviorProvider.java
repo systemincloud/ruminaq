@@ -8,7 +8,6 @@ package org.ruminaq.gui.diagram;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -36,7 +35,7 @@ import org.ruminaq.gui.api.DomainContextButtonPadDataExtension;
 import org.ruminaq.gui.api.DoubleClickFeatureExtension;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
 import org.ruminaq.gui.api.PaletteCompartmentEntryExtension;
-import org.ruminaq.util.ServiceFilterArgs;
+import org.ruminaq.gui.api.SingleClickFeatureExtension;
 import org.ruminaq.util.ServiceUtil;
 
 public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
@@ -92,11 +91,6 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
     IContextButtonPadData data = super.getContextButtonPad(context);
     PictogramElement pe = context.getPictogramElement();
 
-    Collection<GenericContextButtonPadDataExtension> x = ServiceUtil
-        .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
-            GenericContextButtonPadDataExtension.class,
-            () -> Arrays.asList(getFeatureProvider(), context));
-
     setGenericContextButtonsProxy(data, pe,
         ServiceUtil
             .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
@@ -109,10 +103,8 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
         .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
             DomainContextButtonPadDataExtension.class,
             () -> Arrays.asList(getFeatureProvider(), context))
-        .stream().forEach(e -> {
-          data.getDomainSpecificContextButtons()
-              .addAll(e.getContextButtonPad(getFeatureProvider(), context));
-        });
+        .stream().forEach(e -> data.getDomainSpecificContextButtons()
+            .addAll(e.getContextButtonPad(getFeatureProvider(), context)));
 
     data.getPadLocation().setRectangle(ServiceUtil
         .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
@@ -126,7 +118,7 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
     return data;
   }
 
-  public void setGenericContextButtonsProxy(IContextButtonPadData data,
+  private void setGenericContextButtonsProxy(IContextButtonPadData data,
       PictogramElement pe, int i) {
     super.setGenericContextButtons(data, pe, i);
   }
@@ -136,25 +128,14 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
     return Stream.of(getFeatureProvider().getCustomFeatures(context))
         .filter(ServiceUtil
             .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
-                ContextMenuEntryExtension.class, new ServiceFilterArgs() {
-                  @Override
-                  public List<?> getArgs() {
-                    return Arrays.asList(getFeatureProvider(), context);
-                  }
-                })
+                ContextMenuEntryExtension.class,
+                () -> Arrays.asList(getFeatureProvider(), context))
             .stream().findFirst().orElse(new ContextMenuEntryExtension() {
-
               @Override
               public Predicate<ICustomFeature> isAvailable(
                   ICustomContext context) {
-                return new Predicate<ICustomFeature>() {
-                  @Override
-                  public boolean test(ICustomFeature arg0) {
-                    return false;
-                  }
-                };
+                return arg -> false;
               }
-
             }).isAvailable(context))
         .map(cf -> {
           ContextMenuEntry menuEntry = new ContextMenuEntry(cf, context);
@@ -170,19 +151,24 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
             DoubleClickFeatureExtension.class)
         .stream().map(ext -> ext.getFeature(context, getFeatureProvider()))
         .filter(Objects::nonNull).findFirst()
-        .orElse(super.getDoubleClickFeature(context));
+        .orElseGet(() -> super.getDoubleClickFeature(context));
   }
 
   @Override
   public ICustomFeature getSingleClickFeature(ISingleClickContext context) {
-    return super.getSingleClickFeature(context);
+    return ServiceUtil
+        .getServicesAtLatestVersion(RuminaqFeatureProvider.class,
+            SingleClickFeatureExtension.class)
+        .stream().map(ext -> ext.getFeature(context, getFeatureProvider()))
+        .filter(Objects::nonNull).findFirst()
+        .orElseGet(() -> super.getSingleClickFeature(context));
   }
 
   @Override
   public IDecorator[] getDecorators(PictogramElement pe) {
     return ServiceUtil.getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
         DecoratorExtension.class, () -> Arrays.asList(getFeatureProvider(), pe))
-        .stream().map(ext -> ext.getDecorators(pe)).flatMap(x -> x.stream())
+        .stream().map(ext -> ext.getDecorators(pe)).flatMap(Collection::stream)
         .toArray(IDecorator[]::new);
   }
 
