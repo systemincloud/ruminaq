@@ -6,7 +6,7 @@
     </children>
     <children xsi:type="diagram:LabelShape" x="176" y="117" labeledShape="/0/@children.0"/>
   </diagram:RuminaqDiagram>
-  <ruminaq:MainTask version="1.0.0.qualifier">
+  <ruminaq:MainTask version="1.0.0">
     <outputPort id="My Output Port"/>
   </ruminaq:MainTask>
 </xmi:XMI>

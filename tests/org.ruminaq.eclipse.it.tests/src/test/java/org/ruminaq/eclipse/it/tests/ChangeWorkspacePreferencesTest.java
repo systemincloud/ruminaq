@@ -6,6 +6,7 @@
 
 package org.ruminaq.eclipse.it.tests;
 
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.AfterClass;
@@ -13,7 +14,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.prefs.WorkspacePrefs;
+import org.ruminaq.logs.ModelerLoggerFactory;
+import org.ruminaq.prefs.Prefs;
 import org.ruminaq.tests.common.SelectView;
 
 /**
@@ -49,7 +51,8 @@ public class ChangeWorkspacePreferencesTest {
     bot.button("Apply and Close").click();
 
     Assert.assertEquals("WARN",
-        WorkspacePrefs.INSTANCE.get(WorkspacePrefs.MODELER_LOG_LEVEL));
+        InstanceScope.INSTANCE.getNode(Prefs.QUALIFIER)
+            .get(ModelerLoggerFactory.MODELER_LOG_LEVEL_PREF, ""));
 
     bot.menu("Window").menu("Preferences").click();
     bot.tree().getTreeItem("Ruminaq").select();
@@ -57,6 +60,7 @@ public class ChangeWorkspacePreferencesTest {
     bot.button("Apply and Close").click();
 
     Assert.assertEquals("ERROR",
-        WorkspacePrefs.INSTANCE.get(WorkspacePrefs.MODELER_LOG_LEVEL));
+        InstanceScope.INSTANCE.getNode(Prefs.QUALIFIER)
+        .get(ModelerLoggerFactory.MODELER_LOG_LEVEL_PREF, ""));
   }
 }

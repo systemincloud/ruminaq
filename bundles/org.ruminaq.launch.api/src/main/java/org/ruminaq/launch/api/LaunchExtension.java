@@ -15,6 +15,8 @@ import org.eclipse.core.resources.IProject;
  */
 public interface LaunchExtension {
 
+  static final String RUNNER_LOG_LEVEL_PREF = "runner.log.level";
+
   default Collection<String> getPluginIdsToRunnerClasspath() {
     return Collections.emptyList();
   }

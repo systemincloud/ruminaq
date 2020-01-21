@@ -27,6 +27,7 @@ import org.eclipse.m2e.core.project.MavenUpdateRequest;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
+import org.osgi.framework.Version;
 import org.ruminaq.eclipse.Image;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
@@ -114,8 +115,10 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
         Builders.configureBuilders(newProject);
         createPropertiesFile(newProject);
 
+        Version version = PlatformUtil.getBundleVersion(this.getClass());
         ProjectProps.getInstance(newProject).put(ProjectProps.RUMINAQ_VERSION,
-            PlatformUtil.getBundleVersion(this.getClass()).toString());
+            new Version(version.getMajor(), version.getMinor(),
+                version.getMicro()).toString());
 
         deleteBinDirectory(newProject);
 

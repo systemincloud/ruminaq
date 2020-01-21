@@ -3,7 +3,8 @@ package org.ruminaq.logs;
 import java.io.File;
 
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.ruminaq.prefs.WorkspacePrefs;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.ruminaq.prefs.Prefs;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Level;
@@ -14,6 +15,8 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.FileAppender;
 
 public final class ModelerLoggerFactory {
+
+  public static final String MODELER_LOG_LEVEL_PREF = "modeler.log.level";
 
   private static final String FILE_APPENDER_NAME = "FILE";
 
@@ -47,13 +50,25 @@ public final class ModelerLoggerFactory {
     fileAppender.start();
   }
 
-  @SuppressWarnings("squid:S1312")
+  interface GetLogger {
+    public Logger operation();
+  }
+
   public static Logger getLogger(Class<?> name) {
-    Logger logger = (Logger) LoggerFactory.getLogger(name);
+    return getLogger(() -> (Logger) LoggerFactory.getLogger(name));
+  }
+
+  public static Logger getLogger(String name) {
+    return getLogger(() -> (Logger) LoggerFactory.getLogger(name));
+  }
+
+  public static Logger getLogger(GetLogger lambda) {
+    Logger logger = lambda.operation();
     if (logger.getAppender(FILE_APPENDER_NAME) == null) {
       logger.addAppender(fileAppender);
-      logger.setLevel(Level.toLevel(
-          WorkspacePrefs.INSTANCE.get(WorkspacePrefs.MODELER_LOG_LEVEL)));
+      logger.setLevel(
+          Level.toLevel(InstanceScope.INSTANCE.getNode(Prefs.QUALIFIER)
+              .get(MODELER_LOG_LEVEL_PREF, Level.ERROR.levelStr)));
       logger.setAdditive(false);
     }
     return logger;

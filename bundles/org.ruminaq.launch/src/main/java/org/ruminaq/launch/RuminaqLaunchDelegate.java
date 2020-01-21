@@ -30,6 +30,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
@@ -51,14 +52,17 @@ import org.ruminaq.debug.api.DebugExtensionHandler;
 import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
 import org.ruminaq.debug.model.RuminaqDebugTarget;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.launch.api.LaunchExtension;
 import org.ruminaq.launch.api.LaunchExtensionHandler;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.prefs.WorkspacePrefs;
+import org.ruminaq.prefs.Prefs;
 import org.ruminaq.runner.Runner;
 import org.ruminaq.runner.dirmi.DirmiServer;
 import org.ruminaq.runner.dirmi.RegistrationDoneListener;
 import org.ruminaq.runner.impl.debug.IDebugIService;
 import org.slf4j.Logger;
+
+import ch.qos.logback.classic.Level;
 
 @SuppressWarnings("restriction")
 public class RuminaqLaunchDelegate extends JavaLaunchDelegate
@@ -271,8 +275,8 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate
         .getProject(configuration.getAttribute(
             RuminaqLaunchConfigurationConstants.ATTR_PROJECT_NAME, ""));
 
-    String logLevel = WorkspacePrefs.INSTANCE
-        .get(WorkspacePrefs.RUNNER_LOG_LEVEL);
+    String logLevel = InstanceScope.INSTANCE.getNode(Prefs.QUALIFIER)
+        .get(LaunchExtension.RUNNER_LOG_LEVEL_PREF, Level.ERROR.levelStr);
     boolean onlyLocal = configuration.getAttribute(
         RuminaqLaunchConfigurationConstants.ATTR_ONLY_LOCAL_TASKS, true);
 
