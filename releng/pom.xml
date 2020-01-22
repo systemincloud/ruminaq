@@ -27,7 +27,6 @@
       </activation>
       <modules>
         <module>org.ruminaq.update</module>
-        <module>org.ruminaq.target</module>
       </modules>
     </profile>
   </profiles>
