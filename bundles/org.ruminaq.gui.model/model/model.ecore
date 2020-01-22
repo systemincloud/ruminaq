@@ -135,4 +135,5 @@
         eOpposite="#//LabelShape/labeledShape"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TaskShape" eSuperTypes="#//LabeledRuminaqShape"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleConnectionShape"/>
 </ecore:EPackage>

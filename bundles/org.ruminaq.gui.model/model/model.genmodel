@@ -57,5 +57,6 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//LabeledRuminaqShape/label"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//TaskShape"/>
+    <genClasses ecoreClass="model.ecore#//SimpleConnectionShape"/>
   </genPackages>
 </genmodel:GenModel>

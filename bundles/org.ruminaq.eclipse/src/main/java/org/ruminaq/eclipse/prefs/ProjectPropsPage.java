@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.dialogs.PropertyPage;
+import org.osgi.framework.Version;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.prefs.ProjectProps;
@@ -87,14 +88,17 @@ public class ProjectPropsPage extends PropertyPage {
     btnUpgrade.setText(Messages.projectPropsUpgradeButton);
 
     String version = projectProps.get(ProjectProps.RUMINAQ_VERSION);
+    Version bundleVersion = PlatformUtil.getBundleVersion(this.getClass());
+    Version bundleVersionWOQualifier = new Version(bundleVersion.getMajor(),
+        bundleVersion.getMinor(), bundleVersion.getMicro());
+
     if (version == null) {
-      version = PlatformUtil.getBundleVersion(this.getClass()).toString();
-      projectProps.put(ProjectProps.RUMINAQ_VERSION, version);
+      projectProps.put(ProjectProps.RUMINAQ_VERSION,
+          bundleVersionWOQualifier.toString());
     }
     lblVersion.setText(version);
 
-    if (version
-        .equals(PlatformUtil.getBundleVersion(this.getClass()).toString())) {
+    if (version.equals(bundleVersionWOQualifier.toString())) {
       btnUpgrade.setEnabled(false);
     } else {
       btnUpgrade.setText(Messages.projectPropsUpgradeButtonEnabled + " "

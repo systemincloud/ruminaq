@@ -31,7 +31,7 @@ public abstract class AbstractAddPortFeature extends AbstractAddElementFeature {
     return context.getTargetContainer() instanceof RuminaqDiagram;
   }
   
-  public PictogramElement add(IAddContext context, PortShape portShape) {
+  protected PictogramElement add(IAddContext context, PortShape portShape) {
     portShape.setContainer(context.getTargetContainer());
     portShape.setX(context.getX());
     portShape.setY(context.getY());
