@@ -108,7 +108,7 @@ Export-Package: org.ruminaq.tasks.javatask.gui,
  org.ruminaq.tasks.javatask.gui.features,
  org.ruminaq.tasks.javatask.gui.wizards
 Bundle-ClassPath: .
-Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.gui.TaskUiApi.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.ContextButtonPadTool.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl.xml
+Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.gui.ContextButtonPadTool.xml,
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.TaskUiApi.xml,
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.CreateFeaturesImpl.xml

@@ -60,6 +60,6 @@ Import-Package: ch.qos.logback.classic,
 Export-Package: org.ruminaq.tasks.mux.features
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.mux.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.mux.CreateFeaturesImpl.xml
-Bundle-ActivationPolicy: lazy
