@@ -1,7 +1,6 @@
 Manifest-Version: 1.0
 Automatic-Module-Name: org.ruminaq.model.api
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq Model API
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.model.api;singleton:=true
 Bundle-Version: 1.0.0.qualifier

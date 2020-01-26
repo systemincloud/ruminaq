@@ -1,6 +1,5 @@
 Automatic-Module-Name: org.ruminaq.model.dt
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Model - Datatype
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.model.dt;singleton:=true
 Bundle-Version: 1.0.0.qualifier

@@ -1,7 +1,6 @@
 Bundle-ManifestVersion: 2
 Automatic-Module-Name: org.ruminaq.model.ruminaq
 Bundle-SymbolicName: org.ruminaq.model.ruminaq;singleton:=true
-Bundle-Name: Ruminaq - Model - Model
 Bundle-Vendor: Marek Jagielski
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy

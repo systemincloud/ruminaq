@@ -80,6 +80,6 @@ Export-Package: org.ruminaq.tasks.embeddedtask,
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.embeddedtask.TaskUiApi.xml,
- OSGI-INF/org.ruminaq.tasks.embeddedtask.CreateFeaturesImpl.xml,
+Service-Component: OSGI-INF/org.ruminaq.tasks.embeddedtask.CreateFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.embeddedtask.TaskUiApi.xml,
  OSGI-INF/org.ruminaq.tasks.embeddedtask.ContextButtonPadTool.xml

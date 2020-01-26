@@ -53,5 +53,5 @@ Export-Package: org.ruminaq.tasks.gate,
  org.ruminaq.tasks.gate.features
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Service-Component: OSGI-INF/org.ruminaq.tasks.gate.EclipseExtensionImpl.xml
 Bundle-ActivationPolicy: lazy
+Service-Component: OSGI-INF/org.ruminaq.tasks.gate.EclipseExtensionImpl.xml
