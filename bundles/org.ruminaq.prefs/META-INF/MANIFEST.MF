@@ -2,7 +2,6 @@ Bundle-ManifestVersion: 2
 Automatic-Module-Name: org.ruminaq.prefs
 Bundle-SymbolicName: org.ruminaq.prefs;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Name: Ruminaq - Prefs
 Bundle-Vendor: Marek Jagielski
 Import-Package: ch.qos.logback.classic,
  org.apache.commons.codec,

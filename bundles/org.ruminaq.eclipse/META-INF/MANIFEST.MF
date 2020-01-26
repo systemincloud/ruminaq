@@ -1,6 +1,5 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Eclipse
 Bundle-SymbolicName: org.ruminaq.eclipse;singleton:=true
 Automatic-Module-Name: org.ruminaq.eclipse
 Bundle-Version: 1.0.0.qualifier

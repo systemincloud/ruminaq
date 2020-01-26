@@ -1,6 +1,5 @@
 Automatic-Module-Name: org.ruminaq.logs
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Logs
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.logs;singleton:=true
 Bundle-Version: 1.0.0.qualifier
