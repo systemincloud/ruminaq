@@ -1,6 +1,5 @@
 Automatic-Module-Name: org.ruminaq.tasks.javatask.it.tests
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Tasks - JavaTask - Integration Tests
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.javatask.it.tests
 Bundle-Version: 1.0.0.qualifier
