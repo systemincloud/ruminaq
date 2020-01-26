@@ -67,11 +67,11 @@ build plugins:
     - metacity --sm-disable --replace 2> metacity.err &
   script:
   #MAVEN_OPTS=-Dmaven.repo.local=../../.m2/repository/ 
-    - ./mvnw install -pl libs/org.ruminaq.tools
-    - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
-    - ./mvnw install --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
-    - ./mvnw p2:site --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo
-    - ./mvnw jetty:run --toolchains=.gitlab-toolchains.xml -P init -pl releng/org.ruminaq.p2repo &
+    - ./mvnw install -P init -pl libs/org.ruminaq.tools
+    - ./mvnw install -P init -pl libs/org.ruminaq.tasks.javatask.client
+    - ./mvnw install --toolchains=.gitlab-toolchains.xml -P init -pl p2repo
+    - ./mvnw p2:site --toolchains=.gitlab-toolchains.xml -P init -pl p2repo
+    - ./mvnw jetty:run --toolchains=.gitlab-toolchains.xml -P init -pl p2repo &
     - sleep 60
     - ./mvnw install --toolchains=.gitlab-toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=systemincloud -Dsonar.login=$SONAR_TOKEN
   allow_failure: true
