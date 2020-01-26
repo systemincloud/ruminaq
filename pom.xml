@@ -1,23 +1,675 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001 XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xmlns:xsi="http://www.w3.org/2001 XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.ruminaq</groupId>
-    <artifactId>org.ruminaq.configuration</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <relativePath>./releng/org.ruminaq.configuration</relativePath>
-  </parent>
-
+  <groupId>org.ruminaq</groupId>
   <artifactId>org.ruminaq.root</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
+
+  <distributionManagement>
+    <repository>
+      <id>s3</id>
+      <url>s3://s3.amazonaws.com/org-ruminaq-s3-updatesite/1.0.0</url>
+    </repository>
+    <snapshotRepository>
+      <id>s3</id>
+      <url>s3://s3.amazonaws.com/org-ruminaq-s3-updatesite/nightly-build</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <properties>
+    <java.version>11</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <tycho.version>1.6.0</tycho.version>
+    <aspectj.version>1.9.4</aspectj.version>
+    <jaccoco.version>0.8.2</jaccoco.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <source.emf>${basedir}/model/model.genmodel</source.emf>
+    <target.emf>${project.build.directory}/generated-sources/emf</target.emf>
+    <generator.emf>org.eclipse.emf.codegen.ecore.Generator</generator.emf>
+    <!-- Skip the deployment here, submodules can override this property -->
+    <!--maven.deploy.skip>true</maven.deploy.skip -->
+    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+    <sonar.coverage.jacoco.xmlReportPaths>${maven.multiModuleProjectDirectory}/tests/org.ruminaq.tests.report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+  </properties>
+
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.kuali.maven.wagons</groupId>
+        <artifactId>maven-s3-wagon</artifactId>
+        <version>1.2.1</version>
+      </extension>
+    </extensions>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-toolchains-plugin</artifactId>
+          <version>1.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>1.8</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-maven-plugin</artifactId>
+          <version>${tycho.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-compiler-plugin</artifactId>
+          <version>${tycho.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>target-platform-configuration</artifactId>
+          <version>${tycho.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-packaging-plugin</artifactId>
+          <version>${tycho.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho.extras</groupId>
+          <artifactId>tycho-eclipserun-plugin</artifactId>
+          <version>${tycho.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-surefire-plugin</artifactId>
+          <version>${tycho.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.xtend</groupId>
+          <artifactId>xtend-maven-plugin</artifactId>
+          <version>2.17.1</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.eclipse.platform</groupId>
+              <artifactId>org.eclipse.equinox.common</artifactId>
+              <version>3.10.100</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.reficio</groupId>
+          <artifactId>p2-maven-plugin</artifactId>
+          <version>1.3.0</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.codehaus.groovy</groupId>
+              <artifactId>groovy-all</artifactId>
+              <version>2.4.17</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.jetty</groupId>
+          <artifactId>jetty-maven-plugin</artifactId>
+          <version>9.4.12.v20180830</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.gmavenplus</groupId>
+          <artifactId>gmavenplus-plugin</artifactId>
+          <version>1.6.1</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.codehaus.groovy</groupId>
+              <artifactId>groovy-all</artifactId>
+              <version>2.4.16</version>
+              <scope>runtime</scope>
+            </dependency>
+            <dependency>
+              <groupId>org.ruminaq</groupId>
+              <artifactId>org.ruminaq.tools</artifactId>
+              <version>1.0.0-SNAPSHOT</version>
+              <scope>runtime</scope>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.7.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>3.12.0</version>
+        </plugin>
+        <plugin>
+          <groupId>com.github.spotbugs</groupId>
+          <artifactId>spotbugs-maven-plugin</artifactId>
+          <version>3.1.12.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jxr-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-toolchains-plugin</artifactId>
+        <executions>
+          <execution>
+            <?m2e ignore?>
+            <goals>
+              <goal>toolchain</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <toolchains>
+            <jdk>
+              <version>${java.version}</version>
+            </jdk>
+          </toolchains>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <release>${java.version}</release>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <configuration>
+          <skip>false</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-compiler-plugin</artifactId>
+        <configuration>
+          <!-- <compilerArgs>-warn:none</compilerArgs> -->
+          <!-- <compilerArgs>-err:none</compilerArgs> -->
+          <compilerArgs>
+            <arg>-err:-forbidden</arg>
+          </compilerArgs>
+          <!-- -warn:+discouraged,forbidden -->
+          <useProjectSettings>false</useProjectSettings>
+          <!--<encoding>UTF-8</encoding> -->
+          <release>${java.version}</release>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-packaging-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.eclipse.tycho.extras</groupId>
+            <artifactId>tycho-buildtimestamp-jgit</artifactId>
+            <version>${tycho.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <timestampProvider>jgit</timestampProvider>
+          <jgit.ignore>pom.xml</jgit.ignore>
+          <jgit.dirtyWorkingTree>ignore</jgit.dirtyWorkingTree>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <configuration>
+          <resolver>p2</resolver>
+          <dependency-resolution>
+            <optionalDependencies>ignore</optionalDependencies>
+          </dependency-resolution>
+          <target>
+            <artifact>
+              <groupId>org.ruminaq</groupId>
+              <artifactId>org.ruminaq.target</artifactId>
+              <version>${project.version}</version>
+            </artifact>
+          </target>
+          <ignoreTychoRepositories>true</ignoreTychoRepositories>
+          <environments>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86_64</arch>
+            </environment>
+          </environments>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-surefire-plugin</artifactId>
+        <configuration>
+          <useJDK>BREE</useJDK>
+          <useUIHarness>true</useUIHarness>
+          <useUIThread>false</useUIThread>
+          <failIfNoTests>false</failIfNoTests>
+          <systemProperties>
+            <eclipse.log.level>WARNING</eclipse.log.level>
+          </systemProperties>
+          <argLine>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jaccoco.version}/org.jacoco.agent-${jaccoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec
+            -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
+            -Dorg.eclipse.swtbot.search.timeout=10000
+          </argLine>
+          <!-- -Dorg.eclipse.swtbot.search.timeout=10000</argLine> -->
+          <!-- <argLine>-ea -Dosgi.clean=true -Ddebug=true -Dosgi.console.enable.builtin=true</argLine> -->
+          <!-- <argLine>-DbuildingWithTycho=true</argLine> -->
+          <!-- <defaultStartLevel> -->
+          <!-- <level>7</level> -->
+          <!-- <autoStart>true</autoStart> -->
+          <!-- </defaultStartLevel> -->
+          <!-- <dependency-resolution> -->
+          <!-- <extraRequirements> -->
+          <!-- <requirement> -->
+          <!-- <type>eclipse-feature</type> -->
+          <!-- <id>org.ruminaq.feature</id> -->
+          <!-- <versionRange>${project.version}</versionRange> -->
+          <!-- </requirement> -->
+          <!-- </extraRequirements> -->
+          <!-- </dependency-resolution> -->
+        </configuration>
+        <dependencies>
+          <!-- <dependency> -->
+          <!-- <groupId>org.junit.platform</groupId> -->
+          <!-- <artifactId>junit-platform-surefire-provider</artifactId> -->
+          <!-- <version>1.3.2</version> -->
+          <!-- </dependency> -->
+          <!-- <dependency> -->
+          <!-- <groupId>org.junit.jupiter</groupId> -->
+          <!-- <artifactId>junit-jupiter-engine</artifactId> -->
+          <!-- <version>5.5.24</version> -->
+          <!-- </dependency> -->
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+            <scope>compile</scope>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>ant-contrib</groupId>
+            <artifactId>ant-contrib</artifactId>
+            <version>1.0b3</version>
+            <exclusions>
+              <exclusion>
+                <artifactId>ant</artifactId>
+                <groupId>ant</groupId>
+              </exclusion>
+            </exclusions>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.xtend</groupId>
+        <artifactId>xtend-maven-plugin</artifactId>
+        <configuration>
+          <source>10</source>
+          <target>10</target>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>testCompile</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/xtend-gen/main</outputDirectory>
+              <testOutputDirectory>${project.build.directory}/xtend-gen/test</testOutputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <configuration>
+          <effort>Max</effort>
+          <threshold>Low</threshold>
+          <failOnError>false</failOnError>
+          <excludeFilterFile>${maven.multiModuleProjectDirectory}/spotbugs-exclude.xml</excludeFilterFile>
+          <plugins>
+            <plugin>
+              <groupId>com.h3xstream.findsecbugs</groupId>
+              <artifactId>findsecbugs-plugin</artifactId>
+              <version>LATEST</version>
+            </plugin>
+            <plugin>
+              <groupId>com.mebigfatguy.sb-contrib</groupId>
+              <artifactId>sb-contrib</artifactId>
+              <version>7.4.7</version>
+            </plugin>
+          </plugins>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <configuration>
+          <linkXRef>false</linkXRef>
+          <targetJdk>${java.version}</targetJdk>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <linkXRef>false</linkXRef>
+          <encoding>UTF-8</encoding>
+          <consoleOutput>false</consoleOutput>
+          <configLocation>google_checks.xml</configLocation>
+        </configuration>
+      </plugin>
+      <!-- enable source feature generation -->
+      <!--plugin> <groupId>org.eclipse.tycho.extras</groupId> <artifactId>tycho-source-feature-plugin</artifactId> 
+        <version>${tycho.version}</version> <executions> <execution> <id>source-feature</id> 
+        <phase>package</phase> <goals> <goal>source-feature</goal> </goals> </execution> 
+        </executions> </plugin> <plugin> <groupId>org.eclipse.tycho</groupId> <artifactId>tycho-source-plugin</artifactId> 
+        <executions> <execution> <id>plugin-source</id> <goals> <goal>plugin-source</goal> 
+        </goals> </execution> </executions> </plugin -->
+    </plugins>
+  </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.0.0</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>checkstyle</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
+  <profiles>
+    <profile>
+      <id>generate-model</id>
+      <activation>
+        <file>
+          <exists>model/model.genmodel</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-clean-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>before-generate</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>clean</goal>
+                </goals>
+                <configuration>
+                  <filesets>
+                    <fileset>
+                      <directory>${target.emf}</directory>
+                      <includes>**</includes>
+                    </fileset>
+                  </filesets>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.eclipse.tycho.extras</groupId>
+            <artifactId>tycho-eclipserun-plugin</artifactId>
+            <configuration>
+              <repositories>
+                <repository>
+                  <id>2019-12</id>
+                  <layout>p2</layout>
+                  <url>https://download.eclipse.org/releases/2019-12</url>
+                </repository>
+              </repositories>
+            </configuration>
+            <executions>
+              <execution>
+                <configuration>
+                  <appArgLine>
+                    <![CDATA[-data target/workspace -application ${generator.emf} -projects ${basedir} -model ${source.emf} ${target.emf}]]>
+                  </appArgLine>
+                  <dependencies>
+                    <dependency>
+                      <artifactId>org.eclipse.emf.codegen.ecore</artifactId>
+                      <type>eclipse-plugin</type>
+                    </dependency>
+                    <dependency>
+                      <artifactId>org.eclipse.osgi.compatibility.state</artifactId>
+                      <type>eclipse-plugin</type>
+                    </dependency>
+                    <dependency>
+                      <artifactId>org.eclipse.graphiti.mm</artifactId>
+                      <type>eclipse-plugin</type>
+                    </dependency>
+                  </dependencies>
+                </configuration>
+                <?m2e ignore?>
+                <goals>
+                  <goal>eclipse-run</goal>
+                </goals>
+                <phase>generate-sources</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>add-source</goal>
+                </goals>
+                <configuration>
+                  <sources>
+                    <source>${target.emf}/src/main/java</source>
+                  </sources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>generate-icons</id>
+      <activation>
+        <file>
+          <exists>icons_xcf</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.gmavenplus</groupId>
+            <artifactId>gmavenplus-plugin</artifactId>
+            <executions>
+              <execution>
+                <?m2e ignore?>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>execute</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <scripts>
+                <script>
+                  <![CDATA[new org.ruminaq.tools.img.PrepareIcons().execute("${basedir}")]]>
+                </script>
+              </scripts>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>xtend</id>
+      <activation>
+        <file>
+          <exists>**.xtend</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>add-source</id>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>add-source</goal>
+                </goals>
+                <configuration>
+                  <sources>
+                    <source>${project.build.directory}/xtend-gen/main</source>
+                  </sources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>java-main-check</id>
+      <activation>
+        <file>
+          <exists>${basedir}/src/main/java</exists>
+        </file>
+      </activation>
+      <properties>
+        <sonar.java.pmd.reportPaths>${basedir}/target/pmd.xml</sonar.java.pmd.reportPaths>
+        <sonar.java.spotbugs.reportPaths>${basedir}/target/spotbugsXml.xml</sonar.java.spotbugs.reportPaths>
+        <sonar.java.checkstyle.reportPaths>${basedir}/target/checkstyle-result.xml</sonar.java.checkstyle.reportPaths>
+      </properties>
+    </profile>
+    <profile>
+      <id>java-test-check</id>
+      <activation>
+        <file>
+          <exists>${basedir}/src/test/java</exists>
+        </file>
+      </activation>
+      <properties>
+        <sonar.java.pmd.reportPaths>${basedir}/target/pmd.xml</sonar.java.pmd.reportPaths>
+        <sonar.java.spotbugs.reportPaths>${basedir}/target/spotbugsXml.xml</sonar.java.spotbugs.reportPaths>
+        <sonar.java.checkstyle.reportPaths>${basedir}/target/checkstyle-result.xml</sonar.java.checkstyle.reportPaths>
+      </properties>
+    </profile>
+    <profile>
+      <id>init</id>
+      <modules>
+        <module>libs</module>
+        <module>p2repo</module>
+      </modules>
+    </profile>
+  </profiles>
 
   <modules>
     <module>bundles</module>
     <module>features</module>
     <module>tests</module>
     <module>releng</module>
-    <module>libs</module>
   </modules>
+
 </project>
