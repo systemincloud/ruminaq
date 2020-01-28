@@ -52,7 +52,7 @@ public class CreatingRuminaqTestDiagramTest {
   private static final int PROJECT_SUFFIX_LENGTH = 5;
 
   @Test
-  public final void testChoosingProjectFromMainMenu() {
+  public final void testChoosingProjectFromMainMenu() throws InterruptedException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
@@ -83,6 +83,8 @@ public class CreatingRuminaqTestDiagramTest {
     bot.menu("Folder").click();
     bot.textWithLabel("Folder &name:").setText(folder);
     bot.button("Finish").click();
+    
+    Thread.sleep(5000);
 
     new CreateRuminaqTestDiagram().openDiagramWizardFromProjectContextMenu(bot,
         projectName, SourceFolders.TEST_RESOURCES, SourceFolders.TASK_FOLDER,
