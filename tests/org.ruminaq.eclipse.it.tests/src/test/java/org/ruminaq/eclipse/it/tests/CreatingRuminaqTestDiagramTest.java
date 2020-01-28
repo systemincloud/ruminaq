@@ -8,7 +8,11 @@ package org.ruminaq.eclipse.it.tests;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
+import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
+import org.eclipse.swtbot.swt.finder.waits.ICondition;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -63,7 +67,20 @@ public class CreatingRuminaqTestDiagramTest {
         .expand();
     bot.tree().getTreeItem(projectName).getNode(SourceFolders.TEST_RESOURCES)
         .getNode(SourceFolders.TASK_FOLDER).select();
-    bot.tree().contextMenu("New").menu("Folder").click();
+    SWTBotMenu menu = bot.tree().contextMenu("New");
+    bot.waitUntil(new DefaultCondition() {
+      
+      @Override
+      public boolean test() throws Exception {
+        return menu.hasMenu();
+      }
+      
+      @Override
+      public String getFailureMessage() {
+        return "Menu not visible";
+      }
+    });
+    bot.menu("Folder").click();
     bot.textWithLabel("Folder &name:").setText(folder);
     bot.button("Finish").click();
 

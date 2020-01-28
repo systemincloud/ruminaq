@@ -1,0 +1,5 @@
+<Loggers>
+    <Logger level="error" name="myModId">
+        <AppenderRef ref="FmlSysOut" />
+    </Logger>
+</Loggers>
