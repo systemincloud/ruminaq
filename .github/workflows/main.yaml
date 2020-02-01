@@ -42,6 +42,9 @@ jobs:
         sudo apt-get install texlive-fonts-extra
         sudo apt-get install texlive-latex-extra
         sudo apt install r-base
+        Xvfb :99 &
+        export DISPLAY=:99
+        metacity --sm-disable --replace 2> metacity.err &
 
     - uses: actions/cache@v1
       with:
