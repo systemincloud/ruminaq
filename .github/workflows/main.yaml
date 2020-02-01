@@ -57,13 +57,13 @@ jobs:
       run: ./mvnw install -P init -pl libs/org.ruminaq.tasks.javatask.client
             
     - name: Build p2repo project
-      run: ./mvnw install --toolchains=.github/toolchains.xml -P init -pl releng/org.ruminaq.p2repo
+      run: ./mvnw install --toolchains=.github/toolchains.xml -P init -pl p2repo
       
     - name: Build p2repo site
-      run: ./mvnw p2:site --toolchains=.github/toolchains.xml -P init -pl releng/org.ruminaq.p2repo
+      run: ./mvnw p2:site --toolchains=.github/toolchains.xml -P init -pl p2repo
       
     - name: Run p2repo site
-      run: ./mvnw jetty:run --toolchains=.github/toolchains.xml -P init -pl releng/org.ruminaq.p2repo &
+      run: ./mvnw jetty:run --toolchains=.github/toolchains.xml -P init -pl p2repo &
       
     - name: Sleep for 60 seconds
       uses: jakejarvis/wait-action@master
