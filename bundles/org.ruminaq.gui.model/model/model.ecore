@@ -135,10 +135,11 @@
         eOpposite="#//LabelShape/labeledShape"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TaskShape" eSuperTypes="#//LabeledRuminaqShape"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SimpleConnectionShape" eSuperTypes="platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/FreeFormConnection">
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleConnectionShape" eSuperTypes="#//RuminaqConnection"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RuminaqConnection" eSuperTypes="platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/FreeFormConnection">
     <eOperations name="isActive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return true"/>
+        <details key="body" value="return true;"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="isVisible" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
@@ -146,5 +147,6 @@
         <details key="body" value="return true;"/>
       </eAnnotations>
     </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelObject" eType="ecore:EClass ../../org.ruminaq.model.ruminaq/model/model.ecore#//BaseElement"/>
   </eClassifiers>
 </ecore:EPackage>

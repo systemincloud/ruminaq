@@ -10,7 +10,8 @@
       disposableProviderFactory="true" ecorePackage="model.ecore#/">
     <genClasses ecoreClass="model.ecore#//RuminaqDiagram">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RuminaqDiagram/mainTask"/>
-      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getDiagramTypeId" body="return CustomRuminaqDiagramImpl.DIAGRAM_TYPE_ID;"/>
+      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getDiagramTypeId"
+          body="return CustomRuminaqDiagramImpl.DIAGRAM_TYPE_ID;"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/isVisible" body="return true;"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getGridUnit" body="return CustomRuminaqDiagramImpl.GRID_UNIT;"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getName" body="return CustomRuminaqDiagramImpl.getName(this);"/>
@@ -57,9 +58,11 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//LabeledRuminaqShape/label"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//TaskShape"/>
-    <genClasses ecoreClass="model.ecore#//SimpleConnectionShape">
-      <genOperations ecoreOperation="model.ecore#//RuminaqShape/isActive" body="return true;"/>
-      <genOperations ecoreOperation="model.ecore#//RuminaqShape/isVisible" body="return true;"/>
+    <genClasses ecoreClass="model.ecore#//SimpleConnectionShape"/>
+    <genClasses ecoreClass="model.ecore#//RuminaqConnection">
+      <genOperations ecoreOperation="model.ecore#//RuminaqConnection/isActive" body="return true;"/>
+      <genOperations ecoreOperation="model.ecore#//RuminaqConnection/isVisible" body="return true;"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RuminaqConnection/modelObject"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

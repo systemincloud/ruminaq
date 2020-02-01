@@ -56,27 +56,26 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
         .getNewObject();
     IPeCreateService peCreateService = Graphiti.getPeCreateService();
 
-    SimpleConnectionShape connection = DiagramFactory.eINSTANCE
+    SimpleConnectionShape connectionShape = DiagramFactory.eINSTANCE
         .createSimpleConnectionShape();
-    connection.setParent(getDiagram());
-    connection.setStart(addConContext.getSourceAnchor());
-    connection.setEnd(addConContext.getTargetAnchor());
+    connectionShape.setParent(getDiagram());
+    connectionShape.setStart(addConContext.getSourceAnchor());
+    connectionShape.setEnd(addConContext.getTargetAnchor());
 
     IGaService gaService = Graphiti.getGaService();
-    Polyline polyline = gaService.createPolyline(connection);
+    Polyline polyline = gaService.createPolyline(connectionShape);
     polyline.setLineWidth(1);
     polyline.setForeground(manageColor(IColorConstant.BLACK));
 
     ConnectionDecorator cd = peCreateService
-        .createConnectionDecorator(connection, false, 1.0, true);
+        .createConnectionDecorator(connectionShape, false, 1.0, true);
     Graphiti.getPeService().setPropertyValue(cd, ARROW_DECORATOR, "true");
     GuiUtil.createArrow(cd, getDiagram());
 
-    // create link and wire it
-    link(connection, addedSimpleConnection);
-    linkToConnectionBeforePoint(connection, addedSimpleConnection);
+    connectionShape.setModelObject(addedSimpleConnection);
+    linkToConnectionBeforePoint(connectionShape, addedSimpleConnection);
 
-    return connection;
+    return connectionShape;
   }
 
   public void linkToConnectionBeforePoint(Connection connection,
