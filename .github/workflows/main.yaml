@@ -79,4 +79,4 @@ jobs:
         metacity --sm-disable --replace 2> metacity.err &
         
     - name: Build plugins
-      run: sudo ./mvnw install --toolchains=.github/toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=systemincloud -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      run: ./mvnw install --toolchains=.github/toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=systemincloud -Dsonar.login=${{ secrets.SONAR_TOKEN }}
