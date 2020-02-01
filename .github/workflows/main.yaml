@@ -19,6 +19,9 @@ jobs:
       with:
         java-version: '11.0.x'
         
+    - name: Which java
+      run: which java
+        
     - name: Set up Python 3.x
       uses: actions/setup-python@v1
       with:
@@ -55,9 +58,6 @@ jobs:
       
     - name: Build javatask
       run: ./mvnw install -P init -pl libs/org.ruminaq.tasks.javatask.client
-     
-    - name: Which java
-      run: which java
             
     - name: Build p2repo project
       run: ./mvnw install --toolchains=.github/toolchains.xml -P init -pl p2repo
