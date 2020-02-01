@@ -54,8 +54,8 @@ build plugins:
     - export DISPLAY=:99
     - metacity --sm-disable --replace 2> metacity.err &
   script:
-    - ./mvnw install -pl libs/org.ruminaq.tools
-    - ./mvnw install -pl libs/org.ruminaq.tasks.javatask.client
+    - ./mvnw install -P init -pl libs/org.ruminaq.tools
+    - ./mvnw install -P init -pl libs/org.ruminaq.tasks.javatask.client
     - ./mvnw install --toolchains=.gitlab-toolchains.xml -P init -pl p2repo
     - ./mvnw p2:site --toolchains=.gitlab-toolchains.xml -P init -pl p2repo
     - ./mvnw jetty:run --toolchains=.gitlab-toolchains.xml -P init -pl p2repo &
