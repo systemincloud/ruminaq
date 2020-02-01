@@ -1,7 +1,6 @@
 Manifest-Version: 1.0
 Automatic-Module-Name: org.ruminaq.eclipse.it.tests
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Eclipse - Integration Tests
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.eclipse.it.tests
 Bundle-Version: 1.0.0.qualifier

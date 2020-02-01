@@ -8,10 +8,8 @@ package org.ruminaq.eclipse.it.tests;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
-import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
-import org.eclipse.swtbot.swt.finder.waits.ICondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.junit.AfterClass;
@@ -57,6 +55,8 @@ public class CreatingRuminaqTestDiagramTest {
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
+
+    Thread.sleep(5000);
 
     String folder = "modules";
 

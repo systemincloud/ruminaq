@@ -135,5 +135,5 @@
         eOpposite="#//LabelShape/labeledShape"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TaskShape" eSuperTypes="#//LabeledRuminaqShape"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SimpleConnectionShape"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleConnectionShape" eSuperTypes="platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/FreeFormConnection"/>
 </ecore:EPackage>

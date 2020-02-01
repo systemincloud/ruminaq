@@ -1,6 +1,5 @@
 Automatic-Module-Name: org.ruminaq.runner
 Bundle-ManifestVersion: 2
-Bundle-Name: System in Cloud Modeler - Runner
 Bundle-Vendor: System in Cloud
 Bundle-SymbolicName: org.ruminaq.runner;singleton:=true
 Bundle-Version: 1.0.0.qualifier

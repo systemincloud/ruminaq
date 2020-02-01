@@ -1,7 +1,6 @@
 Automatic-Module-Name: org.ruminaq.hacks
 Bundle-ManifestVersion: 2
-Bundle-Name: System in Cloud Modeler - Hacks
-Bundle-Vendor: System in Cloud
+Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.hacks;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Import-Package: org.aspectj.lang,
