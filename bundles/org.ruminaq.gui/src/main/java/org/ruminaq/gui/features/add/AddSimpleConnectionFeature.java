@@ -21,6 +21,8 @@ import org.eclipse.graphiti.util.IColorConstant;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AddSimpleConnectionFeature.Filter;
+import org.ruminaq.gui.model.diagram.DiagramFactory;
+import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.SimpleConnection;
@@ -54,9 +56,9 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
         .getNewObject();
     IPeCreateService peCreateService = Graphiti.getPeCreateService();
 
-    // CONNECTION WITH POLYLINE
-    Connection connection = peCreateService
-        .createFreeFormConnection(getDiagram());
+    SimpleConnectionShape connection = DiagramFactory.eINSTANCE
+        .createSimpleConnectionShape();
+    connection.setParent(getDiagram());
     connection.setStart(addConContext.getSourceAnchor());
     connection.setEnd(addConContext.getTargetAnchor());
 
