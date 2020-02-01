@@ -64,7 +64,7 @@ jobs:
         time: '60s'
         
     - name: Build plugins
-      run: sudo ./mvnw install --toolchains=.github/toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar
+      run: sudo ./mvnw install --toolchains=.github/toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=systemincloud
       
       
 #      env:
