@@ -17,7 +17,7 @@ jobs:
     - name: Set up JDK 1.11
       uses: actions/setup-java@v1
       with:
-        java-version: '11.0.4'
+        java-version: '11.0.x'
         
     - name: Set up Python 3.x
       uses: actions/setup-python@v1
@@ -55,6 +55,9 @@ jobs:
       
     - name: Build javatask
       run: ./mvnw install -P init -pl libs/org.ruminaq.tasks.javatask.client
+     
+    - name: Which java
+      run: which java
             
     - name: Build p2repo project
       run: ./mvnw install --toolchains=.github/toolchains.xml -P init -pl p2repo
