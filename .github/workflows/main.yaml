@@ -39,6 +39,13 @@ jobs:
         sudo apt-get install texlive-fonts-extra
         sudo apt-get install texlive-latex-extra
         sudo apt install r-base
+
+    - uses: actions/cache@v1
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
    
     - name: Mvn version
       run: ./mvnw -version
