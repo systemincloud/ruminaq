@@ -6,7 +6,7 @@
       <version>11</version>
     </provides>
     <configuration>
-      <jdkHome>/opt/hostedtoolcache/Java/11.0.4/x64</jdkHome>
+      <jdkHome>/opt/hostedtoolcache/jdk/11.0.6/x64</jdkHome>
     </configuration>
   </toolchain>
 </toolchains>
