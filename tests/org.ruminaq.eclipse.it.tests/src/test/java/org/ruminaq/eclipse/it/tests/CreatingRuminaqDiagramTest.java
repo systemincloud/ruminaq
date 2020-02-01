@@ -46,11 +46,13 @@ public class CreatingRuminaqDiagramTest {
   private static final int PROJECT_SUFFIX_LENGTH = 5;
 
   @Test
-  public final void testChoosingProjectFromMainMenu() {
+  public final void testChoosingProjectFromMainMenu() throws InterruptedException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
+    
+    Thread.sleep(5000);
 
     new CreateRuminaqDiagram().openDiagramWizardFromProjectContextMenu(bot,
         projectName);

@@ -1,6 +1,5 @@
 Automatic-Module-Name: org.ruminaq.logs.logback.xml
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Logback
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.logs.logback.xml
 Bundle-Version: 1.0.0.qualifier

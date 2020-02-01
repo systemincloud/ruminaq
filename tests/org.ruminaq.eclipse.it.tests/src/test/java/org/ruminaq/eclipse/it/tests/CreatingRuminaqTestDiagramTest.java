@@ -50,7 +50,8 @@ public class CreatingRuminaqTestDiagramTest {
   private static final int PROJECT_SUFFIX_LENGTH = 5;
 
   @Test
-  public final void testChoosingProjectFromMainMenu() throws InterruptedException {
+  public final void testChoosingProjectFromMainMenu()
+      throws InterruptedException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
@@ -69,12 +70,12 @@ public class CreatingRuminaqTestDiagramTest {
         .getNode(SourceFolders.TASK_FOLDER).select();
     SWTBotMenu menu = bot.tree().contextMenu("New");
     bot.waitUntil(new DefaultCondition() {
-      
+
       @Override
       public boolean test() throws Exception {
         return menu.hasMenu();
       }
-      
+
       @Override
       public String getFailureMessage() {
         return "Menu not visible";
@@ -83,8 +84,12 @@ public class CreatingRuminaqTestDiagramTest {
     bot.menu("Folder").click();
     bot.textWithLabel("Folder &name:").setText(folder);
     bot.button("Finish").click();
-    
-    Thread.sleep(5000);
+
+    Thread.sleep(3000);
+
+    bot.tree().getTreeItem(projectName).contextMenu("Refresh");
+
+    Thread.sleep(3000);
 
     new CreateRuminaqTestDiagram().openDiagramWizardFromProjectContextMenu(bot,
         projectName, SourceFolders.TEST_RESOURCES, SourceFolders.TASK_FOLDER,

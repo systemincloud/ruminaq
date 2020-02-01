@@ -1,7 +1,6 @@
 Automatic-Module-Name: org.ruminaq.tasks.console.ui
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Tasks - Console UI
-Bundle-Vendor: System in Cloud
+Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.console.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui

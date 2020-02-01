@@ -1,6 +1,5 @@
 Automatic-Module-Name: org.ruminaq.tasks.api
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq Tasks API
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.api;singleton:=true
 Bundle-Version: 1.0.0.qualifier

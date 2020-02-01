@@ -1,6 +1,5 @@
 Automatic-Module-Name: org.ruminaq.launch.ui
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Launch UI
 Bundle-Vendor: Marek Jagielski
 Bundle-Localization: plugin
 Bundle-SymbolicName: org.ruminaq.launch.ui;singleton:=true
