@@ -56,7 +56,7 @@ public class CreatingRuminaqTestDiagramTest {
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
-    Thread.sleep(10000);
+    Thread.sleep(6000);
 
     String folder = "modules";
 
