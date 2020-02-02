@@ -11,7 +11,6 @@ import java.util.Optional;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.graphiti.mm.algorithms.AbstractText;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.impl.MultiTextImpl;
 import org.eclipse.graphiti.mm.algorithms.impl.RectangleImpl;
@@ -36,24 +35,7 @@ import org.ruminaq.model.ruminaq.BaseElement;
  */
 public class LabelShapeGA extends RectangleImpl {
 
-  public static final Font FONT = StylesFactory.eINSTANCE.createFont();
-
-  static {
-    FONT.eSet(StylesPackage.eINSTANCE.getFont_Name(), IGaService.DEFAULT_FONT);
-    FONT.eSet(StylesPackage.eINSTANCE.getFont_Size(),
-        IGaService.DEFAULT_FONT_SIZE);
-    FONT.eSet(StylesPackage.eINSTANCE.getFont_Italic(), Boolean.FALSE);
-    FONT.eSet(StylesPackage.eINSTANCE.getFont_Bold(), Boolean.FALSE);
-  }
-  
-  private static final int TEXT_PADDING = 5;
-  
-  private EList<GraphicsAlgorithm> children;
-
-  private LabelShape shape;
-
-  private AbstractText text = new MultiTextImpl() {
-
+  private final class Text extends MultiTextImpl {
     @Override
     public String getValue() {
       return Optional.ofNullable(shape.getLabeledShape())
@@ -117,7 +99,25 @@ public class LabelShapeGA extends RectangleImpl {
     public Resource eResource() {
       return new NoResource();
     }
-  };
+  }
+
+  public static final Font FONT = StylesFactory.eINSTANCE.createFont();
+
+  static {
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Name(), IGaService.DEFAULT_FONT);
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Size(),
+        IGaService.DEFAULT_FONT_SIZE);
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Italic(), Boolean.FALSE);
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Bold(), Boolean.FALSE);
+  }
+  
+  private static final int TEXT_PADDING = 5;
+  
+  private EList<GraphicsAlgorithm> children;
+
+  private LabelShape shape;
+
+  private Text text = new Text();
 
   public LabelShapeGA(LabelShape shape) {
     this.shape = shape;
@@ -181,7 +181,7 @@ public class LabelShapeGA extends RectangleImpl {
 
   @Override
   public EList<GraphicsAlgorithm> getGraphicsAlgorithmChildren() {
-    return children;
+    return ECollections.unmodifiableEList(children);
   }
 
   @Override
