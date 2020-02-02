@@ -1,12 +1,18 @@
 package org.ruminaq.gui.it.tests;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.Optional;
+
+import org.eclipse.graphiti.ui.internal.parts.ShapeEditPart;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
-import org.eclipse.reddeer.gef.handler.EditPartHandler;
+import org.eclipse.reddeer.graphiti.api.GraphitiEditPart;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
-import org.eclipse.swt.widgets.Display;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.gui.model.diagram.InputPortShape;
 import org.ruminaq.model.ruminaq.InputPort;
+import org.ruminaq.tests.common.reddeer.MoveShape;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 
 /**
@@ -26,8 +32,15 @@ public class MoveTest extends GuiTest {
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InputPort.class);
     ip.select();
 
-    new MoveShape(gefEditor, ip, 10, 10).execute();
-//    ip.getGEFEditPart().getModel()
+    new MoveShape(gefEditor, ip, -10, -20).execute();
+    InputPortShape shape = Optional.of(ip).map(GraphitiEditPart::getGEFEditPart)
+        .filter(ShapeEditPart.class::isInstance)
+        .map(ShapeEditPart.class::cast)
+        .map(ShapeEditPart::getPictogramElement)
+        .filter(InputPortShape.class::isInstance).map(InputPortShape.class::cast)
+        .get();
+    assertEquals("X should change", 190, shape.getX());
+    assertEquals("Y should change", 80, shape.getY());
   }
 
 }

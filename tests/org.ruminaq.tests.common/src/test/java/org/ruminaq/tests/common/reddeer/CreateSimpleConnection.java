@@ -26,26 +26,27 @@ public class CreateSimpleConnection {
       GraphitiEditPart destinationEp) {
     RuminaqEditor ruminaqEditor = ((RuminaqEditor) gefEditor.getEditorPart());
     this.editDomain = ruminaqEditor.getDiagramBehavior().getEditingDomain();
-    this.featureProvider = ruminaqEditor.getDiagramTypeProvider().getFeatureProvider();
-    
+    this.featureProvider = ruminaqEditor.getDiagramTypeProvider()
+        .getFeatureProvider();
+
     PictogramElement sourcePe = Optional.of(sourceEp)
         .map(GraphitiEditPart::getGEFEditPart)
         .filter(ContainerShapeEditPart.class::isInstance)
-        .map(o -> (ContainerShapeEditPart) o)
+        .map(ContainerShapeEditPart.class::cast)
         .map(ContainerShapeEditPart::getPictogramElement).get();
     PictogramElement destinationPe = Optional.of(destinationEp)
         .map(GraphitiEditPart::getGEFEditPart)
         .filter(ContainerShapeEditPart.class::isInstance)
-        .map(o -> (ContainerShapeEditPart) o)
+        .map(ContainerShapeEditPart.class::cast)
         .map(ContainerShapeEditPart::getPictogramElement).get();
 
     this.context = new CreateConnectionContext();
-    context.setSourceAnchor(getAnchor(sourcePe));
-    context.setTargetAnchor(getAnchor(destinationPe));
-    context.setSourcePictogramElement(sourcePe);
-    context.setTargetPictogramElement(destinationPe);
-    context.setSourceLocation(null);
-    context.setTargetLocation(null);
+    this.context.setSourceAnchor(getAnchor(sourcePe));
+    this.context.setTargetAnchor(getAnchor(destinationPe));
+    this.context.setSourcePictogramElement(sourcePe);
+    this.context.setTargetPictogramElement(destinationPe);
+    this.context.setSourceLocation(null);
+    this.context.setTargetLocation(null);
   }
 
   private Anchor getAnchor(PictogramElement pe) {
@@ -59,10 +60,10 @@ public class CreateSimpleConnection {
   }
 
   public void execute() {
-    CreateSimpleConnectionFeature f = new CreateSimpleConnectionFeature(featureProvider);
+    CreateSimpleConnectionFeature f = new CreateSimpleConnectionFeature(
+        featureProvider);
     f.canCreate(context);
-    ModelUtil.runModelChange(() -> f.create(context),
-        editDomain,
+    ModelUtil.runModelChange(() -> f.create(context), editDomain,
         "Add connection");
   }
 }
