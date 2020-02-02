@@ -79,5 +79,15 @@ jobs:
         export DISPLAY=:99
         metacity --sm-disable --replace 2> metacity.err &
         
+    - name: Thrift
+      run: |
+        cd bundles/org.ruminaq.runner.thrift
+        mkdir -p target/generated-sources/thrift
+        docker run -v $(pwd):/data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/ProcessSideServer.thrift
+        docker run -v $(pwd):/data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/RemoteData.thrift
+        docker run -v $(pwd):/data thrift thrift --gen java -r -out /data/target/generated-sources/thrift /data/src/main/thrift/RunnerSideServer.thrift
+        ls target/generated-sources/thrift
+        cd ../..
+        
     - name: Build plugins
       run: ./mvnw install --toolchains=.github/toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=systemincloud -Dsonar.login=${{ secrets.SONAR_TOKEN }}
