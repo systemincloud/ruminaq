@@ -61,7 +61,7 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
     connectionShape.setParent(getDiagram());
     connectionShape.setStart(addConContext.getSourceAnchor());
     connectionShape.setEnd(addConContext.getTargetAnchor());
-
+    
     IGaService gaService = Graphiti.getGaService();
     Polyline polyline = gaService.createPolyline(connectionShape);
     polyline.setLineWidth(1);

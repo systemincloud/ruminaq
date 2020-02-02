@@ -31,6 +31,8 @@ import org.eclipse.graphiti.services.IPeService;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.add.AddSimpleConnectionFeature;
+import org.ruminaq.gui.model.diagram.DiagramFactory;
+import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 
 public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
@@ -59,9 +61,9 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
     IPeCreateService peCreateService = Graphiti.getPeCreateService();
     IPeService peService = Graphiti.getPeService();
     PictogramElement pe = context.getPictogramElements()[0];
-    FreeFormConnection ffc = (FreeFormConnection) pe;
-    Point p = GuiUtil.projectOnConnection(ffc, context.getX(),
-        context.getY(), Constants.INTERNAL_PORT);
+    SimpleConnectionShape ffc = (SimpleConnectionShape) pe;
+    Point p = GuiUtil.projectOnConnection(ffc, context.getX(), context.getY(),
+        Constants.INTERNAL_PORT);
 
     Shape s = createConnectionPoint(p.getX(), p.getY(), getDiagram());
     Anchor pointAnchor = cs.createChopboxAnchor(s);
@@ -83,14 +85,15 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
     }
 
     // create connection from point to last end
-    FreeFormConnection connection = peCreateService
-        .createFreeFormConnection(getDiagram());
-    connection.setStart(pointAnchor);
-    connection.setEnd(end);
-    connection.getBendpoints().addAll(deletedPoints);
+    SimpleConnectionShape connectionShape = DiagramFactory.eINSTANCE
+        .createSimpleConnectionShape();
+    connectionShape.setParent(getDiagram());
+    connectionShape.setStart(pointAnchor);
+    connectionShape.setEnd(end);
+    connectionShape.getBendpoints().addAll(deletedPoints);
 
     IGaService gaService = Graphiti.getGaService();
-    Polyline polyline = gaService.createPolyline(connection);
+    Polyline polyline = gaService.createPolyline(connectionShape);
     polyline.setLineWidth(1);
     polyline.setForeground(manageColor(IColorConstant.BLACK));
 
@@ -98,15 +101,13 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
         Constants.SIMPLE_CONNECTION_POINT);
     if (!Boolean.parseBoolean(isConnectionPoint)) {
       ConnectionDecorator cd = peCreateService
-          .createConnectionDecorator(connection, false, 1.0, true);
+          .createConnectionDecorator(connectionShape, false, 1.0, true);
       peService.setPropertyValue(cd, AddSimpleConnectionFeature.ARROW_DECORATOR,
           "true");
       GuiUtil.createArrow(cd, getDiagram());
     }
 
-    // link to new connection all bo from old connection
-    link(connection, ffc.getLink().getBusinessObjects()
-        .toArray(new Object[ffc.getLink().getBusinessObjects().size()]));
+    connectionShape.setModelObject(ffc.getModelObject());
   }
 
   private Shape createConnectionPoint(int x, int y, ContainerShape cs) {
