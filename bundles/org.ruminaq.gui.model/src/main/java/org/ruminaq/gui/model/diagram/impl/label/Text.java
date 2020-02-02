@@ -37,11 +37,13 @@ final class Text extends MultiTextImpl {
     FONT.eSet(StylesPackage.eINSTANCE.getFont_Bold(), Boolean.FALSE);
   }
 
-  static final int TEXT_PADDING = 5;
+  private static final int TEXT_PADDING = 5;
 
   private final BaseElement modelObject;
 
   /**
+   * Label text.
+   * 
    * @param modelObject ruminaq object
    */
   Text(BaseElement modelObject) {

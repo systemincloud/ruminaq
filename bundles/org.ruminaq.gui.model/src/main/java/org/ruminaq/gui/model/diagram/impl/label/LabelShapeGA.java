@@ -31,6 +31,11 @@ public class LabelShapeGA extends RectangleImpl {
 
   private Text text;
 
+  /**
+   * GraphicsAlgorithm for Label.
+   *
+   * @param shape LabelShape
+   */
   public LabelShapeGA(LabelShape shape) {
     this.shape = shape;
     this.text = new Text(Optional.of(this.shape.getLabeledShape())

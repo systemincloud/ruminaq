@@ -13,8 +13,10 @@ import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.PortShape;
+import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.gui.model.diagram.impl.label.LabelShapeGA;
 import org.ruminaq.gui.model.diagram.impl.port.PortShapeGA;
+import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionShapeGA;
 
 /**
  * GraphicsAlgorithm factories.
@@ -26,7 +28,8 @@ public enum GraphicsAlgorithmFactory {
 
   private final List<Factory> factories = Arrays.asList(
       new ShapeFactory<>(LabelShape.class, LabelShapeGA.class),
-      new ShapeFactory<>(PortShape.class, PortShapeGA.class));
+      new ShapeFactory<>(PortShape.class, PortShapeGA.class),
+      new ShapeFactory<>(SimpleConnectionShape.class, SimpleConnectionShapeGA.class));
 
   public GraphicsAlgorithm getGraphicsAlgorithm(Shape shape) {
     return factories.stream().filter((Factory p) -> p.isForThisShape(shape))

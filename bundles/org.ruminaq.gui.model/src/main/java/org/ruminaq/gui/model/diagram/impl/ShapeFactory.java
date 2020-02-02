@@ -11,7 +11,7 @@ import java.util.WeakHashMap;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.slf4j.Logger;
 
@@ -22,7 +22,7 @@ import org.slf4j.Logger;
  *
  * @author Marek Jagielski
  */
-public class ShapeFactory<T extends Shape, K extends GraphicsAlgorithm>
+public class ShapeFactory<T extends PictogramElement, K extends GraphicsAlgorithm>
     implements Factory {
 
   private static final Logger LOGGER = ModelerLoggerFactory
@@ -39,12 +39,12 @@ public class ShapeFactory<T extends Shape, K extends GraphicsAlgorithm>
   }
 
   @Override
-  public boolean isForThisShape(Shape shape) {
+  public boolean isForThisShape(PictogramElement shape) {
     return shapeType.isInstance(shape);
   }
 
   @Override
-  public GraphicsAlgorithm getGA(Shape shape) {
+  public GraphicsAlgorithm getGA(PictogramElement shape) {
     if (!shapeType.isInstance(shape)) {
       return null;
     }

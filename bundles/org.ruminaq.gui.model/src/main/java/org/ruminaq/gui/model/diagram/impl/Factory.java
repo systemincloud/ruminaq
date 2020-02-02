@@ -7,7 +7,7 @@
 package org.ruminaq.gui.model.diagram.impl;
 
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
 /**
  * Interface for GraphicAlgorithms factories.
@@ -16,7 +16,7 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
  */
 public interface Factory {
 
-  boolean isForThisShape(Shape shape);
+  boolean isForThisShape(PictogramElement shape);
 
-  GraphicsAlgorithm getGA(Shape shape);
+  GraphicsAlgorithm getGA(PictogramElement shape);
 }

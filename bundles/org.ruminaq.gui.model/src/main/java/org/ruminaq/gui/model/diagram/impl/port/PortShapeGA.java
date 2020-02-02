@@ -26,6 +26,10 @@ public class PortShapeGA extends RoundedRectangleImpl {
 
   private PortShape shape;
 
+  /**
+   * 
+   * @param shape parent PortShape
+   */
   public PortShapeGA(PortShape shape) {
     this.shape = shape;
   }
