@@ -6,6 +6,8 @@
 
 package org.ruminaq.eclipse.prefs;
 
+import java.util.Optional;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -87,19 +89,16 @@ public class ProjectPropsPage extends PropertyPage {
     lblVersionLabel.setText(Messages.projectPropsVersionLabel);
     btnUpgrade.setText(Messages.projectPropsUpgradeButton);
 
-    String version = projectProps.get(ProjectProps.RUMINAQ_VERSION);
     Version bundleVersion = PlatformUtil.getBundleVersion(this.getClass());
-    Version bundleVersionWithoutQualifier = new Version(bundleVersion.getMajor(),
-        bundleVersion.getMinor(), bundleVersion.getMicro());
+    String bundleVersionWithoutQualifier = new Version(bundleVersion.getMajor(),
+        bundleVersion.getMinor(), bundleVersion.getMicro()).toString();
+    String version = Optional
+        .ofNullable(projectProps.get(ProjectProps.RUMINAQ_VERSION))
+        .orElseGet(() -> bundleVersionWithoutQualifier);
 
-    if (version == null) {
-      projectProps.put(ProjectProps.RUMINAQ_VERSION,
-          bundleVersionWithoutQualifier.toString());
-      version = bundleVersionWithoutQualifier.toString();
-    }
     lblVersion.setText(version);
 
-    if (version.equals(bundleVersionWithoutQualifier.toString())) {
+    if (version.equals(bundleVersionWithoutQualifier)) {
       btnUpgrade.setEnabled(false);
     } else {
       btnUpgrade.setText(Messages.projectPropsUpgradeButtonEnabled + " "
