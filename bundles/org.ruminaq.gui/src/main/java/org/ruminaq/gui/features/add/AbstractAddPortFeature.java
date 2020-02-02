@@ -8,7 +8,6 @@ package org.ruminaq.gui.features.add;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.ruminaq.gui.model.diagram.PortShape;
@@ -31,7 +30,7 @@ public abstract class AbstractAddPortFeature extends AbstractAddElementFeature {
     return context.getTargetContainer() instanceof RuminaqDiagram;
   }
   
-  protected PictogramElement add(IAddContext context, PortShape portShape) {
+  protected void add(IAddContext context, PortShape portShape) {
     portShape.setContainer(context.getTargetContainer());
     portShape.setX(context.getX());
     portShape.setY(context.getY());
@@ -41,6 +40,5 @@ public abstract class AbstractAddPortFeature extends AbstractAddElementFeature {
     BaseElement port = (BaseElement) context.getNewObject();
     portShape.setModelObject(port);
     addLabel(portShape);
-    return portShape;
   }
 }

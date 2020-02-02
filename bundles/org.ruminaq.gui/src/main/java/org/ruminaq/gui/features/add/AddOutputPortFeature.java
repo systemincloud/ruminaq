@@ -12,6 +12,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AddOutputPortFeature.Filter;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
+import org.ruminaq.gui.model.diagram.OutputPortShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.OutputPort;
 
@@ -36,6 +37,8 @@ public class AddOutputPortFeature extends AbstractAddPortFeature {
 
   @Override
   public PictogramElement add(IAddContext context) {
-    return super.add(context, DiagramFactory.eINSTANCE.createOutputPortShape());
+    OutputPortShape ops = DiagramFactory.eINSTANCE.createOutputPortShape();
+    super.add(context, ops);
+    return ops;
   }
 }
