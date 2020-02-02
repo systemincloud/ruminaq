@@ -89,16 +89,17 @@ public class ProjectPropsPage extends PropertyPage {
 
     String version = projectProps.get(ProjectProps.RUMINAQ_VERSION);
     Version bundleVersion = PlatformUtil.getBundleVersion(this.getClass());
-    Version bundleVersionWOQualifier = new Version(bundleVersion.getMajor(),
+    Version bundleVersionWithoutQualifier = new Version(bundleVersion.getMajor(),
         bundleVersion.getMinor(), bundleVersion.getMicro());
 
     if (version == null) {
       projectProps.put(ProjectProps.RUMINAQ_VERSION,
-          bundleVersionWOQualifier.toString());
+          bundleVersionWithoutQualifier.toString());
+      version = bundleVersionWithoutQualifier.toString();
     }
     lblVersion.setText(version);
 
-    if (version.equals(bundleVersionWOQualifier.toString())) {
+    if (version.equals(bundleVersionWithoutQualifier.toString())) {
       btnUpgrade.setEnabled(false);
     } else {
       btnUpgrade.setText(Messages.projectPropsUpgradeButtonEnabled + " "
