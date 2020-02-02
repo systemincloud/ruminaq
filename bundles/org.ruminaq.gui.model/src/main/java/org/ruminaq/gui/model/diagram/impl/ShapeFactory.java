@@ -16,7 +16,9 @@ import org.ruminaq.logs.ModelerLoggerFactory;
 import org.slf4j.Logger;
 
 /**
- * Factory for creating Label.
+ * Generic factory creating GraphicsAlgorithm for RuminaqShape.
+ * Particular GraphicsAlgorithm should have a constructor with just 
+ * particular RuminaqShape as parameter.
  *
  * @author Marek Jagielski
  */
@@ -54,7 +56,7 @@ public class ShapeFactory<T extends Shape, K extends GraphicsAlgorithm>
       } catch (InstantiationException | IllegalAccessException
           | IllegalArgumentException | InvocationTargetException
           | NoSuchMethodException | SecurityException e) {
-        LOGGER.error("", e);;
+        LOGGER.error("Could not create {}", shapeType.getClass(), e);
       }
       cacheGraphicsAlgorithms.put(shape, graphicsAlgorithm);
     }
