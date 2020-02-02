@@ -42,7 +42,7 @@ public final class LabelUtil {
     int currentLabelX = labelShape.getX();
     int currentLabelY = labelShape.getY();
 
-    int defaultShapeX = shapeX - ((textWidth) >> 1) + shapeWidth >> 1;
+    int defaultShapeX = shapeX - ((textWidth) >> 1) + (shapeWidth >> 1);
     int defaultShapeY = shapeY + shapeHeight + SHAPE_LABEL_SPACE;
 
     return GuiUtil.almostEqual(currentLabelX, defaultShapeX,
