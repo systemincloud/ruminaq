@@ -1,3 +1,5 @@
+![Ruminaq CI](https://github.com/systemincloud/ruminaq/workflows/Ruminaq%20CI/badge.svg)
+
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=org.ruminaq%3Aorg.ruminaq.root&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.ruminaq%3Aorg.ruminaq.root)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=org.ruminaq%3Aorg.ruminaq.root&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=org.ruminaq%3Aorg.ruminaq.root)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=org.ruminaq%3Aorg.ruminaq.root&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=org.ruminaq%3Aorg.ruminaq.root)
