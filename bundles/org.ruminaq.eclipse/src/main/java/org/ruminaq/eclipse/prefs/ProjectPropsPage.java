@@ -94,7 +94,7 @@ public class ProjectPropsPage extends PropertyPage {
         bundleVersion.getMinor(), bundleVersion.getMicro()).toString();
     String version = Optional
         .ofNullable(projectProps.get(ProjectProps.RUMINAQ_VERSION))
-        .orElseGet(() -> bundleVersionWithoutQualifier);
+        .orElse(bundleVersionWithoutQualifier);
 
     lblVersion.setText(version);
 
