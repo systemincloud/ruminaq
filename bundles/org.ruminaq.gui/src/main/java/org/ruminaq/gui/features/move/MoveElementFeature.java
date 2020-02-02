@@ -6,20 +6,26 @@
 
 package org.ruminaq.gui.features.move;
 
-import org.eclipse.emf.ecore.EObject;
+import java.util.Optional;
+
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.move.MoveElementFeature.Filter;
 import org.ruminaq.gui.model.diagram.LabelShape;
+import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 
+/**
+ * IMoveShapeFeature for ruminaq element.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class MoveElementFeature extends DefaultMoveShapeFeature {
 
@@ -27,11 +33,10 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
     @Override
     public boolean test(IContext context, IFeatureProvider fp) {
       IMoveShapeContext moveShapeContext = (IMoveShapeContext) context;
-      Shape shape = moveShapeContext.getShape();
-
-      Object bo = fp.getBusinessObjectForPictogramElement(shape);
-
-      return bo instanceof BaseElement;
+      return Optional.ofNullable(moveShapeContext.getShape())
+          .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+          .map(RuminaqShape::getModelObject)
+          .filter(BaseElement.class::isInstance).isPresent();
     }
   }
 
@@ -41,22 +46,20 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
 
   @Override
   public boolean canMoveShape(IMoveShapeContext context) {
-    if (context.getSourceContainer() == null)
+    if (Optional.ofNullable(context.getSourceContainer()).isEmpty()) {
       return false;
-    if (context.getSourceContainer().equals(context.getTargetContainer()))
+    }
+    if (context.getSourceContainer().equals(context.getTargetContainer())) {
       return true;
-
-    Shape shape = context.getShape();
-    ContainerShape targetShape = null;
-
-    // can move on label place
-    for (EObject o : shape.getLink().getBusinessObjects())
-      if (LabelShape.class.isInstance(o))
-        targetShape = (ContainerShape) o;
-    if (targetShape != null && targetShape.equals(context.getTargetContainer()))
-      return true;
-
-    return false;
+    }
+    return Optional.ofNullable(context.getTargetContainer())
+        .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
+        .filter((LabelShape l) -> {
+          return Optional.ofNullable(context.getShape())
+              .filter(LabeledRuminaqShape.class::isInstance)
+              .map(LabeledRuminaqShape.class::cast)
+              .map(LabeledRuminaqShape::getLabel).filter(l::equals).isPresent();
+        }).isPresent();
   }
 
   @Override
@@ -66,35 +69,28 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
 
   @Override
   public void moveShape(IMoveShapeContext context) {
-    Shape shape = context.getTargetContainer();
-    if (LabelShape.class.isInstance(shape)) {
-      MoveShapeContext c = (MoveShapeContext) context;
-      c.setTargetContainer(shape.getContainer());
-      c.setDeltaX(c.getDeltaX() + shape.getGraphicsAlgorithm().getX());
-      c.setDeltaY(c.getDeltaY() + shape.getGraphicsAlgorithm().getY());
-      c.setX(c.getX() + shape.getGraphicsAlgorithm().getX());
-      c.setY(c.getY() + shape.getGraphicsAlgorithm().getY());
-    }
+    Optional.ofNullable(context.getTargetContainer())
+        .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
+        .ifPresent((LabelShape l) -> {
+          MoveShapeContext c = (MoveShapeContext) context;
+          c.setTargetContainer(l.getContainer());
+          c.setDeltaX(c.getDeltaX() + l.getX());
+          c.setDeltaY(c.getDeltaY() + l.getY());
+          c.setX(c.getX() + l.getX());
+          c.setY(c.getY() + l.getY());
+        });
     super.moveShape(context);
   }
 
   @Override
   protected void postMoveShape(final IMoveShapeContext context) {
-    Shape shape = context.getShape();
-
-    // move also label
-    for (EObject o : shape.getLink().getBusinessObjects()) {
-      if (LabelShape.class.isInstance(o)) {
-        ContainerShape textContainerShape = (ContainerShape) o;
-        int dx = context.getDeltaX();
-        int dy = context.getDeltaY();
-
-        textContainerShape.getGraphicsAlgorithm()
-            .setX(textContainerShape.getGraphicsAlgorithm().getX() + dx);
-        textContainerShape.getGraphicsAlgorithm()
-            .setY(textContainerShape.getGraphicsAlgorithm().getY() + dy);
-      }
-    }
+    Optional.of(context.getShape())
+        .filter(LabeledRuminaqShape.class::isInstance)
+        .map(LabeledRuminaqShape.class::cast).map(LabeledRuminaqShape::getLabel)
+        .ifPresent((LabelShape l) -> {
+          l.setX(l.getX() + context.getDeltaX());
+          l.setY(l.getY() + context.getDeltaY());
+        });
 
     super.postMoveShape(context);
   }
