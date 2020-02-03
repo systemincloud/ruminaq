@@ -31,6 +31,8 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.ILayoutService;
 import org.eclipse.graphiti.services.IPeService;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
+import org.ruminaq.gui.model.diagram.LabelShape;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.util.StyleUtil;
 
 /**
@@ -321,46 +323,30 @@ public class GuiUtil {
     return true;
   }
 
-  public static boolean intersectsLabel(ContainerShape label, Shape shape) {
+  public static boolean intersectsLabel(LabelShape label, RuminaqShape shape) {
 
-    /*
-     * _________________________\ X | / | A_______________D | | | | | | | | | |
-     * |_____________| | B C \|/ * Y
-     *
-     * L - Label S - Shape
-     */
+    int xal = label.getX();
+    int yal = label.getY();
+    int xbl = xal;
+    int ybl = yal + label.getHeight();
+    int xdl = xal + label.getWidth();
+    int ydl = yal;
+    int xcl = xdl;
+    int ycl = ybl;
 
-    int xal, yal, xbl, ybl, xcl, ycl, xdl, ydl;
-    int xas, yas, xbs, ybs, xcs, ycs, xds, yds;
+    int xas = shape.getX();
+    int yas = shape.getY();
+    int xbs = xas;
+    int ybs = yas + shape.getHeight();
+    int xds = xas + shape.getWidth();
+    int yds = yas;
+    int xcs = xds;
+    int ycs = ybs;
 
-    xal = label.getGraphicsAlgorithm().getX();
-    yal = label.getGraphicsAlgorithm().getY();
-    xbl = xal;
-    ybl = yal + label.getGraphicsAlgorithm().getHeight();
-    xdl = xal + label.getGraphicsAlgorithm().getWidth();
-    ydl = yal;
-    xcl = xdl;
-    ycl = ybl;
-
-    xas = shape.getGraphicsAlgorithm().getX();
-    yas = shape.getGraphicsAlgorithm().getY();
-    xbs = xas;
-    ybs = yas + shape.getGraphicsAlgorithm().getHeight();
-    xds = xas + shape.getGraphicsAlgorithm().getWidth();
-    yds = yas;
-    xcs = xds;
-    ycs = ybs;
-
-    if ((xcl > xas && ycl > yas) && (xcl < xcs && ycl < ycs))
-      return true;
-    if ((xdl > xbs && ydl < ybs) && (xdl < xds && ydl > yds))
-      return true;
-    if ((xal < xcs && yal < ycs) && (xal > xas && yal > yas))
-      return true;
-    if ((xbl < xds && ybl > yds) && (xbl > xbs && ybl < ybs))
-      return true;
-
-    return false;
+    return ((xcl > xas && ycl > yas) && (xcl < xcs && ycl < ycs))
+        || ((xdl > xbs && ydl < ybs) && (xdl < xds && ydl > yds))
+        || ((xal < xcs && yal < ycs) && (xal > xas && yal > yas))
+        || ((xbl < xds && ybl > yds) && (xbl > xbs && ybl < ybs));
   }
 
   public static boolean pointsEqual(Point p1, Point p2) {
