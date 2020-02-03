@@ -181,29 +181,30 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
     Optional<IProject> project = EclipseUtil
         .getProjectFromSelection(selectedObject);
+    String projectName = project.map(IProject::getName).orElse("");
 
-    txtProject.setText(project.map(IProject::getName).orElse(""));
+    txtProject.setText(projectName);
 
     String diagramBase = getDiagramFolder();
 
-    txtContainer.setText(project.map((IProject p) -> {
-      String dirPath = null;
-      Selectable selectable = Selectable.valueOf(selectedObject.getClass());
-      String path = null;
-      if (selectable == Selectable.PACKAGEFRAGMENT) {
-        path = ((PackageFragment) selectedObject).getPath().toString();
-      } else if (selectable == Selectable.FOLDER) {
-        path = ((Folder) selectedObject).getFullPath().toString();
-      } else {
-        path = "";
-      }
-      if (path.startsWith(format("/{0}/{1}", p.getName(), diagramBase))) {
-        dirPath = path.substring(p.getName().length() + "./".length());
-      } else {
-        dirPath = diagramBase;
-      }
-      return dirPath;
-    }).orElse(""));
+    Selectable selectable = Selectable.valueOf(selectedObject.getClass());
+    String path = null;
+    if (selectable == Selectable.PACKAGEFRAGMENT) {
+      path = ((PackageFragment) selectedObject).getPath().toString();
+    } else if (selectable == Selectable.FOLDER) {
+      path = ((Folder) selectedObject).getFullPath().toString();
+    } else {
+      path = "";
+    }
+
+    String dirPath = null;
+    if (path.startsWith(format("/{0}/{1}", projectName, diagramBase))) {
+      dirPath = path.substring(projectName.length() + "./".length());
+    } else {
+      dirPath = diagramBase;
+    }
+
+    txtContainer.setText(dirPath);
 
     String filename = getDefaultName();
     int i = 1;

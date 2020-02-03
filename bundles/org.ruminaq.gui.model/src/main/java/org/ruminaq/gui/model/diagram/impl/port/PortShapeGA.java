@@ -27,6 +27,7 @@ public class PortShapeGA extends RoundedRectangleImpl {
   private PortShape shape;
 
   /**
+   * GraphicsAlgorithm for Port.
    * 
    * @param shape parent PortShape
    */
