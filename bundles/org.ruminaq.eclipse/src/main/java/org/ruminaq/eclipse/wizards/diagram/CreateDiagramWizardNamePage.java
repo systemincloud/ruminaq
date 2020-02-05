@@ -124,7 +124,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   public void createControl(Composite parent) {
     setImageDescriptor(ImageUtil.getImageDescriptor(Image.RUMINAQ_LOGO_64X64));
 
-    Object selected = getSelectedObject(selection);
+    Optional<Object> selected = getSelectedObject(selection);
 
     initLayout(parent);
     initComponents(selected);
@@ -134,12 +134,12 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     setControl(composite);
   }
 
-  static Object getSelectedObject(ISelection selection) {
+  static Optional<Object> getSelectedObject(ISelection selection) {
     return Optional.ofNullable(selection)
         .filter(Predicate.not(ISelection::isEmpty))
         .filter(s -> s instanceof IStructuredSelection)
         .map(s -> (IStructuredSelection) selection).filter(ss -> ss.size() == 1)
-        .map(IStructuredSelection::getFirstElement).orElse(null);
+        .map(IStructuredSelection::getFirstElement);
   }
 
   /**
@@ -172,27 +172,30 @@ public class CreateDiagramWizardNamePage extends WizardPage {
    *
    * @param selectedObject object selected in Project Explorer
    */
-  private void initComponents(Object selectedObject) {
+  private void initComponents(Optional<Object> selectedObject) {
     lblProject.setText(Messages.createDiagramWizardProject);
     btnProject.setText(Messages.createDiagramWizardProjectBrowse);
     lblContainer.setText(Messages.createDiagramWizardContainer);
     btnContainer.setText(Messages.createDiagramWizardContainerBrowse);
     lblFile.setText(Messages.createDiagramWizardFilename);
 
-    Optional<IProject> project = EclipseUtil
-        .getProjectFromSelection(selectedObject);
+    Optional<IProject> project = selectedObject.map(EclipseUtil::getProjectFromSelection);
     String projectName = project.map(IProject::getName).orElse("");
 
     txtProject.setText(projectName);
 
     String diagramBase = getDiagramFolder();
 
-    Selectable selectable = Selectable.valueOf(selectedObject.getClass());
     String path = null;
-    if (selectable == Selectable.PACKAGEFRAGMENT) {
-      path = ((PackageFragment) selectedObject).getPath().toString();
-    } else if (selectable == Selectable.FOLDER) {
-      path = ((Folder) selectedObject).getFullPath().toString();
+    if (selectedObject.isPresent()) {
+      Selectable selectable = Selectable.valueOf(selectedObject.getClass());
+      if (selectable == Selectable.PACKAGEFRAGMENT) {
+        path = ((PackageFragment) selectedObject.get()).getPath().toString();
+      } else if (selectable == Selectable.FOLDER) {
+        path = ((Folder) selectedObject.get()).getFullPath().toString();
+      } else {
+        path = "";
+      }
     } else {
       path = "";
     }

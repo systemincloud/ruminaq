@@ -213,7 +213,7 @@ public final class EclipseUtil {
     }
   }
 
-  public static Optional<IProject> getProjectFromSelection(Object obj) {
+  public static IProject getProjectFromSelection(Object obj) {
     String projectName = null;
     if (obj instanceof IProject) {
       projectName = ((IProject) obj).getName();
@@ -228,6 +228,6 @@ public final class EclipseUtil {
           .getElementName();
     }
     return Optional.ofNullable(projectName)
-        .map(pn -> ResourcesPlugin.getWorkspace().getRoot().getProject(pn));
+        .map(pn -> ResourcesPlugin.getWorkspace().getRoot().getProject(pn)).orElse(null);
   }
 }
