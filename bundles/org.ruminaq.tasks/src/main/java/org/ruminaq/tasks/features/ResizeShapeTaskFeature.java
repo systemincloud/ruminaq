@@ -11,7 +11,9 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
 
@@ -74,9 +76,9 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
     layoutPictogramElement(shape);
   }
 
-  private boolean isConflictingWithNewSize(ContainerShape textContainerShape,
-      Shape shape) {
-    return GuiUtil.intersectsLabel(textContainerShape, shape);
+  private boolean isConflictingWithNewSize(LabelShape textContainerShape,
+      RuminaqShape shape) {
+    return GuiUtil.intersects(textContainerShape, shape);
   }
 
   private void alignInternalPorts(Shape shape, int w_before, int h_before,

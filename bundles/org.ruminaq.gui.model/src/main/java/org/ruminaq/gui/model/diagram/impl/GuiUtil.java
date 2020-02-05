@@ -31,7 +31,6 @@ import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.ILayoutService;
 import org.eclipse.graphiti.services.IPeService;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
-import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.util.StyleUtil;
 
@@ -323,7 +322,7 @@ public class GuiUtil {
     return true;
   }
 
-  public static boolean intersectsLabel(LabelShape label, RuminaqShape shape) {
+  public static boolean intersects(RuminaqShape label, RuminaqShape shape) {
 
     int xal = label.getX();
     int yal = label.getY();
