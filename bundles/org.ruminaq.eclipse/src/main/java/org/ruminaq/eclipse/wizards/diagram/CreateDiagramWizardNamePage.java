@@ -124,7 +124,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   public void createControl(Composite parent) {
     setImageDescriptor(ImageUtil.getImageDescriptor(Image.RUMINAQ_LOGO_64X64));
 
-    Optional<Object> selected = getSelectedObject(selection);
+    Object selected = getSelectedObject(selection).get();
 
     initLayout(parent);
     initComponents(selected);
@@ -172,14 +172,14 @@ public class CreateDiagramWizardNamePage extends WizardPage {
    *
    * @param selectedObject object selected in Project Explorer
    */
-  private void initComponents(Optional<Object> selectedObject) {
+  private void initComponents(Object selectedObject) {
     lblProject.setText(Messages.createDiagramWizardProject);
     btnProject.setText(Messages.createDiagramWizardProjectBrowse);
     lblContainer.setText(Messages.createDiagramWizardContainer);
     btnContainer.setText(Messages.createDiagramWizardContainerBrowse);
     lblFile.setText(Messages.createDiagramWizardFilename);
 
-    Optional<IProject> project = selectedObject.map(EclipseUtil::getProjectFromSelection);
+    Optional<IProject> project = Optional.ofNullable(selectedObject).map(EclipseUtil::getProjectFromSelection);
     String projectName = project.map(IProject::getName).orElse("");
 
     txtProject.setText(projectName);
@@ -187,12 +187,12 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     String diagramBase = getDiagramFolder();
 
     String path = null;
-    if (selectedObject.isPresent()) {
+    if (selectedObject != null) {
       Selectable selectable = Selectable.valueOf(selectedObject.getClass());
       if (selectable == Selectable.PACKAGEFRAGMENT) {
-        path = ((PackageFragment) selectedObject.get()).getPath().toString();
+        path = ((PackageFragment) selectedObject).getPath().toString();
       } else if (selectable == Selectable.FOLDER) {
-        path = ((Folder) selectedObject.get()).getFullPath().toString();
+        path = ((Folder) selectedObject).getFullPath().toString();
       } else {
         path = "";
       }

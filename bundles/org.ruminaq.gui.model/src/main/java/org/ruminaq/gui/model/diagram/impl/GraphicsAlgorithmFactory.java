@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.PortShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
@@ -31,7 +31,7 @@ public enum GraphicsAlgorithmFactory {
       new ShapeFactory<>(PortShape.class, PortShapeGA.class),
       new ShapeFactory<>(SimpleConnectionShape.class, SimpleConnectionShapeGA.class));
 
-  public GraphicsAlgorithm getGraphicsAlgorithm(Shape shape) {
+  public GraphicsAlgorithm getGraphicsAlgorithm(PictogramElement shape) {
     return factories.stream().filter((Factory p) -> p.isForThisShape(shape))
         .findFirst().map((Factory p) -> p.getGA(shape)).orElseThrow();
   }

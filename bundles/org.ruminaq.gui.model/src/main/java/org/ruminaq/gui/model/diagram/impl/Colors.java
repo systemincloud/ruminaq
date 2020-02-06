@@ -17,14 +17,20 @@ import org.eclipse.graphiti.mm.algorithms.styles.StylesPackage;
  */
 public final class Colors {
 
+  public static final int V0 = 0;
   public static final int V255 = 255;
   
   public static final Color WHITE = StylesFactory.eINSTANCE.createColor();
+  public static final Color BLACK = StylesFactory.eINSTANCE.createColor();
   
   static {
     WHITE.eSet(StylesPackage.eINSTANCE.getColor_Red(), V255);
     WHITE.eSet(StylesPackage.eINSTANCE.getColor_Green(), V255);
     WHITE.eSet(StylesPackage.eINSTANCE.getColor_Blue(), V255);
+    
+    BLACK.eSet(StylesPackage.eINSTANCE.getColor_Red(), V0);
+    BLACK.eSet(StylesPackage.eINSTANCE.getColor_Green(), V0);
+    BLACK.eSet(StylesPackage.eINSTANCE.getColor_Blue(), V0);
   }
   
   private Colors() {

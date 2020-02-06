@@ -42,7 +42,8 @@ final class Text extends MultiTextImpl {
   private final BaseElement modelObject;
 
   /**
-   * Label text.
+   * Label text. Text value is bind 
+   * with BaseElement id.
    * 
    * @param modelObject ruminaq object
    */

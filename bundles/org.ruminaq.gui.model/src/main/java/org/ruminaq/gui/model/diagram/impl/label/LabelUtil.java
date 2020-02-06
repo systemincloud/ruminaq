@@ -34,20 +34,14 @@ public final class LabelUtil {
   public static boolean isInDefaultPosition(LabelShape labelShape) {
     LabeledRuminaqShape labeledShape = labelShape.getLabeledShape();
 
-    int shapeX = labeledShape.getX();
-    int shapeY = labeledShape.getY();
-    int shapeWidth = labeledShape.getWidth();
-    int shapeHeight = labeledShape.getHeight();
-    int textWidth = labelShape.getWidth();
-    int currentLabelX = labelShape.getX();
-    int currentLabelY = labelShape.getY();
+    int defaultShapeX = labeledShape.getX() - ((labelShape.getWidth()) >> 1)
+        + (labeledShape.getWidth() >> 1);
+    int defaultShapeY = labeledShape.getY() + labeledShape.getHeight()
+        + SHAPE_LABEL_SPACE;
 
-    int defaultShapeX = shapeX - ((textWidth) >> 1) + (shapeWidth >> 1);
-    int defaultShapeY = shapeY + shapeHeight + SHAPE_LABEL_SPACE;
-
-    return GuiUtil.almostEqual(currentLabelX, defaultShapeX,
+    return GuiUtil.almostEqual(labelShape.getX(), defaultShapeX,
         LABEL_POSITION_ERROR_MARGIN)
-        && GuiUtil.almostEqual(currentLabelY, defaultShapeY,
+        && GuiUtil.almostEqual(labelShape.getY(), defaultShapeY,
             LABEL_POSITION_ERROR_MARGIN);
   }
 
