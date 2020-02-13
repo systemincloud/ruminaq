@@ -26,13 +26,15 @@ import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionShape
 public enum GraphicsAlgorithmFactory {
   INSTANCE;
 
-  private final List<Factory> factories = Arrays.asList(
-      new ShapeFactory<>(LabelShape.class, LabelShapeGA.class),
-      new ShapeFactory<>(PortShape.class, PortShapeGA.class),
-      new ShapeFactory<>(SimpleConnectionShape.class, SimpleConnectionShapeGA.class));
+  private final List<Factory<? extends GraphicsAlgorithm>> factories = Arrays
+      .asList(new ShapeFactory<>(LabelShape.class, LabelShapeGA.class),
+          new ShapeFactory<>(PortShape.class, PortShapeGA.class),
+          new ShapeFactory<>(SimpleConnectionShape.class,
+              SimpleConnectionShapeGA.class));
 
   public GraphicsAlgorithm getGraphicsAlgorithm(PictogramElement shape) {
-    return factories.stream().filter((Factory p) -> p.isForThisShape(shape))
-        .findFirst().map((Factory p) -> p.getGA(shape)).orElseThrow();
+    return factories.stream().filter((p) -> p.isForThisShape(shape)).findFirst()
+        .map((p) -> p.get(shape)).filter(GraphicsAlgorithm.class::isInstance)
+        .map(GraphicsAlgorithm.class::cast).orElseThrow();
   }
 }

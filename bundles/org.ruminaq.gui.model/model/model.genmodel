@@ -61,11 +61,14 @@
     <genClasses ecoreClass="model.ecore#//SimpleConnectionShape">
       <genOperations ecoreOperation="model.ecore#//SimpleConnectionShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+      <genOperations ecoreOperation="model.ecore#//SimpleConnectionShape/getConnectionDecorators"
+          body="return ConnectionDecoratorsFactory.INSTANCE.getConnectionDecorators(this);">
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//RuminaqConnection">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RuminaqConnection/modelObject"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqConnection/isActive" body="return true;"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqConnection/isVisible" body="return true;"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RuminaqConnection/modelObject"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

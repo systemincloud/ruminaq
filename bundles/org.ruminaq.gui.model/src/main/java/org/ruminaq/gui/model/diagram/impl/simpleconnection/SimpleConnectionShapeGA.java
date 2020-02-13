@@ -20,16 +20,12 @@ import org.ruminaq.gui.model.diagram.impl.NoResource;
  */
 public class SimpleConnectionShapeGA extends PolylineImpl {
 
-  private SimpleConnectionShape shape;
-
   /**
    * GraphicsAlgorithm for SimpleConnection.
    * 
    * @param shape parent SimpleConnectionShape
    */
   public SimpleConnectionShapeGA(SimpleConnectionShape shape) {
-    this.shape = shape;
-
   }
   
   @Override

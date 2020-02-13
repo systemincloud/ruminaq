@@ -10,56 +10,55 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.WeakHashMap;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.slf4j.Logger;
 
 /**
- * Generic factory creating GraphicsAlgorithm for RuminaqShape.
- * Particular GraphicsAlgorithm should have a constructor with just 
- * particular RuminaqShape as parameter.
+ * Generic factory creating K for RuminaqShape.
+ * Particular K should have a constructor with just 
+ * particular T as parameter.
  *
  * @author Marek Jagielski
  */
-public class ShapeFactory<T extends PictogramElement, K extends GraphicsAlgorithm>
-    implements Factory {
+public class ShapeFactory<T extends PictogramElement, K>
+    implements Factory<K> {
 
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(ShapeFactory.class);
   
-  private Class<T> shapeType;
-  private Class<K> gaType;
+  protected Class<T> shapeType;
+  protected Class<K> returnType;
 
-  private WeakHashMap<EObject, K> cacheGraphicsAlgorithms = new WeakHashMap<>();
+  private WeakHashMap<EObject, K> cacheReturnObjects = new WeakHashMap<>();
 
-  public ShapeFactory(Class<T> shapeType, Class<K> gaType) {
+  public ShapeFactory(Class<T> shapeType, Class<K> returnType) {
     this.shapeType = shapeType;
-    this.gaType = gaType;
+    this.returnType = returnType;
   }
-
+  
   @Override
   public boolean isForThisShape(PictogramElement shape) {
     return shapeType.isInstance(shape);
   }
 
   @Override
-  public GraphicsAlgorithm getGA(PictogramElement shape) {
+  public K get(PictogramElement shape) {
     if (!shapeType.isInstance(shape)) {
       return null;
     }
 
-    if (!cacheGraphicsAlgorithms.containsKey(shape)) {
-      K graphicsAlgorithm = null;
+    if (!cacheReturnObjects.containsKey(shape)) {
+      K returnObject = null;
       try {
-        graphicsAlgorithm = gaType.getConstructor(shapeType).newInstance(shape);
+        returnObject = returnType.getConstructor(shapeType).newInstance(shape);
       } catch (InstantiationException | IllegalAccessException
           | IllegalArgumentException | InvocationTargetException
           | NoSuchMethodException | SecurityException e) {
         LOGGER.error("Could not create {}", shapeType.getClass(), e);
       }
-      cacheGraphicsAlgorithms.put(shape, graphicsAlgorithm);
+      cacheReturnObjects.put(shape, returnObject);
     }
-    return cacheGraphicsAlgorithms.get(shape);
-  }
+    return cacheReturnObjects.get(shape);
+  }  
 }

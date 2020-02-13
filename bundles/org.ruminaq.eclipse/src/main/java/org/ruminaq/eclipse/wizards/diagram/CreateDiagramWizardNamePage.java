@@ -124,7 +124,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   public void createControl(Composite parent) {
     setImageDescriptor(ImageUtil.getImageDescriptor(Image.RUMINAQ_LOGO_64X64));
 
-    Object selected = getSelectedObject(selection).get();
+    Object selected = getSelectedObject(selection).orElse(null);
 
     initLayout(parent);
     initComponents(selected);
@@ -179,7 +179,8 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     btnContainer.setText(Messages.createDiagramWizardContainerBrowse);
     lblFile.setText(Messages.createDiagramWizardFilename);
 
-    Optional<IProject> project = Optional.ofNullable(selectedObject).map(EclipseUtil::getProjectFromSelection);
+    Optional<IProject> project = Optional.ofNullable(selectedObject)
+        .map(EclipseUtil::getProjectFromSelection);
     String projectName = project.map(IProject::getName).orElse("");
 
     txtProject.setText(projectName);
