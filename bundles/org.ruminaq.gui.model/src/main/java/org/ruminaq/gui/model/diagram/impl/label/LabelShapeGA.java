@@ -74,11 +74,6 @@ public class LabelShapeGA extends RectangleImpl {
   }
 
   @Override
-  public Boolean getFilled() {
-    return Boolean.FALSE;
-  }
-
-  @Override
   public Integer getLineWidth() {
     return 1;
   }
