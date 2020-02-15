@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.mm.algorithms.impl.MultiTextImpl;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.algorithms.styles.Font;
-import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory;
 import org.eclipse.graphiti.mm.algorithms.styles.StylesPackage;
@@ -67,28 +66,8 @@ final class Text extends MultiTextImpl {
   }
 
   @Override
-  public Boolean getFilled() {
-    return Boolean.FALSE;
-  }
-
-  @Override
   public Font getFont() {
     return FONT;
-  }
-
-  @Override
-  public Integer getLineWidth() {
-    return 1;
-  }
-
-  @Override
-  public LineStyle getLineStyle() {
-    return LineStyle.SOLID;
-  }
-
-  @Override
-  public Double getTransparency() {
-    return 0D;
   }
 
   @Override
