@@ -29,7 +29,7 @@ public class IsEditPartWithBuisineseObjectOfType extends BaseMatcher<EditPart> {
   @Override
   public boolean matches(Object obj) {
     return Optional.of(obj).filter(ContainerShapeEditPart.class::isInstance)
-        .map(o -> (ContainerShapeEditPart) o)
+        .map(ContainerShapeEditPart.class::cast)
         .map(ContainerShapeEditPart::getPictogramElement)
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
         .map(RuminaqShape::getModelObject)

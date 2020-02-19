@@ -9,7 +9,6 @@ package org.ruminaq.gui.model.diagram.impl.simpleconnection;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.mm.algorithms.impl.PolylineImpl;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
-import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.gui.model.diagram.impl.Colors;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
 
@@ -19,14 +18,6 @@ import org.ruminaq.gui.model.diagram.impl.NoResource;
  * @author Marek Jagielski
  */
 public class SimpleConnectionShapeGA extends PolylineImpl {
-
-  /**
-   * GraphicsAlgorithm for SimpleConnection.
-   * 
-   * @param shape parent SimpleConnectionShape
-   */
-  public SimpleConnectionShapeGA(SimpleConnectionShape shape) {
-  }
   
   @Override
   public Integer getLineWidth() {

@@ -9,7 +9,6 @@ import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.impl.ConnectionDecoratorImpl;
 import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.gui.model.diagram.impl.Colors;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
 
@@ -54,9 +53,6 @@ public class ArrowDecorator extends ConnectionDecoratorImpl {
       return new NoResource();
     }
   };
-
-  public ArrowDecorator(SimpleConnectionShape shape) {
-  }
 
   @Override
   public boolean isVisible() {
