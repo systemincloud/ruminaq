@@ -377,8 +377,8 @@ public class GuiUtil {
   public static Point getMidpoint(Point p1, Point p2) {
     int dx = p2.getX() - p1.getX();
     int dy = p2.getY() - p1.getY();
-    int x = p1.getX() + dx / 2;
-    int y = p1.getY() + dy / 2;
+    int x = p1.getX() + dx >> 1;
+    int y = p1.getY() + dy >> 1;
     return createPoint(x, y);
   }
 
