@@ -8,7 +8,6 @@ package org.ruminaq.gui.model.diagram.impl;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.Optional;
 import java.util.WeakHashMap;
 import java.util.stream.Stream;
