@@ -14,13 +14,13 @@ import org.ruminaq.gui.model.diagram.impl.NoResource;
 
 public class ArrowDecorator extends ConnectionDecoratorImpl {
 
-  private static int xy[] = new int[] { -10, -5, 0, 0, -10, 5, -8, 0 };
+  private static int[] xy = new int[] { -10, -5, 0, 0, -10, 5, -8, 0 };
 
-  private int beforeAfter[] = new int[] { 3, 3, 0, 0, 3, 3, 3, 3 };
+  private int[] beforeAfter = new int[] { 3, 3, 0, 0, 3, 3, 3, 3 };
 
   private GraphicsAlgorithm ga = new PolygonImpl() {
 
-    EList<Point> points = new BasicEList<Point>(
+    private EList<Point> points = new BasicEList<>(
         Graphiti.getGaCreateService().createPointList(xy, beforeAfter));
 
     @Override
