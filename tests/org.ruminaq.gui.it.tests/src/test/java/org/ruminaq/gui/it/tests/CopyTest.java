@@ -22,6 +22,8 @@ public class CopyTest extends GuiTest {
 
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InputPort.class);
     ip.select();
+    
+    ip.getContextButton("Copy").click();
   }
 
 }

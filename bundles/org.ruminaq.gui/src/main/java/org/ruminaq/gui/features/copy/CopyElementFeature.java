@@ -6,8 +6,13 @@
 
 package org.ruminaq.gui.features.copy;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICopyContext;
@@ -17,7 +22,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.AbstractCopyFeature;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.model.diagram.LabelShape;
-import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 
 public class CopyElementFeature extends AbstractCopyFeature {
 
@@ -27,25 +32,18 @@ public class CopyElementFeature extends AbstractCopyFeature {
 
   @Override
   public boolean canCopy(ICopyContext context) {
-    final PictogramElement[] pes = context.getPictogramElements();
-    if (pes == null || pes.length == 0) {
+    PictogramElement[] pes = context.getPictogramElements();
+    if (Optional.ofNullable(pes).map(Arrays::asList).stream()
+        .flatMap(List::stream).findAny().isEmpty()) {
       return false;
     }
 
-    boolean onlyLabels = true;
-    for (PictogramElement pe : pes) {
-      if (pe instanceof Shape && Graphiti.getPeService().getPropertyValue(pe,
-          Constants.SIMPLE_CONNECTION_POINT) != null)
-        continue;
-      final Object bo = getBusinessObjectForPictogramElement(pe);
-      if (!(bo instanceof BaseElement)) {
-        return false;
-      }
-      if (!LabelShape.class.isInstance(pe)) {
-        onlyLabels = false;
-      }
+    if (Stream.of(pes).filter(Predicate.not(RuminaqShape.class::isInstance))
+        .findAny().isPresent()) {
+      return false;
     }
-    if (onlyLabels) {
+
+    if (Stream.of(pes).allMatch(LabelShape.class::isInstance)) {
       return false;
     }
 
@@ -54,18 +52,9 @@ public class CopyElementFeature extends AbstractCopyFeature {
 
   @Override
   public void copy(ICopyContext context) {
-    Set<PictogramElement> pes = new HashSet<>();
-    for (PictogramElement pe : context.getPictogramElements()) {
-      if (LabelShape.class.isInstance(pe)) {
-        continue;
-      } else if (pe instanceof Shape && Graphiti.getPeService()
-          .getPropertyValue(pe, Constants.SIMPLE_CONNECTION_POINT) != null) {
-        continue;
-      } else {
-        pes.add(pe);
-      }
-    }
-
-    putToClipboard(pes.toArray());
+    putToClipboard(Stream.of(context.getPictogramElements())
+        .filter(Predicate.not(LabelShape.class::isInstance))
+        .filter(p -> true /* connection point */)
+        .toArray(PictogramElement[]::new));
   }
 }
