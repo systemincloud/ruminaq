@@ -54,17 +54,11 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
     }
     return Optional.ofNullable(context.getTargetContainer())
         .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
-        .filter((LabelShape l) -> {
-          return Optional.ofNullable(context.getShape())
-              .filter(LabeledRuminaqShape.class::isInstance)
-              .map(LabeledRuminaqShape.class::cast)
-              .map(LabeledRuminaqShape::getLabel).filter(l::equals).isPresent();
-        }).isPresent();
-  }
-
-  @Override
-  protected void preMoveShape(IMoveShapeContext context) {
-    super.preMoveShape(context);
+        .filter(l -> Optional.ofNullable(context.getShape())
+            .filter(LabeledRuminaqShape.class::isInstance)
+            .map(LabeledRuminaqShape.class::cast)
+            .map(LabeledRuminaqShape::getLabel).filter(l::equals).isPresent())
+        .isPresent();
   }
 
   @Override
