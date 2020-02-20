@@ -6,7 +6,7 @@
 
 package org.ruminaq.gui.model.diagram.impl;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,14 +25,19 @@ import org.ruminaq.gui.model.diagram.impl.simpleconnection.ArrowDecorator;
 public enum ConnectionDecoratorsFactory {
   INSTANCE;
 
-  private final List<Factory<? extends ConnectionDecorator>> factories = Arrays
-      .asList(new ShapeFactory<>(SimpleConnectionShape.class,
+  private final List<Factory<? extends ConnectionDecorator>> factories = Collections
+      .singletonList(new ShapeFactory<>(SimpleConnectionShape.class,
           ArrowDecorator.class));
 
+  /**
+   * Flyweight Factory of ConnectionDecorators for PictogramElement.
+   * 
+   * @param pe key for retrieving Flyweight
+   */
   public EList<ConnectionDecorator> getConnectionDecorators(
       PictogramElement shape) {
-    return new BasicEList<ConnectionDecorator>(factories.stream()
-        .filter((p) -> p.isForThisShape(shape)).map((p) -> p.get(shape))
+    return new BasicEList<>(factories.stream()
+        .filter(p -> p.isForThisShape(shape)).map(p -> p.get(shape))
         .filter(ConnectionDecorator.class::isInstance)
         .map(ConnectionDecorator.class::cast).collect(Collectors.toList()));
   }

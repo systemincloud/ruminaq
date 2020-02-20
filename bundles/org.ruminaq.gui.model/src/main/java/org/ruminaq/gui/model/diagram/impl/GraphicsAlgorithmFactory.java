@@ -33,7 +33,7 @@ public enum GraphicsAlgorithmFactory {
               SimpleConnectionShapeGA.class));
 
   /**
-   * Flyweight Factory for GraphicsAlgorithm for PictogramElement.
+   * Flyweight Factory of GraphicsAlgorithms for PictogramElement.
    * 
    * @param pe key for retrieving Flyweight
    */
