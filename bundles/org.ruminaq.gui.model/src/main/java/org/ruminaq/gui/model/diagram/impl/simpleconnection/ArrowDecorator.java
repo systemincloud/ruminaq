@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.simpleconnection;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -12,16 +18,21 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.gui.model.diagram.impl.Colors;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
 
+/**
+ * Arrow of SimpleConnection.
+ *
+ * @author Marek Jagielski
+ */
 public class ArrowDecorator extends ConnectionDecoratorImpl {
 
-  private static int[] xy = new int[] { -10, -5, 0, 0, -10, 5, -8, 0 };
+  private static final int[] XY = new int[] { -10, -5, 0, 0, -10, 5, -8, 0 };
 
-  private int[] beforeAfter = new int[] { 3, 3, 0, 0, 3, 3, 3, 3 };
+  private static final int[] BEFORE_AFTER = new int[] { 3, 3, 0, 0, 3, 3, 3, 3 };
 
   private GraphicsAlgorithm ga = new PolygonImpl() {
 
     private EList<Point> points = new BasicEList<>(
-        Graphiti.getGaCreateService().createPointList(xy, beforeAfter));
+        Graphiti.getGaCreateService().createPointList(XY, BEFORE_AFTER));
 
     @Override
     public EList<Point> getPoints() {
