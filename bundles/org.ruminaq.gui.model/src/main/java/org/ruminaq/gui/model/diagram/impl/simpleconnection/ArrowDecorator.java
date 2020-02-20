@@ -6,6 +6,8 @@
 
 package org.ruminaq.gui.model.diagram.impl.simpleconnection;
 
+import java.util.List;
+
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -29,31 +31,31 @@ public class ArrowDecorator extends ConnectionDecoratorImpl {
 
   private static final int[] BEFORE_AFTER = new int[] { 3, 3, 0, 0, 3, 3, 3, 3 };
 
-  private GraphicsAlgorithm ga = new PolygonImpl() {
-
-    private EList<Point> points = new BasicEList<>(
-        Graphiti.getGaCreateService().createPointList(XY, BEFORE_AFTER));
+  private final class Arrow extends PolygonImpl {
+    
+    private List<Point> points = 
+        Graphiti.getGaCreateService().createPointList(XY, BEFORE_AFTER);
 
     @Override
     public EList<Point> getPoints() {
-      return points;
+      return new BasicEList<>(points);
     }
-    
+
     @Override
     public Integer getLineWidth() {
       return 1;
     }
-    
+
     @Override
     public Double getTransparency() {
       return 0D;
     }
-    
+
     @Override
     public Color getForeground() {
       return Colors.BLACK;
     }
-    
+
     @Override
     public Color getBackground() {
       return Colors.BLACK;
@@ -63,7 +65,9 @@ public class ArrowDecorator extends ConnectionDecoratorImpl {
     public Resource eResource() {
       return new NoResource();
     }
-  };
+  }
+
+  private GraphicsAlgorithm ga = new Arrow();
 
   @Override
   public boolean isVisible() {
