@@ -28,12 +28,9 @@ public class CopyElementFeature extends AbstractCopyFeature {
   @Override
   public boolean canCopy(ICopyContext context) {
     PictogramElement[] pes = context.getPictogramElements();
-    if (Optional.ofNullable(pes).map(Arrays::asList).stream()
-        .flatMap(List::stream).findAny().isEmpty()) {
-      return false;
-    }
 
-    return !((Stream.of(pes)
+    return !(Optional.ofNullable(pes).map(Arrays::asList).stream()
+        .flatMap(List::stream).findAny().isEmpty() || (Stream.of(pes)
         .anyMatch(Predicate.not(RuminaqShape.class::isInstance)))
         || Stream.of(pes).allMatch(LabelShape.class::isInstance));
   }
