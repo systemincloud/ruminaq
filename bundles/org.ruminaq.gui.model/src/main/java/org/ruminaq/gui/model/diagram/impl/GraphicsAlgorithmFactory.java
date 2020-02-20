@@ -19,7 +19,7 @@ import org.ruminaq.gui.model.diagram.impl.port.PortShapeGA;
 import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionShapeGA;
 
 /**
- * GraphicsAlgorithm factories.
+ * GraphicsAlgorithm flyweight factories.
  * 
  * @author Marek Jagielski
  */
@@ -32,9 +32,14 @@ public enum GraphicsAlgorithmFactory {
           new ShapeFactory<>(SimpleConnectionShape.class,
               SimpleConnectionShapeGA.class));
 
-  public GraphicsAlgorithm getGraphicsAlgorithm(PictogramElement shape) {
-    return factories.stream().filter((p) -> p.isForThisShape(shape)).findFirst()
-        .map((p) -> p.get(shape)).filter(GraphicsAlgorithm.class::isInstance)
+  /**
+   * Flyweight Factory for GraphicsAlgorithm for PictogramElement.
+   * 
+   * @param pe key for retrieving Flyweight
+   */
+  public GraphicsAlgorithm getGraphicsAlgorithm(PictogramElement pe) {
+    return factories.stream().filter(p -> p.isForThisShape(pe)).findFirst()
+        .map(p -> p.get(pe)).filter(GraphicsAlgorithm.class::isInstance)
         .map(GraphicsAlgorithm.class::cast).orElseThrow();
   }
 }
