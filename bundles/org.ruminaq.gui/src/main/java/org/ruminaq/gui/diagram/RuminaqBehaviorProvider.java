@@ -70,13 +70,8 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
   }
 
   @Override
-  public boolean isShowFlyoutPalette() {
-    return true;
-  }
-
-  @Override
   public boolean equalsBusinessObjects(Object o1, Object o2) {
-    return o1 instanceof EObject && o2 instanceof EObject ? o1 == o2 : false;
+    return o1 instanceof EObject && o2 instanceof EObject && o1 == o2;
   }
 
   @Override
@@ -142,7 +137,7 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
                 return arg -> false;
               }
             }).isAvailable(context))
-        .map(cf -> {
+        .map((ICustomFeature cf) -> {
           ContextMenuEntry menuEntry = new ContextMenuEntry(cf, context);
           menuEntry.setText(cf.getName());
           return menuEntry;
@@ -175,11 +170,5 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
         DecoratorExtension.class, () -> Arrays.asList(getFeatureProvider(), pe))
         .stream().map(ext -> ext.getDecorators(pe)).flatMap(Collection::stream)
         .toArray(IDecorator[]::new);
-  }
-
-  @Override
-  public PictogramElement getSelection(PictogramElement originalPe,
-      PictogramElement[] oldSelection) {
-    return null;
   }
 }
