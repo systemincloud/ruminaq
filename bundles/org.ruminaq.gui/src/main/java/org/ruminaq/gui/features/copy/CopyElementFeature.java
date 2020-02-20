@@ -33,15 +33,9 @@ public class CopyElementFeature extends AbstractCopyFeature {
       return false;
     }
 
-    if (Stream.of(pes).anyMatch(Predicate.not(RuminaqShape.class::isInstance))) {
-      return false;
-    }
-
-    if (Stream.of(pes).allMatch(LabelShape.class::isInstance)) {
-      return false;
-    }
-
-    return true;
+    return !((Stream.of(pes)
+        .anyMatch(Predicate.not(RuminaqShape.class::isInstance)))
+        || Stream.of(pes).allMatch(LabelShape.class::isInstance));
   }
 
   @Override
