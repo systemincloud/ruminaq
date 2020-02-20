@@ -7,20 +7,15 @@
 package org.ruminaq.gui.features.copy;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICopyContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.AbstractCopyFeature;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 
@@ -38,8 +33,7 @@ public class CopyElementFeature extends AbstractCopyFeature {
       return false;
     }
 
-    if (Stream.of(pes).filter(Predicate.not(RuminaqShape.class::isInstance))
-        .findAny().isPresent()) {
+    if (Stream.of(pes).anyMatch(Predicate.not(RuminaqShape.class::isInstance))) {
       return false;
     }
 
