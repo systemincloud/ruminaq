@@ -61,8 +61,8 @@ public class PasteElementFeature extends AbstractPasteFeature {
     List<RuminaqPasteFeature> pfs = new LinkedList<>();
 
     List<PictogramElement> objects = Stream.of(getFromClipboard())
-        .filter(o -> o instanceof PictogramElement)
-        .map(o -> (PictogramElement) o).collect(Collectors.toList());
+        .filter(PictogramElement.class::isInstance)
+        .map(PictogramElement.class::cast).collect(Collectors.toList());
 
     if (objects.isEmpty()) {
       return pfs;

@@ -6,6 +6,8 @@
 
 package org.ruminaq.gui.features.add;
 
+import java.util.Optional;
+
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -22,6 +24,11 @@ import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.SimpleConnection;
 import org.ruminaq.util.Util;
 
+/**
+ * IAddFeature for SimpleConnection.
+ * 
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class AddSimpleConnectionFeature extends AbstractAddFeature {
 
@@ -45,20 +52,25 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
 
   @Override
   public PictogramElement add(IAddContext context) {
-    IAddConnectionContext addConContext = (IAddConnectionContext) context;
-    SimpleConnection addedSimpleConnection = (SimpleConnection) context
-        .getNewObject();
+    Optional<IAddConnectionContext> addConContext = Optional.of(context)
+        .filter(IAddConnectionContext.class::isInstance)
+        .map(IAddConnectionContext.class::cast);
+    if (addConContext.isPresent()) {
+      SimpleConnection addedSimpleConnection = (SimpleConnection) addConContext
+          .get().getNewObject();
 
-    SimpleConnectionShape connectionShape = DiagramFactory.eINSTANCE
-        .createSimpleConnectionShape();
-    connectionShape.setParent(getDiagram());
-    connectionShape.setStart(addConContext.getSourceAnchor());
-    connectionShape.setEnd(addConContext.getTargetAnchor());
+      SimpleConnectionShape connectionShape = DiagramFactory.eINSTANCE
+          .createSimpleConnectionShape();
+      connectionShape.setParent(getDiagram());
+      connectionShape.setStart(addConContext.get().getSourceAnchor());
+      connectionShape.setEnd(addConContext.get().getTargetAnchor());
 
-    connectionShape.setModelObject(addedSimpleConnection);
-    linkToConnectionBeforePoint(connectionShape, addedSimpleConnection);
+      connectionShape.setModelObject(addedSimpleConnection);
+      linkToConnectionBeforePoint(connectionShape, addedSimpleConnection);
 
-    return connectionShape;
+      return connectionShape;
+    }
+    return null;
   }
 
   public void linkToConnectionBeforePoint(Connection connection,
