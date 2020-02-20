@@ -60,24 +60,23 @@ public interface PasteElementFeatureExtension
 
   default Predicate<? super Class<? extends RuminaqPasteFeature>> filter(
       BaseElement oldBo, IFeatureProvider fp) {
-    return clazz -> {
-      return Optional.ofNullable(clazz.getAnnotation(PasteFeatureFilter.class))
-          .map(PasteFeatureFilter::value)
-          .<Constructor<? extends FeaturePredicate<BaseElement>>>map(f -> {
-            try {
-              return f.getConstructor();
-            } catch (NoSuchMethodException | SecurityException e) {
-              return null;
-            }
-          }).<FeaturePredicate<BaseElement>>map(c -> {
-            try {
-              return c.newInstance();
-            } catch (InstantiationException | IllegalAccessException
-                | IllegalArgumentException | InvocationTargetException e) {
-              return null;
-            }
-          }).orElse(new FeaturePredicate<BaseElement>() {
-          }).test(oldBo, fp);
-    };
+    return clazz -> Optional
+        .ofNullable(clazz.getAnnotation(PasteFeatureFilter.class))
+        .map(PasteFeatureFilter::value)
+        .<Constructor<? extends FeaturePredicate<BaseElement>>>map(f -> {
+          try {
+            return f.getConstructor();
+          } catch (NoSuchMethodException | SecurityException e) {
+            return null;
+          }
+        }).<FeaturePredicate<BaseElement>>map(c -> {
+          try {
+            return c.newInstance();
+          } catch (InstantiationException | IllegalAccessException
+              | IllegalArgumentException | InvocationTargetException e) {
+            return null;
+          }
+        }).orElse(new FeaturePredicate<BaseElement>() {
+        }).test(oldBo, fp);
   }
 }

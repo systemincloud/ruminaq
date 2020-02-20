@@ -37,7 +37,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.api.PasteElementFeatureExtension;
-import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.model.ruminaq.FlowTarget;
 import org.ruminaq.model.ruminaq.SimpleConnection;
@@ -54,44 +54,39 @@ public class PasteElementFeature extends AbstractPasteFeature {
 
   @Override
   public boolean canPaste(IPasteContext context) {
-    return getPasteFeatures().stream().allMatch(pf -> pf.canPaste(context));
+    List<RuminaqPasteFeature> features = getPasteFeatures();
+    return !features.isEmpty()
+        && getPasteFeatures().stream().allMatch(pf -> pf.canPaste(context));
   }
 
   private List<RuminaqPasteFeature> getPasteFeatures() {
-    List<PictogramElement> objects = Stream.of(getFromClipboard())
-        .filter(PictogramElement.class::isInstance)
-        .map(PictogramElement.class::cast).collect(Collectors.toList());
+    List<RuminaqShape> objects = Stream.of(getFromClipboard())
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+        .collect(Collectors.toList());
 
     if (objects.isEmpty()) {
       return Collections.emptyList();
     }
 
-    int xMin = objects.stream().map(PictogramElement::getGraphicsAlgorithm)
+    int xMin = objects.stream().map(RuminaqShape::getGraphicsAlgorithm)
         .filter(Objects::nonNull).mapToInt(GraphicsAlgorithm::getX).min()
         .orElseThrow(NoSuchElementException::new);
 
-    int yMin = objects.stream().map(PictogramElement::getGraphicsAlgorithm)
+    int yMin = objects.stream().map(RuminaqShape::getGraphicsAlgorithm)
         .filter(Objects::nonNull).mapToInt(GraphicsAlgorithm::getY).min()
         .orElseThrow(NoSuchElementException::new);
 
-    return objects.stream().<RuminaqPasteFeature>map((PictogramElement o) -> {
-      PictogramElement oldPe = o;
-      BaseElement oldBo = Stream
-          .of(getAllBusinessObjectsForPictogramElement(oldPe))
-          .filter(bo -> bo instanceof BaseElement).map(bo -> (BaseElement) bo)
-          .findFirst().orElse(null);
-
-      return ServiceUtil
-          .getServicesAtLatestVersion(
-              PasteElementFeature.class, PasteElementFeatureExtension.class)
-          .stream()
-          .map(ext -> ext.getFeature(getFeatureProvider(), oldBo, oldPe, xMin,
-              yMin))
-          .filter(Objects::nonNull).findFirst()
-          .orElse(new PasteDefaultElementFeature(getFeatureProvider(), oldPe,
-              xMin, yMin));
-
-    }).collect(Collectors.toList());
+    return objects.stream()
+        .<RuminaqPasteFeature>map(rs -> ServiceUtil
+            .getServicesAtLatestVersion(
+                PasteElementFeature.class, PasteElementFeatureExtension.class)
+            .stream()
+            .map(ext -> ext.getFeature(getFeatureProvider(),
+                rs.getModelObject(), rs, xMin, yMin))
+            .filter(Objects::nonNull).findFirst()
+            .orElse(new PasteDefaultElementFeature(getFeatureProvider(), rs,
+                xMin, yMin)))
+        .collect(Collectors.toList());
   }
 
   @Override
