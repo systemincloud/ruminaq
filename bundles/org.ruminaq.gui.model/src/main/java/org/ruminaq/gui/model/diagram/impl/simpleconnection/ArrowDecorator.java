@@ -47,11 +47,6 @@ public class ArrowDecorator extends ConnectionDecoratorImpl {
     }
 
     @Override
-    public Double getTransparency() {
-      return 0D;
-    }
-
-    @Override
     public Color getForeground() {
       return Colors.BLACK;
     }
