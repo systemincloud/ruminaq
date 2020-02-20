@@ -16,11 +16,11 @@ import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 
 public abstract class RuminaqPasteFeature extends AbstractPasteFeature {
 
+  protected List<PictogramElement> newPes = new LinkedList<>();
+
   public RuminaqPasteFeature(IFeatureProvider fp) {
     super(fp);
   }
-
-  protected List<PictogramElement> newPes = new LinkedList<>();
 
   public abstract List<PictogramElement> getNewPictogramElements();
   
