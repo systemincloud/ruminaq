@@ -6,6 +6,7 @@
 
 package org.ruminaq.gui.features.paste;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,34 +54,27 @@ public class PasteElementFeature extends AbstractPasteFeature {
 
   @Override
   public boolean canPaste(IPasteContext context) {
-    return getPasteFeatures(context).stream()
-        .allMatch(pf -> pf.canPaste(context));
+    return getPasteFeatures().stream().allMatch(pf -> pf.canPaste(context));
   }
 
-  private List<RuminaqPasteFeature> getPasteFeatures(IPasteContext context) {
-    List<RuminaqPasteFeature> pfs = new LinkedList<>();
-
+  private List<RuminaqPasteFeature> getPasteFeatures() {
     List<PictogramElement> objects = Stream.of(getFromClipboard())
         .filter(PictogramElement.class::isInstance)
         .map(PictogramElement.class::cast).collect(Collectors.toList());
 
     if (objects.isEmpty()) {
-      return pfs;
+      return Collections.emptyList();
     }
 
-    int xMin = Stream.of(objects).filter(o -> o instanceof PictogramElement)
-        .map(o -> (PictogramElement) o)
-        .map(PictogramElement::getGraphicsAlgorithm).filter(Objects::nonNull)
-        .mapToInt(GraphicsAlgorithm::getX).min()
+    int xMin = objects.stream().map(PictogramElement::getGraphicsAlgorithm)
+        .filter(Objects::nonNull).mapToInt(GraphicsAlgorithm::getX).min()
         .orElseThrow(NoSuchElementException::new);
 
-    int yMin = Stream.of(objects).filter(o -> o instanceof PictogramElement)
-        .map(o -> (PictogramElement) o)
-        .map(PictogramElement::getGraphicsAlgorithm).filter(Objects::nonNull)
-        .mapToInt(GraphicsAlgorithm::getY).min()
+    int yMin = objects.stream().map(PictogramElement::getGraphicsAlgorithm)
+        .filter(Objects::nonNull).mapToInt(GraphicsAlgorithm::getY).min()
         .orElseThrow(NoSuchElementException::new);
 
-    return objects.stream().<RuminaqPasteFeature>map(o -> {
+    return objects.stream().<RuminaqPasteFeature>map((PictogramElement o) -> {
       PictogramElement oldPe = o;
       BaseElement oldBo = Stream
           .of(getAllBusinessObjectsForPictogramElement(oldPe))
@@ -102,7 +96,7 @@ public class PasteElementFeature extends AbstractPasteFeature {
 
   @Override
   public void paste(IPasteContext context) {
-    List<RuminaqPasteFeature> pfs = getPasteFeatures(context);
+    List<RuminaqPasteFeature> pfs = getPasteFeatures();
 
     for (RuminaqPasteFeature pf : pfs) {
       pf.paste(context);
