@@ -316,10 +316,7 @@ public class GuiUtil {
       h1 = h2;
       h2 = t4;
     }
-    if (y2 + h2 < y1 || y1 + h1 < y2 || x2 + w2 < x1 || x1 + w1 < x2) {
-      return false;
-    }
-    return true;
+    return !(y2 + h2 < y1 || y1 + h1 < y2 || x2 + w2 < x1 || x1 + w1 < x2);
   }
 
   public static boolean intersects(RuminaqShape label, RuminaqShape shape) {
@@ -342,10 +339,10 @@ public class GuiUtil {
     int xcs = xds;
     int ycs = ybs;
 
-    return ((xcl > xas && ycl > yas) && (xcl < xcs && ycl < ycs))
-        || ((xdl > xbs && ydl < ybs) && (xdl < xds && ydl > yds))
-        || ((xal < xcs && yal < ycs) && (xal > xas && yal > yas))
-        || ((xbl < xds && ybl > yds) && (xbl > xbs && ybl < ybs));
+    return (xcl > xas && ycl > yas && xcl < xcs && ycl < ycs)
+        || (xdl > xbs && ydl < ybs && xdl < xds && ydl > yds)
+        || (xal < xcs && yal < ycs && xal > xas && yal > yas)
+        || (xbl < xds && ybl > yds && xbl > xbs && ybl < ybs);
   }
 
   public static boolean pointsEqual(Point p1, Point p2) {

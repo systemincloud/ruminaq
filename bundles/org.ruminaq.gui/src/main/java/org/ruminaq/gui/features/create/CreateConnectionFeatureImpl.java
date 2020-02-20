@@ -6,7 +6,7 @@
 
 package org.ruminaq.gui.features.create;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
@@ -24,6 +24,6 @@ public class CreateConnectionFeatureImpl
 
   @Override
   public List<Class<? extends ICreateConnectionFeature>> getFeatures() {
-    return Arrays.asList(CreateSimpleConnectionFeature.class);
+    return Collections.singletonList(CreateSimpleConnectionFeature.class);
   }
 }

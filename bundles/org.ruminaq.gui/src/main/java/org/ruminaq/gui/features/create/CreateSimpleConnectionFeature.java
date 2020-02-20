@@ -47,7 +47,7 @@ public class CreateSimpleConnectionFeature
     FlowTarget target = getFlowTarget(context.getTargetAnchor());
 
     return source != null && target != null
-        && context.getTargetAnchor().getIncomingConnections().size() == 0;
+        && context.getTargetAnchor().getIncomingConnections().isEmpty();
   }
 
   @Override
@@ -74,7 +74,7 @@ public class CreateSimpleConnectionFeature
     return (RuminaqDiagram) getDiagram();
   }
 
-  private FlowSource getFlowSource(Anchor anchor) {
+  private static FlowSource getFlowSource(Anchor anchor) {
     if (anchor != null) {
       String isConnectionPoint = Graphiti.getPeService().getPropertyValue(
           anchor.getParent(), Constants.SIMPLE_CONNECTION_POINT);
@@ -93,7 +93,7 @@ public class CreateSimpleConnectionFeature
     return null;
   }
 
-  private FlowTarget getFlowTarget(Anchor anchor) {
+  private static FlowTarget getFlowTarget(Anchor anchor) {
     if (anchor != null) {
       Optional<FlowTarget> ft = Optional.ofNullable(anchor.getParent())
           .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
