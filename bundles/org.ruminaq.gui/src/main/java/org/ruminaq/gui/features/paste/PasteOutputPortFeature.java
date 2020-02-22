@@ -49,10 +49,10 @@ public class PasteOutputPortFeature extends RuminaqPasteFeature
     return newPes;
   }
 
-  public PasteOutputPortFeature(IFeatureProvider fp, OutputPortShape oldPe,
+  public PasteOutputPortFeature(IFeatureProvider fp, PictogramElement oldPe,
       int xMin, int yMin) {
     super(fp);
-    this.oldPe = oldPe;
+    this.oldPe = (OutputPortShape) oldPe;
     this.xMin = xMin;
     this.yMin = yMin;
   }
@@ -87,13 +87,13 @@ public class PasteOutputPortFeature extends RuminaqPasteFeature
     newPe.getGraphicsAlgorithm()
         .setY(y + newPe.getGraphicsAlgorithm().getY() - yMin);
 
-    String newId = PasteDefaultElementFeature.setId(newBo.getId(), newBo,
-        diagram);
+    newBo.setId(PasteDefaultElementFeature.setId(newBo.getId(),
+        diagram));
 
     diagram.getChildren().add((Shape) newPe);
 
     ContainerShape newLabel = PasteDefaultElementFeature.addLabel(oldPe,
-        oldLabel, x, y, newId, diagram, newPe);
+        oldLabel, x, y, diagram, newPe);
     newPes.add(newLabel);
 
     link(newPe, new Object[] { newBo, newLabel });

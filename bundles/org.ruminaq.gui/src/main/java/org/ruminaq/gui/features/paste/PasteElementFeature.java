@@ -56,7 +56,7 @@ public class PasteElementFeature extends AbstractPasteFeature {
   public boolean canPaste(IPasteContext context) {
     List<RuminaqPasteFeature> features = getPasteFeatures();
     return !features.isEmpty()
-        && getPasteFeatures().stream().allMatch(pf -> pf.canPaste(context));
+        && features.stream().allMatch(pf -> pf.canPaste(context));
   }
 
   private List<RuminaqPasteFeature> getPasteFeatures() {

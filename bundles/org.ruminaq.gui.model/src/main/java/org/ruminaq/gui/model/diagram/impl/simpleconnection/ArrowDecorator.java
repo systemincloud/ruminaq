@@ -29,16 +29,14 @@ public class ArrowDecorator extends ConnectionDecoratorImpl {
 
   private static final int[] XY = new int[] { -10, -5, 0, 0, -10, 5, -8, 0 };
 
-  private static final int[] BEFORE_AFTER = new int[] { 3, 3, 0, 0, 3, 3, 3, 3 };
+  private static final int[] BEFORE_AFTER = new int[] { 3, 3, 0, 0, 3, 3, 3,
+      3 };
 
-  private final class Arrow extends PolygonImpl {
-    
-    private List<Point> points = 
-        Graphiti.getGaCreateService().createPointList(XY, BEFORE_AFTER);
+  private static final class Arrow extends PolygonImpl {
 
-    @Override
-    public EList<Point> getPoints() {
-      return new BasicEList<>(points);
+    private Arrow() {
+      this.points = new BasicEList<>(
+          Graphiti.getGaCreateService().createPointList(XY, BEFORE_AFTER));
     }
 
     @Override

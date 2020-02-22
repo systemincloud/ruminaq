@@ -49,10 +49,10 @@ public class PasteInputPortFeature extends RuminaqPasteFeature
     return newPes;
   }
 
-  public PasteInputPortFeature(IFeatureProvider fp, InputPortShape oldPe,
+  public PasteInputPortFeature(IFeatureProvider fp, PictogramElement oldPe,
       int xMin, int yMin) {
     super(fp);
-    this.oldPe = oldPe;
+    this.oldPe = (InputPortShape) oldPe;
     this.xMin = xMin;
     this.yMin = yMin;
   }
@@ -60,9 +60,7 @@ public class PasteInputPortFeature extends RuminaqPasteFeature
   @Override
   public boolean canPaste(IPasteContext context) {
     PictogramElement[] pes = context.getPictogramElements();
-    if (pes.length != 1 || !(pes[0] instanceof Diagram))
-      return false;
-    return true;
+    return pes.length == 1 && pes[0] instanceof Diagram;
   }
 
   @Override
@@ -87,13 +85,13 @@ public class PasteInputPortFeature extends RuminaqPasteFeature
     newPe.getGraphicsAlgorithm()
         .setY(y + newPe.getGraphicsAlgorithm().getY() - yMin);
 
-    String newId = PasteDefaultElementFeature.setId(newBo.getId(), newBo,
-        diagram);
+    newBo.setId(PasteDefaultElementFeature.setId(newBo.getId(),
+        diagram));
 
     diagram.getChildren().add((Shape) newPe);
 
     ContainerShape newLabel = PasteDefaultElementFeature.addLabel(oldPe,
-        oldLabel, x, y, newId, diagram, newPe);
+        oldLabel, x, y, diagram, newPe);
     newPes.add(newLabel);
 
     link(newPe, new Object[] { newBo, newLabel });

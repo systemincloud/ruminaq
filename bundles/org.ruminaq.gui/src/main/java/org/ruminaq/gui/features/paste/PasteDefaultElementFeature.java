@@ -11,14 +11,12 @@ import java.util.List;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
-import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.features.create.AbstractCreateElementFeature;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
-import org.ruminaq.model.ruminaq.BaseElement;
 
 public class PasteDefaultElementFeature extends RuminaqPasteFeature {
 
@@ -44,7 +42,7 @@ public class PasteDefaultElementFeature extends RuminaqPasteFeature {
   public void paste(IPasteContext context) {
   }
 
-  public static String setId(String baseId, BaseElement element,
+  public static String setId(String baseId,
       Diagram diagram) {
     String name = baseId;
     if (AbstractCreateElementFeature.isPresent(name, diagram.getChildren())) {
@@ -58,20 +56,17 @@ public class PasteDefaultElementFeature extends RuminaqPasteFeature {
       }
     }
 
-    element.setId(name);
     return name;
   }
 
   public static ContainerShape addLabel(PictogramElement oldPe,
-      LabelShape oldLabel, int x, int y, String newId, Diagram diagram,
+      LabelShape oldLabel, int x, int y, Diagram diagram,
       PictogramElement newPe) {
     LabelShape newLabel = EcoreUtil.copy(oldLabel);
-    newLabel.getGraphicsAlgorithm().setX(newLabel.getGraphicsAlgorithm().getX()
+    newLabel.setX(newLabel.getX()
         + x - oldPe.getGraphicsAlgorithm().getX());
-    newLabel.getGraphicsAlgorithm().setY(newLabel.getGraphicsAlgorithm().getY()
+    newLabel.setY(newLabel.getY()
         + y - oldPe.getGraphicsAlgorithm().getY());
-    ((MultiText) newLabel.getGraphicsAlgorithm().getGraphicsAlgorithmChildren()
-        .get(0)).setValue(newId);
     diagram.getChildren().add(newLabel);
     if (LabelUtil
         .isInDefaultPosition(oldLabel)) {
