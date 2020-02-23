@@ -2,7 +2,6 @@ package org.ruminaq.tasks.features;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
@@ -16,28 +15,21 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.features.paste.PasteAnchorTracker;
-import org.ruminaq.gui.features.paste.PasteDefaultElementFeature;
-import org.ruminaq.gui.features.paste.RuminaqPasteFeature;
+import org.ruminaq.gui.features.paste.RuminaqShapePasteFeature;
 import org.ruminaq.gui.model.diagram.LabelShape;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.util.TasksUtil;
 
-public class PasteTaskFeature extends RuminaqPasteFeature
+public class PasteTaskFeature extends RuminaqShapePasteFeature<RuminaqShape>
     implements PasteAnchorTracker {
-
-  private PictogramElement oldPe;
-  private int xMin;
-  private int yMin;
 
   private Map<Anchor, Anchor> anchors = new HashMap<>();
 
-  public PasteTaskFeature(IFeatureProvider fp, PictogramElement oldPe, int xMin,
+  public PasteTaskFeature(IFeatureProvider fp, RuminaqShape oldPe, int xMin,
       int yMin) {
-    super(fp);
-    this.oldPe = oldPe;
-    this.xMin = xMin;
-    this.yMin = yMin;
+    super(fp, oldPe, xMin, yMin);
   }
 
   @Override
@@ -78,8 +70,8 @@ public class PasteTaskFeature extends RuminaqPasteFeature
     newPe.getGraphicsAlgorithm()
         .setY(y + newPe.getGraphicsAlgorithm().getY() - yMin);
 
-    String newId = PasteDefaultElementFeature.setId(newBo.getId(), newBo,
-        diagram);
+//    String newId = PasteDefaultElementFeature.setId(newBo.getId(), newBo,
+//        diagram);
 
     diagram.getChildren().add((Shape) newPe);
 //

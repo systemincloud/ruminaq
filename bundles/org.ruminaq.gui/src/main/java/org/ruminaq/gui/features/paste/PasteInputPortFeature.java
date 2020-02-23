@@ -18,7 +18,6 @@ import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.PasteFeatureFilter;
 import org.ruminaq.gui.features.paste.PasteInputPortFeature.Filter;
 import org.ruminaq.gui.model.diagram.InputPortShape;
-import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InputPort;
 
@@ -46,16 +45,8 @@ public class PasteInputPortFeature extends
   }
 
   @Override
-  public boolean canPaste(IPasteContext context) {
-    PictogramElement[] pes = context.getPictogramElements();
-    return pes.length == 1 && pes[0] instanceof RuminaqDiagram;
-  }
-
-  @Override
   public void paste(IPasteContext context) {
-    int x = context.getX();
-    int y = context.getY();
-    InputPortShape newPe = super.paste(x, y);
+    super.paste(context);
     getRuminaqDiagram().getMainTask().getInputPort()
         .add((InputPort) newPe.getModelObject());
 

@@ -11,27 +11,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.PasteFeatureFilter;
 import org.ruminaq.gui.features.paste.PasteOutputPortFeature.Filter;
-import org.ruminaq.gui.model.diagram.InputPortShape;
-import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.OutputPortShape;
-import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.OutputPort;
 
 @PasteFeatureFilter(Filter.class)
-public class PasteOutputPortFeature extends RuminaqPasteFeature<OutputPortShape>
+public class PasteOutputPortFeature extends LabeledRuminaqPasteFeature<OutputPortShape>
     implements PasteAnchorTracker {
 
   public static class Filter implements FeaturePredicate<BaseElement> {
@@ -55,16 +48,8 @@ public class PasteOutputPortFeature extends RuminaqPasteFeature<OutputPortShape>
   }
 
   @Override
-  public boolean canPaste(IPasteContext context) {
-    PictogramElement[] pes = context.getPictogramElements();
-    return pes.length == 1 && pes[0] instanceof RuminaqDiagram;
-  }
-
-  @Override
   public void paste(IPasteContext context) {
-    int x = context.getX();
-    int y = context.getY();
-    OutputPortShape newPe = super.paste(x, y);
+    super.paste(context);
     getRuminaqDiagram().getMainTask().getOutputPort()
         .add((OutputPort) newPe.getModelObject());
 

@@ -19,7 +19,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.PasteFeatureFilter;
-import org.ruminaq.gui.features.paste.RuminaqPasteFeature;
+import org.ruminaq.gui.features.paste.RuminaqShapePasteFeature;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 
@@ -29,20 +29,20 @@ import org.ruminaq.model.ruminaq.BaseElement;
  * @author Marek Jagielski
  */
 public interface PasteElementFeatureExtension
-    extends BestFeatureExtension<RuminaqPasteFeature<? extends RuminaqShape>> {
+    extends BestFeatureExtension<RuminaqShapePasteFeature<? extends RuminaqShape>> {
 
-  default List<RuminaqPasteFeature<? extends RuminaqShape>> createFeatures(
-      List<Class<? extends RuminaqPasteFeature<? extends RuminaqShape>>> features, IFeatureProvider fp,
+  default List<RuminaqShapePasteFeature<? extends RuminaqShape>> createFeatures(
+      List<Class<? extends RuminaqShapePasteFeature<? extends RuminaqShape>>> features, IFeatureProvider fp,
       PictogramElement oldPe, int xMin, int yMin) {
     return Optional.ofNullable(features).orElse(Collections.emptyList())
-        .stream().<Constructor<? extends RuminaqPasteFeature<? extends RuminaqShape>>>map(f -> {
+        .stream().<Constructor<? extends RuminaqShapePasteFeature<? extends RuminaqShape>>>map(f -> {
           try {
             return f.getConstructor(IFeatureProvider.class,
                 PictogramElement.class, Integer.TYPE, Integer.TYPE);
           } catch (NoSuchMethodException | SecurityException e) {
             return null;
           }
-        }).filter(Objects::nonNull).<RuminaqPasteFeature<? extends RuminaqShape>>map(c -> {
+        }).filter(Objects::nonNull).<RuminaqShapePasteFeature<? extends RuminaqShape>>map(c -> {
           try {
             return c.newInstance(fp, oldPe, xMin, yMin);
           } catch (InstantiationException | IllegalAccessException
@@ -52,14 +52,14 @@ public interface PasteElementFeatureExtension
         }).filter(Objects::nonNull).collect(Collectors.toList());
   }
 
-  default RuminaqPasteFeature<? extends RuminaqShape> getFeature(IFeatureProvider fp, BaseElement oldBo,
+  default RuminaqShapePasteFeature<? extends RuminaqShape> getFeature(IFeatureProvider fp, BaseElement oldBo,
       PictogramElement oldPe, int xMin, int yMin) {
     return createFeatures(getFeatures().stream().filter(filter(oldBo, fp))
         .findFirst().stream().collect(Collectors.toList()), fp, oldPe, xMin,
         yMin).stream().findFirst().orElse(null);
   }
 
-  default Predicate<? super Class<? extends RuminaqPasteFeature<? extends RuminaqShape>>> filter(
+  default Predicate<? super Class<? extends RuminaqShapePasteFeature<? extends RuminaqShape>>> filter(
       BaseElement oldBo, IFeatureProvider fp) {
     return clazz -> Optional
         .ofNullable(clazz.getAnnotation(PasteFeatureFilter.class))

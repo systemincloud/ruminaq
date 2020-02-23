@@ -13,7 +13,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 
 public class PasteDefaultElementFeature<T extends RuminaqShape>
-    extends RuminaqPasteFeature<T> {
+    extends RuminaqShapePasteFeature<T> {
 
   public PasteDefaultElementFeature(IFeatureProvider fp, T oldPe,
       int xMin, int yMin) {

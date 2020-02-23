@@ -2,12 +2,13 @@ package org.ruminaq.gui.features.paste;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.IPasteContext;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
 
-public abstract class LabeledRuminaqPasteFeature<T extends LabeledRuminaqShape>
-    extends RuminaqPasteFeature<T> {
+public class LabeledRuminaqPasteFeature<T extends LabeledRuminaqShape>
+    extends RuminaqShapePasteFeature<T> {
 
   protected LabelShape oldLabel;
 
@@ -18,23 +19,21 @@ public abstract class LabeledRuminaqPasteFeature<T extends LabeledRuminaqShape>
   }
 
   @Override
-  public T paste(int x, int y) {
-    T newPe = super.paste(x, y);
+  public void paste(IPasteContext context) {
+    super.paste(context);
     LabelShape newLabel = EcoreUtil.copy(oldLabel);
-    newLabel.setX(newLabel.getX() + x - oldPe.getX());
-    newLabel.setY(newLabel.getY() + y - oldPe.getY());
+    newLabel.setX(newLabel.getX() + context.getX() - oldPe.getX());
+    newLabel.setY(newLabel.getY() + context.getY() - oldPe.getY());
+    newLabel.setLabeledShape(newPe);
+    newPe.setLabel(newLabel);
+    newPes.add(newLabel);
     getDiagram().getChildren().add(newLabel);
+    
     if (LabelUtil.isInDefaultPosition(oldLabel)) {
       LabelUtil.placeInDefaultPosition(newLabel);
     }
 
-    newPes.add(newLabel);
-    newPe.setLabel(newLabel);
-
     updatePictogramElement(newLabel);
     layoutPictogramElement(newLabel);
-
-    return newPe;
   }
-
 }

@@ -54,13 +54,13 @@ public class PasteElementFeature extends AbstractPasteFeature {
 
   @Override
   public boolean canPaste(IPasteContext context) {
-    List<RuminaqPasteFeature<? extends RuminaqShape>> features = getPasteFeatures();
+    List<RuminaqShapePasteFeature<? extends RuminaqShape>> features = getPasteFeatures();
     return !features.isEmpty()
         && features.stream().allMatch(pf -> pf.canPaste(context));
   }
 
-  private List<RuminaqPasteFeature<? extends RuminaqShape>> getPasteFeatures() {
-    List<? extends RuminaqShape> objects = Stream.of(getFromClipboard())
+  private List<RuminaqShapePasteFeature<? extends RuminaqShape>> getPasteFeatures() {
+    List<RuminaqShape> objects = Stream.of(getFromClipboard())
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
         .collect(Collectors.toList());
 
@@ -75,23 +75,23 @@ public class PasteElementFeature extends AbstractPasteFeature {
         .orElseThrow(NoSuchElementException::new);
 
     return objects.stream()
-        .<RuminaqPasteFeature<? extends RuminaqShape>>map(rs -> ServiceUtil
+        .<RuminaqShapePasteFeature<? extends RuminaqShape>>map(rs -> ServiceUtil
             .getServicesAtLatestVersion(
                 PasteElementFeature.class, PasteElementFeatureExtension.class)
             .stream()
             .map(ext -> ext.getFeature(getFeatureProvider(),
                 rs.getModelObject(), rs, xMin, yMin))
             .filter(Objects::nonNull).findFirst()
-            .orElse(new PasteDefaultElementFeature<RuminaqShape>(getFeatureProvider(), rs,
-                xMin, yMin)))
+            .orElse(null))
+        .filter(Objects::nonNull)
         .collect(Collectors.toList());
   }
 
   @Override
   public void paste(IPasteContext context) {
-    List<RuminaqPasteFeature<? extends RuminaqShape>> pfs = getPasteFeatures();
+    List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs = getPasteFeatures();
 
-    for (RuminaqPasteFeature<? extends RuminaqShape> pf : pfs) {
+    for (RuminaqShapePasteFeature<? extends RuminaqShape> pf : pfs) {
       pf.paste(context);
       cloneStylesAndFonts(pf.getNewPictogramElements());
     }
@@ -184,13 +184,13 @@ public class PasteElementFeature extends AbstractPasteFeature {
     return sTmp;
   }
 
-  private void pasteSimpleConnections(List<RuminaqPasteFeature<? extends RuminaqShape>> pfs,
+  private void pasteSimpleConnections(List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
       IFeatureProvider fp) {
     Map<Anchor, Anchor> anchors = new HashMap<>();
     Map<FlowSource, Anchor> flowSources = new HashMap<>();
     Map<FlowTarget, Anchor> flowTargets = new HashMap<>();
 
-    for (RuminaqPasteFeature<?> pf : pfs)
+    for (RuminaqShapePasteFeature<?> pf : pfs)
       if (pf instanceof PasteAnchorTracker)
         anchors.putAll(((PasteAnchorTracker) pf).getAnchors());
     for (Anchor a : anchors.keySet()) {
