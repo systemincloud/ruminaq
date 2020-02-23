@@ -22,12 +22,14 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.model.ruminaq.FlowTarget;
 import org.ruminaq.model.ruminaq.SimpleConnection;
 
-public class PasteSimpleConnections extends RuminaqPasteFeature {
+public class PasteSimpleConnections extends AbstractPasteFeature {
 
   private Map<FlowSource, Anchor> oldFlowSources;
   private Map<FlowTarget, Anchor> oldFlowTargets;
@@ -46,7 +48,7 @@ public class PasteSimpleConnections extends RuminaqPasteFeature {
       Map<FlowTarget, Anchor> flowTargets,
       Map<Connection, List<SimpleConnection>> peBos,
       Map<Anchor, Anchor> anchors, IFeatureProvider fp) {
-    super(fp);
+    super(fp, oldPe, oldBo, xMin, xMin);
     this.oldFlowSources = flowSources;
     this.oldFlowTargets = flowTargets;
     this.oldDiagramElementBusinessObjects = peBos;

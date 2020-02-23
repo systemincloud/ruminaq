@@ -11,12 +11,13 @@ import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.PasteElementFeatureExtension;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 
 @Component(property = { "service.ranking:Integer=5" })
 public class PasteElementFeatures implements PasteElementFeatureExtension {
 
   @Override
-  public List<Class<? extends RuminaqPasteFeature>> getFeatures() {
+  public List<Class<? extends RuminaqPasteFeature<? extends RuminaqShape>>> getFeatures() {
     return Arrays.asList(PasteInputPortFeature.class,
         PasteOutputPortFeature.class);
   }

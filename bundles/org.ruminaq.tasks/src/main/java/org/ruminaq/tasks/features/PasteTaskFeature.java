@@ -32,11 +32,6 @@ public class PasteTaskFeature extends RuminaqPasteFeature
 
   private Map<Anchor, Anchor> anchors = new HashMap<>();
 
-  @Override
-  public List<PictogramElement> getNewPictogramElements() {
-    return newPes;
-  }
-
   public PasteTaskFeature(IFeatureProvider fp, PictogramElement oldPe, int xMin,
       int yMin) {
     super(fp);

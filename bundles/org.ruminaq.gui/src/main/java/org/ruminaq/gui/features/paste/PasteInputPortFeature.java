@@ -8,28 +8,28 @@ package org.ruminaq.gui.features.paste;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.PasteFeatureFilter;
 import org.ruminaq.gui.features.paste.PasteInputPortFeature.Filter;
 import org.ruminaq.gui.model.diagram.InputPortShape;
-import org.ruminaq.gui.model.diagram.LabelShape;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InputPort;
 
+/**
+ * IPasteFeature for InputPort.
+ *
+ * @author Marek Jagielski
+ */
 @PasteFeatureFilter(Filter.class)
-public class PasteInputPortFeature extends RuminaqPasteFeature
-    implements PasteAnchorTracker {
+public class PasteInputPortFeature extends
+    LabeledRuminaqPasteFeature<InputPortShape> implements PasteAnchorTracker {
 
   public static class Filter implements FeaturePredicate<BaseElement> {
     @Override
@@ -38,72 +38,32 @@ public class PasteInputPortFeature extends RuminaqPasteFeature
     }
   }
 
-  private InputPortShape oldPe;
-  private int xMin;
-  private int yMin;
-
   private Map<Anchor, Anchor> anchors = new HashMap<>();
-
-  @Override
-  public List<PictogramElement> getNewPictogramElements() {
-    return newPes;
-  }
 
   public PasteInputPortFeature(IFeatureProvider fp, PictogramElement oldPe,
       int xMin, int yMin) {
-    super(fp);
-    this.oldPe = (InputPortShape) oldPe;
-    this.xMin = xMin;
-    this.yMin = yMin;
+    super(fp, (InputPortShape) oldPe, xMin, yMin);
   }
 
   @Override
   public boolean canPaste(IPasteContext context) {
     PictogramElement[] pes = context.getPictogramElements();
-    return pes.length == 1 && pes[0] instanceof Diagram;
+    return pes.length == 1 && pes[0] instanceof RuminaqDiagram;
   }
 
   @Override
   public void paste(IPasteContext context) {
-    PictogramElement[] pes = context.getPictogramElements();
     int x = context.getX();
     int y = context.getY();
+    InputPortShape newPe = super.paste(x, y);
+    getRuminaqDiagram().getMainTask().getInputPort()
+        .add((InputPort) newPe.getModelObject());
 
-    Diagram diagram = (Diagram) pes[0];
-
-    InputPort oldBo = (InputPort) oldPe.getModelObject();
-    LabelShape oldLabel = oldPe.getLabel();
-
-    PictogramElement newPe = EcoreUtil.copy(oldPe);
-    newPes.add(newPe);
-    InputPort newBo = EcoreUtil.copy(oldBo);
-
-    getRuminaqDiagram().getMainTask().getInputPort().add(newBo);
-
-    newPe.getGraphicsAlgorithm()
-        .setX(x + newPe.getGraphicsAlgorithm().getX() - xMin);
-    newPe.getGraphicsAlgorithm()
-        .setY(y + newPe.getGraphicsAlgorithm().getY() - yMin);
-
-    newBo.setId(PasteDefaultElementFeature.setId(newBo.getId(),
-        diagram));
-
-    diagram.getChildren().add((Shape) newPe);
-
-    ContainerShape newLabel = PasteDefaultElementFeature.addLabel(oldPe,
-        oldLabel, x, y, diagram, newPe);
-    newPes.add(newLabel);
-
-    link(newPe, new Object[] { newBo, newLabel });
-    link(newLabel, new Object[] { newBo, newPe });
-
-    updatePictogramElement(newLabel);
-    layoutPictogramElement(newLabel);
-
-    Iterator<Anchor> itOld = ((Shape) oldPe).getAnchors().iterator();
-    Iterator<Anchor> itNew = ((Shape) newPe).getAnchors().iterator();
-    while (itOld.hasNext() && itNew.hasNext())
+    Iterator<Anchor> itOld = oldPe.getAnchors().iterator();
+    Iterator<Anchor> itNew = newPe.getAnchors().iterator();
+    while (itOld.hasNext() && itNew.hasNext()) {
       anchors.put(itOld.next(), itNew.next());
+    }
   }
 
   @Override
