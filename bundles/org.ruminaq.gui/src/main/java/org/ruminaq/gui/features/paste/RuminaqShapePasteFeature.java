@@ -17,18 +17,14 @@ import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 
 public class RuminaqShapePasteFeature<T extends RuminaqShape>
-    extends PictogramElementPasteFeature {
-
-  protected T oldPe;
-  protected T newPe; 
+    extends PictogramElementPasteFeature<T> {
 
   protected int xMin;
   protected int yMin;
 
   public RuminaqShapePasteFeature(IFeatureProvider fp, T oldPe, int xMin,
       int yMin) {
-    super(fp);
-    this.oldPe = oldPe;
+    super(fp, oldPe);
     this.xMin = xMin;
     this.yMin = yMin;
   }
@@ -58,8 +54,7 @@ public class RuminaqShapePasteFeature<T extends RuminaqShape>
   
   @Override
   public void paste(IPasteContext context) {
-    newPe = EcoreUtil.copy(oldPe);
-    newPes.add(newPe);
+    super.paste(context);
     BaseElement newBo = EcoreUtil.copy(oldPe.getModelObject());
     newPe.setModelObject(newBo);
     newPe.setX(context.getX() + newPe.getX() - xMin);
