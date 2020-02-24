@@ -1,11 +1,14 @@
 package org.ruminaq.gui.it.tests;
 
+import static org.junit.Assert.assertEquals;
+
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
+import org.ruminaq.tests.common.reddeer.WithTextLabel;
 
 /**
  * Test moving basic elements.
@@ -27,7 +30,11 @@ public class CopyTest extends GuiTest {
     
     gefEditor.click(300, 200);
     
-//    gefEditor.getContextMenu().getItem("Paste").select();
+    gefEditor.getContextMenu().getItem("Paste").select();
+    
+    assertEquals("2 elements added", 5, gefEditor.getNumberOfEditParts());
+    
+    new WithTextLabel("(Copy) My Input Port");
   }
 
 }
