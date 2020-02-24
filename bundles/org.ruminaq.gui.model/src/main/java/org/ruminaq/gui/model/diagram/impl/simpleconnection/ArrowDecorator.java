@@ -6,15 +6,11 @@
 
 package org.ruminaq.gui.model.diagram.impl.simpleconnection;
 
-import java.util.List;
-
 import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.impl.PolygonImpl;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
-import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.impl.ConnectionDecoratorImpl;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.gui.model.diagram.impl.Colors;
