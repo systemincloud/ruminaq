@@ -31,9 +31,6 @@ import org.slf4j.Logger;
  */
 public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
 
-  static final Logger LOGGER = ModelerLoggerFactory
-      .getLogger("BestFeatureExtensions");
-
   default T getFeature(IContext context, IFeatureProvider fp) {
     return createFeatures(getFeatures().stream().filter(filter(context, fp))
         .findFirst().stream().collect(Collectors.toList()), fp).stream()
@@ -45,10 +42,12 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
     return (Class<? extends T> clazz) -> Optional
         .ofNullable(clazz.getAnnotation(FeatureFilter.class))
         .map(FeatureFilter::value)
-        .<Constructor<? extends FeaturePredicate<IContext>>>map(f -> {
+        .map((Class<? extends FeaturePredicate<IContext>> f) -> {
           try {
             return f.getConstructor();
           } catch (NoSuchMethodException | SecurityException e) {
+            LogHolder.LOGGER.error("Could not find constructor for {}",
+                f.getClass().getCanonicalName());
             return null;
           }
         }).<FeaturePredicate<IContext>>map(
@@ -57,6 +56,8 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
                 return c.newInstance();
               } catch (InstantiationException | IllegalAccessException
                   | IllegalArgumentException | InvocationTargetException e) {
+                LogHolder.LOGGER.error("Could not create class {}",
+                    c.getName());
                 return null;
               }
             })
@@ -68,4 +69,9 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
   default List<Class<? extends T>> getFeatures() {
     return Collections.emptyList();
   }
+}
+
+final class LogHolder {
+  static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(BestFeatureExtension.class);
 }
