@@ -44,7 +44,7 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
             .findFirst().orElse(null);
   }
 
-  default Predicate<? super Class<? extends T>> filter(IContext context,
+  default Predicate<Class<? extends T>> filter(IContext context,
       IFeatureProvider fp) {
     return (Class<? extends T> clazz) -> Optional
         .ofNullable(clazz.getAnnotation(FeatureFilter.class))

@@ -40,13 +40,13 @@ public class LayoutFeatures implements LayoutFeatureExtension {
   }
 
   @Override
-  public Predicate<? super Class<? extends ILayoutFeature>> filter(
+  public Predicate<Class<? extends ILayoutFeature>> filter(
       IContext context, IFeatureProvider fp) {
     ILayoutContext layoutContext = (ILayoutContext) context;
     PictogramElement pe = layoutContext.getPictogramElement();
     Object bo = fp.getBusinessObjectForPictogramElement(pe);
 
-    return (Class<?> clazz) -> {
+    return (Class<? extends ILayoutFeature> clazz) -> {
       if (clazz.isAssignableFrom(LayoutTaskFeature.class)) {
         return bo instanceof Task;
       }

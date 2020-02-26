@@ -32,12 +32,12 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
   }
 
   @Override
-  public Predicate<? super Class<? extends IUpdateFeature>> filter(
+  public Predicate<Class<? extends IUpdateFeature>> filter(
       IContext context, IFeatureProvider fp) {
     IUpdateContext updateContext = (IUpdateContext) context;
     PictogramElement pe = updateContext.getPictogramElement();
     Object bo = fp.getBusinessObjectForPictogramElement(pe);
-    return (Class<?> clazz) -> {
+    return (Class<? extends IUpdateFeature> clazz) -> {
       if (clazz.isAssignableFrom(UpdateLabelFeature.class)) {
         return LabelShape.class.isInstance(pe);
       } else if (clazz.isAssignableFrom(UpdateMainTaskFeature.class)) {

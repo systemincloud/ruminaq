@@ -32,11 +32,11 @@ public class CopyFeatures implements CopyFeatureExtension {
   }
 
   @Override
-  public Predicate<? super Class<? extends ICopyFeature>> filter(
+  public Predicate<Class<? extends ICopyFeature>> filter(
       IContext context, IFeatureProvider fp) {
     ICopyContext addContext = (ICopyContext) context;
     PictogramElement[] pes = addContext.getPictogramElements();
-    return (Class<?> clazz) -> {
+    return (Class<? extends ICopyFeature> clazz) -> {
       for (PictogramElement pe : pes) {
         if (pe instanceof Shape && Graphiti.getPeService().getPropertyValue(pe,
             Constants.SIMPLE_CONNECTION_POINT) != null) {
