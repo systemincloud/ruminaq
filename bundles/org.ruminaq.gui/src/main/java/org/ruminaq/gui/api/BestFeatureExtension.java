@@ -80,7 +80,7 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
 
 final class BestFeatureExtensionLogHolder {
   
-  protected static final Logger LOGGER = ModelerLoggerFactory
+  static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(BestFeatureExtension.class);
   
   private BestFeatureExtensionLogHolder() {
