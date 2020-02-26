@@ -9,6 +9,11 @@ package org.ruminaq.gui.diagram;
 import org.eclipse.graphiti.dt.AbstractDiagramTypeProvider;
 import org.eclipse.graphiti.tb.IToolBehaviorProvider;
 
+/**
+ * Graphiti IDiagramTypeProvider.
+ *
+ * @author Marek Jagielski
+ */
 public class RuminaqDiagramTypeProvider extends AbstractDiagramTypeProvider {
 
   private IToolBehaviorProvider[] toolBehaviorProviders;
