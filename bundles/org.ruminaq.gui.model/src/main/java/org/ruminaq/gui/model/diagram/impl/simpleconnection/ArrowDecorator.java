@@ -28,6 +28,9 @@ public class ArrowDecorator extends ConnectionDecoratorImpl {
   private static final int[] BEFORE_AFTER = new int[] { 3, 3, 0, 0, 3, 3, 3,
       3 };
 
+  /**
+   * Triangle made from polygon.
+   */
   private static final class Arrow extends PolygonImpl {
 
     private Arrow() {
