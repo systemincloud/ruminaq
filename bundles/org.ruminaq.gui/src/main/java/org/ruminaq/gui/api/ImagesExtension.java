@@ -21,6 +21,11 @@ import org.osgi.framework.FrameworkUtil;
  */
 public interface ImagesExtension {
 
+  /**
+   * Api for service providing paths to images.
+   * 
+   * @return map image key to path
+   */
   default Map<String, String> getImageKeyPath() {
     return Arrays.stream(getImageDecriptors())
         .collect(Collectors.toMap(ImageDescriptor::name, i -> FileLocator
