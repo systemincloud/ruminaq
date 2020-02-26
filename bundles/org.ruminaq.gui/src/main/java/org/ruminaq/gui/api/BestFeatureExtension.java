@@ -28,7 +28,14 @@ import org.ruminaq.gui.features.FeaturePredicate;
  * @param <T> feature java interface
  */
 public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
-
+  
+  /**
+   * Create and return the first matched feature. 
+   * 
+   * @param context IContext of Graphiti
+   * @param fp IFeatureProvider of Graphiti
+   * @return
+   */
   default T getFeature(IContext context, IFeatureProvider fp) {
     return createFeatures(getFeatures().stream().filter(filter(context, fp))
         .findFirst().stream().collect(Collectors.toList()), fp).stream()

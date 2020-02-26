@@ -16,6 +16,10 @@ import org.slf4j.Logger;
  */
 final class BestFeatureExtensionLogHolder {
   
-  static final Logger LOGGER = ModelerLoggerFactory
+  protected static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(BestFeatureExtension.class);
+  
+  private BestFeatureExtensionLogHolder() {
+    // Just log holder
+  }
 }
