@@ -9,7 +9,6 @@ package org.ruminaq.gui.diagram;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EObject;
@@ -130,13 +129,8 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
             .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
                 ContextMenuEntryExtension.class,
                 () -> Arrays.asList(getFeatureProvider(), context))
-            .stream().findFirst().orElse(new ContextMenuEntryExtension() {
-              @Override
-              public Predicate<ICustomFeature> isAvailable(
-                  ICustomContext context) {
-                return arg -> false;
-              }
-            }).isAvailable(context))
+            .stream().findFirst().orElse(ctx -> (arg -> false))
+            .isAvailable(context))
         .map((ICustomFeature cf) -> {
           ContextMenuEntry menuEntry = new ContextMenuEntry(cf, context);
           menuEntry.setText(cf.getName());
