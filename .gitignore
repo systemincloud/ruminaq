@@ -2,6 +2,8 @@ target/
 .polyglot.*
 .META-INF_MANIFEST.MF
 pom.tycho
+feature.xml.takari_issue_192
+category.xml.takari_issue_192
 .settings/
 screenshots/
 bin/
