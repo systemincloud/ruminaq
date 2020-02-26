@@ -26,6 +26,13 @@ import org.eclipse.graphiti.features.IFeatureProvider;
  */
 public interface MultipleFeaturesExtension<T> {
 
+  /**
+   * Create and return all features for classes.
+   * 
+   * @param features list of classes to instantiate
+   * @param fp IFeatureProvider of Graphiti
+   * @return
+   */
   default List<T> createFeatures(List<Class<? extends T>> features,
       IFeatureProvider fp) {
     return Optional.ofNullable(features).orElse(Collections.emptyList())
