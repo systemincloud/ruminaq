@@ -52,18 +52,19 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
 
   @Override
   public PictogramElement add(IAddContext context) {
-    Optional<IAddConnectionContext> addConContext = Optional.of(context)
+    Optional<IAddConnectionContext> addConContextOpt = Optional.of(context)
         .filter(IAddConnectionContext.class::isInstance)
         .map(IAddConnectionContext.class::cast);
-    if (addConContext.isPresent()) {
+    if (addConContextOpt.isPresent()) {
+      IAddConnectionContext addConContext = addConContextOpt.get();
       SimpleConnection addedSimpleConnection = (SimpleConnection) addConContext
-          .get().getNewObject();
+          .getNewObject();
 
       SimpleConnectionShape connectionShape = DiagramFactory.eINSTANCE
           .createSimpleConnectionShape();
       connectionShape.setParent(getDiagram());
-      connectionShape.setStart(addConContext.get().getSourceAnchor());
-      connectionShape.setEnd(addConContext.get().getTargetAnchor());
+      connectionShape.setStart(addConContext.getSourceAnchor());
+      connectionShape.setEnd(addConContext.getTargetAnchor());
 
       connectionShape.setModelObject(addedSimpleConnection);
       linkToConnectionBeforePoint(connectionShape, addedSimpleConnection);
