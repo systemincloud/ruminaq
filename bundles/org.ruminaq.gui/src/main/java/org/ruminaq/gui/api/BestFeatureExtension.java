@@ -52,7 +52,7 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
             return f.getConstructor();
           } catch (NoSuchMethodException | SecurityException e) {
             BestFeatureExtensionLogHolder.LOGGER.error("Could not find constructor for {}",
-                f.getClass().getCanonicalName());
+                f.getClass().getCanonicalName(), e);
             return null;
           }
         }).<FeaturePredicate<IContext>>map(
@@ -62,7 +62,7 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
               } catch (InstantiationException | IllegalAccessException
                   | IllegalArgumentException | InvocationTargetException e) {
                 BestFeatureExtensionLogHolder.LOGGER.error("Could not create class {}",
-                    c.getName());
+                    c.getName(), e);
                 return null;
               }
             })
