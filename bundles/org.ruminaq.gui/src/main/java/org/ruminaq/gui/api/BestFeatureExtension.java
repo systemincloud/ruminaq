@@ -18,6 +18,8 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
+import org.ruminaq.logs.ModelerLoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Super interface for osgi service interfaces that contributes the best
@@ -73,5 +75,15 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
   @Override
   default List<Class<? extends T>> getFeatures() {
     return Collections.emptyList();
+  }
+}
+
+final class BestFeatureExtensionLogHolder {
+  
+  protected static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(BestFeatureExtension.class);
+  
+  private BestFeatureExtensionLogHolder() {
+    // Just log holder
   }
 }
