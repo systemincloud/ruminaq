@@ -16,6 +16,14 @@ import java.util.stream.Collectors;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 
+/**
+ * Super interface for osgi service interfaces that contributes all
+ * matching Graphiti feature.
+ *
+ * @author Marek Jagielski
+ *
+ * @param <T> feature java interface
+ */
 public interface MultipleFeaturesExtension<T> {
 
   default List<T> createFeatures(List<Class<? extends T>> features,
