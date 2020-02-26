@@ -18,8 +18,6 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
-import org.ruminaq.logs.ModelerLoggerFactory;
-import org.slf4j.Logger;
 
 /**
  * Super interface for osgi service interfaces that contributes the best
@@ -46,7 +44,7 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
           try {
             return f.getConstructor();
           } catch (NoSuchMethodException | SecurityException e) {
-            LogHolder.LOGGER.error("Could not find constructor for {}",
+            BestFeatureExtensionLogHolder.LOGGER.error("Could not find constructor for {}",
                 f.getClass().getCanonicalName());
             return null;
           }
@@ -56,7 +54,7 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
                 return c.newInstance();
               } catch (InstantiationException | IllegalAccessException
                   | IllegalArgumentException | InvocationTargetException e) {
-                LogHolder.LOGGER.error("Could not create class {}",
+                BestFeatureExtensionLogHolder.LOGGER.error("Could not create class {}",
                     c.getName());
                 return null;
               }
@@ -69,9 +67,4 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
   default List<Class<? extends T>> getFeatures() {
     return Collections.emptyList();
   }
-}
-
-final class LogHolder {
-  static final Logger LOGGER = ModelerLoggerFactory
-      .getLogger(BestFeatureExtension.class);
 }
