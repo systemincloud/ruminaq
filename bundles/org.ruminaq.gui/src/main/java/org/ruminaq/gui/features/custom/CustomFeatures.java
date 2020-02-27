@@ -14,6 +14,11 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.CustomFeaturesExtension;
 import org.ruminaq.gui.features.create.CreateSimpleConnectionPointFeature;
 
+/**
+ * Service CustomFeaturesExtension implementation.
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 public class CustomFeatures implements CustomFeaturesExtension {
 
