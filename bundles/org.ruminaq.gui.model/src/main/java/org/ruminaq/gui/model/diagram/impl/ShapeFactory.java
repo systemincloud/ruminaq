@@ -55,8 +55,8 @@ public class ShapeFactory<T extends PictogramElement, K> implements Factory<K> {
 
         Optional<Constructor<?>> constructor = Stream
             .of(returnType.getConstructors())
-            .filter(c -> c.getParameterTypes().length == 1
-                && c.getParameterTypes()[0] == shapeType)
+            .filter(c -> c.getParameterTypes().length == 1)
+            .filter(c -> c.getParameterTypes()[0] == shapeType)
             .findFirst();
         if (constructor.isPresent()) {
           returnObject = returnType.getConstructor(shapeType)
