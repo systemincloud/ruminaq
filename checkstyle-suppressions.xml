@@ -9,4 +9,6 @@
              files="BestFeatureExtension.java"/>
   <suppress checks="MethodNameCheck"
              files=".*"/>
+  <suppress checks="LocalVariableNameCheck"
+             files=".*"/>
 </suppressions>
