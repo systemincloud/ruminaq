@@ -23,7 +23,7 @@ import org.ruminaq.gui.model.diagram.impl.GuiUtil;
  *
  * @author Marek Jagielski
  */
-public class SimpleConnectionUtil {
+public final class SimpleConnectionUtil {
 
   private SimpleConnectionUtil() {
     // Util class
@@ -44,7 +44,7 @@ public class SimpleConnectionUtil {
     end.map(SimpleConnectionUtil::xOnDiagram).ifPresent(endPoint::setX);
     end.map(SimpleConnectionUtil::yOnDiagram).ifPresent(endPoint::setY);
 
-    ArrayList<Point> points = new ArrayList<Point>(scs.getBendpoints());
+    ArrayList<Point> points = new ArrayList<>(scs.getBendpoints());
     points.add(0, startPoint);
     points.add(endPoint);
 

@@ -7,4 +7,6 @@
 <suppressions>
   <suppress checks="OneTopLevelClass"
              files="BestFeatureExtension.java"/>
+  <suppress checks="MethodNameCheck"
+             files=".*"/>
 </suppressions>
