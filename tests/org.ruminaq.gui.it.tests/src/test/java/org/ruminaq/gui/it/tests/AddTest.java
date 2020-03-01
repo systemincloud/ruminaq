@@ -11,6 +11,7 @@ import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.graphiti.api.ContextButton;
 import org.eclipse.reddeer.graphiti.impl.graphitieditpart.LabeledGraphitiEditPart;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
+import org.eclipse.reddeer.swt.api.MenuItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.model.ruminaq.InputPort;
@@ -75,7 +76,7 @@ public class AddTest extends GuiTest {
         "My Output Port");
     assertEquals("Label shouldn't have any pad buttons", 0,
         opLabel.getContextButtons().size());
-    
+
     Diff diff = DiffBuilder
         .compare(Input.fromStream(
             AddTest.class.getResourceAsStream("AddTest.testAddOutputPort.xml")))
@@ -95,5 +96,28 @@ public class AddTest extends GuiTest {
         new WithBoGraphitiEditPart(InputPort.class),
         new WithBoGraphitiEditPart(OutputPort.class)).execute();
     assertEquals("5 elements", 5, gefEditor.getNumberOfEditParts());
+  }
+
+  @Test
+  public void testAddSimpleConnectionPoint() {
+    GEFEditor gefEditor = new GEFEditor(diagramName);
+    gefEditor.addToolFromPalette("Input Port", 200, 100);
+    gefEditor.addToolFromPalette("Output Port", 400, 100);
+
+    new CreateSimpleConnection(gefEditor,
+        new WithBoGraphitiEditPart(InputPort.class),
+        new WithBoGraphitiEditPart(OutputPort.class)).execute();
+
+    gefEditor.click(300, 200);
+
+    assertTrue("Can't create connection point if clicked too far",
+        gefEditor.getContextMenu().getItems().stream().map(MenuItem::getText)
+            .noneMatch("Create connection point"::equals));
+
+    gefEditor.click(300, 102);
+
+    assertTrue("Can create connection point if clicked close",
+        gefEditor.getContextMenu().getItems().stream().map(MenuItem::getText)
+            .anyMatch("Create connection point"::equals));
   }
 }

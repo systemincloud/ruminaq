@@ -35,7 +35,7 @@ public class CreateSimpleConnectionPointContextMenu
 
   private static final int DISTANCE_TOLERANCE_ON_SELECTED_CONNECTION = 15;
 
-  private static final int DISTANCE_TOLERANCE_ON_UNSELECTED_CONNECTION = 5;
+  private static final int DISTANCE_TOLERANCE_ON_UNSELECTED_CONNECTION = 8;
 
   public static class Filter implements Predicate<ServiceFilterArgs> {
 
