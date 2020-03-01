@@ -71,5 +71,9 @@
       <genOperations ecoreOperation="model.ecore#//RuminaqConnection/isActive" body="return true;"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqConnection/isVisible" body="return true;"/>
     </genClasses>
+    <genClasses ecoreClass="model.ecore#//SimpleConnectionPointShape">
+      <genOperations ecoreOperation="model.ecore#//SimpleConnectionPointShape/getGraphicsAlgorithm"
+          body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -13,7 +13,6 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.datatypes.IDimension;
 import org.eclipse.graphiti.datatypes.ILocation;
-import org.eclipse.graphiti.mm.GraphicsAlgorithmContainer;
 import org.eclipse.graphiti.mm.algorithms.AbstractText;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Polygon;
@@ -22,7 +21,6 @@ import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
@@ -32,7 +30,6 @@ import org.eclipse.graphiti.services.ILayoutService;
 import org.eclipse.graphiti.services.IPeService;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
-import org.ruminaq.util.StyleUtil;
 
 /**
  * Gui utils methods.
@@ -552,16 +549,6 @@ public class GuiUtil {
     }
 
     return p;
-  }
-
-  public static Polygon createArrow(GraphicsAlgorithmContainer gaContainer,
-      Diagram diagram) {
-    int xy[] = new int[] { -10, -5, 0, 0, -10, 5, -8, 0 };
-    int beforeAfter[] = new int[] { 3, 3, 0, 0, 3, 3, 3, 3 };
-    Polygon polyline = Graphiti.getGaCreateService().createPolygon(gaContainer,
-        xy, beforeAfter);
-    polyline.setStyle(StyleUtil.getStyleForPolygon(diagram));
-    return polyline;
   }
 
 }

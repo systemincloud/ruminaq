@@ -58,7 +58,6 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
   @Override
   public void execute(ICustomContext context) {
     ICreateService cs = Graphiti.getCreateService();
-    IPeCreateService peCreateService = Graphiti.getPeCreateService();
     IPeService peService = Graphiti.getPeService();
     PictogramElement pe = context.getPictogramElements()[0];
     SimpleConnectionShape ffc = (SimpleConnectionShape) pe;
@@ -96,16 +95,6 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
     Polyline polyline = gaService.createPolyline(connectionShape);
     polyline.setLineWidth(1);
     polyline.setForeground(manageColor(IColorConstant.BLACK));
-
-    String isConnectionPoint = peService.getPropertyValue(end.getParent(),
-        Constants.SIMPLE_CONNECTION_POINT);
-    if (!Boolean.parseBoolean(isConnectionPoint)) {
-      ConnectionDecorator cd = peCreateService
-          .createConnectionDecorator(connectionShape, false, 1.0, true);
-      peService.setPropertyValue(cd, AddSimpleConnectionFeature.ARROW_DECORATOR,
-          "true");
-      GuiUtil.createArrow(cd, getDiagram());
-    }
 
     connectionShape.setModelObject(ffc.getModelObject());
   }
