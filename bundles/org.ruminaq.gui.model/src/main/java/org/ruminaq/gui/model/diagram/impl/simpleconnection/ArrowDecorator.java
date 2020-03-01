@@ -17,7 +17,7 @@ import org.ruminaq.gui.model.diagram.impl.Colors;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
 
 /**
- * Arrow of SimpleConnection.
+ * Arrow on SimpleConnectionShape.
  *
  * @author Marek Jagielski
  */
@@ -30,6 +30,7 @@ public class ArrowDecorator extends ConnectionDecoratorImpl {
 
   /**
    * Triangle made from polygon.
+   * Should have the same style as SimpleConnectionShape.
    */
   private static final class Arrow extends PolygonImpl {
 

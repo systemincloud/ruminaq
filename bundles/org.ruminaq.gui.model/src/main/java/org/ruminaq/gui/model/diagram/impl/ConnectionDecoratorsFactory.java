@@ -32,7 +32,7 @@ public enum ConnectionDecoratorsFactory {
   /**
    * Flyweight Factory of ConnectionDecorators for PictogramElement.
    * 
-   * @param pe key for retrieving Flyweight
+   * @param shape key for retrieving Flyweight
    */
   public EList<ConnectionDecorator> getConnectionDecorators(
       PictogramElement shape) {

@@ -6,19 +6,20 @@
 
 package org.ruminaq.gui.features.contextmenu;
 
+import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.api.ContextMenuEntryExtension;
 import org.ruminaq.gui.features.contextmenu.CreateSimpleConnectionPointContextMenu.Filter;
 import org.ruminaq.gui.features.create.CreateSimpleConnectionPointFeature;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
-import org.ruminaq.gui.model.diagram.impl.GuiUtil;
+import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionUtil;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
 
@@ -32,18 +33,37 @@ import org.ruminaq.util.ServiceFilterArgs;
 public class CreateSimpleConnectionPointContextMenu
     implements ContextMenuEntryExtension {
 
+  private static final int DISTANCE_TOLERANCE_ON_SELECTED_CONNECTION = 15;
+
+  private static final int DISTANCE_TOLERANCE_ON_UNSELECTED_CONNECTION = 5;
+
   public static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {
       ICustomContext context = (ICustomContext) args.getArgs().get(1);
       PictogramElement[] pes = context.getPictogramElements();
-      return pes.length == 1
-          && Stream.of(pes).filter(SimpleConnectionShape.class::isInstance)
+      if (pes.length == 1) {
+        if (pes[0] instanceof SimpleConnectionShape) {
+          return SimpleConnectionUtil.distanceToConnection(
+              (SimpleConnectionShape) pes[0], context.getX(),
+              context.getY()) < DISTANCE_TOLERANCE_ON_SELECTED_CONNECTION;
+        } else if (pes[0] instanceof RuminaqDiagram) {
+          return Optional.of(pes[0]).filter(RuminaqDiagram.class::isInstance)
+              .map(RuminaqDiagram.class::cast)
+              .map(RuminaqDiagram::getConnections).stream()
+              .flatMap(EList::stream)
+              .filter(SimpleConnectionShape.class::isInstance)
               .map(SimpleConnectionShape.class::cast)
-              .filter(scs -> GuiUtil.distanceToConnection(scs, context.getX(),
-                  context.getY(), Constants.INTERNAL_PORT) < 5)
-              .findFirst().isPresent();
+              .anyMatch(scs -> SimpleConnectionUtil.distanceToConnection(scs,
+                  context.getX(),
+                  context.getY()) < DISTANCE_TOLERANCE_ON_UNSELECTED_CONNECTION);
+        } else {
+          return false;
+        }
+      }
+
+      return false;
     }
   }
 
