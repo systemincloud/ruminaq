@@ -39,8 +39,6 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
     }
   }
 
-  public static final String ARROW_DECORATOR = "ARROW_DECORATOR";
-
   public AddSimpleConnectionFeature(IFeatureProvider fp) {
     super(fp);
   }
@@ -74,7 +72,7 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
     return null;
   }
 
-  public void linkToConnectionBeforePoint(Connection connection,
+  private void linkToConnectionBeforePoint(Connection connection,
       SimpleConnection addedSimpleConnection) {
     String connectionPointPropertyStart = Graphiti.getPeService()
         .getPropertyValue(connection.getStart().getParent(),

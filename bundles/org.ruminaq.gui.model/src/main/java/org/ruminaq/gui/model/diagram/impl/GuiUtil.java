@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.datatypes.IDimension;
 import org.eclipse.graphiti.datatypes.ILocation;
 import org.eclipse.graphiti.mm.algorithms.AbstractText;
@@ -20,7 +19,6 @@ import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
@@ -420,7 +418,7 @@ public final class GuiUtil {
         .sqrt(Math.pow(d.getX() - xp, 2) + Math.pow(d.getY() - yp, 2));
   }
 
-  private static Point projectionOnSection(int x1, int y1, int x2, int y2,
+  public static Point projectionOnSection(int x1, int y1, int x2, int y2,
       int xp, int yp) {
     int denominator = x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2
         + y2 * y2;
@@ -462,85 +460,4 @@ public final class GuiUtil {
     else
       return false;
   }
-
-  public static Point projectOnConnection(FreeFormConnection ffc, int x, int y,
-      String internalPortProperty) {
-
-    int x_start = ffc.getStart().getParent().getGraphicsAlgorithm().getX()
-        + (ffc.getStart().getParent().getGraphicsAlgorithm().getWidth() >> 1);
-    int y_start = ffc.getStart().getParent().getGraphicsAlgorithm().getY()
-        + (ffc.getStart().getParent().getGraphicsAlgorithm().getHeight() >> 1);
-    String isInternalPort = Graphiti.getPeService()
-        .getPropertyValue(ffc.getStart().getParent(), internalPortProperty);
-    if (Boolean.parseBoolean(isInternalPort)) {
-      x_start = x_start + ((ContainerShape) ffc.getStart().getParent())
-          .getContainer().getGraphicsAlgorithm().getX();
-      y_start = y_start + ((ContainerShape) ffc.getStart().getParent())
-          .getContainer().getGraphicsAlgorithm().getY();
-    }
-    int x_end = ffc.getEnd().getParent().getGraphicsAlgorithm().getX()
-        + (ffc.getEnd().getParent().getGraphicsAlgorithm().getWidth() >> 1);
-    int y_end = ffc.getEnd().getParent().getGraphicsAlgorithm().getY()
-        + (ffc.getEnd().getParent().getGraphicsAlgorithm().getHeight() >> 1);
-    isInternalPort = Graphiti.getPeService()
-        .getPropertyValue(ffc.getEnd().getParent(), internalPortProperty);
-    if (Boolean.parseBoolean(isInternalPort)) {
-      x_end = x_end + ((ContainerShape) ffc.getEnd().getParent()).getContainer()
-          .getGraphicsAlgorithm().getX();
-      y_end = y_end + ((ContainerShape) ffc.getEnd().getParent()).getContainer()
-          .getGraphicsAlgorithm().getY();
-    }
-    EList<Point> points = ffc.getBendpoints();
-
-    if (points.size() == 0) {
-      Point pd = projectionOnSection(x_start, y_start, x_end, y_end, x, y);
-      if (((Math.min(pd.getX(), x_start) <= x_end)
-          && (x_end <= Math.max(pd.getX(), x_start))
-          && (Math.min(pd.getY(), y_start) <= y_end)
-          && (y_end <= Math.max(pd.getY(), y_start))))
-        return null;
-      else
-        return pd;
-    }
-
-    int d = Integer.MAX_VALUE;
-    Point p = null;
-
-    for (int i = 0; i <= points.size(); i++) {
-      int x_next = 0, y_next = 0, x_before = 0, y_before = 0;
-
-      if (i == 0) {
-        x_before = x_start;
-        y_before = y_start;
-        x_next = points.get(i).getX();
-        y_next = points.get(i).getY();
-      } else if (i > 0 && i < points.size()) {
-        x_before = points.get(i - 1).getX();
-        y_before = points.get(i - 1).getY();
-        x_next = points.get(i).getX();
-        y_next = points.get(i).getY();
-      } else {
-        x_before = points.get(i - 1).getX();
-        y_before = points.get(i - 1).getY();
-        x_next = x_end;
-        y_next = y_end;
-      }
-
-      Point pd = projectionOnSection(x_before, y_before, x_next, y_next, x, y);
-      if (((Math.min(pd.getX(), x_before) <= x_next)
-          && (x_next <= Math.max(pd.getX(), x_before))
-          && (Math.min(pd.getY(), y_before) <= y_next)
-          && (y_next <= Math.max(pd.getY(), y_before))))
-        continue;
-      int d_tmp = (int) Math
-          .sqrt(Math.pow(pd.getX() - x, 2) + Math.pow(pd.getY() - y, 2));
-      if (d_tmp < d) {
-        d = d_tmp;
-        p = pd;
-      }
-    }
-
-    return p;
-  }
-
 }

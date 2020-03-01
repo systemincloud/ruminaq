@@ -31,7 +31,6 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.create.CreateSimpleConnectionFeature;
-import org.ruminaq.gui.features.create.CreateSimpleConnectionPointFeature;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 
@@ -186,9 +185,9 @@ public class DeleteFeature extends RuminaqDeleteFeature {
 
     Point bendpoint = Graphiti.getCreateService().createPoint(
         anchorContainer.getGraphicsAlgorithm().getX()
-            + (CreateSimpleConnectionPointFeature.POINT_SIZE >> 1),
+            + (9 >> 1),
         anchorContainer.getGraphicsAlgorithm().getY()
-            + (CreateSimpleConnectionPointFeature.POINT_SIZE >> 1));
+            + (9 >> 1));
 
     String isConnectionPoint = Graphiti.getPeService().getPropertyValue(
         targetAnchor.getParent(), Constants.SIMPLE_CONNECTION_POINT);

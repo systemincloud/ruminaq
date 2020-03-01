@@ -13,32 +13,25 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
-import org.eclipse.graphiti.mm.algorithms.Ellipse;
 import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
-import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.ICreateService;
 import org.eclipse.graphiti.services.IGaService;
-import org.eclipse.graphiti.services.IPeService;
 import org.eclipse.graphiti.util.IColorConstant;
-import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.features.add.AddSimpleConnectionFeature;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
+import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.gui.model.diagram.impl.GuiUtil;
+import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionUtil;
 
 public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
 
   public static final String NAME = "Create connection point";
-
-  public static final int POINT_SIZE = 9;
 
   public CreateSimpleConnectionPointFeature(IFeatureProvider fp) {
     super(fp);
@@ -57,13 +50,16 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
   @Override
   public void execute(ICustomContext context) {
     ICreateService cs = Graphiti.getCreateService();
-    IPeService peService = Graphiti.getPeService();
     PictogramElement pe = context.getPictogramElements()[0];
     SimpleConnectionShape ffc = (SimpleConnectionShape) pe;
-    Point p = GuiUtil.projectOnConnection(ffc, context.getX(), context.getY(),
-        Constants.INTERNAL_PORT);
+    Point p = SimpleConnectionUtil.projectOnConnection(ffc, context.getX(),
+        context.getY());
 
-    Shape s = createConnectionPoint(p.getX(), p.getY(), getDiagram());
+    SimpleConnectionPointShape s = DiagramFactory.eINSTANCE
+        .createSimpleConnectionPointShape();
+    s.setCenteredX(p.getX());
+    s.setCenteredY(p.getY());
+
     Anchor pointAnchor = cs.createChopboxAnchor(s);
 
     // delete following bendpoints
@@ -73,14 +69,6 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
     // end connect on point
     Anchor end = ffc.getEnd();
     ffc.setEnd(pointAnchor);
-    for (ConnectionDecorator cd : ffc.getConnectionDecorators()) {
-      String arrowDecorator = peService.getPropertyValue(cd,
-          AddSimpleConnectionFeature.ARROW_DECORATOR);
-      if (Boolean.parseBoolean(arrowDecorator)) {
-        ffc.getConnectionDecorators().remove(cd);
-        break;
-      }
-    }
 
     // create connection from point to last end
     SimpleConnectionShape connectionShape = DiagramFactory.eINSTANCE
@@ -96,23 +84,6 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
     polyline.setForeground(manageColor(IColorConstant.BLACK));
 
     connectionShape.setModelObject(ffc.getModelObject());
-  }
-
-  private Shape createConnectionPoint(int x, int y, ContainerShape cs) {
-    ICreateService createService = Graphiti.getCreateService();
-    IPeService peService = Graphiti.getPeService();
-    Shape ret = createService.createShape(cs, true);
-    peService.setPropertyValue(ret, Constants.SIMPLE_CONNECTION_POINT, "true");
-    Ellipse ellipse = createService.createEllipse(ret);
-    Graphiti.getLayoutService().setLocationAndSize(ellipse, x - POINT_SIZE / 2,
-        y - POINT_SIZE / 2, POINT_SIZE, POINT_SIZE);
-    ellipse.setFilled(true);
-    Diagram diagram = peService.getDiagramForPictogramElement(ret);
-    ellipse.setForeground(
-        Graphiti.getGaService().manageColor(diagram, IColorConstant.BLACK));
-    ellipse.setBackground(
-        Graphiti.getGaService().manageColor(diagram, IColorConstant.BLACK));
-    return ret;
   }
 
   private void deleteBendpointsNear(FreeFormConnection ffc, Point p, int d) {
