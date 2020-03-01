@@ -28,7 +28,6 @@ public final class SimpleConnectionUtil {
   private SimpleConnectionUtil() {
     // Util class
   }
-
   
   /**
    * Euclidean distance of point to connection
