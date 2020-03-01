@@ -13,9 +13,9 @@ import java.util.stream.IntStream;
 
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory;
+import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
-import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 
 /**
@@ -29,9 +29,16 @@ public final class SimpleConnectionUtil {
     // Util class
   }
 
-  public static int distanceToConnection(SimpleConnectionShape scs, int x,
-      int y) {
-
+  
+  /**
+   * Euclidean distance of point to connection
+   * 
+   * @param scs FreeFormConnection that is on RuminaqDiagram
+   * @param x point's coordinate
+   * @param y point's coordinate
+   * @return euclidean distance
+   */
+  public static int distanceToConnection(FreeFormConnection scs, int x, int y) {
     Point startPoint = StylesFactory.eINSTANCE.createPoint();
     Optional<RuminaqShape> start = Optional.of(scs.getStart().getParent())
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast);
