@@ -36,11 +36,11 @@ import org.ruminaq.gui.model.diagram.RuminaqShape;
  *
  * @author Marek Jagielski
  */
-public class GuiUtil {
+public final class GuiUtil {
 
   private static final IGaService gaService = Graphiti.getGaService();
 
-  static final IPeService peService = Graphiti.getPeService();
+  private static final IPeService peService = Graphiti.getPeService();
 
   private static final int SHAPE_PADDING = 6;
 
@@ -239,13 +239,6 @@ public class GuiUtil {
       }
     }
     return pictogramElements;
-  }
-
-  public static Polygon createDataArrow(Polygon p) {
-    int[] points = { 4, 8, 14, 8, 14, 4, 18, 10, 14, 16, 14, 12, 4, 12 };
-    Polygon arrow = gaService.createPolygon(p, points);
-    arrow.setLineWidth(1);
-    return arrow;
   }
 
   /**
