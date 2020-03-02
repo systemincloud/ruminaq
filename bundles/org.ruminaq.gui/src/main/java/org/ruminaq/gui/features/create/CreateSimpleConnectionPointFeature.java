@@ -8,12 +8,12 @@ package org.ruminaq.gui.features.create;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
-import org.eclipse.graphiti.mm.algorithms.Polyline;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
@@ -21,9 +21,8 @@ import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.ICreateService;
-import org.eclipse.graphiti.services.IGaService;
-import org.eclipse.graphiti.util.IColorConstant;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.gui.model.diagram.impl.GuiUtil;
@@ -51,42 +50,47 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
   public void execute(ICustomContext context) {
     ICreateService cs = Graphiti.getCreateService();
     PictogramElement pe = context.getPictogramElements()[0];
-    SimpleConnectionShape ffc = (SimpleConnectionShape) pe;
-    Point p = SimpleConnectionUtil.projectOnConnection(ffc, context.getX(),
-        context.getY());
+    Optional<SimpleConnectionShape> optScs = Optional.of(pe)
+        .filter(SimpleConnectionShape.class::isInstance)
+        .map(SimpleConnectionShape.class::cast)
+        .or(() -> Optional.of(pe).filter(RuminaqDiagram.class::isInstance)
+            .map(RuminaqDiagram.class::cast).map(RuminaqDiagram::getConnections)
+            .stream().flatMap(EList::stream)
+            .filter(SimpleConnectionShape.class::isInstance)
+            .map(SimpleConnectionShape.class::cast)
+            .min((scs1, scs2) -> Integer.compare(
+                SimpleConnectionUtil.distanceToConnection(scs1, context.getX(),
+                    context.getY()),
+                SimpleConnectionUtil.distanceToConnection(scs2, context.getX(),
+                    context.getY()))));
+    if (optScs.isPresent()) {
+      SimpleConnectionShape scs = optScs.get();
+      Point p = SimpleConnectionUtil.projectOnConnection(scs, context.getX(),
+          context.getY());
+      SimpleConnectionPointShape s = DiagramFactory.eINSTANCE
+          .createSimpleConnectionPointShape();
+      s.setContainer(getDiagram());
+      s.setCenteredX(p.getX());
+      s.setCenteredY(p.getY());
+      Anchor pointAnchor = cs.createChopboxAnchor(s);
 
-    SimpleConnectionPointShape s = DiagramFactory.eINSTANCE
-        .createSimpleConnectionPointShape();
-    s.setCenteredX(p.getX());
-    s.setCenteredY(p.getY());
+      deleteBendpointsNear(scs, p, 5);
+      List<Point> deletedPoints = deleteFollowingBendpoints(scs, p);
 
-    Anchor pointAnchor = cs.createChopboxAnchor(s);
-
-    // delete following bendpoints
-    deleteBendpointsNear(ffc, p, 5);
-    List<Point> deletedPoints = deleteFollowingBendpoints(ffc, p);
-
-    // end connect on point
-    Anchor end = ffc.getEnd();
-    ffc.setEnd(pointAnchor);
-
-    // create connection from point to last end
-    SimpleConnectionShape connectionShape = DiagramFactory.eINSTANCE
-        .createSimpleConnectionShape();
-    connectionShape.setParent(getDiagram());
-    connectionShape.setStart(pointAnchor);
-    connectionShape.setEnd(end);
-    connectionShape.getBendpoints().addAll(deletedPoints);
-
-    IGaService gaService = Graphiti.getGaService();
-    Polyline polyline = gaService.createPolyline(connectionShape);
-    polyline.setLineWidth(1);
-    polyline.setForeground(manageColor(IColorConstant.BLACK));
-
-    connectionShape.setModelObject(ffc.getModelObject());
+      Anchor end = scs.getEnd();
+      scs.setEnd(pointAnchor);
+      
+      SimpleConnectionShape connectionShapeAfterPoint = DiagramFactory.eINSTANCE
+          .createSimpleConnectionShape();
+      connectionShapeAfterPoint.setParent(getDiagram());
+      connectionShapeAfterPoint.setStart(pointAnchor);
+      connectionShapeAfterPoint.setEnd(end);
+      connectionShapeAfterPoint.getBendpoints().addAll(deletedPoints);
+      connectionShapeAfterPoint.setModelObject(scs.getModelObject());
+    }
   }
 
-  private void deleteBendpointsNear(FreeFormConnection ffc, Point p, int d) {
+  private static void deleteBendpointsNear(FreeFormConnection ffc, Point p, int d) {
     EList<Point> points = ffc.getBendpoints();
     if (points.size() == 0)
       return;
@@ -96,7 +100,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
         points.remove(i);
   }
 
-  private List<Point> deleteFollowingBendpoints(FreeFormConnection ffc,
+  private static List<Point> deleteFollowingBendpoints(FreeFormConnection ffc,
       Point p) {
     EList<Point> points = ffc.getBendpoints();
     List<Point> deletedPoints = new ArrayList<>();

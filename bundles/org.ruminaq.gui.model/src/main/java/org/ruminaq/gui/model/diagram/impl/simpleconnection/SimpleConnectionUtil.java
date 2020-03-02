@@ -92,7 +92,7 @@ public final class SimpleConnectionUtil {
     int d = Integer.MAX_VALUE;
     Point p = null;
 
-    for (int i = 0; i < points.size(); i++) {
+    for (int i = 0; i < points.size() - 1; i++) {
       int x_next = 0;
       int y_next = 0;
       int x_before = 0;

@@ -119,5 +119,8 @@ public class AddTest extends GuiTest {
     assertTrue("Can create connection point if clicked close",
         gefEditor.getContextMenu().getItems().stream().map(MenuItem::getText)
             .anyMatch("Create connection point"::equals));
+    
+    gefEditor.getContextMenu().getItem("Create connection point").select();
+    assertEquals("6 elements", 6, gefEditor.getNumberOfEditParts());
   }
 }

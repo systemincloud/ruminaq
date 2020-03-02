@@ -13,6 +13,8 @@ import org.eclipse.graphiti.mm.algorithms.impl.PolygonImpl;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.pictograms.impl.ConnectionDecoratorImpl;
 import org.eclipse.graphiti.services.Graphiti;
+import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
+import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.gui.model.diagram.impl.Colors;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
 
@@ -29,8 +31,8 @@ public class ArrowDecorator extends ConnectionDecoratorImpl {
       3 };
 
   /**
-   * Triangle made from polygon.
-   * Should have the same style as SimpleConnectionShape.
+   * Triangle made from polygon. Should have the same style as
+   * SimpleConnectionShape.
    */
   private static final class Arrow extends PolygonImpl {
 
@@ -60,11 +62,22 @@ public class ArrowDecorator extends ConnectionDecoratorImpl {
     }
   }
 
+  private SimpleConnectionShape shape;
+
   private GraphicsAlgorithm ga = new Arrow();
+
+  /**
+   * Arrow on SimpleConnectionShape.
+   * 
+   * @param shape parent SimpleConnectionShape
+   */
+  public ArrowDecorator(SimpleConnectionShape shape) {
+    this.shape = shape;
+  }
 
   @Override
   public boolean isVisible() {
-    return true;
+    return !(shape.getEnd().getParent() instanceof SimpleConnectionPointShape);
   }
 
   @Override
