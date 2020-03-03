@@ -90,8 +90,8 @@ public final class GuiUtil {
     int denominator = a.getX() * a.getX() - 2 * a.getX() * b.getX()
         + b.getX() * b.getX() + a.getY() * a.getY() - 2 * a.getY() * b.getY()
         + b.getY() * b.getY();
-    int xPrim = Integer.MAX_VALUE;
-    int yPrim = Integer.MAX_VALUE;
+    int xPrim;
+    int yPrim;
 
     if (denominator == 0) {
       xPrim = a.getX();
