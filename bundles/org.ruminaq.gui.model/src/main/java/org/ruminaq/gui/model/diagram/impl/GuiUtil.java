@@ -79,7 +79,7 @@ public final class GuiUtil {
   }
 
   /**
-   *Projections of Point on section
+   * Projections of Point on section
    * 
    * @param a Point of the section
    * @param b Point of the section
@@ -87,8 +87,8 @@ public final class GuiUtil {
    * @return point being projections of Point p on section |ab|
    */
   public static Point projectionOnSection(Point a, Point b, Point p) {
-    int denominator = a.getX() * a.getX() - 2 * a.getX() * b.getX()
-        + b.getX() * b.getX() + a.getY() * a.getY() - 2 * a.getY() * b.getY()
+    int denominator = a.getX() * a.getX() - (a.getX() * b.getX() << 1)
+        + b.getX() * b.getX() + a.getY() * a.getY() - (a.getY() * b.getY() << 1)
         + b.getY() * b.getY();
     int xPrim;
     int yPrim;
@@ -97,7 +97,8 @@ public final class GuiUtil {
       xPrim = a.getX();
       yPrim = p.getY();
     } else {
-      xPrim = (p.getX() * a.getX() * a.getX() - 2 * p.getX() * a.getX() * b.getX()
+      xPrim = (p.getX() * a.getX() * a.getX()
+          - (p.getX() * a.getX() * b.getX() << 1)
           - a.getX() * a.getY() * b.getY() + p.getY() * a.getX() * a.getY()
           + a.getX() * b.getY() * b.getY() - p.getY() * a.getX() * b.getY()
           + p.getX() * b.getX() * b.getX() + b.getX() * a.getY() * a.getY()
@@ -107,10 +108,11 @@ public final class GuiUtil {
           - a.getX() * b.getX() * b.getY() + p.getX() * a.getX() * a.getY()
           - p.getX() * a.getX() * b.getY() + b.getX() * b.getX() * a.getY()
           - p.getX() * b.getX() * a.getY() + p.getX() * b.getX() * b.getY()
-          + p.getY() * a.getY() * a.getY() - 2 * p.getY() * a.getY() * b.getY()
+          + p.getY() * a.getY() * a.getY()
+          - (p.getY() * a.getY() * b.getY() << 1)
           + p.getY() * b.getY() * b.getY()) / denominator;
     }
-    
+
     return createPoint(xPrim, yPrim);
   }
 
