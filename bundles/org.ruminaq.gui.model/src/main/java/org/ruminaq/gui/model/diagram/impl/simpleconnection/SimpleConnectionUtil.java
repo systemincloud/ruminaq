@@ -37,7 +37,7 @@ public final class SimpleConnectionUtil {
    * @param y   point's coordinate
    * @return euclidean distance
    */
-  public static int distanceToConnection(FreeFormConnection scs, int x, int y) {
+  public static double distanceToConnection(FreeFormConnection scs, int x, int y) {
     Point point = StylesFactory.eINSTANCE.createPoint();
     point.setX(x);
     point.setY(y);
@@ -62,7 +62,7 @@ public final class SimpleConnectionUtil {
         .mapToObj(i -> new SimpleEntry<Point, Point>(points.get(i),
             points.get(i + 1)))
         .map(me -> GuiUtil.distanceToSection(me.getKey(), me.getValue(), point))
-        .min(Integer::compareTo).orElse(Integer.MAX_VALUE);
+        .min(Double::compareTo).orElse(Double.MAX_VALUE);
   }
 
   /**

@@ -58,7 +58,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
             .stream().flatMap(EList::stream)
             .filter(SimpleConnectionShape.class::isInstance)
             .map(SimpleConnectionShape.class::cast)
-            .min((scs1, scs2) -> Integer.compare(
+            .min((scs1, scs2) -> Double.compare(
                 SimpleConnectionUtil.distanceToConnection(scs1, context.getX(),
                     context.getY()),
                 SimpleConnectionUtil.distanceToConnection(scs2, context.getX(),

@@ -68,22 +68,35 @@ public final class GuiUtil {
   }
 
   /**
+   * Euclidean distance to section.
+   * 
    * @param a Point of the section
    * @param b Point of the section
    * @param p Any point
-   * @return
+   * @return distance to section
    */
-  public static int distanceToSection(Point a, Point b, Point p) {
+  public static double distanceToSection(Point a, Point b, Point p) {
     Point d = projectionOnSection(a, b, p);
     if (((Math.min(d.getX(), a.getX()) <= b.getX())
         && (b.getX() <= Math.max(d.getX(), a.getX()))
         && (Math.min(d.getY(), a.getY()) <= b.getY())
         && (b.getY() <= Math.max(d.getY(), a.getY()))))
       return Integer.MAX_VALUE;
-    return (int) Math.sqrt(
-        Math.pow(d.getX() - p.getX(), 2) + Math.pow(d.getY() - p.getY(), 2));
+    return distanceBetweenPoints(d, p);
   }
 
+  /**
+   * Euclidean distance between points.
+   * 
+   * @param a Point of the section
+   * @param b Point of the section
+   * @return distance between points
+   */
+  public static double distanceBetweenPoints(Point a, Point b) {
+    return Math.sqrt(
+        Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
+  }
+  
   /**
    * Projection of Point on section
    * 

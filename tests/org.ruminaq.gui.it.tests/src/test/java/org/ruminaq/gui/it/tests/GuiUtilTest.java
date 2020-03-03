@@ -48,4 +48,33 @@ public class GuiUtilTest {
             createPoint(111, 101), createPoint(108, 97)));
   }
 
+  @ParameterizedTest
+  @MethodSource("distanceToSection")
+  public void testDistanceToSection(Point a, Point b, Point p, int d) {
+    assertEquals("Distance match", d, GuiUtil.distanceToSection(a, b, p), 1);
+  }
+
+  @Parameters
+  public static Stream<Arguments> distanceToSection() {
+    return Stream.of(
+        Arguments.of(createPoint(0, 0), createPoint(10, 0), createPoint(5, 0),
+            0),
+        Arguments.of(createPoint(0, 0), createPoint(10, 0), createPoint(5, 5),
+            5),
+        Arguments.of(createPoint(0, 0), createPoint(0, 10), createPoint(0, 5),
+            0),
+        Arguments.of(createPoint(0, 0), createPoint(0, 10), createPoint(5, 5),
+            5),
+        Arguments.of(createPoint(20, 10), createPoint(30, 10),
+            createPoint(25, 5), 5),
+        Arguments.of(createPoint(20, 20), createPoint(30, 10),
+            createPoint(30, 20), 7),
+        Arguments.of(createPoint(100, 103), createPoint(104, 100),
+            createPoint(102, 103), 1),
+        Arguments.of(createPoint(100, 103), createPoint(104, 100),
+            createPoint(102, 100), 0),
+        Arguments.of(createPoint(100, 103), createPoint(104, 100),
+            createPoint(111, 101), Integer.MAX_VALUE));
+  }
+
 }
