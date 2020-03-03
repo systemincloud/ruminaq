@@ -38,6 +38,10 @@ public final class SimpleConnectionUtil {
    * @return euclidean distance
    */
   public static int distanceToConnection(FreeFormConnection scs, int x, int y) {
+    Point point = StylesFactory.eINSTANCE.createPoint();
+    point.setX(x);
+    point.setY(y);
+
     Point startPoint = StylesFactory.eINSTANCE.createPoint();
     Optional<RuminaqShape> start = Optional.of(scs.getStart().getParent())
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast);
@@ -57,9 +61,7 @@ public final class SimpleConnectionUtil {
     return IntStream.range(0, points.size() - 1)
         .mapToObj(i -> new SimpleEntry<Point, Point>(points.get(i),
             points.get(i + 1)))
-        .map(me -> GuiUtil.distanceToSection(me.getKey().getX(),
-            me.getKey().getY(), me.getValue().getX(), me.getValue().getY(), x,
-            y))
+        .map(me -> GuiUtil.distanceToSection(me.getKey(), me.getValue(), point))
         .min(Integer::compareTo).orElse(Integer.MAX_VALUE);
   }
 
@@ -73,6 +75,10 @@ public final class SimpleConnectionUtil {
    */
   public static Point projectOnConnection(FreeFormConnection scs, int x,
       int y) {
+    Point point = StylesFactory.eINSTANCE.createPoint();
+    point.setX(x);
+    point.setY(y);
+
     Point startPoint = StylesFactory.eINSTANCE.createPoint();
     Optional<RuminaqShape> start = Optional.of(scs.getStart().getParent())
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast);
@@ -103,7 +109,8 @@ public final class SimpleConnectionUtil {
       x_next = points.get(i + 1).getX();
       y_next = points.get(i + 1).getY();
 
-      Point pd = GuiUtil.projectionOnSection(x_before, y_before, x_next, y_next, x, y);
+      Point pd = GuiUtil.projectionOnSection(points.get(i), points.get(i + 1),
+          point);
       if (((Math.min(pd.getX(), x_before) <= x_next)
           && (x_next <= Math.max(pd.getX(), x_before))
           && (Math.min(pd.getY(), y_before) <= y_next)

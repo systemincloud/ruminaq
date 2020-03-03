@@ -67,6 +67,58 @@ public final class GuiUtil {
     }
   }
 
+  public static int distanceToSection(Point a, Point b, Point p) {
+    Point d = projectionOnSection(a, b, p);
+    if (((Math.min(d.getX(), a.getX()) <= b.getX())
+        && (b.getX() <= Math.max(d.getX(), a.getX()))
+        && (Math.min(d.getY(), a.getY()) <= b.getY())
+        && (b.getY() <= Math.max(d.getY(), a.getY()))))
+      return Integer.MAX_VALUE;
+    return (int) Math.sqrt(
+        Math.pow(d.getX() - p.getX(), 2) + Math.pow(d.getY() - p.getY(), 2));
+  }
+
+  /**
+   *Projections of Point on section
+   * 
+   * @param a Point of the section
+   * @param b Point of the section
+   * @param p Any point
+   * @return point being projections of Point p on section |ab|
+   */
+  public static Point projectionOnSection(Point a, Point b, Point p) {
+    int denominator = a.getX() * a.getX() - 2 * a.getX() * b.getX()
+        + b.getX() * b.getX() + a.getY() * a.getY() - 2 * a.getY() * b.getY()
+        + b.getY() * b.getY();
+    int xPrim = Integer.MAX_VALUE;
+    int yPrim = Integer.MAX_VALUE;
+
+    if (denominator == 0) {
+      xPrim = a.getX();
+      yPrim = p.getY();
+    } else {
+      xPrim = (p.getX() * a.getX() * a.getX() - 2 * p.getX() * a.getX() * b.getX()
+          - a.getX() * a.getY() * b.getY() + p.getY() * a.getX() * a.getY()
+          + a.getX() * b.getY() * b.getY() - p.getY() * a.getX() * b.getY()
+          + p.getX() * b.getX() * b.getX() + b.getX() * a.getY() * a.getY()
+          - b.getX() * a.getY() * b.getY() - p.getY() * b.getX() * a.getY()
+          + p.getY() * b.getX() * b.getY()) / denominator;
+      yPrim = (a.getX() * a.getX() * b.getY() - a.getX() * b.getX() * a.getY()
+          - a.getX() * b.getX() * b.getY() + p.getX() * a.getX() * a.getY()
+          - p.getX() * a.getX() * b.getY() + b.getX() * b.getX() * a.getY()
+          - p.getX() * b.getX() * a.getY() + p.getX() * b.getX() * b.getY()
+          + p.getY() * a.getY() * a.getY() - 2 * p.getY() * a.getY() * b.getY()
+          + p.getY() * b.getY() * b.getY()) / denominator;
+    }
+    
+    return createPoint(xPrim, yPrim);
+  }
+
+  public static boolean pointBelongsToSection(Point a, Point b, Point p,
+      int epsilon) {
+    return distanceToSection(a, b, p) <= epsilon;
+  }
+
   // TODO: Think about line break in the ui...
   public static int getLabelHeight(AbstractText text) {
     if (text.getValue() != null && !text.getValue().isEmpty()) {
@@ -336,10 +388,6 @@ public final class GuiUtil {
     return p1.getX() == p2.getX() && p1.getY() == p2.getY();
   }
 
-  public static Point createPoint(Point p) {
-    return gaService.createPoint(p.getX(), p.getY());
-  }
-
   public static Point createPoint(int x, int y) {
     return gaService.createPoint(x, y);
   }
@@ -408,37 +456,6 @@ public final class GuiUtil {
     return Math.sqrt((p1.getX() - p2.getX()) ^ 2 + (p1.getY() - p2.getY()) ^ 2);
   }
 
-  public static int distanceToSection(int x1, int y1, int x2, int y2, int xp,
-      int yp) {
-    Point d = projectionOnSection(x1, y1, x2, y2, xp, yp);
-    if (((Math.min(d.getX(), x1) <= x2) && (x2 <= Math.max(d.getX(), x1))
-        && (Math.min(d.getY(), y1) <= y2) && (y2 <= Math.max(d.getY(), y1))))
-      return Integer.MAX_VALUE;
-    return (int) Math
-        .sqrt(Math.pow(d.getX() - xp, 2) + Math.pow(d.getY() - yp, 2));
-  }
-
-  public static Point projectionOnSection(int x1, int y1, int x2, int y2,
-      int xp, int yp) {
-    int denominator = x1 * x1 - 2 * x1 * x2 + x2 * x2 + y1 * y1 - 2 * y1 * y2
-        + y2 * y2;
-    int d_x = Integer.MAX_VALUE;
-    int d_y = Integer.MAX_VALUE;
-
-    if (denominator == 0) {
-      d_x = x1;
-      d_y = yp;
-    } else {
-      d_x = (xp * x1 * x1 - 2 * xp * x1 * x2 - x1 * y1 * y2 + yp * x1 * y1
-          + x1 * y2 * y2 - yp * x1 * y2 + xp * x2 * x2 + x2 * y1 * y1
-          - x2 * y1 * y2 - yp * x2 * y1 + yp * x2 * y2) / denominator;
-      d_y = (x1 * x1 * y2 - x1 * x2 * y1 - x1 * x2 * y2 + xp * x1 * y1
-          - xp * x1 * y2 + x2 * x2 * y1 - xp * x2 * y1 + xp * x2 * y2
-          + yp * y1 * y1 - 2 * yp * y1 * y2 + yp * y2 * y2) / denominator;
-    }
-    return createPoint(d_x, d_y);
-  }
-
   public static boolean pointBelongsToSection(Point d, int x1, int y1, int x2,
       int y2) {
     int det = d.getX() * y1 + x1 * y2 + x2 * d.getY() - x2 * y1 - d.getX() * y2
@@ -452,12 +469,4 @@ public final class GuiUtil {
       return false;
   }
 
-  public static boolean pointBelongsToSection(Point p, int x1, int y1, int x2,
-      int y2, int epsilon) {
-    int d = distanceToSection(x1, y1, x2, y2, p.getX(), p.getY());
-    if (d <= epsilon)
-      return true;
-    else
-      return false;
-  }
 }

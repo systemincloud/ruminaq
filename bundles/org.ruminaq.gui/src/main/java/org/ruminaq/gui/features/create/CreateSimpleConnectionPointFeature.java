@@ -79,7 +79,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
 
       Anchor end = scs.getEnd();
       scs.setEnd(pointAnchor);
-      
+
       SimpleConnectionShape connectionShapeAfterPoint = DiagramFactory.eINSTANCE
           .createSimpleConnectionShape();
       connectionShapeAfterPoint.setParent(getDiagram());
@@ -90,7 +90,8 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
     }
   }
 
-  private static void deleteBendpointsNear(FreeFormConnection ffc, Point p, int d) {
+  private static void deleteBendpointsNear(FreeFormConnection ffc, Point p,
+      int d) {
     EList<Point> points = ffc.getBendpoints();
     if (points.size() == 0)
       return;
@@ -116,10 +117,11 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
         + ((ContainerShape) ffc.getStart().getParent().eContainer())
             .getGraphicsAlgorithm().getY();
 
+    Point start = GuiUtil.createPoint(x_start, y_start);
     for (int i = 0; i < points.size(); i++) {
       if (i == 0) {
-        if (GuiUtil.pointBelongsToSection(p, x_start, y_start,
-            points.get(0).getX(), points.get(0).getY(), 1)) {
+        if (GuiUtil.pointBelongsToSection(p, start,
+            points.get(0), 1)) {
           while (i < points.size()) {
             deletedPoints.add(points.get(i));
             points.remove(i);
@@ -127,9 +129,8 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
           return deletedPoints;
         }
       } else {
-        if (GuiUtil.pointBelongsToSection(p, points.get(i - 1).getX(),
-            points.get(i - 1).getY(), points.get(i).getX(),
-            points.get(i).getY(), 1)) {
+        if (GuiUtil.pointBelongsToSection(points.get(i - 1), points.get(i), p,
+            1)) {
           while (i < points.size()) {
             deletedPoints.add(points.get(i));
             points.remove(i);
