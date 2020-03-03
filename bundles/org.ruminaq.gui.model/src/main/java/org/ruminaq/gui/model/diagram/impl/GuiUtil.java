@@ -67,6 +67,12 @@ public final class GuiUtil {
     }
   }
 
+  /**
+   * @param a Point of the section
+   * @param b Point of the section
+   * @param p Any point
+   * @return
+   */
   public static int distanceToSection(Point a, Point b, Point p) {
     Point d = projectionOnSection(a, b, p);
     if (((Math.min(d.getX(), a.getX()) <= b.getX())
@@ -79,7 +85,7 @@ public final class GuiUtil {
   }
 
   /**
-   * Projections of Point on section
+   * Projection of Point on section
    * 
    * @param a Point of the section
    * @param b Point of the section

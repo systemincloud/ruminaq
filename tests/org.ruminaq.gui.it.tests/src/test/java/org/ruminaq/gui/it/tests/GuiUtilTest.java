@@ -43,7 +43,9 @@ public class GuiUtilTest {
         Arguments.of(createPoint(100, 103), createPoint(104, 100),
             createPoint(102, 103), createPoint(101, 102)),
         Arguments.of(createPoint(100, 103), createPoint(104, 100),
-            createPoint(102, 100), createPoint(102, 100)));
+            createPoint(102, 100), createPoint(102, 100)),
+        Arguments.of(createPoint(100, 103), createPoint(104, 100),
+            createPoint(111, 101), createPoint(108, 97)));
   }
 
 }
