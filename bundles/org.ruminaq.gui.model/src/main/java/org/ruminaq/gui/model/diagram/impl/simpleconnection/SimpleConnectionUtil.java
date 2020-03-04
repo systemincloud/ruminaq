@@ -8,6 +8,7 @@ package org.ruminaq.gui.model.diagram.impl.simpleconnection;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -28,7 +29,7 @@ public final class SimpleConnectionUtil {
   private SimpleConnectionUtil() {
     // Util class
   }
-
+  
   /**
    * Euclidean distance of point to connection.
    * 
@@ -40,21 +41,7 @@ public final class SimpleConnectionUtil {
   public static double distanceToConnection(FreeFormConnection scs, int x, int y) {
     Point point = GuiUtil.createPoint(x, y);
 
-    Point startPoint = StylesFactory.eINSTANCE.createPoint();
-    Optional<RuminaqShape> start = Optional.of(scs.getStart().getParent())
-        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast);
-    start.map(SimpleConnectionUtil::xOnDiagram).ifPresent(startPoint::setX);
-    start.map(SimpleConnectionUtil::yOnDiagram).ifPresent(startPoint::setY);
-
-    Point endPoint = StylesFactory.eINSTANCE.createPoint();
-    Optional<RuminaqShape> end = Optional.of(scs.getEnd().getParent())
-        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast);
-    end.map(SimpleConnectionUtil::xOnDiagram).ifPresent(endPoint::setX);
-    end.map(SimpleConnectionUtil::yOnDiagram).ifPresent(endPoint::setY);
-
-    ArrayList<Point> points = new ArrayList<>(scs.getBendpoints());
-    points.add(0, startPoint);
-    points.add(endPoint);
+    List<Point> points = getBendpointsWithEndings(scs);
 
     return IntStream.range(0, points.size() - 1)
         .mapToObj(i -> new SimpleEntry<Point, Point>(points.get(i),
@@ -75,21 +62,7 @@ public final class SimpleConnectionUtil {
       int y) {
     Point point = GuiUtil.createPoint(x, y);
 
-    Point startPoint = StylesFactory.eINSTANCE.createPoint();
-    Optional<RuminaqShape> start = Optional.of(scs.getStart().getParent())
-        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast);
-    start.map(SimpleConnectionUtil::xOnDiagram).ifPresent(startPoint::setX);
-    start.map(SimpleConnectionUtil::yOnDiagram).ifPresent(startPoint::setY);
-
-    Point endPoint = StylesFactory.eINSTANCE.createPoint();
-    Optional<RuminaqShape> end = Optional.of(scs.getEnd().getParent())
-        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast);
-    end.map(SimpleConnectionUtil::xOnDiagram).ifPresent(endPoint::setX);
-    end.map(SimpleConnectionUtil::yOnDiagram).ifPresent(endPoint::setY);
-
-    ArrayList<Point> points = new ArrayList<>(scs.getBendpoints());
-    points.add(0, startPoint);
-    points.add(endPoint);
+    List<Point> points = getBendpointsWithEndings(scs);
 
     int d = Integer.MAX_VALUE;
     Point p = null;
@@ -123,6 +96,26 @@ public final class SimpleConnectionUtil {
     return p;
   }
 
+  private static List<Point> getBendpointsWithEndings(FreeFormConnection scs) {
+    Point startPoint = StylesFactory.eINSTANCE.createPoint();
+    Optional<RuminaqShape> start = Optional.of(scs.getStart().getParent())
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast);
+    start.map(SimpleConnectionUtil::xOnDiagram).ifPresent(startPoint::setX);
+    start.map(SimpleConnectionUtil::yOnDiagram).ifPresent(startPoint::setY);
+
+    Point endPoint = StylesFactory.eINSTANCE.createPoint();
+    Optional<RuminaqShape> end = Optional.of(scs.getEnd().getParent())
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast);
+    end.map(SimpleConnectionUtil::xOnDiagram).ifPresent(endPoint::setX);
+    end.map(SimpleConnectionUtil::yOnDiagram).ifPresent(endPoint::setY);
+
+    ArrayList<Point> points = new ArrayList<>(scs.getBendpoints());
+    points.add(0, startPoint);
+    points.add(endPoint);
+    
+    return points;
+  }
+  
   private static int xOnDiagram(RuminaqShape ruminaqShape) {
     int xTmp = ruminaqShape.getX() + (ruminaqShape.getWidth() >> 1);
     if (ruminaqShape.getContainer() instanceof RuminaqDiagram) {
