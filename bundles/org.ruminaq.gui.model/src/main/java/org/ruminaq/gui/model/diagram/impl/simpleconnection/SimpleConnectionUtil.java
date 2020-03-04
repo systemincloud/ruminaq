@@ -38,9 +38,7 @@ public final class SimpleConnectionUtil {
    * @return euclidean distance
    */
   public static double distanceToConnection(FreeFormConnection scs, int x, int y) {
-    Point point = StylesFactory.eINSTANCE.createPoint();
-    point.setX(x);
-    point.setY(y);
+    Point point = GuiUtil.createPoint(x, y);
 
     Point startPoint = StylesFactory.eINSTANCE.createPoint();
     Optional<RuminaqShape> start = Optional.of(scs.getStart().getParent())
@@ -75,9 +73,7 @@ public final class SimpleConnectionUtil {
    */
   public static Point projectOnConnection(FreeFormConnection scs, int x,
       int y) {
-    Point point = StylesFactory.eINSTANCE.createPoint();
-    point.setX(x);
-    point.setY(y);
+    Point point = GuiUtil.createPoint(x, y);
 
     Point startPoint = StylesFactory.eINSTANCE.createPoint();
     Optional<RuminaqShape> start = Optional.of(scs.getStart().getParent())

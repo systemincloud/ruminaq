@@ -49,24 +49,6 @@ public final class GuiUtil {
     // Util class
   }
 
-  public static class Size {
-    private int width;
-    private int height;
-
-    public Size(int width, int height) {
-      this.width = width;
-      this.height = height;
-    }
-
-    public int getWidth() {
-      return this.width;
-    }
-
-    public int getHeight() {
-      return this.height;
-    }
-  }
-
   /**
    * Euclidean distance to section.
    * 
@@ -96,7 +78,7 @@ public final class GuiUtil {
     return Math.sqrt(
         Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
   }
-  
+
   /**
    * Projection of Point on section
    * 
@@ -133,6 +115,24 @@ public final class GuiUtil {
     }
 
     return createPoint(xPrim, yPrim);
+  }
+
+  public static boolean pointBelongsToSection(Point a, Point b, Point p) {
+    if (!pointBelongsToLine(a, b, p)) {
+      return false;
+    } else if ((Math.min(p.getX(), a.getX()) <= b.getX())
+        && (b.getX() <= Math.max(p.getX(), a.getX()))
+        && (Math.min(p.getY(), a.getY()) <= b.getY())
+        && (b.getY() <= Math.max(p.getY(), a.getY()))) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public static boolean pointBelongsToLine(Point a, Point b, Point p) {
+    return p.getX() * a.getY() + a.getX() * b.getY() + b.getX() * p.getY()
+        - b.getX() * a.getY() - p.getX() * b.getY() - a.getX() * p.getY() == 0;
   }
 
   public static boolean pointBelongsToSection(Point a, Point b, Point p,
@@ -475,19 +475,6 @@ public final class GuiUtil {
 
   public static double distance(Point p1, Point p2) {
     return Math.sqrt((p1.getX() - p2.getX()) ^ 2 + (p1.getY() - p2.getY()) ^ 2);
-  }
-
-  public static boolean pointBelongsToSection(Point d, int x1, int y1, int x2,
-      int y2) {
-    int det = d.getX() * y1 + x1 * y2 + x2 * d.getY() - x2 * y1 - d.getX() * y2
-        - x1 * d.getY();
-    if (det != 0)
-      return false;
-    else if ((Math.min(d.getX(), x1) <= x2) && (x2 <= Math.max(d.getX(), x1))
-        && (Math.min(d.getY(), y1) <= y2) && (y2 <= Math.max(d.getY(), y1)))
-      return true;
-    else
-      return false;
   }
 
 }
