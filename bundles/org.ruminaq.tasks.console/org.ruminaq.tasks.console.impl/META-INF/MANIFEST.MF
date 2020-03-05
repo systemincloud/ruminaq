@@ -1,6 +1,5 @@
 Automatic-Module-Name: org.ruminaq.tasks.console.impl
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Tasks - Console
 Bundle-Vendor: Ruminaq
 Bundle-SymbolicName: org.ruminaq.tasks.console.impl
 Bundle-Version: 1.0.0.qualifier

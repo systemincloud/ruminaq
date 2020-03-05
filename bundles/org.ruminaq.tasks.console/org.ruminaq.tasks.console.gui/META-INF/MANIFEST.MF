@@ -1,6 +1,5 @@
 Automatic-Module-Name: org.ruminaq.tasks.console.gui
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Tasks - Console
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.console.gui
 Bundle-Version: 1.0.0.qualifier
