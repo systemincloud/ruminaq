@@ -75,10 +75,10 @@
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//SimpleConnectionPointShape/pointSize"/>
       <genOperations ecoreOperation="model.ecore#//SimpleConnectionPointShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
-      <genOperations ecoreOperation="model.ecore#//SimpleConnectionPointShape/setCenteredX" body="setX(x - getPointSize() >> 1);">
+      <genOperations ecoreOperation="model.ecore#//SimpleConnectionPointShape/setCenteredX" body="setX(x - (getPointSize() >> 1));">
         <genParameters ecoreParameter="model.ecore#//SimpleConnectionPointShape/setCenteredX/x"/>
       </genOperations>
-      <genOperations ecoreOperation="model.ecore#//SimpleConnectionPointShape/setCenteredY" body="setY(y - getPointSize() >> 1);">
+      <genOperations ecoreOperation="model.ecore#//SimpleConnectionPointShape/setCenteredY" body="setY(y - (getPointSize() >> 1));">
         <genParameters ecoreParameter="model.ecore#//SimpleConnectionPointShape/setCenteredY/y"/>
       </genOperations>
     </genClasses>

@@ -180,13 +180,13 @@
     <eOperations name="setCenteredX">
       <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="setX(x - getPointSize() >> 1);"/>
+        <details key="body" value="setX(x - (getPointSize() >> 1));"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="setCenteredY">
       <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="setY(y - getPointSize() >> 1);"/>
+        <details key="body" value="setY(y - (getPointSize() >> 1));"/>
       </eAnnotations>
     </eOperations>
   </eClassifiers>
