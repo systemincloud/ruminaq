@@ -9,6 +9,8 @@ package org.ruminaq.gui.model.diagram.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.eclipse.graphiti.datatypes.IDimension;
 import org.eclipse.graphiti.datatypes.ILocation;
@@ -39,6 +41,10 @@ public final class GuiUtil {
 
   private static final IPeService peService = Graphiti.getPeService();
 
+  private static final int SQUARE = 2;
+
+  private static final double ERROR_MARGIN = 1.5;
+
   private static final int SHAPE_PADDING = 6;
 
   private static final int TEXT_PADDING = 5;
@@ -50,6 +56,18 @@ public final class GuiUtil {
   }
 
   /**
+   * Euclidean distance to line determined by two points.
+   * 
+   * @param a Point on line
+   * @param b Point on line
+   * @param p Any point
+   * @return distance to line
+   */
+  public static double distanceToLine(Point a, Point b, Point p) {
+    return distanceBetweenPoints(projectionOnLine(a, b, p), p);
+  }
+
+  /**
    * Euclidean distance to section.
    * 
    * @param a Point of the section
@@ -58,13 +76,13 @@ public final class GuiUtil {
    * @return distance to section
    */
   public static double distanceToSection(Point a, Point b, Point p) {
-    Point d = projectionOnSection(a, b, p);
-    if (((Math.min(d.getX(), a.getX()) <= b.getX())
-        && (b.getX() <= Math.max(d.getX(), a.getX()))
-        && (Math.min(d.getY(), a.getY()) <= b.getY())
-        && (b.getY() <= Math.max(d.getY(), a.getY()))))
-      return Integer.MAX_VALUE;
-    return distanceBetweenPoints(d, p);
+    System.out.println(projectionOnLine(a, b, p));
+    System.out.println(pointBelongsToLine(a, b, projectionOnLine(a, b, p)));
+    return Optional.of(projectionOnLine(a, b, p))
+        .filter(pp -> pointBelongsToSection(a, b, pp))
+        .map(pp -> distanceBetweenPoints(pp, p))
+        .orElseGet(() -> Stream.of(a, b).map(pi -> distanceBetweenPoints(pi, p))
+            .min(Double::compareTo).orElse(Double.MAX_VALUE));
   }
 
   /**
@@ -75,19 +93,19 @@ public final class GuiUtil {
    * @return distance between points
    */
   public static double distanceBetweenPoints(Point a, Point b) {
-    return Math.sqrt(
-        Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2));
+    return Math.sqrt(Math.pow(a.getX() - b.getX(), SQUARE)
+        + Math.pow(a.getY() - b.getY(), SQUARE));
   }
 
   /**
-   * Projection of Point on section
+   * Projection of Point on line determined by two points.
    * 
-   * @param a Point of the section
-   * @param b Point of the section
+   * @param a Point of the line
+   * @param b Point of the line
    * @param p Any point
-   * @return point being projections of Point p on section |ab|
+   * @return point being projections of Point p on lines |ab|
    */
-  public static Point projectionOnSection(Point a, Point b, Point p) {
+  public static Point projectionOnLine(Point a, Point b, Point p) {
     int denominator = a.getX() * a.getX() - (a.getX() * b.getX() << 1)
         + b.getX() * b.getX() + a.getY() * a.getY() - (a.getY() * b.getY() << 1)
         + b.getY() * b.getY();
@@ -117,27 +135,52 @@ public final class GuiUtil {
     return createPoint(xPrim, yPrim);
   }
 
-  public static boolean pointBelongsToSection(Point a, Point b, Point p) {
-    if (!pointBelongsToLine(a, b, p)) {
-      return false;
-    } else if ((Math.min(p.getX(), a.getX()) <= b.getX())
-        && (b.getX() <= Math.max(p.getX(), a.getX()))
-        && (Math.min(p.getY(), a.getY()) <= b.getY())
-        && (b.getY() <= Math.max(p.getY(), a.getY()))) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
+  /**
+   * Check if point lays in line with other two points. The distance should be
+   * less than 1.
+   * 
+   * @param a one point that lays on line
+   * @param b second point that lays on line
+   * @param p point to check if also lays on that line
+   * @return true if point p is in line with points a and b
+   */
   public static boolean pointBelongsToLine(Point a, Point b, Point p) {
-    return p.getX() * a.getY() + a.getX() * b.getY() + b.getX() * p.getY()
-        - b.getX() * a.getY() - p.getX() * b.getY() - a.getX() * p.getY() == 0;
+    return pointBelongsToLine(a, b, p, ERROR_MARGIN);
   }
 
-  public static boolean pointBelongsToSection(Point a, Point b, Point p,
-      int epsilon) {
-    return distanceToSection(a, b, p) <= epsilon;
+  /**
+   * Check if point lays in line with other two points.
+   * 
+   * @param a       one point that lays on line
+   * @param b       second point that lays on line
+   * @param p       point to check if also lays on that line
+   * @param epsilon distance to line that is still considered as point belongs
+   *                to line
+   * @return true if point p is in line with points a and b
+   */
+  public static boolean pointBelongsToLine(Point a, Point b, Point p,
+      double epsilon) {
+    return distanceToLine(a, b, p) <= epsilon;
+  }
+
+  /**
+   * Check if point lays on line and is between two points.
+   * 
+   * @param a edge point of section
+   * @param b edge point of section
+   * @param p any point
+   * @return true if point lays on section
+   */
+  public static boolean pointBelongsToSection(Point a, Point b, Point p) {
+    return pointBelongsToLine(a, b, p)
+        && !(a.getX() >= b.getX()
+            && !(p.getX() >= b.getX() && p.getX() <= a.getX()))
+        && !(a.getX() <= b.getX()
+            && !(p.getX() <= b.getX() && p.getX() >= a.getX()))
+        && !(a.getY() >= b.getY()
+            && !(p.getY() >= b.getY() && p.getY() <= a.getY()))
+        && !(a.getY() <= b.getY()
+            && !(p.getY() <= b.getY() && p.getY() >= a.getY()));
   }
 
   // TODO: Think about line break in the ui...

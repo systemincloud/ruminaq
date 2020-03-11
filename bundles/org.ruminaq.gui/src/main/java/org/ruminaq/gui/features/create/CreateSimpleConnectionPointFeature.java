@@ -32,7 +32,7 @@ import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionUtil;
 public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
 
   public static final String NAME = "Create connection point";
-  
+
   private static final int NEAR_BENDPOINT_DISTANCE = 10;
 
   public CreateSimpleConnectionPointFeature(IFeatureProvider fp) {
@@ -120,7 +120,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
     Point start = GuiUtil.createPoint(x_start, y_start);
     for (int i = 0; i < points.size(); i++) {
       if (i == 0) {
-        if (GuiUtil.pointBelongsToSection(p, start, points.get(0), 1)) {
+        if (GuiUtil.pointBelongsToSection(p, start, points.get(0))) {
           while (i < points.size()) {
             deletedPoints.add(points.get(i));
             points.remove(i);
@@ -128,8 +128,8 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
           return deletedPoints;
         }
       } else {
-        if (GuiUtil.pointBelongsToSection(points.get(i - 1), points.get(i), p,
-            1)) {
+        if (GuiUtil.pointBelongsToSection(points.get(i - 1), points.get(i),
+            p)) {
           while (i < points.size()) {
             deletedPoints.add(points.get(i));
             points.remove(i);

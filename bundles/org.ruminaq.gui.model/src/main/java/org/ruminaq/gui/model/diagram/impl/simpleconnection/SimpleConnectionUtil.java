@@ -29,7 +29,7 @@ public final class SimpleConnectionUtil {
   private SimpleConnectionUtil() {
     // Util class
   }
-  
+
   /**
    * Euclidean distance of point to connection.
    * 
@@ -38,7 +38,8 @@ public final class SimpleConnectionUtil {
    * @param y   point's coordinate
    * @return euclidean distance
    */
-  public static double distanceToConnection(FreeFormConnection scs, int x, int y) {
+  public static double distanceToConnection(FreeFormConnection scs, int x,
+      int y) {
     Point point = GuiUtil.createPoint(x, y);
 
     List<Point> points = getBendpointsWithEndings(scs);
@@ -46,6 +47,8 @@ public final class SimpleConnectionUtil {
     return IntStream.range(0, points.size() - 1)
         .mapToObj(i -> new SimpleEntry<Point, Point>(points.get(i),
             points.get(i + 1)))
+        .filter(me -> GuiUtil.pointBelongsToSection(me.getKey(), me.getValue(),
+            point))
         .map(me -> GuiUtil.distanceToSection(me.getKey(), me.getValue(), point))
         .min(Double::compareTo).orElse(Double.MAX_VALUE);
   }
@@ -78,7 +81,7 @@ public final class SimpleConnectionUtil {
       x_next = points.get(i + 1).getX();
       y_next = points.get(i + 1).getY();
 
-      Point pd = GuiUtil.projectionOnSection(points.get(i), points.get(i + 1),
+      Point pd = GuiUtil.projectionOnLine(points.get(i), points.get(i + 1),
           point);
       if (((Math.min(pd.getX(), x_before) <= x_next)
           && (x_next <= Math.max(pd.getX(), x_before))
@@ -112,10 +115,10 @@ public final class SimpleConnectionUtil {
     ArrayList<Point> points = new ArrayList<>(scs.getBendpoints());
     points.add(0, startPoint);
     points.add(endPoint);
-    
+
     return points;
   }
-  
+
   private static int xOnDiagram(RuminaqShape ruminaqShape) {
     int xTmp = ruminaqShape.getX() + (ruminaqShape.getWidth() >> 1);
     if (ruminaqShape.getContainer() instanceof RuminaqDiagram) {
