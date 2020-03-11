@@ -516,8 +516,4 @@ public final class GuiUtil {
     return dim;
   }
 
-  public static double distance(Point p1, Point p2) {
-    return Math.sqrt((p1.getX() - p2.getX()) ^ 2 + (p1.getY() - p2.getY()) ^ 2);
-  }
-
 }
