@@ -106,8 +106,8 @@ public final class GuiUtil {
    * @return point being projections of Point p on lines |ab|
    */
   public static Point projectionOnLine(Point a, Point b, Point p) {
-    int denominator = a.getX() * a.getX() - (a.getX() * b.getX() << 1)
-        + b.getX() * b.getX() + a.getY() * a.getY() - (a.getY() * b.getY() << 1)
+    int denominator = a.getX() * a.getX() - ((a.getX() * b.getX()) << 1)
+        + b.getX() * b.getX() + a.getY() * a.getY() - ((a.getY() * b.getY()) << 1)
         + b.getY() * b.getY();
     int xPrim;
     int yPrim;
