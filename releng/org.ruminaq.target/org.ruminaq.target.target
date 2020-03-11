@@ -30,8 +30,6 @@
         <repository location="http://download.eclipse.org/releases/latest"/>
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-        <unit id="ch.qos.logback.classic" version="0.0.0"/>
-        <unit id="ch.qos.logback.core" version="0.0.0"/>
         <unit id="org.apache.commons.lang3" version="0.0.0"/>
         <unit id="org.apache.commons.math3" version="0.0.0"/>
         <unit id="org.apache.thrift" version="0.0.0"/>

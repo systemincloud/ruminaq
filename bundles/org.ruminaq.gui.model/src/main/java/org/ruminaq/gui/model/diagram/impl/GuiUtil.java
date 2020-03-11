@@ -478,18 +478,6 @@ public final class GuiUtil {
     return createPoint(x, y);
   }
 
-  public static double getLength(ILocation start, ILocation end) {
-    double a = start.getX() - end.getX();
-    double b = start.getY() - end.getY();
-    return Math.sqrt(a * a + b * b);
-  }
-
-  public static double getLength(Point p1, Point p2) {
-    double a = p1.getX() - p2.getX();
-    double b = p1.getY() - p2.getY();
-    return Math.sqrt(a * a + b * b);
-  }
-
   public static IDimension calculateSize(AnchorContainer shape) {
     GraphicsAlgorithm ga = shape.getGraphicsAlgorithm();
     if (ga != null)

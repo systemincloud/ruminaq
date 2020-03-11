@@ -97,7 +97,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
       int d) {
     ffc.getBendpoints()
         .removeAll(ffc.getBendpoints().stream()
-            .filter(pi -> GuiUtil.distance(pi, p) < d)
+            .filter(pi -> GuiUtil.distanceBetweenPoints(pi, p) < d)
             .collect(Collectors.toList()));
   }
 
