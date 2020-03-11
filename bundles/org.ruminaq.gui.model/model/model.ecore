@@ -177,6 +177,11 @@
         <details key="body" value="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
       </eAnnotations>
     </eOperations>
+    <eOperations name="getModelObject" eType="ecore:EClass ../../org.ruminaq.model.ruminaq/model/model.ecore#//BaseElement">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return (BaseElement) getAnchors().get(0).getIncomingConnections().get(0).getStart();"/>
+      </eAnnotations>
+    </eOperations>
     <eOperations name="setCenteredX">
       <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

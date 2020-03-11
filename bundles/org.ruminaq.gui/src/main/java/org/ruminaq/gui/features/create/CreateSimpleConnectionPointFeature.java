@@ -9,6 +9,7 @@ package org.ruminaq.gui.features.create;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -31,6 +32,8 @@ import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionUtil;
 public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
 
   public static final String NAME = "Create connection point";
+  
+  private static final int NEAR_BENDPOINT_DISTANCE = 10;
 
   public CreateSimpleConnectionPointFeature(IFeatureProvider fp) {
     super(fp);
@@ -74,7 +77,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
       s.setCenteredY(p.getY());
       Anchor pointAnchor = cs.createChopboxAnchor(s);
 
-      deleteBendpointsNear(scs, p, 5);
+      deleteBendpointsNear(scs, p, NEAR_BENDPOINT_DISTANCE);
       List<Point> deletedPoints = deleteFollowingBendpoints(scs, p);
 
       Anchor end = scs.getEnd();
@@ -92,13 +95,10 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
 
   private static void deleteBendpointsNear(FreeFormConnection ffc, Point p,
       int d) {
-    EList<Point> points = ffc.getBendpoints();
-    if (points.size() == 0)
-      return;
-
-    for (int i = 0; i < points.size(); i++)
-      if (GuiUtil.distance(points.get(i), p) < d)
-        points.remove(i);
+    ffc.getBendpoints()
+        .removeAll(ffc.getBendpoints().stream()
+            .filter(pi -> GuiUtil.distance(pi, p) < d)
+            .collect(Collectors.toList()));
   }
 
   private static List<Point> deleteFollowingBendpoints(FreeFormConnection ffc,
@@ -120,8 +120,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
     Point start = GuiUtil.createPoint(x_start, y_start);
     for (int i = 0; i < points.size(); i++) {
       if (i == 0) {
-        if (GuiUtil.pointBelongsToSection(p, start,
-            points.get(0), 1)) {
+        if (GuiUtil.pointBelongsToSection(p, start, points.get(0), 1)) {
           while (i < points.size()) {
             deletedPoints.add(points.get(i));
             points.remove(i);

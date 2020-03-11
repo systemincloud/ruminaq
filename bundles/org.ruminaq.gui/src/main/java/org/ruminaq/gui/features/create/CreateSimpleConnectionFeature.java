@@ -14,8 +14,6 @@ import org.eclipse.graphiti.features.context.impl.AddConnectionContext;
 import org.eclipse.graphiti.features.impl.AbstractCreateConnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
-import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.FlowSource;
@@ -75,36 +73,17 @@ public class CreateSimpleConnectionFeature
   }
 
   private static FlowSource getFlowSource(Anchor anchor) {
-    if (anchor != null) {
-      String isConnectionPoint = Graphiti.getPeService().getPropertyValue(
-          anchor.getParent(), Constants.SIMPLE_CONNECTION_POINT);
-      if (Boolean.parseBoolean(isConnectionPoint)) {
-        return getFlowSource(anchor.getIncomingConnections().get(0).getStart());
-      } else {
-        Optional<FlowSource> fs = Optional.ofNullable(anchor.getParent())
-            .filter(RuminaqShape.class::isInstance)
-            .map(RuminaqShape.class::cast).map(RuminaqShape::getModelObject)
-            .filter(FlowSource.class::isInstance).map(FlowSource.class::cast);
-        if (fs.isPresent()) {
-          return fs.get();
-        }
-      }
-    }
-    return null;
+    return Optional.ofNullable(anchor).map(Anchor::getParent)
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+        .map(RuminaqShape::getModelObject).filter(FlowSource.class::isInstance)
+        .map(FlowSource.class::cast).get();
   }
 
   private static FlowTarget getFlowTarget(Anchor anchor) {
-    if (anchor != null) {
-      Optional<FlowTarget> ft = Optional.ofNullable(anchor.getParent())
-          .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
-          .map(RuminaqShape::getModelObject)
-          .filter(FlowTarget.class::isInstance).map(FlowTarget.class::cast);
-
-      if (ft.isPresent()) {
-        return ft.get();
-      }
-    }
-    return null;
+    return Optional.ofNullable(anchor).map(Anchor::getParent)
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+        .map(RuminaqShape::getModelObject).filter(FlowTarget.class::isInstance)
+        .map(FlowTarget.class::cast).get();
   }
 
   private SimpleConnection createSimpleConnection(FlowSource source,
