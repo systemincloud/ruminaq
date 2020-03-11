@@ -29,6 +29,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.thrift,
  org.ruminaq.runner.util,
  org.ruminaq.tasks.rtask.model.rtask,
- org.ruminaq.util
-Require-Bundle: slf4j.api
+ org.ruminaq.util,
+ org.slf4j
 Export-Package: org.ruminaq.tasks.rtask.impl
