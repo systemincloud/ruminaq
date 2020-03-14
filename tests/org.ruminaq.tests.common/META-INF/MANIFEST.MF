@@ -23,7 +23,8 @@ Require-Bundle: org.eclipse.reddeer.junit,
  org.hamcrest.core,
  org.opentest4j,
  org.apiguardian,
- org.eclipse.swt
+ org.eclipse.swt,
+ slf4j.api
 Export-Package: org.ruminaq.tests.common,
  org.ruminaq.tests.common.reddeer
 Import-Package: ch.qos.logback.classic,
@@ -76,5 +77,4 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.gui.model.diagram,
  org.ruminaq.logs,
  org.ruminaq.model.ruminaq,
- org.ruminaq.model.util,
- org.slf4j
+ org.ruminaq.model.util
