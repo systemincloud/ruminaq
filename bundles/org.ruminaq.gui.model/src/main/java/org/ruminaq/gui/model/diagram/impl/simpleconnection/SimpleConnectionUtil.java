@@ -8,6 +8,7 @@ package org.ruminaq.gui.model.diagram.impl.simpleconnection;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -47,10 +48,10 @@ public final class SimpleConnectionUtil {
     return IntStream.range(0, points.size() - 1)
         .mapToObj(i -> new SimpleEntry<Point, Point>(points.get(i),
             points.get(i + 1)))
-        .map(me -> new SimpleEntry<SimpleEntry<Point, Point>, Point>(me, GuiUtil.projectionOnLine(me.getKey(), me.getValue(),
-            point)))
-        .filter(me -> GuiUtil.pointBelongsToSection(me.getKey().getKey(), me.getKey().getValue(),
-            me.getValue()))
+        .map(me -> new SimpleEntry<SimpleEntry<Point, Point>, Point>(me,
+            GuiUtil.projectionOnLine(me.getKey(), me.getValue(), point)))
+        .filter(me -> GuiUtil.pointBelongsToSection(me.getKey().getKey(),
+            me.getKey().getValue(), me.getValue()))
         .map(me -> GuiUtil.distanceBetweenPoints(me.getValue(), point))
         .min(Double::compareTo).orElse(Double.MAX_VALUE);
   }
@@ -69,36 +70,18 @@ public final class SimpleConnectionUtil {
 
     List<Point> points = getBendpointsWithEndings(scs);
 
-    int d = Integer.MAX_VALUE;
-    Point p = null;
-
-    for (int i = 0; i < points.size() - 1; i++) {
-      int x_next = 0;
-      int y_next = 0;
-      int x_before = 0;
-      int y_before = 0;
-
-      x_before = points.get(i).getX();
-      y_before = points.get(i).getY();
-      x_next = points.get(i + 1).getX();
-      y_next = points.get(i + 1).getY();
-
-      Point pd = GuiUtil.projectionOnLine(points.get(i), points.get(i + 1),
-          point);
-      if (((Math.min(pd.getX(), x_before) <= x_next)
-          && (x_next <= Math.max(pd.getX(), x_before))
-          && (Math.min(pd.getY(), y_before) <= y_next)
-          && (y_next <= Math.max(pd.getY(), y_before))))
-        continue;
-      int d_tmp = (int) Math
-          .sqrt(Math.pow(pd.getX() - x, 2) + Math.pow(pd.getY() - y, 2));
-      if (d_tmp < d) {
-        d = d_tmp;
-        p = pd;
-      }
-    }
-
-    return p;
+    return IntStream.range(0, points.size() - 1)
+        .mapToObj(i -> new SimpleEntry<Point, Point>(points.get(i),
+            points.get(i + 1)))
+        .map(me -> new SimpleEntry<SimpleEntry<Point, Point>, Point>(me,
+            GuiUtil.projectionOnLine(me.getKey(), me.getValue(), point)))
+        .filter(me -> GuiUtil.pointBelongsToSection(me.getKey().getKey(),
+            me.getKey().getValue(), me.getValue()))
+        .map(SimpleEntry::getValue)
+        .map(pp -> new SimpleEntry<Point, Double>(pp,
+            GuiUtil.distanceBetweenPoints(pp, point)))
+        .min(Comparator.comparing(SimpleEntry::getValue))
+        .map(SimpleEntry::getKey).get();
   }
 
   private static List<Point> getBendpointsWithEndings(FreeFormConnection scs) {

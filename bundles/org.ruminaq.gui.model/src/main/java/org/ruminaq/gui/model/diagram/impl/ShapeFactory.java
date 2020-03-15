@@ -15,8 +15,7 @@ import java.util.stream.Stream;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.logs.ModelerLoggerFactory;
-
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;
 
 /**
  * Generic factory creating K for RuminaqShape. Particular K should have a
