@@ -41,10 +41,10 @@ public class CreateSimpleConnectionFeature
 
   @Override
   public boolean canCreate(ICreateConnectionContext context) {
-    FlowSource source = getFlowSource(context.getSourceAnchor());
-    FlowTarget target = getFlowTarget(context.getTargetAnchor());
+    Optional<FlowSource> source = getFlowSource(context.getSourceAnchor());
+    Optional<FlowTarget> target = getFlowTarget(context.getTargetAnchor());
 
-    return source != null && target != null
+    return source.isPresent() && target.isPresent()
         && context.getTargetAnchor().getIncomingConnections().isEmpty();
   }
 
@@ -52,12 +52,12 @@ public class CreateSimpleConnectionFeature
   public Connection create(ICreateConnectionContext context) {
     Connection newConnection = null;
 
-    FlowSource source = getFlowSource(context.getSourceAnchor());
-    FlowTarget target = getFlowTarget(context.getTargetAnchor());
+    Optional<FlowSource> source = getFlowSource(context.getSourceAnchor());
+    Optional<FlowTarget> target = getFlowTarget(context.getTargetAnchor());
 
-    if (source != null && target != null) {
-      SimpleConnection simpleConnection = createSimpleConnection(source,
-          target);
+    if (source.isPresent() && target.isPresent()) {
+      SimpleConnection simpleConnection = createSimpleConnection(source.get(),
+          target.get());
       AddConnectionContext addContext = new AddConnectionContext(
           context.getSourceAnchor(), context.getTargetAnchor());
       addContext.setNewObject(simpleConnection);
@@ -72,18 +72,18 @@ public class CreateSimpleConnectionFeature
     return (RuminaqDiagram) getDiagram();
   }
 
-  private static FlowSource getFlowSource(Anchor anchor) {
+  private static Optional<FlowSource> getFlowSource(Anchor anchor) {
     return Optional.ofNullable(anchor).map(Anchor::getParent)
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
         .map(RuminaqShape::getModelObject).filter(FlowSource.class::isInstance)
-        .map(FlowSource.class::cast).get();
+        .map(FlowSource.class::cast);
   }
 
-  private static FlowTarget getFlowTarget(Anchor anchor) {
+  private static Optional<FlowTarget> getFlowTarget(Anchor anchor) {
     return Optional.ofNullable(anchor).map(Anchor::getParent)
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
         .map(RuminaqShape::getModelObject).filter(FlowTarget.class::isInstance)
-        .map(FlowTarget.class::cast).get();
+        .map(FlowTarget.class::cast);
   }
 
   private SimpleConnection createSimpleConnection(FlowSource source,
