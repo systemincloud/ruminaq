@@ -7,7 +7,7 @@ import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.Synchronization;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.util.GroovyExpressionUtil;
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;
 
 public class SynchronizationI {
 

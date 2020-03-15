@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.debug.events.model.ResumePortRequest.Type;
 
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;
 
 public class Debug implements DebugVisited {
 

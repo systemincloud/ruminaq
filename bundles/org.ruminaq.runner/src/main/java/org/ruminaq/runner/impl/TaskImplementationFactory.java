@@ -4,7 +4,7 @@ import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.service.RunnerServiceManager;
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;
 
 public enum TaskImplementationFactory {
 

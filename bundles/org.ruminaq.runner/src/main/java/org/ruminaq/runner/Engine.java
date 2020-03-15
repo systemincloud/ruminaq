@@ -22,7 +22,7 @@ import org.ruminaq.runner.impl.debug.events.debugger.EndTaskEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.ResumedEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.SubmitTaskEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.SuspendedEvent;
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;
 
 import com.google.common.base.Joiner;
 import com.google.common.util.concurrent.FutureCallback;

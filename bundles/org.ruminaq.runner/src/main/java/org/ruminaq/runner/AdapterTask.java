@@ -9,7 +9,7 @@ import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.GeneratorI;
 import org.ruminaq.runner.impl.TaskI;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;
 
 public class AdapterTask extends EmbeddedTaskI {
 

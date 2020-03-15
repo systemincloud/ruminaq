@@ -12,7 +12,7 @@ import org.cojen.dirmi.Environment;
 import org.cojen.dirmi.Session;
 import org.ruminaq.runner.RunnerLoggerFactory;
 
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;
 
 public enum DirmiClient {
   INSTANCE;
