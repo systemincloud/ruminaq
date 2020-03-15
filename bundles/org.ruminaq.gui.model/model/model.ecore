@@ -179,7 +179,7 @@
     </eOperations>
     <eOperations name="getModelObject" eType="ecore:EClass ../../org.ruminaq.model.ruminaq/model/model.ecore#//BaseElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return ((RuminaqShapeImpl) getAnchors().get(0).getIncomingConnections().get(0).getStart()).getModelObject();"/>
+        <details key="body" value="return ((RuminaqShapeImpl) getAnchors().get(0).getIncomingConnections().get(0).getStart().getParent()).getModelObject();"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="setCenteredX">
