@@ -117,11 +117,10 @@ public class Engine {
         boolean mainTaskIReady = adapterTask.isReady();
         boolean mainTaskExternalSource = adapterTask.hasExternalSource();
 
-        logger.trace(
-            "generatorFutures empty: {}, " + "tasksFutures empty: {}, "
-                + "mainTask ready: {}, " + "mainTask hasExternalSrc: {}",
-            generatorFuturesEmpty, tasksFuturesEmpty, mainTaskIReady,
-            mainTaskExternalSource);
+        logger.trace("generatorFutures empty: {}", generatorFuturesEmpty);
+        logger.trace("tasksFutures empty: {}", tasksFuturesEmpty);
+        logger.trace("mainTask ready: {}", mainTaskIReady);
+        logger.trace("mainTask hasExternalSrc: {}", mainTaskExternalSource);
 
         if (generatorFuturesEmpty && tasksFuturesEmpty && !mainTaskIReady
             && !mainTaskExternalSource) {
