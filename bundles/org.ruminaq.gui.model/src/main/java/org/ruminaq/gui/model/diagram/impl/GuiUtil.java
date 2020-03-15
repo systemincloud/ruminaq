@@ -91,8 +91,8 @@ public final class GuiUtil {
    * @return distance between points
    */
   public static double distanceBetweenPoints(Point a, Point b) {
-    return Math.sqrt(Math.pow(Double.valueOf(a.getX() - b.getX()), SQUARE)
-        + Math.pow(Double.valueOf(a.getY() - b.getY()), SQUARE));
+    return Math.sqrt(Math.pow((double) (a.getX() - b.getX()), SQUARE)
+        + Math.pow((double) (a.getY() - b.getY()), SQUARE));
   }
 
   /**
