@@ -50,26 +50,24 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
 
   @Override
   public PictogramElement add(IAddContext context) {
-    Optional<IAddConnectionContext> addConContextOpt = Optional.of(context)
-        .filter(IAddConnectionContext.class::isInstance)
-        .map(IAddConnectionContext.class::cast);
-    if (addConContextOpt.isPresent()) {
-      IAddConnectionContext addConContext = addConContextOpt.get();
-      SimpleConnection addedSimpleConnection = (SimpleConnection) addConContext
-          .getNewObject();
+    return Optional.of(context).filter(IAddConnectionContext.class::isInstance)
+        .map(IAddConnectionContext.class::cast)
+        .map(IAddConnectionContext::getNewObject)
+        .filter(SimpleConnection.class::isInstance)
+        .map(SimpleConnection.class::cast).map((SimpleConnection sc) -> {
+          SimpleConnectionShape connectionShape = DiagramFactory.eINSTANCE
+              .createSimpleConnectionShape();
+          connectionShape.setParent(getDiagram());
+          connectionShape
+              .setStart(((IAddConnectionContext) context).getSourceAnchor());
+          connectionShape
+              .setEnd(((IAddConnectionContext) context).getTargetAnchor());
 
-      SimpleConnectionShape connectionShape = DiagramFactory.eINSTANCE
-          .createSimpleConnectionShape();
-      connectionShape.setParent(getDiagram());
-      connectionShape.setStart(addConContext.getSourceAnchor());
-      connectionShape.setEnd(addConContext.getTargetAnchor());
+          connectionShape.setModelObject(sc);
+          linkToConnectionBeforePoint(connectionShape, sc);
 
-      connectionShape.setModelObject(addedSimpleConnection);
-      linkToConnectionBeforePoint(connectionShape, addedSimpleConnection);
-
-      return connectionShape;
-    }
-    return null;
+          return connectionShape;
+        }).orElse(null);
   }
 
   private void linkToConnectionBeforePoint(Connection connection,

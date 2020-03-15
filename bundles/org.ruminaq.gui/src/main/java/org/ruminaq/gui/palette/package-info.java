@@ -4,4 +4,9 @@
  * obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
+/**
+ * Common palette.
+ *
+ * @author Marek Jagielski
+ */
 package org.ruminaq.gui.palette;

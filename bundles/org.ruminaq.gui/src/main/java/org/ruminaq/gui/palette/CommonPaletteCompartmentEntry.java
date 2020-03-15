@@ -8,6 +8,8 @@ package org.ruminaq.gui.palette;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
@@ -53,20 +55,8 @@ public class CommonPaletteCompartmentEntry
     Stream.of(CONNECTIONS_STACK).forEachOrdered((String stackName) -> {
       StackEntry connectionsStackEntry = new StackEntry(CONNECTIONS_STACK, "",
           null);
-      Stream.of(createConnectionFeatures)
-          .filter(PaletteCreateFeature.class::isInstance)
-          .filter(ICreateConnectionFeature.class::isInstance)
-          .map(cf -> (PaletteCreateFeature & ICreateConnectionFeature) cf)
-          .filter(cf -> !(isTest && !cf.isTestOnly()))
-          .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
-          .filter(cf -> stackName.equals(cf.getStack()))
-          .forEach((ICreateConnectionFeature cf) -> {
-            ConnectionCreationToolEntry cte = new ConnectionCreationToolEntry(
-                cf.getCreateName(), cf.getCreateDescription(),
-                cf.getCreateImageId(), cf.getCreateLargeImageId());
-            cte.addCreateConnectionFeature(cf);
-            connectionsStackEntry.addCreationToolEntry(cte);
-          });
+      getConnectionCreationToolEntries(isTest, createConnectionFeatures,
+          stackName).forEach(connectionsStackEntry::addCreationToolEntry);
 
       if (!connectionsStackEntry.getCreationToolEntries().isEmpty()) {
         commonCompartmentEntry.getToolEntries().add(connectionsStackEntry);
@@ -78,21 +68,46 @@ public class CommonPaletteCompartmentEntry
     Stream.of(PORTS_STACK, SOURCES_STACK, SINKS_STACK)
         .forEachOrdered((String stackName) -> {
           StackEntry stackEntry = new StackEntry(stackName, "", null);
-          Stream.of(createFeatures)
-              .filter(PaletteCreateFeature.class::isInstance)
-              .filter(ICreateFeature.class::isInstance)
-              .map(cf -> (PaletteCreateFeature & ICreateFeature) cf)
-              .filter(cf -> !(isTest && cf.isTestOnly()))
-              .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
-              .filter(cf -> stackName.equals(cf.getStack()))
-              .forEach(cf -> stackEntry.addCreationToolEntry(
-                  new ObjectCreationToolEntry(cf.getCreateName(),
-                      cf.getCreateDescription(), cf.getCreateImageId(),
-                      cf.getCreateLargeImageId(), cf)));
+          getCreationToolEntries(isTest, createFeatures, stackName)
+              .forEach(stackEntry::addCreationToolEntry);
 
           commonCompartmentEntry.getToolEntries().add(stackEntry);
         });
 
     return Collections.singletonList(commonCompartmentEntry);
+  }
+
+  private List<ConnectionCreationToolEntry> getConnectionCreationToolEntries(
+      boolean isTest, ICreateConnectionFeature[] createConnectionFeatures,
+      String stackName) {
+    return Stream.of(createConnectionFeatures)
+        .filter(PaletteCreateFeature.class::isInstance)
+        .filter(ICreateConnectionFeature.class::isInstance)
+        .map(cf -> (PaletteCreateFeature & ICreateConnectionFeature) cf)
+        .filter(cf -> !(isTest && !cf.isTestOnly()))
+        .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
+        .filter(cf -> stackName.equals(cf.getStack()))
+        .map((ICreateConnectionFeature cf) -> {
+          ConnectionCreationToolEntry cte = new ConnectionCreationToolEntry(
+              cf.getCreateName(), cf.getCreateDescription(),
+              cf.getCreateImageId(), cf.getCreateLargeImageId());
+          cte.addCreateConnectionFeature(cf);
+          return cte;
+        }).collect(Collectors.toList());
+  }
+
+  private List<ObjectCreationToolEntry> getCreationToolEntries(boolean isTest,
+      ICreateFeature[] createFeatures, String stackName) {
+    return Stream.of(createFeatures)
+        .filter(PaletteCreateFeature.class::isInstance)
+        .filter(ICreateFeature.class::isInstance)
+        .map(cf -> (PaletteCreateFeature & ICreateFeature) cf)
+        .filter(cf -> !(isTest && cf.isTestOnly()))
+        .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
+        .filter(cf -> stackName.equals(cf.getStack()))
+        .map(cf -> new ObjectCreationToolEntry(cf.getCreateName(),
+            cf.getCreateDescription(), cf.getCreateImageId(),
+            cf.getCreateLargeImageId(), cf))
+        .collect(Collectors.toList());
   }
 }
