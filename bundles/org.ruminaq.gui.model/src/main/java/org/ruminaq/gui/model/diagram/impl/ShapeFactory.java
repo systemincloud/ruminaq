@@ -52,7 +52,6 @@ public class ShapeFactory<T extends PictogramElement, K> implements Factory<K> {
     if (!cacheReturnObjects.containsKey(shape)) {
       K returnObject = null;
       try {
-
         Optional<Constructor<?>> constructor = Stream
             .of(returnType.getConstructors())
             .filter((Constructor<?> c) -> {
