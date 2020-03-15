@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.ruminaq.runner.impl.ExecutionReport;
 import org.ruminaq.runner.impl.GeneratorI;
@@ -99,18 +101,10 @@ public class Engine {
       while (true) {
         lockEngine.lock();
         logger.trace("Start engine loop");
-        List<Future<ExecutionReport>> toRemove = new ArrayList<Future<ExecutionReport>>();
-        for (Future<ExecutionReport> f : generatorFutures)
-          if (f.isDone())
-            toRemove.add(f);
-        for (Future<ExecutionReport> f : toRemove)
-          generatorFutures.remove(f);
-        toRemove = new ArrayList<>();
-        for (Future<ExecutionReport> f : tasksFutures)
-          if (f.isDone())
-            toRemove.add(f);
-        for (Future<ExecutionReport> f : toRemove)
-          tasksFutures.remove(f);
+        generatorFutures.removeAll(generatorFutures.stream()
+            .filter(Future::isDone).collect(Collectors.toList()));
+        tasksFutures.removeAll(tasksFutures.stream().filter(Future::isDone)
+            .collect(Collectors.toList()));
 
         boolean generatorFuturesEmpty = generatorFutures.isEmpty();
         boolean tasksFuturesEmpty = tasksFutures.isEmpty();
@@ -136,11 +130,10 @@ public class Engine {
           LinkedList<TaskI> rts = adapterTask.getReadyTasks();
 
           // No ready task that is not running
-          for (TaskI t : rts)
-            if (t.isRunning() && !runningReadyTasks.contains(t)) {
-              logger.trace("{} is running", t.getId());
-              runningReadyTasks.add(t);
-            }
+          rts.stream().filter(TaskI::isRunning)
+              .filter(Predicate.not(runningReadyTasks::contains))
+              .peek(t -> logger.trace("{} is running", t.getId()))
+              .forEach(runningReadyTasks::add);
           if (!rts.isEmpty() && rts.size() == runningReadyTasks.size()) {
             logger.trace("Wait : all ready tasks are running");
             DebugI.INSTANCE.debug(new SuspendedEvent());
