@@ -34,7 +34,7 @@ import org.ruminaq.runner.impl.debug.events.model.SuspendAllPortRequest;
 import org.ruminaq.runner.impl.debug.events.model.SuspendPortRequest;
 import org.ruminaq.runner.util.Observable;
 import org.ruminaq.runner.util.Observer;
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;;
 
 public class InternalOutputPortI extends Observable implements Observer,
     DebugListener, DebugVisited, AbstractPortEventListener {
