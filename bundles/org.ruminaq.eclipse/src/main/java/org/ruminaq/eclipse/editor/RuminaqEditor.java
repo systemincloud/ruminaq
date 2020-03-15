@@ -50,8 +50,7 @@ import org.ruminaq.util.ServiceUtil;
 import org.ruminaq.validation.MarkerChangeListener;
 import org.ruminaq.validation.ProjectValidator;
 import org.ruminaq.validation.ValidationStatusLoader;
-
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;;
 
 /**
  * Main Ruminaq editor class.

@@ -40,8 +40,7 @@ import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.ImageUtil;
 import org.ruminaq.util.PlatformUtil;
 import org.ruminaq.util.ServiceUtil;
-
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;
 
 /**
  * Wizard to create new Ruminaq eclipse project.

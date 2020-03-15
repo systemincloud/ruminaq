@@ -33,8 +33,7 @@ import org.ruminaq.model.FileService;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.prefs.ProjectProps;
-
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;
 
 /**
  * Creates new Ruminaq diagram.
