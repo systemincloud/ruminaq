@@ -115,7 +115,7 @@ public final class GuiUtil {
       yPrim = p.getY();
     } else {
       xPrim = (p.getX() * a.getX() * a.getX()
-          - (p.getX() * a.getX() * b.getX()) << 1
+          - ((p.getX() * a.getX() * b.getX()) << 1)
           - a.getX() * a.getY() * b.getY() + p.getY() * a.getX() * a.getY()
           + a.getX() * b.getY() * b.getY() - p.getY() * a.getX() * b.getY()
           + p.getX() * b.getX() * b.getX() + b.getX() * a.getY() * a.getY()
@@ -126,7 +126,7 @@ public final class GuiUtil {
           - p.getX() * a.getX() * b.getY() + b.getX() * b.getX() * a.getY()
           - p.getX() * b.getX() * a.getY() + p.getX() * b.getX() * b.getY()
           + p.getY() * a.getY() * a.getY()
-          - (p.getY() * a.getY() * b.getY()) << 1
+          - ((p.getY() * a.getY() * b.getY()) << 1)
           + p.getY() * b.getY() * b.getY()) / denominator;
     }
 
