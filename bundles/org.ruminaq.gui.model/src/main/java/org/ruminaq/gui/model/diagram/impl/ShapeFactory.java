@@ -56,7 +56,7 @@ public class ShapeFactory<T extends PictogramElement, K> implements Factory<K> {
             .of(returnType.getConstructors())
             .filter((Constructor<?> c) -> {
               Class<?>[] pts = c.getParameterTypes();
-              return pts.length == 1 && c.getParameterTypes()[0] == shapeType;
+              return pts.length == 1 && pts[0] == shapeType;
             })
             .findFirst();
         if (constructor.isPresent()) {
