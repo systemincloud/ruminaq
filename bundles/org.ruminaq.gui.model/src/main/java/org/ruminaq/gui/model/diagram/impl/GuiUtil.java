@@ -105,8 +105,8 @@ public final class GuiUtil {
    */
   public static Point projectionOnLine(Point a, Point b, Point p) {
     int denominator = a.getX() * a.getX() - ((a.getX() * b.getX()) << 1)
-        + b.getX() * b.getX() + a.getY() * a.getY() - ((a.getY() * b.getY()) << 1)
-        + b.getY() * b.getY();
+        + b.getX() * b.getX() + a.getY() * a.getY()
+        - ((a.getY() * b.getY()) << 1) + b.getY() * b.getY();
     int xPrim;
     int yPrim;
 
@@ -171,14 +171,22 @@ public final class GuiUtil {
    */
   public static boolean pointBelongsToSection(Point a, Point b, Point p) {
     return pointBelongsToLine(a, b, p)
-        && !(a.getX() >= b.getX()
-            && !(p.getX() >= b.getX() && p.getX() <= a.getX()))
-        && !(a.getX() <= b.getX()
-            && !(p.getX() <= b.getX() && p.getX() >= a.getX()))
-        && !(a.getY() >= b.getY()
-            && !(p.getY() >= b.getY() && p.getY() <= a.getY()))
-        && !(a.getY() <= b.getY()
-            && !(p.getY() <= b.getY() && p.getY() >= a.getY()));
+        && (a.getX() < b.getX()
+            || ifAisGreatrThenB(a.getX(), b.getX(), p.getX()))
+        && (a.getX() > b.getX()
+            || ifAisLowerThenB(a.getX(), b.getX(), p.getX()))
+        && (a.getY() < b.getY()
+            || ifAisGreatrThenB(a.getY(), b.getY(), p.getY()))
+        && (a.getY() > b.getY()
+            || ifAisLowerThenB(a.getY(), b.getY(), p.getY()));
+  }
+
+  private static boolean ifAisGreatrThenB(int a, int b, int p) {
+    return p >= b && p <= a;
+  }
+
+  private static boolean ifAisLowerThenB(int a, int b, int p) {
+    return p <= b && p >= a;
   }
 
   // TODO: Think about line break in the ui...

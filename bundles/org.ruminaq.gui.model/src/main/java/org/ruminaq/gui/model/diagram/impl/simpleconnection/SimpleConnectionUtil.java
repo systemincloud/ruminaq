@@ -64,7 +64,7 @@ public final class SimpleConnectionUtil {
    * @param y   point's coordinate
    * @return euclidean distance
    */
-  public static Point projectOnConnection(FreeFormConnection scs, int x,
+  public static Optional<Point> projectOnConnection(FreeFormConnection scs, int x,
       int y) {
     Point point = GuiUtil.createPoint(x, y);
 
@@ -81,7 +81,7 @@ public final class SimpleConnectionUtil {
         .map(pp -> new SimpleEntry<Point, Double>(pp,
             GuiUtil.distanceBetweenPoints(pp, point)))
         .min(Comparator.comparing(SimpleEntry::getValue))
-        .map(SimpleEntry::getKey).get();
+        .map(SimpleEntry::getKey);
   }
 
   private static List<Point> getBendpointsWithEndings(FreeFormConnection scs) {

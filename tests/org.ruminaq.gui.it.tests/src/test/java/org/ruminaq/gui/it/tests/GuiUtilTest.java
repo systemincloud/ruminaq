@@ -49,7 +49,7 @@ public class GuiUtilTest {
   }
 
   @ParameterizedTest
-  @MethodSource("distanceToSection")
+  @MethodSource("distanceToLine")
   public void testDistanceToLine(Point a, Point b, Point p, int d) {
     assertEquals("Distance match", d, GuiUtil.distanceToLine(a, b, p), 1);
   }

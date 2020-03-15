@@ -68,28 +68,31 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
                     context.getY()))));
     if (optScs.isPresent()) {
       SimpleConnectionShape scs = optScs.get();
-      Point p = SimpleConnectionUtil.projectOnConnection(scs, context.getX(),
-          context.getY());
-      SimpleConnectionPointShape s = DiagramFactory.eINSTANCE
-          .createSimpleConnectionPointShape();
-      s.setContainer(getDiagram());
-      s.setCenteredX(p.getX());
-      s.setCenteredY(p.getY());
-      Anchor pointAnchor = cs.createChopboxAnchor(s);
+      Optional<Point> optP = SimpleConnectionUtil.projectOnConnection(scs,
+          context.getX(), context.getY());
+      if (optP.isPresent()) {
+        Point p = optP.get();
+        SimpleConnectionPointShape s = DiagramFactory.eINSTANCE
+            .createSimpleConnectionPointShape();
+        s.setContainer(getDiagram());
+        s.setCenteredX(p.getX());
+        s.setCenteredY(p.getY());
+        Anchor pointAnchor = cs.createChopboxAnchor(s);
 
-      deleteBendpointsNear(scs, p, NEAR_BENDPOINT_DISTANCE);
-      List<Point> deletedPoints = deleteFollowingBendpoints(scs, p);
+        deleteBendpointsNear(scs, p, NEAR_BENDPOINT_DISTANCE);
+        List<Point> deletedPoints = deleteFollowingBendpoints(scs, p);
 
-      Anchor end = scs.getEnd();
-      scs.setEnd(pointAnchor);
+        Anchor end = scs.getEnd();
+        scs.setEnd(pointAnchor);
 
-      SimpleConnectionShape connectionShapeAfterPoint = DiagramFactory.eINSTANCE
-          .createSimpleConnectionShape();
-      connectionShapeAfterPoint.setParent(getDiagram());
-      connectionShapeAfterPoint.setStart(pointAnchor);
-      connectionShapeAfterPoint.setEnd(end);
-      connectionShapeAfterPoint.getBendpoints().addAll(deletedPoints);
-      connectionShapeAfterPoint.setModelObject(scs.getModelObject());
+        SimpleConnectionShape connectionShapeAfterPoint = DiagramFactory.eINSTANCE
+            .createSimpleConnectionShape();
+        connectionShapeAfterPoint.setParent(getDiagram());
+        connectionShapeAfterPoint.setStart(pointAnchor);
+        connectionShapeAfterPoint.setEnd(end);
+        connectionShapeAfterPoint.getBendpoints().addAll(deletedPoints);
+        connectionShapeAfterPoint.setModelObject(scs.getModelObject());
+      }
     }
   }
 
