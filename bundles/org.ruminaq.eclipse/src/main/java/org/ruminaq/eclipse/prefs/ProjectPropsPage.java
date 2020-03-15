@@ -27,7 +27,8 @@ import org.ruminaq.prefs.ProjectProps;
 import org.ruminaq.prefs.Props;
 import org.ruminaq.upgrade.Upgrade;
 import org.ruminaq.util.PlatformUtil;
-import org.slf4j.Logger;
+
+import ch.qos.logback.classic.Logger;
 
 /**
  * Ruminaq project properties page.

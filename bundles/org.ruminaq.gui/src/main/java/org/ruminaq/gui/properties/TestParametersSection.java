@@ -26,8 +26,8 @@ import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.util.GlobalUtil;
-import org.slf4j.Logger;
 
+import ch.qos.logback.classic.Logger;
 import com.google.common.base.Joiner;
 
 public class TestParametersSection extends AbstractParametersSection {

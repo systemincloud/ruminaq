@@ -20,7 +20,7 @@ import org.ruminaq.runner.impl.data.ControlI;
 import org.ruminaq.tasks.constant.impl.AbstractConstantStrategy;
 import org.ruminaq.tasks.constant.impl.ConstantI;
 import org.ruminaq.tasks.constant.impl.Port;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class ControlStrategy extends AbstractConstantStrategy {
 

@@ -14,7 +14,7 @@ import org.ruminaq.runner.impl.debug.DebugI;
 import org.ruminaq.runner.impl.debug.events.debugger.StartedEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.TerminatedEvent;
 import org.ruminaq.runner.service.RunnerServiceManager;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 import com.google.common.base.Joiner;
 

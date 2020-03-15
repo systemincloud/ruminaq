@@ -23,7 +23,7 @@ import org.ruminaq.runner.impl.debug.events.debugger.NewTaskEvent;
 import org.ruminaq.tasks.debug.model.port.Port;
 import org.ruminaq.tasks.debug.model.port.in.InputPort;
 import org.ruminaq.tasks.debug.model.port.out.OutputPort;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class Task extends TasksDebugElement
     implements IThread, IEventProcessor {

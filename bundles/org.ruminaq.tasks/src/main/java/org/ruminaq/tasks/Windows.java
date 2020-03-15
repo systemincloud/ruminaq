@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public enum Windows {
   INSTANCE;

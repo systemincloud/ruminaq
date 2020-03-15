@@ -12,7 +12,8 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.slf4j.Logger;
+
+import ch.qos.logback.classic.Logger;
 
 public class MainLoop extends RuminaqDebugElement implements IThread {
 

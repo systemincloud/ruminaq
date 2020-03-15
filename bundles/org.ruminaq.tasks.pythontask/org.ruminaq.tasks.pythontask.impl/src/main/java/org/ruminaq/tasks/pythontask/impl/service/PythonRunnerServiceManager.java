@@ -9,7 +9,7 @@ import org.python.core.PyObject;
 import org.python.util.PythonInterpreter;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.DataI;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public enum PythonRunnerServiceManager {
   INSTANCE;

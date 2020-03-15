@@ -47,9 +47,11 @@ public final class SimpleConnectionUtil {
     return IntStream.range(0, points.size() - 1)
         .mapToObj(i -> new SimpleEntry<Point, Point>(points.get(i),
             points.get(i + 1)))
-        .filter(me -> GuiUtil.pointBelongsToSection(me.getKey(), me.getValue(),
-            point))
-        .map(me -> GuiUtil.distanceToSection(me.getKey(), me.getValue(), point))
+        .map(me -> new SimpleEntry<SimpleEntry<Point, Point>, Point>(me, GuiUtil.projectionOnLine(me.getKey(), me.getValue(),
+            point)))
+        .filter(me -> GuiUtil.pointBelongsToSection(me.getKey().getKey(), me.getKey().getValue(),
+            me.getValue()))
+        .map(me -> GuiUtil.distanceBetweenPoints(me.getValue(), point))
         .min(Double::compareTo).orElse(Double.MAX_VALUE);
   }
 

@@ -14,7 +14,8 @@ import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.runner.impl.debug.IDebugIService;
 import org.ruminaq.runner.impl.debug.IDebugService;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
-import org.slf4j.Logger;
+
+import ch.qos.logback.classic.Logger;
 
 public class DebuggerService implements IDebugService, IEventProcessor {
 

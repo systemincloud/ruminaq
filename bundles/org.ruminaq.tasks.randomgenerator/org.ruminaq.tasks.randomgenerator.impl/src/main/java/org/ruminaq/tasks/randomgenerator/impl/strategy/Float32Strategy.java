@@ -12,7 +12,7 @@ import org.ruminaq.runner.impl.data.Float32I;
 import org.ruminaq.tasks.randomgenerator.impl.Port;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
 import org.ruminaq.util.NumericUtil;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class Float32Strategy extends RandomGeneratorNumericStrategy {
 

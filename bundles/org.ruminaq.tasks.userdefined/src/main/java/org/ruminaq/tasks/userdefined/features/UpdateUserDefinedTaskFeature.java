@@ -26,7 +26,7 @@ import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.features.AddTaskFeature;
 import org.ruminaq.tasks.features.UpdateTaskFeature;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 

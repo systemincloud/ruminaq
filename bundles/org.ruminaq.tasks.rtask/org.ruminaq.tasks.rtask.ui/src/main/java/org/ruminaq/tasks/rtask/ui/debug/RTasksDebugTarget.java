@@ -21,7 +21,7 @@ import org.ruminaq.debug.model.IState;
 import org.ruminaq.debug.model.TerminateTargetDecoration;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class RTasksDebugTarget extends RTasksDebugElement
     implements IDebugTarget, ISicTarget {

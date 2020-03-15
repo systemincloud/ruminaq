@@ -60,9 +60,9 @@ import org.ruminaq.runner.Runner;
 import org.ruminaq.runner.dirmi.DirmiServer;
 import org.ruminaq.runner.dirmi.RegistrationDoneListener;
 import org.ruminaq.runner.impl.debug.IDebugIService;
-import org.slf4j.Logger;
 
 import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 
 @SuppressWarnings("restriction")
 public class RuminaqLaunchDelegate extends JavaLaunchDelegate

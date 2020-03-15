@@ -20,7 +20,7 @@ import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.impl.data.DataManager;
 import org.ruminaq.tasks.pythontask.impl.PyInterpreter;
 import org.ruminaq.tasks.pythontask.impl.PythonTaskI;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class JythonInterpreter extends PyInterpreter {
 

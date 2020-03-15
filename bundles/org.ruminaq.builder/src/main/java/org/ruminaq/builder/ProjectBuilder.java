@@ -18,7 +18,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Status;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.slf4j.Logger;
+
+import ch.qos.logback.classic.Logger;
 
 public enum ProjectBuilder {
   INSTANCE;

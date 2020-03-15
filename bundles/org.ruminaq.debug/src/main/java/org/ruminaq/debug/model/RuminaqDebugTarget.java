@@ -20,7 +20,8 @@ import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.ResumedEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.SuspendedEvent;
-import org.slf4j.Logger;
+
+import ch.qos.logback.classic.Logger;
 
 public class RuminaqDebugTarget extends RuminaqDebugElement
     implements IDebugTarget, ISicTarget {

@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.ruminaq.runner.RunnerLoggerFactory;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 import de.walware.ecommons.ECommons;
 import de.walware.ecommons.IDisposable;

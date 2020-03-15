@@ -8,7 +8,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.ruminaq.runner.RunnerLoggerFactory;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class Observable {
 

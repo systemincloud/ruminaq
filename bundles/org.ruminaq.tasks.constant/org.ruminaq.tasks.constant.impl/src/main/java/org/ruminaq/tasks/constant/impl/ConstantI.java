@@ -26,7 +26,7 @@ import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.tasks.constant.impl.service.ConstantServiceManager;
 import org.ruminaq.tasks.constant.impl.strategy.Strategies;
 import org.ruminaq.tasks.constant.model.constant.Constant;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class ConstantI extends BasicTaskI {
 

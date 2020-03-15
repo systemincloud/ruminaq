@@ -16,7 +16,7 @@ import org.ruminaq.runner.impl.data.DataManager;
 import org.ruminaq.util.GroovyExpressionUtil;
 import org.ruminaq.runner.util.Util;
 import org.ruminaq.tasks.rtask.model.rtask.RTask;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 import de.walware.rj.servi.RServi;
 import de.walware.rj.services.FunctionCall;

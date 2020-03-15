@@ -25,7 +25,7 @@ import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.NewTaskEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.StartedEvent;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class TasksDebugTarget extends TasksDebugElement
     implements IDebugTarget, ISicTarget {

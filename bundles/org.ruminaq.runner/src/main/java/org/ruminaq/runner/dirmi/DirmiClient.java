@@ -11,7 +11,8 @@ import java.util.Map;
 import org.cojen.dirmi.Environment;
 import org.cojen.dirmi.Session;
 import org.ruminaq.runner.RunnerLoggerFactory;
-import org.slf4j.Logger;
+
+import ch.qos.logback.classic.Logger;
 
 public enum DirmiClient {
   INSTANCE;

@@ -12,7 +12,8 @@ Require-Bundle: jakarta.xml.bind-api,
  org.eclipse.reddeer.go,
  org.eclipse.reddeer.swt,
  org.eclipse.swt
-Import-Package: javax.xml.bind,
+Import-Package: ch.qos.logback.core.spi,
+ javax.xml.bind,
  javax.xml.bind.annotation,
  javax.xml.bind.util,
  org.apache.commons.lang3,
@@ -40,5 +41,7 @@ Import-Package: javax.xml.bind,
  org.ruminaq.eclipse.wizards.project,
  org.ruminaq.tests.common.reddeer,
  org.xmlunit.builder,
- org.xmlunit.diff
+ org.xmlunit.diff,
+ org.slf4j.spi,
+ org.slf4j.impl
 Export-Package: org.ruminaq.gui.it.tests

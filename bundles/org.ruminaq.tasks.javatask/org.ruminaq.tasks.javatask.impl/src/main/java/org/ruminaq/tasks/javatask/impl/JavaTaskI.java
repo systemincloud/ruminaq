@@ -19,7 +19,7 @@ import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
 import org.ruminaq.tasks.javatask.client.data.Data;
 import org.ruminaq.util.GroovyExpressionUtil;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class JavaTaskI extends GeneratorI implements JavaTaskListener {
 

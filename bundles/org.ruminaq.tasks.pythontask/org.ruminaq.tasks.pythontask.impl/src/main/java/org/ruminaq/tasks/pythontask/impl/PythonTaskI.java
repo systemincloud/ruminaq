@@ -16,7 +16,7 @@ import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.util.Util;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.util.GroovyExpressionUtil;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class PythonTaskI extends GeneratorI implements PythonTaskListener {
 

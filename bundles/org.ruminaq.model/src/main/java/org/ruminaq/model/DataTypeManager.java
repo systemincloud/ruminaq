@@ -29,7 +29,8 @@ import org.ruminaq.model.dt.Int64;
 import org.ruminaq.model.dt.Raw;
 import org.ruminaq.model.dt.Text;
 import org.ruminaq.model.ruminaq.DataType;
-import org.slf4j.Logger;
+
+import ch.qos.logback.classic.Logger;
 
 @SuppressWarnings("unchecked")
 public enum DataTypeManager {

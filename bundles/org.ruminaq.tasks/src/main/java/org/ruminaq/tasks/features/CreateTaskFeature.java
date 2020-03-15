@@ -18,7 +18,7 @@ import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public abstract class CreateTaskFeature extends AbstractCreateElementFeature {
 

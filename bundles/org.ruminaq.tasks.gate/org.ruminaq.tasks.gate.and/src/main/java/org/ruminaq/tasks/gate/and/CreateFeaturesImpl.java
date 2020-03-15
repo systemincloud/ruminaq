@@ -11,9 +11,9 @@ import org.ruminaq.gui.api.CreateFeaturesExtension;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.tasks.demux.model.demux.Demux;
 import org.ruminaq.tasks.features.CreateTaskFeature;
 import org.ruminaq.tasks.gate.Port;
+import org.ruminaq.tasks.gate.and.model.and.And;
 import org.ruminaq.tasks.gate.and.model.and.AndFactory;
 
 @Component(property = { "service.ranking:Integer=10" })
@@ -28,7 +28,7 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
       implements PaletteCreateFeature {
 
     public CreateFeature(IFeatureProvider fp) {
-      super(fp, Demux.class);
+      super(fp, And.class);
     }
 
     @Override

@@ -25,7 +25,7 @@ import org.ruminaq.tasks.constant.impl.AbstractConstantStrategy;
 import org.ruminaq.tasks.constant.impl.ConstantI;
 import org.ruminaq.tasks.constant.impl.Port;
 import org.ruminaq.util.NumericUtil;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class DecimalStrategy extends AbstractConstantStrategy {
 

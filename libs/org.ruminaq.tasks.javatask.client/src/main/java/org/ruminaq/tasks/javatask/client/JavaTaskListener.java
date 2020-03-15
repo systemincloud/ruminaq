@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.tasks.javatask.client;
 
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 /**
  *

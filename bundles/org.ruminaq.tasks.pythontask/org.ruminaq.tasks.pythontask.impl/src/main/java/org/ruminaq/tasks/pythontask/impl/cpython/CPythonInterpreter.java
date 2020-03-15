@@ -26,7 +26,7 @@ import org.ruminaq.tasks.pythontask.impl.PyInterpreter;
 import org.ruminaq.tasks.pythontask.impl.PythonTaskI;
 import org.ruminaq.tasks.pythontask.impl.rmi.Server;
 import org.ruminaq.util.Util;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class CPythonInterpreter extends PyInterpreter
     implements RunnerSideServer.Iface {

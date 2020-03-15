@@ -4,7 +4,7 @@ import java.util.concurrent.Callable;
 
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public abstract class GeneratorI extends BasicTaskI {
 

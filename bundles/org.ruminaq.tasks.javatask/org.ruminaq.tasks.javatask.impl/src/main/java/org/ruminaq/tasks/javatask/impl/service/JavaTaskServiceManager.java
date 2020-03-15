@@ -6,7 +6,7 @@ import java.util.ServiceLoader;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.tasks.javatask.client.data.Data;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public enum JavaTaskServiceManager {
   INSTANCE;

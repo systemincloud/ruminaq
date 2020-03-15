@@ -46,7 +46,7 @@ import org.ruminaq.runner.impl.debug.events.debugger.NewTaskEvent;
 import org.ruminaq.runner.util.Observable;
 import org.ruminaq.runner.util.Observer;
 import org.ruminaq.util.GlobalUtil;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class EmbeddedTaskI extends TaskI {
 

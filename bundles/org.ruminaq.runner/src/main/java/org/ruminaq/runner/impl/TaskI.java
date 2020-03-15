@@ -18,7 +18,7 @@ import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public abstract class TaskI implements Callable<ExecutionReport> {
 

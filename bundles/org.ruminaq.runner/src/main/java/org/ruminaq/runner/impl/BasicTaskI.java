@@ -12,8 +12,8 @@ import org.ruminaq.model.desc.PortsDescrUtil;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.DataI;
-import org.slf4j.Logger;
 
+import ch.qos.logback.classic.Logger;
 import com.google.common.base.Joiner;
 
 public abstract class BasicTaskI extends TaskI {

@@ -16,7 +16,7 @@
 package org.ruminaq.tasks.constant.impl;
 
 import org.ruminaq.runner.RunnerLoggerFactory;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public abstract class AbstractConstantStrategy {
 

@@ -15,7 +15,7 @@ import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.TaskI;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.thrift.RemoteData;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public enum RunnerServiceManager {
 

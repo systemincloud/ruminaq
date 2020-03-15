@@ -94,9 +94,6 @@
                   <id>org.apache.maven.wagon:wagon-http:3.1.0</id>
                 </artifact>
                 <artifact>
-                  <id>org.slf4j:slf4j-api:1.7.25</id>
-                </artifact>
-                <artifact>
                   <id>org.jdom:jdom2:2.0.6</id>
                 </artifact>
                 <artifact>

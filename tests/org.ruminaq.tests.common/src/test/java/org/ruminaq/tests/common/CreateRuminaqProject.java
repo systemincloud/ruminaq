@@ -11,8 +11,6 @@ import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
-import org.ruminaq.logs.ModelerLoggerFactory;
-import org.slf4j.Logger;
 
 /**
  * Create new Ruminaq project.
@@ -21,9 +19,6 @@ import org.slf4j.Logger;
  *
  */
 public class CreateRuminaqProject {
-
-  private static final Logger LOGGER = ModelerLoggerFactory
-      .getLogger(CreateRuminaqProject.class);
 
   /**
    * Create new Ruminaq project.
@@ -78,7 +73,7 @@ public class CreateRuminaqProject {
     try {
       acceptPerspectiveChange(bot);
     } catch (WidgetNotFoundException e) {
-      LOGGER.info("No perspective change request");
+      System.out.println("No perspective change request");
     }
   }
 }

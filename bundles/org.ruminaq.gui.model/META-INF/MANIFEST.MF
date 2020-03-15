@@ -34,7 +34,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.model.ruminaq,
  org.ruminaq.util,
  org.slf4j
-Require-Bundle: org.slf4j.api
 Export-Package: org.ruminaq.gui.model.diagram,
  org.ruminaq.gui.model.diagram.impl,
  org.ruminaq.gui.model.diagram.impl.label,

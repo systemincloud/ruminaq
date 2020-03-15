@@ -10,7 +10,7 @@ import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.Complex32I;
 import org.ruminaq.tasks.randomgenerator.impl.Port;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 /**
  *

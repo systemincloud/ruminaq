@@ -16,7 +16,7 @@ import org.ruminaq.tasks.randomgenerator.impl.Port;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
 import org.ruminaq.util.NumericUtil;
 import org.ruminaq.util.RandomUtil;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class DecimalStrategy extends RandomGeneratorNumericStrategy {
 

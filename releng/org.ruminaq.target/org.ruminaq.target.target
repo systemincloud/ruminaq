@@ -3,12 +3,10 @@
 <target includeMode="feature" name="org.ruminaq.target" sequenceNumber="94">
     <locations>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-        <unit id="org.eclipse.equinox.sdk.feature.group" version="0.0.0"/>
+        <unit id="ch.qos.logback.classic" version="0.0.0"/>
+        <unit id="ch.qos.logback.core" version="0.0.0"/>
         <unit id="org.eclipse.egit.feature.group" version="0.0.0"/>
-        <unit id="org.eclipse.jgit.feature.group" version="0.0.0"/>
-        <unit id="org.eclipse.m2e.feature.feature.group" version="0.0.0"/>
-	    <unit id="org.eclipse.m2e.logback.feature.feature.group" version="0.0.0"/>
-        <unit id="org.eclipse.platform.sdk" version="0.0.0"/>
+        <unit id="org.eclipse.equinox.sdk.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.graphiti.export.feature.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.graphiti.export.feature.source.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.graphiti.feature.examples.feature.group" version="0.0.0"/>
@@ -21,16 +19,19 @@
         <unit id="org.eclipse.graphiti.sdk.feature.source.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.graphiti.sdk.plus.feature.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.graphiti.sdk.plus.feature.source.feature.group" version="0.0.0"/>
-        <unit id="org.eclipse.xtext.xbase.feature.group" version="0.0.0"/>
-        <unit id="org.eclipse.xtext.xbase.lib.feature.group" version="0.0.0"/>
+        <unit id="org.eclipse.jgit.feature.group" version="0.0.0"/>
+        <unit id="org.eclipse.m2e.feature.feature.group" version="0.0.0"/>
+	    <unit id="org.eclipse.m2e.logback.feature.feature.group" version="0.0.0"/>
+        <unit id="org.eclipse.platform.sdk" version="0.0.0"/>
         <unit id="org.eclipse.swtbot.eclipse.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.swtbot.eclipse.gef.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.swtbot.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.swtbot.forms.feature.group" version="0.0.0"/>
+        <unit id="org.eclipse.xtext.xbase.feature.group" version="0.0.0"/>
+        <unit id="org.eclipse.xtext.xbase.lib.feature.group" version="0.0.0"/>
         <repository location="http://download.eclipse.org/releases/latest"/>
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-        <unit id="slf4j.api" version="0.0.0"/>
         <unit id="org.apache.commons.lang3" version="0.0.0"/>
         <unit id="org.apache.commons.math3" version="0.0.0"/>
         <unit id="org.apache.thrift" version="0.0.0"/>
@@ -45,6 +46,10 @@
         <unit id="org.xmlunit.xmlunit-core" version="0.0.0"/>
         <unit id="jakarta.xml.bind-api" version="0.0.0"/>
         <repository location="http://localhost:8080/site"/>
+      </location>
+      <location type="InstallableUnit">
+        <unit id="org.slf4j.api" version="1.7.10.v20170428-1633"/>
+        <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20191126223242/repository"/>
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
         <unit id="org.aspectj.source.feature.group" version="0.0.0"/>

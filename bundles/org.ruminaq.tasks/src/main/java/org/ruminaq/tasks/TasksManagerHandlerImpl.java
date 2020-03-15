@@ -48,7 +48,7 @@ import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.api.TaskManagerHandler;
 import org.ruminaq.tasks.api.TasksExtensionHandler;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 @SuppressWarnings("unchecked")
 public class TasksManagerHandlerImpl implements TaskManagerHandler {

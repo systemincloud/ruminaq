@@ -17,7 +17,7 @@ import org.ruminaq.debug.model.MainState;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.NewTaskEvent;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class PythonTask extends PythonTasksDebugElement
     implements IThread, IEventProcessor {

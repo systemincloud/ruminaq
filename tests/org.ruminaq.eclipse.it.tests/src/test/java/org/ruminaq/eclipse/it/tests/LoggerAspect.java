@@ -25,7 +25,7 @@ public class LoggerAspect {
    * Pointcut on error.
    *
    */
-  @Pointcut("call(* org.slf4j.Logger.error(..)) " + "&& args(arg0)")
+  @Pointcut("call(* ch.qos.logback.classic.Logger.error(..)) " + "&& args(arg0)")
   public void error(String arg0) {
   }
 
@@ -33,7 +33,7 @@ public class LoggerAspect {
    * Pointcut on error with Throwable.
    *
    */
-  @Pointcut("call(* org.slf4j.Logger.error(..)) " + "&& args(arg0, arg1)")
+  @Pointcut("call(* ch.qos.logback.classic.Logger.error(..)) " + "&& args(arg0, arg1)")
   public void errorWithThrowable(String arg0, Throwable arg1) {
   }
 

@@ -15,7 +15,7 @@ import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.impl.data.TextI;
 import org.ruminaq.runner.util.Util;
 import org.ruminaq.tasks.console.model.console.Console;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class ConsoleI extends BasicTaskI {
 

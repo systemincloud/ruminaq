@@ -36,7 +36,7 @@ import org.ruminaq.tasks.randomgenerator.impl.strategy.TextStrategy;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.util.GlobalUtil;
 import org.ruminaq.util.RandomUtil;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 /**
  *

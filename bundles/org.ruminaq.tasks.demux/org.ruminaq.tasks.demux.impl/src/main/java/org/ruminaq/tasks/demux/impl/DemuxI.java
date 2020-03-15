@@ -8,7 +8,7 @@ import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.PortMap;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.impl.data.Int32I;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class DemuxI extends BasicTaskI {
 

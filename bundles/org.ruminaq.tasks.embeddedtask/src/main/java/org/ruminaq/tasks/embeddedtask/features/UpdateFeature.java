@@ -42,7 +42,7 @@ import org.ruminaq.tasks.embeddedtask.Images;
 import org.ruminaq.tasks.userdefined.features.UpdateUserDefinedTaskFeature;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.GlobalUtil;
-import org.slf4j.Logger;
+import ch.qos.logback.classic.Logger;
 
 public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
