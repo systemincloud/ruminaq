@@ -50,6 +50,23 @@ public class GuiUtilTest {
 
   @ParameterizedTest
   @MethodSource("distanceToSection")
+  public void testDistanceToLine(Point a, Point b, Point p, int d) {
+    assertEquals("Distance match", d, GuiUtil.distanceToLine(a, b, p), 1);
+  }
+
+  @Parameters
+  public static Stream<Arguments> distanceToLine() {
+    return Stream.of(
+        Arguments.of(createPoint(0, 0), createPoint(10, 0), createPoint(5, 0),
+            0),
+        Arguments.of(createPoint(0, 0), createPoint(10, 0), createPoint(5, 5),
+            5),
+        Arguments.of(createPoint(100, 103), createPoint(104, 100),
+            createPoint(111, 101), 5));
+  }
+  
+  @ParameterizedTest
+  @MethodSource("distanceToSection")
   public void testDistanceToSection(Point a, Point b, Point p, int d) {
     assertEquals("Distance match", d, GuiUtil.distanceToSection(a, b, p), 1);
   }

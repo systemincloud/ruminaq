@@ -76,8 +76,6 @@ public final class GuiUtil {
    * @return distance to section
    */
   public static double distanceToSection(Point a, Point b, Point p) {
-    System.out.println(projectionOnLine(a, b, p));
-    System.out.println(pointBelongsToLine(a, b, projectionOnLine(a, b, p)));
     return Optional.of(projectionOnLine(a, b, p))
         .filter(pp -> pointBelongsToSection(a, b, pp))
         .map(pp -> distanceBetweenPoints(pp, p))
@@ -93,8 +91,8 @@ public final class GuiUtil {
    * @return distance between points
    */
   public static double distanceBetweenPoints(Point a, Point b) {
-    return Math.sqrt(Math.pow(a.getX() - b.getX(), SQUARE)
-        + Math.pow(a.getY() - b.getY(), SQUARE));
+    return Math.sqrt(Math.pow(Double.valueOf(a.getX() - b.getX()), SQUARE)
+        + Math.pow(Double.valueOf(a.getY() - b.getY()), SQUARE));
   }
 
   /**
@@ -117,7 +115,7 @@ public final class GuiUtil {
       yPrim = p.getY();
     } else {
       xPrim = (p.getX() * a.getX() * a.getX()
-          - (p.getX() * a.getX() * b.getX() << 1)
+          - (p.getX() * a.getX() * b.getX()) << 1
           - a.getX() * a.getY() * b.getY() + p.getY() * a.getX() * a.getY()
           + a.getX() * b.getY() * b.getY() - p.getY() * a.getX() * b.getY()
           + p.getX() * b.getX() * b.getX() + b.getX() * a.getY() * a.getY()
@@ -128,7 +126,7 @@ public final class GuiUtil {
           - p.getX() * a.getX() * b.getY() + b.getX() * b.getX() * a.getY()
           - p.getX() * b.getX() * a.getY() + p.getX() * b.getX() * b.getY()
           + p.getY() * a.getY() * a.getY()
-          - (p.getY() * a.getY() * b.getY() << 1)
+          - (p.getY() * a.getY() * b.getY()) << 1
           + p.getY() * b.getY() * b.getY()) / denominator;
     }
 
