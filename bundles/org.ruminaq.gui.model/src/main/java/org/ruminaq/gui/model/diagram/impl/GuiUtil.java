@@ -171,22 +171,18 @@ public final class GuiUtil {
    */
   public static boolean pointBelongsToSection(Point a, Point b, Point p) {
     return pointBelongsToLine(a, b, p)
-        && (a.getX() < b.getX()
-            || ifAisGreatrThenB(a.getX(), b.getX(), p.getX()))
-        && (a.getX() > b.getX()
-            || ifAisLowerThenB(a.getX(), b.getX(), p.getX()))
-        && (a.getY() < b.getY()
-            || ifAisGreatrThenB(a.getY(), b.getY(), p.getY()))
-        && (a.getY() > b.getY()
-            || ifAisLowerThenB(a.getY(), b.getY(), p.getY()));
+        && ifAisGreatrThenB(a.getX(), b.getX(), p.getX())
+        && ifAisLowerThenB(a.getX(), b.getX(), p.getX())
+        && ifAisGreatrThenB(a.getY(), b.getY(), p.getY())
+        && ifAisLowerThenB(a.getY(), b.getY(), p.getY());
   }
 
   private static boolean ifAisGreatrThenB(int a, int b, int p) {
-    return p >= b && p <= a;
+    return a < b || (p >= b && p <= a);
   }
 
   private static boolean ifAisLowerThenB(int a, int b, int p) {
-    return p <= b && p >= a;
+    return a > b || (p <= b && p >= a);
   }
 
   // TODO: Think about line break in the ui...
