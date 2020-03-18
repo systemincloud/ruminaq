@@ -19,8 +19,7 @@ import org.eclipse.graphiti.features.context.IContext;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.logs.ModelerLoggerFactory;
-
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;
 
 /**
  * Super interface for osgi service interfaces that contributes the best
@@ -37,7 +36,7 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
    * 
    * @param context IContext of Graphiti
    * @param fp IFeatureProvider of Graphiti
-   * @return
+   * @return feature
    */
   default T getFeature(IContext context, IFeatureProvider fp) {
     return createFeatures(getFeatures().stream().filter(filter(context, fp))
@@ -45,6 +44,12 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
             .findFirst().orElse(null);
   }
 
+  /**
+   * 
+   * @param context context of feature
+   * @param fp IFeatureProvider of Graphiti
+   * @return predicate used by Extension to determine Feature
+   */
   default Predicate<Class<? extends T>> filter(IContext context,
       IFeatureProvider fp) {
     return (Class<? extends T> clazz) -> Optional
