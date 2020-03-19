@@ -4,6 +4,13 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
+/**
+ * 
+ * @author Brian Gerstle, Marek Jagielski
+ *
+ * @param <V>
+ * @param <E>
+ */
 public class Result<V, E extends Throwable> {
 
   @FunctionalInterface
