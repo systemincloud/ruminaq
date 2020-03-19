@@ -8,8 +8,6 @@ Require-Bundle: org.eclipse.xtext.xbase.lib
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  com.google.common.base,
- de.walware.ecommons,
- de.walware.ecommons.net,
  org.apache.commons.cli,
  org.apache.commons.io,
  org.apache.commons.lang3,
