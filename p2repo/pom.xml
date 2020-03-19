@@ -166,9 +166,9 @@
                 <artifact>
                   <id>de.walware.rj:de.walware.rj.data:2.1.0-SNAPSHOT</id>
                 </artifact>
-                <artifact>
-                  <id>de.walware.rj:de.walware.rj.services.eruntime:1.4.0-SNAPSHOT</id>
-                </artifact>
+<!--                 <artifact> -->
+<!--                   <id>de.walware.rj:de.walware.rj.services.eruntime:1.4.0-SNAPSHOT</id> -->
+<!--                 </artifact> -->
               </artifacts>
             </configuration>
           </execution>

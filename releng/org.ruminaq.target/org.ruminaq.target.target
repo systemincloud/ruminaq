@@ -47,10 +47,9 @@
         <unit id="jakarta.xml.bind-api" version="0.0.0"/>
         <repository location="http://localhost:8080/site"/>
       </location>
-      <!--location type="InstallableUnit">
-        <unit id="org.slf4j.api" version="1.7.10.v20170428-1633"/>
+      <location type="InstallableUnit">
         <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository"/>
-      </location-->
+      </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
         <unit id="org.aspectj.source.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.ajdt.feature.group" version="0.0.0"/>
