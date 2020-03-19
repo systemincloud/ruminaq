@@ -35,10 +35,10 @@ public interface MultipleFeaturesExtension<T> {
       IFeatureProvider fp) {
     return Optional.ofNullable(features).orElse(Collections.emptyList())
         .stream()
-        .map(f -> Result.attempt(() -> f.getConstructor()))
+        .map(f -> Result.attempt(() -> f.getConstructor(IFeatureProvider.class)))
         .map(r -> Optional.ofNullable(r.orElse(null)))
         .flatMap(Optional::stream)
-        .map(f -> Result.attempt(() -> f.newInstance()))
+        .map(f -> Result.attempt(() -> f.newInstance(fp)))
         .map(r -> Optional.ofNullable(r.orElse(null)))
         .flatMap(Optional::stream)
         .collect(Collectors.toList());

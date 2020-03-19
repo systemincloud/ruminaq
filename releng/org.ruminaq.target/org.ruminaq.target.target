@@ -29,6 +29,7 @@
         <unit id="org.eclipse.swtbot.forms.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.xtext.xbase.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.xtext.xbase.lib.feature.group" version="0.0.0"/>
+        <unit id="org.eclipse.e4.ui.ide" version="0.0.0"/>
         <repository location="http://download.eclipse.org/releases/latest"/>
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
@@ -42,7 +43,6 @@
         <unit id="com.googlecode.json-simple" version="0.0.0"/>
         <unit id="org.ruminaq.tasks.javatask.client" version="0.0.0"/>
         <unit id="org.apache.commons.cli" version="0.0.0"/>
-        <!--unit id="de.walware.rj.servi" version="0.0.0"/-->
         <unit id="org.xmlunit.xmlunit-core" version="0.0.0"/>
         <unit id="jakarta.xml.bind-api" version="0.0.0"/>
         <repository location="http://localhost:8080/site"/>
@@ -62,8 +62,11 @@
         <repository location="http://www.pydev.org/updates/"/>
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
-        <unit id="org.eclipse.statet.r.feature.group" version="0.0.0"/>
-        <repository location="https://download.eclipse.org/statet/releases/4.0/E201812"/>
+        <unit id="org.eclipse.statet.r.feature.group" version="0.0.0"/> 
+	    <unit id="org.eclipse.statet.rj.core.feature.group" version="0.0.0"/>
+	    <unit id="org.eclipse.statet.rj.eclient.feature.group" version="0.0.0"/>
+	    <unit id="org.eclipse.statet.rj.servi.e.feature.group" version="0.0.0"/>
+        <repository location="https://download.eclipse.org/statet/releases/4.1/E201912"/>
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
         <unit id="org.codehaus.groovy.eclipse.feature.feature.group" version="0.0.0"/>
