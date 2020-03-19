@@ -6,7 +6,7 @@ import java.util.Properties;
 
 import org.ruminaq.runner.impl.data.DataI;
 
-import de.walware.rj.data.RObject;
+//import de.walware.rj.data.RObject;
 
 public abstract class AbstractRRunnerService implements RRunnerService {
 
@@ -20,13 +20,13 @@ public abstract class AbstractRRunnerService implements RRunnerService {
     }
   }
 
-  @Override
-  public RObject toRData(DataI dataI, RObject rDims) {
-    return null;
-  }
+//  @Override
+//  public RObject toRData(DataI dataI, RObject rDims) {
+//    return null;
+//  }
 
-  @Override
-  public DataI fromRData(RObject data, RObject[] pyValues, List<Integer> dims) {
-    return null;
-  }
+//  @Override
+//  public DataI fromRData(RObject data, RObject[] pyValues, List<Integer> dims) {
+//    return null;
+//  }
 }

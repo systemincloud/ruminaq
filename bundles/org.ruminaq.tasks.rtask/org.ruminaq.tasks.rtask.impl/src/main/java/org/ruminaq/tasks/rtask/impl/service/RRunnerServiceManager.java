@@ -8,7 +8,7 @@ import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.DataI;
 import ch.qos.logback.classic.Logger;
 
-import de.walware.rj.data.RObject;
+//import de.walware.rj.data.RObject;
 
 public enum RRunnerServiceManager {
   INSTANCE;
@@ -27,21 +27,21 @@ public enum RRunnerServiceManager {
     }
   }
 
-  public RObject toRData(DataI dataI, RObject dims) {
-    for (RRunnerService srv : services) {
-      RObject d = srv.toRData(dataI, dims);
-      if (d != null)
-        return d;
-    }
-    return null;
-  }
-
-  public DataI fromRData(RObject data, RObject[] rValues, List<Integer> dims) {
-    for (RRunnerService srv : services) {
-      DataI d = srv.fromRData(data, rValues, dims);
-      if (d != null)
-        return d;
-    }
-    return null;
-  }
+//  public RObject toRData(DataI dataI, RObject dims) {
+//    for (RRunnerService srv : services) {
+//      RObject d = srv.toRData(dataI, dims);
+//      if (d != null)
+//        return d;
+//    }
+//    return null;
+//  }
+//
+//  public DataI fromRData(RObject data, RObject[] rValues, List<Integer> dims) {
+//    for (RRunnerService srv : services) {
+//      DataI d = srv.fromRData(data, rValues, dims);
+//      if (d != null)
+//        return d;
+//    }
+//    return null;
+//  }
 }

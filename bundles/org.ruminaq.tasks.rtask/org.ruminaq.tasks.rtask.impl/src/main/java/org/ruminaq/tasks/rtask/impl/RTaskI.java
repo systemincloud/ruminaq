@@ -18,8 +18,8 @@ import org.ruminaq.runner.util.Util;
 import org.ruminaq.tasks.rtask.model.rtask.RTask;
 import ch.qos.logback.classic.Logger;
 
-import de.walware.rj.servi.RServi;
-import de.walware.rj.services.FunctionCall;
+//import de.walware.rj.servi.RServi;
+//import de.walware.rj.services.FunctionCall;
 
 public class RTaskI extends GeneratorI implements RTaskListener {
 
@@ -31,7 +31,7 @@ public class RTaskI extends GeneratorI implements RTaskListener {
   public static final String ATTR_R_RJPATH = "r_rjpath";
 
   private String id;
-  private RServi fRservi;
+//  private RServi fRservi;
 
   private Logger rLogger = null;
 
@@ -59,12 +59,12 @@ public class RTaskI extends GeneratorI implements RTaskListener {
     this.rLogger = RunnerLoggerFactory.getLogger(impl);
 
     this.id = Util.getUniqueId((RTask) task, parent.getBasePath());
-    this.fRservi = RServer.INSTANCE.getRServi(id);
+//    this.fRservi = RServer.INSTANCE.getRServi(id);
 
-    if (fRservi == null) {
-      logger.error("error");
-      return;
-    }
+//    if (fRservi == null) {
+//      logger.error("error");
+//      return;
+//    }
 
     //
     // Parameters
@@ -73,97 +73,97 @@ public class RTaskI extends GeneratorI implements RTaskListener {
         .getParameters().entrySet())
       parameters.put(p.getKey(), parent.replaceVariables(p.getValue()));
 
-    try {
-      PrintOutServer.INSTACE.start(this);
-      CallbackServer.INSTANCE.start(this.id, this);
-      this.fRservi
-          .evalVoid("sink(socketConnection(host = \"localhost\", port = "
-              + PrintOutServer.INSTACE.getPort()
-              + ", blocking = TRUE, open = \"w\"))", null);
+//    try {
+//      PrintOutServer.INSTACE.start(this);
+//      CallbackServer.INSTANCE.start(this.id, this);
+//      this.fRservi
+//          .evalVoid("sink(socketConnection(host = \"localhost\", port = "
+//              + PrintOutServer.INSTACE.getPort()
+//              + ", blocking = TRUE, open = \"w\"))", null);
 
-      FunctionCall rtaskFile = this.fRservi.createFunctionCall("source");
-      rtaskFile.add("file", "file(\"" + fullPath + "\")");
-      rtaskFile.add("chdir", "TRUE");
-      rtaskFile.evalVoid(null);
-
-      this.fRservi.evalVoid("instance <- " + name + "$new()", null);
-
-      this.fRservi.evalVoid(
-          "instance$rtListener <- RTListener$new('" + this.id + "')", null);
-
-      this.fRservi.evalVoid(
-          "thriftc <- thriftr::load(t[0], module_name='runnersideserver_thrift', include_dirs=[t[1]])",
-          null);
-      this.fRservi.evalVoid(
-          "instance$rtListener$client <- thriftr::make_client(thriftc.RunnerSideServer, '127.0.0.1', "
-              + CallbackServer.INSTANCE.getPort() + ")",
-          null);
-      this.fRservi.evalVoid("instance$copyRtListener()", null);
-    } catch (CoreException e) {
-      e.printStackTrace();
-    }
+//      FunctionCall rtaskFile = this.fRservi.createFunctionCall("source");
+//      rtaskFile.add("file", "file(\"" + fullPath + "\")");
+//      rtaskFile.add("chdir", "TRUE");
+//      rtaskFile.evalVoid(null);
+//
+//      this.fRservi.evalVoid("instance <- " + name + "$new()", null);
+//
+//      this.fRservi.evalVoid(
+//          "instance$rtListener <- RTListener$new('" + this.id + "')", null);
+//
+//      this.fRservi.evalVoid(
+//          "thriftc <- thriftr::load(t[0], module_name='runnersideserver_thrift', include_dirs=[t[1]])",
+//          null);
+//      this.fRservi.evalVoid(
+//          "instance$rtListener$client <- thriftr::make_client(thriftc.RunnerSideServer, '127.0.0.1', "
+//              + CallbackServer.INSTANCE.getPort() + ")",
+//          null);
+//      this.fRservi.evalVoid("instance$copyRtListener()", null);
+//    } catch (CoreException e) {
+//      e.printStackTrace();
+//    }
 
     //
     // RTaskInfo
     //
-    try {
-      this.atomic = this.fRservi.evalData("instance$rtaskinfo$atomic", null)
-          .getData().getInt(0) == 1;
-      this.generator = this.fRservi
-          .evalData("instance$rtaskinfo$generator", null).getData()
-          .getInt(0) == 1;
-      this.externalSource = this.fRservi
-          .evalData("instance$rtaskinfo$external_source", null).getData()
-          .getInt(0) == 1;
-      this.constant = this.fRservi.evalData("instance$rtaskinfo$constant", null)
-          .getData().getInt(0) == 1;
-    } catch (CoreException e) {
-      e.printStackTrace();
-    }
+//    try {
+//      this.atomic = this.fRservi.evalData("instance$rtaskinfo$atomic", null)
+//          .getData().getInt(0) == 1;
+//      this.generator = this.fRservi
+//          .evalData("instance$rtaskinfo$generator", null).getData()
+//          .getInt(0) == 1;
+//      this.externalSource = this.fRservi
+//          .evalData("instance$rtaskinfo$external_source", null).getData()
+//          .getInt(0) == 1;
+//      this.constant = this.fRservi.evalData("instance$rtaskinfo$constant", null)
+//          .getData().getInt(0) == 1;
+//    } catch (CoreException e) {
+//      e.printStackTrace();
+//    }
   }
 
   @Override
   public void runnerStart() {
-    try {
-      this.fRservi.evalVoid("instance$runner_start()", null);
-    } catch (CoreException e) {
-      e.printStackTrace();
-    }
+//    try {
+//      this.fRservi.evalVoid("instance$runner_start()", null);
+//    } catch (CoreException e) {
+//      e.printStackTrace();
+//    }
   }
 
   @Override
   public void runnerStop() {
-    try {
-      this.fRservi.evalVoid("instance$runner_stop()", null);
-      fRservi.close();
-      RServer.INSTANCE.stop(fRservi);
-      CallbackServer.INSTANCE.stop(this.id);
-      PrintOutServer.INSTACE.stop(this);
-    } catch (CoreException e) {
-      e.printStackTrace();
-    }
+//    try {
+//      this.fRservi.evalVoid("instance$runner_stop()", null);
+//      fRservi.close();
+//      RServer.INSTANCE.stop(fRservi);
+//      CallbackServer.INSTANCE.stop(this.id);
+//      PrintOutServer.INSTACE.stop(this);
+//    } catch (CoreException e) {
+//      e.printStackTrace();
+//    }
   }
 
   @Override
   protected void executeConstant() {
     logger.trace("executeConstant");
-    this.portIdData = null;
-    try {
-      this.fRservi.evalVoid("instance$execute(-1)", null);
-    } catch (CoreException e) {
-      e.printStackTrace();
-    }
+//    this.portIdData = null;
+//    try {
+//      this.fRservi.evalVoid("instance$execute(-1)", null);
+//    } catch (CoreException e) {
+//      e.printStackTrace();
+//    }
   }
 
   @Override
   protected void execute(PortMap portIdData, int grp) {
     logger.trace("execute");
-    this.portIdData = portIdData;
-    try {
-      this.fRservi.evalVoid("instance$execute(" + grp + ")", null);
-    } catch (CoreException e) {
-      e.printStackTrace();
-    }
+//    this.portIdData = portIdData;
+//    try {
+//      this.fRservi.evalVoid("instance$execute(" + grp + ")", null);
+//    } catch (CoreException e) {
+//      e.printStackTrace();
+//    }
   }
 
   @Override
@@ -172,33 +172,33 @@ public class RTaskI extends GeneratorI implements RTaskListener {
     PortMap portIdData = new PortMap();
     portIdData.put(portId, data);
     this.portIdData = portIdData;
-    try {
-      this.fRservi.evalVoid("instance$execute_async(" + portId + ")", null);
-    } catch (CoreException e) {
-      e.printStackTrace();
-    }
+//    try {
+//      this.fRservi.evalVoid("instance$execute_async(" + portId + ")", null);
+//    } catch (CoreException e) {
+//      e.printStackTrace();
+//    }
   }
 
   @Override
   protected void executeExternalSrc() {
     logger.trace("executeExternalSrc");
     this.portIdData = null;
-    try {
-      this.fRservi.evalVoid("instance$execute_ext_src()", null);
-    } catch (CoreException e) {
-      e.printStackTrace();
-    }
+//    try {
+//      this.fRservi.evalVoid("instance$execute_ext_src()", null);
+//    } catch (CoreException e) {
+//      e.printStackTrace();
+//    }
   }
 
   @Override
   protected void generate() {
     logger.trace("generate");
     this.portIdData = null;
-    try {
-      this.fRservi.evalVoid("instance$generate()", null);
-    } catch (CoreException e) {
-      e.printStackTrace();
-    }
+//    try {
+//      this.fRservi.evalVoid("instance$generate()", null);
+//    } catch (CoreException e) {
+//      e.printStackTrace();
+//    }
   }
 
   @Override
