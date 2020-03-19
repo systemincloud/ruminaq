@@ -8,8 +8,6 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core.spi,
- de.walware.ecommons,
- de.walware.ecommons.net,
  org.apache.thrift,
  org.apache.thrift.server,
  org.apache.thrift.transport,
