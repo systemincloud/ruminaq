@@ -157,9 +157,9 @@
                 <artifact>
                   <id>de.walware.rj:de.walware.rj.client:2.1.0-SNAPSHOT</id>
                 </artifact>
-                <artifact>
-                  <id>de.walware.rj:de.walware.rj.servi:2.1.0-SNAPSHOT</id>
-                </artifact>
+<!--                 <artifact> -->
+<!--                   <id>de.walware.rj:de.walware.rj.servi:2.1.0-SNAPSHOT</id> -->
+<!--                 </artifact> -->
                 <artifact>
                   <id>de.walware.rj:de.walware.rj.server:2.1.0-SNAPSHOT</id>
                 </artifact>
