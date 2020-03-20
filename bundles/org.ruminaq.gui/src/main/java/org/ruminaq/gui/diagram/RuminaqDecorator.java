@@ -9,6 +9,13 @@ package org.ruminaq.gui.diagram;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.graphiti.tb.IDecorator;
 
+/**
+ * Decorator pattern on IDecorator to hack around it.
+ * 
+ * @author Marek Jagielski
+ */
 public interface RuminaqDecorator extends IDecorator {
+
   IFigure decorateFigure(IFigure figure, IDecorator decorator);
+
 }
