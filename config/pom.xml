@@ -669,13 +669,6 @@
         <sonar.java.checkstyle.reportPaths>${basedir}/target/checkstyle-result.xml</sonar.java.checkstyle.reportPaths>
       </properties>
     </profile>
-    <profile>
-      <id>init</id>
-      <modules>
-        <module>libs</module>
-        <module>p2repo</module>
-      </modules>
-    </profile>
   </profiles>
 
 </project>
