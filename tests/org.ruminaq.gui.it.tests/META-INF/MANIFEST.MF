@@ -11,7 +11,8 @@ Require-Bundle: jakarta.xml.bind-api,
  org.eclipse.reddeer.junit,
  org.eclipse.reddeer.go,
  org.eclipse.reddeer.swt,
- org.eclipse.swt
+ org.eclipse.swt,
+ org.eclipse.equinox.console
 Import-Package: ch.qos.logback.core.spi,
  javax.xml.bind,
  javax.xml.bind.annotation,

@@ -53,16 +53,25 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
     super(diagramTypeProvider);
   }
 
+  /**
+   * Selection tool in palette not needed.
+   */
   @Override
   public boolean isShowSelectionTool() {
     return false;
   }
 
+  /**
+   * Marquee is not needed.
+   */
   @Override
   public boolean isShowMarqueeTool() {
     return false;
   }
 
+  /**
+   * Guide lines not needed.
+   */
   @Override
   public boolean isShowGuides() {
     return false;
@@ -129,7 +138,7 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
             .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
                 ContextMenuEntryExtension.class,
                 () -> Arrays.asList(getFeatureProvider(), context))
-            .stream().findFirst().orElse(ctx -> (arg -> false))
+            .stream().findFirst().orElse(ctx -> arg -> false)
             .isAvailable(context))
         .map((ICustomFeature cf) -> {
           ContextMenuEntry menuEntry = new ContextMenuEntry(cf, context);
