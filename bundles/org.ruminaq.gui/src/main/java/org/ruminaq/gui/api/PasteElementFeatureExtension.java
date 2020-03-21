@@ -50,7 +50,14 @@ public interface PasteElementFeatureExtension extends
         yMin).stream().findFirst().orElse(null);
   }
 
-  default Predicate<? super Class<? extends RuminaqShapePasteFeature<? extends RuminaqShape>>> filter(
+  /**
+   * Check if PasteFeatureFilter matches for BaseElement.
+   * 
+   * @param oldBo domain element
+   * @param fp IFeatureProvider of Graphiti
+   * @return predicate determining if class matches the filter
+   */
+  default Predicate<Class<? extends RuminaqShapePasteFeature<? extends RuminaqShape>>> filter(
       BaseElement oldBo, IFeatureProvider fp) {
     return clazz -> Optional
         .ofNullable(clazz.getAnnotation(PasteFeatureFilter.class))

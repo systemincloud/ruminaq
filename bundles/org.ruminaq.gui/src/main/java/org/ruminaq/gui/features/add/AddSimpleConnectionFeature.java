@@ -69,11 +69,11 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
         }).orElse(null);
   }
 
-  private void addModelObjectToConnectionBeforePoint(Connection connection,
+  private static void addModelObjectToConnectionBeforePoint(Connection connection,
       SimpleConnection addedSimpleConnection) {
     Optional.of(connection).map(Connection::getStart).map(Anchor::getParent)
         .filter(SimpleConnectionPointShape.class::isInstance).ifPresent(
-            s -> connection.getStart().getIncomingConnections().forEach(c -> {
+            s -> connection.getStart().getIncomingConnections().forEach((Connection c) -> {
               Optional.of(c).filter(SimpleConnectionShape.class::isInstance)
                   .map(SimpleConnectionShape.class::cast)
                   .ifPresent(scs -> scs.setModelObject(addedSimpleConnection));
