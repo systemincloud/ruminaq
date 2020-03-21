@@ -178,11 +178,11 @@ public final class GuiUtil {
   }
 
   private static boolean ifAisGreaterThenB(int a, int b, int p) {
-    return a < b || (p >= b && p <= a);
+    return a < b || p >= b && p <= a;
   }
 
   private static boolean ifAisLowerThenB(int a, int b, int p) {
-    return a > b || (p <= b && p >= a);
+    return a > b || p <= b && p >= a;
   }
 
   // TODO: Think about line break in the ui...
