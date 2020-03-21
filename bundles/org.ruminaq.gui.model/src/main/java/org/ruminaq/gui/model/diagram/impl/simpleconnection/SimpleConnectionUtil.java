@@ -84,20 +84,26 @@ public final class SimpleConnectionUtil {
         .map(SimpleEntry::getKey);
   }
 
-  public static LinkedList<Point> getBendpointsWithEndings(FreeFormConnection scs) {
+  /**
+   * List of bendpoints with starting and ending points.
+   * 
+   * @param ffc
+   * @return list of Points.
+   */
+  public static LinkedList<Point> getBendpointsWithEndings(FreeFormConnection ffc) {
     Point startPoint = StylesFactory.eINSTANCE.createPoint();
-    Optional<RuminaqShape> start = Optional.of(scs.getStart().getParent())
+    Optional<RuminaqShape> start = Optional.of(ffc.getStart().getParent())
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast);
     start.map(SimpleConnectionUtil::xOnDiagram).ifPresent(startPoint::setX);
     start.map(SimpleConnectionUtil::yOnDiagram).ifPresent(startPoint::setY);
 
     Point endPoint = StylesFactory.eINSTANCE.createPoint();
-    Optional<RuminaqShape> end = Optional.of(scs.getEnd().getParent())
+    Optional<RuminaqShape> end = Optional.of(ffc.getEnd().getParent())
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast);
     end.map(SimpleConnectionUtil::xOnDiagram).ifPresent(endPoint::setX);
     end.map(SimpleConnectionUtil::yOnDiagram).ifPresent(endPoint::setY);
 
-    LinkedList<Point> points = new LinkedList<>(scs.getBendpoints());
+    LinkedList<Point> points = new LinkedList<>(ffc.getBendpoints());
     points.add(0, startPoint);
     points.add(endPoint);
 

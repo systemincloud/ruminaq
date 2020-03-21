@@ -6,7 +6,7 @@
 
 package org.ruminaq.gui.features.custom;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.graphiti.features.custom.ICustomFeature;
@@ -24,6 +24,6 @@ public class CustomFeatures implements CustomFeaturesExtension {
 
   @Override
   public List<Class<? extends ICustomFeature>> getFeatures() {
-    return Arrays.asList(CreateSimpleConnectionPointFeature.class);
+    return Collections.singletonList(CreateSimpleConnectionPointFeature.class);
   }
 }

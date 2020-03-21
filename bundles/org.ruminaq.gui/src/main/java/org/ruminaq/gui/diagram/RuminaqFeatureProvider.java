@@ -13,7 +13,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
-import org.eclipse.graphiti.features.IAddBendpointFeature;
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.ICopyFeature;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
@@ -29,7 +28,6 @@ import org.eclipse.graphiti.features.IReconnectionFeature;
 import org.eclipse.graphiti.features.IRemoveFeature;
 import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.eclipse.graphiti.features.IUpdateFeature;
-import org.eclipse.graphiti.features.context.IAddBendpointContext;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICopyContext;
@@ -83,21 +81,20 @@ public class RuminaqFeatureProvider extends DefaultFeatureProvider {
     return null;
   }
 
+  /**
+   * Used where we enable remove (deleting...).
+   * 
+   * @param context IRemoveContext graphiti
+   * @return IRemoveFeature graphiti
+   */
   protected IRemoveFeature getRemoveFeatureEnabled(IRemoveContext context) {
-    return super.getRemoveFeature(context); // used where we enable remove
-                                            // (deleting...)
+    return super.getRemoveFeature(context);
   }
 
   @Override
   public IAddFeature getAddFeature(IAddContext context) {
     return getFeature(AddFeatureExtension.class, context,
         () -> super.getAddFeature(context));
-  }
-
-  @Override
-  public IAddBendpointFeature getAddBendpointFeature(
-      IAddBendpointContext context) {
-    return super.getAddBendpointFeature(context);
   }
 
   @Override

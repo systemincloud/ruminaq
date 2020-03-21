@@ -12,6 +12,8 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.impl.AbstractAddFeature;
+import org.eclipse.graphiti.mm.pictograms.Anchor;
+import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
@@ -19,6 +21,7 @@ import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AddSimpleConnectionFeature.Filter;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
+import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.SimpleConnection;
@@ -72,9 +75,11 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
 
   private void linkToConnectionBeforePoint(Connection connection,
       SimpleConnection addedSimpleConnection) {
-    String connectionPointPropertyStart = Graphiti.getPeService()
-        .getPropertyValue(connection.getStart().getParent(),
-            Constants.SIMPLE_CONNECTION_POINT);
+    Optional.of(connection).map(Connection::getStart).map(Anchor::getParent)
+        .filter(SimpleConnectionPointShape.class::isInstance).ifPresent((s) ->{
+          
+        });
+
     if (Boolean.parseBoolean(connectionPointPropertyStart)) {
       for (Connection c : connection.getStart().getIncomingConnections()) {
         link(c, Util.concat(c.getLink().getBusinessObjects().toArray(),
