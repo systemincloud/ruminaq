@@ -17,5 +17,12 @@ import org.eclipse.graphiti.tb.IDecorator;
  * @author Marek Jagielski
  */
 public interface DecoratorExtension {
+  
+  /**
+   * Return all decorators that matches to given PictogramElement.
+   * 
+   * @param pe PictogramElement that is going to be decorated
+   * @return collection of decorators
+   */
   Collection<IDecorator> getDecorators(PictogramElement pe);
 }
