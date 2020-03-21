@@ -90,7 +90,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
         connectionShapeAfterPoint.setStart(pointAnchor);
         connectionShapeAfterPoint.setEnd(scs.getEnd());
         connectionShapeAfterPoint.getBendpoints().addAll(followingBendpoints);
-        connectionShapeAfterPoint.setModelObject(scs.getModelObject());
+        connectionShapeAfterPoint.getModelObject().addAll(scs.getModelObject());
 
         scs.setEnd(pointAnchor);
       }

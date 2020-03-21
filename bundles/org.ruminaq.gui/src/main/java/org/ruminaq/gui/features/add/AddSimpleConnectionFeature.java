@@ -62,7 +62,7 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
           connectionShape
               .setEnd(((IAddConnectionContext) context).getTargetAnchor());
 
-          connectionShape.setModelObject(sc);
+          connectionShape.getModelObject().add(sc);
           addModelObjectToConnectionBeforePoint(connectionShape, sc);
 
           return connectionShape;
@@ -80,7 +80,7 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
             s -> connection.getStart().getIncomingConnections().forEach((Connection c) -> {
               Optional.of(c).filter(SimpleConnectionShape.class::isInstance)
                   .map(SimpleConnectionShape.class::cast)
-                  .ifPresent(scs -> scs.setModelObject(addedSimpleConnection));
+                  .ifPresent(scs -> scs.getModelObject().add(addedSimpleConnection));
               addModelObjectToConnectionBeforePoint(c, addedSimpleConnection);
             }));
   }

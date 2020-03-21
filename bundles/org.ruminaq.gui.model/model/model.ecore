@@ -166,12 +166,10 @@
         <details key="body" value="return true;"/>
       </eAnnotations>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="modelObject" eType="ecore:EClass ../../org.ruminaq.model.ruminaq/model/model.ecore#//BaseElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelObject" upperBound="-1"
+        eType="ecore:EClass ../../org.ruminaq.model.ruminaq/model/model.ecore#//BaseElement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SimpleConnectionPointShape" eSuperTypes="#//RuminaqShape">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pointSize" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" changeable="false"
-        transient="true" defaultValueLiteral="9"/>
     <eOperations name="getGraphicsAlgorithm" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//algorithms/GraphicsAlgorithm">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
@@ -183,16 +181,19 @@
       </eAnnotations>
     </eOperations>
     <eOperations name="setCenteredX">
-      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="setX(x - (getPointSize() >> 1));"/>
       </eAnnotations>
+      <eParameters name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
     <eOperations name="setCenteredY">
-      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="setY(y - (getPointSize() >> 1));"/>
       </eAnnotations>
+      <eParameters name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pointSize" ordered="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" changeable="false"
+        transient="true" defaultValueLiteral="9"/>
   </eClassifiers>
 </ecore:EPackage>
