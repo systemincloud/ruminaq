@@ -87,8 +87,8 @@ public final class SimpleConnectionUtil {
   /**
    * List of bendpoints with starting and ending points.
    * 
-   * @param ffc
-   * @return list of Points.
+   * @param ffc connection shape
+   * @return list of Points
    */
   public static LinkedList<Point> getBendpointsWithEndings(FreeFormConnection ffc) {
     Point startPoint = StylesFactory.eINSTANCE.createPoint();
