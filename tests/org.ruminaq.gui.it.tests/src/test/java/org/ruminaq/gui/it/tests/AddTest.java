@@ -14,10 +14,13 @@ import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.reddeer.swt.api.MenuItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.tests.common.reddeer.CreateSimpleConnection;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
+import org.ruminaq.tests.common.reddeer.WithLabelAssociated;
+import org.ruminaq.tests.common.reddeer.WithShapeGraphitiEditPart;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
@@ -122,5 +125,13 @@ public class AddTest extends GuiTest {
     
     gefEditor.getContextMenu().getItem("Create connection point").select();
     assertEquals("6 elements", 6, gefEditor.getNumberOfEditParts());
+    
+    gefEditor.addToolFromPalette("Output Port", 400, 200);
+    
+    new CreateSimpleConnection(gefEditor,
+        new WithShapeGraphitiEditPart(SimpleConnectionPointShape.class),
+        new WithLabelAssociated("My Output Port 1")).execute();
+    
+    assertEquals("8 elements", 8, gefEditor.getNumberOfEditParts());
   }
 }
