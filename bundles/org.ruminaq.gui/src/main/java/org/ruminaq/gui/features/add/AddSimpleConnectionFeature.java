@@ -67,26 +67,21 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
               .setEnd(((IAddConnectionContext) context).getTargetAnchor());
 
           connectionShape.setModelObject(sc);
-          linkToConnectionBeforePoint(connectionShape, sc);
+          addModelObjectToConnectionBeforePoint(connectionShape, sc);
 
           return connectionShape;
         }).orElse(null);
   }
 
-  private void linkToConnectionBeforePoint(Connection connection,
+  private void addModelObjectToConnectionBeforePoint(Connection connection,
       SimpleConnection addedSimpleConnection) {
     Optional.of(connection).map(Connection::getStart).map(Anchor::getParent)
-        .filter(SimpleConnectionPointShape.class::isInstance).ifPresent((s) ->{
-          
-        });
-
-    if (Boolean.parseBoolean(connectionPointPropertyStart)) {
-      for (Connection c : connection.getStart().getIncomingConnections()) {
-        link(c, Util.concat(c.getLink().getBusinessObjects().toArray(),
-            addedSimpleConnection));
-        linkToConnectionBeforePoint(c, addedSimpleConnection);
-      }
-    }
+        .filter(SimpleConnectionPointShape.class::isInstance).ifPresent(
+            s -> connection.getStart().getIncomingConnections().forEach(c -> {
+              Optional.of(c).filter(SimpleConnectionShape.class::isInstance)
+                  .map(SimpleConnectionShape.class::cast)
+                  .ifPresent(scs -> scs.setModelObject(addedSimpleConnection));
+              addModelObjectToConnectionBeforePoint(c, addedSimpleConnection);
+            }));
   }
-
 }
