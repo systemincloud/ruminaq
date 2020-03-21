@@ -41,6 +41,7 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
   }
 
   /**
+   * Determine if Feature matches.
    * 
    * @param context context of feature
    * @param fp      IFeatureProvider of Graphiti
@@ -51,11 +52,11 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
     return (Class<? extends T> clazz) -> Optional
         .ofNullable(clazz.getAnnotation(FeatureFilter.class))
         .map(FeatureFilter::value)
-        .map(f -> Result.attempt(() -> f.getConstructor()))
+        .map(f -> Result.attempt(f::getConstructor))
         .flatMap(r -> Optional.ofNullable(r.orElse(null)))
-        .map(f -> Result.attempt(() -> f.newInstance()))
+        .map(f -> Result.attempt(f::newInstance))
         .flatMap(r -> Optional.ofNullable(r.orElse(null)))
-        .map(f -> f.test(context, fp)).orElse(true);
+        .map(f -> f.test(context, fp)).orElse(Boolean.TRUE);
   }
 
   @Override
