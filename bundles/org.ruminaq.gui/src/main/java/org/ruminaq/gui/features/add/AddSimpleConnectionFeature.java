@@ -69,6 +69,10 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
         }).orElse(null);
   }
 
+  /**
+   * If the connection is created starting on connection point,
+   * we should add model reference to each segment.
+   */
   private static void addModelObjectToConnectionBeforePoint(Connection connection,
       SimpleConnection addedSimpleConnection) {
     Optional.of(connection).map(Connection::getStart).map(Anchor::getParent)
