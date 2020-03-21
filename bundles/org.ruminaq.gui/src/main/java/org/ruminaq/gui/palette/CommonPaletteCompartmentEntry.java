@@ -77,7 +77,7 @@ public class CommonPaletteCompartmentEntry
     return Collections.singletonList(commonCompartmentEntry);
   }
 
-  private List<ConnectionCreationToolEntry> getConnectionCreationToolEntries(
+  private static List<ConnectionCreationToolEntry> getConnectionCreationToolEntries(
       boolean isTest, ICreateConnectionFeature[] createConnectionFeatures,
       String stackName) {
     return Stream.of(createConnectionFeatures)
