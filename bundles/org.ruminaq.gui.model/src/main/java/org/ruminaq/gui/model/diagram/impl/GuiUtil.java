@@ -171,13 +171,13 @@ public final class GuiUtil {
    */
   public static boolean pointBelongsToSection(Point a, Point b, Point p) {
     return pointBelongsToLine(a, b, p)
-        && ifAisGreatrThenB(a.getX(), b.getX(), p.getX())
+        && ifAisGreaterThenB(a.getX(), b.getX(), p.getX())
         && ifAisLowerThenB(a.getX(), b.getX(), p.getX())
-        && ifAisGreatrThenB(a.getY(), b.getY(), p.getY())
+        && ifAisGreaterThenB(a.getY(), b.getY(), p.getY())
         && ifAisLowerThenB(a.getY(), b.getY(), p.getY());
   }
 
-  private static boolean ifAisGreatrThenB(int a, int b, int p) {
+  private static boolean ifAisGreaterThenB(int a, int b, int p) {
     return a < b || (p >= b && p <= a);
   }
 
