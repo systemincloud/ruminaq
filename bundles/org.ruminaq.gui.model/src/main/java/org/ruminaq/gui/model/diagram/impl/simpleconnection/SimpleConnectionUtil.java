@@ -7,8 +7,8 @@
 package org.ruminaq.gui.model.diagram.impl.simpleconnection;
 
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -84,7 +84,7 @@ public final class SimpleConnectionUtil {
         .map(SimpleEntry::getKey);
   }
 
-  private static List<Point> getBendpointsWithEndings(FreeFormConnection scs) {
+  public static LinkedList<Point> getBendpointsWithEndings(FreeFormConnection scs) {
     Point startPoint = StylesFactory.eINSTANCE.createPoint();
     Optional<RuminaqShape> start = Optional.of(scs.getStart().getParent())
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast);
@@ -97,7 +97,7 @@ public final class SimpleConnectionUtil {
     end.map(SimpleConnectionUtil::xOnDiagram).ifPresent(endPoint::setX);
     end.map(SimpleConnectionUtil::yOnDiagram).ifPresent(endPoint::setY);
 
-    ArrayList<Point> points = new ArrayList<>(scs.getBendpoints());
+    LinkedList<Point> points = new LinkedList<>(scs.getBendpoints());
     points.add(0, startPoint);
     points.add(endPoint);
 

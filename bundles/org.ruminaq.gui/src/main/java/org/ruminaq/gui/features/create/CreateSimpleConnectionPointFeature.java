@@ -6,10 +6,12 @@
 
 package org.ruminaq.gui.features.create;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.LinkedList;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -17,7 +19,6 @@ import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
@@ -80,18 +81,18 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
         Anchor pointAnchor = cs.createChopboxAnchor(s);
 
         deleteBendpointsNear(scs, p, NEAR_BENDPOINT_DISTANCE);
-        List<Point> deletedPoints = deleteFollowingBendpoints(scs, p);
-
-        Anchor end = scs.getEnd();
-        scs.setEnd(pointAnchor);
+        List<Point> followingBendpoints = followingBendpoints(scs, p);
+        scs.getBendpoints().removeAll(followingBendpoints);
 
         SimpleConnectionShape connectionShapeAfterPoint = DiagramFactory.eINSTANCE
             .createSimpleConnectionShape();
         connectionShapeAfterPoint.setParent(getDiagram());
         connectionShapeAfterPoint.setStart(pointAnchor);
-        connectionShapeAfterPoint.setEnd(end);
-        connectionShapeAfterPoint.getBendpoints().addAll(deletedPoints);
+        connectionShapeAfterPoint.setEnd(scs.getEnd());
+        connectionShapeAfterPoint.getBendpoints().addAll(followingBendpoints);
         connectionShapeAfterPoint.setModelObject(scs.getModelObject());
+
+        scs.setEnd(pointAnchor);
       }
     }
   }
@@ -104,43 +105,21 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
             .collect(Collectors.toList()));
   }
 
-  private static List<Point> deleteFollowingBendpoints(FreeFormConnection ffc,
+  private static List<Point> followingBendpoints(FreeFormConnection ffc,
       Point p) {
-    EList<Point> points = ffc.getBendpoints();
-    List<Point> deletedPoints = new ArrayList<>();
-    if (points.size() == 0)
-      return deletedPoints;
+    LinkedList<Point> points = SimpleConnectionUtil
+        .getBendpointsWithEndings(ffc);
+    LinkedList<Point> notFollowingPoints = IntStream.range(0, points.size() - 1)
+        .mapToObj(i -> new SimpleEntry<Point, Point>(points.get(i),
+            points.get(i + 1)))
+        .takeWhile(
+            me -> !GuiUtil.pointBelongsToSection(me.getKey(), me.getValue(), p))
+        .map(SimpleEntry::getValue)
+        .collect(Collectors.toCollection(LinkedList::new));
 
-    int x_start = ffc.getStart().getParent().getGraphicsAlgorithm().getX()
-        + (ffc.getStart().getParent().getGraphicsAlgorithm().getWidth() >> 1)
-        + ((ContainerShape) ffc.getStart().getParent().eContainer())
-            .getGraphicsAlgorithm().getX();
-    int y_start = ffc.getStart().getParent().getGraphicsAlgorithm().getY()
-        + (ffc.getStart().getParent().getGraphicsAlgorithm().getHeight() >> 1)
-        + ((ContainerShape) ffc.getStart().getParent().eContainer())
-            .getGraphicsAlgorithm().getY();
-
-    Point start = GuiUtil.createPoint(x_start, y_start);
-    for (int i = 0; i < points.size(); i++) {
-      if (i == 0) {
-        if (GuiUtil.pointBelongsToSection(p, start, points.get(0))) {
-          while (i < points.size()) {
-            deletedPoints.add(points.get(i));
-            points.remove(i);
-          }
-          return deletedPoints;
-        }
-      } else {
-        if (GuiUtil.pointBelongsToSection(points.get(i - 1), points.get(i),
-            p)) {
-          while (i < points.size()) {
-            deletedPoints.add(points.get(i));
-            points.remove(i);
-          }
-          return deletedPoints;
-        }
-      }
-    }
-    return deletedPoints;
+    points.removeFirst();
+    points.removeLast();
+    points.removeAll(notFollowingPoints);
+    return points;
   }
 }
