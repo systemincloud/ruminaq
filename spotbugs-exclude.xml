@@ -12,6 +12,9 @@
     <Bug pattern="IMC_IMMATURE_CLASS_NO_TOSTRING" />
   </Match>
   <Match>
+    <Bug pattern="OI_OPTIONAL_ISSUES_USES_ORELSEGET_WITH_NULL" />
+  </Match>
+  <Match>
     <Bug pattern="OPM_OVERLY_PERMISSIVE_METHOD"/>
   </Match>
   <Match>

@@ -96,7 +96,7 @@ public class CommonPaletteCompartmentEntry
         }).collect(Collectors.toList());
   }
 
-  private List<ObjectCreationToolEntry> getCreationToolEntries(boolean isTest,
+  private static List<ObjectCreationToolEntry> getCreationToolEntries(boolean isTest,
       ICreateFeature[] createFeatures, String stackName) {
     return Stream.of(createFeatures)
         .filter(PaletteCreateFeature.class::isInstance)
