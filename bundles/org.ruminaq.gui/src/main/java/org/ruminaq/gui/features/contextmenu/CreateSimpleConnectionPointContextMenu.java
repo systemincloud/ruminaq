@@ -56,10 +56,8 @@ public class CreateSimpleConnectionPointContextMenu
               .filter(SimpleConnectionShape.class::isInstance)
               .map(SimpleConnectionShape.class::cast)
               .anyMatch(scs -> SimpleConnectionUtil.distanceToConnection(scs,
-                  context.getX(),
-                  context.getY()) < DISTANCE_TOLERANCE_ON_UNSELECTED_CONNECTION);
-        } else {
-          return false;
+                  context.getX(), context
+                      .getY()) < DISTANCE_TOLERANCE_ON_UNSELECTED_CONNECTION);
         }
       }
 
@@ -69,10 +67,9 @@ public class CreateSimpleConnectionPointContextMenu
 
   @Override
   public Predicate<ICustomFeature> isAvailable(ICustomContext context) {
-    return customFeature -> {
-      return customFeature.isAvailable(context) && customFeature.getName()
-          .equals(CreateSimpleConnectionPointFeature.NAME);
-    };
+    return customFeature -> customFeature.isAvailable(context)
+        && CreateSimpleConnectionPointFeature.NAME
+            .equals(customFeature.getName());
   }
 
 }
