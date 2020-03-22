@@ -13,7 +13,7 @@ import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
 import org.ruminaq.gui.diagram.RuminaqBehaviorProvider;
-import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadDataLabelFeature.Filter;
+import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadLabelFeature.Filter;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
@@ -25,7 +25,7 @@ import org.ruminaq.util.ServiceFilterArgs;
  */
 @Component(property = { "service.ranking:Integer=5" })
 @ServiceFilter(Filter.class)
-public class ContextButtonPadDataLabelFeature
+public class ContextButtonPadLabelFeature
     implements GenericContextButtonPadDataExtension {
 
   public static class Filter implements Predicate<ServiceFilterArgs> {
