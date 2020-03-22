@@ -122,16 +122,20 @@ public class AddTest extends GuiTest {
     assertTrue("Can create connection point if clicked close",
         gefEditor.getContextMenu().getItems().stream().map(MenuItem::getText)
             .anyMatch("Create connection point"::equals));
-    
+
     gefEditor.getContextMenu().getItem("Create connection point").select();
     assertEquals("6 elements", 6, gefEditor.getNumberOfEditParts());
-    
+
+    WithShapeGraphitiEditPart connectionPoint = new WithShapeGraphitiEditPart(
+        SimpleConnectionPointShape.class);
+    assertEquals("Label shouldn't have any pad buttons", 2,
+        connectionPoint.getContextButtons().size());
+
     gefEditor.addToolFromPalette("Output Port", 400, 200);
-    
-    new CreateSimpleConnection(gefEditor,
-        new WithShapeGraphitiEditPart(SimpleConnectionPointShape.class),
+
+    new CreateSimpleConnection(gefEditor, connectionPoint,
         new WithLabelAssociated("My Output Port 1")).execute();
-    
+
     assertEquals("8 elements", 8, gefEditor.getNumberOfEditParts());
   }
 }

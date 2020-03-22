@@ -23,16 +23,20 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.tb.ContextButtonEntry;
 import org.eclipse.graphiti.tb.IContextButtonEntry;
 import org.osgi.service.component.annotations.Component;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.Images;
 import org.ruminaq.gui.api.DomainContextButtonPadDataExtension;
 import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadFlowSourceTool.Filter;
-import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
 
+/**
+ * Start SimpleConnection on FlowSource and SimpleConnectionPoint.
+ * 
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 @ServiceFilter(Filter.class)
 public class ContextButtonPadFlowSourceTool
@@ -42,16 +46,16 @@ public class ContextButtonPadFlowSourceTool
 
     @Override
     public boolean test(ServiceFilterArgs args) {
-      IPictogramElementContext context = (IPictogramElementContext) args
-          .getArgs().get(1);
-      PictogramElement pe = context.getPictogramElement();
-      return !LabelShape.class.isInstance(pe) && (Boolean
-          .parseBoolean(Graphiti.getPeService().getPropertyValue(pe,
-              Constants.SIMPLE_CONNECTION_POINT))
-          || Optional.ofNullable(context.getPictogramElement())
-              .filter(RuminaqShape.class::isInstance)
-              .map(RuminaqShape.class::cast).map(RuminaqShape::getModelObject)
-              .filter(FlowSource.class::isInstance).isPresent());
+      Optional<PictogramElement> peOpt = Optional.ofNullable(args)
+          .map(ServiceFilterArgs::getArgs).map(l -> l.get(1))
+          .filter(IPictogramElementContext.class::isInstance)
+          .map(IPictogramElementContext.class::cast)
+          .map(IPictogramElementContext::getPictogramElement);
+      return peOpt.filter(RuminaqShape.class::isInstance)
+          .map(RuminaqShape.class::cast).map(RuminaqShape::getModelObject)
+          .filter(FlowSource.class::isInstance).isPresent()
+          || peOpt.filter(SimpleConnectionPointShape.class::isInstance)
+              .isPresent();
     }
   }
 
@@ -73,7 +77,7 @@ public class ContextButtonPadFlowSourceTool
 
     ICreateConnectionFeature[] features = fp.getCreateConnectionFeatures();
     ContextButtonEntry button = new ContextButtonEntry(null, context);
-    button.setText("Create connection"); //$NON-NLS-1$
+    button.setText("Create connection");
     ArrayList<String> names = new ArrayList<>();
     button.setIconId(Images.Image.IMG_CONTEXT_SIMPLECONNECTION.name());
     for (ICreateConnectionFeature feature : features) {
