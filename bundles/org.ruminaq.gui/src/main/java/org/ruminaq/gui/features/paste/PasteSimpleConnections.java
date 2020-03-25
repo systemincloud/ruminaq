@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -19,15 +20,15 @@ import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.model.ruminaq.FlowTarget;
 import org.ruminaq.model.ruminaq.SimpleConnection;
 
-public class PasteSimpleConnections extends PictogramElementPasteFeature<SimpleConnectionShape> {
+public class PasteSimpleConnections
+    extends PictogramElementPasteFeature<SimpleConnectionShape> {
 
   private Map<FlowSource, Anchor> oldFlowSources;
   private Map<FlowTarget, Anchor> oldFlowTargets;
@@ -55,12 +56,14 @@ public class PasteSimpleConnections extends PictogramElementPasteFeature<SimpleC
       for (SimpleConnection sc : lsc)
         if (!oldSCnewSC.containsKey(sc)) {
           SimpleConnection newSc = EcoreUtil.copy(sc);
-          Object o1 = getFeatureProvider().getBusinessObjectForPictogramElement(oldAnchorNewAnchor
-              .get(oldFlowSources.get(newSc.getSourceRef())).getParent());
+          Object o1 = getFeatureProvider()
+              .getBusinessObjectForPictogramElement(oldAnchorNewAnchor
+                  .get(oldFlowSources.get(newSc.getSourceRef())).getParent());
           if (o1 instanceof FlowSource)
             newSc.setSourceRef((FlowSource) o1);
-          Object o2 = getFeatureProvider().getBusinessObjectForPictogramElement(oldAnchorNewAnchor
-              .get(oldFlowTargets.get(newSc.getTargetRef())).getParent());
+          Object o2 = getFeatureProvider()
+              .getBusinessObjectForPictogramElement(oldAnchorNewAnchor
+                  .get(oldFlowTargets.get(newSc.getTargetRef())).getParent());
           if (o2 instanceof FlowTarget)
             newSc.setTargetRef((FlowTarget) o2);
           getRuminaqDiagram().getMainTask().getConnection().add(newSc);
@@ -91,7 +94,8 @@ public class PasteSimpleConnections extends PictogramElementPasteFeature<SimpleC
           }
           newC.setEnd(getEndAnchor(c, deltaX, deltaY));
           newColdC.put(newC, c);
-          getFeatureProvider().getDiagramTypeProvider().getDiagram().getConnections().add(newC);
+          getFeatureProvider().getDiagramTypeProvider().getDiagram()
+              .getConnections().add(newC);
         }
       }
     }
@@ -102,7 +106,8 @@ public class PasteSimpleConnections extends PictogramElementPasteFeature<SimpleC
           .get(c.getValue()))
         newSc.add(oldSCnewSC.get(old));
 
-      getFeatureProvider().link(c.getKey(), newSc.toArray(new Object[newSc.size()]));
+      getFeatureProvider().link(c.getKey(),
+          newSc.toArray(new Object[newSc.size()]));
     }
   }
 
@@ -111,16 +116,18 @@ public class PasteSimpleConnections extends PictogramElementPasteFeature<SimpleC
     if (oldAnchorNewAnchor.containsKey(c.getEnd()))
       ret = oldAnchorNewAnchor.get(c.getEnd());
     else {
-      Shape end = (Shape) c.getEnd().getParent();
-      if (Graphiti.getPeService().getPropertyValue(end,
-          Constants.SIMPLE_CONNECTION_POINT) != null) {
-        Shape newSCP = EcoreUtil.copy(end);
+      Optional<SimpleConnectionPointShape> endOpt = Optional.of(c)
+          .map(Connection::getEnd).map(Anchor::getParent)
+          .filter(SimpleConnectionPointShape.class::isInstance)
+          .map(SimpleConnectionPointShape.class::cast);
+      if (endOpt.isPresent()) {
+        SimpleConnectionPointShape end = endOpt.get();
+        SimpleConnectionPointShape newSCP = EcoreUtil.copy(end);
         newPes.add(newSCP);
-        newSCP.getGraphicsAlgorithm()
-            .setX(newSCP.getGraphicsAlgorithm().getX() + deltaX);
-        newSCP.getGraphicsAlgorithm()
-            .setY(newSCP.getGraphicsAlgorithm().getY() + deltaY);
-        getFeatureProvider().getDiagramTypeProvider().getDiagram().getChildren().add(newSCP);
+
+        newSCP.setX(newSCP.getX() + deltaX);
+        newSCP.setY(newSCP.getY() + deltaY);
+        getDiagram().getChildren().add(newSCP);
         ret = newSCP.getAnchors().get(0);
         for (Connection c2 : end.getAnchors().get(0).getOutgoingConnections()) {
           if (oldDiagramElementBusinessObjects.containsKey(c2)) {
@@ -133,7 +140,7 @@ public class PasteSimpleConnections extends PictogramElementPasteFeature<SimpleC
             }
             newC.setEnd(getEndAnchor(c2, deltaX, deltaY));
             newColdC.put(newC, c);
-            getFeatureProvider().getDiagramTypeProvider().getDiagram().getConnections().add(newC);
+            getDiagram().getConnections().add(newC);
           }
         }
       }

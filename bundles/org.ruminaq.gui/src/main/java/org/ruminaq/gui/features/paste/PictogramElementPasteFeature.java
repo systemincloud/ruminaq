@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -27,6 +28,7 @@ import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.model.ruminaq.FlowTarget;
 import org.ruminaq.model.ruminaq.SimpleConnection;
@@ -34,12 +36,13 @@ import org.ruminaq.util.ColorUtil;
 import org.ruminaq.util.FontUtil;
 import org.ruminaq.util.StyleUtil;
 
-public class PictogramElementPasteFeature<T extends PictogramElement> extends AbstractPasteFeature {
+public class PictogramElementPasteFeature<T extends PictogramElement>
+    extends AbstractPasteFeature {
 
   protected List<PictogramElement> newPes = new LinkedList<>();
 
   protected T oldPe;
-  protected T newPe; 
+  protected T newPe;
 
   public PictogramElementPasteFeature(IFeatureProvider fp, T oldPe) {
     super(fp);
@@ -49,11 +52,11 @@ public class PictogramElementPasteFeature<T extends PictogramElement> extends Ab
   public List<PictogramElement> getNewPictogramElements() {
     return newPes;
   }
-  
+
   protected RuminaqDiagram getRuminaqDiagram() {
     return (RuminaqDiagram) getDiagram();
   }
-  
+
   @Override
   public void paste(IPasteContext context) {
     newPe = EcoreUtil.copy(oldPe);
@@ -64,7 +67,7 @@ public class PictogramElementPasteFeature<T extends PictogramElement> extends Ab
   public boolean canPaste(IPasteContext context) {
     return false;
   }
-  
+
   protected Style cloneStylesAndFonts(Style s) {
     Style sTmp = EcoreUtil.copy(s);
     getDiagram().getStyles().add(sTmp);
@@ -81,7 +84,7 @@ public class PictogramElementPasteFeature<T extends PictogramElement> extends Ab
 
     return sTmp;
   }
-  
+
   private void cloneStylesAndFonts(GraphicsAlgorithm ga) {
     Style s = ga.getStyle();
     Style sTmp;
@@ -108,8 +111,9 @@ public class PictogramElementPasteFeature<T extends PictogramElement> extends Ab
     for (GraphicsAlgorithm gac : ga.getGraphicsAlgorithmChildren())
       cloneStylesAndFonts(gac);
   }
-  
-  private void pasteSimpleConnections(List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
+
+  private void pasteSimpleConnections(
+      List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
       IFeatureProvider fp) {
     Map<Anchor, Anchor> anchors = new HashMap<>();
     Map<FlowSource, Anchor> flowSources = new HashMap<>();
@@ -145,21 +149,22 @@ public class PictogramElementPasteFeature<T extends PictogramElement> extends Ab
       }
       if (scsToCopy.size() > 0)
         peBos.put(c, scsToCopy);
-      Anchor sa = c.getStart();
-      Anchor ea = c.getEnd();
-      if (Graphiti.getPeService().getPropertyValue(ea.getParent(),
-          Constants.SIMPLE_CONNECTION_POINT) != null)
-        simpleConnectionPointAtTheEnd.put(c, ea.getParent());
-      if (Graphiti.getPeService().getPropertyValue(sa.getParent(),
-          Constants.SIMPLE_CONNECTION_POINT) != null)
-        simpleConnectionPointAtTheStart.put(c, sa.getParent());
+      Optional<Anchor> sa = Optional.of(c).map(Connection::getStart);
+      Optional<Anchor> ea = Optional.of(c).map(Connection::getEnd);
+      if (ea.map(Anchor::getParent)
+          .filter(SimpleConnectionPointShape.class::isInstance).isPresent()) {
+        simpleConnectionPointAtTheEnd.put(c, ea.get().getParent());
+      }
+      if (sa.map(Anchor::getParent)
+          .filter(SimpleConnectionPointShape.class::isInstance).isPresent()) {
+        simpleConnectionPointAtTheStart.put(c, sa.get().getParent());
+      }
     }
     PasteSimpleConnections psc = new PasteSimpleConnections(flowSources,
         flowTargets, peBos, anchors, fp);
     psc.paste(null);
     cloneStylesAndFonts(psc.getNewPictogramElements());
   }
-  
 
   private void cloneStylesAndFonts(AbstractStyle as) {
     if (as.getForeground() != null) {
@@ -181,7 +186,7 @@ public class PictogramElementPasteFeature<T extends PictogramElement> extends Ab
       as.setBackground(c);
     }
   }
-  
+
   private void cloneStylesAndFonts(List<PictogramElement> pes) {
     for (PictogramElement p : pes)
       cloneStylesAndFonts(p);
@@ -202,7 +207,7 @@ public class PictogramElementPasteFeature<T extends PictogramElement> extends Ab
         cloneStylesAndFonts(ch);
     }
   }
-  
+
   private Diagram getDiagram(Shape shape) {
     if (shape instanceof Diagram)
       return (Diagram) shape;
