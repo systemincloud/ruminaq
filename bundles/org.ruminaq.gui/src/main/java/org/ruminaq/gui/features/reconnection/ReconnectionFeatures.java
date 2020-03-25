@@ -6,7 +6,7 @@
 
 package org.ruminaq.gui.features.reconnection;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.graphiti.features.IReconnectionFeature;
@@ -18,6 +18,6 @@ public class ReconnectionFeatures implements ReconnectionFeatureExtension {
 
   @Override
   public List<Class<? extends IReconnectionFeature>> getFeatures() {
-    return Arrays.asList(ReconnectionSimpleConnectionFeature.class);
+    return Collections.singletonList(ReconnectionSimpleConnectionFeature.class);
   }
 }

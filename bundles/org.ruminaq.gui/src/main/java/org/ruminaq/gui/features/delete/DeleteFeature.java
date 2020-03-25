@@ -32,7 +32,10 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.create.CreateSimpleConnectionFeature;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
+import org.ruminaq.gui.model.diagram.RuminaqConnection;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
+import org.ruminaq.model.ruminaq.BaseElement;
 
 public class DeleteFeature extends RuminaqDeleteFeature {
 
@@ -48,10 +51,11 @@ public class DeleteFeature extends RuminaqDeleteFeature {
   public void preDelete(IDeleteContext context) {
     super.preDelete(context);
 
-    if (context.getPictogramElement() instanceof Shape)
+    if (context.getPictogramElement() instanceof Shape) {
       preDeleteShape((Shape) context.getPictogramElement());
-    else if (context.getPictogramElement() instanceof Connection)
-      preDeleteConnection((Connection) context.getPictogramElement());
+    } else if (context.getPictogramElement() instanceof RuminaqConnection) {
+      preDeleteConnection((RuminaqConnection) context.getPictogramElement());
+    }
   }
 
   @Override
@@ -83,13 +87,14 @@ public class DeleteFeature extends RuminaqDeleteFeature {
     Optional.of(shape).filter(LabeledRuminaqShape.class::isInstance)
         .map(LabeledRuminaqShape.class::cast).map(LabeledRuminaqShape::getLabel)
         .ifPresent(l -> EcoreUtil.delete(l, true));
+    Optional<Shape> connectionPoint = Optional.of(shape)
+        .filter(SimpleConnectionPointShape.class::isInstance);
 
-    String connectionPointProperty = Graphiti.getPeService()
-        .getPropertyValue(shape, Constants.SIMPLE_CONNECTION_POINT);
-    if (Boolean.parseBoolean(connectionPointProperty))
+    if (connectionPoint.isPresent()) {
       preDeleteConnectionPoint(shape);
-    else
+    } else {
       deleteConnections(shape);
+    }
   }
 
   private void deleteConnections(Shape shape) {
@@ -109,31 +114,31 @@ public class DeleteFeature extends RuminaqDeleteFeature {
     }
   }
 
-  private void preDeleteConnection(Connection con) {
+  private void preDeleteConnection(RuminaqConnection con) {
     removeConnectionsAfterConnectionPoint(con);
-    if (con.getStart() == null)
-      return;
-    String connectionPointPropertyStart = Graphiti.getPeService()
-        .getPropertyValue(con.getStart().getParent(),
-            Constants.SIMPLE_CONNECTION_POINT);
-    if (Boolean.parseBoolean(connectionPointPropertyStart)) {
-      if (con.getLink().getBusinessObjects().size() > 0)
-        removeBusinessObjectsBeforeConnectionPoint(con,
-            con.getLink().getBusinessObjects());
-      if (con.getStart().getOutgoingConnections().size() == 1)
+    Optional<AnchorContainer> connectionPointStart = Optional.ofNullable(con)
+        .map(Connection::getStart).map(Anchor::getParent)
+        .filter(SimpleConnectionPointShape.class::isInstance);
+
+    if (connectionPointStart.isPresent()) {
+      if (con.getModelObject().size() > 0) {
+        removeBusinessObjectsBeforeConnectionPoint(con, con.getModelObject());
+      }
+      if (con.getStart().getOutgoingConnections().size() == 1) {
         connectionToRemove = con.getStart().getIncomingConnections().get(0);
+      }
     }
   }
 
-  private void removeBusinessObjectsBeforeConnectionPoint(Connection con,
-      EList<EObject> obj) {
+  private void removeBusinessObjectsBeforeConnectionPoint(RuminaqConnection con,
+      List<BaseElement> mos) {
     String connectionPointPropertyStart = Graphiti.getPeService()
         .getPropertyValue(con.getStart().getParent(),
             Constants.SIMPLE_CONNECTION_POINT);
     if (Boolean.parseBoolean(connectionPointPropertyStart)) {
       for (Connection c : con.getStart().getIncomingConnections()) {
-        c.getLink().getBusinessObjects().remove(obj.get(0));
-        removeBusinessObjectsBeforeConnectionPoint(c, obj);
+        c.getLink().getBusinessObjects().remove(mos.get(0));
+        removeBusinessObjectsBeforeConnectionPoint(c, mos);
       }
     }
   }
@@ -184,10 +189,8 @@ public class DeleteFeature extends RuminaqDeleteFeature {
     Anchor targetAnchor = oldOutgoing.getEnd();
 
     Point bendpoint = Graphiti.getCreateService().createPoint(
-        anchorContainer.getGraphicsAlgorithm().getX()
-            + (9 >> 1),
-        anchorContainer.getGraphicsAlgorithm().getY()
-            + (9 >> 1));
+        anchorContainer.getGraphicsAlgorithm().getX() + (9 >> 1),
+        anchorContainer.getGraphicsAlgorithm().getY() + (9 >> 1));
 
     String isConnectionPoint = Graphiti.getPeService().getPropertyValue(
         targetAnchor.getParent(), Constants.SIMPLE_CONNECTION_POINT);

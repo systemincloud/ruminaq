@@ -18,6 +18,7 @@ public class ResizeShapeFeatures implements ResizeShapeFeatureExtension {
 
   @Override
   public List<Class<? extends IResizeShapeFeature>> getFeatures() {
-    return Arrays.asList(ResizeShapeForbiddenFeature.class);
+    return Arrays.asList(ResizeSimpleConnectionPointFeature.class,
+        ResizeLabelFeature.class, ResizePortFeature.class);
   }
 }

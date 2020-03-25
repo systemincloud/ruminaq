@@ -6,29 +6,31 @@
 
 package org.ruminaq.gui.features.reconnection;
 
+import java.util.Optional;
+import java.util.function.Predicate;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IReconnectionContext;
 import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature;
+import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
-import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.reconnection.ReconnectionSimpleConnectionFeature.Filter;
-import org.ruminaq.model.ruminaq.SimpleConnection;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
+import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.FlowSource;
+import org.ruminaq.model.ruminaq.FlowTarget;
 
 @FeatureFilter(Filter.class)
 public class ReconnectionSimpleConnectionFeature
     extends DefaultReconnectionFeature {
 
-  public static class Filter implements FeaturePredicate<IContext> {
-    @Override
-    public boolean test(IContext context, IFeatureProvider fp) {
-      IReconnectionContext reconnectionContext = (IReconnectionContext) context;
-      Connection c = reconnectionContext.getConnection();
-      Object bo = fp.getBusinessObjectForPictogramElement(c);
-      return bo instanceof SimpleConnection;
+  public static class Filter extends ReconnectionFilter<SimpleConnectionShape> {
+    public Filter() {
+      super(SimpleConnectionShape.class);
     }
   }
 
@@ -38,23 +40,29 @@ public class ReconnectionSimpleConnectionFeature
 
   @Override
   public boolean canReconnect(IReconnectionContext context) {
-//        FlowSource source = getFlowSource(context.getSourceAnchor());
-//        FlowTarget target = getFlowTarget(context.getTargetAnchor());
-//
-//        if(target != null && context.getTargetAnchor().getIncomingConnections().size() > 0) return false;
-//
-//        if (source != null && target != null) return true;
-//        else return false;
-    return false;
+    Optional<BaseElement> oldMo = Optional.of(context)
+        .map(IReconnectionContext::getOldAnchor).map(Anchor::getParent)
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+        .map(RuminaqShape::getModelObject);
+    Optional<BaseElement> newMo = Optional.of(context)
+        .map(IReconnectionContext::getNewAnchor).map(Anchor::getParent)
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+        .map(RuminaqShape::getModelObject);
+    Optional<Anchor> targetShape = Optional.of(context)
+        .map(IReconnectionContext::getNewAnchor);
+    return targetShape.map(Anchor::getIncomingConnections)
+        .filter(Predicate.not(EList<Connection>::isEmpty)).isEmpty()
+        && ((oldMo.filter(FlowSource.class::isInstance).isPresent()
+            && newMo.filter(FlowSource.class::isInstance).isPresent())
+            || (oldMo.filter(FlowTarget.class::isInstance).isPresent()
+                && newMo.filter(FlowTarget.class::isInstance).isPresent()));
   }
 
   @Override
   public boolean canStartReconnect(IReconnectionContext context) {
-    if (Graphiti.getPeService().getPropertyValue(
-        context.getOldAnchor().getParent(),
-        Constants.SIMPLE_CONNECTION_POINT) != null)
-      return false;
-    return true;
+    return Optional.of(context).map(IReconnectionContext::getOldAnchor)
+        .map(Anchor::getParent)
+        .filter(SimpleConnectionPointShape.class::isInstance).isEmpty();
   }
 
 }

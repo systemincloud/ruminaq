@@ -7,17 +7,21 @@
 package org.ruminaq.gui.features.resize;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IResizeShapeContext;
-import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
+import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.resize.ResizePortFeature.Filter;
+import org.ruminaq.gui.model.diagram.PortShape;
 
-public class ResizeShapeForbiddenFeature extends DefaultResizeShapeFeature {
+@FeatureFilter(Filter.class)
+public class ResizePortFeature
+    extends ResizeShapeForbiddenFeature {
 
-  public ResizeShapeForbiddenFeature(IFeatureProvider fp) {
-    super(fp);
+  public static class Filter extends ResizeFilter<PortShape> {
+    public Filter() {
+      super(PortShape.class);
+    }
   }
 
-  @Override
-  public boolean canResizeShape(IResizeShapeContext context) {
-    return false;
+  public ResizePortFeature(IFeatureProvider fp) {
+    super(fp);
   }
 }
