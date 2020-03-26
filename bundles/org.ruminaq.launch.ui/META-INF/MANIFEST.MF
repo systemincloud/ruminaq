@@ -33,7 +33,6 @@ Import-Package: org.eclipse.core.expressions,
  org.ruminaq.launch,
  org.ruminaq.util
 Export-Package: com.systemincloud.modeler.launch.ui,
- org.eclipse.wb.swt,
  org.ruminaq.launch.ui,
  org.ruminaq.launch.ui.actions
 Bundle-RequiredExecutionEnvironment: JavaSE-11
