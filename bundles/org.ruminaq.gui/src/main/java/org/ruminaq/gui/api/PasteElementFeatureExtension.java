@@ -29,6 +29,16 @@ import org.ruminaq.util.Result;
 public interface PasteElementFeatureExtension extends
     BestFeatureExtension<RuminaqShapePasteFeature<? extends RuminaqShape>> {
 
+  /**
+   * 
+   * 
+   * @param features
+   * @param fp
+   * @param oldPe
+   * @param xMin
+   * @param yMin
+   * @return
+   */
   default List<RuminaqShapePasteFeature<? extends RuminaqShape>> createFeatures(
       List<Class<? extends RuminaqShapePasteFeature<? extends RuminaqShape>>> features,
       IFeatureProvider fp, PictogramElement oldPe, int xMin, int yMin) {
@@ -42,6 +52,15 @@ public interface PasteElementFeatureExtension extends
         .collect(Collectors.toList());
   }
 
+  /**
+   * 
+   * @param fp    IFeatureProvider of Graphiti
+   * @param oldBo
+   * @param oldPe
+   * @param xMin
+   * @param yMin
+   * @return
+   */
   default RuminaqShapePasteFeature<? extends RuminaqShape> getFeature(
       IFeatureProvider fp, BaseElement oldBo, PictogramElement oldPe, int xMin,
       int yMin) {

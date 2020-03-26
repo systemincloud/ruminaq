@@ -6,6 +6,7 @@
 
 package org.ruminaq.gui.api;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -29,9 +30,9 @@ public interface MultipleFeaturesExtension<T> {
    * 
    * @param features list of classes to instantiate
    * @param fp IFeatureProvider of Graphiti
-   * @return
+   * @return collection of features
    */
-  default List<T> createFeatures(List<Class<? extends T>> features,
+  default Collection<T> createFeatures(List<Class<? extends T>> features,
       IFeatureProvider fp) {
     return Optional.ofNullable(features).orElse(Collections.emptyList())
         .stream()
@@ -44,7 +45,13 @@ public interface MultipleFeaturesExtension<T> {
         .collect(Collectors.toList());
   }
 
-  default List<T> getFeatures(IFeatureProvider fp) {
+  /**
+   * Return all features for classes.
+   * 
+   * @param fp IFeatureProvider of Graphiti
+   * @return collection of features
+   */
+  default Collection<T> getFeatures(IFeatureProvider fp) {
     return createFeatures(getFeatures(), fp);
   }
 

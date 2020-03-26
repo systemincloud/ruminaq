@@ -17,6 +17,7 @@ import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
  * @author Marek Jagielski
  */
 public interface PaletteCompartmentEntryExtension {
+  
   Collection<IPaletteCompartmentEntry> getPalette(IFeatureProvider fp,
       boolean isTest);
 }

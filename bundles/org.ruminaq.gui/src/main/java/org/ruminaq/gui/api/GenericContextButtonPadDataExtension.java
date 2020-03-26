@@ -7,12 +7,15 @@
 package org.ruminaq.gui.api;
 
 /**
- * 
- * 
+ * Service api defining Graphiti GenericContextButtonPadData.
+ *
  * @author Marek Jagielski
  */
 public interface GenericContextButtonPadDataExtension {
 
+  /**
+   * Register configuration.
+   */
   int getGenericContextButtons();
 
 }

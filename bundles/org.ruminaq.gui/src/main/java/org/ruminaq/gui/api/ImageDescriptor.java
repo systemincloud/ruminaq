@@ -6,11 +6,25 @@
 
 package org.ruminaq.gui.api;
 
+/**
+ * Image definition that can be used in UI.
+ * 
+ * @author Marek Jagielski
+ */
 public interface ImageDescriptor {
 
+  /**
+   * Key of image.
+   */
   String name();
 
+  /**
+   * File of bundle path to image.
+   */
   String path();
 
+  /**
+   * Class that belongs to bundle where image is.
+   */
   Class<?> clazz();
 }
