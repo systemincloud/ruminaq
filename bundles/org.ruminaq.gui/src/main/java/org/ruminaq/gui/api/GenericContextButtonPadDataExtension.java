@@ -6,6 +6,11 @@
 
 package org.ruminaq.gui.api;
 
+/**
+ * 
+ * 
+ * @author Marek Jagielski
+ */
 public interface GenericContextButtonPadDataExtension {
 
   int getGenericContextButtons();

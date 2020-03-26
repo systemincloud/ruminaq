@@ -19,7 +19,14 @@ import org.eclipse.graphiti.tb.IContextButtonEntry;
  */
 public interface DomainContextButtonPadDataExtension {
 
-  Collection<IContextButtonEntry> getContextButtonPad(
-      IFeatureProvider fp, IPictogramElementContext context);
+  /**
+   * Return all DomainContextButtonPadData.
+   * 
+   * @param fp      IFeatureProvider of Graphiti
+   * @param context IPictogramElementContext of Graphiti
+   * @return collection with DomainContextButtonPadData
+   */
+  Collection<IContextButtonEntry> getContextButtonPad(IFeatureProvider fp,
+      IPictogramElementContext context);
 
 }
