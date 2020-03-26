@@ -34,7 +34,7 @@ public interface MultipleFeaturesExtension<T> {
    */
   default Collection<T> createFeatures(List<Class<? extends T>> features,
       IFeatureProvider fp) {
-    return Optional.ofNullable(features).orElse(Collections.emptyList())
+    return Optional.ofNullable(features).orElseGet(() -> Collections.emptyList())
         .stream()
         .map(f -> Result.attempt(() -> f.getConstructor(IFeatureProvider.class)))
         .map(r -> Optional.ofNullable(r.orElse(null)))
