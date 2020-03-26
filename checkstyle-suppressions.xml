@@ -5,10 +5,10 @@
      "https://checkstyle.org/dtds/suppressions_1_0.dtd">
      
 <suppressions>
-  <suppress checks="OneTopLevelClass"
-             files="BestFeatureExtension.java"/>
   <suppress checks="MethodNameCheck"
              files=".*"/>
   <suppress checks="LocalVariableNameCheck"
+             files=".*"/>
+  <suppress checks="ParameterName"
              files=".*"/>
 </suppressions>
