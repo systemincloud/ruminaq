@@ -30,19 +30,19 @@ public interface PasteElementFeatureExtension extends
     BestFeatureExtension<RuminaqShapePasteFeature<? extends RuminaqShape>> {
 
   /**
-   * 
+   * Create RuminaqShapePasteFeatures.
    * 
    * @param features
-   * @param fp
-   * @param oldPe
-   * @param xMin
-   * @param yMin
+   * @param fp       IFeatureProvider of Graphiti
+   * @param oldPe    original PictogramElement
+   * @param xMin     the smallest x position of all copied elements
+   * @param yMin     the smallest y position of all copied elements
    * @return
    */
   default List<RuminaqShapePasteFeature<? extends RuminaqShape>> createFeatures(
       List<Class<? extends RuminaqShapePasteFeature<? extends RuminaqShape>>> features,
       IFeatureProvider fp, PictogramElement oldPe, int xMin, int yMin) {
-    return Optional.ofNullable(features).orElse(Collections.emptyList())
+    return Optional.ofNullable(features).orElseGet(() -> Collections.emptyList())
         .stream()
         .map(f -> Result.attempt(() -> f.getConstructor(IFeatureProvider.class,
             PictogramElement.class, Integer.TYPE, Integer.TYPE)))
@@ -53,12 +53,13 @@ public interface PasteElementFeatureExtension extends
   }
 
   /**
+   * Get first found RuminaqShapePasteFeature.
    * 
    * @param fp    IFeatureProvider of Graphiti
-   * @param oldBo
-   * @param oldPe
-   * @param xMin
-   * @param yMin
+   * @param oldBo original model object
+   * @param oldPe original PictogramElement
+   * @param xMin  the smallest x position of all copied elements
+   * @param yMin  the smallest y position of all copied elements
    * @return
    */
   default RuminaqShapePasteFeature<? extends RuminaqShape> getFeature(
