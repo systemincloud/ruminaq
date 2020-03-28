@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 
 import org.eclipse.graphiti.datatypes.IRectangle;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
+import org.eclipse.graphiti.internal.datatypes.impl.RectangleImpl;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
 import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadPortTool.Filter;
@@ -22,7 +23,7 @@ import org.ruminaq.util.ServiceFilterArgs;
 @ServiceFilter(Filter.class)
 public class ContextButtonPadPortTool
     implements ContextButtonPadLocationExtension {
-
+  
   public static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
@@ -33,10 +34,13 @@ public class ContextButtonPadPortTool
           .filter(PortShape.class::isInstance).isPresent();
     }
   }
+  
+  private static final int PAD_LOCATION =30;
 
   @Override
   public IRectangle getPadLocation(IRectangle rectangle) {
-    rectangle.setHeight(30);
-    return rectangle;
+    RectangleImpl ret = new RectangleImpl(rectangle);
+    ret.setHeight(PAD_LOCATION);
+    return ret;
   }
 }
