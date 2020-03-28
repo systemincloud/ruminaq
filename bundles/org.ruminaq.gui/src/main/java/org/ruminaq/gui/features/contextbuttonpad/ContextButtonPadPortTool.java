@@ -19,6 +19,10 @@ import org.ruminaq.gui.model.diagram.PortShape;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 @ServiceFilter(Filter.class)
 public class ContextButtonPadPortTool
