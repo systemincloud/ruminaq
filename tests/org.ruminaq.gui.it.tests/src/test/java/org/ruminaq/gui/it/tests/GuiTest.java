@@ -1,5 +1,7 @@
 package org.ruminaq.gui.it.tests;
 
+import static org.junit.Assert.assertFalse;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.reddeer.common.wait.TimePeriod;
 import org.eclipse.reddeer.common.wait.WaitUntil;
@@ -15,6 +17,9 @@ import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.tests.common.reddeer.RuminaqDiagramWizard;
 import org.ruminaq.tests.common.reddeer.RuminaqProjectWizard;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.Diff;
 
 public class GuiTest {
 
@@ -52,5 +57,15 @@ public class GuiTest {
     projectExplorer.open();
     DeleteUtils.forceProjectDeletion(projectExplorer.getProject(projectName),
         true);
+  }
+  
+  protected void assertDiagram(GEFEditor gefEditor, String resourcePath) {
+    Diff diff = DiffBuilder
+        .compare(Input.fromStream(
+            this.getClass().getResourceAsStream(resourcePath)))
+        .withTest(
+            Input.fromFile(gefEditor.getAssociatedFile().getAbsolutePath()))
+        .build();
+    assertFalse(diff.toString(), diff.hasDifferences());
   }
 }

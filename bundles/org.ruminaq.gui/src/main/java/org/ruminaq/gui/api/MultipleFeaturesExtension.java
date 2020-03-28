@@ -16,8 +16,8 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.util.Result;
 
 /**
- * Super interface for osgi service interfaces that contributes all
- * matching Graphiti feature.
+ * Super interface for osgi service interfaces that contributes all matching
+ * Graphiti feature.
  *
  * @author Marek Jagielski
  *
@@ -29,19 +29,18 @@ public interface MultipleFeaturesExtension<T> {
    * Create and return all features for classes.
    * 
    * @param features list of classes to instantiate
-   * @param fp IFeatureProvider of Graphiti
+   * @param fp       IFeatureProvider of Graphiti
    * @return collection of features
    */
   default Collection<T> createFeatures(List<Class<? extends T>> features,
       IFeatureProvider fp) {
-    return Optional.ofNullable(features).orElseGet(() -> Collections.emptyList())
+    return Optional.ofNullable(features).orElseGet(Collections::emptyList)
         .stream()
-        .map(f -> Result.attempt(() -> f.getConstructor(IFeatureProvider.class)))
-        .map(r -> Optional.ofNullable(r.orElse(null)))
-        .flatMap(Optional::stream)
+        .map(
+            f -> Result.attempt(() -> f.getConstructor(IFeatureProvider.class)))
+        .map(r -> Optional.ofNullable(r.orElse(null))).flatMap(Optional::stream)
         .map(f -> Result.attempt(() -> f.newInstance(fp)))
-        .map(r -> Optional.ofNullable(r.orElse(null)))
-        .flatMap(Optional::stream)
+        .map(r -> Optional.ofNullable(r.orElse(null))).flatMap(Optional::stream)
         .collect(Collectors.toList());
   }
 

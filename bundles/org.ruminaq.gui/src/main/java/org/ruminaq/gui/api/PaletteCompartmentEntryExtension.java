@@ -18,6 +18,13 @@ import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
  */
 public interface PaletteCompartmentEntryExtension {
   
+  /**
+   * Get all palette entries.
+   * 
+   * @param fp     IFeatureProvider of Graphiti
+   * @param isTest Is this pallete is in test diagram
+   * @return       collections of IPaletteCompartmentEntry
+   */
   Collection<IPaletteCompartmentEntry> getPalette(IFeatureProvider fp,
       boolean isTest);
 }

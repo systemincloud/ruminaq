@@ -8,7 +8,7 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins">
 		<accessrules>
 			<accessrule kind="accessible" pattern="org/eclipse/reddeer/swt/impl/**"/>
-			<accessrule kind="accessible" pattern="org/eclipse/graphiti/ui/internal/parts/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/graphiti/ui/internal/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src/test/java"/>

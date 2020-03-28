@@ -15,15 +15,14 @@ import org.eclipse.reddeer.swt.api.MenuItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
+import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.tests.common.reddeer.CreateSimpleConnection;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 import org.ruminaq.tests.common.reddeer.WithLabelAssociated;
+import org.ruminaq.tests.common.reddeer.WithShapeGraphitiConnection;
 import org.ruminaq.tests.common.reddeer.WithShapeGraphitiEditPart;
-import org.xmlunit.builder.DiffBuilder;
-import org.xmlunit.builder.Input;
-import org.xmlunit.diff.Diff;
 
 /**
  * Test adding basic elements to diagram.
@@ -52,11 +51,11 @@ public class AddTest extends GuiTest {
         "My Input Port");
     assertEquals("Label shouldn't have any pad buttons", 0,
         ipLabel.getContextButtons().size());
+    assertTrue("Label has no 'Delete' in context menu",
+        ipLabel.getContextButtons().stream().map(ContextButton::getText)
+            .filter("Delete"::equals).findAny().isEmpty());
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InputPort.class);
     ip.select();
-    assertTrue("Label has no 'Delete' in context meny",
-        ip.getContextButtons().stream().map(ContextButton::getText)
-            .filter("Delete"::equals).findAny().isEmpty());
 
     List<ContextButton> buttons = ip.getContextButtons();
     assertEquals("InputPort should have 2 pad buttons", 2, buttons.size());
@@ -70,7 +69,6 @@ public class AddTest extends GuiTest {
     new LabeledGraphitiEditPart("My Input Port 1").select();
     gefEditor.addToolFromPalette("Input Port", 200, 300);
     new LabeledGraphitiEditPart("My Input Port 2").select();
-
   }
 
   @Test
@@ -84,13 +82,7 @@ public class AddTest extends GuiTest {
     assertEquals("Label shouldn't have any pad buttons", 0,
         opLabel.getContextButtons().size());
 
-    Diff diff = DiffBuilder
-        .compare(Input.fromStream(
-            AddTest.class.getResourceAsStream("AddTest.testAddOutputPort.xml")))
-        .withTest(
-            Input.fromFile(gefEditor.getAssociatedFile().getAbsolutePath()))
-        .build();
-    assertFalse(diff.toString(), diff.hasDifferences());
+    assertDiagram(gefEditor, "AddTest.testAddOutputPort.xml");
   }
 
   @Test
@@ -102,7 +94,12 @@ public class AddTest extends GuiTest {
     new CreateSimpleConnection(gefEditor,
         new WithBoGraphitiEditPart(InputPort.class),
         new WithBoGraphitiEditPart(OutputPort.class)).execute();
-    assertEquals("5 elements", 5, gefEditor.getNumberOfEditParts());
+    assertDiagram(gefEditor, "AddTest.testAddSimpleConnection.1.xml");
+
+    new WithShapeGraphitiConnection(SimpleConnectionShape.class).select();
+    gefEditor.getContextMenu().getItem("Delete").select();
+
+    assertDiagram(gefEditor, "AddTest.testAddSimpleConnection.2.xml");
   }
 
   @Test

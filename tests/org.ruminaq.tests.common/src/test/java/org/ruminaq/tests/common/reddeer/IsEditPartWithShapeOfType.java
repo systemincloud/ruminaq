@@ -6,7 +6,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.ruminaq.gui.model.diagram.RuminaqShape;
 
 public class IsEditPartWithShapeOfType extends BaseMatcher<EditPart> {
 
