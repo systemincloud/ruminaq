@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 import org.eclipse.graphiti.datatypes.IRectangle;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
+import org.eclipse.graphiti.internal.datatypes.impl.RectangleImpl;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
@@ -43,6 +44,8 @@ public class ContextButtonPadInternalPortTool implements
     }
   }
 
+  private static final int PAD_LOCATION = 80;
+
   @Override
   public int getGenericContextButtons() {
     return RuminaqBehaviorProvider.CONTEXT_BUTTON_NONE;
@@ -50,7 +53,8 @@ public class ContextButtonPadInternalPortTool implements
 
   @Override
   public IRectangle getPadLocation(IRectangle rectangle) {
-    rectangle.setHeight(80);
-    return rectangle;
+    RectangleImpl ret = new RectangleImpl(rectangle);
+    ret.setHeight(PAD_LOCATION);
+    return ret;
   }
 }
