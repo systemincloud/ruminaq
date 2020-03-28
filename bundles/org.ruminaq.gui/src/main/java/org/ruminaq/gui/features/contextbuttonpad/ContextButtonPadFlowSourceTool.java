@@ -6,13 +6,12 @@
 
 package org.ruminaq.gui.features.contextbuttonpad;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
@@ -62,34 +61,29 @@ public class ContextButtonPadFlowSourceTool
   @Override
   public Collection<IContextButtonEntry> getContextButtonPad(
       IFeatureProvider fp, IPictogramElementContext context) {
-    List<IContextButtonEntry> buttons = new ArrayList<>();
-
-    PictogramElement pe = context.getPictogramElement();
-
-    CreateConnectionContext ccc = new CreateConnectionContext();
-    ccc.setSourcePictogramElement(pe);
-    Anchor anchor = null;
-    if (pe instanceof Anchor)
-      anchor = (Anchor) pe;
-    else if (pe instanceof AnchorContainer)
-      anchor = Graphiti.getPeService().getChopboxAnchor((AnchorContainer) pe);
-    ccc.setSourceAnchor(anchor);
-
-    ICreateConnectionFeature[] features = fp.getCreateConnectionFeatures();
-    ContextButtonEntry button = new ContextButtonEntry(null, context);
-    button.setText("Create connection");
-    ArrayList<String> names = new ArrayList<>();
-    button.setIconId(Images.Image.IMG_CONTEXT_SIMPLECONNECTION.name());
-    for (ICreateConnectionFeature feature : features) {
-      if (feature.isAvailable(ccc) && feature.canStartConnection(ccc)) {
-        button.addDragAndDropFeature(feature);
-        names.add(feature.getCreateName());
-      }
-    }
-
-    buttons.add(button);
-
-    return buttons;
+    return Optional.of(context)
+        .map(IPictogramElementContext::getPictogramElement)
+        .map((PictogramElement pe) -> {
+          CreateConnectionContext ccc = new CreateConnectionContext();
+          ccc.setSourcePictogramElement(pe);
+          Optional.of(pe).filter(Anchor.class::isInstance)
+              .map(Anchor.class::cast)
+              .or(() -> Optional.of(pe)
+                  .filter(AnchorContainer.class::isInstance)
+                  .map(AnchorContainer.class::cast)
+                  .map(Graphiti.getPeService()::getChopboxAnchor))
+              .ifPresent(ccc::setSourceAnchor);
+          return ccc;
+        }).map((CreateConnectionContext ccc) -> {
+          ContextButtonEntry button = new ContextButtonEntry(null, context);
+          button.setText("Create connection");
+          button.setIconId(Images.Image.IMG_CONTEXT_SIMPLECONNECTION.name());
+          Stream.of(fp.getCreateConnectionFeatures())
+              .filter(f -> f.isAvailable(ccc))
+              .filter(f -> f.canStartConnection(ccc)).findFirst()
+              .ifPresent(f -> button.addDragAndDropFeature(f));
+          return button;
+        }).stream().collect(Collectors.toList());
   }
 
 }
