@@ -6,8 +6,10 @@
 
 package org.ruminaq.gui.features.contextbuttonpad;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.eclipse.graphiti.datatypes.IRectangle;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
@@ -20,6 +22,7 @@ import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
 
 /**
+ * Where to place context pad on Port.
  * 
  * @author Marek Jagielski
  */
@@ -27,19 +30,21 @@ import org.ruminaq.util.ServiceFilterArgs;
 @ServiceFilter(Filter.class)
 public class ContextButtonPadPortTool
     implements ContextButtonPadLocationExtension {
-  
+
   public static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {
-      IPictogramElementContext context = (IPictogramElementContext) args
-          .getArgs().get(1);
-      return Optional.ofNullable(context.getPictogramElement())
-          .filter(PortShape.class::isInstance).isPresent();
+      return Optional.ofNullable(args).map(ServiceFilterArgs::getArgs)
+          .map(List::stream).orElse(Stream.empty())
+          .filter(IPictogramElementContext.class::isInstance)
+          .map(IPictogramElementContext.class::cast)
+          .map(IPictogramElementContext::getPictogramElement)
+          .filter(PortShape.class::isInstance).findFirst().isPresent();
     }
   }
-  
-  private static final int PAD_LOCATION =30;
+
+  private static final int PAD_LOCATION = 30;
 
   @Override
   public IRectangle getPadLocation(IRectangle rectangle) {
