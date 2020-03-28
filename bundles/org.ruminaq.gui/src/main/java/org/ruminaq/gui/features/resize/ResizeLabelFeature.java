@@ -9,15 +9,15 @@ package org.ruminaq.gui.features.resize;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.resize.ResizeLabelFeature.Filter;
-import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
+import org.ruminaq.gui.model.diagram.LabelShape;
 
 @FeatureFilter(Filter.class)
 public class ResizeLabelFeature
     extends ResizeShapeForbiddenFeature {
 
-  public static class Filter extends ResizeFilter<LabeledRuminaqShape> {
+  public static class Filter extends ResizeFilter<LabelShape> {
     public Filter() {
-      super(LabeledRuminaqShape.class);
+      super(LabelShape.class);
     }
   }
 
