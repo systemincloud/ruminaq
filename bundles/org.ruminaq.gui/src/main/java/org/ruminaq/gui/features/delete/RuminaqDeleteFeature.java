@@ -29,7 +29,6 @@ public class RuminaqDeleteFeature extends DefaultDeleteFeature {
     if (isUserDecision) {
       return super.getUserDecision(context);
     }
-
     return true;
   }
 

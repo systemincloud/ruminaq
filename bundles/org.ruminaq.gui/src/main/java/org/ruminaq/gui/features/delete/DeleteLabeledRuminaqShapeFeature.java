@@ -11,13 +11,16 @@ import java.util.Optional;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
+import org.eclipse.graphiti.features.context.impl.RemoveContext;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
-import org.ruminaq.gui.features.delete.DeleteLabelFeature.Filter;
+import org.ruminaq.gui.features.delete.DeleteLabeledRuminaqShapeFeature.Filter;
 import org.ruminaq.gui.model.diagram.LabelShape;
+import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 
 @FeatureFilter(Filter.class)
-public class DeleteLabelFeature extends RuminaqDeleteFeature {
+public class DeleteLabeledRuminaqShapeFeature
+    extends DeleteRuminaqShapeFeature {
 
   public static class Filter implements FeaturePredicate<IContext> {
     @Override
@@ -25,17 +28,23 @@ public class DeleteLabelFeature extends RuminaqDeleteFeature {
       return Optional.of(context).filter(IDeleteContext.class::isInstance)
           .map(IDeleteContext.class::cast)
           .map(IDeleteContext::getPictogramElement)
-          .filter(LabelShape.class::isInstance).isPresent();
+          .filter(LabeledRuminaqShape.class::isInstance).isPresent();
     }
   }
 
-  public DeleteLabelFeature(IFeatureProvider fp) {
+  public DeleteLabeledRuminaqShapeFeature(IFeatureProvider fp) {
     super(fp);
   }
 
   @Override
-  public boolean canDelete(IDeleteContext context) {
-    return false;
+  public void preDelete(IDeleteContext context) {
+    super.preDelete(context);
+    Optional.of(context).map(IDeleteContext::getPictogramElement)
+        .filter(LabeledRuminaqShape.class::isInstance)
+        .map(LabeledRuminaqShape.class::cast).map(LabeledRuminaqShape::getLabel)
+        .ifPresent((LabelShape l) -> {
+          RemoveContext ctx = new RemoveContext(l);
+          getFeatureProvider().getRemoveFeature(ctx).remove(ctx);
+        });
   }
-
 }

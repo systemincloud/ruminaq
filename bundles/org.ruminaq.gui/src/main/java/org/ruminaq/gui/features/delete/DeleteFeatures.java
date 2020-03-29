@@ -18,7 +18,10 @@ public class DeleteFeatures implements DeleteFeatureExtension {
 
   @Override
   public List<Class<? extends IDeleteFeature>> getFeatures() {
-    return Arrays.asList(DeleteLabelFeature.class, DeleteForbiddenFeature.class,
-        DeleteFeature.class);
+    return Arrays.asList(DeleteLabelFeature.class,
+        DeleteSimpleConnectionPointFeature.class,
+        DeleteSimpleConnectionFeature.class,
+        DeleteLabeledRuminaqShapeFeature.class,
+        DeleteRuminaqShapeFeature.class);
   }
 }

@@ -13,6 +13,5 @@
   <ruminaq:MainTask version="1.0.0">
     <inputPort id="My Input Port"/>
     <outputPort id="My Output Port"/>
-    <connection xsi:type="ruminaq:SimpleConnection" sourceRef="/1/@inputPort.0" targetRef="/1/@outputPort.0"/>
   </ruminaq:MainTask>
 </xmi:XMI>
