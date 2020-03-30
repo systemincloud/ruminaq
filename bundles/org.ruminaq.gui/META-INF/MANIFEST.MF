@@ -97,7 +97,6 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextBut
  OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadConnectionPointTool.xml,
  OSGI-INF/org.ruminaq.gui.features.reconnection.ReconnectionFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadPortTool.xml,
- OSGI-INF/org.ruminaq.gui.features.delete.DeleteFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.move.MoveFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.directediting.DirectEditingFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.create.CreateFeaturesImpl.xml,
@@ -111,4 +110,5 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextBut
  OSGI-INF/org.ruminaq.gui.features.custom.CustomFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.update.UpdateFeatureImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadLabelFeature.xml,
- OSGI-INF/org.ruminaq.gui.features.copy.CopyFeaturesImpl.xml
+ OSGI-INF/org.ruminaq.gui.features.copy.CopyFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.gui.features.delete.DeleteFeatureImpl.xml

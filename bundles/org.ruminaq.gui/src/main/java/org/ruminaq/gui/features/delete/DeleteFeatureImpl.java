@@ -13,8 +13,13 @@ import org.eclipse.graphiti.features.IDeleteFeature;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.DeleteFeatureExtension;
 
+/**
+ * Service DeleteFeatureExtension implementation.
+ * 
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
-public class DeleteFeatures implements DeleteFeatureExtension {
+public class DeleteFeatureImpl implements DeleteFeatureExtension {
 
   @Override
   public List<Class<? extends IDeleteFeature>> getFeatures() {
