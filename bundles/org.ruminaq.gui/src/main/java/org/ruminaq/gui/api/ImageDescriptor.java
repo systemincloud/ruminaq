@@ -15,16 +15,22 @@ public interface ImageDescriptor {
 
   /**
    * Key of image.
+   * 
+   * @return key
    */
   String name();
 
   /**
    * File of bundle path to image.
+   * 
+   * @return file path
    */
   String path();
 
   /**
    * Class that belongs to bundle where image is.
+   * 
+   * @return bundle class
    */
   Class<?> clazz();
 }

@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import org.eclipse.graphiti.features.ICreateConnectionFeature;
 import org.eclipse.graphiti.features.ICreateFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.func.ICreateInfo;
 import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
 import org.eclipse.graphiti.palette.impl.ConnectionCreationToolEntry;
 import org.eclipse.graphiti.palette.impl.ObjectCreationToolEntry;
@@ -80,34 +81,35 @@ public class CommonPaletteCompartmentEntry
   private static List<ConnectionCreationToolEntry> getConnectionCreationToolEntries(
       boolean isTest, ICreateConnectionFeature[] createConnectionFeatures,
       String stackName) {
-    return Stream.of(createConnectionFeatures)
-        .filter(PaletteCreateFeature.class::isInstance)
-        .filter(ICreateConnectionFeature.class::isInstance)
-        .map(cf -> (PaletteCreateFeature & ICreateConnectionFeature) cf)
-        .filter(cf -> !(isTest && !cf.isTestOnly()))
-        .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
-        .filter(cf -> stackName.equals(cf.getStack()))
-        .map((ICreateConnectionFeature cf) -> {
-          ConnectionCreationToolEntry cte = new ConnectionCreationToolEntry(
-              cf.getCreateName(), cf.getCreateDescription(),
-              cf.getCreateImageId(), cf.getCreateLargeImageId());
-          cte.addCreateConnectionFeature(cf);
-          return cte;
-        }).collect(Collectors.toList());
+    return filterCreateInfos(isTest, createConnectionFeatures, stackName,
+        ICreateConnectionFeature.class).stream()
+            .map((ICreateConnectionFeature cf) -> {
+              ConnectionCreationToolEntry cte = new ConnectionCreationToolEntry(
+                  cf.getCreateName(), cf.getCreateDescription(),
+                  cf.getCreateImageId(), cf.getCreateLargeImageId());
+              cte.addCreateConnectionFeature(cf);
+              return cte;
+            }).collect(Collectors.toList());
   }
 
-  private static List<ObjectCreationToolEntry> getCreationToolEntries(boolean isTest,
-      ICreateFeature[] createFeatures, String stackName) {
-    return Stream.of(createFeatures)
-        .filter(PaletteCreateFeature.class::isInstance)
-        .filter(ICreateFeature.class::isInstance)
-        .map(cf -> (PaletteCreateFeature & ICreateFeature) cf)
-        .filter(cf -> !(isTest && cf.isTestOnly()))
-        .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
-        .filter(cf -> stackName.equals(cf.getStack()))
+  private static List<ObjectCreationToolEntry> getCreationToolEntries(
+      boolean isTest, ICreateFeature[] createFeatures, String stackName) {
+    return filterCreateInfos(isTest, createFeatures, stackName,
+        ICreateFeature.class).stream()
         .map(cf -> new ObjectCreationToolEntry(cf.getCreateName(),
             cf.getCreateDescription(), cf.getCreateImageId(),
             cf.getCreateLargeImageId(), cf))
         .collect(Collectors.toList());
+  }
+
+  private static <K extends ICreateInfo> List<K> filterCreateInfos(
+      boolean isTest, K[] createFeatures, String stackName, Class<K> type) {
+    return Stream.of(createFeatures)
+        .filter(PaletteCreateFeature.class::isInstance)
+        .map(PaletteCreateFeature.class::cast)
+        .filter(cf -> !(isTest && !cf.isTestOnly()))
+        .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
+        .filter(cf -> stackName.equals(cf.getStack())).filter(type::isInstance)
+        .map(type::cast).collect(Collectors.toList());
   }
 }

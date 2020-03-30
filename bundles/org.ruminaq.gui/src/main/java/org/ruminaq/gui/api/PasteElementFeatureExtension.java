@@ -32,17 +32,17 @@ public interface PasteElementFeatureExtension extends
   /**
    * Create RuminaqShapePasteFeatures.
    * 
-   * @param features
+   * @param features list of classes of paste features
    * @param fp       IFeatureProvider of Graphiti
    * @param oldPe    original PictogramElement
    * @param xMin     the smallest x position of all copied elements
    * @param yMin     the smallest y position of all copied elements
-   * @return
+   * @return list of created features
    */
   default List<RuminaqShapePasteFeature<? extends RuminaqShape>> createFeatures(
       List<Class<? extends RuminaqShapePasteFeature<? extends RuminaqShape>>> features,
       IFeatureProvider fp, PictogramElement oldPe, int xMin, int yMin) {
-    return Optional.ofNullable(features).orElseGet(() -> Collections.emptyList())
+    return Optional.ofNullable(features).orElseGet(Collections::emptyList)
         .stream()
         .map(f -> Result.attempt(() -> f.getConstructor(IFeatureProvider.class,
             PictogramElement.class, Integer.TYPE, Integer.TYPE)))
@@ -60,7 +60,7 @@ public interface PasteElementFeatureExtension extends
    * @param oldPe original PictogramElement
    * @param xMin  the smallest x position of all copied elements
    * @param yMin  the smallest y position of all copied elements
-   * @return
+   * @return first matching RuminaqShapePasteFeature
    */
   default RuminaqShapePasteFeature<? extends RuminaqShape> getFeature(
       IFeatureProvider fp, BaseElement oldBo, PictogramElement oldPe, int xMin,
@@ -74,7 +74,7 @@ public interface PasteElementFeatureExtension extends
    * Check if PasteFeatureFilter matches for BaseElement.
    * 
    * @param oldBo domain element
-   * @param fp IFeatureProvider of Graphiti
+   * @param fp    IFeatureProvider of Graphiti
    * @return predicate determining if class matches the filter
    */
   default Predicate<Class<? extends RuminaqShapePasteFeature<? extends RuminaqShape>>> filter(
