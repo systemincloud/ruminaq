@@ -86,7 +86,7 @@ public class AddTest extends GuiTest {
   }
 
   @Test
-  public void testAddSimpleConnection() {
+  public void testAddSimpleConnection() throws InterruptedException {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Input Port", 200, 100);
     gefEditor.addToolFromPalette("Output Port", 400, 300);
@@ -98,8 +98,10 @@ public class AddTest extends GuiTest {
 
     new WithShapeGraphitiConnection(SimpleConnectionShape.class).select();
     gefEditor.getContextMenu().getItem("Delete").select();
+    
+    Thread.sleep(2000);
 
-//    assertDiagram(gefEditor, "AddTest.testAddSimpleConnection.2.xml");
+    assertDiagram(gefEditor, "AddTest.testAddSimpleConnection.2.xml");
   }
 
   @Test
