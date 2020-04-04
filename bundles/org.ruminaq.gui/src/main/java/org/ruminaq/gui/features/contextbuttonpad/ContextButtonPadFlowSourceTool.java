@@ -41,6 +41,9 @@ import org.ruminaq.util.ServiceFilterArgs;
 public class ContextButtonPadFlowSourceTool
     implements DomainContextButtonPadDataExtension {
 
+  /**
+   * Only on SimpleConnectionPoint.
+   */
   public static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
@@ -81,7 +84,7 @@ public class ContextButtonPadFlowSourceTool
           Stream.of(fp.getCreateConnectionFeatures())
               .filter(f -> f.isAvailable(ccc))
               .filter(f -> f.canStartConnection(ccc)).findFirst()
-              .ifPresent(f -> button.addDragAndDropFeature(f));
+              .ifPresent(button::addDragAndDropFeature);
           return button;
         }).stream().collect(Collectors.toList());
   }
