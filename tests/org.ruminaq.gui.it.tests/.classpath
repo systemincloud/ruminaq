@@ -13,7 +13,6 @@
 			<accessrule kind="accessible" pattern="org/eclipse/reddeer/gef/impl/connection/*"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="src" path="src/test/java">
 		<attributes>
 			<attribute name="test" value="true"/>
