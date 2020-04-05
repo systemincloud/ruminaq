@@ -96,7 +96,15 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" changeable="false"
         transient="true" defaultValueLiteral="15"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="InputPortShape" eSuperTypes="#//PortShape">
+  <eClassifiers xsi:type="ecore:EClass" name="InputPortShape" eSuperTypes="#//PortShape #//FlowSourceShape">
+    <eOperations name="getAnchors">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return AnchorsFactory.INSTANCE.getAnchors(this);"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments eClassifier="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Anchor"/>
+      </eGenericType>
+    </eOperations>
     <eOperations name="getLineWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return defaultLineWidth;"/>
@@ -106,7 +114,15 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" changeable="false"
         transient="true" defaultValueLiteral="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OutputPortShape" eSuperTypes="#//PortShape">
+  <eClassifiers xsi:type="ecore:EClass" name="OutputPortShape" eSuperTypes="#//PortShape #//FlowTargetShape">
+    <eOperations name="getAnchors">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return AnchorsFactory.INSTANCE.getAnchors(this);"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments eClassifier="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Anchor"/>
+      </eGenericType>
+    </eOperations>
     <eOperations name="getLineWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return defaultLineWidth;"/>
@@ -154,6 +170,20 @@
         <eTypeArguments eClassifier="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/ConnectionDecorator"/>
       </eGenericType>
     </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" ordered="false"
+        unique="false" lowerBound="1" eType="#//FlowSourceShape" eOpposite="#//FlowSourceShape/outgoingConnections"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" ordered="false"
+        unique="false" lowerBound="1" eType="#//FlowTargetShape" eOpposite="#//FlowTargetShape/incomingConnections"/>
+    <eOperations name="getStart" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Anchor">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getSource().getAnchors().stream().findFirst().get();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getEnd" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Anchor">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getTarget().getAnchors().stream().findFirst().get();"/>
+      </eAnnotations>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RuminaqConnection" eSuperTypes="platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/FreeFormConnection">
     <eOperations name="isActive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
@@ -169,11 +199,19 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelObject" upperBound="-1"
         eType="ecore:EClass ../../org.ruminaq.model.ruminaq/model/model.ecore#//BaseElement"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SimpleConnectionPointShape" eSuperTypes="#//RuminaqShape">
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleConnectionPointShape" eSuperTypes="#//RuminaqShape #//FlowSourceShape #//FlowTargetShape">
     <eOperations name="getGraphicsAlgorithm" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//algorithms/GraphicsAlgorithm">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
       </eAnnotations>
+    </eOperations>
+    <eOperations name="getAnchors">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return AnchorsFactory.INSTANCE.getAnchors(this);"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments eClassifier="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Anchor"/>
+      </eGenericType>
     </eOperations>
     <eOperations name="getModelObject" eType="ecore:EClass ../../org.ruminaq.model.ruminaq/model/model.ecore#//BaseElement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -196,12 +234,14 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" changeable="false"
         transient="true" defaultValueLiteral="9"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FlowSourceShape" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="FlowSourceShape" abstract="true" 
+      eSuperTypes="platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/AnchorContainer">
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingConnections" ordered="false"
-        upperBound="-1" eType="#//SimpleConnectionShape"/>
+        upperBound="-1" eType="#//SimpleConnectionShape" eOpposite="#//SimpleConnectionShape/source"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="FlowTargetShape" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="FlowTargetShape" abstract="true" 
+      eSuperTypes="platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/AnchorContainer">
     <eStructuralFeatures xsi:type="ecore:EReference" name="incomingConnections" ordered="false"
-        upperBound="-1" eType="#//SimpleConnectionShape"/>
+        upperBound="-1" eType="#//SimpleConnectionShape" eOpposite="#//SimpleConnectionShape/target"/>
   </eClassifiers>
 </ecore:EPackage>

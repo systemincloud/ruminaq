@@ -18,7 +18,6 @@ import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo;
-import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.delete.DeleteSimpleConnectionFeature.Filter;
@@ -52,7 +51,7 @@ public class DeleteSimpleConnectionFeature extends RuminaqDeleteFeature {
     Optional.of(context).map(IDeleteContext::getPictogramElement)
         .filter(SimpleConnectionShape.class::isInstance)
         .map(SimpleConnectionShape.class::cast)
-        .map(SimpleConnectionShape::getEnd).map(Anchor::getParent)
+        .map(SimpleConnectionShape::getTarget)
         .filter(SimpleConnectionPointShape.class::isInstance).ifPresent(scp -> {
           DeleteContext deleteCtx = new DeleteContext(scp);
           deleteCtx.setMultiDeleteInfo(new MultiDeleteInfo(false, false, 1));

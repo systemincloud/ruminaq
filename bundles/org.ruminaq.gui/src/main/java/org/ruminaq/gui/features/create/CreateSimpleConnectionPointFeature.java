@@ -6,10 +6,10 @@
 
 package org.ruminaq.gui.features.create;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -18,11 +18,8 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
-import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.services.ICreateService;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
@@ -52,7 +49,6 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
 
   @Override
   public void execute(ICustomContext context) {
-    ICreateService cs = Graphiti.getCreateService();
     PictogramElement pe = context.getPictogramElements()[0];
     Optional<SimpleConnectionShape> optScs = Optional.of(pe)
         .filter(SimpleConnectionShape.class::isInstance)
@@ -78,7 +74,6 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
         s.setContainer(getDiagram());
         s.setCenteredX(p.getX());
         s.setCenteredY(p.getY());
-        Anchor pointAnchor = cs.createChopboxAnchor(s);
 
         deleteBendpointsNear(scs, p, NEAR_BENDPOINT_DISTANCE);
         List<Point> followingBendpoints = followingBendpoints(scs, p);
@@ -87,12 +82,12 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
         SimpleConnectionShape connectionShapeAfterPoint = DiagramFactory.eINSTANCE
             .createSimpleConnectionShape();
         connectionShapeAfterPoint.setParent(getDiagram());
-        connectionShapeAfterPoint.setStart(pointAnchor);
-        connectionShapeAfterPoint.setEnd(scs.getEnd());
+        connectionShapeAfterPoint.setSource(s);
+        connectionShapeAfterPoint.setTarget(scs.getTarget());
         connectionShapeAfterPoint.getBendpoints().addAll(followingBendpoints);
         connectionShapeAfterPoint.getModelObject().addAll(scs.getModelObject());
 
-        scs.setEnd(pointAnchor);
+        scs.setTarget(s);
       }
     }
   }

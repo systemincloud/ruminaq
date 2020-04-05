@@ -6,6 +6,7 @@
 
 package org.ruminaq.gui.features.delete;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -20,12 +21,11 @@ import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo;
 import org.eclipse.graphiti.features.context.impl.RemoveContext;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
-import org.eclipse.graphiti.mm.pictograms.Anchor;
-import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.delete.DeleteSimpleConnectionPointFeature.Filter;
+import org.ruminaq.gui.model.diagram.FlowTargetShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 
@@ -58,18 +58,14 @@ public class DeleteSimpleConnectionPointFeature extends RuminaqDeleteFeature {
         .filter(SimpleConnectionPointShape.class::isInstance)
         .map(SimpleConnectionPointShape.class::cast);
 
-    Optional<Anchor> anchorOpt = scpOpt
-        .map(SimpleConnectionPointShape::getAnchors).map(EList::stream)
-        .orElseGet(Stream::empty).findFirst();
-
-    Optional<SimpleConnectionShape> incommingOpt = anchorOpt
-        .map(Anchor::getIncomingConnections).map(EList::stream)
-        .orElseGet(Stream::empty)
+    Optional<SimpleConnectionShape> incommingOpt = scpOpt
+        .map(SimpleConnectionPointShape::getIncomingConnections)
+        .map(List::stream).orElseGet(Stream::empty)
         .filter(SimpleConnectionShape.class::isInstance)
         .map(SimpleConnectionShape.class::cast).findFirst();
-    Supplier<Stream<SimpleConnectionShape>> outgoingsOpt = () -> anchorOpt
-        .map(Anchor::getOutgoingConnections).map(EList::stream)
-        .orElseGet(Stream::empty)
+    Supplier<Stream<SimpleConnectionShape>> outgoingsOpt = () -> scpOpt
+        .map(SimpleConnectionPointShape::getOutgoingConnections)
+        .map(List::stream).orElseGet(Stream::empty)
         .filter(SimpleConnectionShape.class::isInstance)
         .map(SimpleConnectionShape.class::cast);
     Optional<SimpleConnectionShape> firstOutgoing = outgoingsOpt.get()
@@ -80,9 +76,9 @@ public class DeleteSimpleConnectionPointFeature extends RuminaqDeleteFeature {
             scp.getX() + (scp.getPointSize() >> 1),
             scp.getY() + (scp.getPointSize() >> 1)));
 
-    Optional<Anchor> targetAnchor = firstOutgoing.map(Connection::getEnd);
+    Optional<FlowTargetShape> targetAnchor = firstOutgoing.map(SimpleConnectionShape::getTarget);
 
-    incommingOpt.ifPresent(i -> targetAnchor.ifPresent(i::setEnd));
+    incommingOpt.ifPresent(i -> targetAnchor.ifPresent(i::setTarget));
     incommingOpt.ifPresent(
         i -> i.getBendpoints().addAll(bendpointInsteadOfConnectionPoint.stream()
             .collect(Collectors.toList())));
