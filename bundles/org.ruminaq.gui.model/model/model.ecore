@@ -196,4 +196,12 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" changeable="false"
         transient="true" defaultValueLiteral="9"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FlowSourceShape" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingConnections" ordered="false"
+        upperBound="-1" eType="#//SimpleConnectionShape"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FlowTargetShape" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingConnections" ordered="false"
+        upperBound="-1" eType="#//SimpleConnectionShape"/>
+  </eClassifiers>
 </ecore:EPackage>

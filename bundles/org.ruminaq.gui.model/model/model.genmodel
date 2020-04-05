@@ -85,5 +85,11 @@
         <genParameters ecoreParameter="model.ecore#//SimpleConnectionPointShape/setCenteredY/y"/>
       </genOperations>
     </genClasses>
+    <genClasses image="false" ecoreClass="model.ecore#//FlowSourceShape">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//FlowSourceShape/outgoingConnections"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="model.ecore#//FlowTargetShape">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//FlowTargetShape/incomingConnections"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
