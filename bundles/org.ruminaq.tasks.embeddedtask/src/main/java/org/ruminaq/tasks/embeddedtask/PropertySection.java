@@ -48,10 +48,10 @@ import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.diagram.CreateTestDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.gui.features.update.UpdateEmbeddedTaskFeature;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
-import org.ruminaq.tasks.embeddedtask.features.UpdateFeature;
 import org.ruminaq.util.EclipseUtil;
 
 public class PropertySection implements IPropertySection {
@@ -126,7 +126,7 @@ public class PropertySection implements IPropertySection {
 
     final String taskPath = tmp;
 
-    boolean parse = new UpdateFeature(dtp.getFeatureProvider()).load(taskPath);
+    boolean parse = new UpdateEmbeddedTaskFeature(dtp.getFeatureProvider()).load(taskPath);
     if (parse) {
       ModelUtil.runModelChange(new Runnable() {
         @Override

@@ -9,12 +9,12 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.AddFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
+import org.ruminaq.gui.features.add.AddTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.constant.AddFeatureImpl.AddFeature.Filter;
 import org.ruminaq.tasks.constant.impl.Port;
 import org.ruminaq.tasks.constant.model.constant.Constant;
-import org.ruminaq.tasks.features.AddTaskFeature;
 
 @Component(property = { "service.ranking:Integer=10" })
 public class AddFeatureImpl implements AddFeatureExtension {

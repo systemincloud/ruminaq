@@ -8,13 +8,13 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.CreateFeaturesExtension;
+import org.ruminaq.gui.features.create.CreateTaskFeature;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.tasks.demux.impl.Port;
 import org.ruminaq.tasks.demux.model.demux.Demux;
 import org.ruminaq.tasks.demux.model.demux.DemuxFactory;
-import org.ruminaq.tasks.features.CreateTaskFeature;
 
 @Component(property = { "service.ranking:Integer=10" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {

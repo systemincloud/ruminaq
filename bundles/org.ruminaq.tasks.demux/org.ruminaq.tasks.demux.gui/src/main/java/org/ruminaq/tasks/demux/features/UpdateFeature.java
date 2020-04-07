@@ -5,9 +5,9 @@ import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.tasks.demux.impl.Port;
 import org.ruminaq.tasks.demux.model.demux.Demux;
-import org.ruminaq.tasks.features.UpdateTaskFeature;
 
 public class UpdateFeature extends UpdateTaskFeature {
 

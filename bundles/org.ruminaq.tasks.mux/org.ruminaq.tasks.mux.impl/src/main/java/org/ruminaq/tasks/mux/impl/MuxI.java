@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
+import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.model.desc.PortsDescrUtil;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
@@ -15,7 +15,6 @@ import org.ruminaq.runner.impl.InternalInputPortI;
 import org.ruminaq.runner.impl.PortMap;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.impl.data.Int32I;
-import org.ruminaq.tasks.util.TasksUtil;
 import org.ruminaq.tasks.mux.model.mux.Mux;
 import ch.qos.logback.classic.Logger;
 

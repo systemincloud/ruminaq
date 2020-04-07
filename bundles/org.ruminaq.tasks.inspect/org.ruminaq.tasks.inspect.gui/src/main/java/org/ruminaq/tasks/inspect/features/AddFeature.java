@@ -1,8 +1,8 @@
 package org.ruminaq.tasks.inspect.features;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.ruminaq.gui.features.add.AddTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.tasks.features.AddTaskFeature;
 import org.ruminaq.tasks.inspect.Images;
 import org.ruminaq.tasks.inspect.impl.Port;
 

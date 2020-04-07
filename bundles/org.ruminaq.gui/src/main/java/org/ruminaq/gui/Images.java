@@ -21,7 +21,10 @@ public class Images implements ImagesExtension {
   public enum Image implements ImageDescriptor {
     IMG_CONTEXT_SIMPLECONNECTION("/icons/context.simpleconnection.gif"),
     IMG_PALETTE_INPUTPORT("/icons/palette.inputport.png"),
-    IMG_PALETTE_OUTPUTPORT("/icons/palette.outputport.png");
+    IMG_PALETTE_OUTPUTPORT("/icons/palette.outputport.png"),
+    IMG_EMBEDDEDTASK_PALETTE("/icons/palette.embeddedtask_main.png"),
+    IMG_EMBEDDEDTASK_DIAGRAM_MAIN("/icons/diagram.embeddedtask_main.png"),
+    IMG_EMBEDDEDTASK_DIAGRAM_TEST("/icons/diagram.embeddedtask_test.png");
 
     private String path;
 

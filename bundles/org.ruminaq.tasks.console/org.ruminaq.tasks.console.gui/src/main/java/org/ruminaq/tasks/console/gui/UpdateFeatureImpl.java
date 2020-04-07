@@ -14,10 +14,10 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.UpdateFeatureExtension;
+import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.tasks.console.impl.Port;
 import org.ruminaq.tasks.console.model.console.Console;
 import org.ruminaq.tasks.console.model.console.ConsoleType;
-import org.ruminaq.tasks.features.UpdateTaskFeature;
 
 @Component(property = { "service.ranking:Integer=10" })
 public class UpdateFeatureImpl implements UpdateFeatureExtension {

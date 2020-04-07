@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.features;
+package org.ruminaq.gui.features.move;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;

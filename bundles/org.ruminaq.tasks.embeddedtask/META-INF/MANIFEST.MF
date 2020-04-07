@@ -60,6 +60,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.gui.api,
  org.ruminaq.gui.diagram,
  org.ruminaq.gui.features.create,
+ org.ruminaq.gui.features.update,
  org.ruminaq.gui.palette,
  org.ruminaq.gui.properties,
  org.ruminaq.logs,
@@ -72,7 +73,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.embeddedtask.ui,
  org.ruminaq.tasks.features,
  org.ruminaq.tasks.userdefined,
- org.ruminaq.tasks.userdefined.features,
  org.ruminaq.util,
  org.slf4j
 Export-Package: org.ruminaq.tasks.embeddedtask,
@@ -80,6 +80,4 @@ Export-Package: org.ruminaq.tasks.embeddedtask,
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.embeddedtask.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.embeddedtask.TaskUiApi.xml,
- OSGI-INF/org.ruminaq.tasks.embeddedtask.ContextButtonPadTool.xml
+Service-Component: OSGI-INF/org.ruminaq.tasks.embeddedtask.TaskUiApi.xml

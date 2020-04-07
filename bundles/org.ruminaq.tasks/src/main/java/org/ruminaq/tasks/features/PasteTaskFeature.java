@@ -14,13 +14,14 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.ruminaq.gui.TasksUtil;
+import org.ruminaq.gui.features.add.AddTaskFeature;
 import org.ruminaq.gui.features.paste.PasteAnchorTracker;
 import org.ruminaq.gui.features.paste.RuminaqShapePasteFeature;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.tasks.util.TasksUtil;
 
 public class PasteTaskFeature extends RuminaqShapePasteFeature<RuminaqShape>
     implements PasteAnchorTracker {

@@ -43,6 +43,7 @@ import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.core.search.SearchRequestor;
 import org.eclipse.jdt.internal.core.NamedMember;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
@@ -53,7 +54,6 @@ import org.ruminaq.tasks.javatask.client.annotations.SicParameter;
 import org.ruminaq.tasks.javatask.client.annotations.SicParameters;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskPage;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
-import org.ruminaq.tasks.userdefined.features.UpdateUserDefinedTaskFeature;
 import org.ruminaq.util.EclipseUtil;
 
 @SuppressWarnings("restriction")

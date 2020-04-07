@@ -20,9 +20,9 @@ import org.eclipse.statet.r.core.model.IRModelManager;
 import org.eclipse.statet.r.core.model.IRWorkspaceSourceUnit;
 import org.eclipse.statet.r.core.model.RModel;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.tasks.rtask.model.rtask.RTask;
-import org.ruminaq.tasks.userdefined.features.UpdateUserDefinedTaskFeature;
 import org.ruminaq.util.EclipseUtil;
 
 //import de.walware.ecommons.ltk.ISourceUnitManager;

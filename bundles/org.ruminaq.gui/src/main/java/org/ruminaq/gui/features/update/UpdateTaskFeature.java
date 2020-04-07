@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.features;
+package org.ruminaq.gui.features.update;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -20,6 +20,9 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
+import org.ruminaq.gui.TasksUtil;
+import org.ruminaq.gui.features.add.AddTaskFeature;
+import org.ruminaq.gui.features.add.AddTaskFeature.InternalPortLabelPosition;
 import org.ruminaq.gui.features.update.UpdateBaseElementFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.desc.IN;
@@ -34,9 +37,6 @@ import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.util.ModelUtil;
-import org.ruminaq.tasks.features.AddTaskFeature.InternalPortLabelPosition;
-import org.ruminaq.tasks.styles.TaskStyle;
-import org.ruminaq.tasks.util.TasksUtil;
 
 public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
@@ -69,14 +69,14 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     boolean testDiagram = RuminaqDiagramUtil.isTest(getFeatureProvider()
         .getDiagramTypeProvider().getDiagram().eResource().getURI());
     boolean specialColor = false;
-    for (GraphicsAlgorithm c : parent.getGraphicsAlgorithm()
-        .getGraphicsAlgorithmChildren())
-      if (c instanceof RoundedRectangle) {
-        Style s = TaskStyle.getOnlyLocalStyle(getDiagram(), false);
-        if (s != null && c.getStyle() != null
-            && s.getId().equals(c.getStyle().getId()))
-          specialColor = true;
-      }
+//    for (GraphicsAlgorithm c : parent.getGraphicsAlgorithm()
+//        .getGraphicsAlgorithmChildren())
+//      if (c instanceof RoundedRectangle) {
+//        Style s = TaskStyle.getOnlyLocalStyle(getDiagram(), false);
+//        if (s != null && c.getStyle() != null
+//            && s.getId().equals(c.getStyle().getId()))
+//          specialColor = true;
+//      }
 
     if (testDiagram && specialColor)
       onlyLocalUpdateNeeded = true;
@@ -115,29 +115,29 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     for (GraphicsAlgorithm c : pe.getGraphicsAlgorithm()
         .getGraphicsAlgorithmChildren())
       if (c instanceof RoundedRectangle) {
-        Style s = TaskStyle.getOnlyLocalStyle(getDiagram(), false);
-        if (s != null && c.getStyle() != null
-            && s.getId().equals(c.getStyle().getId()))
-          specialColor = true;
+//        Style s = TaskStyle.getOnlyLocalStyle(getDiagram(), false);
+//        if (s != null && c.getStyle() != null
+//            && s.getId().equals(c.getStyle().getId()))
+//          specialColor = true;
       }
 
     if (testDiagram && specialColor) {
-      for (GraphicsAlgorithm c : pe.getGraphicsAlgorithm()
-          .getGraphicsAlgorithmChildren())
-        if (c instanceof RoundedRectangle)
-          c.setStyle(TaskStyle.getStyle(getDiagram()));
+//      for (GraphicsAlgorithm c : pe.getGraphicsAlgorithm()
+//          .getGraphicsAlgorithmChildren())
+//        if (c instanceof RoundedRectangle)
+//          c.setStyle(TaskStyle.getStyle(getDiagram()));
     }
     if (!testDiagram && specialColor && !onlyLocal) {
-      for (GraphicsAlgorithm c : pe.getGraphicsAlgorithm()
-          .getGraphicsAlgorithmChildren())
-        if (c instanceof RoundedRectangle)
-          c.setStyle(TaskStyle.getStyle(getDiagram()));
+//      for (GraphicsAlgorithm c : pe.getGraphicsAlgorithm()
+//          .getGraphicsAlgorithmChildren())
+//        if (c instanceof RoundedRectangle)
+//          c.setStyle(TaskStyle.getStyle(getDiagram()));
     }
     if (!testDiagram && !specialColor && onlyLocal) {
-      for (GraphicsAlgorithm c : pe.getGraphicsAlgorithm()
-          .getGraphicsAlgorithmChildren())
-        if (c instanceof RoundedRectangle)
-          c.setStyle(TaskStyle.getOnlyLocalStyle(getDiagram()));
+//      for (GraphicsAlgorithm c : pe.getGraphicsAlgorithm()
+//          .getGraphicsAlgorithmChildren())
+//        if (c instanceof RoundedRectangle)
+//          c.setStyle(TaskStyle.getOnlyLocalStyle(getDiagram()));
     }
     return true;
   }

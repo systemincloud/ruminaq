@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.embeddedtask.features;
+package org.ruminaq.gui.features.update;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -28,6 +28,8 @@ import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Image;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.gui.Images;
+import org.ruminaq.gui.features.add.AddEmbeddedTaskFeature;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.Connection;
 import org.ruminaq.model.ruminaq.DataType;
@@ -38,16 +40,14 @@ import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
-import org.ruminaq.tasks.embeddedtask.Images;
-import org.ruminaq.tasks.userdefined.features.UpdateUserDefinedTaskFeature;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.GlobalUtil;
 import ch.qos.logback.classic.Logger;
 
-public class UpdateFeature extends UpdateUserDefinedTaskFeature {
+public class UpdateEmbeddedTaskFeature extends UpdateUserDefinedTaskFeature {
 
   private final Logger logger = ModelerLoggerFactory
-      .getLogger(UpdateFeature.class);
+      .getLogger(UpdateEmbeddedTaskFeature.class);
 
   private boolean updateNeededChecked = false;
 
@@ -55,9 +55,9 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
   private boolean iconUpdateNeeded = false;
 
   private MainTask embeddedTask = null;
-  private String desc = AddFeature.NOT_CHOSEN;
+  private String desc = AddEmbeddedTaskFeature.NOT_CHOSEN;
 
-  public UpdateFeature(IFeatureProvider fp) {
+  public UpdateEmbeddedTaskFeature(IFeatureProvider fp) {
     super(fp);
   }
 
@@ -95,10 +95,10 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
     boolean ret = true;
     if (et.getImplementationTask().startsWith(SourceFolders.TEST_RESOURCES)
-        && Images.K.IMG_EMBEDDEDTASK_DIAGRAM_MAIN.name().equals(id))
+        && Images.Image.IMG_EMBEDDEDTASK_DIAGRAM_MAIN.name().equals(id))
       return false;
     if (et.getImplementationTask().startsWith(SourceFolders.MAIN_RESOURCES)
-        && Images.K.IMG_EMBEDDEDTASK_DIAGRAM_TEST.name().equals(id))
+        && Images.Image.IMG_EMBEDDEDTASK_DIAGRAM_TEST.name().equals(id))
       return false;
 
     return ret;
@@ -126,9 +126,9 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
         .getGraphicsAlgorithmChildren())
       if (ga instanceof Image) {
         if (et.getImplementationTask().startsWith(SourceFolders.MAIN_RESOURCES))
-          ((Image) ga).setId(Images.K.IMG_EMBEDDEDTASK_DIAGRAM_MAIN.name());
+          ((Image) ga).setId(Images.Image.IMG_EMBEDDEDTASK_DIAGRAM_MAIN.name());
         if (et.getImplementationTask().startsWith(SourceFolders.TEST_RESOURCES))
-          ((Image) ga).setId(Images.K.IMG_EMBEDDEDTASK_DIAGRAM_TEST.name());
+          ((Image) ga).setId(Images.Image.IMG_EMBEDDEDTASK_DIAGRAM_TEST.name());
         return true;
       }
     return false;

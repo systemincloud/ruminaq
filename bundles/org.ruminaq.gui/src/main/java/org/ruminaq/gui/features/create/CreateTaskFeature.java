@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.features;
+package org.ruminaq.gui.features.create;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.util;
+package org.ruminaq.gui;
 
 import java.util.LinkedList;
 import java.util.List;

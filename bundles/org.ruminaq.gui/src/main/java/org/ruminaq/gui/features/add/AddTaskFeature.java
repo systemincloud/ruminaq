@@ -1,9 +1,8 @@
-package org.ruminaq.tasks.features;
+package org.ruminaq.gui.features.add;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
@@ -26,7 +25,8 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.services.IPeService;
 import org.javatuples.Pair;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.features.add.AbstractAddElementFeature;
+import org.ruminaq.gui.TasksUtil;
+import org.ruminaq.gui.features.move.MoveInternalPortFeature;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 import org.ruminaq.model.desc.IN;
@@ -38,9 +38,6 @@ import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.util.ModelUtil;
-import org.ruminaq.tasks.styles.InternalPortStyle;
-import org.ruminaq.tasks.styles.TaskStyle;
-import org.ruminaq.tasks.util.TasksUtil;
 
 public abstract class AddTaskFeature extends AbstractAddElementFeature {
 
@@ -63,9 +60,9 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
     return 120;
   }
 
-  protected Style getStyle() {
-    return TaskStyle.getStyle(getDiagram());
-  }
+//  protected Style getStyle() {
+//    return TaskStyle.getStyle(getDiagram());
+//  }
 
   protected boolean useIconInsideShape() {
     return false;
@@ -79,7 +76,7 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
     return null;
   }
 
-  protected Style onlyLocalStyle = TaskStyle.getOnlyLocalStyle(getDiagram());
+//  protected Style onlyLocalStyle = TaskStyle.getOnlyLocalStyle(getDiagram());
 
   protected abstract Class<? extends PortsDescr> getPortsDescription();
 
@@ -130,8 +127,8 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
     RoundedRectangle roundedRectangle = gaService
         .createRoundedRectangle(invisibleRectangle, 20, 20);
     roundedRectangle.setParentGraphicsAlgorithm(invisibleRectangle);
-    roundedRectangle
-        .setStyle(addedTask.isOnlyLocal() ? onlyLocalStyle : getStyle());
+//    roundedRectangle
+//        .setStyle(addedTask.isOnlyLocal() ? onlyLocalStyle : getStyle());
     if (!addedTask.isAtomic())
       roundedRectangle.setLineStyle(LineStyle.DOT);
     gaService.setLocationAndSize(roundedRectangle, 0, 0, width, height);
@@ -164,7 +161,7 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
           "true");
       gaService.setLocationAndSize(descT, 0, ICON_SIZE, width,
           height - ICON_SIZE);
-      descT.setStyle(getStyle());
+//      descT.setStyle(getStyle());
       descT.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
       descT.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
     }
@@ -175,7 +172,7 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
     MultiText text = gaService.createDefaultMultiText(getDiagram(), ga,
         ModelUtil.getName(addedTask.getClass()).replace(" ", "\n"));
     gaService.setLocationAndSize(text, 0, 0, width, height);
-    text.setStyle(getStyle());
+//    text.setStyle(getStyle());
     text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
     text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
   }
@@ -466,7 +463,7 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
     final RoundedRectangle rectangle = gaService
         .createRoundedRectangle(invisibleRectangle, 5, 5);
     rectangle.setParentGraphicsAlgorithm(invisibleRectangle);
-    rectangle.setStyle(InternalPortStyle.getStyle(diagram));
+//    rectangle.setStyle(InternalPortStyle.getStyle(diagram));
     rectangle.setLineWidth(lineWidth);
     rectangle.setLineStyle(lineStyle);
     gaService.setLocationAndSize(rectangle, 0, 0, width, height);

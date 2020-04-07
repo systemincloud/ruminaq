@@ -8,11 +8,11 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.CreateFeaturesExtension;
+import org.ruminaq.gui.features.create.CreateTaskFeature;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.tasks.inspect.impl.Port;
-import org.ruminaq.tasks.features.CreateTaskFeature;
 import org.ruminaq.tasks.inspect.model.inspect.Inspect;
 import org.ruminaq.tasks.inspect.model.inspect.InspectFactory;
 

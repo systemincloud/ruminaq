@@ -37,7 +37,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.util,
  org.ruminaq.tasks.debug.model,
  org.ruminaq.tasks.pythontask.model.pythontask,
- org.ruminaq.tasks.util,
  org.ruminaq.util,
  org.slf4j
 Bundle-ActivationPolicy: lazy

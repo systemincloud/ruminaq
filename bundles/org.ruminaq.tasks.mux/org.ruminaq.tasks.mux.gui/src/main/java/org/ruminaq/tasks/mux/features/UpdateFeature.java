@@ -5,7 +5,7 @@ import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.ruminaq.tasks.features.UpdateTaskFeature;
+import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.tasks.mux.impl.Port;
 import org.ruminaq.tasks.mux.model.mux.Mux;
 

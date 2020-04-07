@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.embeddedtask;
+package org.ruminaq.gui.features.contextbuttonpad;
 
 import java.util.function.Predicate;
 
@@ -9,13 +9,13 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
 import org.ruminaq.gui.diagram.RuminaqBehaviorProvider;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
-import org.ruminaq.tasks.embeddedtask.ContextButtonPadTool.Filter;
+import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadEmbeddedTaskTool.Filter;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
 
 @Component(property = { "service.ranking:Integer=10" })
 @ServiceFilter(Filter.class)
-public class ContextButtonPadTool
+public class ContextButtonPadEmbeddedTaskTool
     implements GenericContextButtonPadDataExtension {
 
   public static class Filter implements Predicate<ServiceFilterArgs> {

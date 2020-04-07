@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.userdefined.features;
+package org.ruminaq.gui.features.update;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -16,6 +16,7 @@ import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
+import org.ruminaq.gui.features.add.AddTaskFeature;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.desc.Position;
 import org.ruminaq.model.ruminaq.DataType;
@@ -24,8 +25,6 @@ import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.model.util.ModelUtil;
-import org.ruminaq.tasks.features.AddTaskFeature;
-import org.ruminaq.tasks.features.UpdateTaskFeature;
 import ch.qos.logback.classic.Logger;
 
 public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {

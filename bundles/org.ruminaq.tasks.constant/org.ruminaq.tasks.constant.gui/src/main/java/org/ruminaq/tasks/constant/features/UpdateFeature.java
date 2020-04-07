@@ -26,8 +26,8 @@ import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
+import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.tasks.constant.model.constant.Constant;
-import org.ruminaq.tasks.features.UpdateTaskFeature;
 import org.ruminaq.tasks.styles.TaskStyle;
 
 public class UpdateFeature extends UpdateTaskFeature {

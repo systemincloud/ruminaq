@@ -9,6 +9,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.eclipse.emf.ecore,
+ org.ruminaq.gui,
  org.ruminaq.model.desc,
  org.ruminaq.model.dt,
  org.ruminaq.model.ruminaq,
@@ -22,7 +23,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.gate.not.model.not,
  org.ruminaq.tasks.gate.xor.model.xor,
  org.ruminaq.tasks.mux.model.mux,
- org.ruminaq.tasks.util,
  org.ruminaq.util,
  org.slf4j
 Bundle-ActivationPolicy: lazy

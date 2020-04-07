@@ -29,7 +29,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.javatask.client.data,
  org.ruminaq.tasks.javatask.model.javatask,
  org.ruminaq.tasks.mux.model.mux,
- org.ruminaq.tasks.util,
  org.ruminaq.util,
  org.slf4j
 Bundle-ActivationPolicy: lazy

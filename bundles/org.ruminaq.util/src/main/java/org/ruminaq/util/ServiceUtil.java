@@ -1,7 +1,5 @@
 package org.ruminaq.util;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
 import java.util.Collections;
@@ -109,22 +107,10 @@ public final class ServiceUtil {
   private static <T> Predicate<T> filter(ServiceFilterArgs filterArgs) {
     return (T s) -> Optional
         .ofNullable(s.getClass().getAnnotation(ServiceFilter.class))
-        .map(ServiceFilter::value)
-        .map((Class<? extends Predicate<ServiceFilterArgs>> f) -> {
-          try {
-            return f.getConstructor();
-          } catch (NoSuchMethodException | SecurityException e) {
-            return null;
-          }
-        }).<Predicate<ServiceFilterArgs>>map(
-            (Constructor<? extends Predicate<ServiceFilterArgs>> c) -> {
-              try {
-                return c.newInstance();
-              } catch (InstantiationException | IllegalAccessException
-                  | IllegalArgumentException | InvocationTargetException e) {
-                return null;
-              }
-            })
-        .orElse((ServiceFilterArgs args) -> true).test(filterArgs);
+        .map(ServiceFilter::value).map(f -> Result.attempt(f::getConstructor))
+        .flatMap(r -> Optional.ofNullable(r.orElse(null)))
+        .map(f -> Result.attempt(f::newInstance))
+        .flatMap(r -> Optional.ofNullable(r.orElse(null)))
+        .map(f -> f.test(filterArgs)).orElse(Boolean.TRUE);
   }
 }

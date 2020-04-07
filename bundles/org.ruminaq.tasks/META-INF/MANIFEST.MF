@@ -69,6 +69,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.gui.features,
  org.ruminaq.gui.features.add,
  org.ruminaq.gui.features.create,
+ org.ruminaq.gui.features.move,
  org.ruminaq.gui.features.paste,
  org.ruminaq.gui.features.update,
  org.ruminaq.gui.model.diagram,
@@ -89,8 +90,7 @@ Import-Package: ch.qos.logback.classic,
 Export-Package: org.ruminaq.tasks,
  org.ruminaq.tasks.features,
  org.ruminaq.tasks.properties,
- org.ruminaq.tasks.styles,
- org.ruminaq.tasks.util
+ org.ruminaq.tasks.styles
 Require-Bundle: org.eclipse.ui.views.properties.tabbed
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy

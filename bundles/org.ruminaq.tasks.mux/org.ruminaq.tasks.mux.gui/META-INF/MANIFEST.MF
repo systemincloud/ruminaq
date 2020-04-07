@@ -42,8 +42,10 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.consts,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui.api,
+ org.ruminaq.gui.features.add,
  org.ruminaq.gui.features.create,
  org.ruminaq.gui.features.doubleclick,
+ org.ruminaq.gui.features.update,
  org.ruminaq.gui.palette,
  org.ruminaq.model.desc,
  org.ruminaq.model.dt,
@@ -55,7 +57,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.features,
  org.ruminaq.tasks.mux.impl,
  org.ruminaq.tasks.mux.model.mux,
- org.ruminaq.tasks.util,
  org.slf4j
 Export-Package: org.ruminaq.tasks.mux.features
 Bundle-ClassPath: .

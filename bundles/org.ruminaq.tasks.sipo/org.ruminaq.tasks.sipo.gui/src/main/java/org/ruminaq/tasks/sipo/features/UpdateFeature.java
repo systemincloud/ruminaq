@@ -5,11 +5,11 @@ import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.ruminaq.gui.TasksUtil;
+import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.model.desc.PortsDescrUtil;
-import org.ruminaq.tasks.features.UpdateTaskFeature;
 import org.ruminaq.tasks.sipo.impl.Port;
 import org.ruminaq.tasks.sipo.model.sipo.Sipo;
-import org.ruminaq.tasks.util.TasksUtil;
 
 public class UpdateFeature extends UpdateTaskFeature {
 

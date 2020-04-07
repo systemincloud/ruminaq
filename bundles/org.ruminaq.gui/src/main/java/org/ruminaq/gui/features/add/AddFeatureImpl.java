@@ -24,6 +24,6 @@ public class AddFeatureImpl implements AddFeatureExtension {
   @Override
   public List<Class<? extends IAddFeature>> getFeatures() {
     return Arrays.asList(AddInputPortFeature.class, AddOutputPortFeature.class,
-        AddSimpleConnectionFeature.class);
+        AddSimpleConnectionFeature.class, AddEmbeddedTaskFeature.class);
   }
 }
