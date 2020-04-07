@@ -66,7 +66,7 @@ public class CommonPaletteCompartmentEntry
 
     ICreateFeature[] createFeatures = fp.getCreateFeatures();
 
-    Stream.of(PORTS_STACK, SOURCES_STACK, SINKS_STACK)
+    Stream.of(PORTS_STACK, SOURCES_STACK, SINKS_STACK, USERDEFINED_STACK)
         .forEachOrdered((String stackName) -> {
           StackEntry stackEntry = new StackEntry(stackName, "", null);
           getCreationToolEntries(isTest, createFeatures, stackName)
@@ -95,11 +95,12 @@ public class CommonPaletteCompartmentEntry
   private static List<ObjectCreationToolEntry> getCreationToolEntries(
       boolean isTest, ICreateFeature[] createFeatures, String stackName) {
     return filterCreateInfos(isTest, createFeatures, stackName,
-        ICreateFeature.class).stream()
-        .map(cf -> new ObjectCreationToolEntry(cf.getCreateName(),
-            cf.getCreateDescription(), cf.getCreateImageId(),
-            cf.getCreateLargeImageId(), cf))
-        .collect(Collectors.toList());
+        ICreateFeature.class)
+            .stream()
+            .map(cf -> new ObjectCreationToolEntry(cf.getCreateName(),
+                cf.getCreateDescription(), cf.getCreateImageId(),
+                cf.getCreateLargeImageId(), cf))
+            .collect(Collectors.toList());
   }
 
   private static <K extends ICreateInfo> List<K> filterCreateInfos(
@@ -107,7 +108,7 @@ public class CommonPaletteCompartmentEntry
     return Stream.of(createFeatures)
         .filter(PaletteCreateFeature.class::isInstance)
         .map(PaletteCreateFeature.class::cast)
-        .filter(cf -> !(isTest && !cf.isTestOnly()))
+        .filter(cf -> !(cf.isTestOnly() && !isTest))
         .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
         .filter(cf -> stackName.equals(cf.getStack())).filter(type::isInstance)
         .map(type::cast).collect(Collectors.toList());

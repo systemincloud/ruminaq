@@ -141,4 +141,10 @@ public class AddTest extends GuiTest {
 
     assertEquals("8 elements", 8, gefEditor.getNumberOfEditParts());
   }
+  
+  @Test
+  public void testAddEmbeddedTaskFromPalette() {
+    GEFEditor gefEditor = new GEFEditor(diagramName);
+    gefEditor.addToolFromPalette("Embedded Task", 200, 100);
+  }
 }
