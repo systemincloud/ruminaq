@@ -95,15 +95,11 @@ public abstract class CreateTaskFeature extends AbstractCreateElementFeature {
                 if (group == -1) {
                   inputPort.setGroup(group);
                 } else {
-                  int j = group;
+                  Integer j = group;
                   boolean free = true;
                   do {
-                    free = true;
-                    for (InternalInputPort iip : task.getInputPort()) {
-                      if (iip.getGroup() == j) {
-                        free = false;
-                      }
-                    }
+                    free = task.getInputPort().stream()
+                        .map(InternalInputPort::getGroup).noneMatch(j::equals);
                     j++;
                   } while (!free);
                   inputPort.setGroup(j - 1);
