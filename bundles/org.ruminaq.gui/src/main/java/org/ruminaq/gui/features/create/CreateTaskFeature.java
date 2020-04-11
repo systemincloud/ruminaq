@@ -1,8 +1,21 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.create;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -10,7 +23,6 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.Version;
-import org.ruminaq.gui.features.create.AbstractCreateElementFeature;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.desc.IN;
 import org.ruminaq.model.desc.NGroup;
@@ -21,11 +33,16 @@ import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
-import ch.qos.logback.classic.Logger;
+import org.slf4j.Logger;
 
+/**
+ * Common class for all CreateFeautes for Tasks.
+ * 
+ * @author Marek Jagielski
+ */
 public abstract class CreateTaskFeature extends AbstractCreateElementFeature {
 
-  private final Logger logger = ModelerLoggerFactory
+  private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(CreateTaskFeature.class);
 
   public CreateTaskFeature(IFeatureProvider fp, Class<? extends Task> clazz) {
@@ -33,7 +50,7 @@ public abstract class CreateTaskFeature extends AbstractCreateElementFeature {
   }
 
   protected Object[] create(ICreateContext context, Task task) {
-    logger.trace("{}", task.getClass().getSimpleName());
+    LOGGER.trace("{}", task.getClass().getSimpleName());
     Bundle taskBundle = FrameworkUtil.getBundle(task.getClass());
     task.setBundleName(taskBundle.getSymbolicName());
     Version bundleVersion = taskBundle.getVersion();
@@ -52,96 +69,101 @@ public abstract class CreateTaskFeature extends AbstractCreateElementFeature {
   protected abstract Class<? extends PortsDescr> getPortsDescription();
 
   private void addDefaultPorts(Task task) {
-    Class<? extends PortsDescr> pd = getPortsDescription();
-    if (pd == null)
-      return;
-    for (Field f : pd.getFields()) {
-      IN in = f.getAnnotation(IN.class);
-      if (in != null) {
-        if (in.opt())
-          continue;
-        for (int i = 0; i < in.n(); i++) {
-          InternalInputPort inputPort = RuminaqFactory.eINSTANCE
-              .createInternalInputPort();
-          String id = in.name();
-          inputPort.setParent(task);
-          if (in.n() > 1)
-            id += " " + i;
-          inputPort.setId(id);
-          inputPort.setAsynchronous(in.asynchronous());
-          int group = in.group();
-          if (in.n() > 1) {
-            if (in.ngroup().equals(NGroup.SAME))
-              inputPort.setGroup(group);
-            else {
-              if (group == -1)
+    Optional<Class<? extends PortsDescr>> pdOpt = Optional
+        .ofNullable(getPortsDescription());
+    Supplier<Stream<Field>> fields = () -> pdOpt.map(pd -> pd.getFields())
+        .map(Stream::of).orElseGet(Stream::empty);
+
+    fields.get().map(f -> f.getAnnotation(IN.class)).filter(Objects::nonNull)
+        .filter(Predicate.not(IN::opt)).map(i -> new SimpleEntry<>(i, i.n()))
+        .forEach((SimpleEntry<IN, Integer> e) -> {
+          IntStream.range(0, e.getValue()).forEach((int i) -> {
+            InternalInputPort inputPort = RuminaqFactory.eINSTANCE
+                .createInternalInputPort();
+            String id = e.getKey().name();
+            inputPort.setParent(task);
+            if (e.getKey().n() > 1) {
+              id += " " + i;
+            }
+            inputPort.setId(id);
+            inputPort.setAsynchronous(e.getKey().asynchronous());
+            int group = e.getKey().group();
+            if (e.getKey().n() > 1) {
+              if (e.getKey().ngroup().equals(NGroup.SAME)) {
                 inputPort.setGroup(group);
-              else {
-                int j = group;
-                boolean free = true;
-                do {
-                  free = true;
-                  for (InternalInputPort iip : task.getInputPort())
-                    if (iip.getGroup() == j)
-                      free = false;
-                  j++;
-                } while (!free);
-                inputPort.setGroup(j - 1);
+              } else {
+                if (group == -1) {
+                  inputPort.setGroup(group);
+                } else {
+                  int j = group;
+                  boolean free = true;
+                  do {
+                    free = true;
+                    for (InternalInputPort iip : task.getInputPort()) {
+                      if (iip.getGroup() == j) {
+                        free = false;
+                      }
+                    }
+                    j++;
+                  } while (!free);
+                  inputPort.setGroup(j - 1);
+                }
+              }
+            } else {
+              inputPort.setGroup(group);
+            }
+
+            inputPort.setDefaultHoldLast(e.getKey().hold());
+            inputPort.setHoldLast(e.getKey().hold());
+            inputPort.setDefaultQueueSize(e.getKey().queue());
+            inputPort.setQueueSize(e.getKey().queue());
+
+            for (Class<? extends DataType> dt : e.getKey().type()) {
+              try {
+                EFactory factory = (EFactory) e.getKey().factory()
+                    .getDeclaredField("eINSTANCE").get(null);
+                Method createMethod = factory.getClass().getMethod(
+                    "create" + dt.getSimpleName(), (Class<?>[]) null);
+                inputPort.getDataType().add(
+                    (DataType) createMethod.invoke(factory, (Object[]) null));
+              } catch (SecurityException | NoSuchMethodException
+                  | IllegalAccessException | IllegalArgumentException
+                  | InvocationTargetException | NoSuchFieldException ex) {
               }
             }
-          } else
-            inputPort.setGroup(group);
 
-          inputPort.setDefaultHoldLast(in.hold());
-          inputPort.setHoldLast(in.hold());
-          inputPort.setDefaultQueueSize(in.queue());
-          inputPort.setQueueSize(in.queue());
+            task.getInputPort().add(inputPort);
+          });
+        });
 
-          for (Class<? extends DataType> dt : in.type())
-            try {
-              EFactory factory = (EFactory) in.factory()
-                  .getDeclaredField("eINSTANCE").get(null);
-              Method createMethod = factory.getClass()
-                  .getMethod("create" + dt.getSimpleName(), (Class<?>[]) null);
-              inputPort.getDataType().add(
-                  (DataType) createMethod.invoke(factory, (Object[]) null));
-            } catch (SecurityException | NoSuchMethodException
-                | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException | NoSuchFieldException e) {
+    fields.get().map(f -> f.getAnnotation(OUT.class)).filter(Objects::nonNull)
+        .filter(Predicate.not(OUT::opt)).map(i -> new SimpleEntry<>(i, i.n()))
+        .forEach((SimpleEntry<OUT, Integer> e) -> {
+          IntStream.range(0, e.getValue()).forEach((int i) -> {
+            InternalOutputPort outputPort = RuminaqFactory.eINSTANCE
+                .createInternalOutputPort();
+            String id = e.getKey().name();
+            outputPort.setParent(task);
+            if (e.getKey().n() > 1) {
+              id += " " + i;
+            }
+            outputPort.setId(id);
+            for (Class<? extends DataType> dt : e.getKey().type()) {
+              try {
+                EFactory factory = (EFactory) e.getKey().factory()
+                    .getDeclaredField("eINSTANCE").get(null);
+                Method createMethod = factory.getClass().getMethod(
+                    "create" + dt.getSimpleName(), (Class<?>[]) null);
+                outputPort.getDataType().add(
+                    (DataType) createMethod.invoke(factory, (Object[]) null));
+              } catch (SecurityException | NoSuchMethodException
+                  | IllegalAccessException | IllegalArgumentException
+                  | InvocationTargetException | NoSuchFieldException ex) {
+              }
             }
 
-          task.getInputPort().add(inputPort);
-        }
-      }
-      OUT out = f.getAnnotation(OUT.class);
-      if (out != null) {
-        if (out.opt())
-          continue;
-        for (int i = 0; i < out.n(); i++) {
-          InternalOutputPort outputPort = RuminaqFactory.eINSTANCE
-              .createInternalOutputPort();
-          String id = out.name();
-          outputPort.setParent(task);
-          if (out.n() > 1)
-            id += " " + i;
-          outputPort.setId(id);
-
-          for (Class<? extends DataType> dt : out.type())
-            try {
-              EFactory factory = (EFactory) out.factory()
-                  .getDeclaredField("eINSTANCE").get(null);
-              Method createMethod = factory.getClass()
-                  .getMethod("create" + dt.getSimpleName(), (Class<?>[]) null);
-              outputPort.getDataType().add(
-                  (DataType) createMethod.invoke(factory, (Object[]) null));
-            } catch (SecurityException | NoSuchMethodException
-                | IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException | NoSuchFieldException e) {
-            }
-
-          task.getOutputPort().add(outputPort);
-        }
-      }
-    }
+            task.getOutputPort().add(outputPort);
+          });
+        });
   }
 }

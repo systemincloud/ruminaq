@@ -12,7 +12,9 @@ import org.ruminaq.model.dt.Text;
 public enum Port implements PortsDescr {
   @IN(name = "In", type = Text.class, opt = true, label = false,
       pos = Position.RIGHT)
-  IN, @OUT(name = "Out", type = Text.class, opt = true, label = false,
+  IN,
+
+  @OUT(name = "Out", type = Text.class, opt = true, label = false,
       pos = Position.LEFT)
   OUT;
 }
