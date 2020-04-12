@@ -1,46 +1,45 @@
-/*
- * (C) Copyright 2018 Marek Jagielski.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.tasks.constant;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
+import org.osgi.service.component.annotations.Component;
+import org.ruminaq.gui.api.ImageDescriptor;
+import org.ruminaq.gui.api.ImagesExtension;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.osgi.framework.FrameworkUtil;
+/**
+ * Images in Constant plugin.
+ *
+ * @author Marek Jagielski
+ */
+@Component(property = { "service.ranking:Integer=5" })
+public class Images implements ImagesExtension {
 
-public class Images {
-
-  public enum K {
+  public enum Image implements ImageDescriptor {
     IMG_CONSTANT_PALETTE("/icons/palette.constant.png");
 
     private String path;
 
-    K(String path) {
+    Image(String path) {
       this.path = path;
+    }
+
+    @Override
+    public String path() {
+      return path;
+    }
+
+    @Override
+    public Class<?> clazz() {
+      return Image.class;
     }
   }
 
-  private static Map<String, String> images = Arrays.stream(K.values())
-      .collect(Collectors.toMap(K::name, i -> FileLocator
-          .find(FrameworkUtil.getBundle(Images.class), new Path(i.path), null)
-          .toString()));
-
-  public static Map<String, String> getImageKeyPath() {
-    return images;
+  @Override
+  public ImageDescriptor[] getImageDecriptors() {
+    return Image.values();
   }
 }

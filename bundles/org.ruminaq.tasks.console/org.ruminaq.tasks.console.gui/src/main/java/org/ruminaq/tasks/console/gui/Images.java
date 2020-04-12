@@ -6,38 +6,41 @@
 
 package org.ruminaq.tasks.console.gui;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.component.annotations.Component;
+import org.ruminaq.gui.api.ImageDescriptor;
 import org.ruminaq.gui.api.ImagesExtension;
 
 /**
+ * Images in Console plugin.
  *
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=5" })
 public class Images implements ImagesExtension {
 
-  public enum K {
+  public enum Image implements ImageDescriptor {
     IMG_CONSOLE_PALETTE("/icons/palette.console.png"),
     IMG_CONSOLE_DIAGRAM("/icons/diagram.console.png"),;
 
     private String path;
 
-    K(String path) {
+    Image(String path) {
       this.path = path;
+    }
+
+    @Override
+    public String path() {
+      return path;
+    }
+
+    @Override
+    public Class<?> clazz() {
+      return Image.class;
     }
   }
 
-  public Map<String, String> getImageKeyPath() {
-    return Arrays.stream(K.values())
-        .collect(Collectors.toMap(K::name, i -> FileLocator
-            .find(FrameworkUtil.getBundle(Images.class), new Path(i.path), null)
-            .toString()));
+  @Override
+  public ImageDescriptor[] getImageDecriptors() {
+    return Image.values();
   }
 }

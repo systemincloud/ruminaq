@@ -12,11 +12,6 @@
   <artifactId>org.ruminaq.tests.report</artifactId>
   <packaging>pom</packaging>
 
-  <properties>
-    <!-- <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin> -->
-    <!-- <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths> -->
-  </properties>
-
   <build>
     <plugins>
       <plugin>
@@ -66,7 +61,7 @@
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.prefs</artifactId>
@@ -79,12 +74,20 @@
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
+
     <dependency>
       <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.tasks.constant.gui</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.constant.it.tests</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.tasks.javatask.gui</artifactId>

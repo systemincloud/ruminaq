@@ -451,6 +451,16 @@
           <linkXRef>false</linkXRef>
           <targetJdk>${java.version}</targetJdk>
         </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <excludeFromFailureFile>exclude-pmd.properties</excludeFromFailureFile>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.tests.common.reddeer.CreateSimpleConnection;
+import org.ruminaq.tests.common.reddeer.GuiTest;
 import org.ruminaq.tests.common.reddeer.WithLabelAssociated;
 import org.ruminaq.tests.common.reddeer.WithShapeGraphitiEditPart;
 

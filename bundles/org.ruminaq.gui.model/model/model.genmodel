@@ -60,7 +60,10 @@
     <genClasses ecoreClass="model.ecore#//LabeledRuminaqShape">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//LabeledRuminaqShape/label"/>
     </genClasses>
-    <genClasses ecoreClass="model.ecore#//TaskShape"/>
+    <genClasses ecoreClass="model.ecore#//TaskShape">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//TaskShape/inputPort"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//TaskShape/outputPort"/>
+    </genClasses>
     <genClasses ecoreClass="model.ecore#//SimpleConnectionShape">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//SimpleConnectionShape/source"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//SimpleConnectionShape/target"/>
@@ -100,5 +103,8 @@
     <genClasses image="false" ecoreClass="model.ecore#//FlowTargetShape">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//FlowTargetShape/incomingConnections"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="model.ecore#//InternalPortShape"/>
+    <genClasses ecoreClass="model.ecore#//InternalInputPortShape"/>
+    <genClasses ecoreClass="model.ecore#//InternalOutputPortShape"/>
   </genPackages>
 </genmodel:GenModel>

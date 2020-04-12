@@ -7,6 +7,7 @@ import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.model.ruminaq.InputPort;
+import org.ruminaq.tests.common.reddeer.GuiTest;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 import org.ruminaq.tests.common.reddeer.WithTextLabel;
 

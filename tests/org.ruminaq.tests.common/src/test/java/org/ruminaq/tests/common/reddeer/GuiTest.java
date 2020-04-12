@@ -1,4 +1,4 @@
-package org.ruminaq.gui.it.tests;
+package org.ruminaq.tests.common.reddeer;
 
 import static org.junit.Assert.assertFalse;
 
@@ -15,8 +15,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
-import org.ruminaq.tests.common.reddeer.RuminaqDiagramWizard;
-import org.ruminaq.tests.common.reddeer.RuminaqProjectWizard;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;

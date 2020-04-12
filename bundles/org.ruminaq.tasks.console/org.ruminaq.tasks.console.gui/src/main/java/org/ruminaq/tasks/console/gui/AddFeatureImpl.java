@@ -55,7 +55,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
 
     @Override
     protected String getInsideIconId() {
-      return Images.K.IMG_CONSOLE_DIAGRAM.name();
+      return Images.Image.IMG_CONSOLE_DIAGRAM.name();
     }
 
     @Override

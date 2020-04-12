@@ -62,4 +62,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.demux.CreateFeaturesImpl.xml,
  OSGI-INF/org.ruminaq.tasks.demux.EclipseExtensionImpl.xml,
- OSGI-INF/org.ruminaq.tasks.demux.TaskUiApi.xml
+ OSGI-INF/org.ruminaq.tasks.demux.TaskUiApi.xml,
+ OSGI-INF/org.ruminaq.tasks.demux.Images.xml

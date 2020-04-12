@@ -77,4 +77,5 @@ Service-Component: OSGI-INF/org.ruminaq.tasks.constant.TaskApi.xml,
  OSGI-INF/org.ruminaq.tasks.constant.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.constant.AddFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.constant.TaskUiApi.xml,
- OSGI-INF/org.ruminaq.tasks.constant.CreateFeaturesImpl.xml
+ OSGI-INF/org.ruminaq.tasks.constant.CreateFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.constant.Images.xml

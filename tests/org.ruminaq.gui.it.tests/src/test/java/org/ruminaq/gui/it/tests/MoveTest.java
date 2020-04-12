@@ -16,6 +16,7 @@ import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.tests.common.reddeer.CreateSimpleConnection;
+import org.ruminaq.tests.common.reddeer.GuiTest;
 import org.ruminaq.tests.common.reddeer.MoveShape;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 import org.ruminaq.tests.common.reddeer.WithShapeGraphitiEditPart;

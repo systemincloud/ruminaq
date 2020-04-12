@@ -53,7 +53,7 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
     @Override
     public String getCreateImageId() {
-      return Images.K.IMG_DEMUX_PALETTE.name();
+      return Images.Image.IMG_DEMUX_PALETTE.name();
     }
   }
 }

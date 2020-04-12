@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.tasks.constant;
 
 import java.util.Arrays;
@@ -50,6 +56,7 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
     public Object[] create(ICreateContext context) {
       Object[] os = super.create(context,
           ConstantFactory.eINSTANCE.createConstant());
+
       ((Constant) os[0]).setDataType(EcoreUtil
           .copy(((Task) os[0]).getOutputPort().get(0).getDataType().get(0)));
       ((Constant) os[0]).setValue(Int32Strategy.DEFAULT_VALUE);
@@ -66,7 +73,7 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
     @Override
     public String getCreateImageId() {
-      return Images.K.IMG_CONSTANT_PALETTE.name();
+      return Images.Image.IMG_CONSTANT_PALETTE.name();
     }
   }
 }

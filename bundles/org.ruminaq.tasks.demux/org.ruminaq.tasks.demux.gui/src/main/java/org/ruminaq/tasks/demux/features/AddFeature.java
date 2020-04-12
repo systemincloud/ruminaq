@@ -29,7 +29,7 @@ public class AddFeature extends AddTaskFeature {
 
   @Override
   protected String getInsideIconId() {
-    return Images.K.IMG_DEMUX_DIAGRAM.name();
+    return Images.Image.IMG_DEMUX_DIAGRAM.name();
   }
 
   @Override
