@@ -66,8 +66,8 @@ public class CommonPaletteCompartmentEntry
 
     ICreateFeature[] createFeatures = fp.getCreateFeatures();
 
-    Stream.of(PORTS_STACK, SOURCES_STACK, SINKS_STACK, USERDEFINED_STACK)
-        .forEachOrdered((String stackName) -> {
+    Stream.of(PORTS_STACK, SOURCES_STACK, SINKS_STACK, LOGIC_STACK,
+        USERDEFINED_STACK).forEachOrdered((String stackName) -> {
           StackEntry stackEntry = new StackEntry(stackName, "", null);
           getCreationToolEntries(isTest, createFeatures, stackName)
               .forEach(stackEntry::addCreationToolEntry);
@@ -108,7 +108,7 @@ public class CommonPaletteCompartmentEntry
     return Stream.of(createFeatures)
         .filter(PaletteCreateFeature.class::isInstance)
         .map(PaletteCreateFeature.class::cast)
-        .filter(cf -> !(cf.isTestOnly() && !isTest))
+        .filter(cf -> isTest || !cf.isTestOnly())
         .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
         .filter(cf -> stackName.equals(cf.getStack())).filter(type::isInstance)
         .map(type::cast).collect(Collectors.toList());

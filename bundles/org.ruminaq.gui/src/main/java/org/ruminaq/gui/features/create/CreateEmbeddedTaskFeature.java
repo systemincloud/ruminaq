@@ -8,9 +8,9 @@ package org.ruminaq.gui.features.create;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.ruminaq.gui.EmbeddedTaskPorts;
 import org.ruminaq.gui.Images;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
+import org.ruminaq.model.desc.NoPorts;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
@@ -50,6 +50,6 @@ public class CreateEmbeddedTaskFeature extends CreateTaskFeature
   
   @Override
   protected Class<? extends PortsDescr> getPortsDescription() {
-    return EmbeddedTaskPorts.class;
+    return NoPorts.class;
   }
 }
