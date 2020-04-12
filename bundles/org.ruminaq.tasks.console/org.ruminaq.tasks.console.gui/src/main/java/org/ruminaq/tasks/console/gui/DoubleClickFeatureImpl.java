@@ -2,9 +2,13 @@ package org.ruminaq.tasks.console.gui;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
+import org.eclipse.graphiti.features.context.IDoubleClickContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.graphiti.services.Graphiti;
@@ -15,7 +19,11 @@ import org.eclipse.ui.PlatformUI;
 import org.modeler.tasks.console.ui.views.ConsoleViewPart;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.DoubleClickFeatureExtension;
+import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.FeaturePredicate;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.tasks.AbstractTaskViewPart;
+import org.ruminaq.tasks.console.gui.DoubleClickFeatureImpl.DoubleClickFeature.Filter;
 import org.ruminaq.tasks.console.model.console.Console;
 
 @Component(property = { "service.ranking:Integer=10" })
@@ -26,7 +34,22 @@ public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
     return Arrays.asList(DoubleClickFeature.class);
   }
 
+  @FeatureFilter(Filter.class)
   public static class DoubleClickFeature extends AbstractCustomFeature {
+
+    public static class Filter implements FeaturePredicate<IContext> {
+      @Override
+      public boolean test(IContext context) {
+        return Optional.of(context)
+            .filter(IDoubleClickContext.class::isInstance)
+            .map(IDoubleClickContext.class::cast)
+            .map(IDoubleClickContext::getPictogramElements).map(Stream::of)
+            .orElseGet(Stream::empty).findFirst()
+            .filter(RuminaqShape.class::isInstance)
+            .map(RuminaqShape.class::cast).map(RuminaqShape::getModelObject)
+            .filter(Console.class::isInstance).isPresent();
+      }
+    }
 
     public DoubleClickFeature(IFeatureProvider fp) {
       super(fp);

@@ -25,9 +25,9 @@ public abstract class AbstractAddFeatureFilter
   @Override
   public boolean test(IContext context) {
     return Optional.of(context).filter(IAddContext.class::isInstance)
-        .map(ctx -> (IAddContext) ctx).map(IAddContext::getNewObject)
-        .map(Object::getClass).map(clazz -> forBusinessObject()
-            .isAssignableFrom(clazz)).orElse(Boolean.FALSE);
+        .map(IAddContext.class::cast).map(IAddContext::getNewObject)
+        .map(Object::getClass).map(forBusinessObject()::isAssignableFrom)
+        .orElse(Boolean.FALSE);
   }
 
   public abstract Class<? extends BaseElement> forBusinessObject();
