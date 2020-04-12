@@ -11,6 +11,7 @@ import org.ruminaq.gui.api.ImageDescriptor;
 import org.ruminaq.gui.api.ImagesExtension;
 
 /**
+ * Images in Xor plugin.
  *
  * @author Marek Jagielski
  */
@@ -38,6 +39,7 @@ public class Images implements ImagesExtension {
     }
   }
 
+  @Override
   public ImageDescriptor[] getImageDecriptors() {
     return Image.values();
   }

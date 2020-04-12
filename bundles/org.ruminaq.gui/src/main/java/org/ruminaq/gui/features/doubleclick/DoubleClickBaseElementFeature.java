@@ -6,21 +6,22 @@
 
 package org.ruminaq.gui.features.doubleclick;
 
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.context.IDoubleClickContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.ui.IPageLayout;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.doubleclick.DoubleClickBaseElementFeature.Filter;
-import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.util.Result;
 
 @FeatureFilter(Filter.class)
 public class DoubleClickBaseElementFeature extends AbstractCustomFeature {
@@ -28,17 +29,11 @@ public class DoubleClickBaseElementFeature extends AbstractCustomFeature {
   public static class Filter implements FeaturePredicate<IContext> {
     @Override
     public boolean test(IContext context, IFeatureProvider fp) {
-      IDoubleClickContext doubleClickContext = (IDoubleClickContext) context;
-      Object bo = null;
-      for (Object o : Graphiti.getLinkService()
-          .getAllBusinessObjectsForLinkedPictogramElement(
-              doubleClickContext.getPictogramElements()[0]))
-        if (o instanceof BaseElement) {
-          bo = o;
-          break;
-        }
-
-      return bo instanceof BaseElement;
+      return Optional.of(context).filter(IDoubleClickContext.class::isInstance)
+          .map(IDoubleClickContext.class::cast)
+          .map(IDoubleClickContext::getPictogramElements).map(Stream::of)
+          .orElseGet(Stream::empty).findFirst()
+          .filter(RuminaqShape.class::isInstance).isPresent();
     }
   }
 
@@ -58,28 +53,8 @@ public class DoubleClickBaseElementFeature extends AbstractCustomFeature {
 
   @Override
   public void execute(ICustomContext context) {
-    BaseElement bo = null;
-    for (Object o : Graphiti.getLinkService()
-        .getAllBusinessObjectsForLinkedPictogramElement(
-            context.getPictogramElements()[0]))
-      if (o instanceof BaseElement) {
-        bo = (BaseElement) o;
-        break;
-      }
-    if (bo == null)
-      return;
-
-    IWorkbenchWindow window = PlatformUI.getWorkbench()
-        .getActiveWorkbenchWindow();
-    if (window != null) {
-      IWorkbenchPage page = window.getActivePage();
-      if (page != null) {
-        try {
-          page.showView(IPageLayout.ID_PROP_SHEET);
-        } catch (PartInitException e) {
-          e.printStackTrace();
-        }
-      }
-    }
+    Optional.ofNullable(PlatformUI.getWorkbench().getActiveWorkbenchWindow())
+        .map(IWorkbenchWindow::getActivePage).ifPresent(
+            p -> Result.attempt(() -> p.showView(IPageLayout.ID_PROP_SHEET)));
   }
 }

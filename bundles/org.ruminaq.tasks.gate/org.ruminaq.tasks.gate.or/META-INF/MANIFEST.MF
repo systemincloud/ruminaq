@@ -58,4 +58,5 @@ Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.gate.or.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.gate.or.EclipseExtensionImpl.xml
+ OSGI-INF/org.ruminaq.tasks.gate.or.EclipseExtensionImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.gate.or.Images.xml

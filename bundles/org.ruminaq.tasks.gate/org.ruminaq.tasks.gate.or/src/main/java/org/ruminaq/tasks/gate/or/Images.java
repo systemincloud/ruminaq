@@ -1,35 +1,46 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.tasks.gate.or;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.osgi.service.component.annotations.Component;
+import org.ruminaq.gui.api.ImageDescriptor;
+import org.ruminaq.gui.api.ImagesExtension;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.osgi.framework.FrameworkUtil;
+/**
+ * Images in Or plugin.
+ *
+ * @author Marek Jagielski
+ */
+@Component(property = { "service.ranking:Integer=5" })
+public class Images implements ImagesExtension {
 
-public class Images {
-
-  public enum K {
+  public enum Image implements ImageDescriptor {
     IMG_OR_PALETTE("/icons/palette.or.png"),
     IMG_OR_DIAGRAM("/icons/diagram.or.png");
 
     public String path;
 
-    K(String path) {
+    Image(String path) {
       this.path = path;
+    }
+
+    @Override
+    public String path() {
+      return path;
+    }
+
+    @Override
+    public Class<?> clazz() {
+      return Image.class;
     }
   }
 
-  static Map<String, String> images = new HashMap<String, String>() {
-    private static final long serialVersionUID = 1L;
-    {
-      for (final K v : K.values())
-        put(v.name(), FileLocator.find(FrameworkUtil.getBundle(this.getClass()),
-            new Path(v.path), null).toString());
-    }
-  };
-
-  public static Map<String, String> getImageKeyPath() {
-    return images;
+  @Override
+  public ImageDescriptor[] getImageDecriptors() {
+    return Image.values();
   }
 }

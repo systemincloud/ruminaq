@@ -19,7 +19,7 @@ public class AddFeature extends AddGateFeature {
 
   @Override
   protected String getInsideIconId() {
-    return Images.K.IMG_NOT_DIAGRAM.name();
+    return Images.Image.IMG_NOT_DIAGRAM.name();
   }
 
   @Override
