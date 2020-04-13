@@ -22,6 +22,7 @@ public class DoubleClickTest extends GuiTest {
     gefEditor.addToolFromPalette("Input Port", 200, 100);
     new WithBoGraphitiEditPart(InputPort.class).doubleClick();
     
+    
   }
 
 }

@@ -73,7 +73,7 @@ public class AddTest extends GuiTest {
   }
 
   @Test
-  public void testAddOutputPort() {
+  public void testAddOutputPort() throws InterruptedException {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Output Port", 200, 100);
     assertFalse("Editor is always saved", gefEditor.isDirty());
@@ -82,6 +82,8 @@ public class AddTest extends GuiTest {
         "My Output Port");
     assertEquals("Label shouldn't have any pad buttons", 0,
         opLabel.getContextButtons().size());
+    
+    Thread.sleep(1000);
 
     assertDiagram(gefEditor, "AddTest.testAddOutputPort.xml");
   }
