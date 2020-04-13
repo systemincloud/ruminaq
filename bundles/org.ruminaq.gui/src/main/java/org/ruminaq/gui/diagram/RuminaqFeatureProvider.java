@@ -178,6 +178,11 @@ public class RuminaqFeatureProvider extends DefaultFeatureProvider {
         () -> super.getUpdateFeature(context));
   }
 
+  /**
+   * Reusable method gathering all features instances for giver service
+   * extension class. For bundles with the same symbolic name that with higher
+   * version will be considered.
+   */
   private <T extends IFeature> List<T> getFeatures(
       Class<? extends MultipleFeaturesExtension<T>> serviceClass) {
     return ServiceUtil

@@ -28,7 +28,7 @@ public class RuminaqDiagramTypeProvider extends AbstractDiagramTypeProvider {
       toolBehaviorProviders = new IToolBehaviorProvider[] {
           new RuminaqBehaviorProvider(this) };
     }
-    return toolBehaviorProviders;
+    return toolBehaviorProviders.clone();
   }
 
   @Override
