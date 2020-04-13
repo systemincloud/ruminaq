@@ -6,11 +6,13 @@
 
 package org.ruminaq.gui.properties;
 
+import java.util.Optional;
+import java.util.function.Predicate;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -31,9 +33,15 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.gui.features.directediting.DirectEditLabelFeature;
 import org.ruminaq.gui.model.diagram.LabelShape;
+import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.util.ModelUtil;
 
+/**
+ * 
+ * @author Marek Jagielski
+ *
+ */
 public class PropertyElementSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
@@ -124,7 +132,8 @@ public class PropertyElementSection extends GFPropertySection
 
                   for (EObject o : getSelectedPictogramElement().getLink()
                       .getBusinessObjects()) {
-                    if (o instanceof ContainerShape && LabelShape.class.isInstance(o)) {
+                    if (o instanceof ContainerShape
+                        && LabelShape.class.isInstance(o)) {
                       UpdateContext context = new UpdateContext(
                           (ContainerShape) o);
                       getDiagramTypeProvider().getFeatureProvider()
@@ -154,37 +163,33 @@ public class PropertyElementSection extends GFPropertySection
 
   @Override
   public void refresh() {
-    if (!getId(getSelectedPictogramElement()).equals(created)) {
-      for (Control control : parent.getChildren())
-        control.dispose();
-      create(parent);
-      parent.layout();
-      this.created = getId(getSelectedPictogramElement());
-    }
+    Optional<LabeledRuminaqShape> shape = Optional
+        .of(getSelectedPictogramElement())
+        .filter(LabeledRuminaqShape.class::isInstance)
+        .map(LabeledRuminaqShape.class::cast);
+    Optional<String> id = shape.map(LabeledRuminaqShape::getModelObject)
+        .map(BaseElement::getId);
+    id = id.filter(Predicate.not(i -> i.equals(created)))
+        .flatMap((String i) -> {
+          for (Control control : parent.getChildren())
+            control.dispose();
+          create(parent);
+          parent.layout();
+          return Optional.of(getSelectedPictogramElement())
+              .filter(LabeledRuminaqShape.class::isInstance)
+              .map(LabeledRuminaqShape.class::cast)
+              .map(LabeledRuminaqShape::getModelObject).map(BaseElement::getId);
 
-    Object bo = Graphiti.getLinkService()
-        .getBusinessObjectForLinkedPictogramElement(
-            getSelectedPictogramElement());
-    if (bo == null)
-      return;
-    String name = ((BaseElement) bo).getId();
-    txtId.setText(name == null ? "" : name);
+        });
+    id.ifPresent((String i) -> {
+      this.created = i;
+    });
+
+    id.ifPresent(txtId::setText);
   }
 
   @Override
   public void setInput(IWorkbenchPart part, ISelection selection) {
     super.setInput(part, selection);
-  }
-
-  private String getId(PictogramElement pe) {
-    if (pe == null)
-      return null;
-    EObject bo = Graphiti.getLinkService()
-        .getBusinessObjectForLinkedPictogramElement(pe);
-    if (bo instanceof BaseElement) {
-      BaseElement be = (BaseElement) bo;
-      return be.getId();
-    }
-    return null;
   }
 }

@@ -36,11 +36,11 @@ public class ContextButtonPadPortTool
     @Override
     public boolean test(ServiceFilterArgs args) {
       return Optional.ofNullable(args).map(ServiceFilterArgs::getArgs)
-          .map(List::stream).orElse(Stream.empty())
+          .map(List::stream).orElseGet(Stream::empty)
           .filter(IPictogramElementContext.class::isInstance)
           .map(IPictogramElementContext.class::cast)
           .map(IPictogramElementContext::getPictogramElement)
-          .filter(PortShape.class::isInstance).findFirst().isPresent();
+          .anyMatch(PortShape.class::isInstance);
     }
   }
 

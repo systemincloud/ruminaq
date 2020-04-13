@@ -1,18 +1,28 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.contextbuttonpad;
 
+import java.util.Optional;
 import java.util.function.Predicate;
 
-import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IPictogramElementContext;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
 import org.ruminaq.gui.diagram.RuminaqBehaviorProvider;
-import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadEmbeddedTaskTool.Filter;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
 
+/**
+ * Embedded Task can be updated.
+ * 
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=10" })
 @ServiceFilter(Filter.class)
 public class ContextButtonPadEmbeddedTaskTool
@@ -22,12 +32,10 @@ public class ContextButtonPadEmbeddedTaskTool
 
     @Override
     public boolean test(ServiceFilterArgs args) {
-      IFeatureProvider fp = (IFeatureProvider) args.getArgs().get(0);
-      IPictogramElementContext context = (IPictogramElementContext) args
-          .getArgs().get(1);
-      PictogramElement pe = context.getPictogramElement();
-      return fp
-          .getBusinessObjectForPictogramElement(pe) instanceof EmbeddedTask;
+      return Optional.of(args).map(ServiceFilterArgs::getArgs)
+          .map(l -> l.get(1)).filter(RuminaqShape.class::isInstance)
+          .map(RuminaqShape.class::cast).map(RuminaqShape::getModelObject)
+          .filter(EmbeddedTask.class::isInstance).isPresent();
     }
   }
 

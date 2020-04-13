@@ -6,19 +6,17 @@
 
 package org.ruminaq.gui.features.contextbuttonpad;
 
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.eclipse.graphiti.datatypes.IRectangle;
-import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.internal.datatypes.impl.RectangleImpl;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
 import org.ruminaq.gui.diagram.RuminaqBehaviorProvider;
 import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadInternalPortTool.Filter;
-import org.ruminaq.model.ruminaq.InternalPort;
+import org.ruminaq.gui.model.diagram.InternalInputPortShape;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
 
@@ -36,12 +34,9 @@ public class ContextButtonPadInternalPortTool implements
 
     @Override
     public boolean test(ServiceFilterArgs args) {
-      IFeatureProvider fp = (IFeatureProvider) args.getArgs().get(0);
-      IPictogramElementContext context = (IPictogramElementContext) args
-          .getArgs().get(1);
-      PictogramElement pe = context.getPictogramElement();
-      return fp
-          .getBusinessObjectForPictogramElement(pe) instanceof InternalPort;
+      return Optional.of(args).map(ServiceFilterArgs::getArgs)
+          .map(l -> l.get(1)).filter(InternalInputPortShape.class::isInstance)
+          .isPresent();
     }
   }
 
