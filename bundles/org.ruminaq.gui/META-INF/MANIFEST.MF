@@ -92,7 +92,6 @@ Export-Package: org.ruminaq.gui,
  org.ruminaq.gui.features.paste,
  org.ruminaq.gui.features.reconnection,
  org.ruminaq.gui.features.resize,
- org.ruminaq.gui.features.styles,
  org.ruminaq.gui.features.update,
  org.ruminaq.gui.palette,
  org.ruminaq.gui.properties
