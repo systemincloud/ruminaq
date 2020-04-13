@@ -1,5 +1,6 @@
 package org.ruminaq.gui.it.tests;
 
+import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
@@ -22,7 +23,9 @@ public class DoubleClickTest extends GuiTest {
     gefEditor.addToolFromPalette("Input Port", 200, 100);
     new WithBoGraphitiEditPart(InputPort.class).doubleClick();
     
-    
+    PropertySheet propertiesView = new PropertySheet();
+    propertiesView.activate();
+    propertiesView.selectTab("Input Port");
   }
 
 }

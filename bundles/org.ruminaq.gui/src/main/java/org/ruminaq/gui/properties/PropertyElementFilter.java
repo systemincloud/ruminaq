@@ -6,22 +6,20 @@
 
 package org.ruminaq.gui.properties;
 
-import org.eclipse.emf.ecore.EObject;
+import java.util.Optional;
+import java.util.function.Predicate;
+
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 import org.ruminaq.gui.model.diagram.LabelShape;
-import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.model.ruminaq.Connection;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 
 public class PropertyElementFilter extends AbstractPropertySectionFilter {
 
   @Override
   protected boolean accept(PictogramElement pe) {
-    EObject eObject = Graphiti.getLinkService()
-        .getBusinessObjectForLinkedPictogramElement(pe);
-    return eObject instanceof BaseElement && !(eObject instanceof Connection)
-        && !LabelShape.class.isInstance(pe);
+    return Optional.of(pe).filter(RuminaqShape.class::isInstance)
+        .filter(Predicate.not(LabelShape.class::isInstance)).isPresent();
   }
 
 }
