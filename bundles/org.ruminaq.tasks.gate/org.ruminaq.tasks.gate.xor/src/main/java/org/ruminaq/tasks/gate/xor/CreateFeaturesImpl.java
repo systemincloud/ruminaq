@@ -53,7 +53,7 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
     @Override
     public String getCreateImageId() {
-      return Images.Image.IMG_XOR_PALETTE.name();
+      return Images.IMG_XOR_PALETTE;
     }
   }
 }

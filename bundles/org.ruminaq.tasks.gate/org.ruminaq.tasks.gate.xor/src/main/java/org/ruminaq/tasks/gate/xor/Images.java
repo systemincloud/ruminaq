@@ -6,9 +6,13 @@
 
 package org.ruminaq.tasks.gate.xor;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ImageDescriptor;
 import org.ruminaq.gui.api.ImagesExtension;
+import org.ruminaq.gui.image.ImageDescriptorImpl;
 
 /**
  * Images in Xor plugin.
@@ -18,29 +22,12 @@ import org.ruminaq.gui.api.ImagesExtension;
 @Component(property = { "service.ranking:Integer=5" })
 public class Images implements ImagesExtension {
 
-  public enum Image implements ImageDescriptor {
-    IMG_XOR_PALETTE("/icons/palette.xor.png"),
-    IMG_XOR_DIAGRAM("/icons/diagram.xor.png");
-
-    private String path;
-
-    Image(String path) {
-      this.path = path;
-    }
-
-    @Override
-    public String path() {
-      return path;
-    }
-
-    @Override
-    public Class<?> clazz() {
-      return Image.class;
-    }
-  }
+  public static final String IMG_XOR_PALETTE = "/icons/palette.xor.png";
+  public static final String IMG_XOR_DIAGRAM = "/icons/diagram.xor.png";
 
   @Override
-  public ImageDescriptor[] getImageDecriptors() {
-    return Image.values();
+  public Collection<ImageDescriptor> getImageDecriptors() {
+    return Arrays.asList(new ImageDescriptorImpl(Images.class, IMG_XOR_PALETTE),
+        new ImageDescriptorImpl(Images.class, IMG_XOR_DIAGRAM));
   }
 }

@@ -6,9 +6,13 @@
 
 package org.ruminaq.tasks.gate.or;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ImageDescriptor;
 import org.ruminaq.gui.api.ImagesExtension;
+import org.ruminaq.gui.image.ImageDescriptorImpl;
 
 /**
  * Images in Or plugin.
@@ -18,29 +22,12 @@ import org.ruminaq.gui.api.ImagesExtension;
 @Component(property = { "service.ranking:Integer=5" })
 public class Images implements ImagesExtension {
 
-  public enum Image implements ImageDescriptor {
-    IMG_OR_PALETTE("/icons/palette.or.png"),
-    IMG_OR_DIAGRAM("/icons/diagram.or.png");
-
-    public String path;
-
-    Image(String path) {
-      this.path = path;
-    }
-
-    @Override
-    public String path() {
-      return path;
-    }
-
-    @Override
-    public Class<?> clazz() {
-      return Image.class;
-    }
-  }
+  public static final String IMG_OR_PALETTE = "/icons/palette.or.png";
+  public static final String IMG_OR_DIAGRAM = "/icons/diagram.or.png";
 
   @Override
-  public ImageDescriptor[] getImageDecriptors() {
-    return Image.values();
+  public Collection<ImageDescriptor> getImageDecriptors() {
+    return Arrays.asList(new ImageDescriptorImpl(Images.class, IMG_OR_PALETTE),
+        new ImageDescriptorImpl(Images.class, IMG_OR_DIAGRAM));
   }
 }

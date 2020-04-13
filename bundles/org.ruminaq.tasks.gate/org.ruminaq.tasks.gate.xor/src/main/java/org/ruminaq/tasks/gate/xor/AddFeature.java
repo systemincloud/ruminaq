@@ -1,10 +1,7 @@
-package org.ruminaq.tasks.gate.not.features;
+package org.ruminaq.tasks.gate.xor;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.tasks.gate.features.AddGateFeature;
-import org.ruminaq.tasks.gate.not.Images;
-import org.ruminaq.tasks.gate.not.impl.Port;
 
 public class AddFeature extends AddGateFeature {
 
@@ -19,11 +16,6 @@ public class AddFeature extends AddGateFeature {
 
   @Override
   protected String getInsideIconId() {
-    return Images.Image.IMG_NOT_DIAGRAM.name();
-  }
-
-  @Override
-  protected Class<? extends PortsDescr> getPortsDescription() {
-    return Port.class;
+    return Images.IMG_XOR_DIAGRAM;
   }
 }

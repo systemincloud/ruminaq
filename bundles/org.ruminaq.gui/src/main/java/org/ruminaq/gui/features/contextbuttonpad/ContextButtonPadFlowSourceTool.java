@@ -22,9 +22,9 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.tb.ContextButtonEntry;
 import org.eclipse.graphiti.tb.IContextButtonEntry;
 import org.osgi.service.component.annotations.Component;
-import org.ruminaq.gui.Images;
 import org.ruminaq.gui.api.DomainContextButtonPadDataExtension;
 import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadFlowSourceTool.Filter;
+import org.ruminaq.gui.image.Images;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.model.ruminaq.FlowSource;
@@ -80,7 +80,7 @@ public class ContextButtonPadFlowSourceTool
         }).map((CreateConnectionContext ccc) -> {
           ContextButtonEntry button = new ContextButtonEntry(null, context);
           button.setText("Create connection");
-          button.setIconId(Images.Image.IMG_CONTEXT_SIMPLECONNECTION.name());
+          button.setIconId(Images.IMG_CONTEXT_SIMPLECONNECTION);
           Stream.of(fp.getCreateConnectionFeatures())
               .filter(f -> f.isAvailable(ccc))
               .filter(f -> f.canStartConnection(ccc)).findFirst()

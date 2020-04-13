@@ -6,7 +6,8 @@
 
 package org.ruminaq.gui.api;
 
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -27,13 +28,13 @@ public interface ImagesExtension {
    * @return map image key to path
    */
   default Map<String, String> getImageKeyPath() {
-    return Arrays.stream(getImageDecriptors())
+    return getImageDecriptors().stream()
         .collect(Collectors.toMap(ImageDescriptor::name, i -> FileLocator
             .find(FrameworkUtil.getBundle(i.clazz()), new Path(i.path()), null)
             .toExternalForm()));
   }
 
-  default ImageDescriptor[] getImageDecriptors() {
-    return new ImageDescriptor[] {};
+  default Collection<ImageDescriptor> getImageDecriptors() {
+    return Collections.emptyList();
   }
 }

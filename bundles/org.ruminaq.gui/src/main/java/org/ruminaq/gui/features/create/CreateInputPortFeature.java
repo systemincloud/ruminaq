@@ -8,7 +8,7 @@ package org.ruminaq.gui.features.create;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.ruminaq.gui.Images;
+import org.ruminaq.gui.image.Images;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
@@ -48,6 +48,6 @@ public class CreateInputPortFeature extends AbstractCreateElementFeature
 
   @Override
   public String getCreateImageId() {
-    return Images.Image.IMG_PALETTE_INPUTPORT.name();
+    return Images.IMG_PALETTE_INPUTPORT;
   }
 }

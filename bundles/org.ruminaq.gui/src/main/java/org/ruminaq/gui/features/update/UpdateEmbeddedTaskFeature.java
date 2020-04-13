@@ -28,8 +28,8 @@ import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Image;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
-import org.ruminaq.gui.Images;
 import org.ruminaq.gui.features.add.AddEmbeddedTaskFeature;
+import org.ruminaq.gui.image.Images;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.Connection;
 import org.ruminaq.model.ruminaq.DataType;
@@ -95,10 +95,10 @@ public class UpdateEmbeddedTaskFeature extends UpdateUserDefinedTaskFeature {
 
     boolean ret = true;
     if (et.getImplementationTask().startsWith(SourceFolders.TEST_RESOURCES)
-        && Images.Image.IMG_EMBEDDEDTASK_DIAGRAM_MAIN.name().equals(id))
+        && Images.IMG_EMBEDDEDTASK_DIAGRAM_MAIN.equals(id))
       return false;
     if (et.getImplementationTask().startsWith(SourceFolders.MAIN_RESOURCES)
-        && Images.Image.IMG_EMBEDDEDTASK_DIAGRAM_TEST.name().equals(id))
+        && Images.IMG_EMBEDDEDTASK_DIAGRAM_TEST.equals(id))
       return false;
 
     return ret;
@@ -126,9 +126,9 @@ public class UpdateEmbeddedTaskFeature extends UpdateUserDefinedTaskFeature {
         .getGraphicsAlgorithmChildren())
       if (ga instanceof Image) {
         if (et.getImplementationTask().startsWith(SourceFolders.MAIN_RESOURCES))
-          ((Image) ga).setId(Images.Image.IMG_EMBEDDEDTASK_DIAGRAM_MAIN.name());
+          ((Image) ga).setId(Images.IMG_EMBEDDEDTASK_DIAGRAM_MAIN);
         if (et.getImplementationTask().startsWith(SourceFolders.TEST_RESOURCES))
-          ((Image) ga).setId(Images.Image.IMG_EMBEDDEDTASK_DIAGRAM_TEST.name());
+          ((Image) ga).setId(Images.IMG_EMBEDDEDTASK_DIAGRAM_TEST);
         return true;
       }
     return false;

@@ -1,7 +1,6 @@
-package org.ruminaq.tasks.gate.and.features;
+package org.ruminaq.tasks.gate.and;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.ruminaq.tasks.gate.and.Images;
 import org.ruminaq.tasks.gate.features.AddGateFeature;
 
 public class AddFeature extends AddGateFeature {
@@ -17,6 +16,6 @@ public class AddFeature extends AddGateFeature {
 
   @Override
   protected String getInsideIconId() {
-    return Images.Image.IMG_AND_DIAGRAM.name();
+    return Images.IMG_AND_DIAGRAM;
   }
 }

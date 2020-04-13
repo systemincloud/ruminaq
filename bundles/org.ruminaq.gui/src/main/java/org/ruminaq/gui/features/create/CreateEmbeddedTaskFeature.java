@@ -8,7 +8,7 @@ package org.ruminaq.gui.features.create;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.ruminaq.gui.Images;
+import org.ruminaq.gui.image.Images;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.desc.NoPorts;
 import org.ruminaq.model.desc.PortsDescr;
@@ -45,7 +45,7 @@ public class CreateEmbeddedTaskFeature extends CreateTaskFeature
 
   @Override
   public String getCreateImageId() {
-    return Images.Image.IMG_EMBEDDEDTASK_PALETTE.name();
+    return Images.IMG_EMBEDDEDTASK_PALETTE;
   }
   
   @Override

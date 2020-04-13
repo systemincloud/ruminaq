@@ -11,7 +11,6 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.gate.features.UpdateGateFeature;
-import org.ruminaq.tasks.gate.not.features.AddFeature;
 import org.ruminaq.tasks.gate.not.model.not.Not;
 
 @Component

@@ -23,7 +23,7 @@
    
    <extension point="org.eclipse.graphiti.ui.imageProviders">
       <imageProvider
-            class="org.ruminaq.gui.ImageProvider"
+            class="org.ruminaq.gui.image.ImageProvider"
             id="org.ruminaq.gui.RuminaqImageProvider">
       </imageProvider>
    </extension>

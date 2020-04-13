@@ -6,9 +6,13 @@
 
 package org.ruminaq.tasks.constant;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ImageDescriptor;
 import org.ruminaq.gui.api.ImagesExtension;
+import org.ruminaq.gui.image.ImageDescriptorImpl;
 
 /**
  * Images in Constant plugin.
@@ -18,28 +22,11 @@ import org.ruminaq.gui.api.ImagesExtension;
 @Component(property = { "service.ranking:Integer=5" })
 public class Images implements ImagesExtension {
 
-  public enum Image implements ImageDescriptor {
-    IMG_CONSTANT_PALETTE("/icons/palette.constant.png");
-
-    private String path;
-
-    Image(String path) {
-      this.path = path;
-    }
-
-    @Override
-    public String path() {
-      return path;
-    }
-
-    @Override
-    public Class<?> clazz() {
-      return Image.class;
-    }
-  }
+  public static final String IMG_CONSTANT_PALETTE = "/icons/palette.constant.png";
 
   @Override
-  public ImageDescriptor[] getImageDecriptors() {
-    return Image.values();
+  public Collection<ImageDescriptor> getImageDecriptors() {
+    return Collections.singletonList(
+        new ImageDescriptorImpl(Images.class, IMG_CONSTANT_PALETTE));
   }
 }

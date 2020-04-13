@@ -2,6 +2,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Ruminaq - Tasks - Gate Not
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.gate.not
+Automatic-Module-Name: org.ruminaq.tasks.gate.not
 Bundle-Version: 1.0.0.qualifier
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
@@ -41,6 +42,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.gui.api,
  org.ruminaq.gui.features,
  org.ruminaq.gui.features.create,
+ org.ruminaq.gui.image,
  org.ruminaq.gui.palette,
  org.ruminaq.model.desc,
  org.ruminaq.model.ruminaq,
@@ -53,7 +55,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.gate.not.impl,
  org.ruminaq.tasks.gate.not.model.not,
  org.slf4j
-Export-Package: org.ruminaq.tasks.gate.not.features
+Export-Package: org.ruminaq.tasks.gate.not
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy

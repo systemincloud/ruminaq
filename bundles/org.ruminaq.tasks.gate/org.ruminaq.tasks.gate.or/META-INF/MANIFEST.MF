@@ -42,6 +42,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.gui.api,
  org.ruminaq.gui.features,
  org.ruminaq.gui.features.create,
+ org.ruminaq.gui.image,
  org.ruminaq.gui.palette,
  org.ruminaq.model.desc,
  org.ruminaq.model.ruminaq,
@@ -53,7 +54,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.gate.model.gate,
  org.ruminaq.tasks.gate.or.model.or,
  org.slf4j
-Export-Package: org.ruminaq.tasks.gate.or.features
+Export-Package: org.ruminaq.tasks.gate.or
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy

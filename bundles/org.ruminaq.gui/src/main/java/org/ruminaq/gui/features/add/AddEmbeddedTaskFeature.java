@@ -2,7 +2,7 @@ package org.ruminaq.gui.features.add;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.add.AddEmbeddedTaskFeature.Filter;
-import org.ruminaq.gui.Images;
+import org.ruminaq.gui.image.Images;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.model.desc.NoPorts;
 import org.ruminaq.model.desc.PortsDescr;
@@ -32,7 +32,7 @@ public class AddEmbeddedTaskFeature extends AddTaskFeature {
 
   @Override
   protected String getInsideIconId() {
-    return  Images.Image.IMG_EMBEDDEDTASK_DIAGRAM_MAIN.name();
+    return  Images.IMG_EMBEDDEDTASK_DIAGRAM_MAIN;
   }
 
   @Override
