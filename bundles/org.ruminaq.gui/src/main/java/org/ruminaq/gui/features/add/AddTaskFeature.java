@@ -110,6 +110,7 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
     final IGaService gaService = Graphiti.getGaService();
 
     TaskShape taskShape = DiagramFactory.eINSTANCE.createTaskShape();
+    taskShape.setContainer(context.getTargetContainer());
     taskShape.setX(context.getX());
     taskShape.setY(context.getY());
 
@@ -119,13 +120,12 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
     taskShape.setWidth(width);
     taskShape.setHeight(height);
 
-    taskShape.setContainer(context.getTargetContainer());
     BaseElement task = (BaseElement) context.getNewObject();
     taskShape.setModelObject(task);
     addLabel(taskShape);
 
-    insertInside(peCreateService, gaService, width, height, taskShape,
-        taskShape.getGraphicsAlgorithm(), addedTask);
+//    insertInside(peCreateService, gaService, width, height, taskShape,
+//        taskShape.getGraphicsAlgorithm(), addedTask);
 
     addInternalPorts(addedTask, taskShape);
     updatePictogramElement(taskShape);

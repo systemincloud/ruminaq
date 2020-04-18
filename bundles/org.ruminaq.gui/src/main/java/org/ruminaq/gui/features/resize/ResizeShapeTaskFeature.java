@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.features;
+package org.ruminaq.gui.features.resize;
 
 import java.util.Optional;
 

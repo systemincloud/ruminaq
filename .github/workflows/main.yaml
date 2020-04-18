@@ -17,7 +17,7 @@ jobs:
     - name: Set up JDK 1.11
       uses: actions/setup-java@v1
       with:
-        java-version: '11.0.x'
+        java-version: '11'
         
     - name: Which java
       run: which java

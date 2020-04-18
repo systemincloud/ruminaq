@@ -19,7 +19,6 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.tasks.constant.model.constant.Constant;
-import org.ruminaq.tasks.styles.TaskStyle;
 
 public class UpdateFeature extends UpdateTaskFeature {
 
@@ -114,7 +113,7 @@ public class UpdateFeature extends UpdateTaskFeature {
         pictogramElement.getGraphicsAlgorithm(), insideString);
     gaService.setLocationAndSize(text, 7, 7, rr.getWidth() - 14,
         rr.getHeight() - 14);
-    text.setStyle(TaskStyle.getStyle(getDiagram()));
+//    text.setStyle(TaskStyle.getStyle(getDiagram()));
     text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
     text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
 

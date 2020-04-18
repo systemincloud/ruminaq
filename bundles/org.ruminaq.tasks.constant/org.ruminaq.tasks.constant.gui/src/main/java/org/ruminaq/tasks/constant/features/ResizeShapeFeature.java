@@ -8,7 +8,7 @@ package org.ruminaq.tasks.constant.features;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
-import org.ruminaq.tasks.features.ResizeShapeTaskFeature;
+import org.ruminaq.gui.features.resize.ResizeShapeTaskFeature;
 
 public class ResizeShapeFeature extends ResizeShapeTaskFeature {
 

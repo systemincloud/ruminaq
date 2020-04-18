@@ -15,10 +15,12 @@ import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.PortShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
+import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.gui.model.diagram.impl.label.LabelShapeGA;
 import org.ruminaq.gui.model.diagram.impl.port.PortShapeGA;
 import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionShapeGA;
 import org.ruminaq.gui.model.diagram.impl.simpleconnectionpoint.SimpleConnectionPointShapeGA;
+import org.ruminaq.gui.model.diagram.impl.task.TaskShapeGA;
 
 /**
  * GraphicsAlgorithm flyweight factories.
@@ -34,7 +36,9 @@ public enum GraphicsAlgorithmFactory {
           new ShapeFactory<>(SimpleConnectionShape.class,
               SimpleConnectionShapeGA.class),
           new ShapeFactory<>(SimpleConnectionPointShape.class,
-              SimpleConnectionPointShapeGA.class));
+              SimpleConnectionPointShapeGA.class),
+          new ShapeFactory<>(TaskShape.class,
+              TaskShapeGA.class));
 
   /**
    * Flyweight Factory of GraphicsAlgorithms for PictogramElement.
