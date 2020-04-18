@@ -3,6 +3,7 @@ package org.ruminaq.gui.features.add;
 import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
@@ -14,7 +15,6 @@ import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
-import org.eclipse.graphiti.mm.algorithms.styles.Style;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -27,12 +27,14 @@ import org.javatuples.Pair;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.gui.features.move.MoveInternalPortFeature;
-import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
+import org.ruminaq.gui.model.diagram.DiagramFactory;
+import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 import org.ruminaq.model.desc.IN;
 import org.ruminaq.model.desc.OUT;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.desc.Position;
+import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
@@ -40,6 +42,10 @@ import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.util.ModelUtil;
 
 public abstract class AddTaskFeature extends AbstractAddElementFeature {
+
+  private static final int DEFAULT_TASK_WIDTH = 120;
+
+  private static final int DEFAULT_TASK_HEIGHT = 70;
 
   public static final int PORT_SIZE = 10;
   public static final int INPUT_PORT_WIDTH = 1;
@@ -52,17 +58,13 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
     LEFT, RIGHT, TOP, BOTTOM;
   }
 
-  protected int getHeight() {
-    return 70;
-  }
-
   protected int getWidth() {
-    return 120;
+    return DEFAULT_TASK_WIDTH;
   }
 
-//  protected Style getStyle() {
-//    return TaskStyle.getStyle(getDiagram());
-//  }
+  protected int getHeight() {
+    return DEFAULT_TASK_HEIGHT;
+  }
 
   protected boolean useIconInsideShape() {
     return false;
@@ -75,8 +77,6 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
   protected String getInsideIconDesc() {
     return null;
   }
-
-//  protected Style onlyLocalStyle = TaskStyle.getOnlyLocalStyle(getDiagram());
 
   protected abstract Class<? extends PortsDescr> getPortsDescription();
 
@@ -105,48 +105,32 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
   @Override
   public PictogramElement add(IAddContext context) {
     final Task addedTask = (Task) context.getNewObject();
-    final ContainerShape target = context.getTargetContainer();
 
     final IPeCreateService peCreateService = Graphiti.getPeCreateService();
     final IGaService gaService = Graphiti.getGaService();
 
-    final ContainerShape containerShape = peCreateService
-        .createContainerShape(target, true);
+    TaskShape taskShape = DiagramFactory.eINSTANCE.createTaskShape();
+    taskShape.setX(context.getX());
+    taskShape.setY(context.getY());
 
-    int width = 0;
-    int height = 0;
-    width = context.getWidth() <= 0 ? getWidth() : context.getWidth();
-    height = context.getHeight() <= 0 ? getHeight() : context.getHeight();
+    int width = context.getWidth() <= 0 ? getWidth() : context.getWidth();
+    int height = context.getHeight() <= 0 ? getHeight() : context.getHeight();
 
-    final Rectangle invisibleRectangle = gaService
-        .createInvisibleRectangle(containerShape);
-    gaService.setLocationAndSize(invisibleRectangle, context.getX(),
-        context.getY(), width, height);
+    taskShape.setWidth(width);
+    taskShape.setHeight(height);
 
-    // create and set visible rectangle inside invisible rectangle
-    RoundedRectangle roundedRectangle = gaService
-        .createRoundedRectangle(invisibleRectangle, 20, 20);
-    roundedRectangle.setParentGraphicsAlgorithm(invisibleRectangle);
-//    roundedRectangle
-//        .setStyle(addedTask.isOnlyLocal() ? onlyLocalStyle : getStyle());
-    if (!addedTask.isAtomic())
-      roundedRectangle.setLineStyle(LineStyle.DOT);
-    gaService.setLocationAndSize(roundedRectangle, 0, 0, width, height);
+    taskShape.setContainer(context.getTargetContainer());
+    BaseElement task = (BaseElement) context.getNewObject();
+    taskShape.setModelObject(task);
+    addLabel(taskShape);
 
-    insertInside(peCreateService, gaService, width, height, containerShape,
-        invisibleRectangle, addedTask);
+    insertInside(peCreateService, gaService, width, height, taskShape,
+        taskShape.getGraphicsAlgorithm(), addedTask);
 
-    ContainerShape labelShape = addLabel((LabeledRuminaqShape) containerShape);
+    addInternalPorts(addedTask, taskShape);
+    updatePictogramElement(taskShape);
 
-    link(containerShape, new Object[] { addedTask, labelShape });
-    link(labelShape, new Object[] { addedTask, containerShape });
-
-    updatePictogramElement(labelShape);
-    layoutPictogramElement(labelShape);
-    addInternalPorts(addedTask, containerShape);
-    updatePictogramElement(containerShape);
-
-    return containerShape;
+    return taskShape;
   }
 
   private void insertIconInside(IGaService gaService, int width, int height,
@@ -492,20 +476,20 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
 
     switch (position) {
       case RIGHT:
-        GuiUtil.onRightOfShape(text, textContainerShape, width, height, x,
-            y, 0, 0);
+        GuiUtil.onRightOfShape(text, textContainerShape, width, height, x, y, 0,
+            0);
         break;
       case LEFT:
-        GuiUtil.onLeftOfShape(text, textContainerShape, width, height, x,
-            y, 0, 0);
+        GuiUtil.onLeftOfShape(text, textContainerShape, width, height, x, y, 0,
+            0);
         break;
       case TOP:
-        GuiUtil.onTopOfShape(text, textContainerShape, width, height, x, y,
-            0, 0);
+        GuiUtil.onTopOfShape(text, textContainerShape, width, height, x, y, 0,
+            0);
         break;
       case BOTTOM:
-        GuiUtil.onBottomOfShape(text, textContainerShape, width, height, x,
-            y, 0, 0);
+        GuiUtil.onBottomOfShape(text, textContainerShape, width, height, x, y,
+            0, 0);
         break;
     }
 
