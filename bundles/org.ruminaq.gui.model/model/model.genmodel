@@ -61,10 +61,13 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//LabeledRuminaqShape/label"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//TaskShape">
-      <genOperations ecoreOperation="model.ecore#//PortShape/getGraphicsAlgorithm"
-          body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//TaskShape/inputPort"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//TaskShape/outputPort"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//TaskShape/iconId"/>
+      <genOperations ecoreOperation="model.ecore#//TaskShape/getGraphicsAlgorithm"
+          body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+      <genOperations ecoreOperation="model.ecore#//PortShape/getGraphicsAlgorithm"
+          body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//SimpleConnectionShape">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//SimpleConnectionShape/source"/>

@@ -8,7 +8,12 @@ package org.ruminaq.gui.model.diagram.impl.task;
 
 import java.util.Optional;
 
+import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
+import org.eclipse.graphiti.mm.algorithms.Image;
+import org.eclipse.graphiti.mm.algorithms.impl.ImageImpl;
 import org.eclipse.graphiti.mm.algorithms.impl.RoundedRectangleImpl;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
@@ -29,8 +34,66 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
   private static final int CORNER_HEIGHT = 20;
 
+  public static final int ICON_SIZE = 44;
+
   private TaskShape shape;
 
+  private EList<GraphicsAlgorithm> children;
+
+  class Icon extends ImageImpl {
+    
+    private String id;
+    
+    Icon(String id) {
+      this.id = id;
+    }
+    
+    @Override
+    public String getId() {
+      return id;
+    }
+
+    @Override
+    public int getWidth() {
+      return ICON_SIZE;
+    }
+    
+    @Override
+    public int getHeight() {
+      return ICON_SIZE;
+    }
+    
+    @Override
+    public int getX() {
+      return (shape.getWidth() - ICON_SIZE) >> 1;
+    }
+    
+    @Override
+    public int getY() {
+      return (shape.getHeight() - ICON_SIZE) >> 1;
+    }
+    
+    @Override
+    public Boolean getProportional() {
+      return Boolean.FALSE;
+    }
+    
+    @Override
+    public Boolean getStretchH() {
+      return Boolean.FALSE;
+    }
+    
+    @Override
+    public Boolean getStretchV() {
+      return Boolean.FALSE;
+    }
+    
+    @Override
+    public Resource eResource() {
+      return new NoResource();
+    }
+  }
+  
   /**
    * GraphicsAlgorithm for Task.
    * 
@@ -38,6 +101,28 @@ public class TaskShapeGA extends RoundedRectangleImpl {
    */
   public TaskShapeGA(TaskShape shape) {
     this.shape = shape;
+    Optional<Image> image = Optional.of(shape).map(TaskShape::getIconId)
+        .map(id -> new Icon(id));
+
+    this.children = ECollections.asEList(image.get());
+    
+    // String desc = getInsideIconDesc();
+    // if (desc != null) {
+//      Text descT = gaService.createDefaultText(getDiagram(), ga, desc);
+//      gaService.setLocationAndSize(descT, 0, ICON_SIZE, width,
+//          height - ICON_SIZE);
+////      descT.setStyle(getStyle());
+//      descT.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+//      descT.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
+    // }
+
+    
+//      MultiText text = gaService.createDefaultMultiText(getDiagram(), ga,
+//          ModelUtil.getName(addedTask.getClass()).replace(" ", "\n"));
+//      gaService.setLocationAndSize(text, 0, 0, width, height);
+////      text.setStyle(getStyle());
+//      text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
+//      text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
   }
 
   @Override
@@ -101,6 +186,11 @@ public class TaskShapeGA extends RoundedRectangleImpl {
   @Override
   public Color getForeground() {
     return Colors.BLACK;
+  }
+
+  @Override
+  public EList<GraphicsAlgorithm> getGraphicsAlgorithmChildren() {
+    return ECollections.unmodifiableEList(children);
   }
 
   @Override

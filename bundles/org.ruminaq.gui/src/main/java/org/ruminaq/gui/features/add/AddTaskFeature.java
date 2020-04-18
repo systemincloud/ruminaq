@@ -14,12 +14,9 @@ import java.util.Optional;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.Image;
 import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
-import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
@@ -46,8 +43,12 @@ import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.model.util.ModelUtil;
 
+/**
+ * IAddFeature for Task.
+ *
+ * @author Marek Jagielski
+ */
 public abstract class AddTaskFeature extends AbstractAddElementFeature {
 
   private static final int DEFAULT_TASK_WIDTH = 120;
@@ -57,7 +58,6 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
   public static final int PORT_SIZE = 10;
   public static final int INPUT_PORT_WIDTH = 1;
   public static final int OUTPUT_PORT_WIDTH = 2;
-  public static final int ICON_SIZE = 44;
 
   public static final String ICON_DESC_PROPERTY = "icon-description";
 
@@ -87,84 +87,39 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
 
   protected abstract Class<? extends PortsDescr> getPortsDescription();
 
-  protected void insertInside(IPeCreateService peCreateService,
-      IGaService gaService, int width, int height,
-      ContainerShape containerShape, GraphicsAlgorithm ga, Task addedTask) {
-    if (useIconInsideShape())
-      insertIconInside(gaService, width, height, ga, addedTask);
-    else
-      insertNameInside(gaService, width, height, ga, addedTask);
-  }
-
   public AddTaskFeature(IFeatureProvider fp) {
     super(fp);
   }
 
   @Override
   public boolean canAdd(IAddContext context) {
-    if (context.getNewObject() instanceof Task
-        && context.getTargetContainer() instanceof Diagram)
-      return true;
-    else
-      return false;
+    return context.getNewObject() instanceof Task
+        && context.getTargetContainer() instanceof Diagram;
   }
 
   @Override
   public PictogramElement add(IAddContext context) {
-    final Task addedTask = (Task) context.getNewObject();
-
-    final IPeCreateService peCreateService = Graphiti.getPeCreateService();
-    final IGaService gaService = Graphiti.getGaService();
+    Task addedTask = (Task) context.getNewObject();
 
     TaskShape taskShape = DiagramFactory.eINSTANCE.createTaskShape();
     taskShape.setContainer(context.getTargetContainer());
     taskShape.setX(context.getX());
     taskShape.setY(context.getY());
+    taskShape.setIconId(getInsideIconId());
 
     taskShape.setWidth(Optional.of(context).map(IAddContext::getWidth)
-        .filter(i -> i > 0).orElseGet(() -> context.getWidth()));
+        .filter(i -> i > 0).orElseGet(() -> getWidth()));
     taskShape.setHeight(Optional.of(context).map(IAddContext::getHeight)
-        .filter(i -> i > 0).orElseGet(() -> context.getHeight()));
+        .filter(i -> i > 0).orElseGet(() -> getHeight()));
 
     BaseElement task = (BaseElement) context.getNewObject();
     taskShape.setModelObject(task);
     addLabel(taskShape);
 
-//    insertInside(peCreateService, gaService, width, height, taskShape,
-//        taskShape.getGraphicsAlgorithm(), addedTask);
-
     addInternalPorts(addedTask, taskShape);
     updatePictogramElement(taskShape);
 
     return taskShape;
-  }
-
-  private void insertIconInside(IGaService gaService, int width, int height,
-      GraphicsAlgorithm ga, Task addedTask) {
-    Image image = gaService.createImage(ga, getInsideIconId());
-    gaService.setLocationAndSize(image, (width - ICON_SIZE) / 2,
-        (height - ICON_SIZE) / 2, ICON_SIZE, ICON_SIZE);
-    String desc = getInsideIconDesc();
-    if (desc != null) {
-      Text descT = gaService.createDefaultText(getDiagram(), ga, desc);
-      Graphiti.getPeService().setPropertyValue(descT, ICON_DESC_PROPERTY,
-          "true");
-      gaService.setLocationAndSize(descT, 0, ICON_SIZE, width,
-          height - ICON_SIZE);
-//      descT.setStyle(getStyle());
-      descT.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-      descT.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-    }
-  }
-
-  private void insertNameInside(IGaService gaService, int width, int height,
-      GraphicsAlgorithm ga, Task addedTask) {
-    MultiText text = gaService.createDefaultMultiText(getDiagram(), ga,
-        ModelUtil.getName(addedTask.getClass()).replace(" ", "\n"));
-    gaService.setLocationAndSize(text, 0, 0, width, height);
-//    text.setStyle(getStyle());
-    text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-    text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
   }
 
   private void addInternalPorts(Task addedTask, ContainerShape parent) {

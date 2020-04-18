@@ -52,26 +52,22 @@ public class CommonPaletteCompartmentEntry
 
     ICreateConnectionFeature[] createConnectionFeatures = fp
         .getCreateConnectionFeatures();
-
     Stream.of(CONNECTIONS_STACK).forEachOrdered((String stackName) -> {
       StackEntry connectionsStackEntry = new StackEntry(CONNECTIONS_STACK, "",
           null);
       getConnectionCreationToolEntries(isTest, createConnectionFeatures,
           stackName).forEach(connectionsStackEntry::addCreationToolEntry);
-
       if (!connectionsStackEntry.getCreationToolEntries().isEmpty()) {
         commonCompartmentEntry.getToolEntries().add(connectionsStackEntry);
       }
     });
 
     ICreateFeature[] createFeatures = fp.getCreateFeatures();
-
-    Stream.of(PORTS_STACK, SOURCES_STACK, SINKS_STACK, LOGIC_STACK,
+    Stream.of(PORTS_STACK, SOURCES_STACK, SINKS_STACK, FLOW_STACK, LOGIC_STACK,
         USERDEFINED_STACK).forEachOrdered((String stackName) -> {
           StackEntry stackEntry = new StackEntry(stackName, "", null);
           getCreationToolEntries(isTest, createFeatures, stackName)
               .forEach(stackEntry::addCreationToolEntry);
-
           commonCompartmentEntry.getToolEntries().add(stackEntry);
         });
 

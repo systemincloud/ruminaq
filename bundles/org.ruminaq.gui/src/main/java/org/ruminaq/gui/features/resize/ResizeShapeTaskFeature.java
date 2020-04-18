@@ -50,12 +50,12 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
     if (shape.getGraphicsAlgorithm() != null) {
       for (GraphicsAlgorithm ga : shape.getGraphicsAlgorithm()
           .getGraphicsAlgorithmChildren()) {
-        if (Graphiti.getPeService().getProperty(ga,
-            AddTaskFeature.ICON_DESC_PROPERTY) != null)
-          Graphiti.getGaService().setLocationAndSize(ga, 0,
-              AddTaskFeature.ICON_SIZE, width,
-              height - AddTaskFeature.ICON_SIZE);
-        else
+//        if (Graphiti.getPeService().getProperty(ga,
+//            AddTaskFeature.ICON_DESC_PROPERTY) != null)
+//          Graphiti.getGaService().setLocationAndSize(ga, 0,
+//              AddTaskFeature.ICON_SIZE, width,
+//              height - AddTaskFeature.ICON_SIZE);
+//        else
           Graphiti.getGaService().setLocationAndSize(ga, 0, 0, width, height);
       }
     }
