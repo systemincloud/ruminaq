@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
+import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.tests.common.reddeer.CreateSimpleConnection;
@@ -149,5 +150,11 @@ public class AddTest extends GuiTest {
   public void testAddEmbeddedTaskFromPalette() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Embedded Task", 200, 100);
+    
+    WithBoGraphitiEditPart et = new WithBoGraphitiEditPart(EmbeddedTask.class);
+    et.select();
+    
+    List<ContextButton> buttons = et.getContextButtons();
+    assertEquals("EmbeddedTask should have 2 pad buttons", 2, buttons.size());
   }
 }
