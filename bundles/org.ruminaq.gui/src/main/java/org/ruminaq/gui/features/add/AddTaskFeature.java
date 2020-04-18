@@ -1,8 +1,15 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.add;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -114,11 +121,10 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
     taskShape.setX(context.getX());
     taskShape.setY(context.getY());
 
-    int width = context.getWidth() <= 0 ? getWidth() : context.getWidth();
-    int height = context.getHeight() <= 0 ? getHeight() : context.getHeight();
-
-    taskShape.setWidth(width);
-    taskShape.setHeight(height);
+    taskShape.setWidth(Optional.of(context).map(IAddContext::getWidth)
+        .filter(i -> i > 0).orElseGet(() -> context.getWidth()));
+    taskShape.setHeight(Optional.of(context).map(IAddContext::getHeight)
+        .filter(i -> i > 0).orElseGet(() -> context.getHeight()));
 
     BaseElement task = (BaseElement) context.getNewObject();
     taskShape.setModelObject(task);
