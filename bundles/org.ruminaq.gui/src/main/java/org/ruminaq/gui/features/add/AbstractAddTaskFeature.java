@@ -82,7 +82,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
   }
 
   protected String getInsideIconId() {
-    return "";
+    return null;
   }
 
   protected String getInsideIconDesc() {

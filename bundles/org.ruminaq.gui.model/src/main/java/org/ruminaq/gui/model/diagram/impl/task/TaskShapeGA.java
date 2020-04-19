@@ -6,6 +6,7 @@
 
 package org.ruminaq.gui.model.diagram.impl.task;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -198,10 +199,9 @@ public class TaskShapeGA extends RoundedRectangleImpl {
    */
   public TaskShapeGA(TaskShape shape) {
     this.shape = shape;
-    this.children = ECollections
-        .asEList(Optional.of(shape).map(TaskShape::getIconId)
-            .filter(Predicate.not(""::equals)).map(Icon::new)
-            .map(GraphicsAlgorithm.class::cast).orElseGet(Name::new));
+    this.children = ECollections.asEList(Optional.of(shape)
+        .map(TaskShape::getIconId).filter(Objects::nonNull).map(Icon::new)
+        .map(GraphicsAlgorithm.class::cast).orElseGet(Name::new));
     Optional.of(shape).map(TaskShape::getDescription).map(Description::new)
         .ifPresent(this.children::add);
   }
