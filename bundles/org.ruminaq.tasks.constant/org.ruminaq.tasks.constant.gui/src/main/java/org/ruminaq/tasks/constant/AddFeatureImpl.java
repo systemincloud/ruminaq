@@ -22,6 +22,11 @@ import org.ruminaq.tasks.constant.AddFeatureImpl.AddFeature.Filter;
 import org.ruminaq.tasks.constant.impl.Port;
 import org.ruminaq.tasks.constant.model.constant.Constant;
 
+/**
+ * Service AddFeatureExtension implementation.
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=10" })
 public class AddFeatureImpl implements AddFeatureExtension {
 
@@ -39,6 +44,10 @@ public class AddFeatureImpl implements AddFeatureExtension {
         return Constant.class;
       }
     }
+    
+    private static final int HEIGHT = 50;
+
+    private static final int WIDTH = 50;
 
     public AddFeature(IFeatureProvider fp) {
       super(fp);
@@ -46,12 +55,12 @@ public class AddFeatureImpl implements AddFeatureExtension {
 
     @Override
     protected int getHeight() {
-      return 50;
+      return HEIGHT;
     }
 
     @Override
     protected int getWidth() {
-      return 50;
+      return WIDTH;
     }
 
     @Override
