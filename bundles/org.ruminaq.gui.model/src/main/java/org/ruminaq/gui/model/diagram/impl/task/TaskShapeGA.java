@@ -147,12 +147,10 @@ public class TaskShapeGA extends RoundedRectangleImpl {
    */
   public TaskShapeGA(TaskShape shape) {
     this.shape = shape;
-    GraphicsAlgorithm insideGa = Optional.of(shape).map(TaskShape::getIconId)
+    this.children = ECollections.asEList(Optional.of(shape).map(TaskShape::getIconId)
         .filter(Predicate.not(""::equals)).map(id -> new Icon(id))
-        .map(GraphicsAlgorithm.class::cast).orElseGet(() -> new Name());
-
-    this.children = ECollections.asEList(insideGa);
-
+        .map(GraphicsAlgorithm.class::cast).orElseGet(() -> new Name()));
+    
     // String desc = getInsideIconDesc();
     // if (desc != null) {
 //      Text descT = gaService.createDefaultText(getDiagram(), ga, desc);
