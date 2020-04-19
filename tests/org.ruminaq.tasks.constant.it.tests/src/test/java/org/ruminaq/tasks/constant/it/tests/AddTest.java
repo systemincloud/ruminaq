@@ -22,8 +22,8 @@ public class AddTest extends GuiTest {
 
   @Test
   public void testAddConstant() {
-//    GEFEditor gefEditor = new GEFEditor(diagramName);
-//    gefEditor.addToolFromPalette("Constant", 200, 100);
+    GEFEditor gefEditor = new GEFEditor(diagramName);
+    gefEditor.addToolFromPalette("Constant", 200, 100);
   }
 
 }

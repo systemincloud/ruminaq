@@ -1,12 +1,12 @@
 package org.ruminaq.tasks.pythontask.features;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.ruminaq.gui.features.add.AddTaskFeature;
+import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.tasks.pythontask.Images;
 import org.ruminaq.tasks.pythontask.Port;
 
-public class AddFeature extends AddTaskFeature {
+public class AddFeature extends AbstractAddTaskFeature {
 
   public static String NOT_CHOSEN = "???";
 

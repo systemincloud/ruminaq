@@ -49,7 +49,7 @@ import org.ruminaq.model.ruminaq.Task;
  *
  * @author Marek Jagielski
  */
-public abstract class AddTaskFeature extends AbstractAddElementFeature {
+public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 
   private static final int DEFAULT_TASK_WIDTH = 120;
 
@@ -63,6 +63,10 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
 
   public enum InternalPortLabelPosition {
     LEFT, RIGHT, TOP, BOTTOM;
+  }
+  
+  public AbstractAddTaskFeature(IFeatureProvider fp) {
+    super(fp);
   }
 
   protected int getWidth() {
@@ -86,10 +90,6 @@ public abstract class AddTaskFeature extends AbstractAddElementFeature {
   }
 
   protected abstract Class<? extends PortsDescr> getPortsDescription();
-
-  public AddTaskFeature(IFeatureProvider fp) {
-    super(fp);
-  }
 
   @Override
   public boolean canAdd(IAddContext context) {

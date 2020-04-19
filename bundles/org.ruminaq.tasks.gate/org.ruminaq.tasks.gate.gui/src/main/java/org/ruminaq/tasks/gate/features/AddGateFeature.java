@@ -1,11 +1,11 @@
 package org.ruminaq.tasks.gate.features;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.ruminaq.gui.features.add.AddTaskFeature;
+import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.tasks.gate.Port;
 
-public abstract class AddGateFeature extends AddTaskFeature {
+public abstract class AddGateFeature extends AbstractAddTaskFeature {
 
   public AddGateFeature(IFeatureProvider fp) {
     super(fp);

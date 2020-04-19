@@ -15,7 +15,7 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.TasksUtil;
-import org.ruminaq.gui.features.add.AddTaskFeature;
+import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.gui.features.paste.PasteAnchorTracker;
 import org.ruminaq.gui.features.paste.RuminaqShapePasteFeature;
 import org.ruminaq.gui.model.diagram.LabelShape;
@@ -104,7 +104,7 @@ public class PasteTaskFeature extends RuminaqShapePasteFeature<RuminaqShape>
 
   private void updateInternalPorts(Task newBo, ContainerShape newPe) {
     for (Shape newPortShape : newPe.getChildren()) {
-      if (AddTaskFeature.isInternalPortLabel(newPortShape))
+      if (AbstractAddTaskFeature.isInternalPortLabel(newPortShape))
         continue;
       EList<EObject> os = newPortShape.getLink().getBusinessObjects();
       String id = null;

@@ -319,8 +319,13 @@
           <useUIThread>false</useUIThread>
           <failIfNoTests>false</failIfNoTests>
           <systemProperties>
-            <eclipse.log.level>WARNING</eclipse.log.level>
+<!--             <eclipse.log.level>WARNING</eclipse.log.level> -->
+<!--             <org.slf4j.simpleLogger.defaultLogLevel>warn</org.slf4j.simpleLogger.defaultLogLevel> -->
+<!--             <org.slf4j.simpleLogger.log.org.apache.maven.plugins.shade>warn</org.slf4j.simpleLogger.log.org.apache.maven.plugins.shade> -->
+<!--             <org.slf4j.simpleLogger.showDateTime>false</org.slf4j.simpleLogger.showDateTime> -->
+<!--             <org.slf4j.simpleLogger.showThreadName>false</org.slf4j.simpleLogger.showThreadName> -->
           </systemProperties>
+          <showEclipseLog>false</showEclipseLog>
           <argLine>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jaccoco.version}/org.jacoco.agent-${jaccoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec
             -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
             -Dorg.eclipse.swtbot.search.timeout=10000

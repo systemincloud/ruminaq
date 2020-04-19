@@ -21,7 +21,7 @@ import org.ruminaq.model.ruminaq.EmbeddedTask;
  * @author Marek Jagielski
  */
 @FeatureFilter(Filter.class)
-public class AddEmbeddedTaskFeature extends AddTaskFeature {
+public class AddEmbeddedTaskFeature extends AbstractAddTaskFeature {
 
   public static class Filter extends AbstractAddFeatureFilter {
     @Override

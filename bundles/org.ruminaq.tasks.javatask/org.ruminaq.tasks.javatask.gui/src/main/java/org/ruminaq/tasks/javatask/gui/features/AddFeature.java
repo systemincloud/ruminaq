@@ -7,12 +7,12 @@
 package org.ruminaq.tasks.javatask.gui.features;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.ruminaq.gui.features.add.AddTaskFeature;
+import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.tasks.javatask.gui.Images;
 import org.ruminaq.tasks.javatask.gui.Port;
 
-public class AddFeature extends AddTaskFeature {
+public class AddFeature extends AbstractAddTaskFeature {
 
   public static String NOT_CHOSEN = "???";
 

@@ -53,20 +53,22 @@ public class AddSimpleConnectionFeature extends AbstractAddFeature {
     Optional<IAddConnectionContext> addConnctionCtx = Optional.of(context)
         .filter(IAddConnectionContext.class::isInstance)
         .map(IAddConnectionContext.class::cast);
+    Optional<FlowSourceShape> sourceShape = addConnctionCtx
+        .map(IAddConnectionContext::getSourceAnchor).map(Anchor::getParent)
+        .filter(FlowSourceShape.class::isInstance)
+        .map(FlowSourceShape.class::cast);
+    Optional<FlowTargetShape> targetShape = addConnctionCtx
+        .map(IAddConnectionContext::getTargetAnchor).map(Anchor::getParent)
+        .filter(FlowTargetShape.class::isInstance)
+        .map(FlowTargetShape.class::cast);
     return addConnctionCtx.map(IAddConnectionContext::getNewObject)
         .filter(SimpleConnection.class::isInstance)
         .map(SimpleConnection.class::cast).map((SimpleConnection sc) -> {
           SimpleConnectionShape connectionShape = DiagramFactory.eINSTANCE
               .createSimpleConnectionShape();
           connectionShape.setParent(getDiagram());
-          addConnctionCtx.map(IAddConnectionContext::getSourceAnchor)
-              .map(Anchor::getParent).filter(FlowSourceShape.class::isInstance)
-              .map(FlowSourceShape.class::cast)
-              .ifPresent(connectionShape::setSource);
-          addConnctionCtx.map(IAddConnectionContext::getTargetAnchor)
-              .map(Anchor::getParent).filter(FlowTargetShape.class::isInstance)
-              .map(FlowTargetShape.class::cast)
-              .ifPresent(connectionShape::setTarget);
+          sourceShape.ifPresent(connectionShape::setSource);
+          targetShape.ifPresent(connectionShape::setTarget);
           connectionShape.getModelObject().add(sc);
           addModelObjectToConnectionBeforePoint(connectionShape, sc);
           return connectionShape;

@@ -21,8 +21,8 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.gui.TasksUtil;
-import org.ruminaq.gui.features.add.AddTaskFeature;
-import org.ruminaq.gui.features.add.AddTaskFeature.InternalPortLabelPosition;
+import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
+import org.ruminaq.gui.features.add.AbstractAddTaskFeature.InternalPortLabelPosition;
 import org.ruminaq.gui.features.update.UpdateBaseElementFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.desc.IN;
@@ -238,7 +238,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     in.setQueueSize(queue);
     task.getInputPort().add(in);
 
-    int lineWidth = AddTaskFeature.INPUT_PORT_WIDTH;
+    int lineWidth = AbstractAddTaskFeature.INPUT_PORT_WIDTH;
     int x, y;
     switch (pos) {
       default:
@@ -251,25 +251,25 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         y = 0;
         break;
       case RIGHT:
-        x = parent.getGraphicsAlgorithm().getWidth() - AddTaskFeature.PORT_SIZE;
+        x = parent.getGraphicsAlgorithm().getWidth() - AbstractAddTaskFeature.PORT_SIZE;
         y = 0;
         break;
       case BOTTOM:
         x = 0;
         y = parent.getGraphicsAlgorithm().getHeight()
-            - AddTaskFeature.PORT_SIZE;
+            - AbstractAddTaskFeature.PORT_SIZE;
         break;
     }
     LineStyle lineStyle = LineStyle.SOLID;
     if (in.isAsynchronous())
       lineStyle = LineStyle.DOT;
-    ContainerShape containerShape = AddTaskFeature
-        .createPictogramForInternalPort(parent, x, y, AddTaskFeature.PORT_SIZE,
-            AddTaskFeature.PORT_SIZE, getDiagram(), lineWidth, lineStyle);
+    ContainerShape containerShape = AbstractAddTaskFeature
+        .createPictogramForInternalPort(parent, x, y, AbstractAddTaskFeature.PORT_SIZE,
+            AbstractAddTaskFeature.PORT_SIZE, getDiagram(), lineWidth, lineStyle);
     peCreateService.createChopboxAnchor(containerShape);
-    ContainerShape portLabelShape = AddTaskFeature.addInternalPortLabel(
-        getDiagram(), parent, in.getId(), AddTaskFeature.PORT_SIZE,
-        AddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.RIGHT);
+    ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
+        getDiagram(), parent, in.getId(), AbstractAddTaskFeature.PORT_SIZE,
+        AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.RIGHT);
 
     link(containerShape, new Object[] { in, portLabelShape });
     link(portLabelShape, new Object[] { in, containerShape });
@@ -296,7 +296,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     }
     task.getOutputPort().add(out);
 
-    int lineWidth = AddTaskFeature.OUTPUT_PORT_WIDTH;
+    int lineWidth = AbstractAddTaskFeature.OUTPUT_PORT_WIDTH;
     int x, y;
     switch (pos) {
       default:
@@ -305,26 +305,26 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         y = 0;
         break;
       case TOP:
-        x = parent.getGraphicsAlgorithm().getWidth() - AddTaskFeature.PORT_SIZE;
+        x = parent.getGraphicsAlgorithm().getWidth() - AbstractAddTaskFeature.PORT_SIZE;
         y = 0;
         break;
       case RIGHT:
-        x = parent.getGraphicsAlgorithm().getWidth() - AddTaskFeature.PORT_SIZE;
+        x = parent.getGraphicsAlgorithm().getWidth() - AbstractAddTaskFeature.PORT_SIZE;
         y = 0;
         break;
       case BOTTOM:
         x = 0;
         y = parent.getGraphicsAlgorithm().getHeight()
-            - AddTaskFeature.PORT_SIZE;
+            - AbstractAddTaskFeature.PORT_SIZE;
         break;
     }
-    ContainerShape containerShape = AddTaskFeature
-        .createPictogramForInternalPort(parent, x, y, AddTaskFeature.PORT_SIZE,
-            AddTaskFeature.PORT_SIZE, getDiagram(), lineWidth, LineStyle.SOLID);
+    ContainerShape containerShape = AbstractAddTaskFeature
+        .createPictogramForInternalPort(parent, x, y, AbstractAddTaskFeature.PORT_SIZE,
+            AbstractAddTaskFeature.PORT_SIZE, getDiagram(), lineWidth, LineStyle.SOLID);
     peCreateService.createChopboxAnchor(containerShape);
-    ContainerShape portLabelShape = AddTaskFeature.addInternalPortLabel(
-        getDiagram(), parent, out.getId(), AddTaskFeature.PORT_SIZE,
-        AddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.LEFT);
+    ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
+        getDiagram(), parent, out.getId(), AbstractAddTaskFeature.PORT_SIZE,
+        AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.LEFT);
 
     link(containerShape, new Object[] { out, portLabelShape });
     link(portLabelShape, new Object[] { out, containerShape });
@@ -337,10 +337,10 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   protected void removePortShape(Task task, ContainerShape parent,
       InternalPort internalPort) {
-    Shape toRemove = AddTaskFeature.getPictogramElementOfInternalPort(parent,
+    Shape toRemove = AbstractAddTaskFeature.getPictogramElementOfInternalPort(parent,
         internalPort);
 
-    Position pos = AddTaskFeature.getPosition(parent, internalPort);
+    Position pos = AbstractAddTaskFeature.getPosition(parent, internalPort);
 
     Graphiti.getPeService().setPropertyValue(toRemove, Constants.CAN_DELETE,
         "true");
@@ -391,16 +391,16 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   private void redistributePorts(ContainerShape parent, Position pos) {
     switch (pos) {
       case LEFT:
-        AddTaskFeature.distributePortsOnLeft(parent, getFeatureProvider());
+        AbstractAddTaskFeature.distributePortsOnLeft(parent, getFeatureProvider());
         break;
       case TOP:
-        AddTaskFeature.distributePortsOnTop(parent, getFeatureProvider());
+        AbstractAddTaskFeature.distributePortsOnTop(parent, getFeatureProvider());
         break;
       case RIGHT:
-        AddTaskFeature.distributePortsOnRight(parent, getFeatureProvider());
+        AbstractAddTaskFeature.distributePortsOnRight(parent, getFeatureProvider());
         break;
       case BOTTOM:
-        AddTaskFeature.distributePortsOnBottom(parent, getFeatureProvider());
+        AbstractAddTaskFeature.distributePortsOnBottom(parent, getFeatureProvider());
         break;
       default:
         break;

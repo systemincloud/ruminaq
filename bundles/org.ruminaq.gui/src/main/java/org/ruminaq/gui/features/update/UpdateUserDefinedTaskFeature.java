@@ -16,7 +16,7 @@ import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.gui.features.add.AddTaskFeature;
+import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.desc.Position;
 import org.ruminaq.model.ruminaq.DataType;
@@ -140,7 +140,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
           .getGraphicsAlgorithmChildren())
         if (Graphiti.getPeService().getProperty(ga,
-            AddTaskFeature.ICON_DESC_PROPERTY) != null)
+            AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null)
           return iconDesc.equals(((Text) ga).getValue());
     return true;
   }
@@ -290,7 +290,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       for (GraphicsAlgorithm ga : parent.getGraphicsAlgorithm()
           .getGraphicsAlgorithmChildren())
         if (Graphiti.getPeService().getProperty(ga,
-            AddTaskFeature.ICON_DESC_PROPERTY) != null) {
+            AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null) {
           ((Text) ga).setValue(iconDesc);
           return true;
         }
@@ -315,12 +315,12 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
           if (fip.isAsynchronus() != iip.isAsynchronous()) {
             iip.setAsynchronous(fip.isAsynchronus());
             if (iip.isAsynchronous())
-              AddTaskFeature
+              AbstractAddTaskFeature
                   .getPictogramElementOfInternalPort(getDiagram(), iip)
                   .getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
                   .setLineStyle(LineStyle.DOT);
             else
-              AddTaskFeature
+              AbstractAddTaskFeature
                   .getPictogramElementOfInternalPort(getDiagram(), iip)
                   .getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
                   .setLineStyle(LineStyle.SOLID);

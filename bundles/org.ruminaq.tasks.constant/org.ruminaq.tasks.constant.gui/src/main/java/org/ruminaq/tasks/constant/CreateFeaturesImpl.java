@@ -21,7 +21,6 @@ import org.ruminaq.gui.features.create.CreateTaskFeature;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.constant.impl.Port;
 import org.ruminaq.tasks.constant.impl.strategy.Int32Strategy;
 import org.ruminaq.tasks.constant.model.constant.Constant;
@@ -54,16 +53,14 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
     @Override
     public Object[] create(ICreateContext context) {
-      Object[] os = super.create(context,
-          ConstantFactory.eINSTANCE.createConstant());
-
-      ((Constant) os[0]).setDataType(EcoreUtil
-          .copy(((Task) os[0]).getOutputPort().get(0).getDataType().get(0)));
-      ((Constant) os[0]).setValue(Int32Strategy.DEFAULT_VALUE);
-      UpdateContext updateCtx = new UpdateContext(Graphiti.getLinkService()
-          .getPictogramElements(getDiagram(), (Constant) os[0]).get(0));
-      getFeatureProvider().updateIfPossible(updateCtx);
-      return os;
+      Constant constant = ConstantFactory.eINSTANCE.createConstant();
+      Object[] ret = super.create(context, constant);
+      constant.setDataType(EcoreUtil.copy(constant.getOutputPort().get(0).getDataType().get(0)));
+      constant.setValue(Int32Strategy.DEFAULT_VALUE);
+//      UpdateContext updateCtx = new UpdateContext(Graphiti.getLinkService()
+//          .getPictogramElements(getDiagram(), (Constant) os[0]).get(0));
+//      getFeatureProvider().updateIfPossible(updateCtx);
+      return ret;
     }
 
     @Override

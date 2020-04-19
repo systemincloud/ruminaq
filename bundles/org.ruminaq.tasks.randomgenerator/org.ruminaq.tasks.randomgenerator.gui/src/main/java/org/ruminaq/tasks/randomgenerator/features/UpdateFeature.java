@@ -8,7 +8,7 @@ import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.gui.features.add.AddTaskFeature;
+import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.ModelUtil;
@@ -69,7 +69,7 @@ public class UpdateFeature extends UpdateTaskFeature {
         for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
             .getGraphicsAlgorithmChildren())
           if (Graphiti.getPeService().getProperty(ga,
-              AddTaskFeature.ICON_DESC_PROPERTY) != null)
+              AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null)
             return dataType.equals(((Text) ga).getValue());
       }
     }
@@ -85,7 +85,7 @@ public class UpdateFeature extends UpdateTaskFeature {
         for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
             .getGraphicsAlgorithmChildren())
           if (Graphiti.getPeService().getProperty(ga,
-              AddTaskFeature.ICON_DESC_PROPERTY) != null) {
+              AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null) {
             ((Text) ga).setValue(dataType);
             return true;
           }

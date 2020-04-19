@@ -9,7 +9,7 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.AddFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
-import org.ruminaq.gui.features.add.AddTaskFeature;
+import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.console.gui.AddFeatureImpl.AddFeature.Filter;
@@ -25,7 +25,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
   }
 
   @FeatureFilter(Filter.class)
-  public static class AddFeature extends AddTaskFeature {
+  public static class AddFeature extends AbstractAddTaskFeature {
 
     public static class Filter extends AbstractAddFeatureFilter {
       @Override
