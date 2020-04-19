@@ -11,7 +11,9 @@ Export-Package: org.ruminaq.model.ruminaq,
  org.ruminaq.model.ruminaq.debug.util,
  org.ruminaq.model.ruminaq.impl,
  org.ruminaq.model.ruminaq.util
-Import-Package: org.eclipse.emf.common,
+Import-Package: org.apache.commons.lang3,
+ org.eclipse.emf.common,
+ org.eclipse.emf.common.command,
  org.eclipse.emf.common.notify,
  org.eclipse.emf.common.notify.impl,
  org.eclipse.emf.common.util,
@@ -22,4 +24,6 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.ecore.resource.impl,
  org.eclipse.emf.ecore.util,
  org.eclipse.emf.ecore.xmi.impl,
- org.eclipse.emf.ecore.xmi.util
+ org.eclipse.emf.ecore.xmi.util,
+ org.eclipse.emf.edit.domain,
+ org.eclipse.emf.transaction

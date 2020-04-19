@@ -45,7 +45,7 @@ import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.gui.model.diagram.DiagramPackage;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.model.util.ModelUtil;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.util.ServiceUtil;
 import org.ruminaq.validation.MarkerChangeListener;
 import org.ruminaq.validation.ProjectValidator;

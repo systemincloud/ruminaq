@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Spinner;
-import org.ruminaq.model.util.ModelUtil;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.console.model.console.Console;
 import org.ruminaq.tasks.console.model.console.ConsoleType;

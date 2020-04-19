@@ -1,4 +1,4 @@
-package org.ruminaq.model.util;
+package org.ruminaq.model.ruminaq;
 
 import java.util.List;
 
@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.ruminaq.model.ruminaq.DataType;
 
 public class ModelUtil {
 

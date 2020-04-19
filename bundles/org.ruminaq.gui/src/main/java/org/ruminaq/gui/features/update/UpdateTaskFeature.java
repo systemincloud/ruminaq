@@ -34,9 +34,9 @@ import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.model.util.ModelUtil;
 
 public class UpdateTaskFeature extends UpdateBaseElementFeature {
 

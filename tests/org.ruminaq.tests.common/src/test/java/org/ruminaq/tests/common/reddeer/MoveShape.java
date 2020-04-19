@@ -11,7 +11,7 @@ import org.eclipse.reddeer.graphiti.api.GraphitiEditPart;
 import org.ruminaq.eclipse.editor.RuminaqEditor;
 import org.ruminaq.gui.features.move.MoveElementFeature;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
-import org.ruminaq.model.util.ModelUtil;
+import org.ruminaq.model.ruminaq.ModelUtil;
 
 public class MoveShape {
 

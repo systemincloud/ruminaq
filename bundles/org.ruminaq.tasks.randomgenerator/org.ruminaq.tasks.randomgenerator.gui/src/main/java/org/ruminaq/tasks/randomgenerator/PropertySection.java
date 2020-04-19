@@ -43,7 +43,7 @@ import org.ruminaq.model.dt.Float64;
 import org.ruminaq.model.dt.Int32;
 import org.ruminaq.model.dt.Int64;
 import org.ruminaq.model.ruminaq.DataType;
-import org.ruminaq.model.util.ModelUtil;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.tasks.randomgenerator.properties.Complex32Property;

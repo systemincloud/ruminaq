@@ -14,7 +14,7 @@ import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.graphiti.api.GraphitiEditPart;
 import org.ruminaq.eclipse.editor.RuminaqEditor;
 import org.ruminaq.gui.features.create.CreateSimpleConnectionFeature;
-import org.ruminaq.model.util.ModelUtil;
+import org.ruminaq.model.ruminaq.ModelUtil;
 
 public class CreateSimpleConnection {
 

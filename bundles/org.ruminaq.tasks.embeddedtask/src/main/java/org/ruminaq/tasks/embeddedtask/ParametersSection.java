@@ -9,7 +9,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.swt.widgets.Composite;
 import org.ruminaq.gui.properties.AbstractParametersSection;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
-import org.ruminaq.model.util.ModelUtil;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 
 public class ParametersSection extends AbstractParametersSection

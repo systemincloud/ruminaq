@@ -11,7 +11,7 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.gui.features.add.AddTaskFeature;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.model.ruminaq.DataType;
-import org.ruminaq.model.util.ModelUtil;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 
 public class UpdateFeature extends UpdateTaskFeature {

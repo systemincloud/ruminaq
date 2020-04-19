@@ -22,9 +22,10 @@ import org.ruminaq.model.desc.Position;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
-import org.ruminaq.model.util.ModelUtil;
+
 import ch.qos.logback.classic.Logger;
 
 public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {

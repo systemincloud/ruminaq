@@ -28,7 +28,7 @@ import org.ruminaq.consts.Constants;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.InternalInputPort;
-import org.ruminaq.model.util.ModelUtil;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.util.GlobalUtil;
 import org.ruminaq.util.NumericUtil;
 

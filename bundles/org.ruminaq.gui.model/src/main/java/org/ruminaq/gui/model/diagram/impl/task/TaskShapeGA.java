@@ -7,20 +7,23 @@
 package org.ruminaq.gui.model.diagram.impl.task;
 
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.Image;
 import org.eclipse.graphiti.mm.algorithms.impl.ImageImpl;
+import org.eclipse.graphiti.mm.algorithms.impl.MultiTextImpl;
 import org.eclipse.graphiti.mm.algorithms.impl.RoundedRectangleImpl;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
+import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.gui.model.diagram.impl.Colors;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Task;
 
 /**
@@ -40,14 +43,14 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
   private EList<GraphicsAlgorithm> children;
 
-  class Icon extends ImageImpl {
-    
+  private class Icon extends ImageImpl {
+
     private String id;
-    
+
     Icon(String id) {
       this.id = id;
     }
-    
+
     @Override
     public String getId() {
       return id;
@@ -57,43 +60,86 @@ public class TaskShapeGA extends RoundedRectangleImpl {
     public int getWidth() {
       return ICON_SIZE;
     }
-    
+
     @Override
     public int getHeight() {
       return ICON_SIZE;
     }
-    
+
     @Override
     public int getX() {
       return (shape.getWidth() - ICON_SIZE) >> 1;
     }
-    
+
     @Override
     public int getY() {
       return (shape.getHeight() - ICON_SIZE) >> 1;
     }
-    
+
     @Override
     public Boolean getProportional() {
       return Boolean.FALSE;
     }
-    
+
     @Override
     public Boolean getStretchH() {
       return Boolean.FALSE;
     }
-    
+
     @Override
     public Boolean getStretchV() {
       return Boolean.FALSE;
     }
-    
+
     @Override
     public Resource eResource() {
       return new NoResource();
     }
   }
-  
+
+  private class Name extends MultiTextImpl {
+
+    @Override
+    public int getWidth() {
+      return shape.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+      return shape.getHeight();
+    }
+
+    @Override
+    public int getX() {
+      return 0;
+    }
+
+    @Override
+    public int getY() {
+      return 0;
+    }
+
+    @Override
+    public Orientation getHorizontalAlignment() {
+      return Orientation.ALIGNMENT_CENTER;
+    }
+
+    @Override
+    public Orientation getVerticalAlignment() {
+      return Orientation.ALIGNMENT_MIDDLE;
+    }
+
+    @Override
+    public String getValue() {
+      return ModelUtil.getName(shape.getModelObject().getClass()).replace(" ", "\n");
+    }
+
+    @Override
+    public Resource eResource() {
+      return new NoResource();
+    }
+  }
+
   /**
    * GraphicsAlgorithm for Task.
    * 
@@ -101,11 +147,12 @@ public class TaskShapeGA extends RoundedRectangleImpl {
    */
   public TaskShapeGA(TaskShape shape) {
     this.shape = shape;
-    Optional<Image> image = Optional.of(shape).map(TaskShape::getIconId)
-        .map(id -> new Icon(id));
+    GraphicsAlgorithm insideGa = Optional.of(shape).map(TaskShape::getIconId)
+        .filter(Predicate.not(""::equals)).map(id -> new Icon(id))
+        .map(GraphicsAlgorithm.class::cast).orElseGet(() -> new Name());
 
-    this.children = ECollections.asEList(image.get());
-    
+    this.children = ECollections.asEList(insideGa);
+
     // String desc = getInsideIconDesc();
     // if (desc != null) {
 //      Text descT = gaService.createDefaultText(getDiagram(), ga, desc);
@@ -115,14 +162,6 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 //      descT.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
 //      descT.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
     // }
-
-    
-//      MultiText text = gaService.createDefaultMultiText(getDiagram(), ga,
-//          ModelUtil.getName(addedTask.getClass()).replace(" ", "\n"));
-//      gaService.setLocationAndSize(text, 0, 0, width, height);
-////      text.setStyle(getStyle());
-//      text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-//      text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
   }
 
   @Override

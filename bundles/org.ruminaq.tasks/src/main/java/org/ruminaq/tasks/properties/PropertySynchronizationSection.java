@@ -50,10 +50,10 @@ import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.MainTask;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Synchronization;
 import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.model.util.ModelUtil;
 import org.ruminaq.util.NumericUtil;
 
 public class PropertySynchronizationSection extends GFPropertySection

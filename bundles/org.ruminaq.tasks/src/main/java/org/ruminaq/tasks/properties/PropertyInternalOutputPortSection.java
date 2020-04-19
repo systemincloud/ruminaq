@@ -15,7 +15,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
-import org.ruminaq.model.util.ModelUtil;
+import org.ruminaq.model.ruminaq.ModelUtil;
 
 public class PropertyInternalOutputPortSection extends GFPropertySection
     implements ITabbedPropertyConstants {

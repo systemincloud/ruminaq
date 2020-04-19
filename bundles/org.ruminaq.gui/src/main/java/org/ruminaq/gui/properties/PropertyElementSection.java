@@ -35,7 +35,7 @@ import org.ruminaq.gui.features.directediting.DirectEditLabelFeature;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.model.util.ModelUtil;
+import org.ruminaq.model.ruminaq.ModelUtil;
 
 /**
  * 

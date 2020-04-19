@@ -81,6 +81,5 @@ Import-Package: org.apache.commons.lang3;version="3.8.1",
  org.ruminaq.gui.model.diagram,
  org.ruminaq.logs,
  org.ruminaq.model.ruminaq,
- org.ruminaq.model.util,
- org.xmlunit.builder;version="2.6.3",
- org.xmlunit.diff;version="2.6.3"
+ org.xmlunit.builder,
+ org.xmlunit.diff

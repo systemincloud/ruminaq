@@ -62,7 +62,7 @@ import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.consts.Constants.SicPlugin;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
-import org.ruminaq.model.util.ModelUtil;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.rtask.features.UpdateFeature;
 import org.ruminaq.tasks.rtask.model.rtask.RTask;
