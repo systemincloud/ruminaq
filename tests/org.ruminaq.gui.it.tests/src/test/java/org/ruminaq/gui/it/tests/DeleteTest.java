@@ -66,7 +66,7 @@ public class DeleteTest extends GuiTest {
       throws InterruptedException {
     new WithShapeGraphitiEditPart(SimpleConnectionPointShape.class, 0)
         .getContextButton("Delete").click();
-    Thread.sleep(1000);
+    Thread.sleep(2000);
     assertDiagram(gefEditor,
         "DeleteTest.testDeleteConnectionPointPrecedingOtherPoint.xml");
   }

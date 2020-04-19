@@ -64,6 +64,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//TaskShape/inputPort"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//TaskShape/outputPort"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//TaskShape/iconId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//TaskShape/description"/>
       <genOperations ecoreOperation="model.ecore#//TaskShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
       <genOperations ecoreOperation="model.ecore#//PortShape/getGraphicsAlgorithm"
