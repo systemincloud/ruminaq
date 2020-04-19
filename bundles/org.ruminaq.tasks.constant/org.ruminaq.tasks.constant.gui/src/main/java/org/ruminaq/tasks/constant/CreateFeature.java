@@ -24,41 +24,42 @@ import org.ruminaq.tasks.constant.model.constant.ConstantFactory;
  * @author Marek Jagielski
  */
 public class CreateFeature extends CreateTaskFeature
-      implements PaletteCreateFeature {
+    implements PaletteCreateFeature {
 
-    public CreateFeature(IFeatureProvider fp) {
-      super(fp, Constant.class);
-    }
+  public CreateFeature(IFeatureProvider fp) {
+    super(fp, Constant.class);
+  }
 
-    @Override
-    public String getCompartment() {
-      return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
-    }
+  @Override
+  public String getCompartment() {
+    return CommonPaletteCompartmentEntry.DEFAULT_COMPARTMENT;
+  }
 
-    @Override
-    public String getStack() {
-      return CommonPaletteCompartmentEntry.SOURCES_STACK;
-    }
+  @Override
+  public String getStack() {
+    return CommonPaletteCompartmentEntry.SOURCES_STACK;
+  }
 
-    @Override
-    public Object[] create(ICreateContext context) {
-      Constant constant = ConstantFactory.eINSTANCE.createConstant();
-      Object[] ret = super.create(context, constant);
-      constant.setDataType(EcoreUtil.copy(constant.getOutputPort().get(0).getDataType().get(0)));
-      constant.setValue(Int32Strategy.DEFAULT_VALUE);
+  @Override
+  public Object[] create(ICreateContext context) {
+    Constant constant = ConstantFactory.eINSTANCE.createConstant();
+    Object[] ret = super.create(context, constant);
+    constant.setDataType(
+        EcoreUtil.copy(constant.getOutputPort().get(0).getDataType().get(0)));
+    constant.setValue(Int32Strategy.DEFAULT_VALUE);
 //      UpdateContext updateCtx = new UpdateContext(Graphiti.getLinkService()
 //          .getPictogramElements(getDiagram(), (Constant) os[0]).get(0));
 //      getFeatureProvider().updateIfPossible(updateCtx);
-      return ret;
-    }
-
-    @Override
-    protected Class<? extends PortsDescr> getPortsDescription() {
-      return Port.class;
-    }
-
-    @Override
-    public String getCreateImageId() {
-      return Images.IMG_CONSTANT_PALETTE;
-    }
+    return ret;
   }
+
+  @Override
+  protected Class<? extends PortsDescr> getPortsDescription() {
+    return Port.class;
+  }
+
+  @Override
+  public String getCreateImageId() {
+    return Images.IMG_CONSTANT_PALETTE;
+  }
+}

@@ -145,11 +145,11 @@ public class TaskShapeGA extends RoundedRectangleImpl {
   private class Description extends TextImpl {
 
     private String text;
-    
+
     Description(String text) {
       this.text = text;
     }
-    
+
     @Override
     public int getWidth() {
       return shape.getWidth();
@@ -179,7 +179,7 @@ public class TaskShapeGA extends RoundedRectangleImpl {
     public Orientation getVerticalAlignment() {
       return Orientation.ALIGNMENT_MIDDLE;
     }
-    
+
     @Override
     public String getValue() {
       return text;
@@ -200,10 +200,10 @@ public class TaskShapeGA extends RoundedRectangleImpl {
     this.shape = shape;
     this.children = ECollections
         .asEList(Optional.of(shape).map(TaskShape::getIconId)
-            .filter(Predicate.not(""::equals)).map(id -> new Icon(id))
-            .map(GraphicsAlgorithm.class::cast).orElseGet(() -> new Name()));
-    Optional.of(shape).map(TaskShape::getDescription)
-        .ifPresent(desc -> this.children.add(new Description(desc)));
+            .filter(Predicate.not(""::equals)).map(Icon::new)
+            .map(GraphicsAlgorithm.class::cast).orElseGet(Name::new));
+    Optional.of(shape).map(TaskShape::getDescription).map(Description::new)
+        .ifPresent(this.children::add);
   }
 
   @Override
