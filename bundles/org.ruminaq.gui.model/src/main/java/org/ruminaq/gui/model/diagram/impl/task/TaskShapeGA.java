@@ -8,7 +8,6 @@ package org.ruminaq.gui.model.diagram.impl.task;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
