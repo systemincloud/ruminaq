@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.tasks.inspect;
 
 import java.util.Arrays;
@@ -55,7 +61,7 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
     @Override
     public String getCreateImageId() {
-      return Images.K.IMG_INSPECT_PALETTE.name();
+      return Images.IMG_INSPECT_PALETTE;
     }
   }
 }

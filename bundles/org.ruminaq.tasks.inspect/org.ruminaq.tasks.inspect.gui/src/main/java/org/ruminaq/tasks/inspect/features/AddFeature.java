@@ -29,7 +29,7 @@ public class AddFeature extends AbstractAddTaskFeature {
 
   @Override
   protected String getInsideIconId() {
-    return Images.K.IMG_INSPECT_DIAGRAM.name();
+    return Images.IMG_INSPECT_DIAGRAM;
   }
 
   @Override
