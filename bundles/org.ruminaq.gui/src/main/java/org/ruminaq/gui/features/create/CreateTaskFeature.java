@@ -20,9 +20,6 @@ import java.util.stream.Stream;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.Version;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.desc.IN;
 import org.ruminaq.model.desc.NGroup;
@@ -51,11 +48,6 @@ public abstract class CreateTaskFeature extends AbstractCreateElementFeature {
 
   protected Object[] create(ICreateContext context, Task task) {
     LOGGER.trace("{}", task.getClass().getSimpleName());
-//    Bundle taskBundle = FrameworkUtil.getBundle(task.getClass());
-//    task.setBundleName(taskBundle.getSymbolicName());
-//    Version bundleVersion = taskBundle.getVersion();
-//    task.setVersion(String.format("%d.%d.%d", bundleVersion.getMajor(),
-//        bundleVersion.getMinor(), bundleVersion.getMicro()));
     setDefaultId(task, context);
 
     addDefaultPorts(task);
