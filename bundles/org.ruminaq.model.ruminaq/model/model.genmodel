@@ -35,8 +35,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Task/looped"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Task/outputPort"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Task/inputPort"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Task/bundleName"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Task/version"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Task/onlyLocal"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Task/onlyLocalDefault"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Task/onlyLocalUser"/>

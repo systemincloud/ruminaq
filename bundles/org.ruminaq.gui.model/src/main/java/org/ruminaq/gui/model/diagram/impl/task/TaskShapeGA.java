@@ -34,9 +34,7 @@ import org.ruminaq.model.ruminaq.Task;
  */
 public class TaskShapeGA extends RoundedRectangleImpl {
 
-  private static final int CORNER_WIDTH = 20;
-
-  private static final int CORNER_HEIGHT = 20;
+  private static final int CORNER = 20;
 
   public static final int ICON_SIZE = 44;
 
@@ -102,22 +100,27 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
     @Override
     public int getWidth() {
-      return shape.getWidth();
+      return shape.getWidth() - (CORNER << 1);
     }
 
     @Override
     public int getHeight() {
-      return shape.getHeight();
+      return shape.getHeight() - (CORNER << 1);
     }
 
     @Override
     public int getX() {
-      return 0;
+      return CORNER;
     }
 
     @Override
     public int getY() {
-      return 0;
+      return CORNER;
+    }
+    
+    @Override
+    public Color getBackground() {
+      return Colors.WHITE;
     }
 
     @Override
@@ -127,7 +130,7 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
     @Override
     public Orientation getVerticalAlignment() {
-      return Orientation.ALIGNMENT_MIDDLE;
+      return Orientation.ALIGNMENT_CENTER;
     }
 
     @Override
@@ -207,12 +210,12 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
   @Override
   public int getCornerWidth() {
-    return CORNER_WIDTH;
+    return CORNER;
   }
 
   @Override
   public int getCornerHeight() {
-    return CORNER_HEIGHT;
+    return CORNER;
   }
 
   @Override

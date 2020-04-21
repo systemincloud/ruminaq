@@ -252,7 +252,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="incomingConnections" ordered="false"
         upperBound="-1" eType="#//SimpleConnectionShape" eOpposite="#//SimpleConnectionShape/target"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="InternalPortShape" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InternalPortShape" abstract="true" eSuperTypes="#//LabeledRuminaqShape"/>
   <eClassifiers xsi:type="ecore:EClass" name="InternalInputPortShape" eSuperTypes="#//InternalPortShape"/>
   <eClassifiers xsi:type="ecore:EClass" name="InternalOutputPortShape" eSuperTypes="#//InternalPortShape"/>
 </ecore:EPackage>

@@ -51,11 +51,11 @@ public abstract class CreateTaskFeature extends AbstractCreateElementFeature {
 
   protected Object[] create(ICreateContext context, Task task) {
     LOGGER.trace("{}", task.getClass().getSimpleName());
-    Bundle taskBundle = FrameworkUtil.getBundle(task.getClass());
-    task.setBundleName(taskBundle.getSymbolicName());
-    Version bundleVersion = taskBundle.getVersion();
-    task.setVersion(String.format("%d.%d.%d", bundleVersion.getMajor(),
-        bundleVersion.getMinor(), bundleVersion.getMicro()));
+//    Bundle taskBundle = FrameworkUtil.getBundle(task.getClass());
+//    task.setBundleName(taskBundle.getSymbolicName());
+//    Version bundleVersion = taskBundle.getVersion();
+//    task.setVersion(String.format("%d.%d.%d", bundleVersion.getMajor(),
+//        bundleVersion.getMinor(), bundleVersion.getMicro()));
     setDefaultId(task, context);
 
     addDefaultPorts(task);

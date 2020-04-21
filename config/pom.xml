@@ -53,6 +53,11 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>templating-maven-plugin</artifactId>
+          <version>1.0.0</version>
+        </plugin>
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
           <version>2.5.2</version>
@@ -287,7 +292,7 @@
             <artifact>
               <groupId>org.ruminaq</groupId>
               <artifactId>org.ruminaq.target</artifactId>
-              <version>${project.version}</version>
+              <version>${project.parent.version}</version>
             </artifact>
           </target>
           <ignoreTychoRepositories>true</ignoreTychoRepositories>
@@ -319,11 +324,11 @@
           <useUIThread>false</useUIThread>
           <failIfNoTests>false</failIfNoTests>
           <systemProperties>
-<!--             <eclipse.log.level>WARNING</eclipse.log.level> -->
-<!--             <org.slf4j.simpleLogger.defaultLogLevel>warn</org.slf4j.simpleLogger.defaultLogLevel> -->
-<!--             <org.slf4j.simpleLogger.log.org.apache.maven.plugins.shade>warn</org.slf4j.simpleLogger.log.org.apache.maven.plugins.shade> -->
-<!--             <org.slf4j.simpleLogger.showDateTime>false</org.slf4j.simpleLogger.showDateTime> -->
-<!--             <org.slf4j.simpleLogger.showThreadName>false</org.slf4j.simpleLogger.showThreadName> -->
+            <!-- <eclipse.log.level>WARNING</eclipse.log.level> -->
+            <!-- <org.slf4j.simpleLogger.defaultLogLevel>warn</org.slf4j.simpleLogger.defaultLogLevel> -->
+            <!-- <org.slf4j.simpleLogger.log.org.apache.maven.plugins.shade>warn</org.slf4j.simpleLogger.log.org.apache.maven.plugins.shade> -->
+            <!-- <org.slf4j.simpleLogger.showDateTime>false</org.slf4j.simpleLogger.showDateTime> -->
+            <!-- <org.slf4j.simpleLogger.showThreadName>false</org.slf4j.simpleLogger.showThreadName> -->
           </systemProperties>
           <showEclipseLog>false</showEclipseLog>
           <argLine>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jaccoco.version}/org.jacoco.agent-${jaccoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec
@@ -507,6 +512,47 @@
   </reporting>
 
   <profiles>
+    <profile>
+      <id>filter-model</id>
+      <activation>
+        <file>
+          <exists>model-templates/model.ecore</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>parse-version</id>
+                <goals>
+                  <goal>parse-version</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>templating-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>filter-src</id>
+                <goals>
+                  <goal>filter-sources</goal>
+                </goals>
+                <phase>generate-sources</phase>
+                <configuration>
+                  <sourceDirectory>${basedir}/model-templates/</sourceDirectory>
+                  <outputDirectory>${basedir}/model/</outputDirectory>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>generate-model</id>
       <activation>
