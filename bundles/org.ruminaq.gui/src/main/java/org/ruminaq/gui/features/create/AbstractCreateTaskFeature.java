@@ -37,12 +37,14 @@ import org.slf4j.Logger;
  * 
  * @author Marek Jagielski
  */
-public abstract class AbstractCreateTaskFeature extends AbstractCreateElementFeature {
+public abstract class AbstractCreateTaskFeature
+    extends AbstractCreateElementFeature {
 
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(AbstractCreateTaskFeature.class);
 
-  public AbstractCreateTaskFeature(IFeatureProvider fp, Class<? extends Task> clazz) {
+  public AbstractCreateTaskFeature(IFeatureProvider fp,
+      Class<? extends Task> clazz) {
     super(fp, clazz);
   }
 
@@ -61,11 +63,14 @@ public abstract class AbstractCreateTaskFeature extends AbstractCreateElementFea
   protected abstract Class<? extends PortsDescr> getPortsDescription();
 
   private void addDefaultPorts(Task task) {
-    Optional<Class<? extends PortsDescr>> pdOpt = Optional
-        .ofNullable(getPortsDescription());
-    Supplier<Stream<Field>> fields = () -> pdOpt.map(pd -> pd.getFields())
-        .map(Stream::of).orElseGet(Stream::empty);
+    Supplier<Stream<Field>> fields = () -> Optional
+        .ofNullable(getPortsDescription()).map(Class::getFields).map(Stream::of)
+        .orElseGet(Stream::empty);
+    addDefaultInputPorts(task, fields);
+    addDefaultOutputPorts(task, fields);
+  }
 
+  private void addDefaultInputPorts(Task task, Supplier<Stream<Field>> fields) {
     fields.get().map(f -> f.getAnnotation(IN.class)).filter(Objects::nonNull)
         .filter(Predicate.not(IN::opt)).map(i -> new SimpleEntry<>(i, i.n()))
         .forEach((SimpleEntry<IN, Integer> e) -> {
@@ -123,35 +128,39 @@ public abstract class AbstractCreateTaskFeature extends AbstractCreateElementFea
             task.getInputPort().add(inputPort);
           });
         });
+  }
 
+  private void addDefaultOutputPorts(Task task,
+      Supplier<Stream<Field>> fields) {
     fields.get().map(f -> f.getAnnotation(OUT.class)).filter(Objects::nonNull)
         .filter(Predicate.not(OUT::opt)).map(i -> new SimpleEntry<>(i, i.n()))
-        .forEach((SimpleEntry<OUT, Integer> e) -> {
-          IntStream.range(0, e.getValue()).forEach((int i) -> {
-            InternalOutputPort outputPort = RuminaqFactory.eINSTANCE
-                .createInternalOutputPort();
-            String id = e.getKey().name();
-            outputPort.setParent(task);
-            if (e.getKey().n() > 1) {
-              id += " " + i;
-            }
-            outputPort.setId(id);
-            for (Class<? extends DataType> dt : e.getKey().type()) {
-              try {
-                EFactory factory = (EFactory) e.getKey().factory()
-                    .getDeclaredField("eINSTANCE").get(null);
-                Method createMethod = factory.getClass().getMethod(
-                    "create" + dt.getSimpleName(), (Class<?>[]) null);
-                outputPort.getDataType().add(
-                    (DataType) createMethod.invoke(factory, (Object[]) null));
-              } catch (SecurityException | NoSuchMethodException
-                  | IllegalAccessException | IllegalArgumentException
-                  | InvocationTargetException | NoSuchFieldException ex) {
+        .forEach((SimpleEntry<OUT, Integer> e) -> IntStream
+            .range(0, e.getValue()).forEach((int i) -> {
+              InternalOutputPort outputPort = RuminaqFactory.eINSTANCE
+                  .createInternalOutputPort();
+              String id = e.getKey().name();
+              outputPort.setParent(task);
+              if (e.getKey().n() > 1) {
+                id += " " + i;
               }
-            }
+              outputPort.setId(id);
+              for (Class<? extends DataType> dt : e.getKey().type()) {
+                try {
+                  EFactory factory = (EFactory) e.getKey().factory()
+                      .getDeclaredField("eINSTANCE").get(null);
+                  Method createMethod = factory.getClass().getMethod(
+                      "create" + dt.getSimpleName(), (Class<?>[]) null);
+                  outputPort.getDataType().add(
+                      (DataType) createMethod.invoke(factory, (Object[]) null));
+                } catch (SecurityException | NoSuchMethodException
+                    | IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException | NoSuchFieldException ex) {
+                  LOGGER.error("Can't create data type", ex);
+                }
+              }
 
-            task.getOutputPort().add(outputPort);
-          });
-        });
+              task.getOutputPort().add(outputPort);
+            }));
   }
+
 }
