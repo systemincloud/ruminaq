@@ -43,7 +43,6 @@ public class CreateSimpleConnectionFeature
   public boolean canCreate(ICreateConnectionContext context) {
     Optional<FlowSource> source = getFlowEnd(context.getSourceAnchor(), FlowSource.class);
     Optional<FlowTarget> target = getFlowEnd(context.getTargetAnchor(), FlowTarget.class);
-
     return source.isPresent() && target.isPresent()
         && context.getTargetAnchor().getIncomingConnections().isEmpty();
   }
@@ -51,7 +50,6 @@ public class CreateSimpleConnectionFeature
   @Override
   public Connection create(ICreateConnectionContext context) {
     Connection newConnection = null;
-
     Optional<FlowSource> source = getFlowEnd(context.getSourceAnchor(), FlowSource.class);
     Optional<FlowTarget> target = getFlowEnd(context.getTargetAnchor(), FlowTarget.class);
 
@@ -85,7 +83,6 @@ public class CreateSimpleConnectionFeature
         .createSimpleConnection();
     simpleConnection.setSourceRef(source);
     simpleConnection.setTargetRef(target);
-
     getRuminaqDiagram().getMainTask().getConnection().add(simpleConnection);
 
     return simpleConnection;
