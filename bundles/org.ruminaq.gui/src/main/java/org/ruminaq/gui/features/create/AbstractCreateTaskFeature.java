@@ -37,12 +37,12 @@ import org.slf4j.Logger;
  * 
  * @author Marek Jagielski
  */
-public abstract class CreateTaskFeature extends AbstractCreateElementFeature {
+public abstract class AbstractCreateTaskFeature extends AbstractCreateElementFeature {
 
   private static final Logger LOGGER = ModelerLoggerFactory
-      .getLogger(CreateTaskFeature.class);
+      .getLogger(AbstractCreateTaskFeature.class);
 
-  public CreateTaskFeature(IFeatureProvider fp, Class<? extends Task> clazz) {
+  public AbstractCreateTaskFeature(IFeatureProvider fp, Class<? extends Task> clazz) {
     super(fp, clazz);
   }
 

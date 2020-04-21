@@ -9,7 +9,7 @@ package org.ruminaq.tasks.constant;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.ruminaq.gui.features.create.CreateTaskFeature;
+import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.desc.PortsDescr;
@@ -23,7 +23,7 @@ import org.ruminaq.tasks.constant.model.constant.ConstantFactory;
  * 
  * @author Marek Jagielski
  */
-public class CreateFeature extends CreateTaskFeature
+public class CreateFeature extends AbstractCreateTaskFeature
     implements PaletteCreateFeature {
 
   public CreateFeature(IFeatureProvider fp) {

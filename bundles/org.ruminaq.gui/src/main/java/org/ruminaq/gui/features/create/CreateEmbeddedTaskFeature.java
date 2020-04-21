@@ -20,7 +20,7 @@ import org.ruminaq.model.ruminaq.RuminaqFactory;
  * 
  * @author Marek Jagielski
  */
-public class CreateEmbeddedTaskFeature extends CreateTaskFeature
+public class CreateEmbeddedTaskFeature extends AbstractCreateTaskFeature
     implements PaletteCreateFeature {
 
   public CreateEmbeddedTaskFeature(IFeatureProvider fp) {

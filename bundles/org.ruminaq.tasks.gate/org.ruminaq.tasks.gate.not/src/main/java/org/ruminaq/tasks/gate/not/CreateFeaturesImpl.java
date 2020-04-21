@@ -8,7 +8,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.CreateFeaturesExtension;
-import org.ruminaq.gui.features.create.CreateTaskFeature;
+import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.desc.PortsDescr;
@@ -24,7 +24,7 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
     return Arrays.asList(CreateFeature.class);
   }
 
-  public static class CreateFeature extends CreateTaskFeature
+  public static class CreateFeature extends AbstractCreateTaskFeature
       implements PaletteCreateFeature {
 
     public CreateFeature(IFeatureProvider fp) {
