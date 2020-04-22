@@ -513,47 +513,6 @@
 
   <profiles>
     <profile>
-      <id>filter-model</id>
-      <activation>
-        <file>
-          <exists>model-templates/model.ecore</exists>
-        </file>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>parse-version</id>
-                <goals>
-                  <goal>parse-version</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>templating-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>filter-src</id>
-                <goals>
-                  <goal>filter-sources</goal>
-                </goals>
-                <phase>generate-sources</phase>
-                <configuration>
-                  <sourceDirectory>${basedir}/model-templates/</sourceDirectory>
-                  <outputDirectory>${basedir}/model/</outputDirectory>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>generate-model</id>
       <activation>
         <file>
