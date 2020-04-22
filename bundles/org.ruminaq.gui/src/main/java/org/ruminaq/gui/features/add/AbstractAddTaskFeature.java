@@ -99,8 +99,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 
   @Override
   public PictogramElement add(IAddContext context) {
-    Task addedTask = (Task) context.getNewObject();
-
     TaskShape taskShape = DiagramFactory.eINSTANCE.createTaskShape();
     taskShape.setContainer(context.getTargetContainer());
     taskShape.setX(context.getX());
@@ -108,14 +106,15 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     taskShape.setIconId(getInsideIconId());
 
     taskShape.setWidth(Optional.of(context).map(IAddContext::getWidth)
-        .filter(i -> i > 0).orElseGet(() -> getWidth()));
+        .filter(i -> i > 0).orElseGet(this::getWidth));
     taskShape.setHeight(Optional.of(context).map(IAddContext::getHeight)
-        .filter(i -> i > 0).orElseGet(() -> getHeight()));
+        .filter(i -> i > 0).orElseGet(this::getHeight));
 
     BaseElement task = (BaseElement) context.getNewObject();
     taskShape.setModelObject(task);
     addLabel(taskShape);
 
+    Task addedTask = (Task) context.getNewObject();
     addInternalPorts(addedTask, taskShape);
     updatePictogramElement(taskShape);
 
@@ -135,6 +134,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     List<Pair<InternalInputPort, IN>> bottomIns = new LinkedList<>();
     List<Pair<InternalOutputPort, OUT>> bottomOuts = new LinkedList<>();
 
+    Optional.of(addedTask).map(Task::getInputPort);
     if (addedTask.getInputPort().size() > 0) {
       np: for (InternalInputPort iip : addedTask.getInputPort()) {
         for (Field f : pd.getFields()) {
