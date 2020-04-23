@@ -42,17 +42,17 @@ public enum RunnerServiceManager {
     for (RunnerService srv : services) {
       if (srv.getVersion() == null)
         continue;
-      Version v1 = Version.parseVersion(
-          task.getVersion().replace(Constants.SNAPSHOT, Constants.QUALIFIER));
-      Version v2 = Version.parseVersion(
-          srv.getVersion().replace(Constants.SNAPSHOT, Constants.QUALIFIER));
-      if (task.getBundleName().equals(srv.getBundleName())
-          && v1.getMajor() == v2.getMajor() && v1.getMinor() == v2.getMinor()
-          && v1.getMicro() == v2.getMicro()) {
+//      Version v1 = Version.parseVersion(
+//          task.getVersion().replace(Constants.SNAPSHOT, Constants.QUALIFIER));
+//      Version v2 = Version.parseVersion(
+//          srv.getVersion().replace(Constants.SNAPSHOT, Constants.QUALIFIER));
+//      if (task.getBundleName().equals(srv.getBundleName())
+//          && v1.getMajor() == v2.getMajor() && v1.getMinor() == v2.getMinor()
+//          && v1.getMicro() == v2.getMicro()) {
         TaskI taskI = srv.getImplementation(parent, task);
         if (taskI != null)
           return taskI;
-      }
+//      }
     }
     return null;
   }

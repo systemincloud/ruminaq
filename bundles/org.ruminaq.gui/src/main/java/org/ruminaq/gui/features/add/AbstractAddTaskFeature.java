@@ -10,6 +10,8 @@ import java.lang.reflect.Field;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -64,7 +66,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
   public enum InternalPortLabelPosition {
     LEFT, RIGHT, TOP, BOTTOM;
   }
-  
+
   public AbstractAddTaskFeature(IFeatureProvider fp) {
     super(fp);
   }
@@ -134,7 +136,11 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     List<Pair<InternalInputPort, IN>> bottomIns = new LinkedList<>();
     List<Pair<InternalOutputPort, OUT>> bottomOuts = new LinkedList<>();
 
-    Optional.of(addedTask).map(Task::getInputPort);
+    Supplier<Stream<InternalInputPort>> inputPorts = () -> Optional
+        .of(addedTask).map(Task::getInputPort).map(List::stream)
+        .orElseGet(Stream::empty);
+    Optional.of(pd).map(Class::getFields).map(Stream::of)
+    .orElseGet(Stream::empty).map(f -> f.getAnnotation(IN.class));
     if (addedTask.getInputPort().size() > 0) {
       np: for (InternalInputPort iip : addedTask.getInputPort()) {
         for (Field f : pd.getFields()) {
