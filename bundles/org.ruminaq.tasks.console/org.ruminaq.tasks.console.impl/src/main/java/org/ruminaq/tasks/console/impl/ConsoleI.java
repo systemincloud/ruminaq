@@ -43,44 +43,44 @@ public class ConsoleI extends BasicTaskI {
       setExternalSource(true);
     }
 
-    DirmiClient.INSTANCE.register(
-        console.getBundleName() + ":" + console.getVersion(),
-        Util.getUniqueId(console, parent.getBasePath()), new ConsoleIService() {
-          @Override
-          public void newCommand(String cmd) {
-            logger.trace("New command: {} ", cmd);
-            ConsoleI.this.cmds.add(cmd);
-            addExternalSrcExecNb(ConsoleI.this.cmds.size());
-            setReadyWithParents(true);
-          }
-
-          @Override
-          public void addListener(ConsoleViewService viewApi) {
-            if (!listeners.contains(viewApi)) {
-              logger.trace("Add Console View: {} ", viewApi);
-              listeners.add(viewApi);
-            }
-          }
-
-          @Override
-          public void removeListener(ConsoleViewService viewApi) {
-            logger.trace("Remove Console View: {} ", viewApi);
-            listeners.remove(viewApi);
-          }
-
-          @Override
-          public String getHistory() throws RemoteException {
-            logger.trace("Console View ask for history");
-            return history.toString();
-          }
-
-          @Override
-          public void clearHistory() throws RemoteException {
-            logger.trace("Clear history");
-            history.setLength(0);
-            nbOfLines = 0;
-          }
-        });
+//    DirmiClient.INSTANCE.register(
+//        console.getBundleName() + ":" + console.getVersion(),
+//        Util.getUniqueId(console, parent.getBasePath()), new ConsoleIService() {
+//          @Override
+//          public void newCommand(String cmd) {
+//            logger.trace("New command: {} ", cmd);
+//            ConsoleI.this.cmds.add(cmd);
+//            addExternalSrcExecNb(ConsoleI.this.cmds.size());
+//            setReadyWithParents(true);
+//          }
+//
+//          @Override
+//          public void addListener(ConsoleViewService viewApi) {
+//            if (!listeners.contains(viewApi)) {
+//              logger.trace("Add Console View: {} ", viewApi);
+//              listeners.add(viewApi);
+//            }
+//          }
+//
+//          @Override
+//          public void removeListener(ConsoleViewService viewApi) {
+//            logger.trace("Remove Console View: {} ", viewApi);
+//            listeners.remove(viewApi);
+//          }
+//
+//          @Override
+//          public String getHistory() throws RemoteException {
+//            logger.trace("Console View ask for history");
+//            return history.toString();
+//          }
+//
+//          @Override
+//          public void clearHistory() throws RemoteException {
+//            logger.trace("Clear history");
+//            history.setLength(0);
+//            nbOfLines = 0;
+//          }
+//        });
   }
 
   @Override

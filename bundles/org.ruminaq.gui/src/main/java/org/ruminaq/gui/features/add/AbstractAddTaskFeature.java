@@ -112,18 +112,17 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     taskShape.setHeight(Optional.of(context).map(IAddContext::getHeight)
         .filter(i -> i > 0).orElseGet(this::getHeight));
 
-    BaseElement task = (BaseElement) context.getNewObject();
+    Task task = (Task) context.getNewObject();
     taskShape.setModelObject(task);
     addLabel(taskShape);
 
-    Task addedTask = (Task) context.getNewObject();
-    addInternalPorts(addedTask, taskShape);
+    addInternalPorts(task, taskShape);
     updatePictogramElement(taskShape);
 
     return taskShape;
   }
 
-  private void addInternalPorts(Task addedTask, ContainerShape parent) {
+  private void addInternalPorts(Task task, TaskShape taskShape) {
     final IPeCreateService peCreateService = Graphiti.getPeCreateService();
     Class<? extends PortsDescr> pd = getPortsDescription();
 
