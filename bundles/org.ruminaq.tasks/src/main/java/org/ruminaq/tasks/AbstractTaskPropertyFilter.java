@@ -27,13 +27,13 @@ public abstract class AbstractTaskPropertyFilter
     if (bo instanceof Task) {
       Task task = (Task) bo;
       for (ITaskUiApi t : tasks.getTasks(getPrefix())) {
-        Version v = Version.parseVersion(
-            task.getVersion().replace(Constants.SNAPSHOT, Constants.QUALIFIER));
-        if (t.getSymbolicName().equals(task.getBundleName())
-            && t.getVersion().getMajor() == v.getMajor()
-            && t.getVersion().getMinor() == v.getMinor()
-            && t.getVersion().getMicro() == v.getMicro()
-            && t.checkPropertyFilter(task))
+//        Version v = Version.parseVersion(
+//            task.getVersion().replace(Constants.SNAPSHOT, Constants.QUALIFIER));
+//        if (t.getSymbolicName().equals(task.getBundleName())
+//            && t.getVersion().getMajor() == v.getMajor()
+//            && t.getVersion().getMinor() == v.getMinor()
+//            && t.getVersion().getMicro() == v.getMicro()
+//            && t.checkPropertyFilter(task))
           return true;
       }
     }
