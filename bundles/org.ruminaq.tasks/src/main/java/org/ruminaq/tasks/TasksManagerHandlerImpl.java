@@ -203,7 +203,7 @@ public class TasksManagerHandlerImpl implements TaskManagerHandler {
 
     // initComponents
     lblVersion.setText("Task version:");
-    lblVersionValue.setText(task.getVersion());
+//    lblVersionValue.setText(task.getVersion());
     btnOnlyLocalDefault.setText("Only local - default");
     btnOnlyLocal.setText("Only local");
 
