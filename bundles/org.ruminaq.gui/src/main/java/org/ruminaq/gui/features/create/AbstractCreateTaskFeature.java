@@ -21,13 +21,12 @@ import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.model.desc.IN;
-import org.ruminaq.model.desc.NGroup;
-import org.ruminaq.model.desc.OUT;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
+import org.ruminaq.model.ruminaq.NGroup;
+import org.ruminaq.model.ruminaq.PortInfo;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
 import org.slf4j.Logger;
@@ -71,13 +70,13 @@ public abstract class AbstractCreateTaskFeature
   }
 
   private void addDefaultInputPorts(Task task, Supplier<Stream<Field>> fields) {
-    fields.get().map(f -> f.getAnnotation(IN.class)).filter(Objects::nonNull)
-        .filter(Predicate.not(IN::opt)).map(i -> new SimpleEntry<>(i, i.n()))
-        .forEach((SimpleEntry<IN, Integer> e) -> {
+    fields.get().map(f -> f.getAnnotation(PortInfo.class)).filter(Objects::nonNull)
+        .filter(Predicate.not(PortInfo::opt)).map(i -> new SimpleEntry<>(i, i.n()))
+        .forEach((SimpleEntry<PortInfo, Integer> e) -> {
           IntStream.range(0, e.getValue()).forEach((int i) -> {
             InternalInputPort inputPort = RuminaqFactory.eINSTANCE
                 .createInternalInputPort();
-            String id = e.getKey().name();
+            String id = e.getKey().id();
             inputPort.setParent(task);
             if (e.getKey().n() > 1) {
               id += " " + i;
@@ -111,19 +110,18 @@ public abstract class AbstractCreateTaskFeature
             inputPort.setDefaultQueueSize(e.getKey().queue());
             inputPort.setQueueSize(e.getKey().queue());
 
-            for (Class<? extends DataType> dt : e.getKey().type()) {
-              try {
-                EFactory factory = (EFactory) e.getKey().factory()
-                    .getDeclaredField("eINSTANCE").get(null);
-                Method createMethod = factory.getClass().getMethod(
-                    "create" + dt.getSimpleName(), (Class<?>[]) null);
-                inputPort.getDataType().add(
-                    (DataType) createMethod.invoke(factory, (Object[]) null));
-              } catch (SecurityException | NoSuchMethodException
-                  | IllegalAccessException | IllegalArgumentException
-                  | InvocationTargetException | NoSuchFieldException ex) {
-              }
-            }
+//            for (Class<? extends DataType> dt : e.getKey().dataType()) {
+//              try {
+//                EFactory factory = (EFactory) e.getKey().dataPackage()
+//                    .getDeclaredField("eINSTANCE").get(null);
+//                Method createMethod = factory.getClass().getMethod(
+//                    "create" + dt.getSimpleName(), (Class<?>[]) null);
+//                inputPort.getDataType().add(dt);
+//              } catch (SecurityException | NoSuchMethodException
+//                  | IllegalAccessException | IllegalArgumentException
+//                  | InvocationTargetException | NoSuchFieldException ex) {
+//              }
+//            }
 
             task.getInputPort().add(inputPort);
           });
@@ -132,32 +130,32 @@ public abstract class AbstractCreateTaskFeature
 
   private void addDefaultOutputPorts(Task task,
       Supplier<Stream<Field>> fields) {
-    fields.get().map(f -> f.getAnnotation(OUT.class)).filter(Objects::nonNull)
-        .filter(Predicate.not(OUT::opt)).map(i -> new SimpleEntry<>(i, i.n()))
-        .forEach((SimpleEntry<OUT, Integer> e) -> IntStream
+    fields.get().map(f -> f.getAnnotation(PortInfo.class)).filter(Objects::nonNull)
+        .filter(Predicate.not(PortInfo::opt)).map(i -> new SimpleEntry<>(i, i.n()))
+        .forEach((SimpleEntry<PortInfo, Integer> e) -> IntStream
             .range(0, e.getValue()).forEach((int i) -> {
               InternalOutputPort outputPort = RuminaqFactory.eINSTANCE
                   .createInternalOutputPort();
-              String id = e.getKey().name();
+              String id = e.getKey().id();
               outputPort.setParent(task);
               if (e.getKey().n() > 1) {
                 id += " " + i;
               }
               outputPort.setId(id);
-              for (Class<? extends DataType> dt : e.getKey().type()) {
-                try {
-                  EFactory factory = (EFactory) e.getKey().factory()
-                      .getDeclaredField("eINSTANCE").get(null);
-                  Method createMethod = factory.getClass().getMethod(
-                      "create" + dt.getSimpleName(), (Class<?>[]) null);
-                  outputPort.getDataType().add(
-                      (DataType) createMethod.invoke(factory, (Object[]) null));
-                } catch (SecurityException | NoSuchMethodException
-                    | IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException | NoSuchFieldException ex) {
-                  LOGGER.error("Can't create data type", ex);
-                }
-              }
+//              for (Class<? extends DataType> dt : e.getKey().type()) {
+//                try {
+//                  EFactory factory = (EFactory) e.getKey().factory()
+//                      .getDeclaredField("eINSTANCE").get(null);
+//                  Method createMethod = factory.getClass().getMethod(
+//                      "create" + dt.getSimpleName(), (Class<?>[]) null);
+//                  outputPort.getDataType().add(
+//                      (DataType) createMethod.invoke(factory, (Object[]) null));
+//                } catch (SecurityException | NoSuchMethodException
+//                    | IllegalAccessException | IllegalArgumentException
+//                    | InvocationTargetException | NoSuchFieldException ex) {
+//                  LOGGER.error("Can't create data type", ex);
+//                }
+//              }
 
               task.getOutputPort().add(outputPort);
             }));

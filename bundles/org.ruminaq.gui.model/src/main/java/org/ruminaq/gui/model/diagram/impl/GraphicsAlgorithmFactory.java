@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.PortShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
@@ -20,6 +21,7 @@ import org.ruminaq.gui.model.diagram.impl.label.LabelShapeGA;
 import org.ruminaq.gui.model.diagram.impl.port.PortShapeGA;
 import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionShapeGA;
 import org.ruminaq.gui.model.diagram.impl.simpleconnectionpoint.SimpleConnectionPointShapeGA;
+import org.ruminaq.gui.model.diagram.impl.task.InternalPortShapeGA;
 import org.ruminaq.gui.model.diagram.impl.task.TaskShapeGA;
 
 /**
@@ -38,7 +40,9 @@ public enum GraphicsAlgorithmFactory {
           new ShapeFactory<>(SimpleConnectionPointShape.class,
               SimpleConnectionPointShapeGA.class),
           new ShapeFactory<>(TaskShape.class,
-              TaskShapeGA.class));
+              TaskShapeGA.class),
+          new ShapeFactory<>(InternalPortShape.class,
+              InternalPortShapeGA.class));
 
   /**
    * Flyweight Factory of GraphicsAlgorithms for PictogramElement.

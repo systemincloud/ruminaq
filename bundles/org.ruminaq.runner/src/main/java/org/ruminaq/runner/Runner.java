@@ -8,7 +8,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
-import org.ruminaq.model.dt.DatatypePackage;
+import org.ruminaq.model.ruminaq.dt.DatatypePackage;
 import org.ruminaq.runner.dirmi.DirmiClient;
 import org.ruminaq.runner.impl.debug.DebugI;
 import org.ruminaq.runner.impl.debug.events.debugger.StartedEvent;

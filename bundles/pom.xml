@@ -27,7 +27,6 @@
     <module>org.ruminaq.logs.logback.xml</module>
     <module>org.ruminaq.model</module>
     <module>org.ruminaq.model.api</module>
-    <module>org.ruminaq.model.dt</module>
     <module>org.ruminaq.model.ruminaq</module>
     <module>org.ruminaq.prefs</module>
     <module>org.ruminaq.runner</module>

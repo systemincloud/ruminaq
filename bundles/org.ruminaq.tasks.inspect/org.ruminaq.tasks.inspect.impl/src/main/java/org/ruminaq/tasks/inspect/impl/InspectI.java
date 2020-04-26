@@ -33,28 +33,28 @@ public class InspectI extends BasicTaskI {
     this.inspect = (Inspect) task;
     this.pretty = inspect.isMatricesPretty();
 
-    DirmiClient.INSTANCE.register(
-        inspect.getBundleName() + ":" + inspect.getVersion(),
-        Util.getUniqueId(inspect, parent.getBasePath()), new InspectIService() {
-          @Override
-          public void addListener(InspectWindowService tvWindowService)
-              throws RemoteException {
-            if (!listeners.contains(tvWindowService))
-              listeners.add(tvWindowService);
-          }
-
-          @Override
-          public void removeListener(InspectWindowService tvWindowService)
-              throws RemoteException {
-            if (listeners.contains(tvWindowService))
-              listeners.remove(tvWindowService);
-          }
-
-          @Override
-          public String getLastValue() throws RemoteException {
-            return lastValue;
-          }
-        });
+//    DirmiClient.INSTANCE.register(
+//        inspect.getBundleName() + ":" + inspect.getVersion(),
+//        Util.getUniqueId(inspect, parent.getBasePath()), new InspectIService() {
+//          @Override
+//          public void addListener(InspectWindowService tvWindowService)
+//              throws RemoteException {
+//            if (!listeners.contains(tvWindowService))
+//              listeners.add(tvWindowService);
+//          }
+//
+//          @Override
+//          public void removeListener(InspectWindowService tvWindowService)
+//              throws RemoteException {
+//            if (listeners.contains(tvWindowService))
+//              listeners.remove(tvWindowService);
+//          }
+//
+//          @Override
+//          public String getLastValue() throws RemoteException {
+//            return lastValue;
+//          }
+//        });
   }
 
   @Override

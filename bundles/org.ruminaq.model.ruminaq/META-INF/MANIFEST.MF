@@ -9,6 +9,7 @@ Export-Package: org.ruminaq.model.ruminaq,
  org.ruminaq.model.ruminaq.debug,
  org.ruminaq.model.ruminaq.debug.impl,
  org.ruminaq.model.ruminaq.debug.util,
+ org.ruminaq.model.ruminaq.dt,
  org.ruminaq.model.ruminaq.impl,
  org.ruminaq.model.ruminaq.util
 Import-Package: org.apache.commons.lang3,

@@ -3,18 +3,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.tasks.console.impl;
 
-import org.ruminaq.model.desc.IN;
-import org.ruminaq.model.desc.OUT;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.model.desc.Position;
-import org.ruminaq.model.dt.Text;
+import org.ruminaq.model.ruminaq.PortData;
+import org.ruminaq.model.ruminaq.PortInfo;
+import org.ruminaq.model.ruminaq.PortType;
+import org.ruminaq.model.ruminaq.Position;
+import org.ruminaq.model.ruminaq.dt.Text;
 
 public enum Port implements PortsDescr {
-  @IN(name = "In", type = Text.class, opt = true, label = false,
+
+  @PortInfo(portType = PortType.IN, id = "In", opt = true, label = false,
       pos = Position.RIGHT)
+  @PortData(type = Text.class)
   IN,
 
-  @OUT(name = "Out", type = Text.class, opt = true, label = false,
+  @PortInfo(portType = PortType.OUT, id = "Out", opt = true, label = false,
       pos = Position.LEFT)
+  @PortData(type = Text.class)
   OUT;
+
 }

@@ -25,16 +25,15 @@ import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature.InternalPortLabelPosition;
 import org.ruminaq.gui.features.update.UpdateBaseElementFeature;
 import org.ruminaq.model.DataTypeManager;
-import org.ruminaq.model.desc.IN;
-import org.ruminaq.model.desc.NGroup;
-import org.ruminaq.model.desc.OUT;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.model.desc.Position;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
+import org.ruminaq.model.ruminaq.NGroup;
+import org.ruminaq.model.ruminaq.PortInfo;
+import org.ruminaq.model.ruminaq.Position;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
 
@@ -147,25 +146,25 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
       return;
     try {
       Field f = pd.getClass().getField(pd.toString());
-      IN in = f.getAnnotation(IN.class);
+      PortInfo in = f.getAnnotation(PortInfo.class);
       if (in != null) {
-        if (in.n() == 1)
-          addInputPort(task, parent, in.name(), in.label(), in.type(),
-              in.asynchronous(), in.group(), in.hold(), in.queue(), in.pos());
-        else {
+        if (in.n() == 1) {
+//          addInputPort(task, parent, in.id(), in.label(), in.type(),
+//              in.asynchronous(), in.group(), in.hold(), in.queue(), in.pos());
+        } else {
           String id = null;
           int k = -1;
           loop: while (id == null) {
             k++;
-            if (TasksUtil.getAllMutlipleInternalInputPorts(task, in.name())
+            if (TasksUtil.getAllMutlipleInternalInputPorts(task, in.id())
                 .size() == 0) {
-              id = in.name() + " " + 0;
+              id = in.id() + " " + 0;
               break;
             }
             for (InternalInputPort ip : task.getInputPort())
-              if (ip.getId().equals(in.name() + " " + k))
+              if (ip.getId().equals(in.id() + " " + k))
                 continue loop;
-            id = in.name() + " " + k;
+            id = in.id() + " " + k;
           }
           int grp = in.group();
           if (in.ngroup().equals(NGroup.DIFFERENT)) {
@@ -182,32 +181,32 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
               grp = j - 1;
             }
           }
-          addInputPort(task, parent, id, in.label(), in.type(),
-              in.asynchronous(), grp, in.hold(), in.queue(), in.pos());
+//          addInputPort(task, parent, id, in.label(), in.type(),
+//              in.asynchronous(), grp, in.hold(), in.queue(), in.pos());
         }
         redistributePorts(parent, in.pos());
       }
-      OUT out = f.getAnnotation(OUT.class);
+      PortInfo out = f.getAnnotation(PortInfo.class);
       if (out != null) {
-        if (out.n() == 1)
-          addOutputPort(task, parent, out.name(), out.label(), out.type(),
-              out.pos());
-        else {
+        if (out.n() == 1) {
+//          addOutputPort(task, parent, out.id(), out.label(), out.type(),
+//              out.pos());
+        } else {
           String id = null;
           int k = -1;
           loop: while (id == null) {
             k++;
-            if (TasksUtil.getAllMutlipleInternalOutputPorts(task, out.name())
+            if (TasksUtil.getAllMutlipleInternalOutputPorts(task, out.id())
                 .size() == 0) {
-              id = out.name() + " " + 0;
+              id = out.id() + " " + 0;
               break;
             }
             for (InternalOutputPort op : task.getOutputPort())
-              if (op.getId().equals(out.name() + " " + k))
+              if (op.getId().equals(out.id() + " " + k))
                 continue loop;
-            id = out.name() + " " + k;
+            id = out.id() + " " + k;
           }
-          addOutputPort(task, parent, id, out.label(), out.type(), out.pos());
+//          addOutputPort(task, parent, id, out.label(), out.type(), out.pos());
         }
         redistributePorts(parent, out.pos());
       }
@@ -360,28 +359,28 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
       return;
     try {
       Field f = pd.getClass().getField(pd.toString());
-      IN in = f.getAnnotation(IN.class);
+      PortInfo in = f.getAnnotation(PortInfo.class);
       if (in != null) {
         if (in.n() == 1)
           removePortShape(task, shape,
-              TasksUtil.getInternalPort(task, in.name()));
+              TasksUtil.getInternalPort(task, in.id()));
         else {
           List<InternalInputPort> ports = TasksUtil
-              .getAllMutlipleInternalInputPorts(task, in.name());
+              .getAllMutlipleInternalInputPorts(task, in.id());
           removePortShape(task, shape, TasksUtil.getInternalPort(task,
-              in.name() + " " + (ports.size() - 1)));
+              in.id() + " " + (ports.size() - 1)));
         }
       }
-      OUT out = f.getAnnotation(OUT.class);
+      PortInfo out = f.getAnnotation(PortInfo.class);
       if (out != null) {
         if (out.n() == 1)
           removePortShape(task, shape,
-              TasksUtil.getInternalPort(task, out.name()));
+              TasksUtil.getInternalPort(task, out.id()));
         else {
           List<InternalOutputPort> ports = TasksUtil
-              .getAllMutlipleInternalOutputPorts(task, out.name());
+              .getAllMutlipleInternalOutputPorts(task, out.id());
           removePortShape(task, shape, TasksUtil.getInternalPort(task,
-              out.name() + " " + (ports.size() - 1)));
+              out.id() + " " + (ports.size() - 1)));
         }
       }
     } catch (NoSuchFieldException | SecurityException e) {

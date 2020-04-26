@@ -6,11 +6,13 @@
 
 package org.ruminaq.gui.features.add;
 
-import java.lang.reflect.Field;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -29,21 +31,19 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.services.IPeService;
-import org.javatuples.Pair;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.gui.features.move.MoveInternalPortFeature;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
+import org.ruminaq.gui.model.diagram.InternalInputPortShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.gui.model.diagram.impl.GuiUtil;
-import org.ruminaq.model.desc.IN;
-import org.ruminaq.model.desc.OUT;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.model.desc.Position;
-import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.PortInfo;
+import org.ruminaq.model.ruminaq.Position;
 import org.ruminaq.model.ruminaq.Task;
 
 /**
@@ -123,277 +123,257 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
   }
 
   private void addInternalPorts(Task task, TaskShape taskShape) {
-    final IPeCreateService peCreateService = Graphiti.getPeCreateService();
     Class<? extends PortsDescr> pd = getPortsDescription();
 
-    List<Pair<InternalInputPort, IN>> topIns = new LinkedList<>();
-    List<Pair<InternalOutputPort, OUT>> topOuts = new LinkedList<>();
-    List<Pair<InternalInputPort, IN>> leftIns = new LinkedList<>();
-    List<Pair<InternalOutputPort, OUT>> leftOuts = new LinkedList<>();
-    List<Pair<InternalInputPort, IN>> rightIns = new LinkedList<>();
-    List<Pair<InternalOutputPort, OUT>> rightOuts = new LinkedList<>();
-    List<Pair<InternalInputPort, IN>> bottomIns = new LinkedList<>();
-    List<Pair<InternalOutputPort, OUT>> bottomOuts = new LinkedList<>();
+    Supplier<Stream<InternalInputPort>> inputPorts = () -> Optional.of(task)
+        .map(Task::getInputPort).map(List::stream).orElseGet(Stream::empty);
 
-    Supplier<Stream<InternalInputPort>> inputPorts = () -> Optional
-        .of(addedTask).map(Task::getInputPort).map(List::stream)
-        .orElseGet(Stream::empty);
-    Optional.of(pd).map(Class::getFields).map(Stream::of)
-    .orElseGet(Stream::empty).map(f -> f.getAnnotation(IN.class));
-    if (addedTask.getInputPort().size() > 0) {
-      np: for (InternalInputPort iip : addedTask.getInputPort()) {
-        for (Field f : pd.getFields()) {
-          IN in = f.getAnnotation(IN.class);
-          if (in != null) {
-            if (in.n() == 1 && iip.getId().equals(in.name()) || (in.n() > 1)
-                && TasksUtil.isMultiplePortId(iip.getId(), in.name())) {
-              switch (in.pos()) {
-                case TOP:
-                  topIns.add(new Pair<InternalInputPort, IN>(iip, in));
-                  break;
-                case LEFT:
-                  leftIns.add(new Pair<InternalInputPort, IN>(iip, in));
-                  break;
-                case RIGHT:
-                  rightIns.add(new Pair<InternalInputPort, IN>(iip, in));
-                  break;
-                case BOTTOM:
-                  bottomIns.add(new Pair<InternalInputPort, IN>(iip, in));
-                  break;
-              }
-              continue np;
-            }
-          }
-        }
-      }
-    }
+    Supplier<Stream<PortInfo>> inDescrpts = () -> Optional.of(pd)
+        .map(Class::getFields).map(Stream::of).orElseGet(Stream::empty)
+        .map(f -> f.getAnnotation(PortInfo.class)).filter(Objects::nonNull);
 
-    if (addedTask.getOutputPort().size() > 0) {
-      np: for (InternalOutputPort iop : addedTask.getOutputPort()) {
-        for (Field f : pd.getFields()) {
-          OUT out = f.getAnnotation(OUT.class);
-          if (out != null) {
-            if (out.n() == 1 && iop.getId().equals(out.name()) || (out.n() > 1)
-                && TasksUtil.isMultiplePortId(iop.getId(), out.name())) {
-              switch (out.pos()) {
-                case TOP:
-                  topOuts.add(new Pair<InternalOutputPort, OUT>(iop, out));
-                  break;
-                case LEFT:
-                  leftOuts.add(new Pair<InternalOutputPort, OUT>(iop, out));
-                  break;
-                case RIGHT:
-                  rightOuts.add(new Pair<InternalOutputPort, OUT>(iop, out));
-                  break;
-                case BOTTOM:
-                  bottomOuts.add(new Pair<InternalOutputPort, OUT>(iop, out));
-                  break;
-              }
-              continue np;
-            }
-          }
-        }
-      }
-    }
+    Supplier<Stream<SimpleEntry<InternalInputPort, PortInfo>>> ins = () -> inputPorts
+        .get()
+        .map(iip -> new SimpleEntry<>(iip,
+            inDescrpts.get()
+                .filter(in -> in.n() == 1 && iip.getId().equals(in.id()))
+                .findAny()
+                .or(() -> inDescrpts.get()
+                    .filter(in -> in.n() > 1
+                        && TasksUtil.isMultiplePortId(iip.getId(), in.id()))
+                    .findAny())
+                .orElse(null)))
+        .filter(se -> se.getValue() != null);
 
-    int width = PORT_SIZE;
-    int height = PORT_SIZE;
+    Supplier<Stream<InternalOutputPort>> outputPorts = () -> Optional.of(task)
+        .map(Task::getOutputPort).map(List::stream).orElseGet(Stream::empty);
 
-    int nbTop = topIns.size() + topOuts.size();
+    Supplier<Stream<PortInfo>> outDescrpts = () -> Optional.of(pd)
+        .map(Class::getFields).map(Stream::of).orElseGet(Stream::empty)
+        .map(f -> f.getAnnotation(PortInfo.class)).filter(Objects::nonNull);
+
+    Supplier<Stream<SimpleEntry<InternalOutputPort, PortInfo>>> outs = () -> outputPorts
+        .get()
+        .map(iop -> new SimpleEntry<>(iop,
+            outDescrpts.get()
+                .filter(out -> out.n() == 1 && iop.getId().equals(out.id()))
+                .findAny()
+                .or(() -> outDescrpts.get()
+                    .filter(out -> out.n() > 1
+                        && TasksUtil.isMultiplePortId(iop.getId(), out.id()))
+                    .findAny())
+                .orElse(null)))
+        .filter(se -> se.getValue() != null);
+
+    int nbTop = (int) (ins.get().map(SimpleEntry::getValue).map(PortInfo::pos)
+        .filter(Position.TOP::equals).count()
+        + outs.get().map(SimpleEntry::getValue).map(PortInfo::pos)
+            .filter(Position.TOP::equals).count());
+    
     if (nbTop > 0) {
-      int stepTopPorts = parent.getGraphicsAlgorithm().getWidth() / nbTop;
+      int stepTopPorts = taskShape.getWidth() / nbTop;
       int topPosition = stepTopPorts >> 1;
-      for (Pair<InternalInputPort, IN> ti : topIns) {
-        int x = topPosition - (width >> 1);
+      for (SimpleEntry<InternalInputPort, PortInfo> se : ins.get()
+          .filter(se -> Position.TOP.equals(se.getValue().pos()))
+          .collect(Collectors.toList())) {
+        InternalInputPortShape iips = DiagramFactory.eINSTANCE
+            .createInternalInputPortShape();
+        int x = topPosition - (iips.getWidth() >> 1);
         int y = 0;
+        iips.setContainer(taskShape);
+        iips.setModelObject(se.getKey());
+        iips.setX(x);
+        iips.setY(y);
+        addLabel(iips);
+
         topPosition += stepTopPorts;
 
-        int lineWidth = INPUT_PORT_WIDTH;
-        LineStyle lineStyle = LineStyle.SOLID;
-        if (ti.getValue0().isAsynchronous())
-          lineStyle = LineStyle.DOT;
-        ContainerShape containerShape = createPictogramForInternalPort(parent,
-            x, y, width, height, getDiagram(), lineWidth, lineStyle);
-        peCreateService.createChopboxAnchor(containerShape);
+//        int lineWidth = INPUT_PORT_WIDTH;
+//        LineStyle lineStyle = LineStyle.SOLID;
+//        if (ti.getValue0().isAsynchronous())
+//          lineStyle = LineStyle.DOT;
 
-        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
-            parent, ti.getValue0().getId(), width, height, x, y,
-            InternalPortLabelPosition.BOTTOM);
-
-        link(containerShape, new Object[] { ti.getValue0(), portLabelShape });
-        link(portLabelShape, new Object[] { ti.getValue0(), containerShape });
-
-        portLabelShape.setVisible(ti.getValue1().label());
+//        
+//        peCreateService.createChopboxAnchor(containerShape);
+//
+//        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
+//            taskShape, ti.getValue0().getId(), width, height, x, y,
+//            InternalPortLabelPosition.BOTTOM);
+//
+//        link(containerShape, new Object[] { ti.getValue0(), portLabelShape });
+//        link(portLabelShape, new Object[] { ti.getValue0(), containerShape });
+//
+//        portLabelShape.setVisible(ti.getValue1().label());
       }
-
-      for (Pair<InternalOutputPort, OUT> to : topOuts) {
-        int x = topPosition - (width >> 1);
-        int y = 0;
-        topPosition += stepTopPorts;
-
-        int lineWidth = OUTPUT_PORT_WIDTH;
-        LineStyle lineStyle = LineStyle.SOLID;
-        ContainerShape containerShape = createPictogramForInternalPort(parent,
-            x, y, width, height, getDiagram(), lineWidth, lineStyle);
-        peCreateService.createChopboxAnchor(containerShape);
-
-        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
-            parent, to.getValue0().getId(), width, height, x, y,
-            InternalPortLabelPosition.BOTTOM);
-
-        link(containerShape, new Object[] { to.getValue0(), portLabelShape });
-        link(portLabelShape, new Object[] { to.getValue0(), containerShape });
-
-        portLabelShape.setVisible(to.getValue1().label());
-      }
+//
+//      for (Pair<InternalOutputPort, OUT> to : topOuts) {
+//        int x = topPosition - (width >> 1);
+//        int y = 0;
+//        topPosition += stepTopPorts;
+//
+//        int lineWidth = OUTPUT_PORT_WIDTH;
+//        LineStyle lineStyle = LineStyle.SOLID;
+//        ContainerShape containerShape = createPictogramForInternalPort(
+//            taskShape, x, y, width, height, getDiagram(), lineWidth, lineStyle);
+//        peCreateService.createChopboxAnchor(containerShape);
+//
+//        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
+//            taskShape, to.getValue0().getId(), width, height, x, y,
+//            InternalPortLabelPosition.BOTTOM);
+//
+//        link(containerShape, new Object[] { to.getValue0(), portLabelShape });
+//        link(portLabelShape, new Object[] { to.getValue0(), containerShape });
+//
+//        portLabelShape.setVisible(to.getValue1().label());
+//      }
     }
-
-    int nbLeft = leftIns.size() + leftOuts.size();
-    if (nbLeft > 0) {
-      int stepLeftPorts = parent.getGraphicsAlgorithm().getHeight() / nbLeft;
-      int leftPosition = stepLeftPorts >> 1;
-      for (Pair<InternalInputPort, IN> li : leftIns) {
-        int x = 0;
-        int y = leftPosition - (height >> 1);
-        leftPosition += stepLeftPorts;
-
-        int lineWidth = INPUT_PORT_WIDTH;
-        LineStyle lineStyle = LineStyle.SOLID;
-        if (li.getValue0().isAsynchronous())
-          lineStyle = LineStyle.DOT;
-        ContainerShape containerShape = createPictogramForInternalPort(parent,
-            x, y, width, height, getDiagram(), lineWidth, lineStyle);
-        peCreateService.createChopboxAnchor(containerShape);
-
-        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
-            parent, li.getValue0().getId(), width, height, x, y,
-            InternalPortLabelPosition.RIGHT);
-
-        link(containerShape, new Object[] { li.getValue0(), portLabelShape });
-        link(portLabelShape, new Object[] { li.getValue0(), containerShape });
-
-        portLabelShape.setVisible(li.getValue1().label());
-      }
-
-      for (Pair<InternalOutputPort, OUT> lo : leftOuts) {
-        int x = 0;
-        int y = leftPosition - (height >> 1);
-        leftPosition += stepLeftPorts;
-
-        int lineWidth = OUTPUT_PORT_WIDTH;
-        LineStyle lineStyle = LineStyle.SOLID;
-        ContainerShape containerShape = createPictogramForInternalPort(parent,
-            x, y, width, height, getDiagram(), lineWidth, lineStyle);
-        peCreateService.createChopboxAnchor(containerShape);
-
-        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
-            parent, lo.getValue0().getId(), width, height, x, y,
-            InternalPortLabelPosition.RIGHT);
-
-        link(containerShape, new Object[] { lo.getValue0(), portLabelShape });
-        link(portLabelShape, new Object[] { lo.getValue0(), containerShape });
-
-        portLabelShape.setVisible(lo.getValue1().label());
-      }
-    }
-
-    int nbRight = rightIns.size() + rightOuts.size();
-    if (nbRight > 0) {
-      int stepRightPorts = parent.getGraphicsAlgorithm().getHeight() / nbRight;
-      int rightPosition = stepRightPorts >> 1;
-      for (Pair<InternalInputPort, IN> ri : rightIns) {
-        int x = parent.getGraphicsAlgorithm().getWidth() - width;
-        int y = rightPosition - (height >> 1);
-        rightPosition += stepRightPorts;
-
-        int lineWidth = INPUT_PORT_WIDTH;
-        LineStyle lineStyle = LineStyle.SOLID;
-        if (ri.getValue0().isAsynchronous())
-          lineStyle = LineStyle.DOT;
-        ContainerShape containerShape = createPictogramForInternalPort(parent,
-            x, y, width, height, getDiagram(), lineWidth, lineStyle);
-        peCreateService.createChopboxAnchor(containerShape);
-
-        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
-            parent, ri.getValue0().getId(), width, height, x, y,
-            InternalPortLabelPosition.LEFT);
-
-        link(containerShape, new Object[] { ri.getValue0(), portLabelShape });
-        link(portLabelShape, new Object[] { ri.getValue0(), containerShape });
-
-        portLabelShape.setVisible(ri.getValue1().label());
-      }
-
-      for (Pair<InternalOutputPort, OUT> ro : rightOuts) {
-        int x = parent.getGraphicsAlgorithm().getWidth() - width;
-        int y = rightPosition - (width >> 1);
-        rightPosition += stepRightPorts;
-
-        int lineWidth = OUTPUT_PORT_WIDTH;
-        LineStyle lineStyle = LineStyle.SOLID;
-        ContainerShape containerShape = createPictogramForInternalPort(parent,
-            x, y, width, height, getDiagram(), lineWidth, lineStyle);
-        peCreateService.createChopboxAnchor(containerShape);
-
-        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
-            parent, ro.getValue0().getId(), width, height, x, y,
-            InternalPortLabelPosition.LEFT);
-
-        link(containerShape, new Object[] { ro.getValue0(), portLabelShape });
-        link(portLabelShape, new Object[] { ro.getValue0(), containerShape });
-
-        portLabelShape.setVisible(ro.getValue1().label());
-      }
-    }
-
-    int nbBottom = bottomIns.size() + bottomOuts.size();
-    if (nbBottom > 0) {
-      int stepBottomPorts = parent.getGraphicsAlgorithm().getWidth() / nbBottom;
-      int bottomPosition = stepBottomPorts >> 1;
-      for (Pair<InternalInputPort, IN> bi : bottomIns) {
-        int x = bottomPosition - (width >> 1);
-        int y = parent.getGraphicsAlgorithm().getHeight() - height;
-        bottomPosition += stepBottomPorts;
-
-        int lineWidth = INPUT_PORT_WIDTH;
-        LineStyle lineStyle = LineStyle.SOLID;
-        if (bi.getValue0().isAsynchronous())
-          lineStyle = LineStyle.DOT;
-        ContainerShape containerShape = createPictogramForInternalPort(parent,
-            x, y, width, height, getDiagram(), lineWidth, lineStyle);
-        peCreateService.createChopboxAnchor(containerShape);
-
-        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
-            parent, bi.getValue0().getId(), width, height, x, y,
-            InternalPortLabelPosition.TOP);
-
-        link(containerShape, new Object[] { bi.getValue0(), portLabelShape });
-        link(portLabelShape, new Object[] { bi.getValue0(), containerShape });
-
-        portLabelShape.setVisible(bi.getValue1().label());
-      }
-
-      for (Pair<InternalOutputPort, OUT> bo : bottomOuts) {
-        int x = bottomPosition - (width >> 1);
-        int y = parent.getGraphicsAlgorithm().getHeight() - height;
-        bottomPosition += stepBottomPorts;
-
-        int lineWidth = OUTPUT_PORT_WIDTH;
-        LineStyle lineStyle = LineStyle.SOLID;
-        ContainerShape containerShape = createPictogramForInternalPort(parent,
-            x, y, width, height, getDiagram(), lineWidth, lineStyle);
-        peCreateService.createChopboxAnchor(containerShape);
-
-        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
-            parent, bo.getValue0().getId(), width, height, x, y,
-            InternalPortLabelPosition.TOP);
-
-        link(containerShape, new Object[] { bo.getValue0(), portLabelShape });
-        link(portLabelShape, new Object[] { bo.getValue0(), containerShape });
-
-        portLabelShape.setVisible(bo.getValue1().label());
-      }
-    }
+//
+//    int nbLeft = leftIns.size() + leftOuts.size();
+//    if (nbLeft > 0) {
+//      int stepLeftPorts = taskShape.getGraphicsAlgorithm().getHeight() / nbLeft;
+//      int leftPosition = stepLeftPorts >> 1;
+//      for (Pair<InternalInputPort, IN> li : leftIns) {
+//        int x = 0;
+//        int y = leftPosition - (height >> 1);
+//        leftPosition += stepLeftPorts;
+//
+//        int lineWidth = INPUT_PORT_WIDTH;
+//        LineStyle lineStyle = LineStyle.SOLID;
+//        if (li.getValue0().isAsynchronous())
+//          lineStyle = LineStyle.DOT;
+//        ContainerShape containerShape = createPictogramForInternalPort(parent,
+//            x, y, width, height, getDiagram(), lineWidth, lineStyle);
+//        peCreateService.createChopboxAnchor(containerShape);
+//
+//        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
+//            parent, li.getValue0().getId(), width, height, x, y,
+//            InternalPortLabelPosition.RIGHT);
+//
+//        link(containerShape, new Object[] { li.getValue0(), portLabelShape });
+//        link(portLabelShape, new Object[] { li.getValue0(), containerShape });
+//
+//        portLabelShape.setVisible(li.getValue1().label());
+//      }
+//
+//      for (Pair<InternalOutputPort, OUT> lo : leftOuts) {
+//        int x = 0;
+//        int y = leftPosition - (height >> 1);
+//        leftPosition += stepLeftPorts;
+//
+//        int lineWidth = OUTPUT_PORT_WIDTH;
+//        LineStyle lineStyle = LineStyle.SOLID;
+//        ContainerShape containerShape = createPictogramForInternalPort(parent,
+//            x, y, width, height, getDiagram(), lineWidth, lineStyle);
+//        peCreateService.createChopboxAnchor(containerShape);
+//
+//        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
+//            parent, lo.getValue0().getId(), width, height, x, y,
+//            InternalPortLabelPosition.RIGHT);
+//
+//        link(containerShape, new Object[] { lo.getValue0(), portLabelShape });
+//        link(portLabelShape, new Object[] { lo.getValue0(), containerShape });
+//
+//        portLabelShape.setVisible(lo.getValue1().label());
+//      }
+//    }
+//
+//    int nbRight = rightIns.size() + rightOuts.size();
+//    if (nbRight > 0) {
+//      int stepRightPorts = parent.getGraphicsAlgorithm().getHeight() / nbRight;
+//      int rightPosition = stepRightPorts >> 1;
+//      for (Pair<InternalInputPort, IN> ri : rightIns) {
+//        int x = parent.getGraphicsAlgorithm().getWidth() - width;
+//        int y = rightPosition - (height >> 1);
+//        rightPosition += stepRightPorts;
+//
+//        int lineWidth = INPUT_PORT_WIDTH;
+//        LineStyle lineStyle = LineStyle.SOLID;
+//        if (ri.getValue0().isAsynchronous())
+//          lineStyle = LineStyle.DOT;
+//        ContainerShape containerShape = createPictogramForInternalPort(parent,
+//            x, y, width, height, getDiagram(), lineWidth, lineStyle);
+//        peCreateService.createChopboxAnchor(containerShape);
+//
+//        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
+//            parent, ri.getValue0().getId(), width, height, x, y,
+//            InternalPortLabelPosition.LEFT);
+//
+//        link(containerShape, new Object[] { ri.getValue0(), portLabelShape });
+//        link(portLabelShape, new Object[] { ri.getValue0(), containerShape });
+//
+//        portLabelShape.setVisible(ri.getValue1().label());
+//      }
+//
+//      for (Pair<InternalOutputPort, OUT> ro : rightOuts) {
+//        int x = parent.getGraphicsAlgorithm().getWidth() - width;
+//        int y = rightPosition - (width >> 1);
+//        rightPosition += stepRightPorts;
+//
+//        int lineWidth = OUTPUT_PORT_WIDTH;
+//        LineStyle lineStyle = LineStyle.SOLID;
+//        ContainerShape containerShape = createPictogramForInternalPort(parent,
+//            x, y, width, height, getDiagram(), lineWidth, lineStyle);
+//        peCreateService.createChopboxAnchor(containerShape);
+//
+//        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
+//            parent, ro.getValue0().getId(), width, height, x, y,
+//            InternalPortLabelPosition.LEFT);
+//
+//        link(containerShape, new Object[] { ro.getValue0(), portLabelShape });
+//        link(portLabelShape, new Object[] { ro.getValue0(), containerShape });
+//
+//        portLabelShape.setVisible(ro.getValue1().label());
+//      }
+//    }
+//
+//    int nbBottom = bottomIns.size() + bottomOuts.size();
+//    if (nbBottom > 0) {
+//      int stepBottomPorts = parent.getGraphicsAlgorithm().getWidth() / nbBottom;
+//      int bottomPosition = stepBottomPorts >> 1;
+//      for (Pair<InternalInputPort, IN> bi : bottomIns) {
+//        int x = bottomPosition - (width >> 1);
+//        int y = parent.getGraphicsAlgorithm().getHeight() - height;
+//        bottomPosition += stepBottomPorts;
+//
+//        int lineWidth = INPUT_PORT_WIDTH;
+//        LineStyle lineStyle = LineStyle.SOLID;
+//        if (bi.getValue0().isAsynchronous())
+//          lineStyle = LineStyle.DOT;
+//        ContainerShape containerShape = createPictogramForInternalPort(parent,
+//            x, y, width, height, getDiagram(), lineWidth, lineStyle);
+//        peCreateService.createChopboxAnchor(containerShape);
+//
+//        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
+//            parent, bi.getValue0().getId(), width, height, x, y,
+//            InternalPortLabelPosition.TOP);
+//
+//        link(containerShape, new Object[] { bi.getValue0(), portLabelShape });
+//        link(portLabelShape, new Object[] { bi.getValue0(), containerShape });
+//
+//        portLabelShape.setVisible(bi.getValue1().label());
+//      }
+//
+//      for (Pair<InternalOutputPort, OUT> bo : bottomOuts) {
+//        int x = bottomPosition - (width >> 1);
+//        int y = parent.getGraphicsAlgorithm().getHeight() - height;
+//        bottomPosition += stepBottomPorts;
+//
+//        int lineWidth = OUTPUT_PORT_WIDTH;
+//        LineStyle lineStyle = LineStyle.SOLID;
+//        ContainerShape containerShape = createPictogramForInternalPort(parent,
+//            x, y, width, height, getDiagram(), lineWidth, lineStyle);
+//        peCreateService.createChopboxAnchor(containerShape);
+//
+//        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
+//            parent, bo.getValue0().getId(), width, height, x, y,
+//            InternalPortLabelPosition.TOP);
+//
+//        link(containerShape, new Object[] { bo.getValue0(), portLabelShape });
+//        link(portLabelShape, new Object[] { bo.getValue0(), containerShape });
+//
+//        portLabelShape.setVisible(bo.getValue1().label());
+//      }
+//    }
   }
 
   public static ContainerShape createPictogramForInternalPort(

@@ -26,7 +26,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//MainTask/preventLosts"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//InternalPort">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//InternalPort/id"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EReference model.ecore#//InternalPort/dataType"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//InternalPort/parent"/>
     </genClasses>
@@ -98,6 +97,20 @@
       <genClasses image="false" ecoreClass="model.ecore#//debug/InternalPortDebug"/>
       <genClasses ecoreClass="model.ecore#//debug/InternalInputPortDebug"/>
       <genClasses ecoreClass="model.ecore#//debug/InternalOutputPortDebug"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Datatype" disposableProviderFactory="true" ecorePackage="model.ecore#//dt">
+      <genClasses ecoreClass="model.ecore#//dt/Control"/>
+      <genClasses ecoreClass="model.ecore#//dt/Bool"/>
+      <genClasses ecoreClass="model.ecore#//dt/Numeric"/>
+      <genClasses ecoreClass="model.ecore#//dt/Text"/>
+      <genClasses ecoreClass="model.ecore#//dt/Int32"/>
+      <genClasses ecoreClass="model.ecore#//dt/Int64"/>
+      <genClasses ecoreClass="model.ecore#//dt/Float64"/>
+      <genClasses ecoreClass="model.ecore#//dt/Float32"/>
+      <genClasses ecoreClass="model.ecore#//dt/Decimal"/>
+      <genClasses ecoreClass="model.ecore#//dt/Complex32"/>
+      <genClasses ecoreClass="model.ecore#//dt/Raw"/>
+      <genClasses ecoreClass="model.ecore#//dt/Complex64"/>
     </nestedGenPackages>
   </genPackages>
 </genmodel:GenModel>

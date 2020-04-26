@@ -2,17 +2,17 @@ package org.ruminaq.runner.impl.data;
 
 import java.util.Optional;
 
-import org.ruminaq.model.dt.Bool;
-import org.ruminaq.model.dt.Complex32;
-import org.ruminaq.model.dt.Complex64;
-import org.ruminaq.model.dt.Control;
-import org.ruminaq.model.dt.Decimal;
-import org.ruminaq.model.dt.Float32;
-import org.ruminaq.model.dt.Float64;
-import org.ruminaq.model.dt.Int32;
-import org.ruminaq.model.dt.Int64;
-import org.ruminaq.model.dt.Raw;
-import org.ruminaq.model.dt.Text;
+import org.ruminaq.model.ruminaq.dt.Bool;
+import org.ruminaq.model.ruminaq.dt.Complex32;
+import org.ruminaq.model.ruminaq.dt.Complex64;
+import org.ruminaq.model.ruminaq.dt.Control;
+import org.ruminaq.model.ruminaq.dt.Decimal;
+import org.ruminaq.model.ruminaq.dt.Float32;
+import org.ruminaq.model.ruminaq.dt.Float64;
+import org.ruminaq.model.ruminaq.dt.Int32;
+import org.ruminaq.model.ruminaq.dt.Int64;
+import org.ruminaq.model.ruminaq.dt.Raw;
+import org.ruminaq.model.ruminaq.dt.Text;
 import org.ruminaq.runner.service.RunnerServiceManager;
 
 public enum DataManager {
