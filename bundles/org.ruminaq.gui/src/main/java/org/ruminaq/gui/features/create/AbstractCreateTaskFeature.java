@@ -7,8 +7,6 @@
 package org.ruminaq.gui.features.create;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Objects;
 import java.util.Optional;
@@ -17,7 +15,10 @@ import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EFactory;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.ruminaq.logs.ModelerLoggerFactory;
@@ -26,7 +27,9 @@ import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.NGroup;
+import org.ruminaq.model.ruminaq.PortData;
 import org.ruminaq.model.ruminaq.PortInfo;
+import org.ruminaq.model.ruminaq.PortType;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
 import org.slf4j.Logger;
@@ -70,8 +73,11 @@ public abstract class AbstractCreateTaskFeature
   }
 
   private void addDefaultInputPorts(Task task, Supplier<Stream<Field>> fields) {
-    fields.get().map(f -> f.getAnnotation(PortInfo.class)).filter(Objects::nonNull)
-        .filter(Predicate.not(PortInfo::opt)).map(i -> new SimpleEntry<>(i, i.n()))
+    fields.get().map(f -> f.getAnnotation(PortInfo.class))
+        .filter(Objects::nonNull)
+        .filter(pi -> PortType.IN.equals(pi.portType()))
+        .filter(Predicate.not(PortInfo::opt))
+        .map(i -> new SimpleEntry<>(i, i.n()))
         .forEach((SimpleEntry<PortInfo, Integer> e) -> {
           IntStream.range(0, e.getValue()).forEach((int i) -> {
             InternalInputPort inputPort = RuminaqFactory.eINSTANCE
@@ -130,35 +136,45 @@ public abstract class AbstractCreateTaskFeature
 
   private void addDefaultOutputPorts(Task task,
       Supplier<Stream<Field>> fields) {
-    fields.get().map(f -> f.getAnnotation(PortInfo.class)).filter(Objects::nonNull)
-        .filter(Predicate.not(PortInfo::opt)).map(i -> new SimpleEntry<>(i, i.n()))
-        .forEach((SimpleEntry<PortInfo, Integer> e) -> IntStream
-            .range(0, e.getValue()).forEach((int i) -> {
-              InternalOutputPort outputPort = RuminaqFactory.eINSTANCE
-                  .createInternalOutputPort();
-              String id = e.getKey().id();
-              outputPort.setParent(task);
-              if (e.getKey().n() > 1) {
-                id += " " + i;
-              }
-              outputPort.setId(id);
-//              for (Class<? extends DataType> dt : e.getKey().type()) {
-//                try {
-//                  EFactory factory = (EFactory) e.getKey().factory()
-//                      .getDeclaredField("eINSTANCE").get(null);
-//                  Method createMethod = factory.getClass().getMethod(
-//                      "create" + dt.getSimpleName(), (Class<?>[]) null);
-//                  outputPort.getDataType().add(
-//                      (DataType) createMethod.invoke(factory, (Object[]) null));
-//                } catch (SecurityException | NoSuchMethodException
-//                    | IllegalAccessException | IllegalArgumentException
-//                    | InvocationTargetException | NoSuchFieldException ex) {
-//                  LOGGER.error("Can't create data type", ex);
-//                }
-//              }
-
-              task.getOutputPort().add(outputPort);
-            }));
+    fields.get().map(f -> new SimpleEntry<>(f, f.getAnnotation(PortInfo.class)))
+        .filter(se -> se.getValue() != null)
+        .filter(se -> PortType.OUT.equals(se.getValue().portType()))
+        .filter(se -> !se.getValue().opt())
+        .map(se -> new SimpleEntry<>(se, se.getValue().n())).forEach(
+            (SimpleEntry<SimpleEntry<Field, PortInfo>, Integer> e) -> IntStream
+                .range(0, e.getValue()).forEach((int i) -> {
+                  InternalOutputPort outputPort = RuminaqFactory.eINSTANCE
+                      .createInternalOutputPort();
+                  String id = e.getKey().getValue().id();
+                  outputPort.setParent(task);
+                  if (e.getKey().getValue().n() > 1) {
+                    id += " " + i;
+                  }
+                  outputPort.setId(id);
+                  Stream
+                      .of(e.getKey().getKey()
+                          .getAnnotationsByType(PortData.class))
+                      .map((PortData pd) -> {
+                        try {                    
+                          EClassifier classif = ((EPackage) pd.dataPackage()
+                              .getDeclaredField("eINSTANCE").get(null))
+                                  .getEClassifier(pd.type().getSimpleName());
+                          return ((EFactory) pd.dataFactory()
+                              .getDeclaredField("eINSTANCE").get(null))
+                                  .create((EClass) classif);
+                        } catch (IllegalArgumentException
+                            | IllegalAccessException | NoSuchFieldException
+                            | SecurityException e1) {
+                          LOGGER.error("Can't create datatype"
+                              + pd.type().getSimpleName(), e1);
+                          return null;
+                        }
+                      }).filter(Objects::nonNull)
+                      .filter(DataType.class::isInstance)
+                      .map(DataType.class::cast)
+                      .forEach(outputPort.getDataType()::add);
+                  task.getOutputPort().add(outputPort);
+                }));
   }
 
 }

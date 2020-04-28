@@ -11,8 +11,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
 import org.ruminaq.model.ruminaq.dt.Control;
+import org.ruminaq.model.ruminaq.dt.DatatypeFactory;
 import org.ruminaq.model.ruminaq.dt.DatatypePackage;
 
 /**
@@ -26,5 +28,7 @@ public @interface PortData {
   Class<? extends DataType> type() default Control.class;
 
   Class<? extends EPackage> dataPackage() default DatatypePackage.class;
+  
+  Class<? extends EFactory> dataFactory() default DatatypeFactory.class;
 
 }

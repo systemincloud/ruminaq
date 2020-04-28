@@ -6,13 +6,13 @@
 
 package org.ruminaq.tasks.constant;
 
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.desc.PortsDescr;
+import org.ruminaq.model.ruminaq.dt.DatatypeFactory;
 import org.ruminaq.tasks.constant.impl.Port;
 import org.ruminaq.tasks.constant.impl.strategy.Int32Strategy;
 import org.ruminaq.tasks.constant.model.constant.Constant;
@@ -44,8 +44,7 @@ public class CreateFeature extends AbstractCreateTaskFeature
   public Object[] create(ICreateContext context) {
     Constant constant = ConstantFactory.eINSTANCE.createConstant();
     Object[] ret = super.create(context, constant);
-//    constant.setDataType(
-//        EcoreUtil.copy(constant.getOutputPort().get(0).getDataType().get(0)));
+    constant.setDataType(DatatypeFactory.eINSTANCE.createInt32());
     constant.setValue(Int32Strategy.DEFAULT_VALUE);
 //      UpdateContext updateCtx = new UpdateContext(Graphiti.getLinkService()
 //          .getPictogramElements(getDiagram(), (Constant) os[0]).get(0));
