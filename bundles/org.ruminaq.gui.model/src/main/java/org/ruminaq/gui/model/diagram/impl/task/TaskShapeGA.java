@@ -42,6 +42,9 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
   private EList<GraphicsAlgorithm> children;
 
+  /**
+   * Optional icon in the center of TaskShape.
+   */
   private class Icon extends ImageImpl {
 
     private String iconId;
@@ -96,6 +99,9 @@ public class TaskShapeGA extends RoundedRectangleImpl {
     }
   }
 
+  /**
+   * If icon not present the name of task should be displayed.
+   */
   private class Name extends MultiTextImpl {
 
     @Override
@@ -145,6 +151,10 @@ public class TaskShapeGA extends RoundedRectangleImpl {
     }
   }
 
+  /**
+   * Additional text that can be placed below icon or name of task inside
+   * TaskShape.
+   */
   private class Description extends TextImpl {
 
     private String text;
