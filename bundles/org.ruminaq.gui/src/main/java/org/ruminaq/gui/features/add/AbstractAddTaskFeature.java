@@ -174,7 +174,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
       int stepTopPorts = taskShape.getWidth() / nbTop;
       int topPosition = stepTopPorts >> 1;
       for (SimpleEntry<InternalInputPort, PortInfo> se : ins.get()
-          .filter(se -> Position.TOP.equals(se.getValue().pos()))
+          .filter(se -> Position.TOP == se.getValue().pos())
           .collect(Collectors.toList())) {
         InternalInputPortShape iips = DiagramFactory.eINSTANCE
             .createInternalInputPortShape();
