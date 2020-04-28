@@ -99,6 +99,16 @@ public class CommonPaletteCompartmentEntry
             .collect(Collectors.toList());
   }
 
+  /**
+   * Choose create feature for given stack.
+   * 
+   * @param <K> chosen ICreateInfo
+   * @param isTest
+   * @param createFeatures all create features found
+   * @param stackName to which stack we look match
+   * @param type is it ICreateFeature or ICreateConnectionFeature
+   * @return list of ICreateInfo
+   */
   private static <K extends ICreateInfo> List<K> filterCreateInfos(
       boolean isTest, K[] createFeatures, String stackName, Class<K> type) {
     return Stream.of(createFeatures)
