@@ -44,7 +44,6 @@ public class CreateFeature extends AbstractCreateTaskFeature
   public Object[] create(ICreateContext context) {
     Constant constant = ConstantFactory.eINSTANCE.createConstant();
     Object[] ret = super.create(context, constant);
-    constant.setDataType(DatatypeFactory.eINSTANCE.createInt32());
     constant.setValue(Int32Strategy.DEFAULT_VALUE);
 //      UpdateContext updateCtx = new UpdateContext(Graphiti.getLinkService()
 //          .getPictogramElements(getDiagram(), (Constant) os[0]).get(0));

@@ -38,8 +38,8 @@ public class LabelShapeGA extends RectangleImpl {
    */
   public LabelShapeGA(LabelShape shape) {
     this.shape = shape;
-    this.text = new Text(Optional.of(this.shape.getLabeledShape())
-        .map(LabeledRuminaqShape::getModelObject).orElseThrow());
+    this.text = Optional.of(this.shape.getLabeledShape())
+        .map(LabeledRuminaqShape::getModelObject).map(Text::new).orElseThrow();
     this.children = ECollections.asEList(text);
   }
 

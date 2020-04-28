@@ -83,7 +83,6 @@ public abstract class AbstractCreateTaskFeature
             InternalInputPort inputPort = RuminaqFactory.eINSTANCE
                 .createInternalInputPort();
             String id = e.getKey().id();
-            inputPort.setParent(task);
             if (e.getKey().n() > 1) {
               id += " " + i;
             }
@@ -146,7 +145,6 @@ public abstract class AbstractCreateTaskFeature
                   InternalOutputPort outputPort = RuminaqFactory.eINSTANCE
                       .createInternalOutputPort();
                   String id = e.getKey().getValue().id();
-                  outputPort.setParent(task);
                   if (e.getKey().getValue().n() > 1) {
                     id += " " + i;
                   }

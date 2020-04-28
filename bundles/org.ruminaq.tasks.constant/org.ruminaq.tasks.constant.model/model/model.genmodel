@@ -9,7 +9,6 @@
   <genPackages prefix="Constant" basePackage="org.ruminaq.tasks.constant.model" resource="XML"
       disposableProviderFactory="true" ecorePackage="model.ecore#/">
     <genClasses ecoreClass="model.ecore#//Constant">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Constant/dataType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Constant/value"/>
     </genClasses>
   </genPackages>

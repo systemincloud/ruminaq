@@ -44,15 +44,15 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
   private class Icon extends ImageImpl {
 
-    private String id;
+    private String iconId;
 
     Icon(String id) {
-      this.id = id;
+      this.iconId = id;
     }
 
     @Override
     public String getId() {
-      return id;
+      return iconId;
     }
 
     @Override
@@ -117,7 +117,7 @@ public class TaskShapeGA extends RoundedRectangleImpl {
     public int getY() {
       return CORNER;
     }
-    
+
     @Override
     public Color getBackground() {
       return Colors.WHITE;
@@ -135,8 +135,8 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
     @Override
     public String getValue() {
-      return ModelUtil.getName(shape.getModelObject().getClass()).replace(" ",
-          "\n");
+      return ModelUtil.getName(shape.getModelObject().getClass()).replace(' ',
+          '\n');
     }
 
     @Override
@@ -215,7 +215,7 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
   @Override
   public int getCornerHeight() {
-    return CORNER;
+    return getCornerWidth();
   }
 
   @Override
