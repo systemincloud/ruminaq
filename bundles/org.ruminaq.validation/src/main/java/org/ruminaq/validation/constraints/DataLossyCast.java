@@ -75,8 +75,8 @@ public class DataLossyCast extends AbstractModelConstraint {
 
     return new StatusLocationDecorator(
         (ConstraintStatus) ctx.createFailureStatus(
-            new Object[] { src.getParent().getId() + ":" + src.getId(),
-                dst.getParent().getId() + ":" + dst.getId(), }),
-        dst.getParent().getId() + ":" + dst.getId());
+            new Object[] { src.getTask().getId() + ":" + src.getId(),
+                dst.getTask().getId() + ":" + dst.getId(), }),
+        dst.getTask().getId() + ":" + dst.getId());
   }
 }
