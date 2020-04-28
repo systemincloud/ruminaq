@@ -27,6 +27,11 @@ import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionUtil;
 
+/**
+ * SimpleConnectionPoint create feature.
+ * 
+ * @author Marek Jagielski
+ */
 public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
 
   public static final String NAME = "Create connection point";
