@@ -31,6 +31,7 @@ import org.ruminaq.model.ruminaq.PortInfo;
 import org.ruminaq.model.ruminaq.PortType;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
+import org.ruminaq.util.Result;
 import org.slf4j.Logger;
 
 /**
@@ -71,26 +72,27 @@ public abstract class AbstractCreateTaskFeature
     addDefaultOutputPorts(task, fields);
   }
 
-  private void addDefaultInputPorts(Task task, Supplier<Stream<Field>> fields) {
+  static private void addDefaultInputPorts(Task task, Supplier<Stream<Field>> fields) {
     fields.get().map(f -> new SimpleEntry<>(f, f.getAnnotation(PortInfo.class)))
         .filter(se -> se.getValue() != null)
-        .filter(se -> PortType.IN.equals(se.getValue().portType()))
+        .filter(se -> PortType.IN == se.getValue().portType())
         .filter(se -> !se.getValue().opt())
         .map(se -> new SimpleEntry<>(se, se.getValue().n())).forEach(
             (SimpleEntry<SimpleEntry<Field, PortInfo>, Integer> e) -> IntStream
                 .range(0, e.getValue()).forEach((int i) -> {
                   InternalInputPort inputPort = RuminaqFactory.eINSTANCE
                       .createInternalInputPort();
-                  String id = e.getKey().getValue().id();
-                  if (e.getKey().getValue().n() > 1) {
+                  PortInfo pi = e.getKey().getValue();
+                  String id = pi.id();
+                  if (pi.n() > 1) {
                     id += " " + i;
                   }
                   inputPort.setId(id);
                   inputPort
-                      .setAsynchronous(e.getKey().getValue().asynchronous());
-                  int group = e.getKey().getValue().group();
-                  if (e.getKey().getValue().n() > 1) {
-                    if (e.getKey().getValue().ngroup().equals(NGroup.SAME)) {
+                      .setAsynchronous(pi.asynchronous());
+                  int group = pi.group();
+                  if (pi.n() > 1) {
+                    if (pi.ngroup().equals(NGroup.SAME)) {
                       inputPort.setGroup(group);
                     } else {
                       if (group == -1) {
@@ -111,77 +113,49 @@ public abstract class AbstractCreateTaskFeature
                     inputPort.setGroup(group);
                   }
 
-                  inputPort.setDefaultHoldLast(e.getKey().getValue().hold());
-                  inputPort.setHoldLast(e.getKey().getValue().hold());
-                  inputPort.setDefaultQueueSize(e.getKey().getValue().queue());
-                  inputPort.setQueueSize(e.getKey().getValue().queue());
-
-                  Stream
-                      .of(e.getKey().getKey()
-                          .getAnnotationsByType(PortData.class))
-                      .map((PortData pd) -> {
-                        try {
-                          EClassifier classif = ((EPackage) pd.dataPackage()
-                              .getDeclaredField("eINSTANCE").get(null))
-                                  .getEClassifier(pd.type().getSimpleName());
-                          return ((EFactory) pd.dataFactory()
-                              .getDeclaredField("eINSTANCE").get(null))
-                                  .create((EClass) classif);
-                        } catch (IllegalArgumentException
-                            | IllegalAccessException | NoSuchFieldException
-                            | SecurityException e1) {
-                          LOGGER.error("Can't create datatype"
-                              + pd.type().getSimpleName(), e1);
-                          return null;
-                        }
-                      }).filter(Objects::nonNull)
-                      .filter(DataType.class::isInstance)
-                      .map(DataType.class::cast)
+                  inputPort.setDefaultHoldLast(pi.hold());
+                  inputPort.setHoldLast(pi.hold());
+                  inputPort.setDefaultQueueSize(pi.queue());
+                  inputPort.setQueueSize(pi.queue());
+                  getDataTypes(e.getKey().getKey())
                       .forEach(inputPort.getDataType()::add);
                   task.getInputPort().add(inputPort);
                 }));
   }
 
-  private void addDefaultOutputPorts(Task task,
+  static private void addDefaultOutputPorts(Task task,
       Supplier<Stream<Field>> fields) {
     fields.get().map(f -> new SimpleEntry<>(f, f.getAnnotation(PortInfo.class)))
         .filter(se -> se.getValue() != null)
-        .filter(se -> PortType.OUT.equals(se.getValue().portType()))
+        .filter(se -> PortType.OUT == se.getValue().portType())
         .filter(se -> !se.getValue().opt())
         .map(se -> new SimpleEntry<>(se, se.getValue().n())).forEach(
             (SimpleEntry<SimpleEntry<Field, PortInfo>, Integer> e) -> IntStream
                 .range(0, e.getValue()).forEach((int i) -> {
                   InternalOutputPort outputPort = RuminaqFactory.eINSTANCE
                       .createInternalOutputPort();
-                  String id = e.getKey().getValue().id();
-                  if (e.getKey().getValue().n() > 1) {
+                  PortInfo pi = e.getKey().getValue();
+                  String id = pi.id();
+                  if (pi.n() > 1) {
                     id += " " + i;
                   }
                   outputPort.setId(id);
-                  Stream
-                      .of(e.getKey().getKey()
-                          .getAnnotationsByType(PortData.class))
-                      .map((PortData pd) -> {
-                        try {
-                          EClassifier classif = ((EPackage) pd.dataPackage()
-                              .getDeclaredField("eINSTANCE").get(null))
-                                  .getEClassifier(pd.type().getSimpleName());
-                          return ((EFactory) pd.dataFactory()
-                              .getDeclaredField("eINSTANCE").get(null))
-                                  .create((EClass) classif);
-                        } catch (IllegalArgumentException
-                            | IllegalAccessException | NoSuchFieldException
-                            | SecurityException e1) {
-                          LOGGER.error("Can't create datatype"
-                              + pd.type().getSimpleName(), e1);
-                          return null;
-                        }
-                      }).filter(Objects::nonNull)
-                      .filter(DataType.class::isInstance)
-                      .map(DataType.class::cast)
+                  getDataTypes(e.getKey().getKey())
                       .forEach(outputPort.getDataType()::add);
                   task.getOutputPort().add(outputPort);
                 }));
+  }
+
+  static private Stream<DataType> getDataTypes(Field field) {
+    return Stream.of(field.getAnnotationsByType(PortData.class))
+        .map((PortData pd) -> Result.attempt(() -> {
+          EClassifier classif = ((EPackage) pd.dataPackage()
+              .getDeclaredField("eINSTANCE").get(null))
+                  .getEClassifier(pd.type().getSimpleName());
+          return ((EFactory) pd.dataFactory().getDeclaredField("eINSTANCE")
+              .get(null)).create((EClass) classif);
+        })).map(r -> r.orElse(null)).filter(Objects::nonNull)
+        .filter(DataType.class::isInstance).map(DataType.class::cast);
   }
 
 }
