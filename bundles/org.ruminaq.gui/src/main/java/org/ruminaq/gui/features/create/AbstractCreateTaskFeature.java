@@ -10,7 +10,6 @@ import java.lang.reflect.Field;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
