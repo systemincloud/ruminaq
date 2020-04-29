@@ -222,7 +222,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     InternalInputPort in = (InternalInputPort) RuminaqFactory.eINSTANCE
         .createInternalInputPort();
     in.setId(name);
-    in.setParent(task);
     for (Class<? extends DataType> cdt : datatypes) {
       DataType dt = DataTypeManager.INSTANCE
           .getDataTypeFromName(ModelUtil.getName(cdt));
@@ -286,7 +285,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     InternalOutputPort out = (InternalOutputPort) RuminaqFactory.eINSTANCE
         .createInternalOutputPort();
     out.setId(name);
-    out.setParent(task);
     for (Class<? extends DataType> cdt : datatypes) {
       DataType dt = DataTypeManager.INSTANCE
           .getDataTypeFromName(ModelUtil.getName(cdt));
