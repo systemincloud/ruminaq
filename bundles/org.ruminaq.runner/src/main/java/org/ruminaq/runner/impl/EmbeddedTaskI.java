@@ -335,7 +335,7 @@ public class EmbeddedTaskI extends TaskI {
           InternalPort p1 = s.getSyncPort();
           logger.trace("... port is {}", p1 == null ? "NONE" : p1.getId());
           if (p1 != null) {
-            String taskId = p1.getParent().getId();
+            String taskId = p1.getTask().getId();
             logger.trace("... its Task is {}", taskId);
             if (p1 instanceof InternalInputPort) {
               InternalInputPortI ip = getTask(taskId).getInputPort(p1.getId());
@@ -353,7 +353,7 @@ public class EmbeddedTaskI extends TaskI {
         InternalPort p2 = o.getResetSyncPort();
         logger.trace("... rst port is {}", p2 == null ? "NONE" : p2.getId());
         if (p2 != null) {
-          String taskId = p2.getParent().getId();
+          String taskId = p2.getTask().getId();
           logger.trace("... its Task is {}", taskId);
           if (p2 instanceof InternalInputPort) {
             InternalInputPortI ip = getTask(taskId).getInputPort(p2.getId());
