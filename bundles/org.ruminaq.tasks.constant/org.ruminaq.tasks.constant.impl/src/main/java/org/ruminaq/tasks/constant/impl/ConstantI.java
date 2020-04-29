@@ -41,7 +41,7 @@ public class ConstantI extends BasicTaskI {
     super(parent, task);
     setConstant(true);
     this.model = (Constant) task;
-    DataType dataType = model.getDataType();
+    DataType dataType = model.getOutputPort().get(0).getDataType().get(0);
 
     Optional<AbstractConstantStrategy> str = getStrategy(dataType,
         parent.replaceVariables(model.getValue()));
