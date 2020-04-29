@@ -44,7 +44,7 @@ public class InternalPortDisableBreakpointFeature
           if (resource.equals(breakpoint.getMarker().getResource())) {
             if (breakpoint.getMarker()
                 .getAttribute(InternalPortBreakpoint.TASK_ID)
-                .equals(ip.getParent().getId())
+                .equals(ip.getTask().getId())
                 && breakpoint.getMarker()
                     .getAttribute(InternalPortBreakpoint.PORT_ID)
                     .equals(ip.getId())) {
@@ -88,7 +88,7 @@ public class InternalPortDisableBreakpointFeature
           IBreakpoint breakpoint = breakpoints[i];
           if (resource.equals(breakpoint.getMarker().getResource())) {
             if (breakpoint.getMarker().getAttribute(Task.class.getSimpleName())
-                .equals(ip.getParent().getId())
+                .equals(ip.getTask().getId())
                 && breakpoint.getMarker()
                     .getAttribute(InternalPort.class.getSimpleName())
                     .equals(ip.getId())) {

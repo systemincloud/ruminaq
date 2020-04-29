@@ -159,7 +159,7 @@ public class PropertySynchronizationSection extends GFPropertySection
             return op.getId();
           case 10:
             return op.getResetPort() == null ? NONE
-                : op.getResetPort().getParent().getId();
+                : op.getResetPort().getTask().getId();
           case 11:
             return op.getResetPort() == null ? NONE
                 : op.getResetPort() instanceof InternalOutputPort
@@ -175,7 +175,7 @@ public class PropertySynchronizationSection extends GFPropertySection
             return s.getGroup() == 0 ? NONE : "" + s.getGroup();
           case 2:
             return s.getWaitForPort() == null ? NONE
-                : s.getWaitForPort().getParent().getId();
+                : s.getWaitForPort().getTask().getId();
           case 3:
             return s.getWaitForPort() == null ? NONE
                 : s.getWaitForPort() instanceof InternalOutputPort
@@ -305,7 +305,7 @@ public class PropertySynchronizationSection extends GFPropertySection
       if (o instanceof Synchronization) {
         Synchronization s = (Synchronization) o;
         return s.getWaitForPort() != null
-            ? s.getWaitForPort().getParent().getId()
+            ? s.getWaitForPort().getTask().getId()
             : NONE;
       }
       return null;
@@ -356,7 +356,7 @@ public class PropertySynchronizationSection extends GFPropertySection
         cellEditor.setLabelProvider(new LabelProvider());
         cellEditor.setContentProvider(new ArrayContentProvider());
         if (s.getWaitForPort() != null) {
-          Task t = s.getWaitForPort().getParent();
+          Task t = s.getWaitForPort().getTask();
           int size = t.getInputPort().size() + t.getOutputPort().size();
           if (size > 0) {
             String[] inputs = new String[size];
@@ -406,13 +406,13 @@ public class PropertySynchronizationSection extends GFPropertySection
             String newValue = (String) value;
 
             if (newValue.startsWith(IN)) {
-              for (InternalInputPort ip : s.getWaitForPort().getParent()
+              for (InternalInputPort ip : s.getWaitForPort().getTask()
                   .getInputPort())
                 if (ip.getId().equals(newValue.substring(IN.length())))
                   s.setWaitForPort(ip);
 
             } else if (newValue.startsWith(OUT)) {
-              for (InternalOutputPort op : s.getWaitForPort().getParent()
+              for (InternalOutputPort op : s.getWaitForPort().getTask()
                   .getOutputPort())
                 if (op.getId().equals(newValue.substring(OUT.length())))
                   s.setWaitForPort(op);
@@ -467,7 +467,7 @@ public class PropertySynchronizationSection extends GFPropertySection
     protected Object getValue(Object o) {
       if (o instanceof InternalOutputPort) {
         InternalOutputPort el = (InternalOutputPort) o;
-        return el.getResetPort() != null ? el.getResetPort().getParent().getId()
+        return el.getResetPort() != null ? el.getResetPort().getTask().getId()
             : NONE;
       }
       return null;
@@ -518,7 +518,7 @@ public class PropertySynchronizationSection extends GFPropertySection
         cellEditor.setLabelProvider(new LabelProvider());
         cellEditor.setContentProvider(new ArrayContentProvider());
         if (el.getResetPort() != null) {
-          Task t = el.getResetPort().getParent();
+          Task t = el.getResetPort().getTask();
           int size = t.getInputPort().size() + t.getOutputPort().size();
           if (size > 0) {
             String[] inputs = new String[size];
@@ -568,13 +568,13 @@ public class PropertySynchronizationSection extends GFPropertySection
             String newValue = (String) value;
 
             if (newValue.startsWith(IN))
-              for (InternalInputPort ip : el.getResetPort().getParent()
+              for (InternalInputPort ip : el.getResetPort().getTask()
                   .getInputPort())
                 if (ip.getId().equals(newValue.substring(IN.length())))
                   el.setResetPort(ip);
 
                 else if (newValue.startsWith(OUT))
-                  for (InternalOutputPort op : el.getResetPort().getParent()
+                  for (InternalOutputPort op : el.getResetPort().getTask()
                       .getOutputPort())
                     if (op.getId().equals(newValue.substring(OUT.length())))
                       el.setResetPort(op);

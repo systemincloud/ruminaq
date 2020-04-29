@@ -61,7 +61,7 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
           if (resource.equals(breakpoint.getMarker().getResource())) {
             if (breakpoint.getMarker()
                 .getAttribute(InternalPortBreakpoint.TASK_ID)
-                .equals(ip.getParent().getId())
+                .equals(ip.getTask().getId())
                 && breakpoint.getMarker()
                     .getAttribute(InternalPortBreakpoint.PORT_ID)
                     .equals(ip.getId())) {
@@ -71,7 +71,7 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
           }
         }
         InternalPortBreakpoint internalPortBreakpoint = new InternalPortBreakpoint(
-            resource, path, ip.getParent().getId(), ip.getId());
+            resource, path, ip.getTask().getId(), ip.getId());
         DebugPlugin.getDefault().getBreakpointManager()
             .addBreakpoint(internalPortBreakpoint);
       }

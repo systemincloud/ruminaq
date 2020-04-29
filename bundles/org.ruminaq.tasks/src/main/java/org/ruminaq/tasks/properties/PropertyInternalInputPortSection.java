@@ -346,8 +346,8 @@ public class PropertyInternalInputPortSection extends GFPropertySection
       btnHoldLast.setSelection(ip.isHoldLast());
 
       boolean quequeVisible = !((ip.isAsynchronous()
-          || !ip.getParent().isAtomic())
-          && ip.getParent() instanceof EmbeddedTask);
+          || !ip.getTask().isAtomic())
+          && ip.getTask() instanceof EmbeddedTask);
       lblQueueSize.setVisible(quequeVisible);
       cmpQueueSize.setVisible(quequeVisible);
       if (quequeVisible)
@@ -355,7 +355,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
             .setEnabled(!ip.getDefaultQueueSize().equals(ip.getQueueSize()));
 
       boolean holdVisible = !(ip.isAsynchronous()
-          || !ip.getParent().isAtomic());
+          || !ip.getTask().isAtomic());
       lblHoldLast.setVisible(holdVisible);
       cmpHoldLast.setVisible(holdVisible);
       if (holdVisible)
