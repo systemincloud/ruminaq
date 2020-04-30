@@ -192,7 +192,8 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
                 .getBusinessObjectForLinkedPictogramElement(pe);
             if (bo instanceof Constant) {
               Constant constant = (Constant) bo;
-              constant.setDataType(dt);
+              constant.getOutputPort().get(0).getDataType().clear();
+              constant.getOutputPort().get(0).getDataType().add(dt);
               while (constant.getOutputPort().get(0).getDataType().size() > 0) {
                 constant.getOutputPort().get(0).getDataType().remove(0);
               }
@@ -239,7 +240,7 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
       int i = 0;
       for (String dt : cmbType.getItems()) {
         if (dt.equals(
-            ModelUtil.getName(constant.getDataType().getClass(), false))) {
+            ModelUtil.getName(constant.getOutputPort().get(0).getDataType().get(0).getClass(), false))) {
           break;
         }
         i++;
@@ -248,7 +249,7 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
 
       String value = constant.getValue();
       PropertyValueComposite vc = valueComposites
-          .get(ModelUtil.getName(constant.getDataType().getClass(), false));
+          .get(ModelUtil.getName(constant.getOutputPort().get(0).getDataType().get(0).getClass(), false));
       if (vc != null) {
         vc.refresh(value);
         valueStack.topControl = vc.getComposite();
