@@ -460,16 +460,14 @@
         <configuration>
           <linkXRef>false</linkXRef>
           <targetJdk>${java.version}</targetJdk>
+          <failOnViolation>false</failOnViolation>
+          <excludeFromFailureFile>${basedir}/exclude-pmd.properties</excludeFromFailureFile>
         </configuration>
         <executions>
           <execution>
             <goals>
               <goal>check</goal>
             </goals>
-            <configuration>
-              <failOnViolation>false</failOnViolation>
-              <excludeFromFailureFile>${basedir}/exclude-pmd.properties</excludeFromFailureFile>
-            </configuration>
           </execution>
         </executions>
       </plugin>

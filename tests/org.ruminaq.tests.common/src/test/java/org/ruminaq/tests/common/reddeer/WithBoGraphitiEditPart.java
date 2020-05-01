@@ -1,8 +1,6 @@
 package org.ruminaq.tests.common.reddeer;
 
-import org.eclipse.reddeer.graphiti.impl.graphitieditpart.AbstractGraphitiEditPart;
-
-public class WithBoGraphitiEditPart extends AbstractGraphitiEditPart {
+public class WithBoGraphitiEditPart extends AbstractExtendedGraphitiEditPart {
 
   /**
    * Finds a graphiti edit part with bo of given class.

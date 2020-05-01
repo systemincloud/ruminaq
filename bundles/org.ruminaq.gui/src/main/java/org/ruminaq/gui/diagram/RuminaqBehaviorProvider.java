@@ -90,6 +90,9 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
         .flatMap(Collection::stream).toArray(IPaletteCompartmentEntry[]::new);
   }
 
+  /**
+   * Handle context pad: generic, domain; and pad location.
+   */
   @Override
   public IContextButtonPadData getContextButtonPad(
       IPictogramElementContext context) {
