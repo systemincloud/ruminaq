@@ -84,9 +84,8 @@ public abstract class AbstractCreateTaskFeature
                   InternalInputPort inputPort = RuminaqFactory.eINSTANCE
                       .createInternalInputPort();
                   PortInfo pi = e.getKey().getValue();
-                  String id = Optional.of(pi).filter(p -> p.n() > 1)
-                      .map(p -> p.id() + i).orElse(pi.id());
-                  inputPort.setId(id);
+                  inputPort.setId(Optional.of(pi).filter(p -> p.n() > 1)
+                      .map(p -> p.id() + i).orElse(pi.id()));
                   inputPort.setAsynchronous(pi.asynchronous());
                   int group = pi.group();
                   if (pi.n() > 1) {
@@ -133,9 +132,8 @@ public abstract class AbstractCreateTaskFeature
                   InternalOutputPort outputPort = RuminaqFactory.eINSTANCE
                       .createInternalOutputPort();
                   PortInfo pi = e.getKey().getValue();
-                  String id = Optional.of(pi).filter(p -> p.n() > 1)
-                      .map(p -> p.id() + i).orElse(pi.id());
-                  outputPort.setId(id);
+                  outputPort.setId(Optional.of(pi).filter(p -> p.n() > 1)
+                      .map(p -> p.id() + i).orElse(pi.id()));
                   getDataTypes(e.getKey().getKey())
                       .forEach(outputPort.getDataType()::add);
                   task.getOutputPort().add(outputPort);
