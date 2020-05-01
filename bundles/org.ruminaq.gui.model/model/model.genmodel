@@ -67,8 +67,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//TaskShape/description"/>
       <genOperations ecoreOperation="model.ecore#//TaskShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
-      <genOperations ecoreOperation="model.ecore#//PortShape/getGraphicsAlgorithm"
-          body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//SimpleConnectionShape">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//SimpleConnectionShape/source"/>
@@ -110,7 +108,13 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//FlowTargetShape/incomingConnections"/>
     </genClasses>
     <genClasses image="false" ecoreClass="model.ecore#//InternalPortShape"/>
-    <genClasses ecoreClass="model.ecore#//InternalInputPortShape"/>
-    <genClasses ecoreClass="model.ecore#//InternalOutputPortShape"/>
+    <genClasses ecoreClass="model.ecore#//InternalInputPortShape">
+      <genOperations ecoreOperation="model.ecore#//InternalInputPortShape/getGraphicsAlgorithm"
+          body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+    </genClasses>
+    <genClasses ecoreClass="model.ecore#//InternalOutputPortShape">
+      <genOperations ecoreOperation="model.ecore#//InternalOutputPortShape/getGraphicsAlgorithm"
+          body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

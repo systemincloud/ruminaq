@@ -6,8 +6,11 @@
 
 package org.ruminaq.gui.model.diagram.impl.task;
 
+import org.eclipse.emf.common.util.ECollections;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.graphiti.mm.algorithms.impl.RoundedRectangleImpl;
+import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
+import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
 
 /**
@@ -15,7 +18,23 @@ import org.ruminaq.gui.model.diagram.impl.NoResource;
  *
  * @author Marek Jagielski
  */
-public class InternalPortShapeGA extends RoundedRectangleImpl {
+public class InternalOutputPortShapeGA extends InternalPortShapeGA {
+
+  private InternalOutputPortShape shape;
+
+  /**
+   * GraphicsAlgorithm for InternalOutputPort.
+   * 
+   * @param shape parent InternalOutputPortShape
+   */
+  public InternalOutputPortShapeGA(InternalOutputPortShape shape) {
+    this.shape = shape;
+  }
+
+  @Override
+  public EList<GraphicsAlgorithm> getGraphicsAlgorithmChildren() {
+    return ECollections.emptyEList();
+  }
 
   @Override
   public Resource eResource() {

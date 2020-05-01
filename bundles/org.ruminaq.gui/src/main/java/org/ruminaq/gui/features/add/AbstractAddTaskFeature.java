@@ -36,6 +36,7 @@ import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.gui.features.move.MoveInternalPortFeature;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.InternalInputPortShape;
+import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 import org.ruminaq.model.desc.PortsDescr;
@@ -134,15 +135,13 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 
     Supplier<Stream<SimpleEntry<InternalInputPort, PortInfo>>> ins = () -> inputPorts
         .get()
-        .map(iip -> new SimpleEntry<>(iip,
-            inDescrpts.get()
-                .filter(in -> in.n() == 1 && iip.getId().equals(in.id()))
-                .findAny()
-                .or(() -> inDescrpts.get()
-                    .filter(in -> in.n() > 1
-                        && TasksUtil.isMultiplePortId(iip.getId(), in.id()))
-                    .findAny())
-                .orElse(null)))
+        .map(iip -> new SimpleEntry<>(iip, inDescrpts.get()
+            .filter(in -> in.n() == 1 && iip.getId().equals(in.id())).findAny()
+            .or(() -> inDescrpts.get()
+                .filter(in -> in.n() > 1
+                    && TasksUtil.isMultiplePortId(iip.getId(), in.id()))
+                .findAny())
+            .orElse(null)))
         .filter(se -> se.getValue() != null);
 
     Supplier<Stream<InternalOutputPort>> outputPorts = () -> Optional.of(task)
@@ -169,16 +168,16 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
         .filter(Position.TOP::equals).count()
         + outs.get().map(SimpleEntry::getValue).map(PortInfo::pos)
             .filter(Position.TOP::equals).count());
-    
+
     if (nbTop > 0) {
-      int stepTopPorts = taskShape.getWidth() / nbTop;
-      int topPosition = stepTopPorts >> 1;
+      int stepPorts = taskShape.getWidth() / nbTop;
+      int position = stepPorts >> 1;
       for (SimpleEntry<InternalInputPort, PortInfo> se : ins.get()
           .filter(se -> Position.TOP == se.getValue().pos())
           .collect(Collectors.toList())) {
         InternalInputPortShape iips = DiagramFactory.eINSTANCE
             .createInternalInputPortShape();
-        int x = topPosition - (iips.getWidth() >> 1);
+        int x = position - (iips.getWidth() >> 1);
         int y = 0;
         iips.setContainer(taskShape);
         iips.setModelObject(se.getKey());
@@ -186,7 +185,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
         iips.setY(y);
         addLabel(iips);
 
-        topPosition += stepTopPorts;
+        position += stepPorts;
 
 //        int lineWidth = INPUT_PORT_WIDTH;
 //        LineStyle lineStyle = LineStyle.SOLID;
@@ -276,15 +275,30 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //        portLabelShape.setVisible(lo.getValue1().label());
 //      }
 //    }
-//
-//    int nbRight = rightIns.size() + rightOuts.size();
-//    if (nbRight > 0) {
-//      int stepRightPorts = parent.getGraphicsAlgorithm().getHeight() / nbRight;
-//      int rightPosition = stepRightPorts >> 1;
-//      for (Pair<InternalInputPort, IN> ri : rightIns) {
-//        int x = parent.getGraphicsAlgorithm().getWidth() - width;
-//        int y = rightPosition - (height >> 1);
-//        rightPosition += stepRightPorts;
+
+    int nbRight = (int) (ins.get().map(SimpleEntry::getValue).map(PortInfo::pos)
+        .filter(Position.RIGHT::equals).count()
+        + outs.get().map(SimpleEntry::getValue).map(PortInfo::pos)
+            .filter(Position.RIGHT::equals).count());
+
+    if (nbRight > 0) {
+      int stepPorts = taskShape.getHeight() / nbRight;
+      int position = stepPorts >> 1;
+      for (SimpleEntry<InternalInputPort, PortInfo> se : ins.get()
+          .filter(se -> Position.RIGHT == se.getValue().pos())
+          .collect(Collectors.toList())) {
+        InternalInputPortShape ips = DiagramFactory.eINSTANCE
+            .createInternalInputPortShape();
+        int x = taskShape.getWidth() - ips.getWidth();
+        int y = position - (ips.getHeight() >> 1);
+        ips.setContainer(taskShape);
+        ips.setModelObject(se.getKey());
+        ips.setX(x);
+        ips.setY(y);
+        addLabel(ips);
+
+        position += stepPorts;
+        
 //
 //        int lineWidth = INPUT_PORT_WIDTH;
 //        LineStyle lineStyle = LineStyle.SOLID;
@@ -298,16 +312,23 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //            parent, ri.getValue0().getId(), width, height, x, y,
 //            InternalPortLabelPosition.LEFT);
 //
-//        link(containerShape, new Object[] { ri.getValue0(), portLabelShape });
-//        link(portLabelShape, new Object[] { ri.getValue0(), containerShape });
-//
 //        portLabelShape.setVisible(ri.getValue1().label());
-//      }
-//
-//      for (Pair<InternalOutputPort, OUT> ro : rightOuts) {
-//        int x = parent.getGraphicsAlgorithm().getWidth() - width;
-//        int y = rightPosition - (width >> 1);
-//        rightPosition += stepRightPorts;
+      }
+
+      for (SimpleEntry<InternalOutputPort, PortInfo> se : outs.get()
+          .filter(se -> Position.RIGHT == se.getValue().pos())
+          .collect(Collectors.toList())) {
+        InternalOutputPortShape ips = DiagramFactory.eINSTANCE
+            .createInternalOutputPortShape();
+        int x = taskShape.getWidth() - ips.getWidth();
+        int y = position - (ips.getHeight() >> 1);
+        ips.setContainer(taskShape);
+        ips.setModelObject(se.getKey());
+        ips.setX(x);
+        ips.setY(y);
+        addLabel(ips);
+        
+        position += stepPorts;
 //
 //        int lineWidth = OUTPUT_PORT_WIDTH;
 //        LineStyle lineStyle = LineStyle.SOLID;
@@ -319,12 +340,9 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //            parent, ro.getValue0().getId(), width, height, x, y,
 //            InternalPortLabelPosition.LEFT);
 //
-//        link(containerShape, new Object[] { ro.getValue0(), portLabelShape });
-//        link(portLabelShape, new Object[] { ro.getValue0(), containerShape });
-//
 //        portLabelShape.setVisible(ro.getValue1().label());
-//      }
-//    }
+      }
+    }
 //
 //    int nbBottom = bottomIns.size() + bottomOuts.size();
 //    if (nbBottom > 0) {
