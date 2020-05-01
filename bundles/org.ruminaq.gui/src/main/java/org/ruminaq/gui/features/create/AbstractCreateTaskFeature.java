@@ -87,15 +87,11 @@ public abstract class AbstractCreateTaskFeature
                   inputPort.setId(Optional.of(pi).filter(p -> p.n() > 1)
                       .map(p -> p.id() + i).orElse(pi.id()));
                   inputPort.setAsynchronous(pi.asynchronous());
-                  int group = pi.group();
-                  if (pi.n() > 1) {
-                    if (pi.ngroup() == NGroup.SAME) {
-                      inputPort.setGroup(group);
-                    } else {
-                      if (group == -1) {
-                        inputPort.setGroup(group);
-                      } else {
-                        Integer j = group;
+                  inputPort.setGroup(Optional
+                      .of(pi).filter(p -> p.n() > 1
+                          && pi.ngroup() != NGroup.SAME && p.group() != -1)
+                      .map(p -> {
+                        Integer j = p.group();
                         boolean free = true;
                         do {
                           free = task.getInputPort().stream()
@@ -103,13 +99,8 @@ public abstract class AbstractCreateTaskFeature
                               .noneMatch(j::equals);
                           j++;
                         } while (!free);
-                        inputPort.setGroup(j - 1);
-                      }
-                    }
-                  } else {
-                    inputPort.setGroup(group);
-                  }
-
+                        return j - 1;
+                      }).orElse(pi.group()));
                   inputPort.setDefaultHoldLast(pi.hold());
                   inputPort.setHoldLast(pi.hold());
                   inputPort.setDefaultQueueSize(pi.queue());
