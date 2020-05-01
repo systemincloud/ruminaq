@@ -90,7 +90,7 @@ public abstract class AbstractCreateTaskFeature
                   inputPort.setGroup(Optional
                       .of(pi).filter(p -> p.n() > 1
                           && pi.ngroup() != NGroup.SAME && p.group() != -1)
-                      .map(p -> {
+                      .map((PortInfo p) -> {
                         Integer j = p.group();
                         boolean free = true;
                         do {
