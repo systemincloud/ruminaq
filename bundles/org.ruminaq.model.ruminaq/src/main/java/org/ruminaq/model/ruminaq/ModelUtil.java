@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.model.ruminaq;
 
 import java.util.List;
@@ -7,6 +13,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 public class ModelUtil {
 
   public static void runModelChange(final Runnable runnable,
@@ -26,8 +36,9 @@ public class ModelUtil {
 
   public static String getName(Class<? extends EObject> clazz, boolean spaces) {
     String name = clazz.getSimpleName();
-    if (name.endsWith("Impl"))
+    if (name.endsWith("Impl")) {
       name = name.substring(0, name.length() - 4);
+    }
     if (spaces) {
       String[] names = name.split("(?=\\p{Lu})");
       if ("".equals(names[0])) {

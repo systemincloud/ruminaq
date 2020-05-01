@@ -72,7 +72,7 @@ public abstract class AbstractCreateTaskFeature
     addDefaultOutputPorts(task, fields);
   }
 
-  static private void addDefaultInputPorts(Task task, Supplier<Stream<Field>> fields) {
+  private static void addDefaultInputPorts(Task task, Supplier<Stream<Field>> fields) {
     fields.get().map(f -> new SimpleEntry<>(f, f.getAnnotation(PortInfo.class)))
         .filter(se -> se.getValue() != null)
         .filter(se -> PortType.IN == se.getValue().portType())
@@ -92,7 +92,7 @@ public abstract class AbstractCreateTaskFeature
                       .setAsynchronous(pi.asynchronous());
                   int group = pi.group();
                   if (pi.n() > 1) {
-                    if (pi.ngroup().equals(NGroup.SAME)) {
+                    if (pi.ngroup() == NGroup.SAME) {
                       inputPort.setGroup(group);
                     } else {
                       if (group == -1) {
@@ -123,7 +123,7 @@ public abstract class AbstractCreateTaskFeature
                 }));
   }
 
-  static private void addDefaultOutputPorts(Task task,
+  private static void addDefaultOutputPorts(Task task,
       Supplier<Stream<Field>> fields) {
     fields.get().map(f -> new SimpleEntry<>(f, f.getAnnotation(PortInfo.class)))
         .filter(se -> se.getValue() != null)
@@ -146,7 +146,7 @@ public abstract class AbstractCreateTaskFeature
                 }));
   }
 
-  static private Stream<DataType> getDataTypes(Field field) {
+  private static Stream<DataType> getDataTypes(Field field) {
     return Stream.of(field.getAnnotationsByType(PortData.class))
         .map((PortData pd) -> Result.attempt(() -> {
           EClassifier classif = ((EPackage) pd.dataPackage()
