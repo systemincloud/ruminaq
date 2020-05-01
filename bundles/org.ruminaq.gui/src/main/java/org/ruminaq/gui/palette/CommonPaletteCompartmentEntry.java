@@ -44,8 +44,7 @@ public class CommonPaletteCompartmentEntry
   public static final String SINKS_STACK = "Sinks";
 
   @Override
-  public Collection<IPaletteCompartmentEntry> getPalette(IFeatureProvider fp,
-      boolean isTest) {
+  public Collection<IPaletteCompartmentEntry> getPalette(IFeatureProvider fp) {
     IPaletteCompartmentEntry commonCompartmentEntry = new PaletteCompartmentEntry(
         DEFAULT_COMPARTMENT, null);
     commonCompartmentEntry.setInitiallyOpen(false);
@@ -55,7 +54,7 @@ public class CommonPaletteCompartmentEntry
     Stream.of(CONNECTIONS_STACK).forEachOrdered((String stackName) -> {
       StackEntry connectionsStackEntry = new StackEntry(CONNECTIONS_STACK, "",
           null);
-      getConnectionCreationToolEntries(isTest, createConnectionFeatures,
+      getConnectionCreationToolEntries(createConnectionFeatures,
           stackName).forEach(connectionsStackEntry::addCreationToolEntry);
       if (!connectionsStackEntry.getCreationToolEntries().isEmpty()) {
         commonCompartmentEntry.getToolEntries().add(connectionsStackEntry);
@@ -66,7 +65,7 @@ public class CommonPaletteCompartmentEntry
     Stream.of(PORTS_STACK, SOURCES_STACK, SINKS_STACK, FLOW_STACK, LOGIC_STACK,
         USERDEFINED_STACK).forEachOrdered((String stackName) -> {
           StackEntry stackEntry = new StackEntry(stackName, "", null);
-          getCreationToolEntries(isTest, createFeatures, stackName)
+          getCreationToolEntries(createFeatures, stackName)
               .forEach(stackEntry::addCreationToolEntry);
           commonCompartmentEntry.getToolEntries().add(stackEntry);
         });
@@ -75,9 +74,8 @@ public class CommonPaletteCompartmentEntry
   }
 
   private static List<ConnectionCreationToolEntry> getConnectionCreationToolEntries(
-      boolean isTest, ICreateConnectionFeature[] createConnectionFeatures,
-      String stackName) {
-    return filterCreateInfos(isTest, createConnectionFeatures, stackName,
+      ICreateConnectionFeature[] createConnectionFeatures, String stackName) {
+    return filterCreateInfos(createConnectionFeatures, stackName,
         ICreateConnectionFeature.class).stream()
             .map((ICreateConnectionFeature cf) -> {
               ConnectionCreationToolEntry cte = new ConnectionCreationToolEntry(
@@ -89,32 +87,29 @@ public class CommonPaletteCompartmentEntry
   }
 
   private static List<ObjectCreationToolEntry> getCreationToolEntries(
-      boolean isTest, ICreateFeature[] createFeatures, String stackName) {
-    return filterCreateInfos(isTest, createFeatures, stackName,
-        ICreateFeature.class)
-            .stream()
-            .map(cf -> new ObjectCreationToolEntry(cf.getCreateName(),
-                cf.getCreateDescription(), cf.getCreateImageId(),
-                cf.getCreateLargeImageId(), cf))
-            .collect(Collectors.toList());
+      ICreateFeature[] createFeatures, String stackName) {
+    return filterCreateInfos(createFeatures, stackName, ICreateFeature.class)
+        .stream()
+        .map(cf -> new ObjectCreationToolEntry(cf.getCreateName(),
+            cf.getCreateDescription(), cf.getCreateImageId(),
+            cf.getCreateLargeImageId(), cf))
+        .collect(Collectors.toList());
   }
 
   /**
    * Choose create feature for given stack.
    * 
-   * @param <K> chosen ICreateInfo
-   * @param isTest
+   * @param <K>            chosen ICreateInfo
    * @param createFeatures all create features found
-   * @param stackName to which stack we look match
-   * @param type is it ICreateFeature or ICreateConnectionFeature
+   * @param stackName      to which stack we look match
+   * @param type           is it ICreateFeature or ICreateConnectionFeature
    * @return list of ICreateInfo
    */
   private static <K extends ICreateInfo> List<K> filterCreateInfos(
-      boolean isTest, K[] createFeatures, String stackName, Class<K> type) {
+      K[] createFeatures, String stackName, Class<K> type) {
     return Stream.of(createFeatures)
         .filter(PaletteCreateFeature.class::isInstance)
         .map(PaletteCreateFeature.class::cast)
-        .filter(cf -> isTest || !cf.isTestOnly())
         .filter(cf -> DEFAULT_COMPARTMENT.equals(cf.getCompartment()))
         .filter(cf -> stackName.equals(cf.getStack())).filter(type::isInstance)
         .map(type::cast).collect(Collectors.toList());
