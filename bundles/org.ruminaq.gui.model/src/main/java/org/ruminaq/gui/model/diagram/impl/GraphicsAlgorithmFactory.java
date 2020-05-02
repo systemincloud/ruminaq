@@ -41,8 +41,8 @@ public enum GraphicsAlgorithmFactory {
               SimpleConnectionShapeGA.class),
           new ShapeFactory<>(SimpleConnectionPointShape.class,
               SimpleConnectionPointShapeGA.class),
-          new ShapeFactory<>(TaskShape.class,
-              TaskShapeGA.class),
+          new ShapeFactory<>(
+              TaskShape.class, TaskShapeGA.class),
           new ShapeFactory<>(InternalOutputPortShape.class,
               InternalOutputPortShapeGA.class),
           new ShapeFactory<>(InternalInputPortShape.class,

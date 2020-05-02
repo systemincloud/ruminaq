@@ -236,7 +236,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     in.setQueueSize(queue);
     task.getInputPort().add(in);
 
-    int lineWidth = AbstractAddTaskFeature.INPUT_PORT_WIDTH;
+//    int lineWidth = AbstractAddTaskFeature.INPUT_PORT_WIDTH;
     int x, y;
     switch (pos) {
       default:
@@ -249,31 +249,31 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         y = 0;
         break;
       case RIGHT:
-        x = parent.getGraphicsAlgorithm().getWidth() - AbstractAddTaskFeature.PORT_SIZE;
-        y = 0;
+//        x = parent.getGraphicsAlgorithm().getWidth() - AbstractAddTaskFeature.PORT_SIZE;
+//        y = 0;
         break;
       case BOTTOM:
-        x = 0;
-        y = parent.getGraphicsAlgorithm().getHeight()
-            - AbstractAddTaskFeature.PORT_SIZE;
+//        x = 0;
+//        y = parent.getGraphicsAlgorithm().getHeight()
+//            - AbstractAddTaskFeature.PORT_SIZE;
         break;
     }
     LineStyle lineStyle = LineStyle.SOLID;
     if (in.isAsynchronous())
       lineStyle = LineStyle.DOT;
-    ContainerShape containerShape = AbstractAddTaskFeature
-        .createPictogramForInternalPort(parent, x, y, AbstractAddTaskFeature.PORT_SIZE,
-            AbstractAddTaskFeature.PORT_SIZE, getDiagram(), lineWidth, lineStyle);
-    peCreateService.createChopboxAnchor(containerShape);
-    ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
-        getDiagram(), parent, in.getId(), AbstractAddTaskFeature.PORT_SIZE,
-        AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.RIGHT);
+//    ContainerShape containerShape = AbstractAddTaskFeature
+//        .createPictogramForInternalPort(parent, x, y, AbstractAddTaskFeature.PORT_SIZE,
+//            AbstractAddTaskFeature.PORT_SIZE, getDiagram(), lineWidth, lineStyle);
+//    peCreateService.createChopboxAnchor(containerShape);
+//    ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
+//        getDiagram(), parent, in.getId(), AbstractAddTaskFeature.PORT_SIZE,
+//        AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.RIGHT);
+//
+//    link(containerShape, new Object[] { in, portLabelShape });
+//    link(portLabelShape, new Object[] { in, containerShape });
 
-    link(containerShape, new Object[] { in, portLabelShape });
-    link(portLabelShape, new Object[] { in, containerShape });
-
-    if (!showLabel)
-      portLabelShape.setVisible(false);
+//    if (!showLabel)
+//      portLabelShape.setVisible(false);
 
     redistributePorts(parent, pos);
   }
@@ -293,7 +293,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     }
     task.getOutputPort().add(out);
 
-    int lineWidth = AbstractAddTaskFeature.OUTPUT_PORT_WIDTH;
+//    int lineWidth = AbstractAddTaskFeature.OUTPUT_PORT_WIDTH;
     int x, y;
     switch (pos) {
       default:
@@ -302,32 +302,32 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         y = 0;
         break;
       case TOP:
-        x = parent.getGraphicsAlgorithm().getWidth() - AbstractAddTaskFeature.PORT_SIZE;
-        y = 0;
+//        x = parent.getGraphicsAlgorithm().getWidth() - AbstractAddTaskFeature.PORT_SIZE;
+//        y = 0;
         break;
       case RIGHT:
-        x = parent.getGraphicsAlgorithm().getWidth() - AbstractAddTaskFeature.PORT_SIZE;
-        y = 0;
+//        x = parent.getGraphicsAlgorithm().getWidth() - AbstractAddTaskFeature.PORT_SIZE;
+//        y = 0;
         break;
       case BOTTOM:
-        x = 0;
-        y = parent.getGraphicsAlgorithm().getHeight()
-            - AbstractAddTaskFeature.PORT_SIZE;
+//        x = 0;
+//        y = parent.getGraphicsAlgorithm().getHeight()
+//            - AbstractAddTaskFeature.PORT_SIZE;
         break;
     }
-    ContainerShape containerShape = AbstractAddTaskFeature
-        .createPictogramForInternalPort(parent, x, y, AbstractAddTaskFeature.PORT_SIZE,
-            AbstractAddTaskFeature.PORT_SIZE, getDiagram(), lineWidth, LineStyle.SOLID);
-    peCreateService.createChopboxAnchor(containerShape);
-    ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
-        getDiagram(), parent, out.getId(), AbstractAddTaskFeature.PORT_SIZE,
-        AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.LEFT);
+//    ContainerShape containerShape = AbstractAddTaskFeature
+//        .createPictogramForInternalPort(parent, x, y, AbstractAddTaskFeature.PORT_SIZE,
+//            AbstractAddTaskFeature.PORT_SIZE, getDiagram(), lineWidth, LineStyle.SOLID);
+//    peCreateService.createChopboxAnchor(containerShape);
+//    ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
+//        getDiagram(), parent, out.getId(), AbstractAddTaskFeature.PORT_SIZE,
+//        AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.LEFT);
+//
+//    link(containerShape, new Object[] { out, portLabelShape });
+//    link(portLabelShape, new Object[] { out, containerShape });
 
-    link(containerShape, new Object[] { out, portLabelShape });
-    link(portLabelShape, new Object[] { out, containerShape });
-
-    if (!showLabel)
-      portLabelShape.setVisible(false);
+//    if (!showLabel)
+//      portLabelShape.setVisible(false);
 
     redistributePorts(parent, pos);
   }

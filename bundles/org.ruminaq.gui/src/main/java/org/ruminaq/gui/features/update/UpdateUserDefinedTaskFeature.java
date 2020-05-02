@@ -136,12 +136,12 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
   }
 
   private boolean compareIconDescription(PictogramElement pe) {
-    if (iconDesc != null)
-      for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
-          .getGraphicsAlgorithmChildren())
-        if (Graphiti.getPeService().getProperty(ga,
-            AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null)
-          return iconDesc.equals(((Text) ga).getValue());
+//    if (iconDesc != null)
+//      for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
+//          .getGraphicsAlgorithmChildren())
+//        if (Graphiti.getPeService().getProperty(ga,
+//            AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null)
+//          return iconDesc.equals(((Text) ga).getValue());
     return true;
   }
 
@@ -286,14 +286,14 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
   // ***************************************************************************
   //
   private boolean descUpdate(ContainerShape parent, Task be) {
-    if (iconDesc != null)
-      for (GraphicsAlgorithm ga : parent.getGraphicsAlgorithm()
-          .getGraphicsAlgorithmChildren())
-        if (Graphiti.getPeService().getProperty(ga,
-            AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null) {
-          ((Text) ga).setValue(iconDesc);
-          return true;
-        }
+//    if (iconDesc != null)
+//      for (GraphicsAlgorithm ga : parent.getGraphicsAlgorithm()
+//          .getGraphicsAlgorithmChildren())
+//        if (Graphiti.getPeService().getProperty(ga,
+//            AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null) {
+//          ((Text) ga).setValue(iconDesc);
+//          return true;
+//        }
     return false;
   }
 

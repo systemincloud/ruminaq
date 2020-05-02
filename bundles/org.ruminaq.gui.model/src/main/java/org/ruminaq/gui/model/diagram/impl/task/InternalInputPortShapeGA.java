@@ -6,12 +6,14 @@
 
 package org.ruminaq.gui.model.diagram.impl.task;
 
-import org.eclipse.emf.common.util.ECollections;
-import org.eclipse.emf.common.util.EList;
+import java.util.Optional;
+
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
+import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.ruminaq.gui.model.diagram.InternalInputPortShape;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
+import org.ruminaq.model.ruminaq.InternalInputPort;
 
 /**
  * GraphicsAlgorithm for InternalOutputPort.
@@ -20,20 +22,25 @@ import org.ruminaq.gui.model.diagram.impl.NoResource;
  */
 public class InternalInputPortShapeGA extends InternalPortShapeGA {
 
-  private InternalInputPortShape shape;
-
   /**
    * GraphicsAlgorithm for InternalOutputPort.
    * 
    * @param shape parent InternalOutputPortShape
    */
   public InternalInputPortShapeGA(InternalInputPortShape shape) {
-    this.shape = shape;
+    super(shape);
   }
 
   @Override
-  public EList<GraphicsAlgorithm> getGraphicsAlgorithmChildren() {
-    return ECollections.emptyEList();
+  public LineStyle getLineStyle() {
+    if (Optional.of(shape).map(RuminaqShape::getModelObject)
+        .filter(InternalInputPort.class::isInstance)
+        .map(InternalInputPort.class::cast)
+        .filter(InternalInputPort::isAsynchronous).isPresent()) {
+      return LineStyle.DOT;
+    } else {
+      return LineStyle.SOLID;
+    }
   }
 
   @Override

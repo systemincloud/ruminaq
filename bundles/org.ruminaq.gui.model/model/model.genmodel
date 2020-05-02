@@ -107,7 +107,11 @@
     <genClasses image="false" ecoreClass="model.ecore#//FlowTargetShape">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//FlowTargetShape/incomingConnections"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="model.ecore#//InternalPortShape"/>
+    <genClasses image="false" ecoreClass="model.ecore#//InternalPortShape">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//InternalPortShape/defaultSize"/>
+      <genOperations ecoreOperation="model.ecore#//InternalPortShape/getWidth" body="return defaultSize;"/>
+      <genOperations ecoreOperation="model.ecore#//InternalPortShape/getHeight" body="return defaultSize;"/>
+    </genClasses>
     <genClasses ecoreClass="model.ecore#//InternalInputPortShape">
       <genOperations ecoreOperation="model.ecore#//InternalInputPortShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>

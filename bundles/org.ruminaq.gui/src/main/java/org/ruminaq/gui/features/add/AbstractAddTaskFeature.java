@@ -58,12 +58,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 
   private static final int DEFAULT_TASK_HEIGHT = 70;
 
-  public static final int PORT_SIZE = 10;
-  public static final int INPUT_PORT_WIDTH = 1;
-  public static final int OUTPUT_PORT_WIDTH = 2;
-
-  public static final String ICON_DESC_PROPERTY = "icon-description";
-
   public enum InternalPortLabelPosition {
     LEFT, RIGHT, TOP, BOTTOM;
   }
@@ -187,12 +181,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 
         position += stepPorts;
 
-//        int lineWidth = INPUT_PORT_WIDTH;
-//        LineStyle lineStyle = LineStyle.SOLID;
-//        if (ti.getValue0().isAsynchronous())
-//          lineStyle = LineStyle.DOT;
-
-//        
 //        peCreateService.createChopboxAnchor(containerShape);
 //
 //        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
@@ -298,12 +286,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
         addLabel(ips);
 
         position += stepPorts;
-        
-//
-//        int lineWidth = INPUT_PORT_WIDTH;
-//        LineStyle lineStyle = LineStyle.SOLID;
-//        if (ri.getValue0().isAsynchronous())
-//          lineStyle = LineStyle.DOT;
+
 //        ContainerShape containerShape = createPictogramForInternalPort(parent,
 //            x, y, width, height, getDiagram(), lineWidth, lineStyle);
 //        peCreateService.createChopboxAnchor(containerShape);
@@ -326,14 +309,10 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
         ips.setModelObject(se.getKey());
         ips.setX(x);
         ips.setY(y);
-        addLabel(ips);
-        
+//        addLabel(ips);
+
         position += stepPorts;
-//
-//        int lineWidth = OUTPUT_PORT_WIDTH;
-//        LineStyle lineStyle = LineStyle.SOLID;
-//        ContainerShape containerShape = createPictogramForInternalPort(parent,
-//            x, y, width, height, getDiagram(), lineWidth, lineStyle);
+
 //        peCreateService.createChopboxAnchor(containerShape);
 //
 //        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
@@ -353,10 +332,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //        int y = parent.getGraphicsAlgorithm().getHeight() - height;
 //        bottomPosition += stepBottomPorts;
 //
-//        int lineWidth = INPUT_PORT_WIDTH;
-//        LineStyle lineStyle = LineStyle.SOLID;
-//        if (bi.getValue0().isAsynchronous())
-//          lineStyle = LineStyle.DOT;
 //        ContainerShape containerShape = createPictogramForInternalPort(parent,
 //            x, y, width, height, getDiagram(), lineWidth, lineStyle);
 //        peCreateService.createChopboxAnchor(containerShape);
@@ -376,8 +351,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //        int y = parent.getGraphicsAlgorithm().getHeight() - height;
 //        bottomPosition += stepBottomPorts;
 //
-//        int lineWidth = OUTPUT_PORT_WIDTH;
-//        LineStyle lineStyle = LineStyle.SOLID;
 //        ContainerShape containerShape = createPictogramForInternalPort(parent,
 //            x, y, width, height, getDiagram(), lineWidth, lineStyle);
 //        peCreateService.createChopboxAnchor(containerShape);
@@ -393,35 +366,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //      }
 //    }
   }
-
-  public static ContainerShape createPictogramForInternalPort(
-      ContainerShape parent, int x, int y, int width, int height,
-      Diagram diagram, int lineWidth, LineStyle lineStyle) {
-    final IPeCreateService peCreateService = Graphiti.getPeCreateService();
-    final IGaService gaService = Graphiti.getGaService();
-
-    final ContainerShape containerShape = peCreateService
-        .createContainerShape(parent, true);
-    final RoundedRectangle invisibleRectangle = gaService
-        .createRoundedRectangle(containerShape, 5, 5);
-    invisibleRectangle.setFilled(false);
-    invisibleRectangle.setLineVisible(false);
-    gaService.setLocationAndSize(invisibleRectangle, x, y, width, height);
-
-    final RoundedRectangle rectangle = gaService
-        .createRoundedRectangle(invisibleRectangle, 5, 5);
-    rectangle.setParentGraphicsAlgorithm(invisibleRectangle);
-//    rectangle.setStyle(InternalPortStyle.getStyle(diagram));
-    rectangle.setLineWidth(lineWidth);
-    rectangle.setLineStyle(lineStyle);
-    gaService.setLocationAndSize(rectangle, 0, 0, width, height);
-
-    Graphiti.getPeService().setPropertyValue(containerShape,
-        Constants.INTERNAL_PORT, "true");
-
-    return containerShape;
-  }
-
+  
   public static ContainerShape addInternalPortLabel(Diagram diagram,
       ContainerShape parent, String label, int width, int height, int x, int y,
       InternalPortLabelPosition position) {
@@ -470,8 +415,8 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 
   public static void distributePortsOnRight(ContainerShape parent,
       IFeatureProvider fp) {
-    distributePortsVertically(parent,
-        parent.getGraphicsAlgorithm().getWidth() - PORT_SIZE, fp);
+//    distributePortsVertically(parent,
+//        parent.getGraphicsAlgorithm().getWidth() - PORT_SIZE, fp);
   }
 
   public static void distributePortsOnTop(ContainerShape parent,
@@ -481,8 +426,8 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 
   public static void distributePortsOnBottom(ContainerShape parent,
       IFeatureProvider fp) {
-    distributePortsHorizontally(parent,
-        parent.getGraphicsAlgorithm().getHeight() - PORT_SIZE, fp);
+//    distributePortsHorizontally(parent,
+//        parent.getGraphicsAlgorithm().getHeight() - PORT_SIZE, fp);
   }
 
   private static void distributePortsVertically(ContainerShape parent, int x,
@@ -507,23 +452,23 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     if (orderedChilds.size() != 0) {
       int stepPorts = parent.getGraphicsAlgorithm().getHeight()
           / orderedChilds.size();
-      int position = (stepPorts >> 1) - (PORT_SIZE >> 1);
-      for (Shape child : orderedChilds) {
-        int dy = position - child.getGraphicsAlgorithm().getY();
-        MoveShapeContext moveShapeContext = new MoveShapeContext(child);
-        moveShapeContext.setX(child.getGraphicsAlgorithm().getX());
-        moveShapeContext.setY(position);
-        moveShapeContext.setDeltaX(0);
-        moveShapeContext.setDeltaY(dy);
-        moveShapeContext.setSourceContainer(child.getContainer());
-        moveShapeContext.setTargetContainer(child.getContainer());
-        MoveInternalPortFeature moveFeature = new MoveInternalPortFeature(fp);
-        if (moveFeature.canMoveShape(moveShapeContext)) {
-          moveFeature.moveShape(moveShapeContext);
-          moveFeature.postMoveShape(moveShapeContext);
-        }
-        position += stepPorts;
-      }
+//      int position = (stepPorts >> 1) - (PORT_SIZE >> 1);
+//      for (Shape child : orderedChilds) {
+//        int dy = position - child.getGraphicsAlgorithm().getY();
+//        MoveShapeContext moveShapeContext = new MoveShapeContext(child);
+//        moveShapeContext.setX(child.getGraphicsAlgorithm().getX());
+//        moveShapeContext.setY(position);
+//        moveShapeContext.setDeltaX(0);
+//        moveShapeContext.setDeltaY(dy);
+//        moveShapeContext.setSourceContainer(child.getContainer());
+//        moveShapeContext.setTargetContainer(child.getContainer());
+//        MoveInternalPortFeature moveFeature = new MoveInternalPortFeature(fp);
+//        if (moveFeature.canMoveShape(moveShapeContext)) {
+//          moveFeature.moveShape(moveShapeContext);
+//          moveFeature.postMoveShape(moveShapeContext);
+//        }
+//        position += stepPorts;
+//      }
     }
   }
 
@@ -549,23 +494,23 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     if (orderedChilds.size() != 0) {
       int stepPorts = parent.getGraphicsAlgorithm().getWidth()
           / orderedChilds.size();
-      int position = (stepPorts >> 1) - (PORT_SIZE >> 1);
-      for (Shape child : orderedChilds) {
-        int dx = position - child.getGraphicsAlgorithm().getX();
-        MoveShapeContext moveShapeContext = new MoveShapeContext(child);
-        moveShapeContext.setY(child.getGraphicsAlgorithm().getY());
-        moveShapeContext.setX(position);
-        moveShapeContext.setDeltaY(0);
-        moveShapeContext.setDeltaX(dx);
-        moveShapeContext.setSourceContainer(child.getContainer());
-        moveShapeContext.setTargetContainer(child.getContainer());
-        MoveInternalPortFeature moveFeature = new MoveInternalPortFeature(fp);
-        if (moveFeature.canMoveShape(moveShapeContext)) {
-          moveFeature.moveShape(moveShapeContext);
-          moveFeature.postMoveShape(moveShapeContext);
-        }
-        position += stepPorts;
-      }
+//      int position = (stepPorts >> 1) - (PORT_SIZE >> 1);
+//      for (Shape child : orderedChilds) {
+//        int dx = position - child.getGraphicsAlgorithm().getX();
+//        MoveShapeContext moveShapeContext = new MoveShapeContext(child);
+//        moveShapeContext.setY(child.getGraphicsAlgorithm().getY());
+//        moveShapeContext.setX(position);
+//        moveShapeContext.setDeltaY(0);
+//        moveShapeContext.setDeltaX(dx);
+//        moveShapeContext.setSourceContainer(child.getContainer());
+//        moveShapeContext.setTargetContainer(child.getContainer());
+//        MoveInternalPortFeature moveFeature = new MoveInternalPortFeature(fp);
+//        if (moveFeature.canMoveShape(moveShapeContext)) {
+//          moveFeature.moveShape(moveShapeContext);
+//          moveFeature.postMoveShape(moveShapeContext);
+//        }
+//        position += stepPorts;
+//      }
     }
   }
 
