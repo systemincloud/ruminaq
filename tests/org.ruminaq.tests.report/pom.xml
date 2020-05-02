@@ -132,7 +132,7 @@
 
     <dependency>
       <groupId>org.ruminaq</groupId>
-      <artifactId>org.ruminaq.tasks.inspect</artifactId>
+      <artifactId>org.ruminaq.tasks.inspect.gui</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
