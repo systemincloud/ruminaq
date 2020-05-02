@@ -21,7 +21,7 @@ public class AddFeature extends AbstractAddTaskFeature {
 
   @Override
   protected String getInsideIconId() {
-    return Images.K.IMG_RTASK_DIAGRAM.name();
+    return Images.IMG_RTASK_DIAGRAM;
   }
 
   @Override

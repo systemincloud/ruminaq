@@ -52,7 +52,7 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
     @Override
     public String getCreateImageId() {
-      return Images.K.IMG_RTASK_PALETTE.name();
+      return Images.IMG_RTASK_PALETTE;
     }
   }
 }
