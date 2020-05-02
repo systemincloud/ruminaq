@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.gui.model.diagram.impl.port;
+package org.ruminaq.gui.model.diagram.impl;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -12,24 +12,23 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.impl.ChopboxAnchorImpl;
-import org.ruminaq.gui.model.diagram.InputPortShape;
-import org.ruminaq.gui.model.diagram.impl.NoResource;
+import org.ruminaq.gui.model.diagram.FlowTargetShape;
 
 /**
- * Anchor of InputPortShape.
+ * Anchor of OutputPortShape.
  *
  * @author Marek Jagielski
  */
-public class InputPortAnchor extends ChopboxAnchorImpl {
+public class FlowTargetAnchor extends ChopboxAnchorImpl {
 
-  private InputPortShape shape;
+  private FlowTargetShape shape;
 
   /**
-   * Anchor of InputPortShape.
+   * Anchor of OutputPortShape.
    * 
-   * @param shape parent InputPortShape
+   * @param shape parent OutputPortShape
    */
-  public InputPortAnchor(InputPortShape shape) {
+  public FlowTargetAnchor(FlowTargetShape shape) {
     this.shape = shape;
   }
 
@@ -44,8 +43,8 @@ public class InputPortAnchor extends ChopboxAnchorImpl {
   }
 
   @Override
-  public EList<Connection> getOutgoingConnections() {
-    return new BasicEList<>(shape.getOutgoingConnections());
+  public EList<Connection> getIncomingConnections() {
+    return new BasicEList<>(shape.getIncomingConnections());
   }
 
 }

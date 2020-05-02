@@ -15,10 +15,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.model.diagram.InputPortShape;
+import org.ruminaq.gui.model.diagram.InternalInputPortShape;
+import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
 import org.ruminaq.gui.model.diagram.OutputPortShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
-import org.ruminaq.gui.model.diagram.impl.port.InputPortAnchor;
-import org.ruminaq.gui.model.diagram.impl.port.OutputPortAnchor;
 import org.ruminaq.gui.model.diagram.impl.simpleconnectionpoint.SimpleConnectionPointAnchor;
 
 /**
@@ -30,8 +30,10 @@ public enum AnchorsFactory {
   INSTANCE;
 
   private final List<Factory<? extends Anchor>> factories = Arrays.asList(
-      new ShapeFactory<>(InputPortShape.class, InputPortAnchor.class),
-      new ShapeFactory<>(OutputPortShape.class, OutputPortAnchor.class),
+      new ShapeFactory<>(InputPortShape.class, FlowSourceAnchor.class),
+      new ShapeFactory<>(OutputPortShape.class, FlowTargetAnchor.class),
+      new ShapeFactory<>(InternalInputPortShape.class, FlowTargetAnchor.class),
+      new ShapeFactory<>(InternalOutputPortShape.class, FlowSourceAnchor.class),
       new ShapeFactory<>(SimpleConnectionPointShape.class,
           SimpleConnectionPointAnchor.class));
 

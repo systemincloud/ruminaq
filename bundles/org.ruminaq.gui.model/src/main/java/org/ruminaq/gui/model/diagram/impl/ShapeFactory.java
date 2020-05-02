@@ -44,6 +44,7 @@ public class ShapeFactory<T extends PictogramElement, K> implements Factory<K> {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public K get(PictogramElement shape) {
     if (!shapeType.isInstance(shape)) {
       return null;
@@ -53,15 +54,12 @@ public class ShapeFactory<T extends PictogramElement, K> implements Factory<K> {
       K returnObject = null;
       try {
         Optional<Constructor<?>> constructor = Stream
-            .of(returnType.getConstructors())
-            .filter((Constructor<?> c) -> {
+            .of(returnType.getConstructors()).filter((Constructor<?> c) -> {
               Class<?>[] pts = c.getParameterTypes();
-              return pts.length == 1 && pts[0] == shapeType;
-            })
-            .findFirst();
+              return pts.length == 1 && pts[0].isAssignableFrom(shapeType);
+            }).findFirst();
         if (constructor.isPresent()) {
-          returnObject = returnType.getConstructor(shapeType)
-              .newInstance(shape);
+          returnObject = (K) constructor.get().newInstance(shape);
         } else {
           returnObject = returnType.getConstructor().newInstance();
         }
