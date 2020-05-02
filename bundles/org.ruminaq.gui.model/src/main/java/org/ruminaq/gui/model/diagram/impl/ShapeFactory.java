@@ -44,7 +44,6 @@ public class ShapeFactory<T extends PictogramElement, K> implements Factory<K> {
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public K get(PictogramElement shape) {
     if (!shapeType.isInstance(shape)) {
       return null;

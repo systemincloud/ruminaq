@@ -8,6 +8,11 @@ package org.ruminaq.gui.image;
 
 import org.ruminaq.gui.api.ImageDescriptor;
 
+/**
+ * Common class for Images.
+ * 
+ * @author Marek Jagielski
+ */
 public class ImageDescriptorImpl implements ImageDescriptor {
 
   private Class<?> clazz;
@@ -16,6 +21,12 @@ public class ImageDescriptorImpl implements ImageDescriptor {
 
   private String path;
   
+  /**
+   * Common class for Images.
+   * 
+   * @param clazz any class inside bundle
+   * @param path path of image resource inside bundle
+   */
   public ImageDescriptorImpl(Class<?> clazz,
       String path) {
     this.clazz = clazz;
