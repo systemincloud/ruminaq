@@ -29,7 +29,7 @@ public class AddFeature extends AbstractAddTaskFeature {
 
   @Override
   protected String getInsideIconId() {
-    return Images.K.IMG_MUX_DIAGRAM.name();
+    return Images.IMG_MUX_DIAGRAM;
   }
 
   @Override
