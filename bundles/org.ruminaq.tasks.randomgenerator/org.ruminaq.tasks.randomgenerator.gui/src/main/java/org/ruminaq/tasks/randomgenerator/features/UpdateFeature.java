@@ -61,36 +61,36 @@ public class UpdateFeature extends UpdateTaskFeature {
   }
 
   private boolean compareIconDescription(PictogramElement pe) {
-    Object bo = getBusinessObjectForPictogramElement(pe);
-    if (bo instanceof RandomGenerator) {
-      DataType dt = ((RandomGenerator) bo).getDataType();
-      if (dt != null) {
-        String dataType = ModelUtil.getName(dt.getClass(), false);
-        for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
-            .getGraphicsAlgorithmChildren())
-          if (Graphiti.getPeService().getProperty(ga,
-              AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null)
-            return dataType.equals(((Text) ga).getValue());
-      }
-    }
+//    Object bo = getBusinessObjectForPictogramElement(pe);
+//    if (bo instanceof RandomGenerator) {
+//      DataType dt = ((RandomGenerator) bo).getDataType();
+//      if (dt != null) {
+//        String dataType = ModelUtil.getName(dt.getClass(), false);
+//        for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
+//            .getGraphicsAlgorithmChildren())
+//          if (Graphiti.getPeService().getProperty(ga,
+//              AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null)
+//            return dataType.equals(((Text) ga).getValue());
+//      }
+//    }
     return true;
   }
 
   private boolean descUpdate(PictogramElement pe) {
-    Object bo = getBusinessObjectForPictogramElement(pe);
-    if (bo instanceof RandomGenerator) {
-      DataType dt = ((RandomGenerator) bo).getDataType();
-      if (dt != null) {
-        String dataType = ModelUtil.getName(dt.getClass(), false);
-        for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
-            .getGraphicsAlgorithmChildren())
-          if (Graphiti.getPeService().getProperty(ga,
-              AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null) {
-            ((Text) ga).setValue(dataType);
-            return true;
-          }
-      }
-    }
+//    Object bo = getBusinessObjectForPictogramElement(pe);
+//    if (bo instanceof RandomGenerator) {
+//      DataType dt = ((RandomGenerator) bo).getDataType();
+//      if (dt != null) {
+//        String dataType = ModelUtil.getName(dt.getClass(), false);
+//        for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
+//            .getGraphicsAlgorithmChildren())
+//          if (Graphiti.getPeService().getProperty(ga,
+//              AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null) {
+//            ((Text) ga).setValue(dataType);
+//            return true;
+//          }
+//      }
+//    }
     return false;
   }
 }
