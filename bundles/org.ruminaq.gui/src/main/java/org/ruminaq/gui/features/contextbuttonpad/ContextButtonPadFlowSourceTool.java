@@ -88,5 +88,4 @@ public class ContextButtonPadFlowSourceTool
           return button;
         }).stream().collect(Collectors.toList());
   }
-
 }
