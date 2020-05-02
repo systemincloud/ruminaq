@@ -48,6 +48,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.gui.features.create,
  org.ruminaq.gui.features.doubleclick,
  org.ruminaq.gui.features.update,
+ org.ruminaq.gui.image,
  org.ruminaq.gui.palette,
  org.ruminaq.model,
  org.ruminaq.model.desc,
@@ -75,4 +76,5 @@ Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.randomgenerator.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.randomgenerator.EclipseExtensionImpl.xml
+ OSGI-INF/org.ruminaq.tasks.randomgenerator.EclipseExtensionImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.randomgenerator.Images.xml

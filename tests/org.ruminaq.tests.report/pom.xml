@@ -74,6 +74,7 @@
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
+
     <dependency>
       <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.tasks.console.gui</artifactId>
@@ -96,6 +97,48 @@
 
     <dependency>
       <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.demux.gui</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.gate.and</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.gate.not</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.gate.or</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.gate.xor</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.inspect</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.tasks.javatask.gui</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
@@ -106,6 +149,42 @@
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.mux.gui</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.pythontask.gui</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.randomgenerator.gui</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.rtask.gui</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.sipo.gui</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.util</artifactId>

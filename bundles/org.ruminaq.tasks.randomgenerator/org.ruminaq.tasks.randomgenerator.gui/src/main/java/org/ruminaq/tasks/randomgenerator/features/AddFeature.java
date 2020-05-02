@@ -29,7 +29,7 @@ public class AddFeature extends AbstractAddTaskFeature {
 
   @Override
   protected String getInsideIconId() {
-    return Images.K.IMG_RANDOMGENERATOR_DIAGRAM.name();
+    return Images.IMG_RANDOMGENERATOR_DIAGRAM;
   }
 
   @Override
