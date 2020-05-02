@@ -65,7 +65,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.constant.impl.strategy,
  org.ruminaq.tasks.constant.model.constant,
  org.ruminaq.tasks.features,
- org.ruminaq.tasks.styles,
  org.ruminaq.util,
  org.slf4j
 Export-Package: org.ruminaq.tasks.constant,
