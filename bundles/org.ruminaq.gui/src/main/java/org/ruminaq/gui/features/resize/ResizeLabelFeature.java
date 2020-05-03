@@ -11,6 +11,11 @@ import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.resize.ResizeLabelFeature.Filter;
 import org.ruminaq.gui.model.diagram.LabelShape;
 
+/**
+ * Label can't be resize.
+ * 
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class ResizeLabelFeature
     extends ResizeShapeForbiddenFeature {

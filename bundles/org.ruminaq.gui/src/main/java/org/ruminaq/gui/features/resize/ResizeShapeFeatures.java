@@ -13,12 +13,17 @@ import org.eclipse.graphiti.features.IResizeShapeFeature;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ResizeShapeFeatureExtension;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 public class ResizeShapeFeatures implements ResizeShapeFeatureExtension {
 
   @Override
   public List<Class<? extends IResizeShapeFeature>> getFeatures() {
     return Arrays.asList(ResizeSimpleConnectionPointFeature.class,
-        ResizeLabelFeature.class, ResizePortFeature.class);
+        ResizeLabelFeature.class, ResizePortFeature.class,
+        ResizeInternalPortFeature.class);
   }
 }

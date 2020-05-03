@@ -8,24 +8,25 @@ package org.ruminaq.gui.features.resize;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.resize.ResizeSimpleConnectionPointFeature.Filter;
-import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
+import org.ruminaq.gui.features.resize.ResizeInternalPortFeature.Filter;
+import org.ruminaq.gui.model.diagram.InternalPortShape;
 
 /**
+ * InternalPort can't be resized.
  * 
  * @author Marek Jagielski
  */
 @FeatureFilter(Filter.class)
-public class ResizeSimpleConnectionPointFeature
+public class ResizeInternalPortFeature
     extends ResizeShapeForbiddenFeature {
 
-  public static class Filter extends ResizeFilter<SimpleConnectionPointShape> {
+  public static class Filter extends ResizeFilter<InternalPortShape> {
     public Filter() {
-      super(SimpleConnectionPointShape.class);
+      super(InternalPortShape.class);
     }
   }
 
-  public ResizeSimpleConnectionPointFeature(IFeatureProvider fp) {
+  public ResizeInternalPortFeature(IFeatureProvider fp) {
     super(fp);
   }
 }

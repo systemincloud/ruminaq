@@ -19,6 +19,10 @@ import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
 
   public ResizeShapeTaskFeature(IFeatureProvider fp) {

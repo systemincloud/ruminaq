@@ -11,6 +11,11 @@ import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.resize.ResizePortFeature.Filter;
 import org.ruminaq.gui.model.diagram.PortShape;
 
+/**
+ * Port can't be resized.
+ * 
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class ResizePortFeature
     extends ResizeShapeForbiddenFeature {
