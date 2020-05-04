@@ -6,12 +6,10 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.gui.features.move.MoveInternalPortFeature;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
@@ -49,19 +47,6 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
     if (shape.getGraphicsAlgorithm() != null) {
       Graphiti.getGaService().setLocationAndSize(shape.getGraphicsAlgorithm(),
           x, y, width, height);
-    }
-
-    if (shape.getGraphicsAlgorithm() != null) {
-      for (GraphicsAlgorithm ga : shape.getGraphicsAlgorithm()
-          .getGraphicsAlgorithmChildren()) {
-//        if (Graphiti.getPeService().getProperty(ga,
-//            AddTaskFeature.ICON_DESC_PROPERTY) != null)
-//          Graphiti.getGaService().setLocationAndSize(ga, 0,
-//              AddTaskFeature.ICON_SIZE, width,
-//              height - AddTaskFeature.ICON_SIZE);
-//        else
-          Graphiti.getGaService().setLocationAndSize(ga, 0, 0, width, height);
-      }
     }
 
     alignInternalPorts(shape, w_before, h_before, width, height);
