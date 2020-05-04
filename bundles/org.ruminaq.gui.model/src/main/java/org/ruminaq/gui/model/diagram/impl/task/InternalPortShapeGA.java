@@ -19,13 +19,15 @@ import org.ruminaq.gui.model.diagram.impl.NoResource;
 
 /**
  * GraphicsAlgorithm for InternalOutputPort.
+ * 
+ * InternalPort is presented rectangle with rounded corner.
  *
  * @author Marek Jagielski
  */
 public class InternalPortShapeGA extends RoundedRectangleImpl {
-  
+
   private static final int CORNER = 5;
-  
+
   protected InternalPortShape shape;
 
   public InternalPortShapeGA(InternalPortShape shape) {
@@ -41,7 +43,7 @@ public class InternalPortShapeGA extends RoundedRectangleImpl {
   public int getHeight() {
     return shape.getHeight();
   }
-  
+
   @Override
   public void setX(int newX) {
     shape.setX(newX);
@@ -71,7 +73,7 @@ public class InternalPortShapeGA extends RoundedRectangleImpl {
   public Color getBackground() {
     return Colors.WHITE;
   }
-  
+
   @Override
   public int getCornerWidth() {
     return CORNER;
@@ -81,17 +83,17 @@ public class InternalPortShapeGA extends RoundedRectangleImpl {
   public int getCornerHeight() {
     return getCornerWidth();
   }
-  
+
   @Override
   public Integer getLineWidth() {
     return 1;
   }
-  
+
   @Override
   public LineStyle getLineStyle() {
     return LineStyle.SOLID;
   }
-  
+
   @Override
   public EList<GraphicsAlgorithm> getGraphicsAlgorithmChildren() {
     return ECollections.emptyEList();
