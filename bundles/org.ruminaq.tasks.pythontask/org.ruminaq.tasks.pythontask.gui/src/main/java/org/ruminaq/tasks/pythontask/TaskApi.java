@@ -276,9 +276,4 @@ public class TaskApi implements ITaskApi, EclipseExtension {
       IFeatureProvider fp) {
     return ITaskApi.ifInstance(t, PythonTask.class, new UpdateFeature(fp));
   }
-
-  @Override
-  public Map<String, String> getImageKeyPath() {
-    return Images.getImageKeyPath();
-  }
 }

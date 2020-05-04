@@ -1,35 +1,34 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.tasks.pythontask;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.Collection;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
-import org.osgi.framework.FrameworkUtil;
+import org.osgi.service.component.annotations.Component;
+import org.ruminaq.gui.api.ImageDescriptor;
+import org.ruminaq.gui.api.ImagesExtension;
+import org.ruminaq.gui.image.ImageDescriptorImpl;
 
-public class Images {
+/**
+ * Images in PythonTask plugin.
+ *
+ * @author Marek Jagielski
+ */
+@Component(property = { "service.ranking:Integer=5" })
+public class Images implements ImagesExtension {
 
-  public enum K {
-    IMG_PYTHONTASK_PALETTE("/icons/palette.pythontask.png"),
-    IMG_PYTHONTASK_DIAGRAM("/icons/diagram.pythontask.png");
+  public static final String IMG_PYTHONTASK_PALETTE = "/icons/palette.pythontask.png";
+  public static final String IMG_PYTHONTASK_DIAGRAM = "/icons/diagram.pythontask.png";
 
-    public String path;
-
-    K(String path) {
-      this.path = path;
-    }
-  }
-
-  static Map<String, String> images = new HashMap<String, String>() {
-    private static final long serialVersionUID = 1L;
-    {
-      for (final K v : K.values())
-        put(v.name(), FileLocator.find(FrameworkUtil.getBundle(this.getClass()),
-            new Path(v.path), null).toString());
-    }
-  };
-
-  public static Map<String, String> getImageKeyPath() {
-    return images;
+  @Override
+  public Collection<ImageDescriptor> getImageDecriptors() {
+    return Arrays.asList(
+        new ImageDescriptorImpl(Images.class, IMG_PYTHONTASK_PALETTE),
+        new ImageDescriptorImpl(Images.class, IMG_PYTHONTASK_DIAGRAM));
   }
 }
