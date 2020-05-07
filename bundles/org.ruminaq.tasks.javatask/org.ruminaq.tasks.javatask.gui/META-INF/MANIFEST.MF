@@ -80,6 +80,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.gui.features.create,
  org.ruminaq.gui.features.doubleclick,
  org.ruminaq.gui.features.update,
+ org.ruminaq.gui.image,
  org.ruminaq.gui.palette,
  org.ruminaq.gui.properties,
  org.ruminaq.model,
@@ -111,4 +112,5 @@ Bundle-ClassPath: .
 Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.gui.ContextButtonPadTool.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.TaskUiApi.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.CreateFeaturesImpl.xml
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.CreateFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.Images.xml
