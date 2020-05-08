@@ -211,15 +211,10 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     loadAtomic();
     loadOnlyLocal();
 
-    boolean onlyLocalDefault = task.isOnlyLocalDefault();
-    boolean onlyLocal = task.isOnlyLocal();
-
     this.descUpdateNeeded = !compareIconDescription(pictogramElement);
     this.inputsUpdateNeeded = !compareInputPorts(inputs, inputPorts);
     this.outputsUpdateNeeded = !compareOutputPorts(outputs, outputPorts);
     this.atomicUpdateNeeded = atomic != task.isAtomic() ? true : false;
-    this.onlyLocalUpdateNeeded = onlyLocalDefault ? onlyLocal != this.onlyLocal
-        : false;
     this.paramsUpdateNeeded = !compareParams(((UserDefinedTask) task));
 
     boolean updateNeeded = this.superUpdateNeeded || this.descUpdateNeeded

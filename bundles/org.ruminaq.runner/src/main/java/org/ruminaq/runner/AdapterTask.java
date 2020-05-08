@@ -38,8 +38,7 @@ public class AdapterTask extends EmbeddedTaskI {
     super();
     this.basePath = basePath;
     this.cmdlie = cmdlie;
-    this.mainTask = new EmbeddedTaskI(this, null, testFile, null, false,
-        runOnlyLocal);
+    this.mainTask = new EmbeddedTaskI(this, null, testFile, null);
   }
 
   @Override

@@ -14,7 +14,7 @@ public enum TaskImplementationFactory {
       .getLogger(TaskImplementationFactory.class);
 
   public TaskI getImplementation(EmbeddedTaskI parent, Task task,
-      String basePath, boolean inCloud, boolean runOnlyLocalTasks) {
+      String basePath) {
     logger.trace("Creating Task {}", task.getId());
     TaskI taskI = RunnerServiceManager.INSTANCE.getImplementation(parent, task);
     if (taskI != null)
@@ -22,7 +22,7 @@ public enum TaskImplementationFactory {
     else if (task instanceof EmbeddedTask)
       return new EmbeddedTaskI(parent, task,
           basePath + ((EmbeddedTask) task).getImplementationTask(),
-          ((EmbeddedTask) task).getParameters(), inCloud, runOnlyLocalTasks);
+          ((EmbeddedTask) task).getParameters());
     else {
 
     }

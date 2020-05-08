@@ -68,9 +68,6 @@ public class EmbeddedTaskI extends TaskI {
 
   private HashMap<String, String> parameters = new HashMap<>();
 
-  private boolean inCloud = false;
-  private boolean runOnlyLocal = false;
-
   private boolean hasExternalSource = false;
   private boolean syncConns = true;
 
@@ -108,11 +105,9 @@ public class EmbeddedTaskI extends TaskI {
 //    public void hangEngine()   { parent.hangEngine(); }
 
   public EmbeddedTaskI(EmbeddedTaskI parent, Task task, String path,
-      Map<String, String> params, boolean inCloud, boolean runOnlyLocal) {
+      Map<String, String> params) {
     super(parent, task);
     this.diagramPath = path;
-    this.inCloud = inCloud;
-    this.runOnlyLocal = runOnlyLocal;
     MainTask mainTask = loadTask(path);
     if (mainTask == null) {
       throw new ImplementationException(
@@ -225,14 +220,8 @@ public class EmbeddedTaskI extends TaskI {
     Map<InternalOutputPort, InternalOutputPortI> outputsTmp = new HashMap<>();
 
     for (Task task : mainTask.getTask()) {
-      if (isOnlyLocal(task) && inCloud)
-        continue;
-      if (isOnlyLocal(task) && !runOnlyLocal
-          && !RuminaqDiagramUtil.isTest(task.eResource().getURI(), getBasePath()))
-        continue;
-
       TaskI taskI = TaskImplementationFactory.INSTANCE.getImplementation(this,
-          task, getBasePath(), inCloud, runOnlyLocal);
+          task, getBasePath());
       if (taskI == null)
         throw new RunnerException(
             "No implementation found for task: " + task.getId());
@@ -315,11 +304,6 @@ public class EmbeddedTaskI extends TaskI {
       synchronizationInit(t);
     for (TaskI t : generators)
       synchronizationInit(t);
-  }
-
-  private boolean isOnlyLocal(Task task) {
-    return task.isOnlyLocalDefault() ? task.isOnlyLocal()
-        : task.isOnlyLocalUser();
   }
 
   private void synchronizationInit(TaskI t) {
