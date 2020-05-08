@@ -11,9 +11,12 @@ import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
 import org.eclipse.graphiti.features.impl.Reason;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.ruminaq.model.ruminaq.BaseElement;
 
+/**
+ * Common class for all Base Elements.
+ * 
+ * @author Marek Jagielski
+ */
 public class UpdateBaseElementFeature extends AbstractUpdateFeature {
 
   public UpdateBaseElementFeature(IFeatureProvider fp) {
@@ -22,10 +25,7 @@ public class UpdateBaseElementFeature extends AbstractUpdateFeature {
 
   @Override
   public boolean canUpdate(IUpdateContext context) {
-    Object bo = getBusinessObjectForPictogramElement(
-        context.getPictogramElement());
-    return (bo instanceof BaseElement)
-        && (context.getPictogramElement() instanceof ContainerShape);
+    return true;
   }
 
   @Override

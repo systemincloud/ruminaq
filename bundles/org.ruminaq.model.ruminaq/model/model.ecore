@@ -43,8 +43,6 @@
         eType="#//InternalOutputPort" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inputPort" upperBound="-1"
         eType="#//InternalInputPort" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="onlyLocal" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="onlyLocalDefault" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="onlyLocalUser" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"

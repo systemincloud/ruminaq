@@ -6,7 +6,6 @@
 
 package org.ruminaq.gui.features.update;
 
-import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.ruminaq.gui.features.AbstractFeatureFilter;
 
@@ -19,8 +18,8 @@ import org.ruminaq.gui.features.AbstractFeatureFilter;
 public abstract class AbstractUpdateFeatureFilter
     extends AbstractFeatureFilter<IUpdateContext> {
 
-  private static final GetPictogramElement getPictogramElement = (
-      IContext ctx) -> ((IUpdateContext) ctx).getPictogramElement();
+  public static final GetPictogramElement getPictogramElement = ctx -> ((IUpdateContext) ctx)
+      .getPictogramElement();
 
   public AbstractUpdateFeatureFilter() {
     super(IUpdateContext.class, getPictogramElement);

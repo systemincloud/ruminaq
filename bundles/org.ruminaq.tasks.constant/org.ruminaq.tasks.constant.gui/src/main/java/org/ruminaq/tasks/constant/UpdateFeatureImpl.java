@@ -63,13 +63,6 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
     }
 
     @Override
-    public boolean canUpdate(IUpdateContext context) {
-      Object bo = getBusinessObjectForPictogramElement(
-          context.getPictogramElement());
-      return (bo instanceof Constant);
-    }
-
-    @Override
     public IReason updateNeeded(IUpdateContext context) {
       this.updateNeededChecked = true;
       superUpdateNeeded = super.updateNeeded(context).toBoolean();

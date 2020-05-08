@@ -2,6 +2,7 @@ package org.ruminaq.gui.features.update;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -13,7 +14,6 @@ import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
-import org.eclipse.graphiti.mm.algorithms.styles.Style;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
@@ -24,6 +24,7 @@ import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature.InternalPortLabelPosition;
 import org.ruminaq.gui.features.update.UpdateBaseElementFeature;
+import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.DataType;
@@ -37,56 +38,31 @@ import org.ruminaq.model.ruminaq.Position;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   private boolean updateNeededChecked = false;
 
   private boolean superUpdateNeeded = false;
-  private boolean onlyLocalUpdateNeeded = false;
 
   public UpdateTaskFeature(IFeatureProvider fp) {
     super(fp);
   }
 
   @Override
-  public boolean canUpdate(IUpdateContext context) {
-    Object bo = getBusinessObjectForPictogramElement(
-        context.getPictogramElement());
-    return (bo instanceof Task);
-  }
-
-  @Override
   public IReason updateNeeded(IUpdateContext context) {
     this.updateNeededChecked = true;
     superUpdateNeeded = super.updateNeeded(context).toBoolean();
+    Optional<TaskShape> taskShape = Optional.of(context)
+        .map(AbstractUpdateFeatureFilter.getPictogramElement)
+        .filter(TaskShape.class::isInstance).map(TaskShape.class::cast);
+    Optional<Task> task = taskShape.map(TaskShape::getModelObject)
+        .filter(Task.class::isInstance).map(Task.class::cast);
 
-    ContainerShape parent = (ContainerShape) context.getPictogramElement();
-    Task task = (Task) getBusinessObjectForPictogramElement(parent);
-
-    boolean onlyLocal = task.isOnlyLocalDefault() ? task.isOnlyLocal()
-        : task.isOnlyLocalUser();
-    boolean testDiagram = RuminaqDiagramUtil.isTest(getFeatureProvider()
-        .getDiagramTypeProvider().getDiagram().eResource().getURI());
-    boolean specialColor = false;
-//    for (GraphicsAlgorithm c : parent.getGraphicsAlgorithm()
-//        .getGraphicsAlgorithmChildren())
-//      if (c instanceof RoundedRectangle) {
-//        Style s = TaskStyle.getOnlyLocalStyle(getDiagram(), false);
-//        if (s != null && c.getStyle() != null
-//            && s.getId().equals(c.getStyle().getId()))
-//          specialColor = true;
-//      }
-
-    if (testDiagram && specialColor)
-      onlyLocalUpdateNeeded = true;
-    if (!testDiagram && specialColor && !onlyLocal)
-      onlyLocalUpdateNeeded = true;
-    if (!testDiagram && !specialColor && onlyLocal)
-      onlyLocalUpdateNeeded = true;
-
-    boolean updateNeeded = superUpdateNeeded || onlyLocalUpdateNeeded;
-    return updateNeeded ? Reason.createTrueReason()
-        : Reason.createFalseReason();
+    return false ? Reason.createTrueReason() : Reason.createFalseReason();
   }
 
   @Override
@@ -98,47 +74,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     boolean updated = false;
     if (superUpdateNeeded)
       updated = updated | super.update(context);
-    if (onlyLocalUpdateNeeded)
-      updated = updated
-          | updateOnlyLocal((ContainerShape) context.getPictogramElement());
     return updated;
-  }
-
-  protected boolean updateOnlyLocal(ContainerShape pe) {
-    Task task = (Task) getBusinessObjectForPictogramElement(pe);
-    boolean onlyLocal = task.isOnlyLocalDefault() ? task.isOnlyLocal()
-        : task.isOnlyLocalUser();
-    boolean testDiagram = RuminaqDiagramUtil.isTest(getFeatureProvider()
-        .getDiagramTypeProvider().getDiagram().eResource().getURI());
-    boolean specialColor = false;
-    for (GraphicsAlgorithm c : pe.getGraphicsAlgorithm()
-        .getGraphicsAlgorithmChildren())
-      if (c instanceof RoundedRectangle) {
-//        Style s = TaskStyle.getOnlyLocalStyle(getDiagram(), false);
-//        if (s != null && c.getStyle() != null
-//            && s.getId().equals(c.getStyle().getId()))
-//          specialColor = true;
-      }
-
-    if (testDiagram && specialColor) {
-//      for (GraphicsAlgorithm c : pe.getGraphicsAlgorithm()
-//          .getGraphicsAlgorithmChildren())
-//        if (c instanceof RoundedRectangle)
-//          c.setStyle(TaskStyle.getStyle(getDiagram()));
-    }
-    if (!testDiagram && specialColor && !onlyLocal) {
-//      for (GraphicsAlgorithm c : pe.getGraphicsAlgorithm()
-//          .getGraphicsAlgorithmChildren())
-//        if (c instanceof RoundedRectangle)
-//          c.setStyle(TaskStyle.getStyle(getDiagram()));
-    }
-    if (!testDiagram && !specialColor && onlyLocal) {
-//      for (GraphicsAlgorithm c : pe.getGraphicsAlgorithm()
-//          .getGraphicsAlgorithmChildren())
-//        if (c instanceof RoundedRectangle)
-//          c.setStyle(TaskStyle.getOnlyLocalStyle(getDiagram()));
-    }
-    return true;
   }
 
   protected void addPort(Task task, ContainerShape parent, PortsDescr pd) {
@@ -334,8 +270,8 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   protected void removePortShape(Task task, ContainerShape parent,
       InternalPort internalPort) {
-    Shape toRemove = AbstractAddTaskFeature.getPictogramElementOfInternalPort(parent,
-        internalPort);
+    Shape toRemove = AbstractAddTaskFeature
+        .getPictogramElementOfInternalPort(parent, internalPort);
 
     Position pos = AbstractAddTaskFeature.getPosition(parent, internalPort);
 
@@ -388,16 +324,20 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   private void redistributePorts(ContainerShape parent, Position pos) {
     switch (pos) {
       case LEFT:
-        AbstractAddTaskFeature.distributePortsOnLeft(parent, getFeatureProvider());
+        AbstractAddTaskFeature.distributePortsOnLeft(parent,
+            getFeatureProvider());
         break;
       case TOP:
-        AbstractAddTaskFeature.distributePortsOnTop(parent, getFeatureProvider());
+        AbstractAddTaskFeature.distributePortsOnTop(parent,
+            getFeatureProvider());
         break;
       case RIGHT:
-        AbstractAddTaskFeature.distributePortsOnRight(parent, getFeatureProvider());
+        AbstractAddTaskFeature.distributePortsOnRight(parent,
+            getFeatureProvider());
         break;
       case BOTTOM:
-        AbstractAddTaskFeature.distributePortsOnBottom(parent, getFeatureProvider());
+        AbstractAddTaskFeature.distributePortsOnBottom(parent,
+            getFeatureProvider());
         break;
       default:
         break;

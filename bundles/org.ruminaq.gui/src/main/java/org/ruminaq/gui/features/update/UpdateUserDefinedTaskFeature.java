@@ -10,12 +10,9 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.DataType;
@@ -273,8 +270,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       updated = updated | outputsUpdate(parent, be);
     if (atomicUpdateNeeded)
       updated = updated | atomicUpdate(parent, be);
-    if (onlyLocalUpdateNeeded)
-      updated = updated | onlyLocalUpdate(parent, be);
     if (paramsUpdateNeeded)
       updated = updated | paramsUpdate(parent, be);
 
@@ -400,16 +395,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       parent.getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
           .setLineStyle(LineStyle.DOT);
     return true;
-  }
-
-  //
-  // ONLY LOCAL
-  // *******************************************************************************
-  //
-  private boolean onlyLocalUpdate(ContainerShape parent, Task task) {
-    if (task.isOnlyLocalDefault())
-      task.setOnlyLocal(onlyLocal);
-    return super.updateOnlyLocal(parent);
   }
 
   //

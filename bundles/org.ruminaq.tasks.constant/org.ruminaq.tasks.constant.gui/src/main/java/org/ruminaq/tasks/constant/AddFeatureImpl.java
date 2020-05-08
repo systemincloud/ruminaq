@@ -59,8 +59,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
     @Override
     public PictogramElement add(IAddContext context) {
       PictogramElement pe = super.add(context);
-      UpdateContext updateCtx = new UpdateContext(pe);
-      getFeatureProvider().updateIfPossible(updateCtx);
+      getFeatureProvider().updateIfPossible(new UpdateContext(pe));
       return pe;
     }
 
