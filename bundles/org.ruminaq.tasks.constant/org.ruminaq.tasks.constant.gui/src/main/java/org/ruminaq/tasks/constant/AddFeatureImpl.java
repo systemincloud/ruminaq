@@ -11,6 +11,9 @@ import java.util.List;
 
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.IAddContext;
+import org.eclipse.graphiti.features.context.impl.UpdateContext;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.AddFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
@@ -44,13 +47,21 @@ public class AddFeatureImpl implements AddFeatureExtension {
         return Constant.class;
       }
     }
-    
+
     private static final int HEIGHT = 50;
 
     private static final int WIDTH = 50;
 
     public AddFeature(IFeatureProvider fp) {
       super(fp);
+    }
+
+    @Override
+    public PictogramElement add(IAddContext context) {
+      PictogramElement pe = super.add(context);
+      UpdateContext updateCtx = new UpdateContext(pe);
+      getFeatureProvider().updateIfPossible(updateCtx);
+      return pe;
     }
 
     @Override

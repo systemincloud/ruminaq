@@ -22,6 +22,11 @@ import org.ruminaq.tasks.inspect.impl.Port;
 import org.ruminaq.tasks.inspect.model.inspect.Inspect;
 import org.ruminaq.tasks.inspect.model.inspect.InspectFactory;
 
+/**
+ * Service CreateFeaturesExtension implementation.
+ * 
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=10" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
