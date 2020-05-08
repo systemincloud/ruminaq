@@ -98,19 +98,20 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     private boolean updateFillingNeeded(Constant constant,
         ContainerShape pictogramElement) {
-      GraphicsAlgorithm insideText = null;
-      for (GraphicsAlgorithm ga : pictogramElement.getGraphicsAlgorithm()
-          .getGraphicsAlgorithmChildren()) {
-        if (ga instanceof MultiText)
-          insideText = ga;
-      }
-      if (insideText == null)
-        return false;
-
-      if (((MultiText) insideText).getValue() == null)
-        return true;
-      else
-        return !((MultiText) insideText).getValue().equals(constant.getValue());
+//      GraphicsAlgorithm insideText = null;
+//      for (GraphicsAlgorithm ga : pictogramElement.getGraphicsAlgorithm()
+//          .getGraphicsAlgorithmChildren()) {
+//        if (ga instanceof MultiText)
+//          insideText = ga;
+//      }
+//      if (insideText == null)
+//        return false;
+//
+//      if (((MultiText) insideText).getValue() == null)
+//        return true;
+//      else
+//        return !((MultiText) insideText).getValue().equals(constant.getValue());
+      return false;
     }
 
     private boolean updateFilling(Constant constant,
