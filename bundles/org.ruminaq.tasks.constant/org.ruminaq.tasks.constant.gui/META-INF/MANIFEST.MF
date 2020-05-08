@@ -68,14 +68,13 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.util,
  org.slf4j
 Export-Package: org.ruminaq.tasks.constant,
- org.ruminaq.tasks.constant.features,
  org.ruminaq.tasks.constant.properties
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.constant.TaskApi.xml,
- OSGI-INF/org.ruminaq.tasks.constant.EclipseExtensionImpl.xml,
+Service-Component: OSGI-INF/org.ruminaq.tasks.constant.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.constant.AddFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.constant.TaskUiApi.xml,
  OSGI-INF/org.ruminaq.tasks.constant.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.constant.Images.xml
+ OSGI-INF/org.ruminaq.tasks.constant.Images.xml,
+ OSGI-INF/org.ruminaq.tasks.constant.UpdateFeatureImpl.xml

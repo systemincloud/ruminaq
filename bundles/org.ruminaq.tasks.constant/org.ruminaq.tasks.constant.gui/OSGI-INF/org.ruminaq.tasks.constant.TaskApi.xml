@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.ruminaq.tasks.constant.TaskApi">
-   <service>
-      <provide interface="org.ruminaq.tasks.api.ITaskApi"/>
-   </service>
-   <implementation class="org.ruminaq.tasks.constant.TaskApi"/>
-</scr:component>
