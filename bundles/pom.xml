@@ -34,7 +34,13 @@
     <module>org.ruminaq.tasks</module>
     <module>org.ruminaq.tasks.api</module>
     <module>org.ruminaq.tasks.console</module>
-    <module>org.ruminaq.tasks.constant</module>
+
+    <module>org.ruminaq.tasks.constant.api</module>
+    <module>org.ruminaq.tasks.constant.gui</module>
+    <module>org.ruminaq.tasks.constant.impl</module>
+    <module>org.ruminaq.tasks.constant.model</module>
+    <module>org.ruminaq.tasks.constant.ui</module>
+
     <module>org.ruminaq.tasks.debug</module>
     <module>org.ruminaq.tasks.debug.ui</module>
     <module>org.ruminaq.tasks.demux</module>

@@ -1,6 +1,5 @@
 Automatic-Module-Name: org.ruminaq.tasks.constant.model
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Tasks - Constant - Model
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.constant.model
 Bundle-Version: 1.0.0.qualifier
