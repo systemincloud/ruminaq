@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.constant;
+package org.ruminaq.tasks.constant.gui;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +27,7 @@ import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.tasks.constant.UpdateFeatureImpl.UpdateFeature.Filter;
+import org.ruminaq.tasks.constant.gui.UpdateFeatureImpl.UpdateFeature.Filter;
 import org.ruminaq.tasks.constant.model.constant.Constant;
 
 /**

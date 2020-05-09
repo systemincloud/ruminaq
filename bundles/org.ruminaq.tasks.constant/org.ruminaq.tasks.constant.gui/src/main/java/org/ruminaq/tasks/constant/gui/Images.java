@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.constant;
+package org.ruminaq.tasks.constant.gui;
 
 import java.util.Collection;
 import java.util.Collections;

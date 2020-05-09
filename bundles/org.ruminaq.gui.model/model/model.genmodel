@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="model/src/main/java" modelPluginID="org.ruminaq.gui.model"
     modelName="Diagram" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     suppressEMFTypes="true" codeFormatting="true" importerID="org.eclipse.emf.importer.ecore"
-    bundleManifest="false" complianceLevel="8.0" copyrightFields="false" usedGenPackages="platform:/resource/org.eclipse.graphiti.mm/model/graphiti.genmodel#//mm ../../org.ruminaq.model.ruminaq/model/model.genmodel#//ruminaq"
+    bundleManifest="false" complianceLevel="11.0" copyrightFields="false" usedGenPackages="platform:/resource/org.eclipse.graphiti.mm/model/graphiti.genmodel#//mm ../../org.ruminaq.model.ruminaq/model/model.genmodel#//ruminaq"
     importOrganizing="true" cleanup="true">
   <foreignModel>model.ecore</foreignModel>
   <genPackages prefix="Diagram" basePackage="org.ruminaq.gui.model" resource="XML"

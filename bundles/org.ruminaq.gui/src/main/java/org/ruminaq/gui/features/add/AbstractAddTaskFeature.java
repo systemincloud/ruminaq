@@ -96,7 +96,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 
   @Override
   public PictogramElement add(IAddContext context) {
-    TaskShape taskShape = DiagramFactory.eINSTANCE.createTaskShape();
+    TaskShape taskShape = createTaskShape();
     taskShape.setContainer(context.getTargetContainer());
     taskShape.setX(context.getX());
     taskShape.setY(context.getY());
@@ -115,6 +115,10 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     updatePictogramElement(taskShape);
 
     return taskShape;
+  }
+  
+  public TaskShape createTaskShape() {
+    return DiagramFactory.eINSTANCE.createTaskShape();
   }
 
   private void addInternalPorts(Task task, TaskShape taskShape) {

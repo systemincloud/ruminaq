@@ -208,22 +208,6 @@ public class TasksManagerHandlerImpl implements TaskManagerHandler {
     btnOnlyLocal.setText("Only local");
 
     // initActions
-    btnOnlyLocalDefault.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent se) {
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            task.setOnlyLocalDefault(btnOnlyLocalDefault.getSelection());
-            btnOnlyLocal.setEnabled(!btnOnlyLocalDefault.getSelection());
-            if (btnOnlyLocalDefault.getSelection()) {
-              task.setOnlyLocalUser(task.isOnlyLocal());
-              btnOnlyLocal.setSelection(task.isOnlyLocal());
-            }
-          }
-        }, ed, "Model Update");
-      }
-    });
     btnOnlyLocal.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent se) {
@@ -241,22 +225,6 @@ public class TasksManagerHandlerImpl implements TaskManagerHandler {
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
     lblVersionValue
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-
-    // refresh
-    if (RuminaqDiagramUtil.isTest(task.eResource().getURI())) {
-      btnOnlyLocalDefault.setVisible(false);
-      btnOnlyLocal.setVisible(false);
-    } else {
-      if (task.isOnlyLocal()) {
-        btnOnlyLocalDefault.setSelection(true);
-        btnOnlyLocalDefault.setEnabled(false);
-        btnOnlyLocal.setEnabled(false);
-      } else {
-        btnOnlyLocalDefault.setSelection(task.isOnlyLocalDefault());
-        btnOnlyLocal.setSelection(task.isOnlyLocalUser());
-        btnOnlyLocal.setEnabled(!task.isOnlyLocalDefault());
-      }
-    }
   }
 
   public LinkedHashSet<String> getProgramArguments(IProject p) {

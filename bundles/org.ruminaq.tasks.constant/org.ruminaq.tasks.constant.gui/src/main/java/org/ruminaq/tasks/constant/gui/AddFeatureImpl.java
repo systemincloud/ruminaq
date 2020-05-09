@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.constant;
+package org.ruminaq.tasks.constant.gui;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,9 +19,11 @@ import org.ruminaq.gui.api.AddFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
+import org.ruminaq.gui.model.diagram.DiagramFactory;
+import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.tasks.constant.AddFeatureImpl.AddFeature.Filter;
+import org.ruminaq.tasks.constant.gui.AddFeatureImpl.AddFeature.Filter;
 import org.ruminaq.tasks.constant.impl.Port;
 import org.ruminaq.tasks.constant.model.constant.Constant;
 
@@ -61,6 +63,11 @@ public class AddFeatureImpl implements AddFeatureExtension {
       PictogramElement pe = super.add(context);
       getFeatureProvider().updateIfPossible(new UpdateContext(pe));
       return pe;
+    }
+    
+    @Override
+    public TaskShape createTaskShape() {
+      return DiagramFactory.eINSTANCE.createTaskShape();
     }
 
     @Override
