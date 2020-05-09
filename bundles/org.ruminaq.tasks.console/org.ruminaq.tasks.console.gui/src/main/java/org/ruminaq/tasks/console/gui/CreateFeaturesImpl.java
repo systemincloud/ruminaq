@@ -45,7 +45,6 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
     @Override
     public Object[] create(ICreateContext context) {
       Console console = ConsoleFactory.eINSTANCE.createConsole();
-      console.setOnlyLocal(true);
       console.setConsoleType(ConsoleType.IN);
       console.setNewLine(true);
       return super.create(context, console);
