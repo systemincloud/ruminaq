@@ -11,18 +11,13 @@ import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo;
 import org.eclipse.graphiti.features.impl.Reason;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
-import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
-import org.ruminaq.gui.features.add.AbstractAddTaskFeature.InternalPortLabelPosition;
 import org.ruminaq.gui.features.update.UpdateBaseElementFeature;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.DataTypeManager;
@@ -172,7 +167,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     in.setQueueSize(queue);
     task.getInputPort().add(in);
 
-//    int lineWidth = AbstractAddTaskFeature.INPUT_PORT_WIDTH;
     int x, y;
     switch (pos) {
       default:
@@ -194,12 +188,8 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 //            - AbstractAddTaskFeature.PORT_SIZE;
         break;
     }
-    LineStyle lineStyle = LineStyle.SOLID;
-    if (in.isAsynchronous())
-      lineStyle = LineStyle.DOT;
 //    ContainerShape containerShape = AbstractAddTaskFeature
-//        .createPictogramForInternalPort(parent, x, y, AbstractAddTaskFeature.PORT_SIZE,
-//            AbstractAddTaskFeature.PORT_SIZE, getDiagram(), lineWidth, lineStyle);
+//        .createPictogramForInternalPort(parent, x, y, getDiagram());
 //    peCreateService.createChopboxAnchor(containerShape);
 //    ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
 //        getDiagram(), parent, in.getId(), AbstractAddTaskFeature.PORT_SIZE,
