@@ -55,7 +55,6 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
     @Override
     public Object[] create(ICreateContext context) {
       Inspect inspect = InspectFactory.eINSTANCE.createInspect();
-      inspect.setOnlyLocal(true);
       return super.create(context, inspect);
     }
 
