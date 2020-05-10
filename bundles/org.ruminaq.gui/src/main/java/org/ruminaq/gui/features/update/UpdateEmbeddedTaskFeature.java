@@ -221,11 +221,6 @@ public class UpdateEmbeddedTaskFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected void loadOnlyLocal() {
-    onlyLocal = embeddedTask.isOnlyLocal();
-  }
-
-  @Override
   protected Map<String, String> getParameters(UserDefinedTask udt) {
     logger.trace("getParameters");
     final Map<String, String> ret = new HashMap<>();

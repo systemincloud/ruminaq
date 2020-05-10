@@ -262,30 +262,6 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected void loadOnlyLocal() {
-    SimpleNode ast = sourceModule.getAst();
-    EasyASTIteratorVisitor visitor = EasyASTIteratorVisitor.create(ast);
-    Iterator<ASTEntry> it = visitor.getClassesAndMethodsIterator();
-    while (it.hasNext()) {
-      ASTEntry entry = it.next();
-      if (entry.node instanceof ClassDef) {
-        ClassDef classDef = (ClassDef) entry.node;
-        decoratorsType[] ds = classDef.decs;
-        if (ds == null)
-          continue;
-        for (decoratorsType d : ds)
-          if (d.func instanceof Name
-              && ((Name) d.func).id.equals("PythonTaskInfo"))
-            for (keywordType k : d.keywords)
-              if ("only_local".equals(((NameTok) k.arg).id)) {
-                this.onlyLocal = "True".equals(((Name) k.value).id);
-                return;
-              }
-      }
-    }
-  }
-
-  @Override
   protected Map<String, String> getParameters(UserDefinedTask udt) {
     final Map<String, String> ret = new HashMap<>();
     SimpleNode ast = sourceModule.getAst();

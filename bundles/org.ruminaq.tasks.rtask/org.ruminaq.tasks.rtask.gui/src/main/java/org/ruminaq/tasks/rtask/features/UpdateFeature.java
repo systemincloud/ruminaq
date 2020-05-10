@@ -333,10 +333,4 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
   }
 
-  @Override
-  protected void loadOnlyLocal() {
-    // TODO Auto-generated method stub
-
-  }
-
 }

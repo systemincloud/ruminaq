@@ -209,7 +209,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     loadInputPorts();
     loadOutputPorts();
     loadAtomic();
-    loadOnlyLocal();
 
     this.descUpdateNeeded = !compareIconDescription(pictogramElement);
     this.inputsUpdateNeeded = !compareInputPorts(inputs, inputPorts);
@@ -239,8 +238,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
   protected abstract void loadOutputPorts();
 
   protected abstract void loadAtomic();
-
-  protected abstract void loadOnlyLocal();
 
   protected abstract Map<String, String> getParameters(UserDefinedTask udt);
 

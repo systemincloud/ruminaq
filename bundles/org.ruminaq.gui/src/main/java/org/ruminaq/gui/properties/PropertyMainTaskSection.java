@@ -36,7 +36,6 @@ public class PropertyMainTaskSection extends GFPropertySection
   private CLabel versionValue;
   private Button btnAtomic;
   private Button btnPreventLost;
-  private Button btnOnlyLocal;
 
   /**
    * @wbp.parser.entryPoint
@@ -65,7 +64,6 @@ public class PropertyMainTaskSection extends GFPropertySection
     btnPreventLost = new Button(composite, SWT.CHECK);
     new CLabel(composite, SWT.NONE)
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    btnOnlyLocal = new Button(composite, SWT.CHECK);
   }
 
   private void initActions(final MainTask mt) {
@@ -95,26 +93,12 @@ public class PropertyMainTaskSection extends GFPropertySection
         }, editingDomain, "Model Update");
       }
     });
-    btnOnlyLocal.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent se) {
-        TransactionalEditingDomain editingDomain = getDiagramContainer()
-            .getDiagramBehavior().getEditingDomain();
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            mt.setOnlyLocal(btnOnlyLocal.getSelection());
-          }
-        }, editingDomain, "Model Update");
-      }
-    });
   }
 
   private void initComponents() {
     lblVersion.setText("Version:");
     btnAtomic.setText("Atomic");
     btnPreventLost.setText("Prevent data lost");
-    btnOnlyLocal.setText("Only local");
   }
 
   private void addStyles() {
@@ -139,8 +123,6 @@ public class PropertyMainTaskSection extends GFPropertySection
       versionValue.setText(mt.getVersion());
       btnAtomic.setSelection(mt.isAtomic());
       btnPreventLost.setSelection(mt.isPreventLosts());
-      btnOnlyLocal.setSelection(mt.isOnlyLocal());
-      btnOnlyLocal.setVisible(!RuminaqDiagramUtil.isTest(mt.eResource().getURI()));
     }
   }
 

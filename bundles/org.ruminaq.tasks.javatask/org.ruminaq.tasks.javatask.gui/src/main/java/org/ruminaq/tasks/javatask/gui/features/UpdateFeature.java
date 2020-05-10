@@ -321,36 +321,6 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected void loadOnlyLocal() {
-    IAnnotation[] annotations;
-    try {
-      annotations = type.getAnnotations();
-    } catch (JavaModelException e) {
-      return;
-    }
-
-    if (annotations == null)
-      return;
-
-    IAnnotation sicInfo = null;
-    for (IAnnotation a : annotations)
-      if (a.getElementName().equals(JavaTaskInfo.class.getSimpleName()))
-        sicInfo = a;
-
-    IMemberValuePair[] mvps = null;
-    try {
-      mvps = sicInfo.getMemberValuePairs();
-    } catch (JavaModelException e) {
-    }
-    if (mvps == null)
-      return;
-
-    for (IMemberValuePair mvp : mvps)
-      if (mvp.getMemberName().equals("onlyLocal"))
-        onlyLocal = ((Boolean) mvp.getValue()).booleanValue();
-  }
-
-  @Override
   protected Map<String, String> getParameters(UserDefinedTask udt) {
     final Map<String, String> ret = new HashMap<>();
     JavaTask jt = (JavaTask) udt;
