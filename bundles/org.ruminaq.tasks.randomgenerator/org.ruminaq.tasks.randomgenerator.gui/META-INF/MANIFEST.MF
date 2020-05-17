@@ -44,6 +44,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.consts,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui.api,
+ org.ruminaq.gui.features,
  org.ruminaq.gui.features.add,
  org.ruminaq.gui.features.create,
  org.ruminaq.gui.features.doubleclick,
@@ -68,13 +69,14 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.randomgenerator.model.randomgenerator,
  org.ruminaq.util,
  org.slf4j
-Export-Package: org.ruminaq.tasks.randomgenerator,
- org.ruminaq.tasks.randomgenerator.extension,
- org.ruminaq.tasks.randomgenerator.features,
- org.ruminaq.tasks.randomgenerator.properties
+Export-Package: org.ruminaq.tasks.randomgenerator.gui,
+ org.ruminaq.tasks.randomgenerator.gui.extension,
+ org.ruminaq.tasks.randomgenerator.gui.features,
+ org.ruminaq.tasks.randomgenerator.gui.properties
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.randomgenerator.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.randomgenerator.EclipseExtensionImpl.xml,
- OSGI-INF/org.ruminaq.tasks.randomgenerator.Images.xml
+Service-Component: OSGI-INF/org.ruminaq.tasks.randomgenerator.gui.Images.xml,
+ OSGI-INF/org.ruminaq.tasks.randomgenerator.gui.AddFeatureImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.randomgenerator.gui.CreateFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.randomgenerator.gui.EclipseExtensionImpl.xml
