@@ -60,7 +60,7 @@ public class RandomGeneratorI extends GeneratorI {
     super(parent, task);
     setGenerator(true);
     this.randomGenerator = (RandomGenerator) task;
-    DataType dataType = randomGenerator.getDataType();
+    DataType dataType = randomGenerator.getOutputPort().get(0).getDataType().get(0);
 
     if (!RandomUtil.containsRandom(
         parent.replaceVariables(randomGenerator.getDimensions()))) {

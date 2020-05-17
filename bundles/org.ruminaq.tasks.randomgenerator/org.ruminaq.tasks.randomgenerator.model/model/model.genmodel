@@ -9,7 +9,6 @@
   <genPackages prefix="Randomgenerator" basePackage="org.ruminaq.tasks.randomgenerator.model"
       resource="XML" disposableProviderFactory="true" ecorePackage="model.ecore#/">
     <genClasses ecoreClass="model.ecore#//RandomGenerator">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//RandomGenerator/dataType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//RandomGenerator/dimensions"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//RandomGenerator/interval"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//RandomGenerator/specific"/>
