@@ -39,4 +39,5 @@ Export-Package: org.ruminaq.gui.model.diagram,
  org.ruminaq.gui.model.diagram.impl.label,
  org.ruminaq.gui.model.diagram.impl.port,
  org.ruminaq.gui.model.diagram.impl.simpleconnection,
+ org.ruminaq.gui.model.diagram.impl.task,
  org.ruminaq.gui.model.diagram.util

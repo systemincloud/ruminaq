@@ -40,7 +40,7 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
   private TaskShape shape;
 
-  private EList<GraphicsAlgorithm> children;
+  protected EList<GraphicsAlgorithm> children;
 
   /**
    * Optional icon in the center of TaskShape.

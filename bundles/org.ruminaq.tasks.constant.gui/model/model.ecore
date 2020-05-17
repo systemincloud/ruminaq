@@ -2,5 +2,11 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="constantshape" nsURI="http://ruminaq.org/tasks/constantshape"
     nsPrefix="constantshape">
-  <eClassifiers xsi:type="ecore:EClass" name="ConstantShape" eSuperTypes="../../org.ruminaq.gui.model/model/model.ecore#//TaskShape"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ConstantShape" eSuperTypes="../../org.ruminaq.gui.model/model/model.ecore#//TaskShape">
+    <eOperations name="getGraphicsAlgorithm" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//algorithms/GraphicsAlgorithm">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+      </eAnnotations>
+    </eOperations>
+  </eClassifiers>
 </ecore:EPackage>

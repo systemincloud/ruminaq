@@ -11,19 +11,16 @@ import java.util.List;
 
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IAddContext;
-import org.eclipse.graphiti.features.context.impl.UpdateContext;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.AddFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
-import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.constant.gui.AddFeatureImpl.AddFeature.Filter;
+import org.ruminaq.tasks.constant.gui.constantshape.ConstantshapeFactory;
 import org.ruminaq.tasks.constant.impl.Port;
 import org.ruminaq.tasks.constant.model.constant.Constant;
 
@@ -57,17 +54,10 @@ public class AddFeatureImpl implements AddFeatureExtension {
     public AddFeature(IFeatureProvider fp) {
       super(fp);
     }
-
-    @Override
-    public PictogramElement add(IAddContext context) {
-      PictogramElement pe = super.add(context);
-      getFeatureProvider().updateIfPossible(new UpdateContext(pe));
-      return pe;
-    }
     
     @Override
     public TaskShape createTaskShape() {
-      return DiagramFactory.eINSTANCE.createTaskShape();
+      return ConstantshapeFactory.eINSTANCE.createConstantShape();
     }
 
     @Override

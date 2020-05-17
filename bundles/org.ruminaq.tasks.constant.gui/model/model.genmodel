@@ -8,6 +8,9 @@
   <foreignModel>model.ecore</foreignModel>
   <genPackages prefix="Constantshape" basePackage="org.ruminaq.tasks.constant.gui"
       resource="XML" disposableProviderFactory="true" ecorePackage="model.ecore#/">
-    <genClasses ecoreClass="model.ecore#//ConstantShape"/>
+    <genClasses ecoreClass="model.ecore#//ConstantShape">
+      <genOperations ecoreOperation="model.ecore#//ConstantShape/getGraphicsAlgorithm"
+          body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>
