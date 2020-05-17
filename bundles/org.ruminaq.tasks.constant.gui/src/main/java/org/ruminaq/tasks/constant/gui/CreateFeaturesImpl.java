@@ -38,8 +38,6 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
   
   /**
    * Constant create feature.
-   * 
-   * @author Marek Jagielski
    */
   public static class CreateFeature extends AbstractCreateTaskFeature
       implements PaletteCreateFeature {

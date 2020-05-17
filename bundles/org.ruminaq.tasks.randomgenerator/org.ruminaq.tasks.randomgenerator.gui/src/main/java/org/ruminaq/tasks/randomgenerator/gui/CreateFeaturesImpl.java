@@ -18,6 +18,11 @@ import org.ruminaq.tasks.randomgenerator.impl.Port;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomgeneratorFactory;
 
+/**
+ * Service CreateFeaturesExtension implementation.
+ * 
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=10" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
@@ -26,6 +31,9 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
     return Arrays.asList(CreateFeature.class);
   }
 
+  /**
+   * RandomGenerator create feature.
+   */
   public static class CreateFeature extends AbstractCreateTaskFeature
       implements PaletteCreateFeature {
 
