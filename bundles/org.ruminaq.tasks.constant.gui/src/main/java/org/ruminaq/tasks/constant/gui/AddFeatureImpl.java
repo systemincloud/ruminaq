@@ -37,6 +37,9 @@ public class AddFeatureImpl implements AddFeatureExtension {
     return Collections.singletonList(AddFeature.class);
   }
 
+  /**
+   * Constant AddFeature.
+   */
   @FeatureFilter(Filter.class)
   public static class AddFeature extends AbstractAddTaskFeature {
 
