@@ -202,7 +202,8 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
             if (dt != null) {
               if (bo instanceof RandomGenerator) {
                 RandomGenerator rg = (RandomGenerator) bo;
-                rg.setDataType(dt);
+                rg.getOutputPort().get(0).getDataType().clear();
+                rg.getOutputPort().get(0).getDataType().add(dt);
                 while (rg.getOutputPort().get(0).getDataType().size() > 0)
                   rg.getOutputPort().get(0).getDataType().remove(0);
                 rg.getOutputPort().get(0).getDataType().add(EcoreUtil.copy(dt));
@@ -315,7 +316,7 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
       int i = 0;
       for (String dt : cmbType.getItems()) {
         if (dt.equals(
-            ModelUtil.getName(generator.getDataType().getClass(), false)))
+            ModelUtil.getName(generator.getOutputPort().get(0).getDataType().get(0).getClass(), false)))
           break;
         i++;
       }
@@ -326,7 +327,7 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
       txtInterval.setText(generator.getInterval());
 
       PropertySpecificComposite sc = specificComposites
-          .get(ModelUtil.getName(generator.getDataType().getClass(), false));
+          .get(ModelUtil.getName(generator.getOutputPort().get(0).getDataType().get(0).getClass(), false));
       if (sc == null) {
         specificStack.topControl = noSpecific.getComposite();
         txtDims.setEnabled(true);
