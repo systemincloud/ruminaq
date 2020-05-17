@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.constant.it.tests;
+package org.ruminaq.tasks.randomgenerator.it.tests;
 
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
@@ -23,7 +23,7 @@ public class AddTest extends GuiTest {
   @Test
   public void testAddConstant() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Constant", 200, 100);
+    gefEditor.addToolFromPalette("Random Generator", 200, 100);
   }
 
 }

@@ -9,4 +9,4 @@
  *
  * @author Marek Jagielski
  */
-package org.ruminaq.tasks.constant.it.tests;
+package org.ruminaq.tasks.randomgenerator.it.tests;
