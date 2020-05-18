@@ -21,7 +21,7 @@ import org.ruminaq.tests.common.reddeer.GuiTest;
 public class AddTest extends GuiTest {
 
   @Test
-  public void testAddConstant() {
+  public void testAddRandomGenerator() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Random Generator", 200, 100);
   }
