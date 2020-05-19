@@ -63,11 +63,6 @@ public class AddFeatureImpl implements AddFeatureExtension {
     }
 
     @Override
-    protected boolean useIconInsideShape() {
-      return true;
-    }
-
-    @Override
     protected String getInsideIconId() {
       return Images.IMG_RANDOMGENERATOR_DIAGRAM;
     }

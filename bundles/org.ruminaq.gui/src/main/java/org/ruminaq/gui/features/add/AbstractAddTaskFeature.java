@@ -74,10 +74,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     return DEFAULT_TASK_HEIGHT;
   }
 
-  protected boolean useIconInsideShape() {
-    return false;
-  }
-
   protected String getInsideIconId() {
     return null;
   }

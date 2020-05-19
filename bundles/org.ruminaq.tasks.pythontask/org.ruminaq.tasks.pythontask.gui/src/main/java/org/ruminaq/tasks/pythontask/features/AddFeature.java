@@ -15,11 +15,6 @@ public class AddFeature extends AbstractAddTaskFeature {
   }
 
   @Override
-  protected boolean useIconInsideShape() {
-    return true;
-  }
-
-  @Override
   protected String getInsideIconId() {
     return Images.IMG_PYTHONTASK_DIAGRAM;
   }

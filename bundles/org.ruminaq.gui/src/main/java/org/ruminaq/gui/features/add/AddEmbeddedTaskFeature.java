@@ -37,11 +37,6 @@ public class AddEmbeddedTaskFeature extends AbstractAddTaskFeature {
   }
 
   @Override
-  protected boolean useIconInsideShape() {
-    return true;
-  }
-
-  @Override
   protected String getInsideIconId() {
     return  Images.IMG_EMBEDDEDTASK_DIAGRAM_MAIN;
   }

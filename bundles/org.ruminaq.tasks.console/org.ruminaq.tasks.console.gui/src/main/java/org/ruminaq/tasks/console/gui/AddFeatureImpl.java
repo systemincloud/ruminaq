@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.tasks.console.gui;
 
 import java.util.Arrays;
@@ -16,6 +22,11 @@ import org.ruminaq.tasks.console.gui.AddFeatureImpl.AddFeature.Filter;
 import org.ruminaq.tasks.console.impl.Port;
 import org.ruminaq.tasks.console.model.console.Console;
 
+/**
+ * Service AddFeatureExtension implementation.
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=10" })
 public class AddFeatureImpl implements AddFeatureExtension {
 
@@ -24,6 +35,9 @@ public class AddFeatureImpl implements AddFeatureExtension {
     return Arrays.asList(AddFeature.class);
   }
 
+  /**
+   * Console AddFeature.
+   */
   @FeatureFilter(Filter.class)
   public static class AddFeature extends AbstractAddTaskFeature {
 
@@ -33,24 +47,23 @@ public class AddFeatureImpl implements AddFeatureExtension {
         return Console.class;
       }
     }
+    
+    private static final int HEIGHT = 50;
 
+    private static final int WIDTH = 50;
+    
     public AddFeature(IFeatureProvider fp) {
       super(fp);
     }
 
     @Override
     protected int getHeight() {
-      return 50;
+      return HEIGHT;
     }
 
     @Override
     protected int getWidth() {
-      return 50;
-    }
-
-    @Override
-    protected boolean useIconInsideShape() {
-      return true;
+      return WIDTH;
     }
 
     @Override

@@ -12,11 +12,6 @@ public class AddFeature extends AddGateFeature {
   }
 
   @Override
-  protected boolean useIconInsideShape() {
-    return true;
-  }
-
-  @Override
   protected String getInsideIconId() {
     return Images.IMG_NOT_DIAGRAM;
   }
