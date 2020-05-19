@@ -1,6 +1,12 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.tasks.randomgenerator.gui;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.graphiti.features.ICreateFeature;
@@ -26,7 +32,7 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
   @Override
   public List<Class<? extends ICreateFeature>> getFeatures() {
-    return Arrays.asList(CreateFeature.class);
+    return Collections.singletonList(CreateFeature.class);
   }
 
   /**
