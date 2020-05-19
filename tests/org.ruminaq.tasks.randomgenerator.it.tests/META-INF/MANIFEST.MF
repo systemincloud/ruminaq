@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.randomgenerator.it.tests
 Bundle-Version: 1.0.0.qualifier
-Fragment-Host: org.ruminaq.tasks.constant.gui
+Fragment-Host: org.ruminaq.tasks.randomgenerator.gui
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: jakarta.xml.bind-api,
  org.junit,
