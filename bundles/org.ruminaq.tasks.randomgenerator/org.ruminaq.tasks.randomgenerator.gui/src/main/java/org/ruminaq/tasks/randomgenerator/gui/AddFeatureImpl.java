@@ -48,18 +48,22 @@ public class AddFeatureImpl implements AddFeatureExtension {
       }
     }
 
+    private static final int HEIGHT = 50;
+
+    private static final int WIDTH = 50;
+    
     public AddFeature(IFeatureProvider fp) {
       super(fp);
     }
 
     @Override
     protected int getHeight() {
-      return 55;
+      return HEIGHT;
     }
 
     @Override
     protected int getWidth() {
-      return 55;
+      return WIDTH;
     }
 
     @Override
