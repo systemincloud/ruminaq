@@ -114,26 +114,29 @@
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
-
     <dependency>
       <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.tasks.gate.not</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
-
     <dependency>
       <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.tasks.gate.or</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
-
     <dependency>
       <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.tasks.gate.xor</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.gate.it.tests</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
