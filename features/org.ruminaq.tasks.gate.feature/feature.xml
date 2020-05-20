@@ -10,21 +10,7 @@
    </description>
 
    <plugin
-         id="org.ruminaq.tasks.gate.and"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
          id="org.ruminaq.tasks.gate.and.impl"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.and.model"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"
@@ -52,21 +38,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.ruminaq.tasks.gate.not"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
          id="org.ruminaq.tasks.gate.not.impl"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.not.model"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"
@@ -94,13 +66,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.ruminaq.tasks.gate.or.model"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
          id="org.ruminaq.tasks.gate.or.ui"
          download-size="0"
          install-size="0"
@@ -116,13 +81,6 @@
 
    <plugin
          id="org.ruminaq.tasks.gate.xor.impl"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.xor.model"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"

@@ -1,1 +1,0 @@
-[ "and.xcf" : ["diagram", "palette-white", "icon"] ]

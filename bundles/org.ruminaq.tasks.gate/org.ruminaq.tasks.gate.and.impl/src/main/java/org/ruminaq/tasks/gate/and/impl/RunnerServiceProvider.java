@@ -4,13 +4,13 @@ import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.TaskI;
 import org.ruminaq.runner.service.AbstractRunnerService;
-import org.ruminaq.tasks.gate.and.model.and.AndPackage;
-import org.ruminaq.tasks.gate.and.model.and.And;
+import org.ruminaq.tasks.gate.model.gate.And;
+import org.ruminaq.tasks.gate.model.gate.GatePackage;
 
 public final class RunnerServiceProvider extends AbstractRunnerService {
   @Override
   public void initModelPackages() {
-    AndPackage.eINSTANCE.getClass();
+    GatePackage.eINSTANCE.getClass();
   }
 
   @Override

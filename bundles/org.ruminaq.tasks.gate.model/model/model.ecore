@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="gate" nsURI="http://ruminaq.org/tasks/gate/1_0_0" nsPrefix="gate_1_0_0">
+  <eClassifiers xsi:type="ecore:EClass" name="Gate" abstract="true" eSuperTypes="../../org.ruminaq.model.ruminaq/model/model.ecore#//Task">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inputNumber" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="And" eSuperTypes="#//Gate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Not" eSuperTypes="#//Gate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Or" eSuperTypes="#//Gate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Xor" eSuperTypes="#//Gate"/>
+</ecore:EPackage>

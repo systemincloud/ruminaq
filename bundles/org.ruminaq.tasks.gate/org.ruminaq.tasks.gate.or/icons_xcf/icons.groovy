@@ -1,1 +1,0 @@
-[ "or.xcf" : ["diagram", "palette-white", "icon"] ]

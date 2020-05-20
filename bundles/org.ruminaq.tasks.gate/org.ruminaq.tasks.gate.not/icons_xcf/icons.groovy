@@ -1,1 +1,0 @@
-[ "not.xcf" : ["diagram", "palette-white", "icon"] ]

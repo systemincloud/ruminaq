@@ -1,1 +1,0 @@
-[ "xor.xcf" : ["diagram", "palette-white", "icon"] ]

@@ -8,7 +8,7 @@ import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.PortMap;
 import org.ruminaq.runner.impl.data.BoolI;
 import org.ruminaq.runner.impl.data.DataI;
-import org.ruminaq.tasks.gate.Port;
+import org.ruminaq.tasks.gate.gui.Port;
 
 public class OrI extends BasicTaskI {
 

@@ -4,14 +4,13 @@ import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.TaskI;
 import org.ruminaq.runner.service.AbstractRunnerService;
-import org.ruminaq.tasks.gate.xor.impl.XorI;
-import org.ruminaq.tasks.gate.xor.model.xor.Xor;
-import org.ruminaq.tasks.gate.xor.model.xor.XorPackage;
+import org.ruminaq.tasks.gate.model.gate.GatePackage;
+import org.ruminaq.tasks.gate.model.gate.Xor;
 
 public final class RunnerServiceProvider extends AbstractRunnerService {
   @Override
   public void initModelPackages() {
-    XorPackage.eINSTANCE.getClass();
+    GatePackage.eINSTANCE.getClass();
   }
 
   @Override
