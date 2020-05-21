@@ -1,14 +1,15 @@
 Automatic-Module-Name: org.ruminaq.tasks.inspect.gui
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Tasks - Inspect
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.inspect.gui
 Bundle-Version: 1.0.0.qualifier
+Bundle-ActivationPolicy: lazy
 Require-Bundle: org.cojen,
  org.cojen.dirmi
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.apache.commons.cli,
+ org.eclipse.core.resources,
  org.eclipse.core.runtime,
  org.eclipse.emf.common,
  org.eclipse.emf.common.notify,
@@ -31,13 +32,18 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.graphiti.features.custom,
  org.eclipse.graphiti.features.impl,
  org.eclipse.graphiti.mm.pictograms,
+ org.eclipse.graphiti.platform,
  org.eclipse.graphiti.services,
  org.eclipse.jdt.launching,
+ org.eclipse.osgi.util,
  org.eclipse.swt,
  org.eclipse.swt.custom,
  org.eclipse.swt.events,
+ org.eclipse.swt.graphics,
  org.eclipse.swt.layout,
  org.eclipse.swt.widgets,
+ org.eclipse.ui,
+ org.eclipse.ui.part,
  org.eclipse.ui.plugin,
  org.osgi.framework,
  org.osgi.service.component.annotations,
@@ -49,6 +55,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.gui.features.create,
  org.ruminaq.gui.features.doubleclick,
  org.ruminaq.gui.image,
+ org.ruminaq.gui.model.diagram,
  org.ruminaq.gui.palette,
  org.ruminaq.launch,
  org.ruminaq.model.desc,
@@ -66,7 +73,6 @@ Import-Package: ch.qos.logback.classic,
 Export-Package: org.ruminaq.tasks.inspect.gui
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.inspect.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.inspect.Images.xml,
  OSGI-INF/org.ruminaq.tasks.inspect.gui.TaskApi.xml,
