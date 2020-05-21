@@ -25,6 +25,7 @@
     <module>org.ruminaq.tasks.console.it.tests</module>
     <module>org.ruminaq.tasks.constant.it.tests</module>
     <module>org.ruminaq.tasks.gate.it.tests</module>
+    <module>org.ruminaq.tasks.inspect.it.tests</module>
     <module>org.ruminaq.tasks.javatask.it.tests</module>
     <module>org.ruminaq.tasks.randomgenerator.it.tests</module>
     <!-- <module>org.ruminaq.tasks.constant.tests</module> -->

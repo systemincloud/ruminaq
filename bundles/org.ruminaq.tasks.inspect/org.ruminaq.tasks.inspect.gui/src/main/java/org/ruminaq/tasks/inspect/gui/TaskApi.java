@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.inspect;
+package org.ruminaq.tasks.inspect.gui;
 
 import java.util.Map;
 

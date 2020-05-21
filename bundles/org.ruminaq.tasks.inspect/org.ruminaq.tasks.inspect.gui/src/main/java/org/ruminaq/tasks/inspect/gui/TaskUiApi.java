@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.inspect;
+package org.ruminaq.tasks.inspect.gui;
 
 import java.util.Map;
 
@@ -13,7 +13,7 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.api.ITaskUiApi;
-import org.ruminaq.tasks.inspect.PropertySection;
+import org.ruminaq.tasks.inspect.gui.PropertySection;
 
 @Component
 public class TaskUiApi implements ITaskUiApi {

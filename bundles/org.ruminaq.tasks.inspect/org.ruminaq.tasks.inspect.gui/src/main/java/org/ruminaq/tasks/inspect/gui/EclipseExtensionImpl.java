@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.inspect;
+package org.ruminaq.tasks.inspect.gui;
 
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.eclipse.api.EclipseExtension;

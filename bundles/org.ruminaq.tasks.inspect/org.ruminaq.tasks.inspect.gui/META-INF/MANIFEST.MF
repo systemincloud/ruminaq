@@ -44,6 +44,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.consts,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui.api,
+ org.ruminaq.gui.features,
  org.ruminaq.gui.features.add,
  org.ruminaq.gui.features.create,
  org.ruminaq.gui.features.doubleclick,
@@ -62,13 +63,14 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.inspect.model.inspect,
  org.ruminaq.util,
  org.slf4j
-Export-Package: org.ruminaq.tasks.inspect,
- org.ruminaq.tasks.inspect.features
+Export-Package: org.ruminaq.tasks.inspect.gui
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.inspect.TaskApi.xml,
- OSGI-INF/org.ruminaq.tasks.inspect.TaskUiApi.xml,
- OSGI-INF/org.ruminaq.tasks.inspect.EclipseExtensionImpl.xml,
- OSGI-INF/org.ruminaq.tasks.inspect.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.inspect.Images.xml
+Service-Component: OSGI-INF/org.ruminaq.tasks.inspect.EclipseExtensionImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.inspect.Images.xml,
+ OSGI-INF/org.ruminaq.tasks.inspect.gui.TaskApi.xml,
+ OSGI-INF/org.ruminaq.tasks.inspect.gui.TaskUiApi.xml,
+ OSGI-INF/org.ruminaq.tasks.inspect.gui.Images.xml,
+ OSGI-INF/org.ruminaq.tasks.inspect.gui.CreateFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.inspect.gui.AddFeatureImpl.xml

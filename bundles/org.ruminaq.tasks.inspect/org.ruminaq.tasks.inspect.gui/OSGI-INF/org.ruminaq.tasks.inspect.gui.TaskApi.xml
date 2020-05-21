@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" deactivate="deactivate" name="org.ruminaq.tasks.inspect.gui.TaskApi">
+   <service>
+      <provide interface="org.ruminaq.launch.LaunchListener"/>
+   </service>
+   <implementation class="org.ruminaq.tasks.inspect.gui.TaskApi"/>
+</scr:component>

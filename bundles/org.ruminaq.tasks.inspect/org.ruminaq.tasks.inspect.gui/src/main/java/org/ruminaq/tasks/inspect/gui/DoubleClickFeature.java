@@ -1,11 +1,10 @@
-package org.ruminaq.tasks.inspect.features;
+package org.ruminaq.tasks.inspect.gui;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.gui.features.doubleclick.DoubleClickBaseElementFeature;
 import org.ruminaq.tasks.Windows;
-import org.ruminaq.tasks.inspect.InspectWindow;
 import org.ruminaq.tasks.inspect.model.inspect.Inspect;
 
 public class DoubleClickFeature extends DoubleClickBaseElementFeature {
