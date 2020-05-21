@@ -20,6 +20,7 @@ import org.ruminaq.gui.model.diagram.impl.NoResource;
 /**
  * GraphicsAlgorithm for InternalOutputPort.
  * 
+ * <p>
  * InternalPort is presented rectangle with rounded corner.
  *
  * @author Marek Jagielski

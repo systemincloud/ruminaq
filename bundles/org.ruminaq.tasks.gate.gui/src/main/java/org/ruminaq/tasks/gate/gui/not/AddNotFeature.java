@@ -18,7 +18,7 @@ import org.ruminaq.tasks.gate.gui.not.AddNotFeature.Filter;
 import org.ruminaq.tasks.gate.model.gate.Not;
 
 /**
- * Constant AddFeature.
+ * Not AddFeature.
  */
 @FeatureFilter(Filter.class)
 public class AddNotFeature extends AddGateFeature {
