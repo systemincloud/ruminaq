@@ -21,9 +21,27 @@ import org.ruminaq.tests.common.reddeer.GuiTest;
 public class AddTest extends GuiTest {
 
   @Test
+  public void testAddNAnd() {
+    GEFEditor gefEditor = new GEFEditor(diagramName);
+    gefEditor.addToolFromPalette("And", 200, 100);
+  }
+  
+  @Test
   public void testAddNot() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Not", 200, 100);
+  }
+  
+  @Test
+  public void testAddOr() {
+    GEFEditor gefEditor = new GEFEditor(diagramName);
+    gefEditor.addToolFromPalette("Or", 200, 100);
+  }
+  
+  @Test
+  public void testAddXor() {
+    GEFEditor gefEditor = new GEFEditor(diagramName);
+    gefEditor.addToolFromPalette("Or", 200, 100);
   }
 
 }
