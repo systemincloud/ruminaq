@@ -52,13 +52,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.ruminaq.tasks.gate.or"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
          id="org.ruminaq.tasks.gate.or.impl"
          download-size="0"
          install-size="0"
@@ -67,13 +60,6 @@
 
    <plugin
          id="org.ruminaq.tasks.gate.or.ui"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.gate.xor"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"
