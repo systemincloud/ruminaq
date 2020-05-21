@@ -13,9 +13,9 @@ import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.tasks.gate.gui.Images;
-import org.ruminaq.tasks.gate.gui.Port;
 import org.ruminaq.tasks.gate.model.gate.GateFactory;
 import org.ruminaq.tasks.gate.model.gate.Not;
+import org.ruminaq.tasks.gate.not.impl.Port;
 
 public class CreateNotFeature extends AbstractCreateTaskFeature
     implements PaletteCreateFeature {

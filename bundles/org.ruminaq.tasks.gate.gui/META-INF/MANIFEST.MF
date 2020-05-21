@@ -53,6 +53,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.api,
  org.ruminaq.tasks.features,
  org.ruminaq.tasks.gate.model.gate,
+ org.ruminaq.tasks.gate.not.impl,
  org.slf4j
 Export-Package: org.ruminaq.tasks.gate.gui
 Bundle-ClassPath: .
