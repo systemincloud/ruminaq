@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.demux;
+package org.ruminaq.tasks.demux.gui;
 
 import java.util.Arrays;
 import java.util.List;

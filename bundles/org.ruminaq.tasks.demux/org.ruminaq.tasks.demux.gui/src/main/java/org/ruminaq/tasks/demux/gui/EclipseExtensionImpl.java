@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.demux;
+package org.ruminaq.tasks.demux.gui;
 
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.eclipse.api.EclipseExtension;

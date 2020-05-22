@@ -55,12 +55,11 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.demux.model.demux,
  org.ruminaq.tasks.features,
  org.slf4j
-Export-Package: org.ruminaq.tasks.demux,
- org.ruminaq.tasks.demux.features
+Export-Package: org.ruminaq.tasks.demux.gui
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.demux.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.demux.EclipseExtensionImpl.xml,
- OSGI-INF/org.ruminaq.tasks.demux.TaskUiApi.xml,
- OSGI-INF/org.ruminaq.tasks.demux.Images.xml
+Service-Component: OSGI-INF/org.ruminaq.tasks.demux.gui.CreateFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.demux.gui.TaskUiApi.xml,
+ OSGI-INF/org.ruminaq.tasks.demux.gui.Images.xml,
+ OSGI-INF/org.ruminaq.tasks.demux.gui.EclipseExtensionImpl.xml

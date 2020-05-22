@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.demux;
+package org.ruminaq.tasks.demux.gui;
 
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.impl.InternalTransaction;

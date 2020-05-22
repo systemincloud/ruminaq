@@ -1,9 +1,8 @@
-package org.ruminaq.tasks.demux.features;
+package org.ruminaq.tasks.demux.gui;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.tasks.demux.Images;
 import org.ruminaq.tasks.demux.impl.Port;
 
 public class AddFeature extends AbstractAddTaskFeature {

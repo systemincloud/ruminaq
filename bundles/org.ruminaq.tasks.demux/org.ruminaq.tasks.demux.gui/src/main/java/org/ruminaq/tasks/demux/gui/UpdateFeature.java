@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.demux.features;
+package org.ruminaq.tasks.demux.gui;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
