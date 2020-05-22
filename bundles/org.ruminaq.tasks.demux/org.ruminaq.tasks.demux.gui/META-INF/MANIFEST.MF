@@ -40,6 +40,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.consts,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui.api,
+ org.ruminaq.gui.features,
  org.ruminaq.gui.features.add,
  org.ruminaq.gui.features.create,
  org.ruminaq.gui.features.update,
@@ -62,4 +63,5 @@ Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.demux.gui.CreateFeaturesImpl.xml,
  OSGI-INF/org.ruminaq.tasks.demux.gui.TaskUiApi.xml,
  OSGI-INF/org.ruminaq.tasks.demux.gui.Images.xml,
- OSGI-INF/org.ruminaq.tasks.demux.gui.EclipseExtensionImpl.xml
+ OSGI-INF/org.ruminaq.tasks.demux.gui.EclipseExtensionImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.demux.gui.AddFeatureImpl.xml
