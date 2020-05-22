@@ -27,10 +27,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.ruminaq.tasks.demux.feature"
-         version="0.0.0"/>
-
-   <includes
          id="org.ruminaq.tasks.gate.feature"
          version="0.0.0"/>
 
