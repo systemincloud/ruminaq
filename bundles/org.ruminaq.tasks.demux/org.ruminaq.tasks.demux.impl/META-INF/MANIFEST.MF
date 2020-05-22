@@ -16,7 +16,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.impl,
  org.ruminaq.runner.impl.data,
  org.ruminaq.runner.service,
- org.ruminaq.tasks.demux.model.demux,
+ org.ruminaq.tasks.mux.model.mux,
  org.ruminaq.util,
  org.slf4j
 Bundle-ActivationPolicy: lazy

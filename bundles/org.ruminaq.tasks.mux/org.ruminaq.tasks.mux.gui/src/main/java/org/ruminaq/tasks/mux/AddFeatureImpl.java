@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.demux.gui;
+package org.ruminaq.tasks.mux;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.osgi.service.component.annotations.Component;
@@ -14,9 +14,9 @@ import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.tasks.demux.gui.AddFeatureImpl.AddFeature.Filter;
+import org.ruminaq.tasks.mux.AddFeatureImpl.AddDemuxFeature.Filter;
 import org.ruminaq.tasks.demux.impl.Port;
-import org.ruminaq.tasks.demux.model.demux.Demux;
+import org.ruminaq.tasks.mux.model.mux.Demux;
 
 /**
  * Service AddFeatureExtension implementation.
@@ -30,7 +30,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
    * Demux AddFeature.
    */
   @FeatureFilter(Filter.class)
-  public static class AddFeature extends AbstractAddTaskFeature {
+  public static class AddDemuxFeature extends AbstractAddTaskFeature {
 
     public static class Filter extends AbstractAddFeatureFilter {
       @Override
@@ -39,7 +39,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
       }
     }
 
-    public AddFeature(IFeatureProvider fp) {
+    public AddDemuxFeature(IFeatureProvider fp) {
       super(fp);
     }
 

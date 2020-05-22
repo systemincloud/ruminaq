@@ -11,9 +11,7 @@
   </parent>
 
   <modules>
-    <module>org.ruminaq.tasks.demux.gui</module>
     <module>org.ruminaq.tasks.demux.impl</module>
-    <module>org.ruminaq.tasks.demux.model</module>
     <module>org.ruminaq.tasks.demux.ui</module>
   </modules>
 </project>

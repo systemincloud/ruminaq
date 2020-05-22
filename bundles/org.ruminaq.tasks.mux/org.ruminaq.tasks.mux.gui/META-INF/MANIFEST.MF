@@ -42,6 +42,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.consts,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui.api,
+ org.ruminaq.gui.features,
  org.ruminaq.gui.features.add,
  org.ruminaq.gui.features.create,
  org.ruminaq.gui.features.doubleclick,
@@ -53,6 +54,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.impl,
  org.ruminaq.tasks,
  org.ruminaq.tasks.api,
+ org.ruminaq.tasks.demux.impl,
  org.ruminaq.tasks.features,
  org.ruminaq.tasks.mux.impl,
  org.ruminaq.tasks.mux.model.mux,
@@ -62,4 +64,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.mux.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.mux.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.mux.Images.xml
+ OSGI-INF/org.ruminaq.tasks.mux.Images.xml,
+ OSGI-INF/org.ruminaq.tasks.mux.AddFeatureImpl.xml

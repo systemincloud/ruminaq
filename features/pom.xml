@@ -15,7 +15,6 @@
     <module>org.ruminaq.feature</module>
     <module>org.ruminaq.tasks.console.feature</module>
     <module>org.ruminaq.tasks.constant.feature</module>
-    <module>org.ruminaq.tasks.demux.feature</module>
     <module>org.ruminaq.tasks.gate.feature</module>
     <module>org.ruminaq.tasks.inspect.feature</module>
     <module>org.ruminaq.tasks.javatask.feature</module>

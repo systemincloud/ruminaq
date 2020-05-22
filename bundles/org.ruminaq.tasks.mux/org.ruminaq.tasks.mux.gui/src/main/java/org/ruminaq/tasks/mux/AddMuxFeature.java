@@ -7,13 +7,26 @@
 package org.ruminaq.tasks.mux;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.tasks.mux.AddMuxFeature.Filter;
 import org.ruminaq.tasks.mux.impl.Port;
+import org.ruminaq.tasks.mux.model.mux.Mux;
 
-public class AddFeature extends AbstractAddTaskFeature {
+@FeatureFilter(Filter.class)
+public class AddMuxFeature extends AbstractAddTaskFeature {
 
-  public AddFeature(IFeatureProvider fp) {
+  public static class Filter extends AbstractAddFeatureFilter {
+    @Override
+    public Class<? extends BaseElement> forBusinessObject() {
+      return Mux.class;
+    }
+  }
+  
+  public AddMuxFeature(IFeatureProvider fp) {
     super(fp);
   }
 

@@ -12,5 +12,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Mux/size"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Mux/portBuffer"/>
     </genClasses>
+    <genClasses ecoreClass="model.ecore#//Demux">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Demux/size"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

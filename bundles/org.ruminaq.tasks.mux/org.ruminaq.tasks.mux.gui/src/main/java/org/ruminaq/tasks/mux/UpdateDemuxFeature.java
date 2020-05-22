@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.demux.gui;
+package org.ruminaq.tasks.mux;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
@@ -7,16 +7,16 @@ import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.tasks.demux.impl.Port;
-import org.ruminaq.tasks.demux.model.demux.Demux;
+import org.ruminaq.tasks.mux.model.mux.Demux;
 
-public class UpdateFeature extends UpdateTaskFeature {
+public class UpdateDemuxFeature extends UpdateTaskFeature {
 
   private boolean updateNeededChecked = false;
 
   private boolean superUpdateNeeded = false;
   private boolean outputsUpdateNeeded = false;
 
-  public UpdateFeature(IFeatureProvider fp) {
+  public UpdateDemuxFeature(IFeatureProvider fp) {
     super(fp);
   }
 

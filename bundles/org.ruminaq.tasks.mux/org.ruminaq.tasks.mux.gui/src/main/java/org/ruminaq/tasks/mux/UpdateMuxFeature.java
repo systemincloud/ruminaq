@@ -15,14 +15,14 @@ import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.tasks.mux.impl.Port;
 import org.ruminaq.tasks.mux.model.mux.Mux;
 
-public class UpdateFeature extends UpdateTaskFeature {
+public class UpdateMuxFeature extends UpdateTaskFeature {
 
   private boolean updateNeededChecked = false;
 
   private boolean superUpdateNeeded = false;
   private boolean inputsUpdateNeeded = false;
 
-  public UpdateFeature(IFeatureProvider fp) {
+  public UpdateMuxFeature(IFeatureProvider fp) {
     super(fp);
   }
 

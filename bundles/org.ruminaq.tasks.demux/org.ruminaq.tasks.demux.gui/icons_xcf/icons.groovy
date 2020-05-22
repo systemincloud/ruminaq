@@ -1,1 +1,0 @@
-["demux.xcf" : ["diagram", "palette-white", "icon"]]

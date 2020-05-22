@@ -24,11 +24,14 @@ public class Images implements ImagesExtension {
 
   public static final String IMG_MUX_PALETTE = "/icons/palette.mux.png";
   public static final String IMG_MUX_DIAGRAM = "/icons/diagram.mux.png";
+  public static final String IMG_DEMUX_PALETTE = "/icons/palette.demux.png";
+  public static final String IMG_DEMUX_DIAGRAM = "/icons/diagram.demux.png";
 
   @Override
   public Collection<ImageDescriptor> getImageDecriptors() {
-    return Arrays.asList(
-        new ImageDescriptorImpl(Images.class, IMG_MUX_PALETTE),
-        new ImageDescriptorImpl(Images.class, IMG_MUX_DIAGRAM));
+    return Arrays.asList(new ImageDescriptorImpl(Images.class, IMG_MUX_PALETTE),
+        new ImageDescriptorImpl(Images.class, IMG_MUX_DIAGRAM),
+        new ImageDescriptorImpl(Images.class, IMG_DEMUX_PALETTE),
+        new ImageDescriptorImpl(Images.class, IMG_DEMUX_DIAGRAM));
   }
 }
