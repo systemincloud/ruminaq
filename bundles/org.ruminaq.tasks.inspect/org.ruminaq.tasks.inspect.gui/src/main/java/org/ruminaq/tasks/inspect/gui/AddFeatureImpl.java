@@ -6,6 +6,10 @@
 
 package org.ruminaq.tasks.inspect.gui;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.AddFeatureExtension;
@@ -26,6 +30,11 @@ import org.ruminaq.tasks.inspect.model.inspect.Inspect;
 @Component(property = { "service.ranking:Integer=10" })
 public class AddFeatureImpl implements AddFeatureExtension {
 
+  @Override
+  public List<Class<? extends IAddFeature>> getFeatures() {
+    return Arrays.asList(AddFeature.class);
+  }
+  
   /**
    * Inspect AddFeature.
    */
