@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="inspect" nsURI="http://ruminaq.org/tasks/inspect/1_0_0"
-    nsPrefix="inspect_1_0_0">
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="inspect" nsURI="http://ruminaq.org/tasks/inspect"
+    nsPrefix="inspect">
   <eClassifiers xsi:type="ecore:EClass" name="Inspect" eSuperTypes="../../../org.ruminaq.model.ruminaq/model/model.ecore#//Task">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="matricesPretty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
