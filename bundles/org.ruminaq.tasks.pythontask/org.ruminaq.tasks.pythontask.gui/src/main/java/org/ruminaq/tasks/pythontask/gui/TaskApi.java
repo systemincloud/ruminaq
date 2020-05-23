@@ -48,7 +48,6 @@ import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.pythontask.gui.features.DoubleClickFeatureFilter;
-import org.ruminaq.tasks.pythontask.gui.features.UpdateFeature;
 import org.ruminaq.tasks.pythontask.gui.wizards.CreateProjectWizard;
 import org.ruminaq.tasks.pythontask.impl.PythonTaskI;
 import org.ruminaq.tasks.pythontask.impl.cpython.CpythonProgramArguments;
@@ -255,24 +254,5 @@ public class TaskApi implements ITaskApi, EclipseExtension {
           pythonPathNature, im, ii);
 
     return ret;
-  }
-
-  @Override
-  public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t,
-      IFeatureProvider fp) {
-    return ITaskApi.ifInstance(t, PythonTask.class, new AddFeature(fp));
-  }
-
-  @Override
-  public Optional<ICustomFeature> getDoubleClickFeature(IDoubleClickContext cxt,
-      Task t, IFeatureProvider fp) {
-    return ITaskApi.ifInstance(t, PythonTask.class,
-        new DoubleClickFeatureFilter().filter(t, fp));
-  }
-
-  @Override
-  public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t,
-      IFeatureProvider fp) {
-    return ITaskApi.ifInstance(t, PythonTask.class, new UpdateFeature(fp));
   }
 }

@@ -92,6 +92,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui.api,
  org.ruminaq.gui.diagram,
+ org.ruminaq.gui.features,
  org.ruminaq.gui.features.add,
  org.ruminaq.gui.features.create,
  org.ruminaq.gui.features.doubleclick,
@@ -130,4 +131,5 @@ Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.pythontask.gui.ContextButtonPadTool.xml,
  OSGI-INF/org.ruminaq.tasks.pythontask.gui.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.pythontask.gui.Images.xml,
- OSGI-INF/org.ruminaq.tasks.pythontask.gui.CreateFeaturesImpl.xml
+ OSGI-INF/org.ruminaq.tasks.pythontask.gui.CreateFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.pythontask.gui.AddFeatureImpl.xml

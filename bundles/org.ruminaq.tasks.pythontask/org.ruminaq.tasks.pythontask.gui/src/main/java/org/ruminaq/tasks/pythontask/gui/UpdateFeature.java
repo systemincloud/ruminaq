@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.pythontask.gui.features;
+package org.ruminaq.tasks.pythontask.gui;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,14 +33,13 @@ import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
-import org.ruminaq.tasks.pythontask.gui.AddFeature;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.util.EclipseUtil;
 
 public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
   private SourceModule sourceModule;
-  private String desc = AddFeature.NOT_CHOSEN;
+  private String desc = AddFeatureImpl.AddFeature.NOT_CHOSEN;
 
   public UpdateFeature(IFeatureProvider fp) {
     super(fp);
@@ -89,7 +88,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
       }
     }
     int i = className.lastIndexOf(".");
-    this.desc = this.sourceModule == null ? AddFeature.NOT_CHOSEN
+    this.desc = this.sourceModule == null ? AddFeatureImpl.AddFeature.NOT_CHOSEN
         : className.substring(i != -1 ? i + 1 : 0);
     return this.sourceModule != null;
   }

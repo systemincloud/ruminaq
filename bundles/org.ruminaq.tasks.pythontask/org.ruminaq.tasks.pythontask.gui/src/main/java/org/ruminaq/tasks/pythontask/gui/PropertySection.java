@@ -33,7 +33,6 @@ import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
-import org.ruminaq.tasks.pythontask.gui.features.UpdateFeature;
 import org.ruminaq.tasks.pythontask.gui.util.FindPythonTask;
 import org.ruminaq.tasks.pythontask.gui.util.SicGlobalsTwoPanelElementSelector2;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
