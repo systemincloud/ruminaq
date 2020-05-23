@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.pythontask.features;
+package org.ruminaq.tasks.pythontask.gui.features;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,8 @@ import org.python.pydev.core.IPythonNature;
 import org.python.pydev.editor.actions.PyOpenAction;
 import org.python.pydev.plugin.nature.PythonNature;
 import org.python.pydev.plugin.nature.SystemPythonNature;
+import org.ruminaq.tasks.pythontask.gui.util.FindPythonTask;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
-import org.ruminaq.tasks.pythontask.util.FindPythonTask;
 import org.ruminaq.util.EclipseUtil;
 
 import com.python.pydev.analysis.AnalysisPlugin;

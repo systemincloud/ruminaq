@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.pythontask.util;
+package org.ruminaq.tasks.pythontask.gui.util;
 
 import java.util.ArrayList;
 import java.util.Collection;

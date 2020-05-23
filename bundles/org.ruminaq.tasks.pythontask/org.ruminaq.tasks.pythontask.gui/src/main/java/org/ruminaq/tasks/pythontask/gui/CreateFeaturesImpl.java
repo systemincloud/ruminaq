@@ -1,4 +1,10 @@
-package org.ruminaq.tasks.pythontask;
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
+package org.ruminaq.tasks.pythontask.gui;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +21,11 @@ import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythontaskFactory;
 
+/**
+ * Service CreateFeaturesExtension implementation.
+ * 
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=10" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {
 

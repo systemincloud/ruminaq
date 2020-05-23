@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.pythontask;
+package org.ruminaq.tasks.pythontask.gui;
 
 import java.util.Map;
 

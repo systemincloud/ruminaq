@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.pythontask;
+package org.ruminaq.tasks.pythontask.gui;
 
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.eclipse.api.EclipseExtension;

@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.pythontask.features;
+package org.ruminaq.tasks.pythontask.gui.features;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,6 +33,7 @@ import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
+import org.ruminaq.tasks.pythontask.gui.AddFeature;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.util.EclipseUtil;
 

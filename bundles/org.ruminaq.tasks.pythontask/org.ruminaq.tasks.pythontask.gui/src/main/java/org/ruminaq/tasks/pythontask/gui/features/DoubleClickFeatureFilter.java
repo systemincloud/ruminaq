@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.pythontask.features;
+package org.ruminaq.tasks.pythontask.gui.features;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.custom.ICustomFeature;

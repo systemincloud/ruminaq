@@ -120,14 +120,14 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.userdefined.wizards,
  org.ruminaq.util,
  org.slf4j
-Export-Package: org.ruminaq.tasks.pythontask,
- org.ruminaq.tasks.pythontask.features,
- org.ruminaq.tasks.pythontask.util,
- org.ruminaq.tasks.pythontask.wizards
+Export-Package: org.ruminaq.tasks.pythontask.gui,
+ org.ruminaq.tasks.pythontask.gui.features,
+ org.ruminaq.tasks.pythontask.gui.util,
+ org.ruminaq.tasks.pythontask.gui.wizards
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.pythontask.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.pythontask.ContextButtonPadTool.xml,
- OSGI-INF/org.ruminaq.tasks.pythontask.EclipseExtensionImpl.xml,
- OSGI-INF/org.ruminaq.tasks.pythontask.Images.xml
+Service-Component: OSGI-INF/org.ruminaq.tasks.pythontask.gui.ContextButtonPadTool.xml,
+ OSGI-INF/org.ruminaq.tasks.pythontask.gui.EclipseExtensionImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.pythontask.gui.Images.xml,
+ OSGI-INF/org.ruminaq.tasks.pythontask.gui.CreateFeaturesImpl.xml

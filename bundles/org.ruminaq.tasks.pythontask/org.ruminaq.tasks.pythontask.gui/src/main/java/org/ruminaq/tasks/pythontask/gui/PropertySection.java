@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.pythontask;
+package org.ruminaq.tasks.pythontask.gui;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -33,12 +33,12 @@ import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
-import org.ruminaq.tasks.pythontask.features.UpdateFeature;
+import org.ruminaq.tasks.pythontask.gui.features.UpdateFeature;
+import org.ruminaq.tasks.pythontask.gui.util.FindPythonTask;
+import org.ruminaq.tasks.pythontask.gui.util.SicGlobalsTwoPanelElementSelector2;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskListener;
 import org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskWizard;
-import org.ruminaq.tasks.pythontask.util.FindPythonTask;
-import org.ruminaq.tasks.pythontask.util.SicGlobalsTwoPanelElementSelector2;
 import org.ruminaq.util.EclipseUtil;
 
 import com.python.pydev.analysis.additionalinfo.AdditionalInfoAndIInfo;

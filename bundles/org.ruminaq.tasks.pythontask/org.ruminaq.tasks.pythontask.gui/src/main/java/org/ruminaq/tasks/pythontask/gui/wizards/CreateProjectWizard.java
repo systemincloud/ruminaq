@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.pythontask.wizards;
+package org.ruminaq.tasks.pythontask.gui.wizards;
 
 import java.io.IOException;
 import java.util.LinkedList;

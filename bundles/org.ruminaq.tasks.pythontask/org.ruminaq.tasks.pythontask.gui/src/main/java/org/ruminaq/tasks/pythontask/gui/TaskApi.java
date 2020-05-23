@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.pythontask;
+package org.ruminaq.tasks.pythontask.gui;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,15 +47,14 @@ import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
-import org.ruminaq.tasks.pythontask.features.AddFeature;
-import org.ruminaq.tasks.pythontask.features.DoubleClickFeatureFilter;
-import org.ruminaq.tasks.pythontask.features.UpdateFeature;
+import org.ruminaq.tasks.pythontask.gui.features.DoubleClickFeatureFilter;
+import org.ruminaq.tasks.pythontask.gui.features.UpdateFeature;
+import org.ruminaq.tasks.pythontask.gui.wizards.CreateProjectWizard;
 import org.ruminaq.tasks.pythontask.impl.PythonTaskI;
 import org.ruminaq.tasks.pythontask.impl.cpython.CpythonProgramArguments;
 import org.ruminaq.tasks.pythontask.impl.jython.JythonProgramArguments;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythontaskPackage;
-import org.ruminaq.tasks.pythontask.wizards.CreateProjectWizard;
 
 import ch.qos.logback.classic.Logger;
 

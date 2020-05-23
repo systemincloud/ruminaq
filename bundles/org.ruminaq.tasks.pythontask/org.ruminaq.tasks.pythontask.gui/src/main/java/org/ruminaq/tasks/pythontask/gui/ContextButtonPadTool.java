@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.pythontask;
+package org.ruminaq.tasks.pythontask.gui;
 
 import java.util.function.Predicate;
 
@@ -8,7 +8,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
 import org.ruminaq.gui.diagram.RuminaqBehaviorProvider;
-import org.ruminaq.tasks.pythontask.ContextButtonPadTool.Filter;
+import org.ruminaq.tasks.pythontask.gui.ContextButtonPadTool.Filter;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
