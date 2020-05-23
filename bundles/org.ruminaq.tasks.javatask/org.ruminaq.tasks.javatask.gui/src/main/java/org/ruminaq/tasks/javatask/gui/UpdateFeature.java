@@ -60,7 +60,7 @@ import org.ruminaq.util.EclipseUtil;
 public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
   private NamedMember type = null;
-  private String desc = AddFeature.NOT_CHOSEN;
+  private String desc = AddFeatureImpl.AddFeature.NOT_CHOSEN;
 
   public UpdateFeature(IFeatureProvider fp) {
     super(fp);
@@ -109,7 +109,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
     if (type == null)
       return false;
-    this.desc = "".equals(type.getElementName()) ? AddFeature.NOT_CHOSEN
+    this.desc = "".equals(type.getElementName()) ? AddFeatureImpl.AddFeature.NOT_CHOSEN
         : type.getElementName();
 
     IAnnotation[] annotations;

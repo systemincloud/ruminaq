@@ -34,6 +34,9 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
     return Arrays.asList(CreateFeature.class);
   }
 
+  /**
+   * Javatask create feature.
+   */
   public static class CreateFeature extends AbstractCreateTaskFeature
       implements PaletteCreateFeature {
 

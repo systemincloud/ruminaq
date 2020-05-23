@@ -112,4 +112,5 @@ Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.gui.ContextButtonPadTool.
  OSGI-INF/org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.TaskUiApi.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.Images.xml
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.Images.xml,
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.AddFeatureImpl.xml
