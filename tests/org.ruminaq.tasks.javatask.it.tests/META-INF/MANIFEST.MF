@@ -22,9 +22,11 @@ Import-Package: ch.qos.logback.core.spi,
  org.aspectj.runtime.reflect,
  org.eclipse.core.runtime.jobs,
  org.eclipse.jdt.internal.compiler.util,
+ org.eclipse.reddeer.gef.editor,
  org.eclipse.swt,
  org.eclipse.ui,
  org.eclipse.ui.ide,
  org.ruminaq.eclipse.wizards.project,
- org.ruminaq.tests.common
+ org.ruminaq.tests.common,
+ org.ruminaq.tests.common.reddeer
 Export-Package: org.ruminaq.tasks.javatask.it.tests
