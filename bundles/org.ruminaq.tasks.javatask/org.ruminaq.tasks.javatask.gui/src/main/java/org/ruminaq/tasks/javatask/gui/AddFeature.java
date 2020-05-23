@@ -4,13 +4,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.javatask.gui.features;
+package org.ruminaq.tasks.javatask.gui;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.tasks.javatask.gui.Images;
-import org.ruminaq.tasks.javatask.gui.Port;
 
 public class AddFeature extends AbstractAddTaskFeature {
 
