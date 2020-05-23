@@ -8,30 +8,16 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.graphiti.features.IAddFeature;
-import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.IUpdateFeature;
-import org.eclipse.graphiti.features.context.IAddContext;
-import org.eclipse.graphiti.features.context.IDoubleClickContext;
-import org.eclipse.graphiti.features.context.IUpdateContext;
-import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.osgi.framework.Version;
 import org.ruminaq.eclipse.api.EclipseExtension;
-import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
-import org.ruminaq.tasks.rtask.features.AddFeature;
-import org.ruminaq.tasks.rtask.features.DoubleClickFeatureFilter;
-import org.ruminaq.tasks.rtask.features.UpdateFeature;
-import org.ruminaq.tasks.rtask.model.rtask.RTask;
 import org.ruminaq.tasks.rtask.model.rtask.RtaskPackage;
 import org.ruminaq.tasks.rtask.wizards.CreateProjectWizard;
 
@@ -141,22 +127,4 @@ public class TaskApi implements ITaskApi, EclipseExtension {
     }
   }
 
-  @Override
-  public Optional<IAddFeature> getAddFeature(IAddContext cxt, Task t,
-      IFeatureProvider fp) {
-    return ITaskApi.ifInstance(t, RTask.class, new AddFeature(fp));
-  }
-
-  @Override
-  public Optional<ICustomFeature> getDoubleClickFeature(IDoubleClickContext cxt,
-      Task t, IFeatureProvider fp) {
-    return ITaskApi.ifInstance(t, RTask.class,
-        new DoubleClickFeatureFilter().filter(t, fp));
-  }
-
-  @Override
-  public Optional<IUpdateFeature> getUpdateFeature(IUpdateContext cxt, Task t,
-      IFeatureProvider fp) {
-    return ITaskApi.ifInstance(t, RTask.class, new UpdateFeature(fp));
-  }
 }

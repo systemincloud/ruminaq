@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.javatask.gui;
+package org.ruminaq.tasks.rtask;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,8 +18,8 @@ import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.tasks.javatask.gui.AddFeatureImpl.AddFeature.Filter;
-import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
+import org.ruminaq.tasks.rtask.AddFeatureImpl.AddFeature.Filter;
+import org.ruminaq.tasks.rtask.model.rtask.RTask;
 
 /**
  * Service AddFeatureExtension implementation.
@@ -34,9 +34,8 @@ public class AddFeatureImpl implements AddFeatureExtension {
     return Collections.singletonList(AddFeature.class);
   }
 
-
   /**
-   * JavaTask AddFeature.
+   * RTask AddFeature.
    */
   @FeatureFilter(Filter.class)
   public static class AddFeature extends AbstractAddTaskFeature {
@@ -44,7 +43,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
     public static class Filter extends AbstractAddFeatureFilter {
       @Override
       public Class<? extends BaseElement> forBusinessObject() {
-        return JavaTask.class;
+        return RTask.class;
       }
     }
     
@@ -56,7 +55,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
 
     @Override
     protected String getInsideIconId() {
-      return Images.IMG_JAVATASK_DIAGRAM;
+      return Images.IMG_RTASK_DIAGRAM;
     }
 
     @Override

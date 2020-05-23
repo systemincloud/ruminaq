@@ -22,6 +22,7 @@ import org.eclipse.statet.r.core.model.RModel;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
+import org.ruminaq.tasks.rtask.AddFeatureImpl;
 import org.ruminaq.tasks.rtask.model.rtask.RTask;
 import org.ruminaq.util.EclipseUtil;
 
@@ -47,7 +48,7 @@ import org.ruminaq.util.EclipseUtil;
 public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
 //    private IRLangSourceElement se = null;
-  private String desc = AddFeature.NOT_CHOSEN;
+  private String desc = AddFeatureImpl.AddFeature.NOT_CHOSEN;
 
   public UpdateFeature(IFeatureProvider fp) {
     super(fp);

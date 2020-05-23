@@ -86,6 +86,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui.api,
  org.ruminaq.gui.diagram,
+ org.ruminaq.gui.features,
  org.ruminaq.gui.features.add,
  org.ruminaq.gui.features.create,
  org.ruminaq.gui.features.doubleclick,
@@ -121,4 +122,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.rtask.CreateFeaturesImpl.xml,
  OSGI-INF/org.ruminaq.tasks.rtask.ContextButtonPadTool.xml,
- OSGI-INF/org.ruminaq.tasks.rtask.Images.xml
+ OSGI-INF/org.ruminaq.tasks.rtask.Images.xml,
+ OSGI-INF/org.ruminaq.tasks.rtask.AddFeatureImpl.xml
