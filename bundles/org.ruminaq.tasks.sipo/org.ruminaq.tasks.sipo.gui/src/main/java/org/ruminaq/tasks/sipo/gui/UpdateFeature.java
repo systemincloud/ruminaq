@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.sipo.features;
+package org.ruminaq.tasks.sipo.gui;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;

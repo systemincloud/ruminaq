@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.sipo;
+package org.ruminaq.tasks.sipo.gui;
 
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.impl.InternalTransaction;

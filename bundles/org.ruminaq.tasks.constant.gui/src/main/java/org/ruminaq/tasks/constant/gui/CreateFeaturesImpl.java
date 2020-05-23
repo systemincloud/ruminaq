@@ -35,7 +35,7 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
   public List<Class<? extends ICreateFeature>> getFeatures() {
     return Collections.singletonList(CreateFeature.class);
   }
-  
+
   /**
    * Constant create feature.
    */

@@ -1,4 +1,10 @@
-package org.ruminaq.tasks.sipo;
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
+package org.ruminaq.tasks.sipo.gui;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +22,11 @@ import org.ruminaq.tasks.sipo.impl.Port;
 import org.ruminaq.tasks.sipo.model.sipo.Sipo;
 import org.ruminaq.tasks.sipo.model.sipo.SipoFactory;
 
+/**
+ * Service CreateFeaturesExtension implementation.
+ * 
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=10" })
 public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
@@ -24,6 +35,9 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
     return Arrays.asList(CreateFeature.class);
   }
 
+  /**
+   * Sipo create feature.
+   */
   public static class CreateFeature extends AbstractCreateTaskFeature
       implements PaletteCreateFeature {
 

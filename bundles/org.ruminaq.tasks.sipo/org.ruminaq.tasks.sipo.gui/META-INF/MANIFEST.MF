@@ -44,6 +44,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.eclipse.api,
  org.ruminaq.gui,
  org.ruminaq.gui.api,
+ org.ruminaq.gui.features,
  org.ruminaq.gui.features.add,
  org.ruminaq.gui.features.create,
  org.ruminaq.gui.features.doubleclick,
@@ -61,10 +62,10 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.sipo.model.sipo,
  org.ruminaq.util,
  org.slf4j
-Export-Package: org.ruminaq.tasks.sipo.features
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.sipo.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.sipo.EclipseExtensionImpl.xml,
- OSGI-INF/org.ruminaq.tasks.sipo.Images.xml
+Service-Component: OSGI-INF/org.ruminaq.tasks.sipo.gui.AddFeatureImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.sipo.gui.EclipseExtensionImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.sipo.gui.CreateFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.sipo.gui.Images.xml

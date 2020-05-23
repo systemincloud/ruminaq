@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.sipo;
+package org.ruminaq.tasks.sipo.gui;
 
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.eclipse.api.EclipseExtension;
