@@ -177,6 +177,12 @@
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.pythontask.it.tests</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.ruminaq</groupId>
@@ -197,12 +203,24 @@
       <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.rtask.it.tests</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
 
     <dependency>
       <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.tasks.sipo.gui</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.sipo.it.tests</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
