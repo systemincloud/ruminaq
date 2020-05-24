@@ -1,6 +1,5 @@
 Automatic-Module-Name: org.ruminaq.tasks.rtask.model
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Tasks - RTask - Model
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.rtask.model
 Bundle-Version: 1.0.0.qualifier

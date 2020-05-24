@@ -1,6 +1,5 @@
 Automatic-Module-Name: org.ruminaq.tasks.randomgenerator.model
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Tasks - RandomGenerator - Model
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.randomgenerator.model
 Bundle-Version: 1.0.0.qualifier
