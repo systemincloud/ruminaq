@@ -103,6 +103,12 @@
 
     <dependency>
       <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.tasks.gate.gui</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.tasks.gate.and</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
