@@ -31,6 +31,7 @@
     <module>org.ruminaq.tasks.pythontask.it.tests</module>
     <module>org.ruminaq.tasks.randomgenerator.it.tests</module>
     <module>org.ruminaq.tasks.rtask.it.tests</module>
+    <module>org.ruminaq.tasks.sipo.it.tests</module>
     <!-- <module>org.ruminaq.tasks.constant.tests</module> -->
     <module>org.ruminaq.tests.report</module>
   </modules>
