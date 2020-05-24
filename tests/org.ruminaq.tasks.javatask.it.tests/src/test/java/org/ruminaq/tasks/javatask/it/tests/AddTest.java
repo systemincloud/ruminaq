@@ -23,7 +23,7 @@ public class AddTest extends GuiTest {
   @Test
   public void testAddConstant() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("JavaTask", 200, 100);
+    gefEditor.addToolFromPalette("Java Task", 200, 100);
   }
 
 }
