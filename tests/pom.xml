@@ -28,6 +28,7 @@
     <module>org.ruminaq.tasks.inspect.it.tests</module>
     <module>org.ruminaq.tasks.javatask.it.tests</module>
     <module>org.ruminaq.tasks.mux.it.tests</module>
+    <module>org.ruminaq.tasks.pythontask.it.tests</module>
     <module>org.ruminaq.tasks.randomgenerator.it.tests</module>
     <!-- <module>org.ruminaq.tasks.constant.tests</module> -->
     <module>org.ruminaq.tests.report</module>
