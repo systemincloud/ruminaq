@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.constant.impl;
+package org.ruminaq.tasks.constant.model;
 
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.PortData;

@@ -85,22 +85,9 @@ public abstract class AbstractCreateTaskFeature
                       .createInternalInputPort();
                   PortInfo pi = e.getKey().getValue();
                   inputPort.setId(Optional.of(pi).filter(p -> p.n() > 1)
-                      .map(p -> p.id() + i).orElse(pi.id()));
+                      .map(p -> p.id() + i).orElseGet(() -> pi.id()));
                   inputPort.setAsynchronous(pi.asynchronous());
-                  inputPort.setGroup(Optional
-                      .of(pi).filter(p -> p.n() > 1
-                          && pi.ngroup() != NGroup.SAME && p.group() != -1)
-                      .map((PortInfo p) -> {
-                        Integer j = p.group();
-                        boolean free = true;
-                        do {
-                          free = task.getInputPort().stream()
-                              .map(InternalInputPort::getGroup)
-                              .noneMatch(j::equals);
-                          j++;
-                        } while (!free);
-                        return j - 1;
-                      }).orElse(pi.group()));
+                  inputPort.setGroup(portGroup(pi, task));
                   inputPort.setDefaultHoldLast(pi.hold());
                   inputPort.setHoldLast(pi.hold());
                   inputPort.setDefaultQueueSize(pi.queue());
@@ -109,6 +96,21 @@ public abstract class AbstractCreateTaskFeature
                       .forEach(inputPort.getDataType()::add);
                   task.getInputPort().add(inputPort);
                 }));
+  }
+
+  private static int portGroup(PortInfo pi, Task task) {
+    return Optional.of(pi)
+        .filter(p -> p.n() > 1 && pi.ngroup() != NGroup.SAME && p.group() != -1)
+        .map((PortInfo p) -> {
+          Integer j = p.group();
+          boolean free = true;
+          do {
+            free = task.getInputPort().stream().map(InternalInputPort::getGroup)
+                .noneMatch(j::equals);
+            j++;
+          } while (!free);
+          return j - 1;
+        }).orElseGet(() -> pi.group());
   }
 
   private static void addDefaultOutputPorts(Task task,
@@ -124,7 +126,7 @@ public abstract class AbstractCreateTaskFeature
                       .createInternalOutputPort();
                   PortInfo pi = e.getKey().getValue();
                   outputPort.setId(Optional.of(pi).filter(p -> p.n() > 1)
-                      .map(p -> p.id() + i).orElse(pi.id()));
+                      .map(p -> p.id() + i).orElseGet(() -> pi.id()));
                   getDataTypes(e.getKey().getKey())
                       .forEach(outputPort.getDataType()::add);
                   task.getOutputPort().add(outputPort);

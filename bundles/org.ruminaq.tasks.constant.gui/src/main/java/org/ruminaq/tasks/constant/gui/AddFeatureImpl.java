@@ -21,7 +21,7 @@ import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.constant.gui.AddFeatureImpl.AddFeature.Filter;
 import org.ruminaq.tasks.constant.gui.constantshape.ConstantshapeFactory;
-import org.ruminaq.tasks.constant.impl.Port;
+import org.ruminaq.tasks.constant.model.Port;
 import org.ruminaq.tasks.constant.model.constant.Constant;
 
 /**

@@ -24,7 +24,7 @@ import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.Complex64I;
 import org.ruminaq.tasks.constant.impl.AbstractConstantStrategy;
 import org.ruminaq.tasks.constant.impl.ConstantI;
-import org.ruminaq.tasks.constant.impl.Port;
+import org.ruminaq.tasks.constant.model.Port;
 import org.ruminaq.util.NumericUtil;
 import ch.qos.logback.classic.Logger;
 

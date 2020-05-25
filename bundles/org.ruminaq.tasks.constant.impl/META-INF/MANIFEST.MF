@@ -19,6 +19,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.impl,
  org.ruminaq.runner.impl.data,
  org.ruminaq.runner.service,
+ org.ruminaq.tasks.constant.model,
  org.ruminaq.tasks.constant.model.constant,
  org.ruminaq.util,
  org.slf4j
