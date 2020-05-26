@@ -6,23 +6,24 @@
 
 package org.ruminaq.tasks.demux.impl;
 
+import org.ruminaq.gui.model.PortDiagram;
+import org.ruminaq.gui.model.Position;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.PortData;
 import org.ruminaq.model.ruminaq.PortInfo;
 import org.ruminaq.model.ruminaq.PortType;
-import org.ruminaq.model.ruminaq.Position;
 import org.ruminaq.model.ruminaq.dt.Int32;
 
 public enum Port implements PortsDescr {
 
-  @PortInfo(portType = PortType.IN, id = "In", label = false, group = 1,
-      pos = Position.LEFT)
+  @PortInfo(portType = PortType.IN, id = "In", group = 1)
+  @PortDiagram(label = false, pos = Position.LEFT)
   @PortData(type = DataType.class)
   IN,
 
-  @PortInfo(portType = PortType.IN, id = "Idx", label = false, group = 0,
-      pos = Position.BOTTOM)
+  @PortInfo(portType = PortType.IN, id = "Idx", group = 0)
+  @PortDiagram(label = false, pos = Position.BOTTOM)
   @PortData(type = Int32.class)
   IDX,
 

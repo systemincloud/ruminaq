@@ -6,6 +6,7 @@
 
 package org.ruminaq.tasks.inspect.impl;
 
+import org.ruminaq.gui.model.PortDiagram;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.PortData;
@@ -14,7 +15,8 @@ import org.ruminaq.model.ruminaq.PortType;
 
 public enum Port implements PortsDescr {
 
-  @PortInfo(portType = PortType.IN, id = "In", label = false)
+  @PortInfo(portType = PortType.IN, id = "In")
+  @PortDiagram(label = false)
   @PortData(type = DataType.class)
   IN,
 }

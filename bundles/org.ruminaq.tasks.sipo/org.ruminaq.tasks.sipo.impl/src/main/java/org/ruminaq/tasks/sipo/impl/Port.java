@@ -6,12 +6,13 @@
 
 package org.ruminaq.tasks.sipo.impl;
 
+import org.ruminaq.gui.model.PortDiagram;
+import org.ruminaq.gui.model.Position;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.PortData;
 import org.ruminaq.model.ruminaq.PortInfo;
 import org.ruminaq.model.ruminaq.PortType;
-import org.ruminaq.model.ruminaq.Position;
 import org.ruminaq.model.ruminaq.dt.Control;
 import org.ruminaq.model.ruminaq.dt.Int32;
 
@@ -21,30 +22,33 @@ public enum Port implements PortsDescr {
   @PortData(type = DataType.class)
   IN,
 
-  @PortInfo(portType = PortType.IN, id = "CLK", opt = true,
-      pos = Position.RIGHT, group = 0)
+  @PortInfo(portType = PortType.IN, id = "CLK", opt = true, group = 0)
+  @PortDiagram(pos = Position.RIGHT)
   @PortData(type = Control.class)
   CLK,
 
-  @PortInfo(portType = PortType.IN, id = "Idx", opt = true,
-      pos = Position.RIGHT, group = 1)
+  @PortInfo(portType = PortType.IN, id = "Idx", opt = true, group = 1)
+  @PortDiagram(pos = Position.RIGHT)
   @PortData(type = Int32.class)
   IDX,
 
-  @PortInfo(portType = PortType.IN, id = "T", opt = true, pos = Position.RIGHT,
-      group = 2)
+  @PortInfo(portType = PortType.IN, id = "T", opt = true, group = 2)
+  @PortDiagram(pos = Position.RIGHT)
   @PortData(type = Control.class)
   TRIGGER,
 
-  @PortInfo(portType = PortType.OUT, id = "Out", n = -1, pos = Position.TOP)
+  @PortInfo(portType = PortType.OUT, id = "Out", n = -1)
+  @PortDiagram(pos = Position.TOP)
   @PortData(type = DataType.class)
   OUT,
 
-  @PortInfo(portType = PortType.OUT, id = "Out", opt = true, pos = Position.TOP)
+  @PortInfo(portType = PortType.OUT, id = "Out", opt = true)
+  @PortDiagram(pos = Position.TOP)
   @PortData(type = DataType.class)
   LOUT,
 
-  @PortInfo(portType = PortType.OUT, id = "N", opt = true, pos = Position.RIGHT)
+  @PortInfo(portType = PortType.OUT, id = "N", opt = true)
+  @PortDiagram(pos = Position.RIGHT)
   @PortData(type = Int32.class)
   SIZE;
 }

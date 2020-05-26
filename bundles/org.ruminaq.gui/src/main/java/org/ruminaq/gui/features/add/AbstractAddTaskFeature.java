@@ -34,6 +34,7 @@ import org.eclipse.graphiti.services.IPeService;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.gui.features.move.MoveInternalPortFeature;
+import org.ruminaq.gui.model.Position;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.InternalInputPortShape;
 import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
@@ -44,7 +45,6 @@ import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.PortInfo;
-import org.ruminaq.model.ruminaq.Position;
 import org.ruminaq.model.ruminaq.Task;
 
 /**
@@ -157,29 +157,29 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
                     .findAny())
                 .orElse(null)))
         .filter(se -> se.getValue() != null);
-
-    int nbTop = (int) (ins.get().map(SimpleEntry::getValue).map(PortInfo::pos)
-        .filter(Position.TOP::equals).count()
-        + outs.get().map(SimpleEntry::getValue).map(PortInfo::pos)
-            .filter(Position.TOP::equals).count());
-
-    if (nbTop > 0) {
-      int stepPorts = taskShape.getWidth() / nbTop;
-      int position = stepPorts >> 1;
-      for (SimpleEntry<InternalInputPort, PortInfo> se : ins.get()
-          .filter(se -> Position.TOP == se.getValue().pos())
-          .collect(Collectors.toList())) {
-        InternalInputPortShape iips = DiagramFactory.eINSTANCE
-            .createInternalInputPortShape();
-        int x = position - (iips.getWidth() >> 1);
-        int y = 0;
-        iips.setContainer(taskShape);
-        iips.setModelObject(se.getKey());
-        iips.setX(x);
-        iips.setY(y);
-        addLabel(iips);
-
-        position += stepPorts;
+//
+//    int nbTop = (int) (ins.get().map(SimpleEntry::getValue).map(PortInfo::pos)
+//        .filter(Position.TOP::equals).count()
+//        + outs.get().map(SimpleEntry::getValue).map(PortInfo::pos)
+//            .filter(Position.TOP::equals).count());
+//
+//    if (nbTop > 0) {
+//      int stepPorts = taskShape.getWidth() / nbTop;
+//      int position = stepPorts >> 1;
+//      for (SimpleEntry<InternalInputPort, PortInfo> se : ins.get()
+//          .filter(se -> Position.TOP == se.getValue().pos())
+//          .collect(Collectors.toList())) {
+//        InternalInputPortShape iips = DiagramFactory.eINSTANCE
+//            .createInternalInputPortShape();
+//        int x = position - (iips.getWidth() >> 1);
+//        int y = 0;
+//        iips.setContainer(taskShape);
+//        iips.setModelObject(se.getKey());
+//        iips.setX(x);
+//        iips.setY(y);
+//        addLabel(iips);
+//
+//        position += stepPorts;
 
 //        peCreateService.createChopboxAnchor(containerShape);
 //
@@ -191,7 +191,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //        link(portLabelShape, new Object[] { ti.getValue0(), containerShape });
 //
 //        portLabelShape.setVisible(ti.getValue1().label());
-      }
+//      }
 //
 //      for (Pair<InternalOutputPort, OUT> to : topOuts) {
 //        int x = topPosition - (width >> 1);
@@ -213,7 +213,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //
 //        portLabelShape.setVisible(to.getValue1().label());
 //      }
-    }
+//    }
 //
 //    int nbLeft = leftIns.size() + leftOuts.size();
 //    if (nbLeft > 0) {
@@ -264,28 +264,28 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //      }
 //    }
 
-    int nbRight = (int) (ins.get().map(SimpleEntry::getValue).map(PortInfo::pos)
-        .filter(Position.RIGHT::equals).count()
-        + outs.get().map(SimpleEntry::getValue).map(PortInfo::pos)
-            .filter(Position.RIGHT::equals).count());
+//    int nbRight = (int) (ins.get().map(SimpleEntry::getValue).map(PortInfo::pos)
+//        .filter(Position.RIGHT::equals).count()
+//        + outs.get().map(SimpleEntry::getValue).map(PortInfo::pos)
+//            .filter(Position.RIGHT::equals).count());
 
-    if (nbRight > 0) {
-      int stepPorts = taskShape.getHeight() / nbRight;
-      int position = stepPorts >> 1;
-      for (SimpleEntry<InternalInputPort, PortInfo> se : ins.get()
-          .filter(se -> Position.RIGHT == se.getValue().pos())
-          .collect(Collectors.toList())) {
-        InternalInputPortShape ips = DiagramFactory.eINSTANCE
-            .createInternalInputPortShape();
-        int x = taskShape.getWidth() - ips.getWidth();
-        int y = position - (ips.getHeight() >> 1);
-        ips.setContainer(taskShape);
-        ips.setModelObject(se.getKey());
-        ips.setX(x);
-        ips.setY(y);
-        addLabel(ips);
-
-        position += stepPorts;
+//    if (nbRight > 0) {
+//      int stepPorts = taskShape.getHeight() / nbRight;
+//      int position = stepPorts >> 1;
+//      for (SimpleEntry<InternalInputPort, PortInfo> se : ins.get()
+//          .filter(se -> Position.RIGHT == se.getValue().pos())
+//          .collect(Collectors.toList())) {
+//        InternalInputPortShape ips = DiagramFactory.eINSTANCE
+//            .createInternalInputPortShape();
+//        int x = taskShape.getWidth() - ips.getWidth();
+//        int y = position - (ips.getHeight() >> 1);
+//        ips.setContainer(taskShape);
+//        ips.setModelObject(se.getKey());
+//        ips.setX(x);
+//        ips.setY(y);
+//        addLabel(ips);
+//
+//        position += stepPorts;
 
 //        ContainerShape containerShape = createPictogramForInternalPort(parent,
 //            x, y, width, height, getDiagram(), lineWidth, lineStyle);
@@ -296,22 +296,22 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //            InternalPortLabelPosition.LEFT);
 //
 //        portLabelShape.setVisible(ri.getValue1().label());
-      }
+//      }
 
-      for (SimpleEntry<InternalOutputPort, PortInfo> se : outs.get()
-          .filter(se -> Position.RIGHT == se.getValue().pos())
-          .collect(Collectors.toList())) {
-        InternalOutputPortShape ips = DiagramFactory.eINSTANCE
-            .createInternalOutputPortShape();
-        int x = taskShape.getWidth() - ips.getWidth();
-        int y = position - (ips.getHeight() >> 1);
-        ips.setContainer(taskShape);
-        ips.setModelObject(se.getKey());
-        ips.setX(x);
-        ips.setY(y);
+//      for (SimpleEntry<InternalOutputPort, PortInfo> se : outs.get()
+//          .filter(se -> Position.RIGHT == se.getValue().pos())
+//          .collect(Collectors.toList())) {
+//        InternalOutputPortShape ips = DiagramFactory.eINSTANCE
+//            .createInternalOutputPortShape();
+//        int x = taskShape.getWidth() - ips.getWidth();
+//        int y = position - (ips.getHeight() >> 1);
+//        ips.setContainer(taskShape);
+//        ips.setModelObject(se.getKey());
+//        ips.setX(x);
+//        ips.setY(y);
 //        addLabel(ips);
 
-        position += stepPorts;
+//        position += stepPorts;
 
 //        peCreateService.createChopboxAnchor(containerShape);
 //
@@ -320,8 +320,8 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //            InternalPortLabelPosition.LEFT);
 //
 //        portLabelShape.setVisible(ro.getValue1().label());
-      }
-    }
+//      }
+//    }
 //
 //    int nbBottom = bottomIns.size() + bottomOuts.size();
 //    if (nbBottom > 0) {

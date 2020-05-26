@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.model.ruminaq;
+package org.ruminaq.gui.model;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,28 +17,10 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface PortInfo {
-  
-  PortType portType();
-  
-  // Input and Output
-  
-  String id();
+public @interface PortDiagram {
 
-  int n() default 1;
-  
-  boolean opt() default false;
+  boolean label() default true;
 
-  // Only Input
-
-  boolean asynchronous() default false;
-
-  int group() default -1;
-
-  boolean hold() default false;
-
-  String queue() default "1";
-
-  NGroup ngroup() default NGroup.SAME;
+  Position pos() default Position.LEFT;
 
 }

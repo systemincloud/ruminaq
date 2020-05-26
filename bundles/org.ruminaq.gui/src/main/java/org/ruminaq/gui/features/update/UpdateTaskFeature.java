@@ -19,6 +19,7 @@ import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.gui.features.update.UpdateBaseElementFeature;
+import org.ruminaq.gui.model.Position;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.desc.PortsDescr;
@@ -29,7 +30,6 @@ import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.NGroup;
 import org.ruminaq.model.ruminaq.PortInfo;
-import org.ruminaq.model.ruminaq.Position;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
 

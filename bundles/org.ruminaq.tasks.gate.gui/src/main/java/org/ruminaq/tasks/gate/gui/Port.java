@@ -6,6 +6,7 @@
 
 package org.ruminaq.tasks.gate.gui;
 
+import org.ruminaq.gui.model.PortDiagram;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.dt.Bool;
 import org.ruminaq.model.ruminaq.PortData;
@@ -14,11 +15,13 @@ import org.ruminaq.model.ruminaq.PortType;
 
 public enum Port implements PortsDescr {
   
-  @PortInfo(portType = PortType.IN, id = "In", n = -1, label = false)
+  @PortInfo(portType = PortType.IN, id = "In", n = -1)
+  @PortDiagram(label = false)
   @PortData(type = Bool.class)
   IN, 
   
-  @PortInfo(portType = PortType.OUT, id = "Out", label = false)
+  @PortInfo(portType = PortType.OUT, id = "Out")
+  @PortDiagram(label = false)
   @PortData(type = Bool.class)
   OUT;
 }

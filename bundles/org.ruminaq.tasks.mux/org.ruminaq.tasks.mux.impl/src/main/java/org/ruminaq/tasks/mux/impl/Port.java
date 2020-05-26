@@ -6,13 +6,14 @@
 
 package org.ruminaq.tasks.mux.impl;
 
+import org.ruminaq.gui.model.PortDiagram;
+import org.ruminaq.gui.model.Position;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.NGroup;
 import org.ruminaq.model.ruminaq.PortData;
 import org.ruminaq.model.ruminaq.PortInfo;
 import org.ruminaq.model.ruminaq.PortType;
-import org.ruminaq.model.ruminaq.Position;
 import org.ruminaq.model.ruminaq.dt.Int32;
 
 public enum Port implements PortsDescr {
@@ -22,12 +23,13 @@ public enum Port implements PortsDescr {
   @PortData(type = DataType.class)
   IN,
 
-  @PortInfo(portType = PortType.IN, id = "Idx", group = 0,
-      pos = Position.BOTTOM, label = false)
+  @PortInfo(portType = PortType.IN, id = "Idx", group = 0)
+  @PortDiagram(pos = Position.BOTTOM, label = false)
   @PortData(type = Int32.class)
   IDX,
 
-  @PortInfo(portType = PortType.OUT, id = "Out", label = false)
+  @PortInfo(portType = PortType.OUT, id = "Out")
+  @PortDiagram(label = false)
   @PortData(type = DataType.class)
   OUT;
 }
