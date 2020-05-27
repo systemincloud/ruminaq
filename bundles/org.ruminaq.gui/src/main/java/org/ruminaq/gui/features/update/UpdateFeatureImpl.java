@@ -28,12 +28,12 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
   @Override
   public List<Class<? extends IUpdateFeature>> getFeatures() {
     return Arrays.asList(UpdateMainTaskFeature.class,
-        UpdateInputPortFeature.class, UpdateBaseElementFeature.class);
+        UpdateBaseElementFeature.class);
   }
 
   @Override
-  public Predicate<Class<? extends IUpdateFeature>> filter(
-      IContext context, IFeatureProvider fp) {
+  public Predicate<Class<? extends IUpdateFeature>> filter(IContext context,
+      IFeatureProvider fp) {
     IUpdateContext updateContext = (IUpdateContext) context;
     PictogramElement pe = updateContext.getPictogramElement();
     Object bo = fp.getBusinessObjectForPictogramElement(pe);
@@ -42,8 +42,6 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
         return LabelShape.class.isInstance(pe);
       } else if (clazz.isAssignableFrom(UpdateMainTaskFeature.class)) {
         return bo instanceof MainTask;
-      } else if (clazz.isAssignableFrom(UpdateInputPortFeature.class)) {
-        return bo instanceof InputPort;
       } else if (clazz.isAssignableFrom(UpdateBaseElementFeature.class)) {
         return bo instanceof BaseElement;
       }

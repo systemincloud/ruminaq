@@ -3,6 +3,7 @@ package org.ruminaq.gui.features.update;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -20,6 +21,8 @@ import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.gui.features.update.UpdateBaseElementFeature;
 import org.ruminaq.gui.model.Position;
+import org.ruminaq.gui.model.diagram.InternalInputPortShape;
+import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.desc.PortsDescr;
@@ -39,39 +42,96 @@ import org.ruminaq.model.ruminaq.Task;
  */
 public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
-  private boolean updateNeededChecked = false;
-
-  private boolean superUpdateNeeded = false;
-
   public UpdateTaskFeature(IFeatureProvider fp) {
     super(fp);
   }
 
   @Override
   public IReason updateNeeded(IUpdateContext context) {
-    this.updateNeededChecked = true;
-    superUpdateNeeded = super.updateNeeded(context).toBoolean();
+    if (super.updateNeeded(context).toBoolean() || updatePortNeeded(context)) {
+      return Reason.createTrueReason();
+    } else {
+      return Reason.createFalseReason();
+    }
+  }
+
+  private boolean updatePortNeeded(IUpdateContext context) {
     Optional<TaskShape> taskShape = Optional.of(context)
         .map(AbstractUpdateFeatureFilter.getPictogramElement)
         .filter(TaskShape.class::isInstance).map(TaskShape.class::cast);
     Optional<Task> task = taskShape.map(TaskShape::getModelObject)
         .filter(Task.class::isInstance).map(Task.class::cast);
+    if (taskShape.isPresent() && task.isPresent()) {
+      return updateInputPortNeeded(taskShape.get(), task.get())
+          || updateOutputPortNeeded(taskShape.get(), task.get());
+    }
+    return false;
+  }
 
-    return false ? Reason.createTrueReason() : Reason.createFalseReason();
+  private boolean updateInputPortNeeded(TaskShape taskShape, Task task) {
+    List<InternalInputPort> fromModel = task.getInputPort();
+    List<InternalInputPort> fromShape = taskShape.getInputPort().stream()
+        .map(InternalInputPortShape::getModelObject)
+        .filter(InternalInputPort.class::isInstance)
+        .map(InternalInputPort.class::cast).collect(Collectors.toList());
+    return !(fromModel.stream().allMatch(fromShape::contains)
+        && fromShape.stream().allMatch(fromModel::contains));
+  }
+
+  private boolean updateOutputPortNeeded(TaskShape taskShape, Task task) {
+    List<InternalOutputPort> fromModel = task.getOutputPort();
+    List<InternalOutputPort> fromShape = taskShape.getOutputPort().stream()
+        .map(InternalOutputPortShape::getModelObject)
+        .filter(InternalOutputPort.class::isInstance)
+        .map(InternalOutputPort.class::cast).collect(Collectors.toList());
+    return !(fromModel.stream().allMatch(fromShape::contains)
+        && fromShape.stream().allMatch(fromModel::contains));
   }
 
   @Override
   public boolean update(IUpdateContext context) {
-    if (!updateNeededChecked)
-      if (!this.updateNeeded(context).toBoolean())
-        return false;
-
     boolean updated = false;
-    if (superUpdateNeeded)
+
+    if (super.updateNeeded(context).toBoolean()) {
       updated = updated | super.update(context);
+    }
+
+    if (updatePortNeeded(context)) {
+      updated = updated | updatePort(context);
+    }
+
     return updated;
   }
 
+  private boolean updatePort(IUpdateContext context) {
+    Optional<TaskShape> taskShape = Optional.of(context)
+        .map(AbstractUpdateFeatureFilter.getPictogramElement)
+        .filter(TaskShape.class::isInstance).map(TaskShape.class::cast);
+    Optional<Task> task = taskShape.map(TaskShape::getModelObject)
+        .filter(Task.class::isInstance).map(Task.class::cast);
+    if (taskShape.isPresent() && task.isPresent()) {
+      boolean updated = false;
+      if (updateInputPortNeeded(taskShape.get(), task.get())) {
+        updated = updated | updateInputPort(context);
+      }
+      if (updateInputPortNeeded(taskShape.get(), task.get())) {
+        updated = updated | updateOutputPort(context);
+      }
+      return updated;
+    }
+    return false;
+  }
+
+  private boolean updateInputPort(IUpdateContext context) {
+    return false;
+  }
+  
+  private boolean updateOutputPort(IUpdateContext context) {
+    return false;
+  }
+
+  
+  
   protected void addPort(Task task, ContainerShape parent, PortsDescr pd) {
     if (pd == null)
       return;
@@ -115,7 +175,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 //          addInputPort(task, parent, id, in.label(), in.type(),
 //              in.asynchronous(), grp, in.hold(), in.queue(), in.pos());
         }
-        redistributePorts(parent, in.pos());
+//        redistributePorts(parent, in.pos());
       }
       PortInfo out = f.getAnnotation(PortInfo.class);
       if (out != null) {
@@ -139,7 +199,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
           }
 //          addOutputPort(task, parent, id, out.label(), out.type(), out.pos());
         }
-        redistributePorts(parent, out.pos());
+//        redistributePorts(parent, out.pos());
       }
     } catch (NoSuchFieldException | SecurityException e) {
     }

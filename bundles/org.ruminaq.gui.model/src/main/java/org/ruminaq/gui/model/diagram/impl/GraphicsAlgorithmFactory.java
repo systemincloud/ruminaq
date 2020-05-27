@@ -11,15 +11,17 @@ import java.util.List;
 
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.ruminaq.gui.model.diagram.InputPortShape;
 import org.ruminaq.gui.model.diagram.InternalInputPortShape;
 import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
 import org.ruminaq.gui.model.diagram.LabelShape;
-import org.ruminaq.gui.model.diagram.PortShape;
+import org.ruminaq.gui.model.diagram.OutputPortShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.gui.model.diagram.impl.label.LabelShapeGA;
-import org.ruminaq.gui.model.diagram.impl.port.PortShapeGA;
+import org.ruminaq.gui.model.diagram.impl.port.InputPortShapeGA;
+import org.ruminaq.gui.model.diagram.impl.port.OutputPortShapeGA;
 import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionShapeGA;
 import org.ruminaq.gui.model.diagram.impl.simpleconnectionpoint.SimpleConnectionPointShapeGA;
 import org.ruminaq.gui.model.diagram.impl.task.InternalInputPortShapeGA;
@@ -36,7 +38,8 @@ public enum GraphicsAlgorithmFactory {
 
   private final List<Factory<? extends GraphicsAlgorithm>> factories = Arrays
       .asList(new ShapeFactory<>(LabelShape.class, LabelShapeGA.class),
-          new ShapeFactory<>(PortShape.class, PortShapeGA.class),
+          new ShapeFactory<>(InputPortShape.class, InputPortShapeGA.class),
+          new ShapeFactory<>(OutputPortShape.class, OutputPortShapeGA.class),
           new ShapeFactory<>(SimpleConnectionShape.class,
               SimpleConnectionShapeGA.class),
           new ShapeFactory<>(SimpleConnectionPointShape.class,

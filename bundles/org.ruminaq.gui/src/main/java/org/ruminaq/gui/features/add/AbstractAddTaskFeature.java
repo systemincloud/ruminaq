@@ -107,7 +107,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     taskShape.setModelObject(task);
     addLabel(taskShape);
 
-    addInternalPorts(task, taskShape);
     updatePictogramElement(taskShape);
 
     return taskShape;
@@ -117,11 +116,13 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     return DiagramFactory.eINSTANCE.createTaskShape();
   }
 
-  private void addInternalPorts(Task task, TaskShape taskShape) {
+  private void addDefaultInternalPorts(Task task, TaskShape taskShape) {
     Class<? extends PortsDescr> pd = getPortsDescription();
 
     Supplier<Stream<InternalInputPort>> inputPorts = () -> Optional.of(task)
         .map(Task::getInputPort).map(List::stream).orElseGet(Stream::empty);
+    Supplier<Stream<InternalOutputPort>> outputPorts = () -> Optional.of(task)
+        .map(Task::getOutputPort).map(List::stream).orElseGet(Stream::empty);
 
     Supplier<Stream<PortInfo>> inDescrpts = () -> Optional.of(pd)
         .map(Class::getFields).map(Stream::of).orElseGet(Stream::empty)
@@ -137,9 +138,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
                 .findAny())
             .orElse(null)))
         .filter(se -> se.getValue() != null);
-
-    Supplier<Stream<InternalOutputPort>> outputPorts = () -> Optional.of(task)
-        .map(Task::getOutputPort).map(List::stream).orElseGet(Stream::empty);
 
     Supplier<Stream<PortInfo>> outDescrpts = () -> Optional.of(pd)
         .map(Class::getFields).map(Stream::of).orElseGet(Stream::empty)
