@@ -19,7 +19,6 @@ import org.eclipse.graphiti.services.IPeCreateService;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.gui.features.update.UpdateTaskFeature.Filter;
 import org.ruminaq.gui.model.Position;
@@ -46,7 +45,7 @@ import org.ruminaq.model.ruminaq.Task;
 @FeatureFilter(Filter.class)
 public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
-  public static class Filter extends AbstractAddFeatureFilter {
+  public static class Filter extends AbstractUpdateFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return Task.class;
