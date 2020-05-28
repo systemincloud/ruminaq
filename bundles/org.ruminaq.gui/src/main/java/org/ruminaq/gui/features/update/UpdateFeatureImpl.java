@@ -19,7 +19,6 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.UpdateFeatureExtension;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.MainTask;
 
 @Component(property = { "service.ranking:Integer=5" })

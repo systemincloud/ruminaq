@@ -85,11 +85,6 @@ public class PortShapeGA extends RoundedRectangleImpl {
   public int getHeight() {
     return shape.getHeight();
   }
-
-  @Override
-  public Integer getLineWidth() {
-    return shape.getLineWidth();
-  }
   
   @Override
   public Color getForeground() {

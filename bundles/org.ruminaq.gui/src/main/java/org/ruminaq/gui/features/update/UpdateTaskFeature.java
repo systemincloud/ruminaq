@@ -18,14 +18,17 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeCreateService;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.TasksUtil;
+import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
-import org.ruminaq.gui.features.update.UpdateBaseElementFeature;
+import org.ruminaq.gui.features.update.UpdateTaskFeature.Filter;
 import org.ruminaq.gui.model.Position;
 import org.ruminaq.gui.model.diagram.InternalInputPortShape;
 import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.desc.PortsDescr;
+import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
@@ -40,7 +43,15 @@ import org.ruminaq.model.ruminaq.Task;
  * 
  * @author Marek Jagielski
  */
+@FeatureFilter(Filter.class)
 public class UpdateTaskFeature extends UpdateBaseElementFeature {
+
+  public static class Filter extends AbstractAddFeatureFilter {
+    @Override
+    public Class<? extends BaseElement> forBusinessObject() {
+      return Task.class;
+    }
+  }
 
   public UpdateTaskFeature(IFeatureProvider fp) {
     super(fp);
@@ -125,13 +136,11 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   private boolean updateInputPort(IUpdateContext context) {
     return false;
   }
-  
+
   private boolean updateOutputPort(IUpdateContext context) {
     return false;
   }
 
-  
-  
   protected void addPort(Task task, ContainerShape parent, PortsDescr pd) {
     if (pd == null)
       return;
