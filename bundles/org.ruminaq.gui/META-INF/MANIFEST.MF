@@ -73,6 +73,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.model,
  org.ruminaq.model.desc,
  org.ruminaq.model.ruminaq,
+ org.ruminaq.model.ruminaq.impl,
  org.ruminaq.util,
  org.slf4j
 Export-Package: org.ruminaq.gui,
@@ -104,7 +105,6 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextBut
  OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadConnectionPointTool.xml,
  OSGI-INF/org.ruminaq.gui.features.reconnection.ReconnectionFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadPortTool.xml,
- OSGI-INF/org.ruminaq.gui.features.move.MoveFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.directediting.DirectEditingFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.create.CreateFeaturesImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.resize.ResizeShapeFeatures.xml,
@@ -119,4 +119,5 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextBut
  OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadLabelFeature.xml,
  OSGI-INF/org.ruminaq.gui.features.copy.CopyFeaturesImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.delete.DeleteFeatureImpl.xml,
- OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadEmbeddedTaskTool.xml
+ OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadEmbeddedTaskTool.xml,
+ OSGI-INF/org.ruminaq.gui.features.move.MoveFeatureImpl.xml

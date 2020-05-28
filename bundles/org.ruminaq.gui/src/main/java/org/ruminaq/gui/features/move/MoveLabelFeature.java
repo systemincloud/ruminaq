@@ -6,28 +6,35 @@
 
 package org.ruminaq.gui.features.move;
 
+import java.util.Optional;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.move.MoveLabelFeature.Filter;
 import org.ruminaq.gui.model.diagram.LabelShape;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.NoElement;
 
 @FeatureFilter(Filter.class)
 public class MoveLabelFeature extends DefaultMoveShapeFeature {
 
-  public static class Filter implements FeaturePredicate<IContext> {
+  public static class Filter extends AbstractMoveFeatureFilter {
     @Override
-    public boolean test(IContext context, IFeatureProvider fp) {
-      IMoveShapeContext moveShapeContext = (IMoveShapeContext) context;
-      Shape shape = moveShapeContext.getShape();
-      return LabelShape.class.isInstance(shape);
+    public Class<? extends RuminaqShape> forShape() {
+      return LabelShape.class;
+    }
+
+    @Override
+    public Class<? extends BaseElement> forBusinessObject() {
+      return NoElement.class;
     }
   }
 
@@ -37,10 +44,12 @@ public class MoveLabelFeature extends DefaultMoveShapeFeature {
 
   @Override
   public boolean canMoveShape(IMoveShapeContext context) {
-    if (context.getSourceContainer() == null)
+    if (Optional.ofNullable(context.getSourceContainer()).isEmpty()) {
       return false;
-    if (context.getSourceContainer().equals(context.getTargetContainer()))
+    }
+    if (context.getSourceContainer().equals(context.getTargetContainer())) {
       return true;
+    }
     return false;
   }
 
@@ -65,6 +74,10 @@ public class MoveLabelFeature extends DefaultMoveShapeFeature {
 
   @Override
   protected void postMoveShape(final IMoveShapeContext context) {
+    LabelShape shape = Optional.ofNullable(context.getShape())
+        .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
+        .orElseThrow();
+    shape.setDefaultPosition(LabelUtil.isInDefaultPosition(shape));
     super.postMoveShape(context);
   }
 }

@@ -127,6 +127,8 @@
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="labeledShape" eType="#//LabeledRuminaqShape"
         eOpposite="#//LabeledRuminaqShape/label"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultPosition" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LabeledRuminaqShape" eSuperTypes="#//RuminaqShape">
     <eStructuralFeatures xsi:type="ecore:EReference" name="label" eType="#//LabelShape"

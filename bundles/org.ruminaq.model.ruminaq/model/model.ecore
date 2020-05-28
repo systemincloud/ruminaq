@@ -24,13 +24,13 @@
         defaultValueLiteral="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InternalPort" abstract="true" eSuperTypes="#//BaseElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dataType" lowerBound="1"
-        upperBound="-1" eType="#//DataType" containment="true"/>
     <eOperations name="getTask" eType="#//Task">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return (Task) eContainer();"/>
       </eAnnotations>
     </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dataType" lowerBound="1"
+        upperBound="-1" eType="#//DataType" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Task" abstract="true" eSuperTypes="#//BaseElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="atomic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
@@ -146,5 +146,5 @@
     <eClassifiers xsi:type="ecore:EClass" name="Complex32" eSuperTypes="#//dt/Numeric"/>
     <eClassifiers xsi:type="ecore:EClass" name="Raw" eSuperTypes="#//DataType"/>
     <eClassifiers xsi:type="ecore:EClass" name="Complex64" eSuperTypes="#//dt/Numeric"/>
-</eSubpackages>
+  </eSubpackages>
 </ecore:EPackage>

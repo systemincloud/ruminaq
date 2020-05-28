@@ -14,7 +14,7 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.MoveShapeFeatureExtension;
 
 @Component(property = { "service.ranking:Integer=5" })
-public class MoveFeatures implements MoveShapeFeatureExtension {
+public class MoveFeatureImpl implements MoveShapeFeatureExtension {
 
   @Override
   public List<Class<? extends IMoveShapeFeature>> getFeatures() {

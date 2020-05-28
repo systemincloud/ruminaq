@@ -9,16 +9,14 @@ package org.ruminaq.gui.features.move;
 import java.util.Optional;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
+import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.move.MoveElementFeature.Filter;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
-import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 
 /**
@@ -29,14 +27,10 @@ import org.ruminaq.model.ruminaq.BaseElement;
 @FeatureFilter(Filter.class)
 public class MoveElementFeature extends DefaultMoveShapeFeature {
 
-  public static class Filter implements FeaturePredicate<IContext> {
+  public static class Filter extends AbstractMoveFeatureFilter {
     @Override
-    public boolean test(IContext context, IFeatureProvider fp) {
-      IMoveShapeContext moveShapeContext = (IMoveShapeContext) context;
-      return Optional.ofNullable(moveShapeContext.getShape())
-          .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
-          .map(RuminaqShape::getModelObject)
-          .filter(BaseElement.class::isInstance).isPresent();
+    public Class<? extends BaseElement> forBusinessObject() {
+      return BaseElement.class;
     }
   }
 
@@ -84,6 +78,7 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
         .ifPresent((LabelShape l) -> {
           l.setX(l.getX() + context.getDeltaX());
           l.setY(l.getY() + context.getDeltaY());
+          getFeatureProvider().updateIfPossibleAndNeeded(new UpdateContext(l));
         });
 
     super.postMoveShape(context);

@@ -47,6 +47,7 @@
     </genClasses>
     <genClasses ecoreClass="model.ecore#//LabelShape">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//LabelShape/labeledShape"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//LabelShape/defaultPosition"/>
       <genOperations ecoreOperation="model.ecore#//LabelShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
       <genOperations ecoreOperation="model.ecore#//LabelShape/getWidth" body="return getGraphicsAlgorithm().getWidth();"/>
