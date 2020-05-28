@@ -20,11 +20,11 @@ import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.ruminaq.gui.model.GuiUtil;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
-import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionUtil;
 
 /**

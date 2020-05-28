@@ -11,10 +11,10 @@ import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.move.MoveInternalPortFeature;
+import org.ruminaq.gui.model.GuiUtil;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
-import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
 
 /**

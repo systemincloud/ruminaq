@@ -1,7 +1,7 @@
 package org.ruminaq.gui.it.tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.ruminaq.gui.model.diagram.impl.GuiUtil.createPoint;
+import static org.ruminaq.gui.model.GuiUtil.createPoint;
 
 import java.util.stream.Stream;
 
@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized.Parameters;
-import org.ruminaq.gui.model.diagram.impl.GuiUtil;
+import org.ruminaq.gui.model.GuiUtil;
 
 @RunWith(JUnitPlatform.class)
 public class GuiUtilTest {

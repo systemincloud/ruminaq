@@ -6,9 +6,9 @@
 
 package org.ruminaq.gui.model.diagram.impl.label;
 
+import org.ruminaq.gui.model.GuiUtil;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
-import org.ruminaq.gui.model.diagram.impl.GuiUtil;
 
 /**
  * Label util class.
