@@ -256,16 +256,18 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     InternalInputPortShape portShape = DiagramFactory.eINSTANCE
         .createInternalInputPortShape();
     portShape.setContainer(taskShape);
+    taskShape.getInputPort().add(portShape);
     portShape.setModelObject(p);
     portShape.setX(xOfPostion(taskShape, position));
     portShape.setY(yOfPostion(taskShape, position));
+    
     redistributePorts(taskShape, position);
 
 //          String id = null;
 //          int k = -1;
 //          loop: while (id == null) {
 //            k++;
-//            if (TasksUtil.getAllMutlipleInternalInputPorts(task, in.id())
+//            if (TasksUtil.SgetAllMutlipleInternalInputPorts(task, in.id())
 //                .size() == 0) {
 //              id = in.id() + " " + 0;
 //              break;
@@ -325,6 +327,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     InternalOutputPortShape portShape = DiagramFactory.eINSTANCE
         .createInternalOutputPortShape();
     portShape.setContainer(taskShape);
+    taskShape.getOutputPort().add(portShape);
     portShape.setModelObject(p);
     portShape.setX(xOfPostion(taskShape, position));
     portShape.setY(yOfPostion(taskShape, position));

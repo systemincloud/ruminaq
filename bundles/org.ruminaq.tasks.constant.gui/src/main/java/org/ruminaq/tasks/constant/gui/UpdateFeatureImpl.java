@@ -14,7 +14,7 @@ import org.eclipse.graphiti.features.IUpdateFeature;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.UpdateFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
+import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
@@ -41,7 +41,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
   @FeatureFilter(Filter.class)
   public static class UpdateFeature extends UpdateTaskFeature {
 
-    public static class Filter extends AbstractAddFeatureFilter {
+    public static class Filter extends AbstractUpdateFeatureFilter {
       @Override
       public Class<? extends BaseElement> forBusinessObject() {
         return Constant.class;
