@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -260,7 +261,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     portShape.setModelObject(p);
     portShape.setX(xOfPostion(taskShape, position));
     portShape.setY(yOfPostion(taskShape, position));
-    
+
     redistributePorts(taskShape, position);
 
 //          String id = null;
@@ -422,21 +423,21 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   private void redistributePorts(TaskShape taskShape, Position pos) {
+    Supplier<Stream<InternalPortShape>> ports = () -> Stream.concat(
+        taskShape.getInputPort().stream(), taskShape.getOutputPort().stream());
     switch (pos) {
       case LEFT:
-        distributePortsVertically(taskShape, 0, getFeatureProvider());
-        break;
-      case TOP:
-        distributePortsHorizontally(taskShape, 0, getFeatureProvider());
-        break;
       case RIGHT:
         distributePortsVertically(taskShape,
-            taskShape.getWidth() - InternalPortShapeGA.SIZE,
+            ports.get().filter(p -> pos == getPosition(taskShape, p))
+                .collect(Collectors.toList()),
             getFeatureProvider());
         break;
+      case TOP:
       case BOTTOM:
         distributePortsHorizontally(taskShape,
-            taskShape.getHeight() - InternalPortShapeGA.SIZE,
+            ports.get().filter(p -> pos == getPosition(taskShape, p))
+                .collect(Collectors.toList()),
             getFeatureProvider());
         break;
       default:
@@ -444,28 +445,10 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     }
   }
 
-  private static void distributePortsVertically(ContainerShape parent, int x,
-      IFeatureProvider fp) {
-//LinkedList<Shape> orderedChilds = new LinkedList<>();
-//
-//loop: for (Shape child : parent.getChildren()) {
-//if (isInternalPortLabel(child)) {
-//  if (child.getGraphicsAlgorithm().getX() == x) {
-//    for (Shape s : orderedChilds) {
-//      if (child.getGraphicsAlgorithm().getY() < s.getGraphicsAlgorithm()
-//          .getY()) {
-//        orderedChilds.add(orderedChilds.indexOf(s), child);
-//        continue loop;
-//      }
-//    }
-//    orderedChilds.addLast(child);
-//  }
-//}
-//}
-//
-//if (orderedChilds.size() != 0) {
-//int stepPorts = parent.getGraphicsAlgorithm().getHeight()
-//    / orderedChilds.size();
+  private static void distributePortsVertically(TaskShape taskShape,
+      List<InternalPortShape> ports, IFeatureProvider fp) {
+    ports.sort((p1, p2) -> Integer.compare(p1.getY(), p2.getY()));
+    int stepPorts = taskShape.getHeight() / ports.size();
 //int position = (stepPorts >> 1) - (PORT_SIZE >> 1);
 //for (Shape child : orderedChilds) {
 //  int dy = position - child.getGraphicsAlgorithm().getY();
@@ -486,28 +469,10 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 //}
   }
 
-  private static void distributePortsHorizontally(ContainerShape parent, int y,
-      IFeatureProvider fp) {
-//LinkedList<Shape> orderedChilds = new LinkedList<>();
-//
-//loop: for (Shape child : parent.getChildren()) {
-//if (isInternalPortLabel(child)) {
-//  if (child.getGraphicsAlgorithm().getY() == y) {
-//    for (Shape s : orderedChilds) {
-//      if (child.getGraphicsAlgorithm().getX() < s.getGraphicsAlgorithm()
-//          .getX()) {
-//        orderedChilds.add(orderedChilds.indexOf(s), child);
-//        continue loop;
-//      }
-//    }
-//    orderedChilds.addLast(child);
-//  }
-//}
-//}
-
-//if (orderedChilds.size() != 0) {
-//int stepPorts = parent.getGraphicsAlgorithm().getWidth()
-//    / orderedChilds.size();
+  private static void distributePortsHorizontally(TaskShape taskShape,
+      List<InternalPortShape> ports, IFeatureProvider fp) {
+    ports.sort((p1, p2) -> Integer.compare(p1.getX(), p2.getX()));
+    int stepPorts = taskShape.getWidth() / ports.size();
 //int position = (stepPorts >> 1) - (PORT_SIZE >> 1);
 //for (Shape child : orderedChilds) {
 //  int dx = position - child.getGraphicsAlgorithm().getX();
