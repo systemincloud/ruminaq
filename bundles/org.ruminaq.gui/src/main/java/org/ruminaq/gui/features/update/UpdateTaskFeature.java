@@ -363,7 +363,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 //        getDiagram(), parent, in.getId(), AbstractAddTaskFeature.PORT_SIZE,
 //        AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.RIGHT);
 //
-//    link(containerShape, new Object[] { in, portLabelShape });
 //    link(portLabelShape, new Object[] { in, containerShape });
 
 //    if (!showLabel)
