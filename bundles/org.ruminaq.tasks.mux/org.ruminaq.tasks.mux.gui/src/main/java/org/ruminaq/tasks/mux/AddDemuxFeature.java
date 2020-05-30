@@ -41,9 +41,4 @@ public class AddDemuxFeature extends AbstractAddTaskFeature {
   protected String getInsideIconId() {
     return Images.IMG_DEMUX_DIAGRAM;
   }
-
-  @Override
-  protected Class<? extends PortsDescr> getPortsDescription() {
-    return Port.class;
-  }
 }

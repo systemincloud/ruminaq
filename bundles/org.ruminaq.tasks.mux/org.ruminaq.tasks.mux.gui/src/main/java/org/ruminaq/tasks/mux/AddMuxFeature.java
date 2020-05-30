@@ -10,10 +10,8 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
-import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.mux.AddMuxFeature.Filter;
-import org.ruminaq.tasks.mux.impl.Port;
 import org.ruminaq.tasks.mux.model.mux.Mux;
 
 @FeatureFilter(Filter.class)
@@ -43,10 +41,5 @@ public class AddMuxFeature extends AbstractAddTaskFeature {
   @Override
   protected String getInsideIconId() {
     return Images.IMG_MUX_DIAGRAM;
-  }
-
-  @Override
-  protected Class<? extends PortsDescr> getPortsDescription() {
-    return Port.class;
   }
 }

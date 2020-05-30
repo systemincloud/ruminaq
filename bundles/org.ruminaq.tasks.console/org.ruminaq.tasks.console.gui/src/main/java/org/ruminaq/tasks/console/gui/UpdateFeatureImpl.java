@@ -15,6 +15,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.UpdateFeatureExtension;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
+import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.tasks.console.impl.Port;
 import org.ruminaq.tasks.console.model.console.Console;
 import org.ruminaq.tasks.console.model.console.ConsoleType;
@@ -122,10 +123,10 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       if ((console.getConsoleType().equals(ConsoleType.IN)
           || console.getConsoleType().equals(ConsoleType.INOUT))
           && console.getInputPort().size() < 1) {
-        addPort(console, parent, Port.IN);
+//        addPort(console, parent, Port.IN);
       } else if ((console.getConsoleType().equals(ConsoleType.OUT)
           && console.getInputPort().size() == 1)) {
-        removePort(console, parent, Port.IN);
+//        removePort(console, parent, Port.IN);
       }
       return true;
     }
@@ -134,12 +135,17 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       if ((console.getConsoleType().equals(ConsoleType.OUT)
           || console.getConsoleType().equals(ConsoleType.INOUT))
           && console.getOutputPort().size() < 1) {
-        addPort(console, parent, Port.OUT);
+//        addPort(console, parent, Port.OUT);
       } else if ((console.getConsoleType().equals(ConsoleType.IN)
           && console.getOutputPort().size() == 1)) {
-        removePort(console, parent, Port.OUT);
+//        removePort(console, parent, Port.OUT);
       }
       return true;
+    }
+    
+    @Override
+    protected Class<? extends PortsDescr> getPortsDescription() {
+      return Port.class;
     }
   }
 }

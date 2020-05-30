@@ -104,8 +104,8 @@ public class PasteTaskFeature extends RuminaqShapePasteFeature<RuminaqShape>
 
   private void updateInternalPorts(Task newBo, ContainerShape newPe) {
     for (Shape newPortShape : newPe.getChildren()) {
-      if (AbstractAddTaskFeature.isInternalPortLabel(newPortShape))
-        continue;
+//      if (AbstractAddTaskFeature.isInternalPortLabel(newPortShape))
+//        continue;
       EList<EObject> os = newPortShape.getLink().getBusinessObjects();
       String id = null;
       ContainerShape l = null;

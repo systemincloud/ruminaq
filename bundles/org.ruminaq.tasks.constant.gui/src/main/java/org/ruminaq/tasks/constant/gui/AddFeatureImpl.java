@@ -17,11 +17,9 @@ import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.gui.model.diagram.TaskShape;
-import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.constant.gui.AddFeatureImpl.AddFeature.Filter;
 import org.ruminaq.tasks.constant.gui.constantshape.ConstantshapeFactory;
-import org.ruminaq.tasks.constant.model.Port;
 import org.ruminaq.tasks.constant.model.constant.Constant;
 
 /**
@@ -71,11 +69,6 @@ public class AddFeatureImpl implements AddFeatureExtension {
     @Override
     protected int getWidth() {
       return WIDTH;
-    }
-
-    @Override
-    protected Class<? extends PortsDescr> getPortsDescription() {
-      return Port.class;
     }
   }
 }

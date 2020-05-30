@@ -10,8 +10,6 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AddEmbeddedTaskFeature.Filter;
 import org.ruminaq.gui.image.Images;
-import org.ruminaq.model.desc.NoPorts;
-import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 
@@ -44,10 +42,5 @@ public class AddEmbeddedTaskFeature extends AbstractAddTaskFeature {
   @Override
   protected String getInsideIconDesc() {
     return NOT_CHOSEN;
-  }
-
-  @Override
-  protected Class<? extends PortsDescr> getPortsDescription() {
-    return NoPorts.class;
   }
 }

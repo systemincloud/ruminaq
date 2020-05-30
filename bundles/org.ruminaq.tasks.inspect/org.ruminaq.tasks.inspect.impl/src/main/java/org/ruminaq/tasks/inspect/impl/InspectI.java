@@ -12,6 +12,7 @@ import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.PortMap;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.impl.data.TextI;
+import org.ruminaq.tasks.inspect.model.Port;
 import org.ruminaq.tasks.inspect.model.inspect.Inspect;
 import org.ruminaq.runner.util.Util;
 import ch.qos.logback.classic.Logger;

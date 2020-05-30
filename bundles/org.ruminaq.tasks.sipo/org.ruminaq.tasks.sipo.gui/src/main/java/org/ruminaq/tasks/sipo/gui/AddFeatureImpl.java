@@ -34,7 +34,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
   public List<Class<? extends IAddFeature>> getFeatures() {
     return Collections.singletonList(AddFeature.class);
   }
-  
+
   @FeatureFilter(Filter.class)
   public static class AddFeature extends AbstractAddTaskFeature {
 
@@ -62,11 +62,6 @@ public class AddFeatureImpl implements AddFeatureExtension {
     @Override
     protected String getInsideIconId() {
       return Images.IMG_SIPO_DIAGRAM;
-    }
-
-    @Override
-    protected Class<? extends PortsDescr> getPortsDescription() {
-      return Port.class;
     }
   }
 }

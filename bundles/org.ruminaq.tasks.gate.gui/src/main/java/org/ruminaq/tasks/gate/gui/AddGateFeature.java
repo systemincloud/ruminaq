@@ -8,26 +8,22 @@ package org.ruminaq.tasks.gate.gui;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
-import org.ruminaq.model.desc.PortsDescr;
 
 public abstract class AddGateFeature extends AbstractAddTaskFeature {
 
+  private static final int SIZE = 50;
+  
   public AddGateFeature(IFeatureProvider fp) {
     super(fp);
   }
 
   @Override
   protected int getHeight() {
-    return 50;
+    return SIZE;
   }
 
   @Override
   protected int getWidth() {
-    return 50;
-  }
-
-  @Override
-  protected Class<? extends PortsDescr> getPortsDescription() {
-    return Port.class;
+    return getHeight();
   }
 }

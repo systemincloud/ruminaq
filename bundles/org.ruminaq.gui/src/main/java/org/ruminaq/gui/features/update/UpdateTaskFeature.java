@@ -1,9 +1,17 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.update;
 
-import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -13,19 +21,21 @@ import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IPeCreateService;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.gui.features.update.UpdateTaskFeature.Filter;
+import org.ruminaq.gui.model.PortDiagram;
 import org.ruminaq.gui.model.Position;
+import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.InternalInputPortShape;
 import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
+import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
+import org.ruminaq.gui.model.diagram.impl.task.InternalPortShapeGA;
 import org.ruminaq.model.DataTypeManager;
+import org.ruminaq.model.desc.NoPorts;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.DataType;
@@ -33,8 +43,8 @@ import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
-import org.ruminaq.model.ruminaq.NGroup;
 import org.ruminaq.model.ruminaq.PortInfo;
+import org.ruminaq.model.ruminaq.PortType;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
 
@@ -56,6 +66,96 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     super(fp);
   }
 
+  private static Optional<TaskShape> shapeFromContext(IUpdateContext context) {
+    return Optional.of(context)
+        .map(AbstractUpdateFeatureFilter.getPictogramElement)
+        .filter(TaskShape.class::isInstance).map(TaskShape.class::cast);
+  }
+
+  private static Optional<Task> modelFromShape(Optional<TaskShape> taskShape) {
+    return taskShape.map(TaskShape::getModelObject)
+        .filter(Task.class::isInstance).map(Task.class::cast);
+  }
+
+  private static <T extends InternalPortShape, K extends InternalPort> List<K> internalPortFromShape(
+      List<T> portShapes, Class<K> type) {
+    return portShapes.stream().map(InternalPortShape::getModelObject)
+        .filter(type::isInstance).map(type::cast).collect(Collectors.toList());
+  }
+
+  private static <T extends InternalPortShape, K extends InternalPort> boolean updateInternalPortNeeded(
+      List<T> portShapes, List<K> fromModel, Class<K> type) {
+    List<K> fromShape = internalPortFromShape(portShapes, type);
+    return !(fromModel.stream().allMatch(fromShape::contains)
+        && portShapes.stream().map(InternalPortShape::getModelObject)
+            .allMatch(Objects::nonNull));
+  }
+
+  private static Optional<PortDiagram> getPortDiagram(String id,
+      Class<? extends PortsDescr> pd, PortType portType) {
+    return Optional.of(pd).map(Class::getFields).map(Stream::of)
+        .orElseGet(Stream::empty)
+        .filter(f -> Optional.of(f).map(fp -> fp.getAnnotation(PortInfo.class))
+            .filter(Objects::nonNull).filter(pi -> portType == pi.portType())
+            .filter((PortInfo pi) -> {
+              if (pi.n() == 1) {
+                return id.equals(pi.id());
+              } else {
+                return TasksUtil.isMultiplePortId(id, pi.id());
+              }
+            }).isPresent())
+        .map(f -> f.getAnnotation(PortDiagram.class)).findFirst();
+  }
+
+  private static int yOfPostion(TaskShape taskShape, Position position) {
+    switch (position) {
+      default:
+      case LEFT:
+        return 0;
+      case TOP:
+        return 0;
+      case RIGHT:
+        return 0;
+      case BOTTOM:
+        return taskShape.getHeight() - InternalPortShapeGA.SIZE;
+    }
+  }
+
+  private static int xOfPostion(TaskShape taskShape, Position position) {
+    switch (position) {
+      default:
+      case LEFT:
+        return 0;
+      case TOP:
+        return 0;
+      case RIGHT:
+        return taskShape.getWidth() - InternalPortShapeGA.SIZE;
+      case BOTTOM:
+        return 0;
+    }
+  }
+
+  public static Position getPosition(TaskShape taskShape, InternalPortShape p) {
+    int x = p.getX();
+    int y = p.getY();
+    int W = taskShape.getWidth();
+    int H = taskShape.getHeight();
+    int w = p.getWidth();
+    int h = p.getHeight();
+
+    if (x == 0) {
+      return Position.LEFT;
+    } else if (x == W - w) {
+      return Position.RIGHT;
+    } else if (y == 0) {
+      return Position.TOP;
+    } else if (y == H - h) {
+      return Position.BOTTOM;
+    }
+
+    return null;
+  }
+
   @Override
   public IReason updateNeeded(IUpdateContext context) {
     if (super.updateNeeded(context).toBoolean() || updatePortNeeded(context)) {
@@ -66,36 +166,15 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   private boolean updatePortNeeded(IUpdateContext context) {
-    Optional<TaskShape> taskShape = Optional.of(context)
-        .map(AbstractUpdateFeatureFilter.getPictogramElement)
-        .filter(TaskShape.class::isInstance).map(TaskShape.class::cast);
-    Optional<Task> task = taskShape.map(TaskShape::getModelObject)
-        .filter(Task.class::isInstance).map(Task.class::cast);
+    Optional<TaskShape> taskShape = shapeFromContext(context);
+    Optional<Task> task = modelFromShape(taskShape);
     if (taskShape.isPresent() && task.isPresent()) {
-      return updateInputPortNeeded(taskShape.get(), task.get())
-          || updateOutputPortNeeded(taskShape.get(), task.get());
+      return updateInternalPortNeeded(taskShape.get().getInputPort(),
+          task.get().getInputPort(), InternalInputPort.class)
+          || updateInternalPortNeeded(taskShape.get().getOutputPort(),
+              task.get().getOutputPort(), InternalOutputPort.class);
     }
     return false;
-  }
-
-  private boolean updateInputPortNeeded(TaskShape taskShape, Task task) {
-    List<InternalInputPort> fromModel = task.getInputPort();
-    List<InternalInputPort> fromShape = taskShape.getInputPort().stream()
-        .map(InternalInputPortShape::getModelObject)
-        .filter(InternalInputPort.class::isInstance)
-        .map(InternalInputPort.class::cast).collect(Collectors.toList());
-    return !(fromModel.stream().allMatch(fromShape::contains)
-        && fromShape.stream().allMatch(fromModel::contains));
-  }
-
-  private boolean updateOutputPortNeeded(TaskShape taskShape, Task task) {
-    List<InternalOutputPort> fromModel = task.getOutputPort();
-    List<InternalOutputPort> fromShape = taskShape.getOutputPort().stream()
-        .map(InternalOutputPortShape::getModelObject)
-        .filter(InternalOutputPort.class::isInstance)
-        .map(InternalOutputPort.class::cast).collect(Collectors.toList());
-    return !(fromModel.stream().allMatch(fromShape::contains)
-        && fromShape.stream().allMatch(fromModel::contains));
   }
 
   @Override
@@ -114,103 +193,142 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   private boolean updatePort(IUpdateContext context) {
-    Optional<TaskShape> taskShape = Optional.of(context)
-        .map(AbstractUpdateFeatureFilter.getPictogramElement)
-        .filter(TaskShape.class::isInstance).map(TaskShape.class::cast);
-    Optional<Task> task = taskShape.map(TaskShape::getModelObject)
-        .filter(Task.class::isInstance).map(Task.class::cast);
+    Optional<TaskShape> taskShape = shapeFromContext(context);
+    Optional<Task> task = modelFromShape(taskShape);
     if (taskShape.isPresent() && task.isPresent()) {
       boolean updated = false;
-      if (updateInputPortNeeded(taskShape.get(), task.get())) {
-        updated = updated | updateInputPort(context);
+      if (updateInternalPortNeeded(taskShape.get().getInputPort(),
+          task.get().getInputPort(), InternalInputPort.class)) {
+        updated = updated | updateInputPort(taskShape.get(), task.get());
       }
-      if (updateInputPortNeeded(taskShape.get(), task.get())) {
-        updated = updated | updateOutputPort(context);
+      if (updateInternalPortNeeded(taskShape.get().getOutputPort(),
+          task.get().getOutputPort(), InternalOutputPort.class)) {
+        updated = updated | updateOutputPort(taskShape.get(), task.get());
       }
       return updated;
     }
     return false;
   }
 
-  private boolean updateInputPort(IUpdateContext context) {
-    return false;
+  private boolean updateInputPort(TaskShape taskShape, Task task) {
+    List<InternalInputPort> fromModel = task.getInputPort();
+    List<InternalInputPort> fromShape = internalPortFromShape(
+        taskShape.getInputPort(), InternalInputPort.class);
+    List<InternalInputPort> portsToAdd = fromModel.stream()
+        .filter(Predicate.not(fromShape::contains))
+        .collect(Collectors.toList());
+    List<InternalInputPortShape> portsToRemove = taskShape.getInputPort()
+        .stream()
+        .filter(ips -> Optional.ofNullable(ips.getModelObject()).isEmpty())
+        .collect(Collectors.toList());
+    portsToAdd.stream().forEach(p -> addInputPort(p, fromModel, taskShape));
+    portsToRemove.stream().forEach(p -> removePort(p, taskShape));
+    return !portsToAdd.isEmpty() || !portsToRemove.isEmpty();
   }
 
-  private boolean updateOutputPort(IUpdateContext context) {
-    return false;
+  private boolean updateOutputPort(TaskShape taskShape, Task task) {
+    List<InternalOutputPort> fromModel = task.getOutputPort();
+    List<InternalOutputPort> fromShape = internalPortFromShape(
+        taskShape.getInputPort(), InternalOutputPort.class);
+    List<InternalOutputPort> portsToAdd = fromModel.stream()
+        .filter(Predicate.not(fromShape::contains))
+        .collect(Collectors.toList());
+    List<InternalOutputPortShape> portsToRemove = taskShape.getOutputPort()
+        .stream()
+        .filter(ips -> Optional.ofNullable(ips.getModelObject()).isEmpty())
+        .collect(Collectors.toList());
+    portsToAdd.stream().forEach(p -> addOutputPort(p, fromModel, taskShape));
+    portsToRemove.stream().forEach(p -> removePort(p, taskShape));
+    return !portsToAdd.isEmpty() || !portsToRemove.isEmpty();
   }
 
-  protected void addPort(Task task, ContainerShape parent, PortsDescr pd) {
-    if (pd == null)
-      return;
-    try {
-      Field f = pd.getClass().getField(pd.toString());
-      PortInfo in = f.getAnnotation(PortInfo.class);
-      if (in != null) {
-        if (in.n() == 1) {
-//          addInputPort(task, parent, in.id(), in.label(), in.type(),
-//              in.asynchronous(), in.group(), in.hold(), in.queue(), in.pos());
-        } else {
-          String id = null;
-          int k = -1;
-          loop: while (id == null) {
-            k++;
-            if (TasksUtil.getAllMutlipleInternalInputPorts(task, in.id())
-                .size() == 0) {
-              id = in.id() + " " + 0;
-              break;
-            }
-            for (InternalInputPort ip : task.getInputPort())
-              if (ip.getId().equals(in.id() + " " + k))
-                continue loop;
-            id = in.id() + " " + k;
-          }
-          int grp = in.group();
-          if (in.ngroup().equals(NGroup.DIFFERENT)) {
-            if (grp != -1) {
-              int j = grp;
-              boolean free = true;
-              do {
-                free = true;
-                for (InternalInputPort iip : task.getInputPort())
-                  if (iip.getGroup() == j)
-                    free = false;
-                j++;
-              } while (!free);
-              grp = j - 1;
-            }
-          }
+  protected Class<? extends PortsDescr> getPortsDescription() {
+    return NoPorts.class;
+  }
+
+  private void addInputPort(InternalInputPort p,
+      List<InternalInputPort> fromModel, TaskShape taskShape) {
+    Class<? extends PortsDescr> pd = getPortsDescription();
+
+    Optional<PortDiagram> portDiagram = getPortDiagram(p.getId(), pd,
+        PortType.IN);
+    Position position = portDiagram.map(PortDiagram::pos).orElse(Position.LEFT);
+    InternalInputPortShape portShape = DiagramFactory.eINSTANCE
+        .createInternalInputPortShape();
+    portShape.setContainer(taskShape);
+    portShape.setModelObject(p);
+    portShape.setX(xOfPostion(taskShape, position));
+    portShape.setY(yOfPostion(taskShape, position));
+    redistributePorts(taskShape, position);
+
+//          String id = null;
+//          int k = -1;
+//          loop: while (id == null) {
+//            k++;
+//            if (TasksUtil.getAllMutlipleInternalInputPorts(task, in.id())
+//                .size() == 0) {
+//              id = in.id() + " " + 0;
+//              break;
+//            }
+//            for (InternalInputPort ip : task.getInputPort())
+//              if (ip.getId().equals(in.id() + " " + k))
+//                continue loop;
+//            id = in.id() + " " + k;
+//          }
+//          int grp = in.group();
+//          if (in.ngroup().equals(NGroup.DIFFERENT)) {
+//            if (grp != -1) {
+//              int j = grp;
+//              boolean free = true;
+//              do {
+//                free = true;
+//                for (InternalInputPort iip : task.getInputPort())
+//                  if (iip.getGroup() == j)
+//                    free = false;
+//                j++;
+//              } while (!free);
+//              grp = j - 1;
+//            }
+//          }
 //          addInputPort(task, parent, id, in.label(), in.type(),
 //              in.asynchronous(), grp, in.hold(), in.queue(), in.pos());
-        }
+//        }
 //        redistributePorts(parent, in.pos());
-      }
-      PortInfo out = f.getAnnotation(PortInfo.class);
-      if (out != null) {
-        if (out.n() == 1) {
-//          addOutputPort(task, parent, out.id(), out.label(), out.type(),
-//              out.pos());
-        } else {
-          String id = null;
-          int k = -1;
-          loop: while (id == null) {
-            k++;
-            if (TasksUtil.getAllMutlipleInternalOutputPorts(task, out.id())
-                .size() == 0) {
-              id = out.id() + " " + 0;
-              break;
-            }
-            for (InternalOutputPort op : task.getOutputPort())
-              if (op.getId().equals(out.id() + " " + k))
-                continue loop;
-            id = out.id() + " " + k;
-          }
+//      }
+//          String id = null;
+//          int k = -1;
+//          loop: while (id == null) {
+//            k++;
+//            if (TasksUtil.getAllMutlipleInternalOutputPorts(task, out.id())
+//                .size() == 0) {
+//              id = out.id() + " " + 0;
+//              break;
+//            }
+//            for (InternalOutputPort op : task.getOutputPort())
+//              if (op.getId().equals(out.id() + " " + k))
+//                continue loop;
+//            id = out.id() + " " + k;
+//          }
 //          addOutputPort(task, parent, id, out.label(), out.type(), out.pos());
-        }
+//        }
 //        redistributePorts(parent, out.pos());
-      }
-    } catch (NoSuchFieldException | SecurityException e) {
-    }
+//      }
+  }
+
+  private void addOutputPort(InternalOutputPort p,
+      List<InternalOutputPort> fromModel, TaskShape taskShape) {
+    Class<? extends PortsDescr> pd = getPortsDescription();
+
+    Optional<PortDiagram> portDiagram = getPortDiagram(p.getId(), pd,
+        PortType.OUT);
+    Position position = portDiagram.map(PortDiagram::pos).orElse(Position.LEFT);
+    InternalOutputPortShape portShape = DiagramFactory.eINSTANCE
+        .createInternalOutputPortShape();
+    portShape.setContainer(taskShape);
+    portShape.setModelObject(p);
+    portShape.setX(xOfPostion(taskShape, position));
+    portShape.setY(yOfPostion(taskShape, position));
+    redistributePorts(taskShape, position);
   }
 
   protected void addInputPort(Task task, ContainerShape parent, String name,
@@ -235,27 +353,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     in.setQueueSize(queue);
     task.getInputPort().add(in);
 
-    int x, y;
-    switch (pos) {
-      default:
-      case LEFT:
-        x = 0;
-        y = 0;
-        break;
-      case TOP:
-        x = 0;
-        y = 0;
-        break;
-      case RIGHT:
-//        x = parent.getGraphicsAlgorithm().getWidth() - AbstractAddTaskFeature.PORT_SIZE;
-//        y = 0;
-        break;
-      case BOTTOM:
-//        x = 0;
-//        y = parent.getGraphicsAlgorithm().getHeight()
-//            - AbstractAddTaskFeature.PORT_SIZE;
-        break;
-    }
 //    ContainerShape containerShape = AbstractAddTaskFeature
 //        .createPictogramForInternalPort(parent, x, y, getDiagram());
 //    peCreateService.createChopboxAnchor(containerShape);
@@ -269,7 +366,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 //    if (!showLabel)
 //      portLabelShape.setVisible(false);
 
-    redistributePorts(parent, pos);
   }
 
   protected void addOutputPort(Task task, ContainerShape parent, String name,
@@ -287,28 +383,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     }
     task.getOutputPort().add(out);
 
-//    int lineWidth = AbstractAddTaskFeature.OUTPUT_PORT_WIDTH;
-    int x, y;
-    switch (pos) {
-      default:
-      case LEFT:
-        x = 0;
-        y = 0;
-        break;
-      case TOP:
-//        x = parent.getGraphicsAlgorithm().getWidth() - AbstractAddTaskFeature.PORT_SIZE;
-//        y = 0;
-        break;
-      case RIGHT:
-//        x = parent.getGraphicsAlgorithm().getWidth() - AbstractAddTaskFeature.PORT_SIZE;
-//        y = 0;
-        break;
-      case BOTTOM:
-//        x = 0;
-//        y = parent.getGraphicsAlgorithm().getHeight()
-//            - AbstractAddTaskFeature.PORT_SIZE;
-        break;
-    }
 //    ContainerShape containerShape = AbstractAddTaskFeature
 //        .createPictogramForInternalPort(parent, x, y, AbstractAddTaskFeature.PORT_SIZE,
 //            AbstractAddTaskFeature.PORT_SIZE, getDiagram(), lineWidth, LineStyle.SOLID);
@@ -323,82 +397,131 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 //    if (!showLabel)
 //      portLabelShape.setVisible(false);
 
-    redistributePorts(parent, pos);
   }
+//
+//  protected void removePortShape(Task task, ContainerShape parent,
+//      InternalPort internalPort) {
 
-  protected void removePortShape(Task task, ContainerShape parent,
-      InternalPort internalPort) {
-    Shape toRemove = AbstractAddTaskFeature
-        .getPictogramElementOfInternalPort(parent, internalPort);
+//  }
 
-    Position pos = AbstractAddTaskFeature.getPosition(parent, internalPort);
-
-    Graphiti.getPeService().setPropertyValue(toRemove, Constants.CAN_DELETE,
-        "true");
-    DeleteContext deleteContext = new DeleteContext(toRemove);
+  private void removePort(InternalPortShape p, TaskShape taskShape) {
+    Optional<Position> optPosition = Optional
+        .ofNullable(getPosition(taskShape, p));
+//Graphiti.getPeService().setPropertyValue(toRemove, Constants.CAN_DELETE,
+//  "true");
+    DeleteContext deleteContext = new DeleteContext(p);
     deleteContext.setMultiDeleteInfo(new MultiDeleteInfo(false, false, 1));
     IDeleteFeature deleteFeature = getFeatureProvider()
         .getDeleteFeature(deleteContext);
-    if (deleteFeature.canDelete(deleteContext))
+    if (deleteFeature.canDelete(deleteContext)) {
       deleteFeature.delete(deleteContext);
-
-    if (pos != null)
-      redistributePorts(parent, pos);
-  }
-
-  protected void removePort(Task task, ContainerShape shape, PortsDescr pd) {
-    if (pd == null)
-      return;
-    try {
-      Field f = pd.getClass().getField(pd.toString());
-      PortInfo in = f.getAnnotation(PortInfo.class);
-      if (in != null) {
-        if (in.n() == 1)
-          removePortShape(task, shape,
-              TasksUtil.getInternalPort(task, in.id()));
-        else {
-          List<InternalInputPort> ports = TasksUtil
-              .getAllMutlipleInternalInputPorts(task, in.id());
-          removePortShape(task, shape, TasksUtil.getInternalPort(task,
-              in.id() + " " + (ports.size() - 1)));
-        }
-      }
-      PortInfo out = f.getAnnotation(PortInfo.class);
-      if (out != null) {
-        if (out.n() == 1)
-          removePortShape(task, shape,
-              TasksUtil.getInternalPort(task, out.id()));
-        else {
-          List<InternalOutputPort> ports = TasksUtil
-              .getAllMutlipleInternalOutputPorts(task, out.id());
-          removePortShape(task, shape, TasksUtil.getInternalPort(task,
-              out.id() + " " + (ports.size() - 1)));
-        }
-      }
-    } catch (NoSuchFieldException | SecurityException e) {
     }
+    optPosition.ifPresent(pos -> redistributePorts(taskShape, pos));
   }
 
-  private void redistributePorts(ContainerShape parent, Position pos) {
+  private void redistributePorts(TaskShape taskShape, Position pos) {
     switch (pos) {
       case LEFT:
-        AbstractAddTaskFeature.distributePortsOnLeft(parent,
-            getFeatureProvider());
+        distributePortsVertically(taskShape, 0, getFeatureProvider());
         break;
       case TOP:
-        AbstractAddTaskFeature.distributePortsOnTop(parent,
-            getFeatureProvider());
+        distributePortsHorizontally(taskShape, 0, getFeatureProvider());
         break;
       case RIGHT:
-        AbstractAddTaskFeature.distributePortsOnRight(parent,
+        distributePortsVertically(taskShape,
+            taskShape.getWidth() - InternalPortShapeGA.SIZE,
             getFeatureProvider());
         break;
       case BOTTOM:
-        AbstractAddTaskFeature.distributePortsOnBottom(parent,
+        distributePortsHorizontally(taskShape,
+            taskShape.getHeight() - InternalPortShapeGA.SIZE,
             getFeatureProvider());
         break;
       default:
         break;
     }
+  }
+
+  private static void distributePortsVertically(ContainerShape parent, int x,
+      IFeatureProvider fp) {
+//LinkedList<Shape> orderedChilds = new LinkedList<>();
+//
+//loop: for (Shape child : parent.getChildren()) {
+//if (isInternalPortLabel(child)) {
+//  if (child.getGraphicsAlgorithm().getX() == x) {
+//    for (Shape s : orderedChilds) {
+//      if (child.getGraphicsAlgorithm().getY() < s.getGraphicsAlgorithm()
+//          .getY()) {
+//        orderedChilds.add(orderedChilds.indexOf(s), child);
+//        continue loop;
+//      }
+//    }
+//    orderedChilds.addLast(child);
+//  }
+//}
+//}
+//
+//if (orderedChilds.size() != 0) {
+//int stepPorts = parent.getGraphicsAlgorithm().getHeight()
+//    / orderedChilds.size();
+//int position = (stepPorts >> 1) - (PORT_SIZE >> 1);
+//for (Shape child : orderedChilds) {
+//  int dy = position - child.getGraphicsAlgorithm().getY();
+//  MoveShapeContext moveShapeContext = new MoveShapeContext(child);
+//  moveShapeContext.setX(child.getGraphicsAlgorithm().getX());
+//  moveShapeContext.setY(position);
+//  moveShapeContext.setDeltaX(0);
+//  moveShapeContext.setDeltaY(dy);
+//  moveShapeContext.setSourceContainer(child.getContainer());
+//  moveShapeContext.setTargetContainer(child.getContainer());
+//  MoveInternalPortFeature moveFeature = new MoveInternalPortFeature(fp);
+//  if (moveFeature.canMoveShape(moveShapeContext)) {
+//    moveFeature.moveShape(moveShapeContext);
+//    moveFeature.postMoveShape(moveShapeContext);
+//  }
+//  position += stepPorts;
+//}
+//}
+  }
+
+  private static void distributePortsHorizontally(ContainerShape parent, int y,
+      IFeatureProvider fp) {
+//LinkedList<Shape> orderedChilds = new LinkedList<>();
+//
+//loop: for (Shape child : parent.getChildren()) {
+//if (isInternalPortLabel(child)) {
+//  if (child.getGraphicsAlgorithm().getY() == y) {
+//    for (Shape s : orderedChilds) {
+//      if (child.getGraphicsAlgorithm().getX() < s.getGraphicsAlgorithm()
+//          .getX()) {
+//        orderedChilds.add(orderedChilds.indexOf(s), child);
+//        continue loop;
+//      }
+//    }
+//    orderedChilds.addLast(child);
+//  }
+//}
+//}
+
+//if (orderedChilds.size() != 0) {
+//int stepPorts = parent.getGraphicsAlgorithm().getWidth()
+//    / orderedChilds.size();
+//int position = (stepPorts >> 1) - (PORT_SIZE >> 1);
+//for (Shape child : orderedChilds) {
+//  int dx = position - child.getGraphicsAlgorithm().getX();
+//  MoveShapeContext moveShapeContext = new MoveShapeContext(child);
+//  moveShapeContext.setY(child.getGraphicsAlgorithm().getY());
+//  moveShapeContext.setX(position);
+//  moveShapeContext.setDeltaY(0);
+//  moveShapeContext.setDeltaX(dx);
+//  moveShapeContext.setSourceContainer(child.getContainer());
+//  moveShapeContext.setTargetContainer(child.getContainer());
+//  MoveInternalPortFeature moveFeature = new MoveInternalPortFeature(fp);
+//  if (moveFeature.canMoveShape(moveShapeContext)) {
+//    moveFeature.moveShape(moveShapeContext);
+//    moveFeature.postMoveShape(moveShapeContext);
+//  }
+//  position += stepPorts;
+//}
   }
 }

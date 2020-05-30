@@ -20,6 +20,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.util,
  org.ruminaq.tasks.debug.model,
  org.ruminaq.tasks.gate.gui,
+ org.ruminaq.tasks.inspect.model,
  org.ruminaq.tasks.inspect.model.inspect,
  org.ruminaq.util,
  org.slf4j

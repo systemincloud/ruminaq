@@ -16,10 +16,8 @@ import org.ruminaq.gui.api.AddFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
-import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.console.gui.AddFeatureImpl.AddFeature.Filter;
-import org.ruminaq.tasks.console.impl.Port;
 import org.ruminaq.tasks.console.model.console.Console;
 
 /**
@@ -69,11 +67,6 @@ public class AddFeatureImpl implements AddFeatureExtension {
     @Override
     protected String getInsideIconId() {
       return Images.IMG_CONSOLE_DIAGRAM;
-    }
-
-    @Override
-    protected Class<? extends PortsDescr> getPortsDescription() {
-      return Port.class;
     }
   }
 }

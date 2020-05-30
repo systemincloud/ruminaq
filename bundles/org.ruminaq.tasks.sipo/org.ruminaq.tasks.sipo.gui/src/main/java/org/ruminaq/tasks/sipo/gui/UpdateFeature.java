@@ -114,26 +114,26 @@ public class UpdateFeature extends UpdateTaskFeature {
   }
 
   private boolean sizeOutUpdate(ContainerShape parent, Sipo sp) {
-    if (sp.isSizeOut())
-      addPort(sp, parent, Port.SIZE);
-    else
-      removePort(sp, parent, Port.SIZE);
+//    if (sp.isSizeOut())
+//      addPort(sp, parent, Port.SIZE);
+//    else
+//      removePort(sp, parent, Port.SIZE);
     return true;
   }
 
   private boolean lastUpdate(ContainerShape parent, Sipo sp) {
-    if (sp.isIndex())
-      addPort(sp, parent, Port.LOUT);
-    else
-      removePort(sp, parent, Port.LOUT);
+//    if (sp.isIndex())
+//      addPort(sp, parent, Port.LOUT);
+//    else
+//      removePort(sp, parent, Port.LOUT);
     return true;
   }
 
   private boolean trgUpdate(ContainerShape parent, Sipo sp) {
-    if (sp.isTrigger() && !sp.isIndex())
-      addPort(sp, parent, Port.TRIGGER);
-    else
-      removePort(sp, parent, Port.TRIGGER);
+//    if (sp.isTrigger() && !sp.isIndex())
+//      addPort(sp, parent, Port.TRIGGER);
+//    else
+//      removePort(sp, parent, Port.TRIGGER);
     return true;
   }
 
@@ -142,28 +142,28 @@ public class UpdateFeature extends UpdateTaskFeature {
         : Integer.parseInt(sp.getSize())
             - TasksUtil.getAllMutlipleInternalOutputPorts(sp,
                 PortsDescrUtil.getName(Port.OUT)).size();
-    if (n > 0)
-      for (int i = 0; i < n; i++)
-        addPort(sp, parent, Port.OUT);
-    else if (n < 0)
-      for (int i = 0; i < -n; i++)
-        removePort(sp, parent, Port.OUT);
+//    if (n > 0)
+//      for (int i = 0; i < n; i++)
+//        addPort(sp, parent, Port.OUT);
+//    else if (n < 0)
+//      for (int i = 0; i < -n; i++)
+//        removePort(sp, parent, Port.OUT);
     return true;
   }
 
   private boolean idxUpdate(ContainerShape parent, Sipo sp) {
-    if (sp.isIndex())
-      addPort(sp, parent, Port.IDX);
-    else
-      removePort(sp, parent, Port.IDX);
+//    if (sp.isIndex())
+//      addPort(sp, parent, Port.IDX);
+//    else
+//      removePort(sp, parent, Port.IDX);
     return true;
   }
 
   private boolean clkUpdate(ContainerShape parent, Sipo sp) {
-    if (sp.isClock())
-      addPort(sp, parent, Port.CLK);
-    else
-      removePort(sp, parent, Port.CLK);
+//    if (sp.isClock())
+//      addPort(sp, parent, Port.CLK);
+//    else
+//      removePort(sp, parent, Port.CLK);
     return true;
   }
 

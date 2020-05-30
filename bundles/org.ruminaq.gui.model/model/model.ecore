@@ -236,17 +236,14 @@
   <eClassifiers xsi:type="ecore:EClass" name="InternalPortShape" abstract="true" eSuperTypes="#//LabeledRuminaqShape">
     <eOperations name="getWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return defaultSize;"/>
+        <details key="body" value="return getGraphicsAlgorithm().getWidth();"/>
       </eAnnotations>
     </eOperations>
     <eOperations name="getHeight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return defaultSize;"/>
+        <details key="body" value="return getGraphicsAlgorithm().getHeight();"/>
       </eAnnotations>
     </eOperations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultSize" ordered="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" changeable="false"
-        transient="true" defaultValueLiteral="10"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InternalInputPortShape" eSuperTypes="#//InternalPortShape">
     <eOperations name="getGraphicsAlgorithm" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//algorithms/GraphicsAlgorithm">

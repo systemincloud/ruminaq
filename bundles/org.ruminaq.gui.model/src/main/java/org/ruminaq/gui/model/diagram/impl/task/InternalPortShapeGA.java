@@ -27,6 +27,8 @@ import org.ruminaq.gui.model.diagram.impl.NoResource;
  */
 public class InternalPortShapeGA extends RoundedRectangleImpl {
 
+  public static final int SIZE = 10;
+  
   private static final int CORNER = 5;
 
   protected InternalPortShape shape;
@@ -37,12 +39,12 @@ public class InternalPortShapeGA extends RoundedRectangleImpl {
 
   @Override
   public int getWidth() {
-    return shape.getWidth();
+    return SIZE;
   }
 
   @Override
   public int getHeight() {
-    return shape.getHeight();
+    return getWidth();
   }
 
   @Override

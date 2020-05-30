@@ -12,6 +12,7 @@ import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
+import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.tasks.gate.model.gate.Gate;
 
 public class UpdateGateFeature extends UpdateTaskFeature {
@@ -68,12 +69,17 @@ public class UpdateGateFeature extends UpdateTaskFeature {
 
   private boolean inputsUpdate(ContainerShape parent, Gate gt) {
     int n = gt.getInputNumber() - gt.getInputPort().size();
-    if (n > 0)
-      for (int i = 0; i < n; i++)
-        addPort(gt, parent, Port.IN);
-    else if (n < 0)
-      for (int i = 0; i < -n; i++)
-        removePort(gt, parent, Port.IN);
+//    if (n > 0)
+//      for (int i = 0; i < n; i++)
+//        addPort(gt, parent, Port.IN);
+//    else if (n < 0)
+//      for (int i = 0; i < -n; i++)
+//        removePort(gt, parent, Port.IN);
     return true;
+  }
+  
+  @Override
+  protected Class<? extends PortsDescr> getPortsDescription() {
+    return Port.class;
   }
 }

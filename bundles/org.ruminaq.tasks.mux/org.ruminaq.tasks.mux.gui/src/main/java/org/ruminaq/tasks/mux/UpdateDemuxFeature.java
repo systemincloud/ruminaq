@@ -62,13 +62,13 @@ public class UpdateDemuxFeature extends UpdateTaskFeature {
   }
 
   private boolean outputsUpdate(ContainerShape parent, Demux dmx) {
-    int n = dmx.getSize() - dmx.getOutputPort().size();
-    if (n > 0)
-      for (int i = 0; i < n; i++)
-        addPort(dmx, parent, Port.OUT);
-    else if (n < 0)
-      for (int i = 0; i < -n; i++)
-        removePort(dmx, parent, Port.OUT);
+//    int n = dmx.getSize() - dmx.getOutputPort().size();
+//    if (n > 0)
+//      for (int i = 0; i < n; i++)
+//        addPort(dmx, parent, Port.OUT);
+//    else if (n < 0)
+//      for (int i = 0; i < -n; i++)
+//        removePort(dmx, parent, Port.OUT);
 
     return true;
   }

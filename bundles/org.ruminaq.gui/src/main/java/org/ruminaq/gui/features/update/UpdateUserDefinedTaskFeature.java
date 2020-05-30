@@ -13,7 +13,6 @@ import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.gui.model.Position;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.DataType;
@@ -300,17 +299,17 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
             iip.getDataType().addAll(fip.getDataType());
           }
           if (fip.isAsynchronus() != iip.isAsynchronous()) {
-            iip.setAsynchronous(fip.isAsynchronus());
-            if (iip.isAsynchronous())
-              AbstractAddTaskFeature
-                  .getPictogramElementOfInternalPort(getDiagram(), iip)
-                  .getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
-                  .setLineStyle(LineStyle.DOT);
-            else
-              AbstractAddTaskFeature
-                  .getPictogramElementOfInternalPort(getDiagram(), iip)
-                  .getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
-                  .setLineStyle(LineStyle.SOLID);
+//            iip.setAsynchronous(fip.isAsynchronus());
+//            if (iip.isAsynchronous())
+//              AbstractAddTaskFeature
+//                  .getPictogramElementOfInternalPort(getDiagram(), iip)
+//                  .getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
+//                  .setLineStyle(LineStyle.DOT);
+//            else
+//              AbstractAddTaskFeature
+//                  .getPictogramElementOfInternalPort(getDiagram(), iip)
+//                  .getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
+//                  .setLineStyle(LineStyle.SOLID);
           }
           if (fip.getGroup() != iip.getGroup()) {
             iip.setGroup(fip.getGroup());
@@ -329,8 +328,8 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
         }
       inputsToRemove.add(iip);
     }
-    for (InternalInputPort iip : inputsToRemove)
-      removePortShape(task, parent, iip);
+//    for (InternalInputPort iip : inputsToRemove)
+//      removePortShape(task, parent, iip);
 
     loop: for (FileInternalInputPort fip : inputs) {
       for (InternalInputPort iip : inputPorts)
@@ -361,8 +360,8 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
         }
       outputsToRemove.add(iop);
     }
-    for (InternalOutputPort iop : outputsToRemove)
-      removePortShape(task, parent, iop);
+//    for (InternalOutputPort iop : outputsToRemove)
+//      removePortShape(task, parent, iop);
 
     loop: for (FileInternalOutputPort fip : outputs) {
       for (InternalOutputPort iop : outputPorts)

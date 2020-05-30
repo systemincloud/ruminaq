@@ -18,7 +18,7 @@ import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.tasks.inspect.impl.Port;
+import org.ruminaq.tasks.inspect.model.Port;
 import org.ruminaq.tasks.inspect.model.inspect.Inspect;
 import org.ruminaq.tasks.inspect.model.inspect.InspectFactory;
 

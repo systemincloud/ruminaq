@@ -6,45 +6,23 @@
 
 package org.ruminaq.gui.features.add;
 
-import java.util.AbstractMap.SimpleEntry;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
-import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.algorithms.Rectangle;
-import org.eclipse.graphiti.mm.algorithms.RoundedRectangle;
-import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.services.IGaService;
-import org.eclipse.graphiti.services.IPeCreateService;
 import org.eclipse.graphiti.services.IPeService;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.gui.TasksUtil;
-import org.ruminaq.gui.features.move.MoveInternalPortFeature;
 import org.ruminaq.gui.model.GuiUtil;
-import org.ruminaq.gui.model.Position;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
-import org.ruminaq.gui.model.diagram.InternalInputPortShape;
-import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
-import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.model.ruminaq.InternalInputPort;
-import org.ruminaq.model.ruminaq.InternalOutputPort;
-import org.ruminaq.model.ruminaq.InternalPort;
-import org.ruminaq.model.ruminaq.PortInfo;
 import org.ruminaq.model.ruminaq.Task;
 
 /**
@@ -82,8 +60,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     return null;
   }
 
-  protected abstract Class<? extends PortsDescr> getPortsDescription();
-
   @Override
   public boolean canAdd(IAddContext context) {
     return context.getNewObject() instanceof Task
@@ -116,71 +92,10 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     return DiagramFactory.eINSTANCE.createTaskShape();
   }
 
-  private void addDefaultInternalPorts(Task task, TaskShape taskShape) {
-    Class<? extends PortsDescr> pd = getPortsDescription();
+//  private void addDefaultInternalPorts(Task task, TaskShape taskShape) {
 
-    Supplier<Stream<InternalInputPort>> inputPorts = () -> Optional.of(task)
-        .map(Task::getInputPort).map(List::stream).orElseGet(Stream::empty);
-    Supplier<Stream<InternalOutputPort>> outputPorts = () -> Optional.of(task)
-        .map(Task::getOutputPort).map(List::stream).orElseGet(Stream::empty);
-
-    Supplier<Stream<PortInfo>> inDescrpts = () -> Optional.of(pd)
-        .map(Class::getFields).map(Stream::of).orElseGet(Stream::empty)
-        .map(f -> f.getAnnotation(PortInfo.class)).filter(Objects::nonNull);
-
-    Supplier<Stream<SimpleEntry<InternalInputPort, PortInfo>>> ins = () -> inputPorts
-        .get()
-        .map(iip -> new SimpleEntry<>(iip, inDescrpts.get()
-            .filter(in -> in.n() == 1 && iip.getId().equals(in.id())).findAny()
-            .or(() -> inDescrpts.get()
-                .filter(in -> in.n() > 1
-                    && TasksUtil.isMultiplePortId(iip.getId(), in.id()))
-                .findAny())
-            .orElse(null)))
-        .filter(se -> se.getValue() != null);
-
-    Supplier<Stream<PortInfo>> outDescrpts = () -> Optional.of(pd)
-        .map(Class::getFields).map(Stream::of).orElseGet(Stream::empty)
-        .map(f -> f.getAnnotation(PortInfo.class)).filter(Objects::nonNull);
-
-    Supplier<Stream<SimpleEntry<InternalOutputPort, PortInfo>>> outs = () -> outputPorts
-        .get()
-        .map(iop -> new SimpleEntry<>(iop,
-            outDescrpts.get()
-                .filter(out -> out.n() == 1 && iop.getId().equals(out.id()))
-                .findAny()
-                .or(() -> outDescrpts.get()
-                    .filter(out -> out.n() > 1
-                        && TasksUtil.isMultiplePortId(iop.getId(), out.id()))
-                    .findAny())
-                .orElse(null)))
-        .filter(se -> se.getValue() != null);
-//
-//    int nbTop = (int) (ins.get().map(SimpleEntry::getValue).map(PortInfo::pos)
-//        .filter(Position.TOP::equals).count()
-//        + outs.get().map(SimpleEntry::getValue).map(PortInfo::pos)
-//            .filter(Position.TOP::equals).count());
-//
-//    if (nbTop > 0) {
-//      int stepPorts = taskShape.getWidth() / nbTop;
-//      int position = stepPorts >> 1;
-//      for (SimpleEntry<InternalInputPort, PortInfo> se : ins.get()
-//          .filter(se -> Position.TOP == se.getValue().pos())
-//          .collect(Collectors.toList())) {
-//        InternalInputPortShape iips = DiagramFactory.eINSTANCE
-//            .createInternalInputPortShape();
-//        int x = position - (iips.getWidth() >> 1);
-//        int y = 0;
-//        iips.setContainer(taskShape);
-//        iips.setModelObject(se.getKey());
-//        iips.setX(x);
-//        iips.setY(y);
 //        addLabel(iips);
-//
-//        position += stepPorts;
 
-//        peCreateService.createChopboxAnchor(containerShape);
-//
 //        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
 //            taskShape, ti.getValue0().getId(), width, height, x, y,
 //            InternalPortLabelPosition.BOTTOM);
@@ -191,16 +106,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //        portLabelShape.setVisible(ti.getValue1().label());
 //      }
 //
-//      for (Pair<InternalOutputPort, OUT> to : topOuts) {
-//        int x = topPosition - (width >> 1);
-//        int y = 0;
-//        topPosition += stepTopPorts;
-//
-//        int lineWidth = OUTPUT_PORT_WIDTH;
-//        LineStyle lineStyle = LineStyle.SOLID;
-//        ContainerShape containerShape = createPictogramForInternalPort(
-//            taskShape, x, y, width, height, getDiagram(), lineWidth, lineStyle);
-//        peCreateService.createChopboxAnchor(containerShape);
 //
 //        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
 //            taskShape, to.getValue0().getId(), width, height, x, y,
@@ -363,7 +268,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //        portLabelShape.setVisible(bo.getValue1().label());
 //      }
 //    }
-  }
+//  }
   
   public static ContainerShape addInternalPortLabel(Diagram diagram,
       ContainerShape parent, String label, int width, int height, int x, int y,
@@ -406,160 +311,4 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     return textContainerShape;
   }
 
-  public static void distributePortsOnLeft(ContainerShape parent,
-      IFeatureProvider fp) {
-    distributePortsVertically(parent, 0, fp);
-  }
-
-  public static void distributePortsOnRight(ContainerShape parent,
-      IFeatureProvider fp) {
-//    distributePortsVertically(parent,
-//        parent.getGraphicsAlgorithm().getWidth() - PORT_SIZE, fp);
-  }
-
-  public static void distributePortsOnTop(ContainerShape parent,
-      IFeatureProvider fp) {
-    distributePortsHorizontally(parent, 0, fp);
-  }
-
-  public static void distributePortsOnBottom(ContainerShape parent,
-      IFeatureProvider fp) {
-//    distributePortsHorizontally(parent,
-//        parent.getGraphicsAlgorithm().getHeight() - PORT_SIZE, fp);
-  }
-
-  private static void distributePortsVertically(ContainerShape parent, int x,
-      IFeatureProvider fp) {
-    LinkedList<Shape> orderedChilds = new LinkedList<>();
-
-    loop: for (Shape child : parent.getChildren()) {
-      if (isInternalPortLabel(child)) {
-        if (child.getGraphicsAlgorithm().getX() == x) {
-          for (Shape s : orderedChilds) {
-            if (child.getGraphicsAlgorithm().getY() < s.getGraphicsAlgorithm()
-                .getY()) {
-              orderedChilds.add(orderedChilds.indexOf(s), child);
-              continue loop;
-            }
-          }
-          orderedChilds.addLast(child);
-        }
-      }
-    }
-
-    if (orderedChilds.size() != 0) {
-      int stepPorts = parent.getGraphicsAlgorithm().getHeight()
-          / orderedChilds.size();
-//      int position = (stepPorts >> 1) - (PORT_SIZE >> 1);
-//      for (Shape child : orderedChilds) {
-//        int dy = position - child.getGraphicsAlgorithm().getY();
-//        MoveShapeContext moveShapeContext = new MoveShapeContext(child);
-//        moveShapeContext.setX(child.getGraphicsAlgorithm().getX());
-//        moveShapeContext.setY(position);
-//        moveShapeContext.setDeltaX(0);
-//        moveShapeContext.setDeltaY(dy);
-//        moveShapeContext.setSourceContainer(child.getContainer());
-//        moveShapeContext.setTargetContainer(child.getContainer());
-//        MoveInternalPortFeature moveFeature = new MoveInternalPortFeature(fp);
-//        if (moveFeature.canMoveShape(moveShapeContext)) {
-//          moveFeature.moveShape(moveShapeContext);
-//          moveFeature.postMoveShape(moveShapeContext);
-//        }
-//        position += stepPorts;
-//      }
-    }
-  }
-
-  private static void distributePortsHorizontally(ContainerShape parent, int y,
-      IFeatureProvider fp) {
-    LinkedList<Shape> orderedChilds = new LinkedList<>();
-
-    loop: for (Shape child : parent.getChildren()) {
-      if (isInternalPortLabel(child)) {
-        if (child.getGraphicsAlgorithm().getY() == y) {
-          for (Shape s : orderedChilds) {
-            if (child.getGraphicsAlgorithm().getX() < s.getGraphicsAlgorithm()
-                .getX()) {
-              orderedChilds.add(orderedChilds.indexOf(s), child);
-              continue loop;
-            }
-          }
-          orderedChilds.addLast(child);
-        }
-      }
-    }
-
-    if (orderedChilds.size() != 0) {
-      int stepPorts = parent.getGraphicsAlgorithm().getWidth()
-          / orderedChilds.size();
-//      int position = (stepPorts >> 1) - (PORT_SIZE >> 1);
-//      for (Shape child : orderedChilds) {
-//        int dx = position - child.getGraphicsAlgorithm().getX();
-//        MoveShapeContext moveShapeContext = new MoveShapeContext(child);
-//        moveShapeContext.setY(child.getGraphicsAlgorithm().getY());
-//        moveShapeContext.setX(position);
-//        moveShapeContext.setDeltaY(0);
-//        moveShapeContext.setDeltaX(dx);
-//        moveShapeContext.setSourceContainer(child.getContainer());
-//        moveShapeContext.setTargetContainer(child.getContainer());
-//        MoveInternalPortFeature moveFeature = new MoveInternalPortFeature(fp);
-//        if (moveFeature.canMoveShape(moveShapeContext)) {
-//          moveFeature.moveShape(moveShapeContext);
-//          moveFeature.postMoveShape(moveShapeContext);
-//        }
-//        position += stepPorts;
-//      }
-    }
-  }
-
-  public static PictogramElement getPictogramElementOfInternalPort(
-      Diagram diagram, InternalPort ip) {
-    PictogramElement ret = null;
-    for (PictogramElement pe : Graphiti.getLinkService()
-        .getPictogramElements(diagram, ip))
-      if (isInternalPortLabel(pe)) {
-        ret = pe;
-        break;
-      }
-    return ret;
-  }
-
-  public static Shape getPictogramElementOfInternalPort(ContainerShape parent,
-      InternalPort internalPort) {
-    for (Shape s : parent.getChildren())
-      if (isInternalPortLabel(s)
-          && s.getLink().getBusinessObjects().get(0) == internalPort)
-        return s;
-    return null;
-  }
-
-  public static Position getPosition(ContainerShape parent,
-      InternalPort internalPort) {
-    for (Shape s : parent.getChildren()) {
-      if (isInternalPortLabel(s)
-          && s.getLink().getBusinessObjects().get(0) == internalPort) {
-        int x = s.getGraphicsAlgorithm().getX();
-        int y = s.getGraphicsAlgorithm().getY();
-        int W = parent.getGraphicsAlgorithm().getWidth();
-        int H = parent.getGraphicsAlgorithm().getHeight();
-        int w = s.getGraphicsAlgorithm().getWidth();
-        int h = s.getGraphicsAlgorithm().getHeight();
-
-        if (x == 0)
-          return Position.LEFT;
-        if (x == W - w)
-          return Position.RIGHT;
-        if (y == 0)
-          return Position.TOP;
-        if (y == H - h)
-          return Position.BOTTOM;
-      }
-    }
-    return null;
-  }
-
-  public static boolean isInternalPortLabel(PictogramElement pe) {
-    return Graphiti.getPeService().getPropertyValue(pe,
-        Constants.INTERNAL_PORT) != null;
-  }
 }

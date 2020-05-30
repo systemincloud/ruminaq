@@ -69,12 +69,12 @@ public class UpdateMuxFeature extends UpdateTaskFeature {
 
   private boolean inputsUpdate(ContainerShape parent, Mux mx) {
     int n = mx.getSize() - mx.getInputPort().size() + 1;
-    if (n > 0)
-      for (int i = 0; i < n; i++)
-        addPort(mx, parent, Port.IN);
-    else if (n < 0)
-      for (int i = 0; i < -n; i++)
-        removePort(mx, parent, Port.IN);
+//    if (n > 0)
+//      for (int i = 0; i < n; i++)
+//        addPort(mx, parent, Port.IN);
+//    else if (n < 0)
+//      for (int i = 0; i < -n; i++)
+//        removePort(mx, parent, Port.IN);
     return true;
   }
 }
