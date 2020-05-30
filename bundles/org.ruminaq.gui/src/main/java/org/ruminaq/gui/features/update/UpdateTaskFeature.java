@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.eclipse.graphiti.features.IDeleteFeature;
@@ -357,15 +358,11 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     in.setQueueSize(queue);
     task.getInputPort().add(in);
 
-//    ContainerShape containerShape = AbstractAddTaskFeature
-//        .createPictogramForInternalPort(parent, x, y, getDiagram());
-//    peCreateService.createChopboxAnchor(containerShape);
 //    ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
 //        getDiagram(), parent, in.getId(), AbstractAddTaskFeature.PORT_SIZE,
 //        AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.RIGHT);
 //
 //    link(portLabelShape, new Object[] { in, containerShape });
-
 //    if (!showLabel)
 //      portLabelShape.setVisible(false);
 
@@ -386,26 +383,16 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     }
     task.getOutputPort().add(out);
 
-//    ContainerShape containerShape = AbstractAddTaskFeature
-//        .createPictogramForInternalPort(parent, x, y, AbstractAddTaskFeature.PORT_SIZE,
-//            AbstractAddTaskFeature.PORT_SIZE, getDiagram(), lineWidth, LineStyle.SOLID);
-//    peCreateService.createChopboxAnchor(containerShape);
 //    ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
 //        getDiagram(), parent, out.getId(), AbstractAddTaskFeature.PORT_SIZE,
 //        AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.LEFT);
 //
-//    link(containerShape, new Object[] { out, portLabelShape });
 //    link(portLabelShape, new Object[] { out, containerShape });
 
 //    if (!showLabel)
 //      portLabelShape.setVisible(false);
 
   }
-//
-//  protected void removePortShape(Task task, ContainerShape parent,
-//      InternalPort internalPort) {
-
-//  }
 
   private void removePort(InternalPortShape p, TaskShape taskShape) {
     Optional<Position> optPosition = Optional
@@ -449,46 +436,19 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
       List<InternalPortShape> ports, IFeatureProvider fp) {
     ports.sort((p1, p2) -> Integer.compare(p1.getY(), p2.getY()));
     int stepPorts = taskShape.getHeight() / ports.size();
-//int position = (stepPorts >> 1) - (PORT_SIZE >> 1);
-//for (Shape child : orderedChilds) {
-//  int dy = position - child.getGraphicsAlgorithm().getY();
-//  MoveShapeContext moveShapeContext = new MoveShapeContext(child);
-//  moveShapeContext.setX(child.getGraphicsAlgorithm().getX());
-//  moveShapeContext.setY(position);
-//  moveShapeContext.setDeltaX(0);
-//  moveShapeContext.setDeltaY(dy);
-//  moveShapeContext.setSourceContainer(child.getContainer());
-//  moveShapeContext.setTargetContainer(child.getContainer());
-//  MoveInternalPortFeature moveFeature = new MoveInternalPortFeature(fp);
-//  if (moveFeature.canMoveShape(moveShapeContext)) {
-//    moveFeature.moveShape(moveShapeContext);
-//    moveFeature.postMoveShape(moveShapeContext);
-//  }
-//  position += stepPorts;
-//}
-//}
+    int startPosition = (stepPorts >> 1) - (InternalPortShapeGA.SIZE >> 1);
+    IntStream.range(0, ports.size()).forEach((int i) -> {
+      ports.get(i).setY(startPosition + i * stepPorts);
+    });
   }
 
   private static void distributePortsHorizontally(TaskShape taskShape,
       List<InternalPortShape> ports, IFeatureProvider fp) {
     ports.sort((p1, p2) -> Integer.compare(p1.getX(), p2.getX()));
     int stepPorts = taskShape.getWidth() / ports.size();
-//int position = (stepPorts >> 1) - (PORT_SIZE >> 1);
-//for (Shape child : orderedChilds) {
-//  int dx = position - child.getGraphicsAlgorithm().getX();
-//  MoveShapeContext moveShapeContext = new MoveShapeContext(child);
-//  moveShapeContext.setY(child.getGraphicsAlgorithm().getY());
-//  moveShapeContext.setX(position);
-//  moveShapeContext.setDeltaY(0);
-//  moveShapeContext.setDeltaX(dx);
-//  moveShapeContext.setSourceContainer(child.getContainer());
-//  moveShapeContext.setTargetContainer(child.getContainer());
-//  MoveInternalPortFeature moveFeature = new MoveInternalPortFeature(fp);
-//  if (moveFeature.canMoveShape(moveShapeContext)) {
-//    moveFeature.moveShape(moveShapeContext);
-//    moveFeature.postMoveShape(moveShapeContext);
-//  }
-//  position += stepPorts;
-//}
+    int startPosition = (stepPorts >> 1) - (InternalPortShapeGA.SIZE >> 1);
+    IntStream.range(0, ports.size()).forEach((int i) -> {
+      ports.get(i).setX(startPosition + i * stepPorts);
+    });
   }
 }

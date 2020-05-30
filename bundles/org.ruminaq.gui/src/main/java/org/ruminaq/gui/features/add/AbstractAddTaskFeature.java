@@ -116,22 +116,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //      }
 //    }
 //
-//    int nbLeft = leftIns.size() + leftOuts.size();
-//    if (nbLeft > 0) {
-//      int stepLeftPorts = taskShape.getGraphicsAlgorithm().getHeight() / nbLeft;
-//      int leftPosition = stepLeftPorts >> 1;
-//      for (Pair<InternalInputPort, IN> li : leftIns) {
-//        int x = 0;
-//        int y = leftPosition - (height >> 1);
-//        leftPosition += stepLeftPorts;
-//
-//        int lineWidth = INPUT_PORT_WIDTH;
-//        LineStyle lineStyle = LineStyle.SOLID;
-//        if (li.getValue0().isAsynchronous())
-//          lineStyle = LineStyle.DOT;
-//        ContainerShape containerShape = createPictogramForInternalPort(parent,
-//            x, y, width, height, getDiagram(), lineWidth, lineStyle);
-//        peCreateService.createChopboxAnchor(containerShape);
 //
 //        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
 //            parent, li.getValue0().getId(), width, height, x, y,
@@ -142,17 +126,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //        portLabelShape.setVisible(li.getValue1().label());
 //      }
 //
-//      for (Pair<InternalOutputPort, OUT> lo : leftOuts) {
-//        int x = 0;
-//        int y = leftPosition - (height >> 1);
-//        leftPosition += stepLeftPorts;
-//
-//        int lineWidth = OUTPUT_PORT_WIDTH;
-//        LineStyle lineStyle = LineStyle.SOLID;
-//        ContainerShape containerShape = createPictogramForInternalPort(parent,
-//            x, y, width, height, getDiagram(), lineWidth, lineStyle);
-//        peCreateService.createChopboxAnchor(containerShape);
-//
 //        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
 //            parent, lo.getValue0().getId(), width, height, x, y,
 //            InternalPortLabelPosition.RIGHT);
@@ -162,33 +135,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //        portLabelShape.setVisible(lo.getValue1().label());
 //      }
 //    }
-
-//    int nbRight = (int) (ins.get().map(SimpleEntry::getValue).map(PortInfo::pos)
-//        .filter(Position.RIGHT::equals).count()
-//        + outs.get().map(SimpleEntry::getValue).map(PortInfo::pos)
-//            .filter(Position.RIGHT::equals).count());
-
-//    if (nbRight > 0) {
-//      int stepPorts = taskShape.getHeight() / nbRight;
-//      int position = stepPorts >> 1;
-//      for (SimpleEntry<InternalInputPort, PortInfo> se : ins.get()
-//          .filter(se -> Position.RIGHT == se.getValue().pos())
-//          .collect(Collectors.toList())) {
-//        InternalInputPortShape ips = DiagramFactory.eINSTANCE
-//            .createInternalInputPortShape();
-//        int x = taskShape.getWidth() - ips.getWidth();
-//        int y = position - (ips.getHeight() >> 1);
-//        ips.setContainer(taskShape);
-//        ips.setModelObject(se.getKey());
-//        ips.setX(x);
-//        ips.setY(y);
-//        addLabel(ips);
-//
-//        position += stepPorts;
-
-//        ContainerShape containerShape = createPictogramForInternalPort(parent,
-//            x, y, width, height, getDiagram(), lineWidth, lineStyle);
-//        peCreateService.createChopboxAnchor(containerShape);
 //
 //        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
 //            parent, ri.getValue0().getId(), width, height, x, y,
@@ -196,18 +142,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //
 //        portLabelShape.setVisible(ri.getValue1().label());
 //      }
-
-//      for (SimpleEntry<InternalOutputPort, PortInfo> se : outs.get()
-//          .filter(se -> Position.RIGHT == se.getValue().pos())
-//          .collect(Collectors.toList())) {
-//        InternalOutputPortShape ips = DiagramFactory.eINSTANCE
-//            .createInternalOutputPortShape();
-//        int x = taskShape.getWidth() - ips.getWidth();
-//        int y = position - (ips.getHeight() >> 1);
-//        ips.setContainer(taskShape);
-//        ips.setModelObject(se.getKey());
-//        ips.setX(x);
-//        ips.setY(y);
 //        addLabel(ips);
 
 //        position += stepPorts;
@@ -222,36 +156,11 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //      }
 //    }
 //
-//    int nbBottom = bottomIns.size() + bottomOuts.size();
-//    if (nbBottom > 0) {
-//      int stepBottomPorts = parent.getGraphicsAlgorithm().getWidth() / nbBottom;
-//      int bottomPosition = stepBottomPorts >> 1;
-//      for (Pair<InternalInputPort, IN> bi : bottomIns) {
-//        int x = bottomPosition - (width >> 1);
-//        int y = parent.getGraphicsAlgorithm().getHeight() - height;
-//        bottomPosition += stepBottomPorts;
-//
-//        ContainerShape containerShape = createPictogramForInternalPort(parent,
-//            x, y, width, height, getDiagram(), lineWidth, lineStyle);
-//        peCreateService.createChopboxAnchor(containerShape);
-//
-//        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
-//            parent, bi.getValue0().getId(), width, height, x, y,
-//            InternalPortLabelPosition.TOP);
-//
 //        link(portLabelShape, new Object[] { bi.getValue0(), containerShape });
 //
 //        portLabelShape.setVisible(bi.getValue1().label());
 //      }
 //
-//      for (Pair<InternalOutputPort, OUT> bo : bottomOuts) {
-//        int x = bottomPosition - (width >> 1);
-//        int y = parent.getGraphicsAlgorithm().getHeight() - height;
-//        bottomPosition += stepBottomPorts;
-//
-//        ContainerShape containerShape = createPictogramForInternalPort(parent,
-//            x, y, width, height, getDiagram(), lineWidth, lineStyle);
-//        peCreateService.createChopboxAnchor(containerShape);
 //
 //        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
 //            parent, bo.getValue0().getId(), width, height, x, y,
