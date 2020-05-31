@@ -7,6 +7,7 @@
 package org.ruminaq.tasks.randomgenerator.model;
 
 import org.ruminaq.gui.model.PortDiagram;
+import org.ruminaq.gui.model.Position;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.PortData;
 import org.ruminaq.model.ruminaq.PortInfo;
@@ -16,7 +17,7 @@ import org.ruminaq.model.ruminaq.dt.Int32;
 public enum Port implements PortsDescr {
 
   @PortInfo(portType = PortType.OUT, id = "Out")
-  @PortDiagram(label = false)
+  @PortDiagram(label = false, pos = Position.RIGHT)
   @PortData(type = Int32.class)
   OUT;
 }
