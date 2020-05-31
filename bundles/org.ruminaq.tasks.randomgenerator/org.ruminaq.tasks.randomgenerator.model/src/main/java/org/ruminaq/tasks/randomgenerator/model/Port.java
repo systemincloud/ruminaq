@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.randomgenerator.impl;
+package org.ruminaq.tasks.randomgenerator.model;
 
 import org.ruminaq.gui.model.PortDiagram;
 import org.ruminaq.model.desc.PortsDescr;

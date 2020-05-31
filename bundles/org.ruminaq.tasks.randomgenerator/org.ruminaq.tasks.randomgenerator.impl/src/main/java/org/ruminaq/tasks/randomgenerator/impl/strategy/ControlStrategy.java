@@ -8,8 +8,9 @@ import java.util.List;
 import org.eclipse.emf.common.util.EMap;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.ControlI;
-import org.ruminaq.tasks.randomgenerator.impl.Port;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
+import org.ruminaq.tasks.randomgenerator.model.Port;
+
 import ch.qos.logback.classic.Logger;
 
 public class ControlStrategy extends RandomGeneratorStrategy {
