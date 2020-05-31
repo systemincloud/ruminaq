@@ -26,6 +26,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.impl,
  org.ruminaq.runner.impl.data,
  org.ruminaq.runner.service,
+ org.ruminaq.tasks.randomgenerator.model,
  org.ruminaq.tasks.randomgenerator.model.randomgenerator,
  org.ruminaq.util,
  org.slf4j
