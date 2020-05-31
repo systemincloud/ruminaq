@@ -12,7 +12,7 @@ import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.tasks.console.impl.Port;
+import org.ruminaq.tasks.console.model.Port;
 import org.ruminaq.tasks.console.model.console.Console;
 import org.ruminaq.tasks.console.model.console.ConsoleFactory;
 import org.ruminaq.tasks.console.model.console.ConsoleType;

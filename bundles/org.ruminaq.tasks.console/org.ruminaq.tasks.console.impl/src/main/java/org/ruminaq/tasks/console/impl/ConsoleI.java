@@ -7,14 +7,14 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
-import org.ruminaq.runner.dirmi.DirmiClient;
 import org.ruminaq.runner.impl.BasicTaskI;
 import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.PortMap;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.impl.data.TextI;
-import org.ruminaq.runner.util.Util;
+import org.ruminaq.tasks.console.model.Port;
 import org.ruminaq.tasks.console.model.console.Console;
+
 import ch.qos.logback.classic.Logger;
 
 public class ConsoleI extends BasicTaskI {

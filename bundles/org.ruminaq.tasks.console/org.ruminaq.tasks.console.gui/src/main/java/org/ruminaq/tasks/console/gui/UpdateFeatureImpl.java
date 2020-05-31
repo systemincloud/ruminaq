@@ -1,53 +1,58 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.tasks.console.gui;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.function.Predicate;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.IUpdateFeature;
-import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.UpdateFeatureExtension;
+import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.tasks.console.impl.Port;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.tasks.console.gui.UpdateFeatureImpl.UpdateFeature.Filter;
+import org.ruminaq.tasks.console.model.Port;
 import org.ruminaq.tasks.console.model.console.Console;
 import org.ruminaq.tasks.console.model.console.ConsoleType;
 
+/**
+ * Service UpdateFeatureExtension implementation.
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=10" })
 public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
   @Override
   public List<Class<? extends IUpdateFeature>> getFeatures() {
-    return Arrays.asList(UpdateFeature.class);
+    return Collections.singletonList(UpdateFeature.class);
   }
 
-  @Override
-  public Predicate<Class<? extends IUpdateFeature>> filter(
-      IContext context, IFeatureProvider fp) {
-    IUpdateContext updateContext = (IUpdateContext) context;
-    PictogramElement pe = updateContext.getPictogramElement();
-    Object bo = fp.getBusinessObjectForPictogramElement(pe);
-    return (Class<? extends IUpdateFeature> clazz) -> {
-      if (clazz.isAssignableFrom(UpdateFeature.class)) {
-        return bo instanceof Console;
-      }
-
-      return false;
-    };
-  }
-
+  /**
+   * Console UpdateFeature.
+   */
+  @FeatureFilter(Filter.class)
   public static class UpdateFeature extends UpdateTaskFeature {
 
-    private boolean updateNeededChecked = false;
+    public static class Filter extends AbstractUpdateFeatureFilter {
+      @Override
+      public Class<? extends BaseElement> forBusinessObject() {
+        return Console.class;
+      }
+    }
 
-    private boolean superUpdateNeeded = false;
     private boolean inputUpdateNeeded = false;
     private boolean outputUpdateNeeded = false;
 
@@ -56,17 +61,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
     }
 
     @Override
-    public boolean canUpdate(IUpdateContext context) {
-      Object bo = getBusinessObjectForPictogramElement(
-          context.getPictogramElement());
-      return (bo instanceof Console);
-    }
-
-    @Override
     public IReason updateNeeded(IUpdateContext context) {
-      this.updateNeededChecked = true;
-      superUpdateNeeded = super.updateNeeded(context).toBoolean();
-
       ContainerShape parent = (ContainerShape) context.getPictogramElement();
       Console console = (Console) getBusinessObjectForPictogramElement(parent);
       switch (console.getConsoleType()) {
@@ -92,30 +87,32 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
           break;
       }
 
-      boolean updateNeeded = superUpdateNeeded || inputUpdateNeeded
-          || outputUpdateNeeded;
-      return updateNeeded ? Reason.createTrueReason()
-          : Reason.createFalseReason();
+      if (inputUpdateNeeded
+          || outputUpdateNeeded | super.updateNeeded(context).toBoolean()) {
+        return Reason.createTrueReason();
+      } else {
+        return Reason.createFalseReason();
+      }
     }
 
     @Override
     public boolean update(IUpdateContext context) {
-      if (!updateNeededChecked)
-        if (!this.updateNeeded(context).toBoolean())
-          return false;
+      boolean updated = false;
 
       Console console = (Console) getBusinessObjectForPictogramElement(
           context.getPictogramElement());
 
-      boolean updated = false;
-      if (superUpdateNeeded)
-        updated = updated | super.update(context);
       if (inputUpdateNeeded)
         updated = updated | updateInput(console,
             (ContainerShape) context.getPictogramElement());
       if (outputUpdateNeeded)
         updated = updated | updateOutput(console,
             (ContainerShape) context.getPictogramElement());
+
+      if (super.updateNeeded(context).toBoolean()) {
+        updated = updated | super.update(context);
+      }
+
       return updated;
     }
 
@@ -142,7 +139,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       }
       return true;
     }
-    
+
     @Override
     protected Class<? extends PortsDescr> getPortsDescription() {
       return Port.class;

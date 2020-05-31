@@ -36,7 +36,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
   }
 
   /**
-   * Constant AddFeature.
+   * Constant UpdateFeature.
    */
   @FeatureFilter(Filter.class)
   public static class UpdateFeature extends UpdateTaskFeature {
