@@ -8,6 +8,7 @@ package org.ruminaq.tasks.console.gui;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
@@ -20,6 +21,7 @@ import org.ruminaq.gui.api.UpdateFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
+import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.console.gui.UpdateFeatureImpl.UpdateFeature.Filter;
@@ -53,6 +55,12 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       }
     }
 
+    private static Optional<Console> consoleFromShape(
+        Optional<TaskShape> taskShape) {
+      return UpdateTaskFeature.modelFromShape(taskShape)
+          .filter(Console.class::isInstance).map(Console.class::cast);
+    }
+
     private boolean inputUpdateNeeded = false;
     private boolean outputUpdateNeeded = false;
 
@@ -62,45 +70,47 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     @Override
     public IReason updateNeeded(IUpdateContext context) {
-      ContainerShape parent = (ContainerShape) context.getPictogramElement();
-      Console console = (Console) getBusinessObjectForPictogramElement(parent);
-      switch (console.getConsoleType()) {
-        case IN:
-          if (console.getInputPort().size() != 1)
-            inputUpdateNeeded = true;
-          if (console.getOutputPort().size() != 0)
-            outputUpdateNeeded = true;
-          break;
-        case OUT:
-          if (console.getInputPort().size() != 0)
-            inputUpdateNeeded = true;
-          if (console.getOutputPort().size() != 1)
-            outputUpdateNeeded = true;
-          break;
-        case INOUT:
-          if (console.getInputPort().size() != 1)
-            inputUpdateNeeded = true;
-          if (console.getOutputPort().size() != 1)
-            outputUpdateNeeded = true;
-          break;
-        default:
-          break;
-      }
+      Optional<Console> consoleOpt = consoleFromShape(
+          UpdateTaskFeature.shapeFromContext(context));
+      if (consoleOpt.isPresent()) {
+        Console console = consoleOpt.get();
+        switch (console.getConsoleType()) {
+          case IN:
+            if (console.getInputPort().size() != 1)
+              inputUpdateNeeded = true;
+            if (console.getOutputPort().size() != 0)
+              outputUpdateNeeded = true;
+            break;
+          case OUT:
+            if (console.getInputPort().size() != 0)
+              inputUpdateNeeded = true;
+            if (console.getOutputPort().size() != 1)
+              outputUpdateNeeded = true;
+            break;
+          case INOUT:
+            if (console.getInputPort().size() != 1)
+              inputUpdateNeeded = true;
+            if (console.getOutputPort().size() != 1)
+              outputUpdateNeeded = true;
+            break;
+          default:
+            break;
+        }
 
-      if (inputUpdateNeeded
-          || outputUpdateNeeded | super.updateNeeded(context).toBoolean()) {
-        return Reason.createTrueReason();
-      } else {
-        return Reason.createFalseReason();
+        if (inputUpdateNeeded
+            || outputUpdateNeeded | super.updateNeeded(context).toBoolean()) {
+          return Reason.createTrueReason();
+        }
       }
+      return Reason.createFalseReason();
     }
 
     @Override
     public boolean update(IUpdateContext context) {
+      Optional<Console> consoleOpt = consoleFromShape(
+          UpdateTaskFeature.shapeFromContext(context));
+      
       boolean updated = false;
-
-      Console console = (Console) getBusinessObjectForPictogramElement(
-          context.getPictogramElement());
 
       if (inputUpdateNeeded)
         updated = updated | updateInput(console,

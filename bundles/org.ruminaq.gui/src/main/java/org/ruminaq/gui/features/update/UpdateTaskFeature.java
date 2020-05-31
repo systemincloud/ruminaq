@@ -68,13 +68,13 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     super(fp);
   }
 
-  private static Optional<TaskShape> shapeFromContext(IUpdateContext context) {
+  protected static Optional<TaskShape> shapeFromContext(IUpdateContext context) {
     return Optional.of(context)
         .map(AbstractUpdateFeatureFilter.getPictogramElement)
         .filter(TaskShape.class::isInstance).map(TaskShape.class::cast);
   }
 
-  private static Optional<Task> modelFromShape(Optional<TaskShape> taskShape) {
+  protected static Optional<Task> modelFromShape(Optional<TaskShape> taskShape) {
     return taskShape.map(TaskShape::getModelObject)
         .filter(Task.class::isInstance).map(Task.class::cast);
   }
