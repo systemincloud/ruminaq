@@ -78,6 +78,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.randomgenerator.impl,
  org.ruminaq.tasks.randomgenerator.impl.distributions,
  org.ruminaq.tasks.randomgenerator.impl.strategy,
+ org.ruminaq.tasks.randomgenerator.model,
  org.ruminaq.tasks.randomgenerator.model.randomgenerator,
  org.ruminaq.util,
  org.slf4j
