@@ -335,7 +335,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       for (InternalInputPort iip : inputPorts)
         if (fip.getName().equals(iip.getId()))
           continue loop;
-      addInputPort(task, parent, fip.getName(), true, fip.getDataTypeClasses(),
+      createInputPort(task, parent, fip.getName(), true, fip.getDataTypeClasses(),
           fip.isAsynchronus(), fip.getGroup(), fip.isHold(), fip.getQueue(),
           Position.LEFT);
     }
@@ -367,7 +367,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       for (InternalOutputPort iop : outputPorts)
         if (fip.getName().equals(iop.getId()))
           continue loop;
-      addOutputPort(task, parent, fip.getName(), true, fip.getDataTypeClasses(),
+      createOutputPort(task, parent, fip.getName(), true, fip.getDataTypeClasses(),
           Position.RIGHT);
     }
     return true;

@@ -23,10 +23,9 @@ import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.services.IPeCreateService;
 import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.update.UpdateTaskFeature.Filter;
 import org.ruminaq.gui.model.PortDiagram;
 import org.ruminaq.gui.model.Position;
@@ -68,13 +67,15 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     super(fp);
   }
 
-  protected static Optional<TaskShape> shapeFromContext(IUpdateContext context) {
+  protected static Optional<TaskShape> shapeFromContext(
+      IUpdateContext context) {
     return Optional.of(context)
         .map(AbstractUpdateFeatureFilter.getPictogramElement)
         .filter(TaskShape.class::isInstance).map(TaskShape.class::cast);
   }
 
-  protected static Optional<Task> modelFromShape(Optional<TaskShape> taskShape) {
+  protected static Optional<Task> modelFromShape(
+      Optional<TaskShape> taskShape) {
     return taskShape.map(TaskShape::getModelObject)
         .filter(Task.class::isInstance).map(Task.class::cast);
   }
@@ -248,6 +249,18 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     return NoPorts.class;
   }
 
+  protected void createInputPort(Task task, PortsDescr pd) {
+    Stream.of(getPortsDescription().getDeclaredFields())
+        .filter(f -> f.getName().equals(pd.name())).findFirst()
+        .ifPresent(f -> AbstractCreateTaskFeature.createInputPort(task, f));
+  }
+
+  protected void createOutputPort(Task task, PortsDescr pd) {
+    Stream.of(getPortsDescription().getDeclaredFields())
+        .filter(f -> f.getName().equals(pd.name())).findFirst()
+        .ifPresent(f -> AbstractCreateTaskFeature.createOutputPort(task, f));
+  }
+
   private void addInputPort(InternalInputPort p,
       List<InternalInputPort> fromModel, TaskShape taskShape) {
     Class<? extends PortsDescr> pd = getPortsDescription();
@@ -269,7 +282,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 //          int k = -1;
 //          loop: while (id == null) {
 //            k++;
-//            if (TasksUtil.SgetAllMutlipleInternalInputPorts(task, in.id())
+//            if (TasksUtil.getAllMutlipleInternalInputPorts(task, in.id())
 //                .size() == 0) {
 //              id = in.id() + " " + 0;
 //              break;
@@ -279,26 +292,9 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 //                continue loop;
 //            id = in.id() + " " + k;
 //          }
-//          int grp = in.group();
-//          if (in.ngroup().equals(NGroup.DIFFERENT)) {
-//            if (grp != -1) {
-//              int j = grp;
-//              boolean free = true;
-//              do {
-//                free = true;
-//                for (InternalInputPort iip : task.getInputPort())
-//                  if (iip.getGroup() == j)
-//                    free = false;
-//                j++;
-//              } while (!free);
-//              grp = j - 1;
-//            }
-//          }
-//          addInputPort(task, parent, id, in.label(), in.type(),
-//              in.asynchronous(), grp, in.hold(), in.queue(), in.pos());
-//        }
-//        redistributePorts(parent, in.pos());
-//      }
+    
+
+
 //          String id = null;
 //          int k = -1;
 //          loop: while (id == null) {
@@ -313,10 +309,14 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 //                continue loop;
 //            id = out.id() + " " + k;
 //          }
-//          addOutputPort(task, parent, id, out.label(), out.type(), out.pos());
-//        }
-//        redistributePorts(parent, out.pos());
 //      }
+//  ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
+//  getDiagram(), parent, in.getId(), AbstractAddTaskFeature.PORT_SIZE,
+//  AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.RIGHT);
+//
+//link(portLabelShape, new Object[] { in, containerShape });
+//if (!showLabel)
+//portLabelShape.setVisible(false);
   }
 
   private void addOutputPort(InternalOutputPort p,
@@ -325,7 +325,8 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
     Optional<PortDiagram> portDiagram = getPortDiagram(p.getId(), pd,
         PortType.OUT);
-    Position position = portDiagram.map(PortDiagram::pos).orElse(Position.RIGHT);
+    Position position = portDiagram.map(PortDiagram::pos)
+        .orElse(Position.RIGHT);
     InternalOutputPortShape portShape = DiagramFactory.eINSTANCE
         .createInternalOutputPortShape();
     portShape.setContainer(taskShape);
@@ -334,13 +335,20 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     portShape.setX(xOfPostion(taskShape, position));
     portShape.setY(yOfPostion(taskShape, position));
     redistributePorts(taskShape, position);
+
+//  ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
+//  getDiagram(), parent, out.getId(), AbstractAddTaskFeature.PORT_SIZE,
+//  AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.LEFT);
+//
+//link(portLabelShape, new Object[] { out, containerShape });
+
+//if (!showLabel)
+//portLabelShape.setVisible(false);
   }
 
-  protected void addInputPort(Task task, ContainerShape parent, String name,
+  protected void createInputPort(Task task, ContainerShape parent, String name,
       boolean showLabel, Class<? extends DataType>[] datatypes, boolean asyn,
       int grp, boolean hold, String queue, Position pos) {
-    IPeCreateService peCreateService = Graphiti.getPeCreateService();
-
     InternalInputPort in = (InternalInputPort) RuminaqFactory.eINSTANCE
         .createInternalInputPort();
     in.setId(name);
@@ -357,21 +365,10 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     in.setDefaultQueueSize(queue);
     in.setQueueSize(queue);
     task.getInputPort().add(in);
-
-//    ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
-//        getDiagram(), parent, in.getId(), AbstractAddTaskFeature.PORT_SIZE,
-//        AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.RIGHT);
-//
-//    link(portLabelShape, new Object[] { in, containerShape });
-//    if (!showLabel)
-//      portLabelShape.setVisible(false);
-
   }
 
-  protected void addOutputPort(Task task, ContainerShape parent, String name,
+  protected void createOutputPort(Task task, ContainerShape parent, String name,
       boolean showLabel, Class<? extends DataType>[] datatypes, Position pos) {
-    IPeCreateService peCreateService = Graphiti.getPeCreateService();
-
     InternalOutputPort out = (InternalOutputPort) RuminaqFactory.eINSTANCE
         .createInternalOutputPort();
     out.setId(name);
@@ -382,16 +379,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         out.getDataType().add(dt);
     }
     task.getOutputPort().add(out);
-
-//    ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
-//        getDiagram(), parent, out.getId(), AbstractAddTaskFeature.PORT_SIZE,
-//        AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.LEFT);
-//
-//    link(portLabelShape, new Object[] { out, containerShape });
-
-//    if (!showLabel)
-//      portLabelShape.setVisible(false);
-
   }
 
   private void removePort(InternalPortShape p, TaskShape taskShape) {

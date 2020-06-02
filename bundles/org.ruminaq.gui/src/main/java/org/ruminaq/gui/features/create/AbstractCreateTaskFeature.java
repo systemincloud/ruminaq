@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
+import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.DataType;
@@ -78,24 +79,31 @@ public abstract class AbstractCreateTaskFeature
         .filter(se -> se.getValue() != null)
         .filter(se -> PortType.IN == se.getValue().portType())
         .filter(se -> !se.getValue().opt())
-        .map(se -> new SimpleEntry<>(se, se.getValue().n())).forEach(
-            (SimpleEntry<SimpleEntry<Field, PortInfo>, Integer> e) -> IntStream
-                .range(0, e.getValue()).forEach((int i) -> {
-                  InternalInputPort inputPort = RuminaqFactory.eINSTANCE
-                      .createInternalInputPort();
-                  PortInfo pi = e.getKey().getValue();
-                  inputPort.setId(Optional.of(pi).filter(p -> p.n() > 1)
-                      .map(p -> p.id() + i).orElseGet(() -> pi.id()));
-                  inputPort.setAsynchronous(pi.asynchronous());
-                  inputPort.setGroup(portGroup(pi, task));
-                  inputPort.setDefaultHoldLast(pi.hold());
-                  inputPort.setHoldLast(pi.hold());
-                  inputPort.setDefaultQueueSize(pi.queue());
-                  inputPort.setQueueSize(pi.queue());
-                  getDataTypes(e.getKey().getKey())
-                      .forEach(inputPort.getDataType()::add);
-                  task.getInputPort().add(inputPort);
-                }));
+        .map(se -> new SimpleEntry<>(se.getKey(), se.getValue().n()))
+        .forEach((SimpleEntry<Field, Integer> e) -> IntStream
+            .range(0, e.getValue()).forEach((int i) -> {
+              createInputPort(task, e.getKey());
+            }));
+  }
+
+  public static void createInputPort(Task task, Field field) {
+    InternalInputPort inputPort = RuminaqFactory.eINSTANCE
+        .createInternalInputPort();
+    PortInfo pi = field.getAnnotation(PortInfo.class);
+
+    inputPort.setId(Optional.of(pi).filter(p -> p.n() > 1).map(p -> p.id()
+        + (TasksUtil.getAllMutlipleInternalInputPorts(task, p.id()).size() + 1))
+        .orElseGet(() -> pi.id()));
+    inputPort.setAsynchronous(pi.asynchronous());
+    inputPort.setGroup(portGroup(pi, task));
+    inputPort.setDefaultHoldLast(pi.hold());
+    inputPort.setHoldLast(pi.hold());
+    inputPort.setDefaultQueueSize(pi.queue());
+    inputPort.setQueueSize(pi.queue());
+
+    getDataTypes(field).forEach(inputPort.getDataType()::add);
+
+    task.getInputPort().add(inputPort);
   }
 
   private static int portGroup(PortInfo pi, Task task) {
@@ -119,18 +127,24 @@ public abstract class AbstractCreateTaskFeature
         .filter(se -> se.getValue() != null)
         .filter(se -> PortType.OUT == se.getValue().portType())
         .filter(se -> !se.getValue().opt())
-        .map(se -> new SimpleEntry<>(se, se.getValue().n())).forEach(
-            (SimpleEntry<SimpleEntry<Field, PortInfo>, Integer> e) -> IntStream
-                .range(0, e.getValue()).forEach((int i) -> {
-                  InternalOutputPort outputPort = RuminaqFactory.eINSTANCE
-                      .createInternalOutputPort();
-                  PortInfo pi = e.getKey().getValue();
-                  outputPort.setId(Optional.of(pi).filter(p -> p.n() > 1)
-                      .map(p -> p.id() + i).orElseGet(() -> pi.id()));
-                  getDataTypes(e.getKey().getKey())
-                      .forEach(outputPort.getDataType()::add);
-                  task.getOutputPort().add(outputPort);
-                }));
+        .map(se -> new SimpleEntry<>(se.getKey(), se.getValue().n()))
+        .forEach((SimpleEntry<Field, Integer> e) -> IntStream
+            .range(0, e.getValue()).forEach((int i) -> {
+              createOutputPort(task, e.getKey());
+            }));
+  }
+
+  public static void createOutputPort(Task task, Field field) {
+    InternalOutputPort outputPort = RuminaqFactory.eINSTANCE
+        .createInternalOutputPort();
+    PortInfo pi = field.getAnnotation(PortInfo.class);
+
+    outputPort.setId(Optional.of(pi).filter(p -> p.n() > 1).map(p -> p.id()
+        + (TasksUtil.getAllMutlipleInternalInputPorts(task, p.id()).size() + 1))
+        .orElseGet(() -> pi.id()));
+    getDataTypes(field).forEach(outputPort.getDataType()::add);
+
+    task.getOutputPort().add(outputPort);
   }
 
   private static Stream<DataType> getDataTypes(Field field) {
@@ -144,5 +158,4 @@ public abstract class AbstractCreateTaskFeature
         })).map(r -> r.orElse(null)).filter(Objects::nonNull)
         .filter(DataType.class::isInstance).map(DataType.class::cast);
   }
-
 }
