@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.tasks.sipo.gui;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -11,7 +17,7 @@ import org.ruminaq.model.desc.PortsDescrUtil;
 import org.ruminaq.tasks.sipo.impl.Port;
 import org.ruminaq.tasks.sipo.model.sipo.Sipo;
 
-public class UpdateFeature extends UpdateTaskFeature {
+public class UpdateFeatureImpl extends UpdateTaskFeature {
 
   private boolean updateNeededChecked = false;
 
@@ -23,7 +29,7 @@ public class UpdateFeature extends UpdateTaskFeature {
   private boolean lastUpdateNeeded = false;
   private boolean sizeOutUpdateNeeded = false;
 
-  public UpdateFeature(IFeatureProvider fp) {
+  public UpdateFeatureImpl(IFeatureProvider fp) {
     super(fp);
   }
 

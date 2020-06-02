@@ -16,10 +16,8 @@ import org.ruminaq.gui.api.AddFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
-import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.sipo.gui.AddFeatureImpl.AddFeature.Filter;
-import org.ruminaq.tasks.sipo.impl.Port;
 import org.ruminaq.tasks.sipo.model.sipo.Sipo;
 
 /**
