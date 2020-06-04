@@ -18,7 +18,7 @@ import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.tasks.sipo.impl.Port;
+import org.ruminaq.tasks.sipo.model.Port;
 import org.ruminaq.tasks.sipo.model.sipo.Sipo;
 import org.ruminaq.tasks.sipo.model.sipo.SipoFactory;
 

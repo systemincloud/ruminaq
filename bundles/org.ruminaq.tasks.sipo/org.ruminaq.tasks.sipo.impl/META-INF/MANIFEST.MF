@@ -18,6 +18,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.impl,
  org.ruminaq.runner.impl.data,
  org.ruminaq.runner.service,
+ org.ruminaq.tasks.sipo.model,
  org.ruminaq.tasks.sipo.model.sipo,
  org.ruminaq.util,
  org.slf4j

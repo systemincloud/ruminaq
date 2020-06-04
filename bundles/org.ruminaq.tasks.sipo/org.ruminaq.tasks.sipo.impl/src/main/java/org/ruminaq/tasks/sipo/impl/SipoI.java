@@ -10,6 +10,7 @@ import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.PortMap;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.impl.data.Int32I;
+import org.ruminaq.tasks.sipo.model.Port;
 import org.ruminaq.tasks.sipo.model.sipo.Sipo;
 import org.ruminaq.util.GroovyExpressionUtil;
 import ch.qos.logback.classic.Logger;

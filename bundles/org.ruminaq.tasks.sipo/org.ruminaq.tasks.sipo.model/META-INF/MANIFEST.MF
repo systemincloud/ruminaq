@@ -15,13 +15,17 @@ Import-Package: org.eclipse.emf.common,
  org.eclipse.emf.ecore.util,
  org.eclipse.emf.ecore.xmi.impl,
  org.eclipse.emf.ecore.xmi.util,
+ org.ruminaq.gui.model,
+ org.ruminaq.model.desc,
  org.ruminaq.model.ruminaq,
  org.ruminaq.model.ruminaq.debug,
  org.ruminaq.model.ruminaq.debug.impl,
+ org.ruminaq.model.ruminaq.dt,
  org.ruminaq.model.ruminaq.impl,
  org.ruminaq.tasks.gate.model.gate,
  org.ruminaq.tasks.gate.model.gate.impl
-Export-Package: org.ruminaq.tasks.sipo.model.sipo,
+Export-Package: org.ruminaq.tasks.sipo.model,
+ org.ruminaq.tasks.sipo.model.sipo,
  org.ruminaq.tasks.sipo.model.sipo.impl,
  org.ruminaq.tasks.sipo.model.sipo.util
 Bundle-ClassPath: .

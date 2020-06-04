@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.tasks.mux;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -9,6 +15,11 @@ import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.tasks.demux.impl.Port;
 import org.ruminaq.tasks.mux.model.mux.Demux;
 
+/**
+ * Service UpdateFeatureExtension implementation.
+ *
+ * @author Marek Jagielski
+ */
 public class UpdateDemuxFeature extends UpdateTaskFeature {
 
   private boolean updateNeededChecked = false;
