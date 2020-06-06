@@ -78,7 +78,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Service-Component: OSGI-INF/org.ruminaq.tasks.console.gui.Images.xml,
  OSGI-INF/org.ruminaq.tasks.console.gui.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.console.gui.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.console.gui.TaskUiApi.xml,
  OSGI-INF/org.ruminaq.tasks.console.gui.UpdateFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.console.gui.AddFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.console.gui.TaskApi.xml,

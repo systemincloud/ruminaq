@@ -254,11 +254,19 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .filter(f -> f.getName().equals(pd.name())).findFirst()
         .ifPresent(f -> AbstractCreateTaskFeature.createInputPort(task, f));
   }
+  
+  protected void deleteInputPort(Task task, String id) {
+    task.getInputPort().remove(task.getInputPort(id));
+  }
 
   protected void createOutputPort(Task task, PortsDescr pd) {
     Stream.of(getPortsDescription().getDeclaredFields())
         .filter(f -> f.getName().equals(pd.name())).findFirst()
         .ifPresent(f -> AbstractCreateTaskFeature.createOutputPort(task, f));
+  }
+  
+  protected void deleteOutputPort(Task task, String id) {
+    task.getOutputPort().remove(task.getOutputPort(id));
   }
 
   private void addInputPort(InternalInputPort p,

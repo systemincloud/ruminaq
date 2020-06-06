@@ -167,27 +167,38 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       return updated;
     }
 
-    private boolean sizeOutUpdate(Sipo sp) {
-//    if (sp.isSizeOut())
-//      addPort(sp, parent, Port.SIZE);
-//    else
-//      removePort(sp, parent, Port.SIZE);
+    private boolean clkUpdate(Sipo sipo) {
+      if (sipo.isClock()) {
+        createInputPort(sipo, Port.CLK);
+      } else {
+        deleteInputPort(sipo, Port.CLK.getId());
+      }
       return true;
     }
 
-    private boolean lastUpdate(Sipo sp) {
-//    if (sp.isIndex())
-//      addPort(sp, parent, Port.LOUT);
-//    else
-//      removePort(sp, parent, Port.LOUT);
+    private boolean sizeOutUpdate(Sipo sipo) {
+      if (sipo.isSizeOut()) {
+        createOutputPort(sipo, Port.SIZE);
+      } else {
+        deleteOutputPort(sipo, Port.SIZE.getId());
+      }
       return true;
     }
 
-    private boolean trgUpdate(Sipo sp) {
-//    if (sp.isTrigger() && !sp.isIndex())
-//      addPort(sp, parent, Port.TRIGGER);
-//    else
-//      removePort(sp, parent, Port.TRIGGER);
+    private boolean lastUpdate(Sipo sipo) {
+      if (sipo.isIndex()) {
+        createOutputPort(sipo, Port.LOUT);
+      } else
+        deleteOutputPort(sipo, Port.LOUT.getId());
+      return true;
+    }
+
+    private boolean trgUpdate(Sipo sipo) {
+      if (sipo.isTrigger() && !sipo.isIndex()) {
+        createInputPort(sipo, Port.TRIGGER);
+      } else {
+        deleteInputPort(sipo, Port.TRIGGER.getId());
+      }
       return true;
     }
 
@@ -209,14 +220,6 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 //      addPort(sp, parent, Port.IDX);
 //    else
 //      removePort(sp, parent, Port.IDX);
-      return true;
-    }
-
-    private boolean clkUpdate(Sipo sp) {
-//    if (sp.isClock())
-//      addPort(sp, parent, Port.CLK);
-//    else
-//      removePort(sp, parent, Port.CLK);
       return true;
     }
   }
