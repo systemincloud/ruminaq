@@ -1,6 +1,5 @@
 package org.ruminaq.tasks.demux.impl;
 
-import org.ruminaq.model.desc.PortsDescrUtil;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.BasicTaskI;
@@ -22,10 +21,10 @@ public class DemuxI extends BasicTaskI {
 
   @Override
   protected void execute(PortMap portIdData, int grp) {
-    if (grp == PortsDescrUtil.getGroup(Port.IDX)) {
+    if (grp == Port.IDX.getGroup()) {
       this.idx = portIdData.get(Port.IDX).get(Int32I.class).getValues()[0];
       logger.trace("Change index to {}", this.idx);
-    } else if (grp == PortsDescrUtil.getGroup(Port.IN)) {
+    } else if (grp == Port.IN.getGroup()) {
       DataI data = portIdData.get(Port.IN);
       putData(Port.OUT, idx, data);
     }

@@ -2,7 +2,6 @@ package org.ruminaq.tasks.sipo.impl;
 
 import java.util.LinkedList;
 
-import org.ruminaq.model.desc.PortsDescrUtil;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.BasicTaskI;
@@ -44,7 +43,7 @@ public class SipoI extends BasicTaskI {
 
   @Override
   protected void execute(PortMap portIdData, int grp) {
-    if (grp == PortsDescrUtil.getGroup(Port.IN)) {
+    if (grp == Port.IN.getGroup()) {
       DataI dataI = portIdData.get(Port.IN);
 
       if (queue.size() == size)
@@ -58,12 +57,12 @@ public class SipoI extends BasicTaskI {
 
       if (nbE)
         putData(Port.SIZE, new Int32I(queue.size()));
-    } else if (grp == PortsDescrUtil.getGroup(Port.IDX)) {
+    } else if (grp == Port.IDX.getGroup()) {
       DataI data = portIdData.get(Port.IDX);
       int i = data.get(Int32I.class).getValues()[0];
       if (queue.size() > i)
         putData(Port.LOUT, queue.get(i));
-    } else if (grp == PortsDescrUtil.getGroup(Port.TRIGGER)) {
+    } else if (grp == Port.TRIGGER.getGroup()) {
       for (int i = 0; i < queue.size(); i++)
         putData(Port.OUT, i, queue.get(i));
     }

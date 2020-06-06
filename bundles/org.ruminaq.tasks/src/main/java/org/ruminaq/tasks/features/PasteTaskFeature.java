@@ -114,7 +114,8 @@ public class PasteTaskFeature extends RuminaqShapePasteFeature<RuminaqShape>
           id = ((InternalPort) o).getId();
         else if (o instanceof ContainerShape)
           l = (ContainerShape) o;
-      InternalPort ip = TasksUtil.getInternalPort(newBo, id);
+      InternalPort ip = newBo.getInputPort(id);
+//      InternalPort ip = newBo.getOutputPort(id);
 
       while (newPortShape.getLink().getBusinessObjects().size() > 0)
         newPortShape.getLink().getBusinessObjects().remove(0);

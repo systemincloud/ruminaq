@@ -72,7 +72,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
     @Override
     public IReason updateNeeded(IUpdateContext context) {
       if (inputUpdateNeeded(context) || outputUpdateNeeded(context)
-          | super.updateNeeded(context).toBoolean()) {
+          || super.updateNeeded(context).toBoolean()) {
         return Reason.createTrueReason();
       }
       return Reason.createFalseReason();

@@ -8,20 +8,20 @@ package org.ruminaq.tasks.sipo.gui;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.gui.api.UpdateFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
-import org.ruminaq.model.desc.PortsDescrUtil;
+import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.sipo.gui.UpdateFeatureImpl.UpdateFeature.Filter;
 import org.ruminaq.tasks.sipo.model.Port;
@@ -53,107 +53,121 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       }
     }
 
-    private boolean updateNeededChecked = false;
-
-    private boolean superUpdateNeeded = false;
-    private boolean clkUpdateNeeded = false;
-    private boolean idxUpdateNeeded = false;
-    private boolean trgUpdateNeeded = false;
-    private boolean sizeUpdateNeeded = false;
-    private boolean lastUpdateNeeded = false;
-    private boolean sizeOutUpdateNeeded = false;
+    private static Optional<Sipo> sipoFromShape(Optional<TaskShape> taskShape) {
+      return UpdateTaskFeature.modelFromShape(taskShape)
+          .filter(Sipo.class::isInstance).map(Sipo.class::cast);
+    }
 
     public UpdateFeature(IFeatureProvider fp) {
       super(fp);
     }
 
     @Override
-    public boolean canUpdate(IUpdateContext context) {
-      Object bo = getBusinessObjectForPictogramElement(
-          context.getPictogramElement());
-      return (bo instanceof Sipo);
+    public IReason updateNeeded(IUpdateContext context) {
+      Sipo sipo = sipoFromShape(UpdateTaskFeature.shapeFromContext(context))
+          .orElseThrow(() -> new RuntimeException());
+
+      if (super.updateNeeded(context).toBoolean() || clkUpdateNeeded(sipo)
+          || idxUpdateNeeded(sipo) || trgUpdateNeeded(sipo)
+          || sizeUpdateNeeded(sipo) || lastUpdateNeeded(sipo)
+          || sizeOutUpdateNeeded(sipo)) {
+        return Reason.createTrueReason();
+      } else {
+        return Reason.createFalseReason();
+      }
     }
 
-    @Override
-    public IReason updateNeeded(IUpdateContext context) {
-      this.updateNeededChecked = true;
-      superUpdateNeeded = super.updateNeeded(context).toBoolean();
+    private boolean clkUpdateNeeded(Sipo sipo) {
+      if (sipo.isClock()) {
+        return sipo.getInputPort(Port.CLK.getId()) == null;
+      } else {
+        return sipo.getInputPort(Port.CLK.getId()) != null;
+      }
+    }
 
-      ContainerShape parent = (ContainerShape) context.getPictogramElement();
-      Sipo sp = (Sipo) getBusinessObjectForPictogramElement(parent);
+    private boolean idxUpdateNeeded(Sipo sipo) {
+      if (sipo.isIndex()) {
+        return sipo.getInputPort(Port.IDX.getId()) == null;
+      } else {
+        return sipo.getInputPort(Port.IDX.getId()) != null;
+      }
+    }
 
-      this.clkUpdateNeeded = sp.isClock()
-          ? TasksUtil.getInternalPort(sp,
-              PortsDescrUtil.getName(Port.CLK)) == null
-          : TasksUtil.getInternalPort(sp,
-              PortsDescrUtil.getName(Port.CLK)) != null;
-      this.idxUpdateNeeded = sp.isIndex()
-          ? TasksUtil.getInternalPort(sp,
-              PortsDescrUtil.getName(Port.IDX)) == null
-          : TasksUtil.getInternalPort(sp,
-              PortsDescrUtil.getName(Port.IDX)) != null;
-      this.trgUpdateNeeded = sp.isTrigger() && !sp.isIndex()
-          ? TasksUtil.getInternalPort(sp,
-              PortsDescrUtil.getName(Port.TRIGGER)) == null
-          : TasksUtil.getInternalPort(sp,
-              PortsDescrUtil.getName(Port.TRIGGER)) != null;
-      this.sizeUpdateNeeded = sp.isIndex()
-          ? TasksUtil.getAllMutlipleInternalOutputPorts(sp,
-              PortsDescrUtil.getName(Port.OUT)).size() != 0
-          : TasksUtil
-              .getAllMutlipleInternalOutputPorts(sp,
-                  PortsDescrUtil.getName(Port.OUT))
-              .size() != Integer.parseInt(sp.getSize());
-      if (trgUpdateNeeded)
-        sizeUpdateNeeded = true;
-      this.lastUpdateNeeded = sp.isIndex()
-          ? TasksUtil.getInternalPort(sp,
-              PortsDescrUtil.getName(Port.LOUT)) == null
-          : TasksUtil.getInternalPort(sp,
-              PortsDescrUtil.getName(Port.LOUT)) != null;
-      this.sizeOutUpdateNeeded = sp.isSizeOut()
-          ? TasksUtil.getInternalPort(sp,
-              PortsDescrUtil.getName(Port.SIZE)) == null
-          : TasksUtil.getInternalPort(sp,
-              PortsDescrUtil.getName(Port.SIZE)) != null;
+    private boolean trgUpdateNeeded(Sipo sipo) {
+      if (sipo.isTrigger() && !sipo.isIndex()) {
+        return sipo.getInputPort(Port.TRIGGER.getId()) == null;
+      } else {
+        return sipo.getInputPort(Port.TRIGGER.getId()) != null;
+      }
+    }
 
-      boolean updateNeeded = superUpdateNeeded || clkUpdateNeeded
-          || idxUpdateNeeded || trgUpdateNeeded || sizeUpdateNeeded
-          || lastUpdateNeeded || sizeOutUpdateNeeded;
+    private boolean sizeUpdateNeeded(Sipo sipo) {
+      if (sipo.isIndex()) {
+        return TasksUtil
+            .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId())
+            .size() != 0;
+      } else {
+        return TasksUtil
+            .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId())
+            .size() != Integer.parseInt(sipo.getSize());
+      }
+    }
 
-      return updateNeeded ? Reason.createTrueReason()
-          : Reason.createFalseReason();
+    private boolean lastUpdateNeeded(Sipo sipo) {
+      if (sipo.isIndex()) {
+        return sipo.getOutputPort(Port.LOUT.getId()) == null;
+      } else {
+        return sipo.getOutputPort(Port.LOUT.getId()) != null;
+      }
+    }
+
+    private boolean sizeOutUpdateNeeded(Sipo sipo) {
+      if (sipo.isSizeOut()) {
+        return sipo.getOutputPort(Port.SIZE.getId()) == null;
+      } else {
+        return sipo.getOutputPort(Port.SIZE.getId()) != null;
+      }
     }
 
     @Override
     public boolean update(IUpdateContext context) {
-      if (!updateNeededChecked)
-        if (!this.updateNeeded(context).toBoolean())
-          return false;
+      Sipo sipo = sipoFromShape(UpdateTaskFeature.shapeFromContext(context))
+          .orElseThrow(() -> new RuntimeException());
 
       boolean updated = false;
-      if (superUpdateNeeded)
+
+      if (clkUpdateNeeded(sipo)) {
+        updated = updated | clkUpdate(sipo);
+      }
+
+      if (idxUpdateNeeded(sipo)) {
+        updated = updated | idxUpdate(sipo);
+      }
+
+      if (trgUpdateNeeded(sipo)) {
+        updated = updated | trgUpdate(sipo);
+      }
+
+      if (sizeUpdateNeeded(sipo)) {
+        updated = updated | sizeUpdate(sipo);
+      }
+
+      if (lastUpdateNeeded(sipo)) {
+        updated = updated | lastUpdate(sipo);
+      }
+
+      if (sizeOutUpdateNeeded(sipo)) {
+        updated = updated | sizeOutUpdate(sipo);
+      }
+
+      if (super.updateNeeded(context).toBoolean()) {
         updated = updated | super.update(context);
+      }
 
-      ContainerShape parent = (ContainerShape) context.getPictogramElement();
-      Sipo sp = (Sipo) getBusinessObjectForPictogramElement(parent);
-
-      if (clkUpdateNeeded)
-        updated = updated | clkUpdate(parent, sp);
-      if (idxUpdateNeeded)
-        updated = updated | idxUpdate(parent, sp);
-      if (trgUpdateNeeded)
-        updated = updated | trgUpdate(parent, sp);
-      if (sizeUpdateNeeded)
-        updated = updated | sizeUpdate(parent, sp);
-      if (lastUpdateNeeded)
-        updated = updated | lastUpdate(parent, sp);
-      if (sizeOutUpdateNeeded)
-        updated = updated | sizeOutUpdate(parent, sp);
       return updated;
     }
 
-    private boolean sizeOutUpdate(ContainerShape parent, Sipo sp) {
+    private boolean sizeOutUpdate(Sipo sp) {
 //    if (sp.isSizeOut())
 //      addPort(sp, parent, Port.SIZE);
 //    else
@@ -161,7 +175,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       return true;
     }
 
-    private boolean lastUpdate(ContainerShape parent, Sipo sp) {
+    private boolean lastUpdate(Sipo sp) {
 //    if (sp.isIndex())
 //      addPort(sp, parent, Port.LOUT);
 //    else
@@ -169,7 +183,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       return true;
     }
 
-    private boolean trgUpdate(ContainerShape parent, Sipo sp) {
+    private boolean trgUpdate(Sipo sp) {
 //    if (sp.isTrigger() && !sp.isIndex())
 //      addPort(sp, parent, Port.TRIGGER);
 //    else
@@ -177,11 +191,10 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       return true;
     }
 
-    private boolean sizeUpdate(ContainerShape parent, Sipo sp) {
+    private boolean sizeUpdate(Sipo sp) {
       int n = sp.isIndex() ? -Integer.parseInt(sp.getSize())
-          : Integer.parseInt(sp.getSize())
-              - TasksUtil.getAllMutlipleInternalOutputPorts(sp,
-                  PortsDescrUtil.getName(Port.OUT)).size();
+          : Integer.parseInt(sp.getSize()) - TasksUtil
+              .getAllMutlipleInternalOutputPorts(sp, Port.OUT.getId()).size();
 //    if (n > 0)
 //      for (int i = 0; i < n; i++)
 //        addPort(sp, parent, Port.OUT);
@@ -191,7 +204,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       return true;
     }
 
-    private boolean idxUpdate(ContainerShape parent, Sipo sp) {
+    private boolean idxUpdate(Sipo sp) {
 //    if (sp.isIndex())
 //      addPort(sp, parent, Port.IDX);
 //    else
@@ -199,7 +212,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       return true;
     }
 
-    private boolean clkUpdate(ContainerShape parent, Sipo sp) {
+    private boolean clkUpdate(Sipo sp) {
 //    if (sp.isClock())
 //      addPort(sp, parent, Port.CLK);
 //    else

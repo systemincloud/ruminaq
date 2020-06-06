@@ -23,7 +23,8 @@ Import-Package: org.eclipse.emf.common,
  org.ruminaq.model.ruminaq.debug,
  org.ruminaq.model.ruminaq.debug.impl,
  org.ruminaq.model.ruminaq.dt,
- org.ruminaq.model.ruminaq.impl
+ org.ruminaq.model.ruminaq.impl,
+ org.ruminaq.tasks.console.model.console.util
 Export-Package: org.ruminaq.tasks.console.model,
  org.ruminaq.tasks.console.model.console,
  org.ruminaq.tasks.console.model.console.impl,

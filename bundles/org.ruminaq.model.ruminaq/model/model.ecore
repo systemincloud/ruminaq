@@ -43,6 +43,18 @@
         eType="#//InternalInputPort" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="onlyLocalUser" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
+    <eOperations name="getInputPort" eType="#//InternalInputPort">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getInputPort().stream().filter(ip -> ip.getId().equals(id)).findFirst().orElse(null);"/>
+      </eAnnotations>
+      <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getOutputPort" eType="#//InternalOutputPort">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getOutputPort().stream().filter(ip -> ip.getId().equals(id)).findFirst().orElse(null);"/>
+      </eAnnotations>
+      <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Port" abstract="true" eSuperTypes="#//BaseElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="InternalInputPort" eSuperTypes="#//InternalPort #//FlowTarget">

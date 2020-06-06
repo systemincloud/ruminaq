@@ -8,7 +8,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.model.desc.PortsDescrUtil;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.DataI;
@@ -176,7 +175,7 @@ public abstract class BasicTaskI extends TaskI {
   }
 
   public void putData(PortsDescr pd, DataI data) {
-    putData(PortsDescrUtil.getName(pd), data);
+    putData(pd.getId(), data);
   }
 
   public void putData(String id, DataI data) {
@@ -188,7 +187,7 @@ public abstract class BasicTaskI extends TaskI {
   }
 
   public void putData(PortsDescr pd, int idx, DataI data) {
-    putData(PortsDescrUtil.getName(pd) + " " + idx, data);
+    putData(pd.getId() + " " + idx, data);
   }
 
   @Override

@@ -5,10 +5,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.model.desc.PortsDescrUtil;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
-import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.Task;
 
 public class TasksUtil {
@@ -19,12 +17,12 @@ public class TasksUtil {
   }
 
   public static boolean isMultiplePortId(String id, PortsDescr pd) {
-    return isMultiplePortId(id, PortsDescrUtil.getName(pd));
+    return isMultiplePortId(id, pd.getId());
   }
 
   public static int getMultiplePortIdIdx(String id, PortsDescr pd) {
     return Integer
-        .parseInt(id.substring(PortsDescrUtil.getName(pd).length() + 1));
+        .parseInt(id.substring(pd.getId().length() + 1));
   }
 
   public static List<InternalInputPort> getAllMutlipleInternalInputPorts(
@@ -36,16 +34,6 @@ public class TasksUtil {
         ret.add(iip);
 
     return ret;
-  }
-
-  public static InternalPort getInternalPort(Task task, String name) {
-    for (InternalInputPort iip : task.getInputPort())
-      if (iip.getId().equals(name))
-        return iip;
-    for (InternalOutputPort iop : task.getOutputPort())
-      if (iop.getId().equals(name))
-        return iop;
-    return null;
   }
 
   public static List<InternalOutputPort> getAllMutlipleInternalOutputPorts(

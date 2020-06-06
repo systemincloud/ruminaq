@@ -34,6 +34,12 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Task/outputPort"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//Task/inputPort"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Task/onlyLocalUser"/>
+      <genOperations ecoreOperation="model.ecore#//Task/getInputPort" body="return getInputPort().stream().filter(ip -> ip.getId().equals(id)).findFirst().orElse(null);">
+        <genParameters ecoreParameter="model.ecore#//Task/getInputPort/id"/>
+      </genOperations>
+      <genOperations ecoreOperation="model.ecore#//Task/getOutputPort" body="return getOutputPort().stream().filter(ip -> ip.getId().equals(id)).findFirst().orElse(null);">
+        <genParameters ecoreParameter="model.ecore#//Task/getOutputPort/id"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Port"/>
     <genClasses ecoreClass="model.ecore#//InternalInputPort">
