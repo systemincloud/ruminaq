@@ -42,6 +42,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
     public static class Filter extends AbstractAddFeatureFilter {
       @Override
       public Class<? extends BaseElement> forBusinessObject() {
+        
         return PythonTask.class;
       }
     }

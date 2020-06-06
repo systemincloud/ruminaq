@@ -54,7 +54,11 @@
     <module>org.ruminaq.tasks.inspect</module>
     <module>org.ruminaq.tasks.javatask</module>
     <module>org.ruminaq.tasks.mux</module>
+
     <module>org.ruminaq.tasks.pythontask</module>
+    <module>org.ruminaq.tasks.pythontask.gui</module>
+    <module>org.ruminaq.tasks.pythontask.model</module>
+
     <module>org.ruminaq.tasks.randomgenerator</module>
     <module>org.ruminaq.tasks.rtask</module>
     <module>org.ruminaq.tasks.sipo</module>

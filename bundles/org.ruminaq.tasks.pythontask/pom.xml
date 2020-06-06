@@ -12,9 +12,8 @@
 
   <modules>
     <module>org.ruminaq.tasks.pythontask.api</module>
-    <module>org.ruminaq.tasks.pythontask.gui</module>
+
     <module>org.ruminaq.tasks.pythontask.impl</module>
-    <module>org.ruminaq.tasks.pythontask.model</module>
     <module>org.ruminaq.tasks.pythontask.ui</module>
   </modules>
 </project>
