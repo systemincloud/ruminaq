@@ -202,24 +202,25 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       return true;
     }
 
-    private boolean sizeUpdate(Sipo sp) {
-      int n = sp.isIndex() ? -Integer.parseInt(sp.getSize())
-          : Integer.parseInt(sp.getSize()) - TasksUtil
-              .getAllMutlipleInternalOutputPorts(sp, Port.OUT.getId()).size();
-//    if (n > 0)
-//      for (int i = 0; i < n; i++)
-//        addPort(sp, parent, Port.OUT);
-//    else if (n < 0)
-//      for (int i = 0; i < -n; i++)
-//        removePort(sp, parent, Port.OUT);
+    private boolean sizeUpdate(Sipo sipo) {
+      int n = sipo.isIndex() ? -Integer.parseInt(sipo.getSize())
+          : Integer.parseInt(sipo.getSize()) - TasksUtil
+              .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId()).size();
+      if (n > 0)
+        for (int i = 0; i < n; i++)
+          createOutputPort(sipo, Port.OUT);
+      else if (n < 0)
+        for (int i = 0; i < -n; i++)
+          deleteOutputPort(sipo, Port.OUT.getId());
       return true;
     }
 
-    private boolean idxUpdate(Sipo sp) {
-//    if (sp.isIndex())
-//      addPort(sp, parent, Port.IDX);
-//    else
-//      removePort(sp, parent, Port.IDX);
+    private boolean idxUpdate(Sipo sipo) {
+      if (sipo.isIndex()) {
+        createInputPort(sipo, Port.IDX);
+      } else {
+        deleteInputPort(sipo, Port.IDX.getId());
+      }
       return true;
     }
   }
