@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.ruminaq.gui.TasksUtil;
-import org.ruminaq.model.desc.PortsDescrUtil;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.BasicTaskI;
@@ -43,7 +42,7 @@ public class MuxI extends BasicTaskI {
 
   @Override
   protected void execute(PortMap portIdData, int grp) {
-    if (grp == PortsDescrUtil.getGroup(Port.IDX)) {
+    if (grp == Port.IDX.getGroup()) {
       this.idx = portIdData.get(Port.IDX).get(Int32I.class).getValues()[0];
       logger.trace("Change index to {}", this.idx);
       LinkedList<DataI> d = idxDatas.get(new Integer(this.idx));
