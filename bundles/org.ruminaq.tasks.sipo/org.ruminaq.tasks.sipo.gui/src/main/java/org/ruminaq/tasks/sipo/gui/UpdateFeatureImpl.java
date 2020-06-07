@@ -206,12 +206,14 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       int n = sipo.isIndex() ? -Integer.parseInt(sipo.getSize())
           : Integer.parseInt(sipo.getSize()) - TasksUtil
               .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId()).size();
-      if (n > 0)
-        for (int i = 0; i < n; i++)
+      if (n > 0) {
+        for (int i = 0; i < n; i++) {
           createOutputPort(sipo, Port.OUT);
-      else if (n < 0)
+        }
+      } else if (n < 0) {
         for (int i = 0; i < -n; i++)
           deleteOutputPort(sipo, Port.OUT.getId());
+      }
       return true;
     }
 
