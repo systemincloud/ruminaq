@@ -146,7 +146,7 @@ public abstract class AbstractCreateTaskFeature
         .setId(
             Optional.of(pi).filter(p -> p.n() > 1 || p.n() == -1)
                 .map(p -> String.format("%s %d", p.id(), TasksUtil
-                    .getAllMutlipleInternalInputPorts(task, p.id()).size() + 1))
+                    .getAllMutlipleInternalOutputPorts(task, p.id()).size() + 1))
                 .orElseGet(() -> pi.id()));
     getDataTypes(field).forEach(outputPort.getDataType()::add);
 
