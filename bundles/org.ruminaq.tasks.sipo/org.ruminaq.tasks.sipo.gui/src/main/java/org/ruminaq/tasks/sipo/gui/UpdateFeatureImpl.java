@@ -22,6 +22,7 @@ import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.gui.model.diagram.TaskShape;
+import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.sipo.gui.UpdateFeatureImpl.UpdateFeature.Filter;
 import org.ruminaq.tasks.sipo.model.Port;
@@ -224,6 +225,11 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
         deleteInputPort(sipo, Port.IDX.getId());
       }
       return true;
+    }
+    
+    @Override
+    protected Class<? extends PortsDescr> getPortsDescription() {
+      return Port.class;
     }
   }
 }

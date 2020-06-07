@@ -107,7 +107,8 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
                 return TasksUtil.isMultiplePortId(id, pi.id());
               }
             }).isPresent())
-        .map(f -> f.getAnnotation(PortDiagram.class)).findFirst();
+        .map(f -> f.getAnnotation(PortDiagram.class)).filter(Objects::nonNull)
+        .findFirst();
   }
 
   private static int yOfPostion(TaskShape taskShape, Position position) {
@@ -254,7 +255,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .filter(f -> f.getName().equals(pd.name())).findFirst()
         .ifPresent(f -> AbstractCreateTaskFeature.createInputPort(task, f));
   }
-  
+
   protected void deleteInputPort(Task task, String id) {
     task.getInputPort().remove(task.getInputPort(id));
   }
@@ -264,7 +265,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .filter(f -> f.getName().equals(pd.name())).findFirst()
         .ifPresent(f -> AbstractCreateTaskFeature.createOutputPort(task, f));
   }
-  
+
   protected void deleteOutputPort(Task task, String id) {
     task.getOutputPort().remove(task.getOutputPort(id));
   }
@@ -300,8 +301,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 //                continue loop;
 //            id = in.id() + " " + k;
 //          }
-    
-
 
 //          String id = null;
 //          int k = -1;

@@ -38,12 +38,12 @@ public enum Port implements PortsDescr {
   TRIGGER,
 
   @PortInfo(portType = PortType.OUT, id = "Out", n = -1)
-  @PortDiagram(pos = Position.TOP)
+  @PortDiagram(pos = Position.BOTTOM)
   @PortData(type = DataType.class)
   OUT,
 
   @PortInfo(portType = PortType.OUT, id = "Out", opt = true)
-  @PortDiagram(pos = Position.TOP)
+  @PortDiagram(pos = Position.BOTTOM)
   @PortData(type = DataType.class)
   LOUT,
 
