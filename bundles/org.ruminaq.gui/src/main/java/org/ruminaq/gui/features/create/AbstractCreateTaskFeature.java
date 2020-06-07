@@ -91,9 +91,12 @@ public abstract class AbstractCreateTaskFeature
         .createInternalInputPort();
     PortInfo pi = field.getAnnotation(PortInfo.class);
 
-    inputPort.setId(Optional.of(pi).filter(p -> p.n() > 1 || p.n() == -1).map(p -> p.id()
-        + (TasksUtil.getAllMutlipleInternalInputPorts(task, p.id()).size() + 1))
-        .orElseGet(() -> pi.id()));
+    inputPort
+        .setId(
+            Optional.of(pi).filter(p -> p.n() > 1 || p.n() == -1)
+                .map(p -> String.format("%s %d", p.id(), TasksUtil
+                    .getAllMutlipleInternalInputPorts(task, p.id()).size() + 1))
+                .orElseGet(() -> pi.id()));
     inputPort.setAsynchronous(pi.asynchronous());
     inputPort.setGroup(portGroup(pi, task));
     inputPort.setDefaultHoldLast(pi.hold());
@@ -139,9 +142,12 @@ public abstract class AbstractCreateTaskFeature
         .createInternalOutputPort();
     PortInfo pi = field.getAnnotation(PortInfo.class);
 
-    outputPort.setId(Optional.of(pi).filter(p -> p.n() > 1 || p.n() == -1).map(p -> p.id()
-        + (TasksUtil.getAllMutlipleInternalInputPorts(task, p.id()).size() + 1))
-        .orElseGet(() -> pi.id()));
+    outputPort
+        .setId(
+            Optional.of(pi).filter(p -> p.n() > 1 || p.n() == -1)
+                .map(p -> String.format("%s %d", p.id(), TasksUtil
+                    .getAllMutlipleInternalInputPorts(task, p.id()).size() + 1))
+                .orElseGet(() -> pi.id()));
     getDataTypes(field).forEach(outputPort.getDataType()::add);
 
     task.getOutputPort().add(outputPort);

@@ -9,6 +9,7 @@ package org.ruminaq.tasks.sipo.gui;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
@@ -208,12 +209,10 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
           : Integer.parseInt(sipo.getSize()) - TasksUtil
               .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId()).size();
       if (n > 0) {
-        for (int i = 0; i < n; i++) {
-          createOutputPort(sipo, Port.OUT);
-        }
+        IntStream.range(0, n).forEach(i -> createOutputPort(sipo, Port.OUT));
       } else if (n < 0) {
-        for (int i = 0; i < -n; i++)
-          deleteOutputPort(sipo, Port.OUT.getId());
+        IntStream.range(0, n)
+            .forEach(i -> deleteOutputPort(sipo, Port.OUT.getId()));
       }
       return true;
     }
@@ -226,7 +225,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       }
       return true;
     }
-    
+
     @Override
     protected Class<? extends PortsDescr> getPortsDescription() {
       return Port.class;
