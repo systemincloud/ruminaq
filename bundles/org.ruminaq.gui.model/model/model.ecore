@@ -140,10 +140,18 @@
         <details key="body" value="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
       </eAnnotations>
     </eOperations>
+    <eOperations name="getChildren">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return org.eclipse.emf.common.util.ECollections.asEList(java.util.stream.Stream.concat(getInputPort().stream(), getOutputPort().stream()).collect(java.util.stream.Collectors.toList()));"/>
+      </eAnnotations>
+      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
+        <eTypeArguments eClassifier="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Shape"/>
+      </eGenericType>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inputPort" upperBound="-1"
-        eType="#//InternalInputPortShape"/>
+        eType="#//InternalInputPortShape" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outputPort" upperBound="-1"
-        eType="#//InternalOutputPortShape"/>
+        eType="#//InternalOutputPortShape" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="iconId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>

@@ -63,6 +63,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//TaskShape/description"/>
       <genOperations ecoreOperation="model.ecore#//TaskShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+      <genOperations ecoreOperation="model.ecore#//TaskShape/getChildren"
+          body="return org.eclipse.emf.common.util.ECollections.asEList(java.util.stream.Stream.concat(getInputPort().stream(), getOutputPort().stream()).collect(java.util.stream.Collectors.toList()));"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//SimpleConnectionShape">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//SimpleConnectionShape/source"/>

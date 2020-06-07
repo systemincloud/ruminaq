@@ -115,11 +115,11 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     switch (position) {
       default:
       case LEFT:
-        return 0;
+        return 1;
       case TOP:
         return 0;
       case RIGHT:
-        return 0;
+        return 1;
       case BOTTOM:
         return taskShape.getHeight() - InternalPortShapeGA.SIZE;
     }
@@ -131,11 +131,11 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
       case LEFT:
         return 0;
       case TOP:
-        return 0;
+        return 1;
       case RIGHT:
         return taskShape.getWidth() - InternalPortShapeGA.SIZE;
       case BOTTOM:
-        return 0;
+        return 1;
     }
   }
 
@@ -279,7 +279,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     Position position = portDiagram.map(PortDiagram::pos).orElse(Position.LEFT);
     InternalInputPortShape portShape = DiagramFactory.eINSTANCE
         .createInternalInputPortShape();
-    portShape.setContainer(taskShape);
+//    portShape.setContainer(taskShape);
     taskShape.getInputPort().add(portShape);
     portShape.setModelObject(p);
     portShape.setX(xOfPostion(taskShape, position));
@@ -336,7 +336,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .orElse(Position.RIGHT);
     InternalOutputPortShape portShape = DiagramFactory.eINSTANCE
         .createInternalOutputPortShape();
-    portShape.setContainer(taskShape);
+//    portShape.setContainer(taskShape);
     taskShape.getOutputPort().add(portShape);
     portShape.setModelObject(p);
     portShape.setX(xOfPostion(taskShape, position));
@@ -411,15 +411,13 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
       case RIGHT:
         distributePortsVertically(taskShape,
             ports.get().filter(p -> pos == getPosition(taskShape, p))
-                .collect(Collectors.toList()),
-            getFeatureProvider());
+                .collect(Collectors.toList()));
         break;
       case TOP:
       case BOTTOM:
         distributePortsHorizontally(taskShape,
             ports.get().filter(p -> pos == getPosition(taskShape, p))
-                .collect(Collectors.toList()),
-            getFeatureProvider());
+                .collect(Collectors.toList()));
         break;
       default:
         break;
@@ -427,7 +425,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   private static void distributePortsVertically(TaskShape taskShape,
-      List<InternalPortShape> ports, IFeatureProvider fp) {
+      List<InternalPortShape> ports) {
     ports.sort((p1, p2) -> Integer.compare(p1.getY(), p2.getY()));
     int stepPorts = taskShape.getHeight() / ports.size();
     int startPosition = (stepPorts >> 1) - (InternalPortShapeGA.SIZE >> 1);
@@ -437,7 +435,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   private static void distributePortsHorizontally(TaskShape taskShape,
-      List<InternalPortShape> ports, IFeatureProvider fp) {
+      List<InternalPortShape> ports) {
     ports.sort((p1, p2) -> Integer.compare(p1.getX(), p2.getX()));
     int stepPorts = taskShape.getWidth() / ports.size();
     int startPosition = (stepPorts >> 1) - (InternalPortShapeGA.SIZE >> 1);
