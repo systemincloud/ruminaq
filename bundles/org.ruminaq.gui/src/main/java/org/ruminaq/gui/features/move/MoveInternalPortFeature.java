@@ -9,11 +9,23 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.move.MoveInternalPortFeature.Filter;
 import org.ruminaq.gui.model.GuiUtil;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.InternalPort;
 
+@FeatureFilter(Filter.class)
 public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
 
   public static final int EPSILON = 10;
+  
+  public static class Filter extends AbstractMoveFeatureFilter {
+    @Override
+    public Class<? extends BaseElement> forBusinessObject() {
+      return InternalPort.class;
+    }
+  }
 
   public MoveInternalPortFeature(IFeatureProvider fp) {
     super(fp);
@@ -23,10 +35,10 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
   public boolean canMoveShape(IMoveShapeContext context) {
     boolean ret = true;
 
-    ret = ret && context.getSourceContainer() != null;
-    ret = ret
-        && context.getSourceContainer().equals(context.getTargetContainer());
-    ret = ret && isOnBound(context);
+//    ret = ret && context.getSourceContainer() != null;
+//    ret = ret
+//        && context.getSourceContainer().equals(context.getTargetContainer());
+//    ret = ret && isOnBound(context);
 
     return ret;
   }
