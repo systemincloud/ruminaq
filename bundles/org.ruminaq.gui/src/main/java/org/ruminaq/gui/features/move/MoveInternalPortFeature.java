@@ -63,10 +63,9 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
     int newX = ips.getX() + context.getDeltaX();
     int newY = ips.getY() + context.getDeltaY();
 
-    if (newY < 0 || newX < 0)
+    if (newY < 0 || newX < 0 || newY + h > H || newX + w > W) {
       return false;
-    if (newY + h > H || newX + w > W)
-      return false;
+    }
 
     return newX < EPSILON || GuiUtil.almostEqualRight(W - w, newX, EPSILON)
         || newY < EPSILON || GuiUtil.almostEqualRight(H - h, newY, EPSILON);
