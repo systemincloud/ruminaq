@@ -33,16 +33,6 @@
         upperBound="-1" eType="#//DataType" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Task" abstract="true" eSuperTypes="#//BaseElement">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="atomic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="looped" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="outputPort" upperBound="-1"
-        eType="#//InternalOutputPort" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="inputPort" upperBound="-1"
-        eType="#//InternalInputPort" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="onlyLocalUser" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="false"/>
     <eOperations name="getInputPort" eType="#//InternalInputPort">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return getInputPort().stream().filter(ip -> ip.getId().equals(id)).findFirst().orElse(null);"/>
@@ -55,6 +45,16 @@
       </eAnnotations>
       <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="atomic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="looped" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputPort" upperBound="-1"
+        eType="#//InternalOutputPort" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inputPort" upperBound="-1"
+        eType="#//InternalInputPort" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="onlyLocalUser" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Port" abstract="true" eSuperTypes="#//BaseElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="InternalInputPort" eSuperTypes="#//InternalPort #//FlowTarget">

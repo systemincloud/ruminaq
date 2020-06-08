@@ -18,7 +18,7 @@ public class MoveFeatureImpl implements MoveShapeFeatureExtension {
 
   @Override
   public List<Class<? extends IMoveShapeFeature>> getFeatures() {
-    return Arrays.asList(MoveLabelFeature.class, //MoveInternalPortFeature.class,
+    return Arrays.asList(MoveLabelFeature.class, MoveInternalPortFeature.class,
         MoveElementFeature.class);
   }
 }
