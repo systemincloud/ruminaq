@@ -14,6 +14,7 @@ import org.ruminaq.runner.impl.InternalInputPortI;
 import org.ruminaq.runner.impl.PortMap;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.impl.data.Int32I;
+import org.ruminaq.tasks.mux.model.MuxPort;
 import org.ruminaq.tasks.mux.model.mux.Mux;
 import ch.qos.logback.classic.Logger;
 
@@ -35,31 +36,31 @@ public class MuxI extends BasicTaskI {
 
     int i = 0;
     for (Entry<String, InternalInputPortI> iip : internalInputPorts.entrySet())
-      if (TasksUtil.isMultiplePortId(iip.getKey(), Port.IN))
+      if (TasksUtil.isMultiplePortId(iip.getKey(), MuxPort.IN))
         this.idxDatas.put(new Integer(i++), new LinkedList<DataI>());
     logger.trace("Mux has {} input ports", this.idxDatas.size());
   }
 
   @Override
   protected void execute(PortMap portIdData, int grp) {
-    if (grp == Port.IDX.getGroup()) {
-      this.idx = portIdData.get(Port.IDX).get(Int32I.class).getValues()[0];
+    if (grp == MuxPort.IDX.getGroup()) {
+      this.idx = portIdData.get(MuxPort.IDX).get(Int32I.class).getValues()[0];
       logger.trace("Change index to {}", this.idx);
       LinkedList<DataI> d = idxDatas.get(new Integer(this.idx));
       if (d != null) {
         if (d.size() > 0)
           while (d.size() > 0)
-            putData(Port.OUT, d.remove(0));
+            putData(MuxPort.OUT, d.remove(0));
       }
       if (!intialized)
         intialized = true;
     } else {
       String portId = portIdData.keySet().iterator().next();
       DataI data = portIdData.get(portId);
-      int idx = TasksUtil.getMultiplePortIdIdx(portId, Port.IN);
+      int idx = TasksUtil.getMultiplePortIdIdx(portId, MuxPort.IN);
       logger.trace("Data received on {}", idx);
       if (idx == this.idx && intialized)
-        putData(Port.OUT, portIdData.values().iterator().next());
+        putData(MuxPort.OUT, portIdData.values().iterator().next());
       else {
         List<DataI> datas = idxDatas.get(new Integer(idx));
 

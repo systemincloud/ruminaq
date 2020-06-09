@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.mux;
+package org.ruminaq.tasks.mux.gui;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.FeatureFilter;
@@ -6,8 +6,8 @@ import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.tasks.demux.impl.Port;
-import org.ruminaq.tasks.mux.AddDemuxFeature.Filter;
+import org.ruminaq.tasks.mux.gui.AddDemuxFeature.Filter;
+import org.ruminaq.tasks.mux.model.DemuxPort;
 import org.ruminaq.tasks.mux.model.mux.Demux;
 
 /**

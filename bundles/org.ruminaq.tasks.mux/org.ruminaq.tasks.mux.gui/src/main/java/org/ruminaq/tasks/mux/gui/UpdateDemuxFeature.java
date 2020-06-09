@@ -4,24 +4,37 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.mux;
+package org.ruminaq.tasks.mux.gui;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
+import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
-import org.ruminaq.tasks.demux.impl.Port;
+import org.ruminaq.model.desc.PortsDescr;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.tasks.mux.model.MuxPort;
 import org.ruminaq.tasks.mux.model.mux.Demux;
+import org.ruminaq.tasks.mux.gui.UpdateDemuxFeature.Filter;
 
 /**
  * Service UpdateFeatureExtension implementation.
  *
  * @author Marek Jagielski
  */
+@FeatureFilter(Filter.class)
 public class UpdateDemuxFeature extends UpdateTaskFeature {
 
+  public static class Filter extends AbstractUpdateFeatureFilter {
+    @Override
+    public Class<? extends BaseElement> forBusinessObject() {
+      return Demux.class;
+    }
+  }
+  
   private boolean updateNeededChecked = false;
 
   private boolean superUpdateNeeded = false;
@@ -82,5 +95,10 @@ public class UpdateDemuxFeature extends UpdateTaskFeature {
 //        removePort(dmx, parent, Port.OUT);
 
     return true;
+  }
+  
+  @Override
+  protected Class<? extends PortsDescr> getPortsDescription() {
+    return MuxPort.class;
   }
 }

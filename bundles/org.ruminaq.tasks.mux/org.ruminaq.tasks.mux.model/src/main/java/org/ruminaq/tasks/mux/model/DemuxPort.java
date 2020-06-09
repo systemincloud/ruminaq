@@ -4,32 +4,30 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.mux.impl;
+package org.ruminaq.tasks.mux.model;
 
 import org.ruminaq.gui.model.PortDiagram;
 import org.ruminaq.gui.model.Position;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.DataType;
-import org.ruminaq.model.ruminaq.NGroup;
 import org.ruminaq.model.ruminaq.PortData;
 import org.ruminaq.model.ruminaq.PortInfo;
 import org.ruminaq.model.ruminaq.PortType;
 import org.ruminaq.model.ruminaq.dt.Int32;
 
-public enum Port implements PortsDescr {
+public enum DemuxPort implements PortsDescr {
 
-  @PortInfo(portType = PortType.IN, id = "In", group = 1, n = -1,
-      ngroup = NGroup.DIFFERENT)
+  @PortInfo(portType = PortType.IN, id = "In", group = 1)
+  @PortDiagram(label = false, pos = Position.LEFT)
   @PortData(type = DataType.class)
   IN,
 
   @PortInfo(portType = PortType.IN, id = "Idx", group = 0)
-  @PortDiagram(pos = Position.BOTTOM, label = false)
+  @PortDiagram(label = false, pos = Position.BOTTOM)
   @PortData(type = Int32.class)
   IDX,
 
-  @PortInfo(portType = PortType.OUT, id = "Out")
-  @PortDiagram(label = false)
+  @PortInfo(portType = PortType.OUT, id = "Out", n = -1)
   @PortData(type = DataType.class)
   OUT;
 }

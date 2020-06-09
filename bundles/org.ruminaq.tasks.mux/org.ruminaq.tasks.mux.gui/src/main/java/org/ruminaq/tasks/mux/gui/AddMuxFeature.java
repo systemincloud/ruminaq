@@ -4,14 +4,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.mux;
+package org.ruminaq.tasks.mux.gui;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.tasks.mux.AddMuxFeature.Filter;
+import org.ruminaq.tasks.mux.gui.AddMuxFeature.Filter;
 import org.ruminaq.tasks.mux.model.mux.Mux;
 
 @FeatureFilter(Filter.class)

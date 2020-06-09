@@ -17,6 +17,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.impl,
  org.ruminaq.runner.impl.data,
  org.ruminaq.runner.service,
+ org.ruminaq.tasks.mux.model,
  org.ruminaq.tasks.mux.model.mux,
  org.ruminaq.util,
  org.slf4j

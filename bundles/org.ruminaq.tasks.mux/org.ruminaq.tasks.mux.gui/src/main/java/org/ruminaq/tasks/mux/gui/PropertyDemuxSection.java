@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.mux;
+package org.ruminaq.tasks.mux.gui;
 
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.impl.InternalTransaction;
@@ -18,17 +18,15 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Spinner;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
-import org.ruminaq.tasks.mux.model.mux.Mux;
+import org.ruminaq.tasks.mux.model.mux.Demux;
 
-public class PropertyMuxSection implements IPropertySection {
+public class PropertyDemuxSection implements IPropertySection {
 
   private Composite root;
-  private CLabel lblNbInputs;
-  private Spinner spnNbInputs;
-  private CLabel lblPortBuffer;
-  private Spinner spnPortBuffer;
+  private CLabel lblNbOutputs;
+  private Spinner spnNbOutputs;
 
-  public PropertyMuxSection(Composite parent, PictogramElement pe,
+  public PropertyDemuxSection(Composite parent, PictogramElement pe,
       TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
     initLayout(parent);
     initComponents();
@@ -43,23 +41,18 @@ public class PropertyMuxSection implements IPropertySection {
     root = new Composite(parent, SWT.NULL);
     root.setLayout(new GridLayout(2, false));
 
-    lblNbInputs = new CLabel(root, SWT.NONE);
-    spnNbInputs = new Spinner(root, SWT.BORDER);
-
-    lblPortBuffer = new CLabel(root, SWT.NONE);
-    spnPortBuffer = new Spinner(root, SWT.BORDER);
+    lblNbOutputs = new CLabel(root, SWT.NONE);
+    spnNbOutputs = new Spinner(root, SWT.BORDER);
   }
 
   private void initComponents() {
-    lblNbInputs.setText("Nb of inputs:");
-    spnNbInputs.setMinimum(2);
-    lblPortBuffer.setText("Input port buffer:");
-    spnPortBuffer.setMinimum(0);
+    lblNbOutputs.setText("Nb of outputs:");
+    spnNbOutputs.setMinimum(2);
   }
 
   private void initActions(final PictogramElement pe,
       final TransactionalEditingDomain ed, final IDiagramTypeProvider dtp) {
-    spnNbInputs.addSelectionListener(new SelectionAdapter() {
+    spnNbOutputs.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent se) {
         ModelUtil.runModelChange(new Runnable() {
@@ -72,9 +65,9 @@ public class PropertyMuxSection implements IPropertySection {
               return;
             if (bo == null)
               return;
-            if (bo instanceof Mux) {
-              Mux element = (Mux) bo;
-              element.setSize(spnNbInputs.getSelection());
+            if (bo instanceof Demux) {
+              Demux element = (Demux) bo;
+              element.setSize(spnNbOutputs.getSelection());
               UpdateContext context = new UpdateContext(pe);
               dtp.getFeatureProvider().updateIfPossible(context);
             }
@@ -83,38 +76,13 @@ public class PropertyMuxSection implements IPropertySection {
         refresh(pe, ed);
       }
     });
-    spnPortBuffer.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent se) {
-        ModelUtil.runModelChange(new Runnable() {
-          public void run() {
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
-                .getActiveTransaction();
-            if (a == null || a.isReadOnly() == true)
-              return;
-            if (bo == null)
-              return;
-            if (bo instanceof Mux) {
-              Mux element = (Mux) bo;
-              element.setPortBuffer(spnPortBuffer.getSelection());
-            }
-          }
-        }, ed, "Model Update");
-      }
-    });
   }
 
   private void addStyles() {
     root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    lblNbInputs
+    lblNbOutputs
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    spnNbInputs
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    lblPortBuffer
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    spnPortBuffer
+    spnNbOutputs
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
@@ -125,9 +93,8 @@ public class PropertyMuxSection implements IPropertySection {
           .getBusinessObjectForLinkedPictogramElement(pe);
       if (bo == null)
         return;
-      Mux m = (Mux) bo;
-      spnNbInputs.setSelection(m.getSize());
-      spnPortBuffer.setSelection(m.getPortBuffer());
+      Demux m = (Demux) bo;
+      spnNbOutputs.setSelection(m.getSize());
     }
   }
 }

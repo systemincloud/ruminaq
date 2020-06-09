@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.mux;
+package org.ruminaq.tasks.mux.gui;
 
 import java.util.Arrays;
 import java.util.List;
