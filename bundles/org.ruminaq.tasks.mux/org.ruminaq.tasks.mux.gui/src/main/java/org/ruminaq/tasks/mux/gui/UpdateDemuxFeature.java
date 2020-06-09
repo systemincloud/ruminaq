@@ -75,7 +75,7 @@ public class UpdateDemuxFeature extends UpdateTaskFeature {
   }
 
   private boolean outputsUpdate(Demux demux) {
-    int n = demux.getSize() - demux.getInputPort().size() + 1;
+    int n = demux.getSize() - demux.getOutputPort().size();
     if (n > 0) {
       IntStream.range(0, n)
           .forEach(i -> createOutputPort(demux, DemuxPort.OUT));
