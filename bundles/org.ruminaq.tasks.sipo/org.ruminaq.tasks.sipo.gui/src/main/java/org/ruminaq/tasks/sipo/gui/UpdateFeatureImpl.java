@@ -72,7 +72,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       }
     }
 
-    private boolean clkUpdateNeeded(Sipo sipo) {
+    private static boolean clkUpdateNeeded(Sipo sipo) {
       if (sipo.isClock()) {
         return sipo.getInputPort(Port.CLK.getId()) == null;
       } else {
@@ -80,7 +80,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       }
     }
 
-    private boolean idxUpdateNeeded(Sipo sipo) {
+    private static boolean idxUpdateNeeded(Sipo sipo) {
       if (sipo.isIndex()) {
         return sipo.getInputPort(Port.IDX.getId()) == null;
       } else {
@@ -88,7 +88,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       }
     }
 
-    private boolean trgUpdateNeeded(Sipo sipo) {
+    private static boolean trgUpdateNeeded(Sipo sipo) {
       if (sipo.isTrigger() && !sipo.isIndex()) {
         return sipo.getInputPort(Port.TRIGGER.getId()) == null;
       } else {
@@ -96,11 +96,11 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       }
     }
 
-    private boolean sizeUpdateNeeded(Sipo sipo) {
+    private static boolean sizeUpdateNeeded(Sipo sipo) {
       if (sipo.isIndex()) {
-        return TasksUtil
+        return !TasksUtil
             .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId())
-            .size() != 0;
+            .isEmpty();
       } else {
         return TasksUtil
             .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId())
@@ -108,7 +108,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       }
     }
 
-    private boolean lastUpdateNeeded(Sipo sipo) {
+    private static boolean lastUpdateNeeded(Sipo sipo) {
       if (sipo.isIndex()) {
         return sipo.getOutputPort(Port.LOUT.getId()) == null;
       } else {
@@ -116,7 +116,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       }
     }
 
-    private boolean sizeOutUpdateNeeded(Sipo sipo) {
+    private static boolean sizeOutUpdateNeeded(Sipo sipo) {
       if (sipo.isSizeOut()) {
         return sipo.getOutputPort(Port.SIZE.getId()) == null;
       } else {
@@ -127,7 +127,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
     @Override
     public boolean update(IUpdateContext context) {
       Sipo sipo = modelFromContext(context, Sipo.class)
-          .orElseThrow(() -> new RuntimeException());
+          .orElseThrow(RuntimeException::new);
 
       boolean updated = false;
 
@@ -204,7 +204,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
               .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId()).size();
       if (n > 0) {
         IntStream.range(0, n).forEach(i -> createOutputPort(sipo, Port.OUT));
-      } else if (n < 0) {
+      } else {
         IntStream.range(0, n)
             .forEach(i -> deleteOutputPort(sipo, Port.OUT.getId()));
       }
