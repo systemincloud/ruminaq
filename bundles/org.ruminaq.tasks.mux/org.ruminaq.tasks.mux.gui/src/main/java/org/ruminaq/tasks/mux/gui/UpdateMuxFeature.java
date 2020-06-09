@@ -42,8 +42,8 @@ public class UpdateMuxFeature extends UpdateTaskFeature {
 
   @Override
   public IReason updateNeeded(IUpdateContext context) {
-    Mux mux = modelFromShape(UpdateTaskFeature.shapeFromContext(context),
-        Mux.class).orElseThrow(() -> new RuntimeException());
+    Mux mux = modelFromContext(context, Mux.class)
+        .orElseThrow(() -> new RuntimeException());
 
     if (super.updateNeeded(context).toBoolean() || inputsUpdateNeeded(mux)) {
       return Reason.createTrueReason();
@@ -58,8 +58,8 @@ public class UpdateMuxFeature extends UpdateTaskFeature {
 
   @Override
   public boolean update(IUpdateContext context) {
-    Mux mux = modelFromShape(UpdateTaskFeature.shapeFromContext(context),
-        Mux.class).orElseThrow(() -> new RuntimeException());
+    Mux mux = modelFromContext(context, Mux.class)
+        .orElseThrow(() -> new RuntimeException());
 
     boolean updated = false;
 

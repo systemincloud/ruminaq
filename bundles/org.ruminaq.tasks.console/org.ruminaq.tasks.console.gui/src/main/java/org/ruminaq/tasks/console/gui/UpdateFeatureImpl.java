@@ -52,11 +52,6 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       }
     }
 
-    private static Console consoleFromContext(IUpdateContext context) {
-      return modelFromShape(UpdateTaskFeature.shapeFromContext(context),
-          Console.class).orElseThrow(() -> new RuntimeException());
-    }
-
     public UpdateFeature(IFeatureProvider fp) {
       super(fp);
     }
@@ -71,7 +66,8 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
     }
 
     private boolean inputUpdateNeeded(IUpdateContext context) {
-      Console console = consoleFromContext(context);
+      Console console = modelFromContext(context, Console.class)
+          .orElseThrow(() -> new RuntimeException());
       ConsoleType type = console.getConsoleType();
       if (type == ConsoleType.IN || type == ConsoleType.INOUT) {
         return console.getInputPort().size() != 1;
@@ -81,7 +77,8 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
     }
 
     private boolean outputUpdateNeeded(IUpdateContext context) {
-      Console console = consoleFromContext(context);
+      Console console = modelFromContext(context, Console.class)
+          .orElseThrow(() -> new RuntimeException());
       ConsoleType type = console.getConsoleType();
       if (type == ConsoleType.OUT || type == ConsoleType.INOUT) {
         return console.getOutputPort().size() != 1;

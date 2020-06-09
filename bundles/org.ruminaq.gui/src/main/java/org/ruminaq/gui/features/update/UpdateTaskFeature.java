@@ -85,6 +85,11 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     return modelFromShape(taskShape).filter(type::isInstance).map(type::cast);
   }
 
+  protected static <T> Optional<T> modelFromContext(IUpdateContext context,
+      Class<T> type) {
+    return modelFromShape(UpdateTaskFeature.shapeFromContext(context), type);
+  }
+
   private static <T extends InternalPortShape, K extends InternalPort> List<K> internalPortFromShape(
       List<T> portShapes, Class<K> type) {
     return portShapes.stream().map(InternalPortShape::getModelObject)

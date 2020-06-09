@@ -59,8 +59,8 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     @Override
     public IReason updateNeeded(IUpdateContext context) {
-      Sipo sipo = modelFromShape(UpdateTaskFeature.shapeFromContext(context),
-          Sipo.class).orElseThrow(() -> new RuntimeException());
+      Sipo sipo = modelFromContext(context, Sipo.class)
+          .orElseThrow(() -> new RuntimeException());
 
       if (super.updateNeeded(context).toBoolean() || clkUpdateNeeded(sipo)
           || idxUpdateNeeded(sipo) || trgUpdateNeeded(sipo)
@@ -126,8 +126,8 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     @Override
     public boolean update(IUpdateContext context) {
-      Sipo sipo = modelFromShape(UpdateTaskFeature.shapeFromContext(context),
-          Sipo.class).orElseThrow(() -> new RuntimeException());
+      Sipo sipo = modelFromContext(context, Sipo.class)
+          .orElseThrow(() -> new RuntimeException());
 
       boolean updated = false;
 

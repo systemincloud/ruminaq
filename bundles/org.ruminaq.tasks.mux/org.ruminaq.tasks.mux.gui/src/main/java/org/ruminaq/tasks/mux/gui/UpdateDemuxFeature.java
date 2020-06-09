@@ -42,8 +42,8 @@ public class UpdateDemuxFeature extends UpdateTaskFeature {
 
   @Override
   public IReason updateNeeded(IUpdateContext context) {
-    Demux demux = modelFromShape(UpdateTaskFeature.shapeFromContext(context),
-        Demux.class).orElseThrow(() -> new RuntimeException());
+    Demux demux = modelFromContext(context, Demux.class)
+        .orElseThrow(() -> new RuntimeException());
 
     if (super.updateNeeded(context).toBoolean() || outputsUpdateNeeded(demux)) {
       return Reason.createTrueReason();
@@ -55,11 +55,11 @@ public class UpdateDemuxFeature extends UpdateTaskFeature {
   private boolean outputsUpdateNeeded(Demux demux) {
     return demux.getSize() != demux.getOutputPort().size();
   }
-  
+
   @Override
   public boolean update(IUpdateContext context) {
-    Demux demux = modelFromShape(UpdateTaskFeature.shapeFromContext(context),
-        Demux.class).orElseThrow(() -> new RuntimeException());
+    Demux demux = modelFromContext(context, Demux.class)
+        .orElseThrow(() -> new RuntimeException());
 
     boolean updated = false;
 
@@ -77,14 +77,15 @@ public class UpdateDemuxFeature extends UpdateTaskFeature {
   private boolean outputsUpdate(Demux demux) {
     int n = demux.getSize() - demux.getInputPort().size() + 1;
     if (n > 0) {
-      IntStream.range(0, n).forEach(i -> createOutputPort(demux, DemuxPort.OUT));
+      IntStream.range(0, n)
+          .forEach(i -> createOutputPort(demux, DemuxPort.OUT));
     } else if (n < 0) {
       IntStream.range(0, n)
           .forEach(i -> deleteOutputPort(demux, DemuxPort.OUT.getId()));
     }
     return true;
   }
-  
+
   @Override
   protected Class<? extends PortsDescr> getPortsDescription() {
     return DemuxPort.class;
