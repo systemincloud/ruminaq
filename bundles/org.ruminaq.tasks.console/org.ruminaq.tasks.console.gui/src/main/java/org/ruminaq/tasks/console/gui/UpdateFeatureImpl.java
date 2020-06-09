@@ -8,7 +8,6 @@ package org.ruminaq.tasks.console.gui;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
@@ -20,7 +19,6 @@ import org.ruminaq.gui.api.UpdateFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
-import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.console.gui.UpdateFeatureImpl.UpdateFeature.Filter;
@@ -54,15 +52,9 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       }
     }
 
-    private static Optional<Console> consoleFromShape(
-        Optional<TaskShape> taskShape) {
-      return UpdateTaskFeature.modelFromShape(taskShape)
-          .filter(Console.class::isInstance).map(Console.class::cast);
-    }
-
     private static Console consoleFromContext(IUpdateContext context) {
-      return consoleFromShape(UpdateTaskFeature.shapeFromContext(context))
-          .orElseThrow(() -> new RuntimeException());
+      return modelFromShape(UpdateTaskFeature.shapeFromContext(context),
+          Console.class).orElseThrow(() -> new RuntimeException());
     }
 
     public UpdateFeature(IFeatureProvider fp) {
@@ -100,8 +92,8 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     @Override
     public boolean update(IUpdateContext context) {
-      Console console = consoleFromShape(
-          UpdateTaskFeature.shapeFromContext(context))
+      Console console = modelFromShape(
+          UpdateTaskFeature.shapeFromContext(context), Console.class)
               .orElseThrow(() -> new RuntimeException());
 
       boolean updated = false;

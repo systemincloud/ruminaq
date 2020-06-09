@@ -8,7 +8,6 @@ package org.ruminaq.tasks.sipo.gui;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.IntStream;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -22,7 +21,6 @@ import org.ruminaq.gui.api.UpdateFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
-import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.tasks.sipo.gui.UpdateFeatureImpl.UpdateFeature.Filter;
@@ -55,19 +53,14 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       }
     }
 
-    private static Optional<Sipo> sipoFromShape(Optional<TaskShape> taskShape) {
-      return UpdateTaskFeature.modelFromShape(taskShape)
-          .filter(Sipo.class::isInstance).map(Sipo.class::cast);
-    }
-
     public UpdateFeature(IFeatureProvider fp) {
       super(fp);
     }
 
     @Override
     public IReason updateNeeded(IUpdateContext context) {
-      Sipo sipo = sipoFromShape(UpdateTaskFeature.shapeFromContext(context))
-          .orElseThrow(() -> new RuntimeException());
+      Sipo sipo = modelFromShape(UpdateTaskFeature.shapeFromContext(context),
+          Sipo.class).orElseThrow(() -> new RuntimeException());
 
       if (super.updateNeeded(context).toBoolean() || clkUpdateNeeded(sipo)
           || idxUpdateNeeded(sipo) || trgUpdateNeeded(sipo)
@@ -133,8 +126,8 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     @Override
     public boolean update(IUpdateContext context) {
-      Sipo sipo = sipoFromShape(UpdateTaskFeature.shapeFromContext(context))
-          .orElseThrow(() -> new RuntimeException());
+      Sipo sipo = modelFromShape(UpdateTaskFeature.shapeFromContext(context),
+          Sipo.class).orElseThrow(() -> new RuntimeException());
 
       boolean updated = false;
 
@@ -190,8 +183,9 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
     private boolean lastUpdate(Sipo sipo) {
       if (sipo.isIndex()) {
         createOutputPort(sipo, Port.LOUT);
-      } else
+      } else {
         deleteOutputPort(sipo, Port.LOUT.getId());
+      }
       return true;
     }
 

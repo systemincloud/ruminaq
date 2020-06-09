@@ -29,7 +29,7 @@ public enum MuxPort implements PortsDescr {
   IDX,
 
   @PortInfo(portType = PortType.OUT, id = "Out")
-  @PortDiagram(label = false)
+  @PortDiagram(pos = Position.RIGHT, label = false)
   @PortData(type = DataType.class)
   OUT;
 }

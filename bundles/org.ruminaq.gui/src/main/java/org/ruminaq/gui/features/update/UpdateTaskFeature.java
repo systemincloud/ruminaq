@@ -80,6 +80,11 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .filter(Task.class::isInstance).map(Task.class::cast);
   }
 
+  protected static <T> Optional<T> modelFromShape(Optional<TaskShape> taskShape,
+      Class<T> type) {
+    return modelFromShape(taskShape).filter(type::isInstance).map(type::cast);
+  }
+
   private static <T extends InternalPortShape, K extends InternalPort> List<K> internalPortFromShape(
       List<T> portShapes, Class<K> type) {
     return portShapes.stream().map(InternalPortShape::getModelObject)
