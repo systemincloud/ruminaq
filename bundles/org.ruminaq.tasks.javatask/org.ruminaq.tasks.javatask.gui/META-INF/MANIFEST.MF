@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Automatic-Module-Name: org.ruminaq.tasks.javatask.gui
 Bundle-Name: Ruminaq - Tasks - JavaTask
-Bundle-SymbolicName: org.ruminaq.tasks.javatask.gui
+Bundle-SymbolicName: org.ruminaq.tasks.javatask.gui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Marek Jagielski
 Bundle-RequiredExecutionEnvironment: JavaSE-11
@@ -52,6 +52,7 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.jdt.launching,
  org.eclipse.jdt.ui,
  org.eclipse.jdt.ui.dialogs,
+ org.eclipse.jdt.ui.wizards,
  org.eclipse.jface.dialogs,
  org.eclipse.jface.text,
  org.eclipse.jface.viewers,
@@ -102,8 +103,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.javatask.ui,
  org.ruminaq.tasks.javatask.ui.wizards,
  org.ruminaq.tasks.userdefined,
- org.ruminaq.tasks.userdefined.model.userdefined,
- org.ruminaq.tasks.userdefined.wizards,
  org.ruminaq.util,
  org.slf4j
 Export-Package: org.ruminaq.tasks.javatask.gui,
@@ -111,7 +110,6 @@ Export-Package: org.ruminaq.tasks.javatask.gui,
 Bundle-ClassPath: .
 Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.gui.ContextButtonPadTool.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.TaskUiApi.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.CreateFeaturesImpl.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.Images.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.AddFeatureImpl.xml

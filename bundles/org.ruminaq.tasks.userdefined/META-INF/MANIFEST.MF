@@ -62,7 +62,6 @@ Import-Package: ch.qos.logback.classic,
  org.slf4j
 Export-Package: org.ruminaq.tasks.userdefined,
  org.ruminaq.tasks.userdefined.cmd,
- org.ruminaq.tasks.userdefined.properties,
- org.ruminaq.tasks.userdefined.wizards
+ org.ruminaq.tasks.userdefined.properties
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11

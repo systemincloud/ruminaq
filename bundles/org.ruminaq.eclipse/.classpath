@@ -15,6 +15,7 @@
 			<accessrule kind="accessible" pattern="org/eclipse/osgi/framework/util/*"/>
 		</accessrules>
 	</classpathentry>
+    <classpathentry kind="src" path="target/generated-sources/emf/src/main/java"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry exported="true" kind="lib" path="swing2swt.jar"/>

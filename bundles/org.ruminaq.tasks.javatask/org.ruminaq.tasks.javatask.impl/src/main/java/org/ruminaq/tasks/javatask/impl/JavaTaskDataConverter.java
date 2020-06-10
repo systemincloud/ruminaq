@@ -34,8 +34,8 @@ import org.ruminaq.tasks.javatask.impl.service.JavaTaskServiceManager;
 public enum JavaTaskDataConverter {
   INSTANCE;
 
-  @Reference
-  private JavaTaskExtensionHandler extensions;
+//  @Reference
+//  private JavaTaskExtensionHandler extensions;
 
   public List<Class<? extends Data>> getJavaTaskDatas() {
     List<Class<? extends Data>> ret = new LinkedList<>();
@@ -50,7 +50,7 @@ public enum JavaTaskDataConverter {
     ret.add(Float64.class);
     ret.add(Raw.class);
     ret.add(Text.class);
-    ret.addAll(extensions.getJavaTaskDatas());
+//    ret.addAll(extensions.getJavaTaskDatas());
     return ret;
   }
 

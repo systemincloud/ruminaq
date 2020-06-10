@@ -63,7 +63,6 @@
     <module>org.ruminaq.tasks.rtask</module>
     <module>org.ruminaq.tasks.sipo</module>
     <module>org.ruminaq.tasks.userdefined</module>
-    <module>org.ruminaq.tasks.userdefined.model</module>
     <module>org.ruminaq.upgrade</module>
     <module>org.ruminaq.util</module>
     <module>org.ruminaq.validation</module>

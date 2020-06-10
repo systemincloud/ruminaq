@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.userdefined.wizards;
+package org.ruminaq.eclipse.wizards.task;
 
 import java.text.Collator;
 import java.util.Locale;

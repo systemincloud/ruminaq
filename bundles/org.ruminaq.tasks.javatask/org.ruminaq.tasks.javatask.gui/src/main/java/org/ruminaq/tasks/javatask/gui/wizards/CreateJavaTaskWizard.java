@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.javatask.ui.wizards;
+package org.ruminaq.tasks.javatask.gui.wizards;
 
 import java.lang.reflect.Field;
 
@@ -15,18 +15,15 @@ import org.eclipse.jdt.internal.ui.wizards.NewClassCreationWizard;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
-import org.osgi.service.component.annotations.Reference;
-import org.ruminaq.tasks.javatask.ui.IJavaTaskUiApi;
+import org.ruminaq.tasks.javatask.ui.wizards.CreateJavaTaskListener;
+import org.ruminaq.tasks.javatask.ui.wizards.CustomNewClassWizardPage;
 
 @SuppressWarnings("restriction")
 public class CreateJavaTaskWizard extends NewClassCreationWizard {
 
-  public static final String ID = "org.ruminaq.tasks.javatask.ui.wizards.CreateJavaTaskWizard";
+  public static final String ID = "org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard";
 
-  @Reference
-  private IJavaTaskUiApi ijtua;
-
-  private ICreateJavaTaskPage cjtp;
+  private CreateJavaTaskPage cjtp = new CreateJavaTaskPage("Ruminaq - Java Task");
 
   private IStructuredSelection selection = null;
   private CreateJavaTaskListener listener = null;
@@ -47,17 +44,17 @@ public class CreateJavaTaskWizard extends NewClassCreationWizard {
       fPageF.setAccessible(true);
       fPage = new CustomNewClassWizardPage();
       fPage.setWizard(this);
-      if (selection == null)
+      if (selection == null) {
         fPage.init(getSelection());
-      else
+      } else {
         fPage.init(selection);
+      }
       fPageF.set(this, fPage);
       addPage(fPage);
     } catch (IllegalArgumentException | IllegalAccessException
         | NoSuchFieldException | SecurityException e) {
       super.addPages();
     }
-    cjtp = ijtua.getCreateJavaTaskPage();
     addPage(cjtp);
   }
 

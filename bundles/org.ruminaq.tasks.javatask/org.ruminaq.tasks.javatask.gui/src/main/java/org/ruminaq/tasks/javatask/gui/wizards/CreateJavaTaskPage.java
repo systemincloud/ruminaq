@@ -35,6 +35,7 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
+import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskPage;
 import org.ruminaq.tasks.javatask.client.InputPort;
 import org.ruminaq.tasks.javatask.client.JavaTask;
 import org.ruminaq.tasks.javatask.client.OutputPort;
@@ -45,15 +46,12 @@ import org.ruminaq.tasks.javatask.client.annotations.SicParameter;
 import org.ruminaq.tasks.javatask.client.annotations.SicParameters;
 import org.ruminaq.tasks.javatask.client.data.Data;
 import org.ruminaq.tasks.javatask.impl.JavaTaskDataConverter;
-import org.ruminaq.tasks.javatask.ui.wizards.ICreateJavaTaskPage;
 import org.ruminaq.tasks.userdefined.model.userdefined.In;
 import org.ruminaq.tasks.userdefined.model.userdefined.Module;
 import org.ruminaq.tasks.userdefined.model.userdefined.Out;
 import org.ruminaq.tasks.userdefined.model.userdefined.Parameter;
-import org.ruminaq.tasks.userdefined.wizards.CreateUserDefinedTaskPage;
 
-public class CreateJavaTaskPage extends CreateUserDefinedTaskPage
-    implements ICreateJavaTaskPage {
+public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
 
   public CreateJavaTaskPage(String pageName) {
     super(pageName);
@@ -68,7 +66,6 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage
       cmb.add(c.getSimpleName());
   }
 
-  @Override
   @SuppressWarnings({ "unchecked" })
   public void decorateType(final IType type, final Module module) {
     try {

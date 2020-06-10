@@ -2,11 +2,11 @@ package org.ruminaq.tasks.pythontask.gui.wizards;
 
 import org.eclipse.swt.widgets.Combo;
 import org.javatuples.Pair;
+import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskPage;
 import org.ruminaq.tasks.pythontask.gui.PythonData;
 import org.ruminaq.tasks.pythontask.ui.wizards.ICreatePythonTaskPage;
 import org.ruminaq.tasks.pythontask.wizards.CodeGenerator;
 import org.ruminaq.tasks.userdefined.model.userdefined.Module;
-import org.ruminaq.tasks.userdefined.wizards.CreateUserDefinedTaskPage;
 
 public class CreatePythonTaskPage extends CreateUserDefinedTaskPage
     implements ICreatePythonTaskPage {
