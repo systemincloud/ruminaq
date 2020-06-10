@@ -63,4 +63,5 @@ Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.gate.gui.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.gate.gui.AddFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.gate.gui.Images.xml,
- OSGI-INF/org.ruminaq.tasks.gate.gui.CreateFeaturesImpl.xml
+ OSGI-INF/org.ruminaq.tasks.gate.gui.CreateFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.gate.gui.UpdateFeatureImpl.xml

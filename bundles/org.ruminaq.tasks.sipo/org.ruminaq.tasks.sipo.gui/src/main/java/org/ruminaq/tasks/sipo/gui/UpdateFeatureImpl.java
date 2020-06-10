@@ -60,7 +60,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
     @Override
     public IReason updateNeeded(IUpdateContext context) {
       Sipo sipo = modelFromContext(context, Sipo.class)
-          .orElseThrow(() -> new RuntimeException());
+          .orElseThrow(RuntimeException::new);
 
       if (super.updateNeeded(context).toBoolean() || clkUpdateNeeded(sipo)
           || idxUpdateNeeded(sipo) || trgUpdateNeeded(sipo)
