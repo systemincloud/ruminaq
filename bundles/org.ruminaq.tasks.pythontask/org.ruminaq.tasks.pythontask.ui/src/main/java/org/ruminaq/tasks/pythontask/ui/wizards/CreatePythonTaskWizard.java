@@ -21,7 +21,7 @@ import org.python.pydev.ui.wizards.files.PythonModuleWizard;
 import org.python.pydev.ui.wizards.files.PythonPackageWizard;
 import org.ruminaq.tasks.TasksManagerHandlerImpl;
 import org.ruminaq.tasks.pythontask.ui.IPythonTaskUiApi;
-import org.ruminaq.tasks.userdefined.model.userdefined.Module;
+import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 
 public class CreatePythonTaskWizard extends PythonModuleWizard {
 

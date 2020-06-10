@@ -32,11 +32,11 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.tasks.userdefined.model.userdefined.In;
-import org.ruminaq.tasks.userdefined.model.userdefined.Module;
-import org.ruminaq.tasks.userdefined.model.userdefined.Out;
-import org.ruminaq.tasks.userdefined.model.userdefined.Parameter;
-import org.ruminaq.tasks.userdefined.model.userdefined.UserdefinedFactory;
+import org.ruminaq.eclipse.usertask.model.userdefined.In;
+import org.ruminaq.eclipse.usertask.model.userdefined.Module;
+import org.ruminaq.eclipse.usertask.model.userdefined.Out;
+import org.ruminaq.eclipse.usertask.model.userdefined.Parameter;
+import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
 
 public abstract class CreateUserDefinedTaskPage extends WizardPage
     implements ICreateUserDefinedTaskPage {

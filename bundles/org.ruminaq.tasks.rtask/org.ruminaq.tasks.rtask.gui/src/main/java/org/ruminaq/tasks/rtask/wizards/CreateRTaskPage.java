@@ -2,10 +2,10 @@ package org.ruminaq.tasks.rtask.wizards;
 
 import org.eclipse.swt.widgets.Combo;
 import org.javatuples.Pair;
+import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskPage;
 import org.ruminaq.tasks.rtask.RData;
 import org.ruminaq.tasks.rtask.ui.wizards.ICreateRTaskPage;
-import org.ruminaq.tasks.userdefined.model.userdefined.Module;
 
 public class CreateRTaskPage extends CreateUserDefinedTaskPage
     implements ICreateRTaskPage {

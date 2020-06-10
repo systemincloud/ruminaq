@@ -104,7 +104,7 @@ Export-Package:
  org.ruminaq.eclipse.wizards.diagram,
  org.ruminaq.eclipse.wizards.project,
  org.ruminaq.eclipse.wizards.task,
- org.ruminaq.tasks.userdefined.model.userdefined,
+ org.ruminaq.eclipse.usertask.model.userdefined,
  swing2swt.layout
 Bundle-ClassPath: .,
  swing2swt.jar
