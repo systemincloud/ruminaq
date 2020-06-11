@@ -1,5 +1,4 @@
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Tasks - PythonTask UI
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.pythontask.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
@@ -52,7 +51,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.impl.debug.events,
  org.ruminaq.runner.impl.debug.events.debugger,
  org.ruminaq.tasks,
- org.ruminaq.tasks.userdefined.model.userdefined,
  org.ruminaq.tasks.userdefined.properties,
  org.ruminaq.util,
  org.slf4j

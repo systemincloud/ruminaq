@@ -1,6 +1,5 @@
 Automatic-Module-Name: org.ruminaq.tasks.pythontask.gui
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Tasks - PythonTask
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.pythontask.gui
 Bundle-Version: 1.0.0.qualifier
