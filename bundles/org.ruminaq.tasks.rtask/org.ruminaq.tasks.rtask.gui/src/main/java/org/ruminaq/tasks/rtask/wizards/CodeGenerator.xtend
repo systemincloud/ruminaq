@@ -1,6 +1,6 @@
 package org.ruminaq.tasks.rtask.wizards
 
-import org.ruminaq.tasks.userdefined.model.userdefined.Module
+import org.ruminaq.eclipse.usertask.model.userdefined.Module
 import java.util.LinkedList
 import java.util.HashSet
 
