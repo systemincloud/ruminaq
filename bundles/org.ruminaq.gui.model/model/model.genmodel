@@ -18,6 +18,7 @@
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/isSnapToGrid" body="return CustomRuminaqDiagramImpl.isSnapToGrid();"/>
       <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getGraphicsAlgorithm"
           body="return CustomRuminaqDiagramImpl.getGraphicsAlgorithm();"/>
+      <genOperations ecoreOperation="model.ecore#//RuminaqDiagram/getVersion" body="return org.eclipse.graphiti.internal.IDiagramVersion.CURRENT;"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//RuminaqShape">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//RuminaqShape/x"/>

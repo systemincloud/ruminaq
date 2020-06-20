@@ -9,6 +9,7 @@
 		<accessrules>
 			<accessrule kind="accessible" pattern="org/eclipse/graphiti/mm/algorithms/impl/*"/>
 			<accessrule kind="accessible" pattern="org/eclipse/graphiti/mm/pictograms/impl/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/graphiti/internal/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="target/generated-sources/emf/src/main/java"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagram="http://ruminaq.org/diagram" xmlns:ruminaq="http://ruminaq.org">
-  <diagram:RuminaqDiagram version="0.16.0" mainTask="/1">
+  <diagram:RuminaqDiagram mainTask="/1">
     <children xsi:type="diagram:InputPortShape" x="100" y="100" modelObject="/1/@inputPort.0" label="/0/@children.1" outgoingConnections="/0/@connections.0"/>
     <children xsi:type="diagram:LabelShape" x="80" y="117" labeledShape="/0/@children.0"/>
     <children xsi:type="diagram:OutputPortShape" x="500" y="100" modelObject="/1/@outputPort.0" label="/0/@children.3" incomingConnections="/0/@connections.0"/>

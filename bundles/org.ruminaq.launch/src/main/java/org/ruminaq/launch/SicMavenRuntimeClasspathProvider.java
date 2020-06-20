@@ -12,9 +12,9 @@ import org.eclipse.m2e.jdt.internal.launch.MavenRuntimeClasspathProvider;
 public class SicMavenRuntimeClasspathProvider
     extends MavenRuntimeClasspathProvider {
 
-  @Override
-  protected int getArtifactScope(ILaunchConfiguration configuration)
-      throws CoreException {
-    return IClasspathManager.CLASSPATH_TEST;
-  }
+//  @Override
+//  protected int getArtifactScope(ILaunchConfiguration configuration)
+//      throws CoreException {
+//    return IClasspathManager.CLASSPATH_TEST;
+//  }
 }
