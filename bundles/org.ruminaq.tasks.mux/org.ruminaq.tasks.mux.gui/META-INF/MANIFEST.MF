@@ -66,6 +66,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.mux.gui.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.mux.gui.CreateFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.mux.gui.UpdateFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.mux.gui.AddFeatureImpl.xml,
- OSGI-INF/org.ruminaq.tasks.mux.gui.Images.xml,
- OSGI-INF/org.ruminaq.tasks.mux.gui.UpdateFeatureImpl.xml
+ OSGI-INF/org.ruminaq.tasks.mux.gui.Images.xml

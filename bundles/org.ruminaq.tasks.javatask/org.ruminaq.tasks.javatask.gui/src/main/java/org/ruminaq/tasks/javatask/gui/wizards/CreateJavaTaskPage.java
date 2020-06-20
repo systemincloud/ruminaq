@@ -55,7 +55,7 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
 
   public CreateJavaTaskPage(String pageName) {
     super(pageName);
-    setTitle("System in Cloud - Java Task");
+    setTitle("Ruminaq - Java Task");
     setDescription("Here you can describe your task features");
   }
 

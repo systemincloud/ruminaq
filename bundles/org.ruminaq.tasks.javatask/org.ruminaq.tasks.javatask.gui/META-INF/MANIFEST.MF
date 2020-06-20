@@ -104,14 +104,13 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.javatask.model.javatask,
  org.ruminaq.tasks.javatask.ui,
  org.ruminaq.tasks.javatask.ui.wizards,
- org.ruminaq.tasks.userdefined,
  org.ruminaq.util,
  org.slf4j
 Export-Package: org.ruminaq.tasks.javatask.gui,
  org.ruminaq.tasks.javatask.gui.wizards
 Bundle-ClassPath: .
-Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.gui.ContextButtonPadTool.xml,
+Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.gui.Images.xml,
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.AddFeatureImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.ContextButtonPadTool.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.Images.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.AddFeatureImpl.xml
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.CreateFeaturesImpl.xml

@@ -60,8 +60,8 @@ Export-Package: org.ruminaq.tasks.gate.gui
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.gate.gui.EclipseExtensionImpl.xml,
- OSGI-INF/org.ruminaq.tasks.gate.gui.AddFeatureImpl.xml,
- OSGI-INF/org.ruminaq.tasks.gate.gui.Images.xml,
+Service-Component: OSGI-INF/org.ruminaq.tasks.gate.gui.Images.xml,
+ OSGI-INF/org.ruminaq.tasks.gate.gui.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.gate.gui.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.gate.gui.UpdateFeatureImpl.xml
+ OSGI-INF/org.ruminaq.tasks.gate.gui.UpdateFeatureImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.gate.gui.AddFeatureImpl.xml

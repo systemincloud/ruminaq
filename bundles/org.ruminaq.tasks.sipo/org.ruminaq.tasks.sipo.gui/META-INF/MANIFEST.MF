@@ -69,6 +69,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.sipo.gui.AddFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.sipo.gui.EclipseExtensionImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.sipo.gui.UpdateFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.sipo.gui.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.sipo.gui.Images.xml,
- OSGI-INF/org.ruminaq.tasks.sipo.gui.UpdateFeatureImpl.xml
+ OSGI-INF/org.ruminaq.tasks.sipo.gui.Images.xml

@@ -120,7 +120,7 @@ Export-Package: org.ruminaq.tasks.rtask,
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.rtask.CreateFeaturesImpl.xml,
+Service-Component: OSGI-INF/org.ruminaq.tasks.rtask.AddFeatureImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.rtask.CreateFeaturesImpl.xml,
  OSGI-INF/org.ruminaq.tasks.rtask.ContextButtonPadTool.xml,
- OSGI-INF/org.ruminaq.tasks.rtask.Images.xml,
- OSGI-INF/org.ruminaq.tasks.rtask.AddFeatureImpl.xml
+ OSGI-INF/org.ruminaq.tasks.rtask.Images.xml
