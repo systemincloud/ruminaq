@@ -51,7 +51,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.impl.debug.events,
  org.ruminaq.runner.impl.debug.events.debugger,
  org.ruminaq.tasks,
- org.ruminaq.tasks.userdefined.properties,
  org.ruminaq.util,
  org.slf4j
 Export-Package: org.ruminaq.tasks.pythontask.ui,

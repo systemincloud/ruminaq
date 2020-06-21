@@ -10,7 +10,6 @@ import org.ruminaq.tasks.api.ITaskUiApi;
 import org.ruminaq.tasks.pythontask.gui.wizards.CreatePythonTaskPage;
 import org.ruminaq.tasks.pythontask.ui.IPythonTaskUiApi;
 import org.ruminaq.tasks.pythontask.ui.wizards.ICreatePythonTaskPage;
-import org.ruminaq.tasks.userdefined.IUserDefinedUiApi;
 
 public class TaskUiApi
     implements ITaskUiApi, IPythonTaskUiApi {

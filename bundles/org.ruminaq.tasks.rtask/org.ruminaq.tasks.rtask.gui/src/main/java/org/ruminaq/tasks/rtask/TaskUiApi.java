@@ -10,7 +10,6 @@ import org.ruminaq.tasks.api.ITaskUiApi;
 import org.ruminaq.tasks.rtask.ui.IRTaskUiApi;
 import org.ruminaq.tasks.rtask.ui.wizards.ICreateRTaskPage;
 import org.ruminaq.tasks.rtask.wizards.CreateRTaskPage;
-import org.ruminaq.tasks.userdefined.IUserDefinedUiApi;
 
 public class TaskUiApi implements ITaskUiApi, IRTaskUiApi {
 
