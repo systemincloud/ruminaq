@@ -67,7 +67,9 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Connection/targetRef"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//SimpleConnection"/>
-    <genClasses image="false" ecoreClass="model.ecore#//DataType"/>
+    <genClasses image="false" ecoreClass="model.ecore#//DataType">
+      <genOperations ecoreOperation="model.ecore#//DataType/canCast"/>
+    </genClasses>
     <genClasses ecoreClass="model.ecore#//OutputPort"/>
     <genClasses ecoreClass="model.ecore#//InputPort">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//InputPort/asynchronous"/>

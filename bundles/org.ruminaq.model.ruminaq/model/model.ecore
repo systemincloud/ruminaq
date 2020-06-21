@@ -97,7 +97,9 @@
         eType="#//FlowTarget"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SimpleConnection" eSuperTypes="#//Connection"/>
-  <eClassifiers xsi:type="ecore:EClass" name="DataType" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DataType" abstract="true">
+    <eOperations name="canCast" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OutputPort" eSuperTypes="#//FlowTarget #//Port"/>
   <eClassifiers xsi:type="ecore:EClass" name="InputPort" eSuperTypes="#//FlowSource #//Port">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="asynchronous" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
@@ -137,7 +139,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="skipLoop" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="DataType2" instanceClassName="dataType"/>
   <eSubpackages name="debug" nsURI="http://ruminaq.org/debug" nsPrefix="debug">
     <eClassifiers xsi:type="ecore:EClass" name="Debug" abstract="true"/>
     <eClassifiers xsi:type="ecore:EClass" name="InternalPortDebug" abstract="true"
