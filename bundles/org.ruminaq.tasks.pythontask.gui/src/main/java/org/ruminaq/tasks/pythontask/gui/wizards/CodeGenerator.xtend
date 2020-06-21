@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.pythontask.wizards
+package org.ruminaq.tasks.pythontask.gui.wizards
 
 import org.ruminaq.eclipse.usertask.model.userdefined.Module
 import java.util.LinkedList

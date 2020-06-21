@@ -13,7 +13,7 @@ import org.ruminaq.tasks.pythontask.ui.wizards.ICreatePythonTaskPage;
 import org.ruminaq.tasks.userdefined.IUserDefinedUiApi;
 
 public class TaskUiApi
-    implements ITaskUiApi, IPythonTaskUiApi, IUserDefinedUiApi {
+    implements ITaskUiApi, IPythonTaskUiApi {
 
   private String symbolicName;
   private Version version;
@@ -38,13 +38,6 @@ public class TaskUiApi
       PictogramElement pe, TransactionalEditingDomain ed,
       IDiagramTypeProvider dtp) {
     return new PropertySection(parent, pe, ed, dtp);
-  }
-
-  @Override
-  public IPropertySection createParametersSection(Composite parent,
-      PictogramElement pe, TransactionalEditingDomain ed,
-      IDiagramTypeProvider dtp) {
-    return new ParametersSection(parent, pe, ed, dtp);
   }
 
   @Override

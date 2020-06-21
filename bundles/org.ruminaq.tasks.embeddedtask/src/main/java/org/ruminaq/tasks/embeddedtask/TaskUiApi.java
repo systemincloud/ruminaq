@@ -18,7 +18,7 @@ import org.ruminaq.tasks.userdefined.IUserDefinedUiApi;
 
 @Component
 public class TaskUiApi
-    implements ITaskUiApi, IEmbeddedTaskUiApi, IUserDefinedUiApi {
+    implements ITaskUiApi, IEmbeddedTaskUiApi {
 
   private String symbolicName;
   private Version version;
@@ -45,13 +45,6 @@ public class TaskUiApi
       PictogramElement pe, TransactionalEditingDomain ed,
       IDiagramTypeProvider dtp) {
     return new PropertySection(parent, pe, ed, dtp);
-  }
-
-  @Override
-  public IPropertySection createParametersSection(Composite parent,
-      PictogramElement pe, TransactionalEditingDomain ed,
-      IDiagramTypeProvider dtp) {
-    return new ParametersSection(parent, pe, ed, dtp);
   }
 
   @Override

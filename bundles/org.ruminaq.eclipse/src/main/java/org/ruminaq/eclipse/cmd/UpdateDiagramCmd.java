@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.userdefined.cmd;
+package org.ruminaq.eclipse.cmd;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;

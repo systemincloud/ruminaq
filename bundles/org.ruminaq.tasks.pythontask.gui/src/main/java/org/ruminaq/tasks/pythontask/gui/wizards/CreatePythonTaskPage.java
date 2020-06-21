@@ -6,7 +6,6 @@ import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskPage;
 import org.ruminaq.tasks.pythontask.gui.PythonData;
 import org.ruminaq.tasks.pythontask.ui.wizards.ICreatePythonTaskPage;
-import org.ruminaq.tasks.pythontask.wizards.CodeGenerator;
 
 public class CreatePythonTaskPage extends CreateUserDefinedTaskPage
     implements ICreatePythonTaskPage {

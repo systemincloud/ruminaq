@@ -12,7 +12,7 @@ import org.ruminaq.tasks.rtask.ui.wizards.ICreateRTaskPage;
 import org.ruminaq.tasks.rtask.wizards.CreateRTaskPage;
 import org.ruminaq.tasks.userdefined.IUserDefinedUiApi;
 
-public class TaskUiApi implements ITaskUiApi, IRTaskUiApi, IUserDefinedUiApi {
+public class TaskUiApi implements ITaskUiApi, IRTaskUiApi {
 
   private String symbolicName;
   private Version version;
@@ -37,13 +37,6 @@ public class TaskUiApi implements ITaskUiApi, IRTaskUiApi, IUserDefinedUiApi {
       PictogramElement pe, TransactionalEditingDomain ed,
       IDiagramTypeProvider dtp) {
     return new PropertySection(parent, pe, ed, dtp);
-  }
-
-  @Override
-  public IPropertySection createParametersSection(Composite parent,
-      PictogramElement pe, TransactionalEditingDomain ed,
-      IDiagramTypeProvider dtp) {
-    return new ParametersSection(parent, pe, ed, dtp);
   }
 
   @Override

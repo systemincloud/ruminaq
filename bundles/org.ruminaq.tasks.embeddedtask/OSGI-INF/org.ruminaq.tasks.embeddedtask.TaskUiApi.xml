@@ -3,7 +3,6 @@
    <service>
       <provide interface="org.ruminaq.tasks.api.ITaskUiApi"/>
       <provide interface="org.ruminaq.tasks.embeddedtask.ui.IEmbeddedTaskUiApi"/>
-      <provide interface="org.ruminaq.tasks.userdefined.IUserDefinedUiApi"/>
    </service>
    <implementation class="org.ruminaq.tasks.embeddedtask.TaskUiApi"/>
 </scr:component>

@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.userdefined.cmd;
+package org.ruminaq.eclipse.cmd;
 
 import java.io.IOException;
 import java.net.URL;
