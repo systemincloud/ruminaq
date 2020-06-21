@@ -4,16 +4,12 @@
 package org.ruminaq.tasks;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.FileLocator;
@@ -28,26 +24,20 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.Version;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
-import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.api.TaskManagerHandler;
 import org.ruminaq.tasks.api.TasksExtensionHandler;
+
 import ch.qos.logback.classic.Logger;
 
 @SuppressWarnings("unchecked")
@@ -87,9 +77,6 @@ public class TasksManagerHandlerImpl implements TaskManagerHandler {
     projectVersionTasks.remove(extension);
   }
 
-  private JSONParser parser = new JSONParser();
-  private Map<String, String> nameVersion = new HashMap<>();
-
   private List<String> taskJarsPaths = new ArrayList<>();
 
   public Collection<ITaskApi> getTasks() {
@@ -104,54 +91,6 @@ public class TasksManagerHandlerImpl implements TaskManagerHandler {
     return taskJarsPaths;
   }
 
-  public void init(BundleContext ctx) {
-    JSONObject listJson = null;
-
-    try {
-      listJson = (JSONObject) parser.parse(new InputStreamReader(
-          TasksManagerHandlerImpl.class.getResourceAsStream("/list.json")));
-    } catch (IOException | ParseException e) {
-      e.printStackTrace();
-    }
-
-    JSONArray categories = (JSONArray) listJson.get("categories");
-    Iterator<JSONObject> categoryIt = categories.iterator();
-    while (categoryIt.hasNext()) {
-      JSONObject category = categoryIt.next();
-      JSONArray tasks = (JSONArray) category.get("tasks");
-      if (tasks != null) {
-        Iterator<JSONObject> taskIt = tasks.iterator();
-        while (taskIt.hasNext()) {
-          JSONObject task = taskIt.next();
-          String m2 = (String) task.get("m2");
-          String[] tmp = m2.split(":");
-          nameVersion.put(tmp[1], tmp[2].replace(Constants.SNAPSHOT, ""));
-        }
-      }
-    }
-
-    extensions.init(ctx);
-    for (String s : extensions.getListJson()) {
-      if (s == null)
-        continue;
-      listJson = null;
-      try {
-        listJson = (JSONObject) parser.parse(s);
-      } catch (ParseException e) {
-        continue;
-      }
-      JSONArray tasks = (JSONArray) listJson.get("tasks");
-      if (tasks != null) {
-        Iterator<JSONObject> taskIt = tasks.iterator();
-        while (taskIt.hasNext()) {
-          JSONObject task = taskIt.next();
-          String m2 = (String) task.get("m2");
-          String[] tmp = m2.split(":");
-          nameVersion.put(tmp[1], tmp[2].replace(Constants.SNAPSHOT, ""));
-        }
-      }
-    }
-  }
 
   public List<String> getPaths(Collection<ITaskApi> tasks) {
     List<String> paths = new ArrayList<>();

@@ -18,7 +18,7 @@ import org.eclipse.ui.PlatformUI;
 public class CustomNewClassWizardPage extends NewClassWizardPage {
 
   public CustomNewClassWizardPage() {
-    setTitle("System in Cloud - Java Task");
+    setTitle("Ruminaq- Java Task");
     setDescription("Here you define Java class");
   }
 

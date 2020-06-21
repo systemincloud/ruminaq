@@ -28,8 +28,6 @@ public final class Constants {
 
   public static final String VALIDATION_MARKER = "org.ruminaq.validation.marker"; //$NON-NLS-1$
 
-  public static final String MAIN_PYTHON = "src/main/py"; //$NON-NLS-1$
-  public static final String TEST_PYTHON = "src/test/py"; //$NON-NLS-1$
   public static final String MAIN_R = "src/main/r"; //$NON-NLS-1$
   public static final String TEST_R = "src/test/r"; //$NON-NLS-1$
 

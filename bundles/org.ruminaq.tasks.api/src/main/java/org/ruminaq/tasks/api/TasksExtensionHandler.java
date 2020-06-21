@@ -3,8 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.tasks.api;
 
-import java.util.Collection;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.debug.core.ILaunch;
 import org.osgi.framework.BundleContext;
@@ -17,8 +15,6 @@ import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
 public interface TasksExtensionHandler {
 
   void init(BundleContext ctx);
-
-  Collection<String> getListJson();
 
   Object getDebugTargets(ILaunch launch, IProject project,
       EventDispatchJob dispatcher);

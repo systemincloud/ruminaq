@@ -40,7 +40,6 @@
         <unit id="org.cojen.dirmi" version="0.0.0"/>
         <unit id="org.javatuples" version="0.0.0"/>
         <unit id="org.jdom.2" version="0.0.0"/>
-        <unit id="com.googlecode.json-simple" version="0.0.0"/>
         <unit id="org.ruminaq.tasks.javatask.client" version="0.0.0"/>
         <unit id="org.apache.commons.cli" version="0.0.0"/>
         <unit id="org.xmlunit.xmlunit-core" version="0.0.0"/>

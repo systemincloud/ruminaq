@@ -2,7 +2,6 @@ package org.ruminaq.tasks;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.debug.core.ILaunch;
@@ -38,11 +37,6 @@ public class TasksExtensionHandlerImpl implements TasksExtensionHandler {
     extensions.forEach(t -> t.init(ctx));
   }
 
-  @Override
-  public Collection<String> getListJson() {
-    return extensions.stream().map(TasksExtension::getListJson)
-        .collect(Collectors.toList());
-  }
 
   @Override
   public Object getDebugTargets(ILaunch launch, IProject project,

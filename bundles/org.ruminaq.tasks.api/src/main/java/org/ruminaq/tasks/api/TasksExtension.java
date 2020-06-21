@@ -13,5 +13,4 @@ public interface TasksExtension {
 
   void init(BundleContext ctx);
 
-  String getListJson();
 }

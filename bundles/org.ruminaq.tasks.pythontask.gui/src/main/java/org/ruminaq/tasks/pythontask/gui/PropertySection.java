@@ -170,8 +170,8 @@ public class PropertySection
           if (descriptor != null) {
             IWizard wizard = descriptor.createWizard();
             String folder = RuminaqDiagramUtil.isTest(
-                EclipseUtil.getModelPathFromEObject(pe)) ? Constants.TEST_PYTHON
-                    : Constants.MAIN_PYTHON;
+                EclipseUtil.getModelPathFromEObject(pe)) ? EclipseExtensionImpl.TEST_PYTHON
+                    : EclipseExtensionImpl.MAIN_PYTHON;
             String projectName = EclipseUtil
                 .getProjectNameFromDiagram(dtp.getDiagram());
             IStructuredSelection selection = new StructuredSelection(

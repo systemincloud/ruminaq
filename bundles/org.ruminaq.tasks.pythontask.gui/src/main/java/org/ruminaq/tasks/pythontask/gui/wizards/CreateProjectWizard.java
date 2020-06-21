@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.python.pydev.ast.interpreter_managers.InterpreterManagersAPI;
 import org.python.pydev.plugin.nature.PythonNature;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.tasks.pythontask.gui.EclipseExtensionImpl;
 import org.ruminaq.tasks.pythontask.impl.PythonTaskI;
 import org.ruminaq.util.EclipseUtil;
 
@@ -37,8 +38,8 @@ public class CreateProjectWizard {
   public List<IClasspathEntry> createClasspathEntries(
       IJavaProject javaProject) {
     List<IClasspathEntry> entries = new LinkedList<>();
-    IPath srcPath1 = javaProject.getPath().append(Constants.MAIN_PYTHON);
-    IPath srcPath2 = javaProject.getPath().append(Constants.TEST_PYTHON);
+    IPath srcPath1 = javaProject.getPath().append(EclipseExtensionImpl.MAIN_PYTHON);
+    IPath srcPath2 = javaProject.getPath().append(EclipseExtensionImpl.TEST_PYTHON);
     entries.add(JavaCore.newSourceEntry(srcPath1,
         new IPath[] { new Path("**/__pycache__/**") }));
     entries.add(JavaCore.newSourceEntry(srcPath2,
@@ -74,11 +75,11 @@ public class CreateProjectWizard {
   }
 
   private void createSourceFolders(IProject project) throws CoreException {
-    EclipseUtil.createFolderWithParents(project, Constants.MAIN_PYTHON);
-    EclipseUtil.createFileInFolder(project, Constants.MAIN_PYTHON,
+    EclipseUtil.createFolderWithParents(project, EclipseExtensionImpl.MAIN_PYTHON);
+    EclipseUtil.createFileInFolder(project, EclipseExtensionImpl.MAIN_PYTHON,
         "PLACEHOLDER_FOR_PY");
-    EclipseUtil.createFolderWithParents(project, Constants.TEST_PYTHON);
-    EclipseUtil.createFileInFolder(project, Constants.TEST_PYTHON,
+    EclipseUtil.createFolderWithParents(project, EclipseExtensionImpl.TEST_PYTHON);
+    EclipseUtil.createFileInFolder(project, EclipseExtensionImpl.TEST_PYTHON,
         "PLACEHOLDER_FOR_PY");
   }
 
