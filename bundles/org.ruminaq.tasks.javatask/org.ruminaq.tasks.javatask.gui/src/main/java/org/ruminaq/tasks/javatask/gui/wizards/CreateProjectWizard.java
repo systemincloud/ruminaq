@@ -12,6 +12,11 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl;
 import org.ruminaq.util.EclipseUtil;
 
+/**
+ * Project wizard extension.
+ * 
+ * @author Marek Jagielski
+ */
 public class CreateProjectWizard {
 
   public boolean performFinish(IJavaProject newProject) throws CoreException {

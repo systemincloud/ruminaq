@@ -14,6 +14,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 
+@SuppressWarnings("restriction")
 public class CustomNewClassWizardPage extends NewClassWizardPage {
 
   public CustomNewClassWizardPage() {

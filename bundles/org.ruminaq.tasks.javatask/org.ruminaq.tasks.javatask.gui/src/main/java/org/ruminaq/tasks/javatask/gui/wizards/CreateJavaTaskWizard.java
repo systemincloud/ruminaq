@@ -16,6 +16,10 @@ import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 @SuppressWarnings("restriction")
 public class CreateJavaTaskWizard extends NewClassCreationWizard {
 
