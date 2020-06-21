@@ -4,7 +4,7 @@
 <plugin>
    <extension point="org.eclipse.ui.newWizards">
       <wizard name="Java Task Class"
-              id="org.ruminaq.tasks.javatask.ui.wizards.CreateJavaTaskWizard"
+              id="org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard"
               category="org.ruminaq.eclipse.newWizards.category/commons"
               class="org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard"
               finalPerspective="org.ruminaq.eclipse.RuminaqPerspective"

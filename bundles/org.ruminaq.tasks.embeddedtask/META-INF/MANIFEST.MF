@@ -71,7 +71,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.api,
  org.ruminaq.tasks.embeddedtask.ui,
  org.ruminaq.tasks.features,
- org.ruminaq.tasks.userdefined,
  org.ruminaq.util,
  org.slf4j
 Export-Package: org.ruminaq.tasks.embeddedtask,

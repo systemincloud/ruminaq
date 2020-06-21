@@ -14,7 +14,6 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.api.ITaskUiApi;
 import org.ruminaq.tasks.embeddedtask.ui.IEmbeddedTaskUiApi;
-import org.ruminaq.tasks.userdefined.IUserDefinedUiApi;
 
 @Component
 public class TaskUiApi
