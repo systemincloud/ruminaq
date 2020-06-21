@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.javatask.ui.wizards;
+package org.ruminaq.tasks.javatask.gui.wizards;
 
 import org.eclipse.jdt.core.IType;
 

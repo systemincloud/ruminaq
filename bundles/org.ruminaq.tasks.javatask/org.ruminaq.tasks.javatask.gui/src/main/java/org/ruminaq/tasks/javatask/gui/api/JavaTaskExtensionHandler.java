@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.javatask.api;
+package org.ruminaq.tasks.javatask.gui.api;
 
 import java.util.Collection;
 

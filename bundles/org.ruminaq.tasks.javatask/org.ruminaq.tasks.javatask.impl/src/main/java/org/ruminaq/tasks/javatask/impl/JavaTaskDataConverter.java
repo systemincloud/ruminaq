@@ -3,7 +3,6 @@ package org.ruminaq.tasks.javatask.impl;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.runner.impl.data.BoolI;
 import org.ruminaq.runner.impl.data.Complex32I;
 import org.ruminaq.runner.impl.data.Complex64I;
@@ -16,7 +15,6 @@ import org.ruminaq.runner.impl.data.Int32I;
 import org.ruminaq.runner.impl.data.Int64I;
 import org.ruminaq.runner.impl.data.RawI;
 import org.ruminaq.runner.impl.data.TextI;
-import org.ruminaq.tasks.javatask.api.JavaTaskExtensionHandler;
 import org.ruminaq.tasks.javatask.client.data.Bool;
 import org.ruminaq.tasks.javatask.client.data.Complex32;
 import org.ruminaq.tasks.javatask.client.data.Complex64;

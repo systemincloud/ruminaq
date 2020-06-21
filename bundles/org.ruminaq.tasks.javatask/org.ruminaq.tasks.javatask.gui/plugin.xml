@@ -3,13 +3,51 @@
 
 <plugin>
    <extension point="org.eclipse.ui.newWizards">
-      <wizard name="Java Task Class"
-              id="org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard"
-              category="org.ruminaq.eclipse.newWizards.category/commons"
-              class="org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard"
-              finalPerspective="org.ruminaq.eclipse.RuminaqPerspective"
-              icon="icons/diagram.javatask.png">
+      <wizard
+            name="Java Task Class"
+            id="org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard"
+            category="org.ruminaq.eclipse.newWizards.category/commons"
+            class="org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard"
+            finalPerspective="org.ruminaq.eclipse.RuminaqPerspective"
+            icon="icons/diagram.javatask.png">
          <description>Create Java Task Class</description>
       </wizard>
+   </extension>
+   
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs contributorId="Ruminaq.PropertyContributor">
+         <propertyTab
+               label="Java Task" 
+               id="org.ruminaq.tasks.javaTaskTab" 
+               afterTab="org.ruminaq.common.mainTab" 
+               category="Graphiti" />
+         <propertyTab 
+               label="Parameters" 
+               id="org.ruminaq.tasks.javaTaskParametersTab" 
+               afterTab="org.ruminaq.tasks.javaTaskTab" 
+               category="Graphiti" />
+      </propertyTabs>
+   </extension>
+   
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections contributorId="Ruminaq.PropertyContributor">
+         <propertySection 
+               tab="org.ruminaq.tasks.javaTaskTab"
+               class="org.ruminaq.tasks.javatask.ui.properties.PropertySection"
+               id="org.ruminaq.tasks.javaTaskTab.Section"
+               filter="org.ruminaq.tasks.javatask.ui.properties.PropertyFilter" />
+         <propertySection
+               tab="org.ruminaq.tasks.javaTaskParametersTab"
+               class="org.ruminaq.tasks.javatask.ui.properties.ParametersSection"
+               id="org.ruminaq.tasks.javaTaskParametersTab.Section"
+               filter="org.ruminaq.tasks.javatask.ui.properties.PropertyFilter" />
+      </propertySections>
+   </extension>
+   
+   <extension point="org.eclipse.debug.ui.debugModelPresentations">
+      <debugModelPresentation
+         class="org.ruminaq.tasks.javatask.ui.debug.JavaTasksDebugModelPresentation"
+         id="org.ruminaq.tasks.javatask.ui.debug.JavaTasksDebugModelPresentation">
+      </debugModelPresentation>
    </extension>
 </plugin>

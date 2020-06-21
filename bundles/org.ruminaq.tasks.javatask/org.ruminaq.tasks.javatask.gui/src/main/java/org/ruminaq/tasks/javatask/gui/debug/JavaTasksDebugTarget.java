@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.javatask.ui.debug;
+package org.ruminaq.tasks.javatask.gui.debug;
 
 import java.util.Collections;
 import java.util.LinkedList;

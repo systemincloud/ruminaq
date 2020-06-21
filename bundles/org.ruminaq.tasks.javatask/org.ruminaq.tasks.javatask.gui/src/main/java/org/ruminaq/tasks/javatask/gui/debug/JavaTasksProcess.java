@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.javatask.ui.debug;
+package org.ruminaq.tasks.javatask.gui.debug;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.IProcess;

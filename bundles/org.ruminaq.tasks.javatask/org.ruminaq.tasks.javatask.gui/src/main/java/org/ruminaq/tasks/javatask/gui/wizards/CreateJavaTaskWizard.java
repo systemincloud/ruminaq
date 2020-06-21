@@ -15,8 +15,6 @@ import org.eclipse.jdt.internal.ui.wizards.NewClassCreationWizard;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
-import org.ruminaq.tasks.javatask.ui.wizards.CreateJavaTaskListener;
-import org.ruminaq.tasks.javatask.ui.wizards.CustomNewClassWizardPage;
 
 @SuppressWarnings("restriction")
 public class CreateJavaTaskWizard extends NewClassCreationWizard {

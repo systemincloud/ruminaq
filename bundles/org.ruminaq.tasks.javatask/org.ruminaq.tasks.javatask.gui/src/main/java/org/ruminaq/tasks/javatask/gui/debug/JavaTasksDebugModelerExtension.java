@@ -1,4 +1,4 @@
-package org.ruminaq.tasks.javatask.ui;
+package org.ruminaq.tasks.javatask.gui.debug;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,7 +10,6 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.debug.api.DebugExtension;
 import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
-import org.ruminaq.tasks.javatask.ui.debug.JavaTasksDebugTarget;
 
 @Component(immediate = true)
 public class JavaTasksDebugModelerExtension implements DebugExtension {

@@ -11,10 +11,8 @@
   </parent>
 
   <modules>
-    <module>org.ruminaq.tasks.javatask.api</module>
     <module>org.ruminaq.tasks.javatask.gui</module>
     <module>org.ruminaq.tasks.javatask.impl</module>
     <module>org.ruminaq.tasks.javatask.model</module>
-    <module>org.ruminaq.tasks.javatask.ui</module>
   </modules>
 </project>
