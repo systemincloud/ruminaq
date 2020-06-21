@@ -56,9 +56,9 @@ public class CreatingJavaTaskTest {
     new CreateJavaTask().openJavaTaskWizardFromProjectContextMenu(bot,
         projectName);
 
-    Assert.assertEquals("Window title should be set", "Ruminaq - Java Task",
+    Assert.assertEquals("Window title should be set", "New Java Class",
         bot.activeShell().getText());
 
-    bot.textWithLabel("Ruminaq - Java Task");
+//    bot.textWithLabel("Ruminaq - Java Task");
   }
 }
