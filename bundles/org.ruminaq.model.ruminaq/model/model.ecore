@@ -98,7 +98,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SimpleConnection" eSuperTypes="#//Connection"/>
   <eClassifiers xsi:type="ecore:EClass" name="DataType" abstract="true">
-    <eOperations name="canCast" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="canCastTo" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="canCastFrom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OutputPort" eSuperTypes="#//FlowTarget #//Port"/>
   <eClassifiers xsi:type="ecore:EClass" name="InputPort" eSuperTypes="#//FlowSource #//Port">
