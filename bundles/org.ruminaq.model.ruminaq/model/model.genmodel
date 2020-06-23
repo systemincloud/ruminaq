@@ -68,8 +68,12 @@
     </genClasses>
     <genClasses ecoreClass="model.ecore#//SimpleConnection"/>
     <genClasses image="false" ecoreClass="model.ecore#//DataType">
-      <genOperations ecoreOperation="model.ecore#//DataType/canCastTo"/>
-      <genOperations ecoreOperation="model.ecore#//DataType/canCastFrom"/>
+      <genOperations ecoreOperation="model.ecore#//DataType/canCastTo">
+        <genParameters ecoreParameter="model.ecore#//DataType/canCastTo/data"/>
+      </genOperations>
+      <genOperations ecoreOperation="model.ecore#//DataType/canCastFrom">
+        <genParameters ecoreParameter="model.ecore#//DataType/canCastFrom/data"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//OutputPort"/>
     <genClasses ecoreClass="model.ecore#//InputPort">
