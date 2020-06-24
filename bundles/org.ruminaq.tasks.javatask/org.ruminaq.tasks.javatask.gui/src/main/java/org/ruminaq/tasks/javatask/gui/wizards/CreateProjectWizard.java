@@ -24,7 +24,7 @@ public class CreateProjectWizard {
     return true;
   }
 
-  private void createSourceFolders(IProject project) throws CoreException {
+  private static void createSourceFolders(IProject project) throws CoreException {
     EclipseUtil.createFolderWithParents(project,
         EclipseExtensionImpl.MAIN_JAVA);
     EclipseUtil.createFileInFolder(project, EclipseExtensionImpl.MAIN_JAVA,

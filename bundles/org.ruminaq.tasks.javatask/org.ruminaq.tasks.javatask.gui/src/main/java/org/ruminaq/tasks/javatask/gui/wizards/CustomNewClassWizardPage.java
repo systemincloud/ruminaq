@@ -15,8 +15,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.ruminaq.tasks.javatask.gui.Messages;
 
-@SuppressWarnings("restriction")
+/**
+ * Reuse jdt class wizard page..
+ * 
+ * @author Marek Jagielski
+ */
 public class CustomNewClassWizardPage extends NewClassWizardPage {
+
+  private static final int NB_OF_COLUMNS = 4;
 
   public CustomNewClassWizardPage() {
     setTitle(Messages.createJavaTaskWizardName);
@@ -30,17 +36,15 @@ public class CustomNewClassWizardPage extends NewClassWizardPage {
     Composite composite = new Composite(parent, SWT.NONE);
     composite.setFont(parent.getFont());
 
-    int nColumns = 4;
-
     GridLayout layout = new GridLayout();
-    layout.numColumns = nColumns;
+    layout.numColumns = NB_OF_COLUMNS;
     composite.setLayout(layout);
 
-    createContainerControls(composite, nColumns);
-    createPackageControls(composite, nColumns);
-    createSeparator(composite, nColumns);
-    createTypeNameControls(composite, nColumns);
-    createSuperInterfacesControls(composite, nColumns);
+    createContainerControls(composite, NB_OF_COLUMNS);
+    createPackageControls(composite, NB_OF_COLUMNS);
+    createSeparator(composite, NB_OF_COLUMNS);
+    createTypeNameControls(composite, NB_OF_COLUMNS);
+    createSuperInterfacesControls(composite, NB_OF_COLUMNS);
 
     setControl(composite);
     Dialog.applyDialogFont(composite);
