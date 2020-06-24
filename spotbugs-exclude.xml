@@ -6,6 +6,9 @@
     <Bug pattern="CRLF_INJECTION_LOGS" />
   </Match>
   <Match>
+    <Bug pattern="DP_DO_INSIDE_DO_PRIVILEGED" />
+  </Match>
+  <Match>
     <Bug pattern="FII_COMBINE_FILTERS" />
   </Match>
   <Match>
