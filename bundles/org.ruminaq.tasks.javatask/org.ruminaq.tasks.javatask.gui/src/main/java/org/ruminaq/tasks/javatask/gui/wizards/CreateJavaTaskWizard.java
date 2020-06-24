@@ -7,6 +7,7 @@
 package org.ruminaq.tasks.javatask.gui.wizards;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -15,20 +16,28 @@ import org.eclipse.jdt.internal.ui.wizards.NewClassCreationWizard;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
+import org.ruminaq.logs.ModelerLoggerFactory;
+import org.ruminaq.tasks.javatask.gui.Messages;
+import org.slf4j.Logger;
 
 /**
+ * Wizard for creating a Java Class that implements
+ * custom task.
  * 
  * @author Marek Jagielski
  */
-@SuppressWarnings("restriction")
 public class CreateJavaTaskWizard extends NewClassCreationWizard {
 
+  private static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(CreateJavaTaskWizard.class);
+  
   public static final String ID = "org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard";
 
-  private CreateJavaTaskPage cjtp = new CreateJavaTaskPage("Ruminaq - Java Task");
+  private CreateJavaTaskPage cjtp = new CreateJavaTaskPage(
+      Messages.createJavaTaskWizardName);
 
-  private IStructuredSelection selection = null;
-  private CreateJavaTaskListener listener = null;
+  private IStructuredSelection selection;
+  private CreateJavaTaskListener listener;
 
   public void setProject(IStructuredSelection selection) {
     this.selection = selection;
@@ -46,15 +55,12 @@ public class CreateJavaTaskWizard extends NewClassCreationWizard {
       fPageF.setAccessible(true);
       fPage = new CustomNewClassWizardPage();
       fPage.setWizard(this);
-      if (selection == null) {
-        fPage.init(getSelection());
-      } else {
-        fPage.init(selection);
-      }
+      fPage.init(Optional.ofNullable(selection).orElse(getSelection()));
       fPageF.set(this, fPage);
       addPage(fPage);
     } catch (IllegalArgumentException | IllegalAccessException
         | NoSuchFieldException | SecurityException e) {
+      LOGGER.error("Error creating wizzard", e);
       super.addPages();
     }
     addPage(cjtp);
@@ -64,18 +70,15 @@ public class CreateJavaTaskWizard extends NewClassCreationWizard {
   protected void finishPage(IProgressMonitor monitor)
       throws InterruptedException, CoreException {
     super.finishPage(monitor);
-    Display.getDefault().syncExec(new Runnable() {
-      public void run() {
-        cjtp.decorateType((IType) getCreatedElement(), cjtp.getModel());
-      }
-    });
+    Display.getDefault().syncExec(
+        () -> cjtp.decorateType((IType) getCreatedElement(), cjtp.getModel()));
   }
 
   @Override
   public boolean performFinish() {
     boolean ret = super.performFinish();
-    if (listener != null)
-      listener.created((IType) getCreatedElement());
+    Optional.ofNullable(listener)
+        .ifPresent(l -> l.created((IType) getCreatedElement()));
     return ret;
   }
 }

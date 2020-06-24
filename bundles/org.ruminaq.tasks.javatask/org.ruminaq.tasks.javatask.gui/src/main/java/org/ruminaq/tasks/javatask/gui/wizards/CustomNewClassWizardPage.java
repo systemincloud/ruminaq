@@ -13,13 +13,14 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
+import org.ruminaq.tasks.javatask.gui.Messages;
 
 @SuppressWarnings("restriction")
 public class CustomNewClassWizardPage extends NewClassWizardPage {
 
   public CustomNewClassWizardPage() {
-    setTitle("Ruminaq- Java Task");
-    setDescription("Here you define Java class");
+    setTitle(Messages.createJavaTaskWizardName);
+    setDescription(Messages.customNewClassWizardPageDescription);
   }
 
   @Override
