@@ -47,7 +47,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
       }
     }
     
-    public static String NOT_CHOSEN = "???";
+    public static final String NOT_CHOSEN = "???";
 
     public AddFeature(IFeatureProvider fp) {
       super(fp);
