@@ -52,7 +52,11 @@
     <module>org.ruminaq.tasks.gate.model</module>
 
     <module>org.ruminaq.tasks.inspect</module>
-    <module>org.ruminaq.tasks.javatask</module>
+
+    <module>org.ruminaq.tasks.javatask.gui</module>
+    <module>org.ruminaq.tasks.javatask.impl</module>
+    <module>org.ruminaq.tasks.javatask.model</module>
+
     <module>org.ruminaq.tasks.mux</module>
 
     <module>org.ruminaq.tasks.pythontask</module>
