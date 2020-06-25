@@ -1,0 +1,9 @@
+package test;
+
+import org.ruminaq.tasks.javatask.client.JavaTask;
+import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
+
+@JavaTaskInfo(atomic = false)
+public class NonAtomic extends JavaTask {
+
+}

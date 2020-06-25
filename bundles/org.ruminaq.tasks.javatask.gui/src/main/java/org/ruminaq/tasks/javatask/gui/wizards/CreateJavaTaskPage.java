@@ -197,7 +197,6 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
       boolean defaultAtomic = false;
       boolean defaultGenerator = false;
       boolean defaultExternalSource = false;
-      boolean defaultOnlyLocal = false;
       boolean defaultConstant = false;
       try {
         defaultAtomic = (boolean) JavaTaskInfo.class.getMethod("atomic")
@@ -206,8 +205,6 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
             .getDefaultValue();
         defaultExternalSource = (boolean) JavaTaskInfo.class
             .getMethod("externalSource").getDefaultValue();
-        defaultOnlyLocal = (boolean) JavaTaskInfo.class.getMethod("onlyLocal")
-            .getDefaultValue();
         defaultConstant = (boolean) JavaTaskInfo.class.getMethod("constant")
             .getDefaultValue();
       } catch (NoSuchMethodException e) {
@@ -217,7 +214,6 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
       if (module.isAtomic() == defaultAtomic
           && module.isGenerator() == defaultGenerator
           && module.isExternalSource() == defaultExternalSource
-          && module.isOnlyLocal() == defaultOnlyLocal
           && module.isConstant() == defaultConstant && ok) {
         final MarkerAnnotation javaTaskInfoA = ast.newMarkerAnnotation();
         javaTaskInfoA
@@ -256,12 +252,6 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
           MemberValuePair mvp = ast.newMemberValuePair();
           mvp.setName(ast.newSimpleName("externalSource"));
           mvp.setValue(ast.newBooleanLiteral(module.isExternalSource()));
-          javaTaskInfoA.values().add(mvp);
-        }
-        if (!ok || module.isOnlyLocal() != defaultOnlyLocal) {
-          MemberValuePair mvp = ast.newMemberValuePair();
-          mvp.setName(ast.newSimpleName("onlyLocal"));
-          mvp.setValue(ast.newBooleanLiteral(module.isOnlyLocal()));
           javaTaskInfoA.values().add(mvp);
         }
 

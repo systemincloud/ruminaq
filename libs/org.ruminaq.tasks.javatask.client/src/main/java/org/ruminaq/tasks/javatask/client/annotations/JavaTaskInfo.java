@@ -23,6 +23,4 @@ public @interface JavaTaskInfo {
   boolean externalSource() default false;
 
   boolean constant() default false;
-
-  boolean onlyLocal() default false;
 }

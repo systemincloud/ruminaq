@@ -6,7 +6,15 @@
 
 package org.ruminaq.tasks.javatask.it.tests;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.RandomStringUtils;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.junit.AfterClass;
@@ -26,6 +34,7 @@ import org.ruminaq.tests.common.SelectView;
 public class CreatingJavaTaskTest {
 
   private static SWTWorkbenchBot bot;
+  private static IWorkspace workspace;
 
   /**
    * Initialize SWTBot.
@@ -34,6 +43,7 @@ public class CreatingJavaTaskTest {
   @BeforeClass
   public static void initBot() {
     bot = new SWTWorkbenchBot();
+    workspace = ResourcesPlugin.getWorkspace();
     SelectView.closeWelcomeViewIfExists(bot);
   }
 
@@ -72,28 +82,39 @@ public class CreatingJavaTaskTest {
   }
 
   @Test
-  public final void testJavaTaskAnnotation() throws InterruptedException {
+  public final void testJavaTaskAnnotation()
+      throws InterruptedException, CoreException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
     Thread.sleep(5000);
-    
+
     new CreateJavaTask().openJavaTaskWizardFromProjectContextMenu(bot,
         projectName);
-    
+
     bot.textWithLabel("Package:").setText("test");
     bot.textWithLabel("Name:").setText("NonAtomic");
-    
+
     bot.button("Next >").click();
-    
+
     bot.checkBox("atomic").click();
-    
+
     Thread.sleep(1000);
 
     bot.button("Finish").click();
-    
+
     Thread.sleep(3000);
+
+    Assert.assertEquals("Java class created",
+        toString(this.getClass().getResourceAsStream("NonAtomic.javatest")),
+        toString(workspace.getRoot().getProject(projectName)
+            .getFile("src/main/java/test/NonAtomic.java").getContents()));
+  }
+
+  private static String toString(InputStream stream) {
+    return new BufferedReader(new InputStreamReader(stream)).lines()
+        .collect(Collectors.joining("\n"));
   }
 }

@@ -14,7 +14,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Module/generator"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Module/externalSource"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Module/constant"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Module/onlyLocal"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//Module/parameters"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Module/runnerStart"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Module/runnerStop"/>
