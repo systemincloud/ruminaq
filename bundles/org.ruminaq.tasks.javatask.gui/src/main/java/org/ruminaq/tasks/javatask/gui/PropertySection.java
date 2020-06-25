@@ -209,7 +209,6 @@ public class PropertySection
       }
     });
     btnClassNew.addSelectionListener(new SelectionAdapter() {
-      @SuppressWarnings("restriction")
       public void widgetSelected(SelectionEvent evt) {
         IWizardDescriptor descriptor = PlatformUI.getWorkbench()
             .getNewWizardRegistry().findWizard(CreateJavaTaskWizard.ID);

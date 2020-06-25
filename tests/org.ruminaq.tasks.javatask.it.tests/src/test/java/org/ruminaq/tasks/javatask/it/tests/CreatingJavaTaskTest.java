@@ -59,6 +59,9 @@ public class CreatingJavaTaskTest {
     Assert.assertEquals("Window title should be set", "New Java Class",
         bot.activeShell().getText());
 
-//    bot.textWithLabel("Ruminaq - Java Task");
+    bot.textWithLabel("Package:").setText("test");
+    bot.textWithLabel("Name:").setText("First");
+    
+    bot.button("Finish").click();
   }
 }

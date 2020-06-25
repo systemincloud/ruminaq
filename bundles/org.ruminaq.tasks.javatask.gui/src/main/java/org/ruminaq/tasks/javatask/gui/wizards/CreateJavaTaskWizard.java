@@ -21,8 +21,7 @@ import org.ruminaq.tasks.javatask.gui.Messages;
 import org.slf4j.Logger;
 
 /**
- * Wizard for creating a Java Class that implements
- * custom task.
+ * Wizard for creating a Java Class that implements custom task.
  * 
  * @author Marek Jagielski
  */
@@ -30,7 +29,7 @@ public class CreateJavaTaskWizard extends NewClassCreationWizard {
 
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(CreateJavaTaskWizard.class);
-  
+
   public static final String ID = "org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard";
 
   private CreateJavaTaskPage cjtp = new CreateJavaTaskPage(
@@ -55,7 +54,8 @@ public class CreateJavaTaskWizard extends NewClassCreationWizard {
       fPageF.setAccessible(true);
       fPage = new CustomNewClassWizardPage();
       fPage.setWizard(this);
-      fPage.init(Optional.ofNullable(selection).orElse(getSelection()));
+      fPage
+          .init(Optional.ofNullable(selection).orElseGet(() -> getSelection()));
       fPageF.set(this, fPage);
       addPage(fPage);
     } catch (IllegalArgumentException | IllegalAccessException
