@@ -45,12 +45,13 @@ public class CreatingJavaTaskTest {
   private static final int PROJECT_SUFFIX_LENGTH = 5;
 
   @Test
-  public final void testChoosingProjectFromMainMenu() throws InterruptedException {
+  public final void testChoosingProjectFromMainMenu()
+      throws InterruptedException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
-    
+
     Thread.sleep(5000);
 
     new CreateJavaTask().openJavaTaskWizardFromProjectContextMenu(bot,
@@ -61,7 +62,12 @@ public class CreatingJavaTaskTest {
 
     bot.textWithLabel("Package:").setText("test");
     bot.textWithLabel("Name:").setText("First");
-    
+
     bot.button("Finish").click();
+
+    Thread.sleep(3000);
+
+    Assert.assertEquals("Should open java editor with title", "First.java",
+        bot.activeEditor().getTitle());
   }
 }
