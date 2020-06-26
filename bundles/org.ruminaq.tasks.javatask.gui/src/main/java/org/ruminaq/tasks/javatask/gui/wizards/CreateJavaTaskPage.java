@@ -308,7 +308,7 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
           }
         });
       }
-      if (module.getParameters().size() > 0) {
+      if (!module.getParameters().isEmpty()) {
         acu.accept(new ASTVisitor() {
           public boolean visit(TypeDeclaration node) {
             ASTNode newLine = rewriter.createStringPlaceholder("",

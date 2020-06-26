@@ -10,8 +10,7 @@ class CodeGenerator {
     val conf        = #[module.atomic,
     	                module.generate,
     	                module.externalSource,
-    	                module.constant,
-    	                module.onlyLocal]
+    	                module.constant]
     val defaultConf = #[true,
     	                false,
     	                false,
@@ -46,8 +45,7 @@ class CodeGenerator {
 			»«IF i == 1»generator = «module.generate.toString.toUpperCase»«ENDIF»«
 			»«IF i == 2»external_source = «module.externalSource.toString.toUpperCase»«ENDIF»«
 			»«IF i == 3»constant = «module.constant.toString.toUpperCase»«ENDIF»«
-			»«IF i == 4»only_local =« module.onlyLocal.toString.toUpperCase»«ENDIF»«
-			»«IF i < 4 && showConf.subList(i + 1,showConf.size).exists[it == true]», «ENDIF»«
+			»«IF i < 3 && showConf.subList(i + 1,showConf.size).exists[it == true]», «ENDIF»«
 	    »«ENDIF»«
 	»«ENDFOR»),«"\n"»«
 	»«IF module.parameters.size > 0»«

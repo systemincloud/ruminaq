@@ -48,7 +48,6 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
   private Button btnGenerator;
   private Button btnExternalSource;
   private Button btnConstant;
-  private Button btnOnlyLocal;
 
   private Group grpRunner;
   private Button btnRunnerStart;
@@ -169,7 +168,6 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     btnGenerator = new Button(grpGeneral, SWT.CHECK);
     btnExternalSource = new Button(grpGeneral, SWT.CHECK);
     btnConstant = new Button(grpGeneral, SWT.CHECK);
-    btnOnlyLocal = new Button(grpGeneral, SWT.CHECK);
 
     grpRunner = new Group(root, SWT.NONE);
     grpRunner.setLayout(new GridLayout(2, false));
@@ -283,7 +281,6 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     btnGenerator.setText("generator");
     btnExternalSource.setText("external source");
     btnConstant.setText("constant");
-    btnOnlyLocal.setText("only local");
 
     btnRunnerStart.setText("runnerStart");
     btnRunnerStop.setText("runnerStop");
@@ -685,7 +682,6 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     module.setConstant(btnConstant.getSelection());
     module.setExternalSource(btnExternalSource.getSelection());
     module.setGenerator(btnGenerator.getSelection());
-    module.setOnlyLocal(btnOnlyLocal.getSelection());
 
     module.setRunnerStart(btnRunnerStart.getSelection());
     module.setRunnerStop(btnRunnerStop.getSelection());
