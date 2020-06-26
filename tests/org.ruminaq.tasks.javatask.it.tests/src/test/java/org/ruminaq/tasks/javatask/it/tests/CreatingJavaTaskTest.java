@@ -111,6 +111,31 @@ public class CreatingJavaTaskTest {
         toString(this.getClass().getResourceAsStream("NonAtomic.javatest")),
         toString(workspace.getRoot().getProject(projectName)
             .getFile("src/main/java/test/NonAtomic.java").getContents()));
+
+    new CreateJavaTask().openJavaTaskWizardFromProjectContextMenu(bot,
+        projectName);
+
+    bot.textWithLabel("Package:").setText("test");
+    bot.textWithLabel("Name:").setText("NonAtomicGeneratorExternalSource");
+
+    bot.button("Next >").click();
+
+    bot.checkBox("atomic").click();
+    bot.checkBox("generator").click();
+    bot.checkBox("external source").click();
+
+    Thread.sleep(1000);
+
+    bot.button("Finish").click();
+
+    Thread.sleep(3000);
+
+    Assert.assertEquals("Java class created",
+        toString(this.getClass()
+            .getResourceAsStream("NonAtomicGeneratorExternalSource.javatest")),
+        toString(workspace.getRoot().getProject(projectName)
+            .getFile("src/main/java/test/NonAtomicGeneratorExternalSource.java")
+            .getContents()));
   }
 
   private static String toString(InputStream stream) {
