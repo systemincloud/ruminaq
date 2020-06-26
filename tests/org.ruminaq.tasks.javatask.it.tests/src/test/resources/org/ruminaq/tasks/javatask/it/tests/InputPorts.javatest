@@ -1,0 +1,36 @@
+package test;
+
+import org.ruminaq.tasks.javatask.client.InputPort;
+import org.ruminaq.tasks.javatask.client.JavaTask;
+import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
+import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
+import org.ruminaq.tasks.javatask.client.data.Bool;
+import org.ruminaq.tasks.javatask.client.data.Complex32;
+
+@JavaTaskInfo
+public class InputPorts extends JavaTask {
+
+	@InputPortInfo(name = "a", dataType = Bool.class)
+	public InputPort a;
+	@InputPortInfo(name = "b", dataType = Complex32.class)
+	public InputPort b;
+	@InputPortInfo(name = "c", dataType = Complex32.class, asynchronous = true)
+	public InputPort c;
+	@InputPortInfo(name = "d", dataType = Complex32.class, hold = true)
+	public InputPort d;
+	@InputPortInfo(name = "e", dataType = Complex32.class, group = 1, hold = true)
+	public InputPort e;
+	@InputPortInfo(name = "f", dataType = Complex32.class, hold = true, queue = 3)
+	public InputPort f;
+	@InputPortInfo(name = "g", dataType = Complex32.class, hold = true, queue = -1)
+	public InputPort g;
+
+	@Override
+	public void executeAsync(InputPort asynchIn) {
+	}
+
+	@Override
+	public void execute(int grp) {
+	}
+
+}

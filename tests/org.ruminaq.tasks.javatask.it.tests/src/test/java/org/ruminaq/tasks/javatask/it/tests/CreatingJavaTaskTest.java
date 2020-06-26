@@ -157,6 +157,54 @@ public class CreatingJavaTaskTest {
         toString(this.getClass().getResourceAsStream("Constant.javatest")),
         toString(workspace.getRoot().getProject(projectName)
             .getFile("src/main/java/test/Constant.java").getContents()));
+    
+    new CreateJavaTask().openJavaTaskWizardFromProjectContextMenu(bot,
+        projectName);
+
+    bot.textWithLabel("Package:").setText("test");
+    bot.textWithLabel("Name:").setText("InputPorts");
+
+    bot.button("Next >").click();
+    
+    bot.textWithLabel("Name:", 0).setText("a");
+    bot.button("Add", 0).click();
+    
+    bot.textWithLabel("Name:", 0).setText("b");
+    bot.comboBox(0).setSelection("Complex32");
+    bot.button("Add", 0).click();
+
+    bot.textWithLabel("Name:", 0).setText("c");
+    bot.checkBox("asynchronous").click();
+    bot.button("Add", 0).click();
+    bot.checkBox("asynchronous").click();
+
+    bot.textWithLabel("Name:", 0).setText("d");
+    bot.checkBox("hold last data").click();
+    bot.button("Add", 0).click();
+
+    bot.textWithLabel("Name:", 0).setText("e");
+    bot.spinner(0).setSelection(1);
+    bot.button("Add", 0).click();
+    bot.spinner(0).setSelection(-1);
+
+    bot.textWithLabel("Name:", 0).setText("f");
+    bot.spinner(1).setSelection(3);
+    bot.button("Add", 0).click();
+
+    bot.textWithLabel("Name:", 0).setText("g");
+    bot.checkBox("inf").click();
+    bot.button("Add", 0).click();
+
+    Thread.sleep(1000);
+
+    bot.button("Finish").click();
+
+    Thread.sleep(3000);
+
+    Assert.assertEquals("Java class created",
+        toString(this.getClass().getResourceAsStream("InputPorts.javatest")),
+        toString(workspace.getRoot().getProject(projectName)
+            .getFile("src/main/java/test/InputPorts.java").getContents()));
   }
 
   private static String toString(InputStream stream) {
