@@ -55,13 +55,14 @@ import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.SicParameter;
 import org.ruminaq.tasks.javatask.client.annotations.SicParameters;
 import org.ruminaq.tasks.javatask.client.data.Data;
+import org.ruminaq.tasks.javatask.gui.Messages;
 import org.ruminaq.tasks.javatask.impl.JavaTaskDataConverter;
 
 public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
 
   public CreateJavaTaskPage(String pageName) {
     super(pageName);
-    setTitle("Ruminaq - Java Task");
+    setTitle(Messages.createJavaTaskWizardName);
     setDescription("Here you can describe your task features");
   }
 
@@ -81,62 +82,9 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
       final AST ast = acu.getAST();
       final ASTRewrite rewriter = ASTRewrite.create(ast);
 
-      // Imports
-      ListRewrite lrw = rewriter.getListRewrite(acu,
-          CompilationUnit.IMPORTS_PROPERTY);
-      if (module.getInputs().size() > 0) {
-        ImportDeclaration id3 = ast.newImportDeclaration();
-        id3.setName(ast.newName(InputPort.class.getCanonicalName()));
-        lrw.insertLast(id3, null);
-      }
-      ImportDeclaration id1 = ast.newImportDeclaration();
-      id1.setName(ast.newName(JavaTask.class.getCanonicalName()));
-      lrw.insertLast(id1, null);
-      if (module.getOutputs().size() > 0) {
-        ImportDeclaration id5 = ast.newImportDeclaration();
-        id5.setName(ast.newName(OutputPort.class.getCanonicalName()));
-        lrw.insertLast(id5, null);
-      }
-      if (module.getInputs().size() > 0) {
-        ImportDeclaration id4 = ast.newImportDeclaration();
-        id4.setName(ast.newName(InputPortInfo.class.getCanonicalName()));
-        lrw.insertLast(id4, null);
-      }
-      ImportDeclaration id2 = ast.newImportDeclaration();
-      id2.setName(ast.newName(JavaTaskInfo.class.getCanonicalName()));
-      lrw.insertLast(id2, null);
-      if (module.getOutputs().size() > 0) {
-        ImportDeclaration id6 = ast.newImportDeclaration();
-        id6.setName(ast.newName(OutputPortInfo.class.getCanonicalName()));
-        lrw.insertLast(id6, null);
-      }
-      if (module.getParameters().size() > 0) {
-        ImportDeclaration id7 = ast.newImportDeclaration();
-        id7.setName(ast.newName(SicParameter.class.getCanonicalName()));
-        lrw.insertLast(id7, null);
-        ImportDeclaration id8 = ast.newImportDeclaration();
-        id8.setName(ast.newName(SicParameters.class.getCanonicalName()));
-        lrw.insertLast(id8, null);
-      }
-
-      List<String> dataTypes = new LinkedList<>();
-      for (In in : module.getInputs())
-        if (!dataTypes.contains(in.getDataType()))
-          dataTypes.add(in.getDataType());
-      for (Out out : module.getOutputs())
-        if (!dataTypes.contains(out.getDataType()))
-          dataTypes.add(out.getDataType());
-
-      for (String dt : dataTypes) {
-        for (Class<? extends Data> c : JavaTaskDataConverter.INSTANCE
-            .getJavaTaskDatas())
-          if (c.getSimpleName().equals(dt)) {
-            ImportDeclaration iddt = ast.newImportDeclaration();
-            iddt.setName(ast.newName(c.getCanonicalName()));
-            lrw.insertLast(iddt, null);
-            break;
-          }
-      }
+      imports(ast,
+          rewriter.getListRewrite(acu, CompilationUnit.IMPORTS_PROPERTY),
+          module);
 
       //
       // @SicParameters
@@ -618,8 +566,58 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
     }
   }
 
+  private void imports(AST ast, ListRewrite lrw, Module module) {
+    if (!module.getInputs().isEmpty()) {
+      addImport(ast, lrw, InputPort.class.getCanonicalName());
+    }
+
+    addImport(ast, lrw, JavaTask.class.getCanonicalName());
+
+    if (!module.getOutputs().isEmpty()) {
+      addImport(ast, lrw, OutputPort.class.getCanonicalName());
+    }
+
+    if (!module.getInputs().isEmpty()) {
+      addImport(ast, lrw, InputPortInfo.class.getCanonicalName());
+    }
+
+    addImport(ast, lrw, JavaTaskInfo.class.getCanonicalName());
+
+    if (!module.getOutputs().isEmpty()) {
+      addImport(ast, lrw, OutputPortInfo.class.getCanonicalName());
+    }
+
+    if (!module.getParameters().isEmpty()) {
+      addImport(ast, lrw, SicParameter.class.getCanonicalName());
+      addImport(ast, lrw, SicParameters.class.getCanonicalName());
+    }
+
+    List<String> dataTypes = new LinkedList<>();
+    for (In in : module.getInputs())
+      if (!dataTypes.contains(in.getDataType()))
+        dataTypes.add(in.getDataType());
+    for (Out out : module.getOutputs())
+      if (!dataTypes.contains(out.getDataType()))
+        dataTypes.add(out.getDataType());
+
+    for (String dt : dataTypes) {
+      for (Class<? extends Data> c : JavaTaskDataConverter.INSTANCE
+          .getJavaTaskDatas())
+        if (c.getSimpleName().equals(dt)) {
+          addImport(ast, lrw, c.getCanonicalName());
+          break;
+        }
+    }
+  }
+
+  private static void addImport(AST ast, ListRewrite lrw, String canonicalName) {
+    ImportDeclaration id = ast.newImportDeclaration();
+    id.setName(ast.newName(canonicalName));
+    lrw.insertLast(id, null);
+  }
+
   public static CompilationUnit parse(ICompilationUnit unit) {
-    ASTParser parser = ASTParser.newParser(AST.JLS8);
+    ASTParser parser = ASTParser.newParser(AST.JLS14);
     parser.setKind(ASTParser.K_COMPILATION_UNIT);
     parser.setSource(unit);
     parser.setResolveBindings(true);
