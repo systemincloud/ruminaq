@@ -141,7 +141,6 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
       //
       // @JavaTaskInfo
       //
-      boolean ok = true;
       boolean defaultAtomic = false;
       boolean defaultGenerator = false;
       boolean defaultExternalSource = false;
@@ -156,13 +155,12 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
         defaultConstant = (boolean) JavaTaskInfo.class.getMethod("constant")
             .getDefaultValue();
       } catch (NoSuchMethodException e) {
-        ok = false;
       }
 
       if (module.isAtomic() == defaultAtomic
           && module.isGenerator() == defaultGenerator
           && module.isExternalSource() == defaultExternalSource
-          && module.isConstant() == defaultConstant && ok) {
+          && module.isConstant() == defaultConstant) {
         final MarkerAnnotation javaTaskInfoA = ast.newMarkerAnnotation();
         javaTaskInfoA
             .setTypeName(ast.newSimpleName(JavaTaskInfo.class.getSimpleName()));
@@ -178,25 +176,25 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
         javaTaskInfoA
             .setTypeName(ast.newSimpleName(JavaTaskInfo.class.getSimpleName()));
 
-        if (!ok || module.isConstant() != defaultConstant) {
+        if (module.isConstant() != defaultConstant) {
           MemberValuePair mvp = ast.newMemberValuePair();
           mvp.setName(ast.newSimpleName("constant"));
           mvp.setValue(ast.newBooleanLiteral(module.isConstant()));
           javaTaskInfoA.values().add(mvp);
         }
-        if (!ok || module.isAtomic() != defaultAtomic) {
+        if (module.isAtomic() != defaultAtomic) {
           MemberValuePair mvp = ast.newMemberValuePair();
           mvp.setName(ast.newSimpleName("atomic"));
           mvp.setValue(ast.newBooleanLiteral(module.isAtomic()));
           javaTaskInfoA.values().add(mvp);
         }
-        if (!ok || module.isGenerator() != defaultGenerator) {
+        if (module.isGenerator() != defaultGenerator) {
           MemberValuePair mvp = ast.newMemberValuePair();
           mvp.setName(ast.newSimpleName("generator"));
           mvp.setValue(ast.newBooleanLiteral(module.isGenerator()));
           javaTaskInfoA.values().add(mvp);
         }
-        if (!ok || module.isExternalSource() != defaultExternalSource) {
+        if (module.isExternalSource() != defaultExternalSource) {
           MemberValuePair mvp = ast.newMemberValuePair();
           mvp.setName(ast.newSimpleName("externalSource"));
           mvp.setValue(ast.newBooleanLiteral(module.isExternalSource()));
