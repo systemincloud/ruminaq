@@ -574,7 +574,7 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
     Stream
         .concat(module.getInputs().stream().map(In::getDataType),
             module.getOutputs().stream().map(Out::getDataType))
-        .distinct().forEach(dt -> {
+        .distinct().sorted().forEach(dt -> {
           for (Class<? extends Data> c : JavaTaskDataConverter.INSTANCE
               .getJavaTaskDatas())
             if (c.getSimpleName().equals(dt)) {
