@@ -51,7 +51,6 @@ import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.SicParameter;
-import org.ruminaq.tasks.javatask.client.annotations.SicParameters;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskPage;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.util.EclipseUtil;
@@ -109,7 +108,8 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
     if (type == null)
       return false;
-    this.desc = "".equals(type.getElementName()) ? AddFeatureImpl.AddFeature.NOT_CHOSEN
+    this.desc = "".equals(type.getElementName())
+        ? AddFeatureImpl.AddFeature.NOT_CHOSEN
         : type.getElementName();
 
     IAnnotation[] annotations;
@@ -359,50 +359,39 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
         @Override
         public boolean visit(TypeDeclaration node) {
           for (Object m : node.modifiers()) {
-            if (m instanceof SingleMemberAnnotation
-                && ((SingleMemberAnnotation) m).getTypeName().toString()
-                    .equals(SicParameters.class.getSimpleName())) {
-              SingleMemberAnnotation sicParametersA = (SingleMemberAnnotation) m;
-              Object v = sicParametersA.getValue();
-              if (v instanceof ArrayInitializer) {
-                for (Object e : ((ArrayInitializer) v).expressions()) {
-                  if (e instanceof NormalAnnotation
-                      && ((NormalAnnotation) e).getTypeName().toString()
-                          .equals(SicParameter.class.getSimpleName())) {
-                    NormalAnnotation sicParameterA = (NormalAnnotation) e;
-                    String name = null;
-                    String defaultValue = "";
-                    for (Object i : sicParameterA.values()) {
-                      if (i instanceof MemberValuePair) {
-                        MemberValuePair mvp = (MemberValuePair) i;
-                        if ("name".equals(mvp.getName().toString())) {
-                          Expression e2 = mvp.getValue();
-                          if (e2 instanceof QualifiedName) {
-                            QualifiedName qn = (QualifiedName) e2;
-                            IBinding b = qn.resolveBinding();
-                            if (b instanceof IVariableBinding)
-                              name = (String) ((IVariableBinding) b)
-                                  .getConstantValue();
-                          } else if (e2 instanceof StringLiteral)
-                            name = ((StringLiteral) e2).getLiteralValue();
-                        } else if ("defaultValue"
-                            .equals(mvp.getName().toString())) {
-                          Expression e2 = mvp.getValue();
-                          if (e2 instanceof QualifiedName) {
-                            QualifiedName qn = (QualifiedName) e2;
-                            IBinding b = qn.resolveBinding();
-                            if (b instanceof IVariableBinding)
-                              defaultValue = (String) ((IVariableBinding) b)
-                                  .getConstantValue();
-                          } else if (e2 instanceof StringLiteral)
-                            defaultValue = ((StringLiteral) e2)
-                                .getLiteralValue();
-                        }
-                      }
-                    }
-                    ret.put(name, defaultValue);
+            if (m instanceof NormalAnnotation
+                && ((NormalAnnotation) m).getTypeName().toString()
+                    .equals(SicParameter.class.getSimpleName())) {
+              NormalAnnotation sicParameterA = (NormalAnnotation) m;
+              String name = null;
+              String defaultValue = "";
+              for (Object i : sicParameterA.values()) {
+                if (i instanceof MemberValuePair) {
+                  MemberValuePair mvp = (MemberValuePair) i;
+                  if ("name".equals(mvp.getName().toString())) {
+                    Expression e2 = mvp.getValue();
+                    if (e2 instanceof QualifiedName) {
+                      QualifiedName qn = (QualifiedName) e2;
+                      IBinding b = qn.resolveBinding();
+                      if (b instanceof IVariableBinding)
+                        name = (String) ((IVariableBinding) b)
+                            .getConstantValue();
+                    } else if (e2 instanceof StringLiteral)
+                      name = ((StringLiteral) e2).getLiteralValue();
+                  } else if ("defaultValue".equals(mvp.getName().toString())) {
+                    Expression e2 = mvp.getValue();
+                    if (e2 instanceof QualifiedName) {
+                      QualifiedName qn = (QualifiedName) e2;
+                      IBinding b = qn.resolveBinding();
+                      if (b instanceof IVariableBinding)
+                        defaultValue = (String) ((IVariableBinding) b)
+                            .getConstantValue();
+                    } else if (e2 instanceof StringLiteral)
+                      defaultValue = ((StringLiteral) e2).getLiteralValue();
                   }
                 }
+
+                ret.put(name, defaultValue);
               }
             }
           }

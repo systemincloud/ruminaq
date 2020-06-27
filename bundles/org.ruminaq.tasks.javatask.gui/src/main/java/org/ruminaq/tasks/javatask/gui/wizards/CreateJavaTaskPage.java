@@ -6,8 +6,8 @@
 
 package org.ruminaq.tasks.javatask.gui.wizards;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -17,7 +17,6 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
-import org.eclipse.jdt.core.dom.ArrayInitializer;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
@@ -28,7 +27,6 @@ import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.SimpleType;
-import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
@@ -53,7 +51,6 @@ import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.SicParameter;
-import org.ruminaq.tasks.javatask.client.annotations.SicParameters;
 import org.ruminaq.tasks.javatask.client.data.Data;
 import org.ruminaq.tasks.javatask.gui.Messages;
 import org.ruminaq.tasks.javatask.impl.JavaTaskDataConverter;
@@ -86,19 +83,8 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
           rewriter.getListRewrite(acu, CompilationUnit.IMPORTS_PROPERTY),
           module);
 
-      //
-      // @SicParameters
-      //
       List<Parameter> parameters = module.getParameters();
-      if (parameters.size() != 0) {
-
-        final SingleMemberAnnotation sicParametersA = ast
-            .newSingleMemberAnnotation();
-        sicParametersA.setTypeName(
-            ast.newSimpleName(SicParameters.class.getSimpleName()));
-
-        ArrayInitializer array = ast.newArrayInitializer();
-
+      if (!parameters.isEmpty()) {
         for (Parameter p : parameters) {
           NormalAnnotation sicParameterA = ast.newNormalAnnotation();
           sicParameterA.setTypeName(
@@ -122,19 +108,15 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
             sicParameterA.values().add(mvpValue);
           }
 
-          array.expressions().add(sicParameterA);
+          acu.accept(new ASTVisitor() {
+            @Override
+            public boolean visit(TypeDeclaration node) {
+              rewriter.getListRewrite(node, node.getModifiersProperty())
+                  .insertAt(sicParameterA, 0, null);
+              return false;
+            }
+          });
         }
-
-        sicParametersA.setValue(array);
-
-        acu.accept(new ASTVisitor() {
-          @Override
-          public boolean visit(TypeDeclaration node) {
-            rewriter.getListRewrite(node, node.getModifiersProperty())
-                .insertAt(sicParametersA, 0, null);
-            return false;
-          }
-        });
       }
       // ----------------------------------------------------------------
 
@@ -587,28 +569,23 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
 
     if (!module.getParameters().isEmpty()) {
       addImport(ast, lrw, SicParameter.class.getCanonicalName());
-      addImport(ast, lrw, SicParameters.class.getCanonicalName());
     }
 
-    List<String> dataTypes = new LinkedList<>();
-    for (In in : module.getInputs())
-      if (!dataTypes.contains(in.getDataType()))
-        dataTypes.add(in.getDataType());
-    for (Out out : module.getOutputs())
-      if (!dataTypes.contains(out.getDataType()))
-        dataTypes.add(out.getDataType());
-
-    for (String dt : dataTypes) {
-      for (Class<? extends Data> c : JavaTaskDataConverter.INSTANCE
-          .getJavaTaskDatas())
-        if (c.getSimpleName().equals(dt)) {
-          addImport(ast, lrw, c.getCanonicalName());
-          break;
-        }
-    }
+    Stream
+        .concat(module.getInputs().stream().map(In::getDataType),
+            module.getOutputs().stream().map(Out::getDataType))
+        .distinct().forEach(dt -> {
+          for (Class<? extends Data> c : JavaTaskDataConverter.INSTANCE
+              .getJavaTaskDatas())
+            if (c.getSimpleName().equals(dt)) {
+              addImport(ast, lrw, c.getCanonicalName());
+              break;
+            }
+        });
   }
 
-  private static void addImport(AST ast, ListRewrite lrw, String canonicalName) {
+  private static void addImport(AST ast, ListRewrite lrw,
+      String canonicalName) {
     ImportDeclaration id = ast.newImportDeclaration();
     id.setName(ast.newName(canonicalName));
     lrw.insertLast(id, null);
