@@ -390,7 +390,6 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
                       defaultValue = ((StringLiteral) e2).getLiteralValue();
                   }
                 }
-
                 ret.put(name, defaultValue);
               }
             }
