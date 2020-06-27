@@ -32,9 +32,6 @@ import org.ruminaq.tasks.javatask.impl.service.JavaTaskServiceManager;
 public enum JavaTaskDataConverter {
   INSTANCE;
 
-//  @Reference
-//  private JavaTaskExtensionHandler extensions;
-
   public List<Class<? extends Data>> getJavaTaskDatas() {
     List<Class<? extends Data>> ret = new LinkedList<>();
     ret.add(Bool.class);
