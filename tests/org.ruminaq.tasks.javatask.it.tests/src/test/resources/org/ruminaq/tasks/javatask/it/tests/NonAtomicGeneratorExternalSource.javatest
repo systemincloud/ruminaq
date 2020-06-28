@@ -14,4 +14,12 @@ public class NonAtomicGeneratorExternalSource extends JavaTask {
 	public void generate() {
 	}
 
+	@Override
+	public void runnerStart() {
+	}
+
+	@Override
+	public void runnerStop() {
+	}
+
 }

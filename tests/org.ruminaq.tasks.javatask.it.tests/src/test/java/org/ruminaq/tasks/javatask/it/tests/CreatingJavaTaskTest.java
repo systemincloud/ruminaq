@@ -123,6 +123,8 @@ public class CreatingJavaTaskTest {
     bot.checkBox("atomic").click();
     bot.checkBox("generator").click();
     bot.checkBox("external source").click();
+    bot.checkBox("runnerStart").click();
+    bot.checkBox("runnerStop").click();
 
     Thread.sleep(1000);
 
@@ -157,7 +159,7 @@ public class CreatingJavaTaskTest {
         toString(this.getClass().getResourceAsStream("Constant.javatest")),
         toString(workspace.getRoot().getProject(projectName)
             .getFile("src/main/java/test/Constant.java").getContents()));
-    
+
     new CreateJavaTask().openJavaTaskWizardFromProjectContextMenu(bot,
         projectName);
 
@@ -165,10 +167,10 @@ public class CreatingJavaTaskTest {
     bot.textWithLabel("Name:").setText("InputPorts");
 
     bot.button("Next >").click();
-    
+
     bot.textWithLabel("Name:", 0).setText("a");
     bot.button("Add", 0).click();
-    
+
     bot.textWithLabel("Name:", 0).setText("b");
     bot.comboBox(0).setSelection("Complex32");
     bot.button("Add", 0).click();
