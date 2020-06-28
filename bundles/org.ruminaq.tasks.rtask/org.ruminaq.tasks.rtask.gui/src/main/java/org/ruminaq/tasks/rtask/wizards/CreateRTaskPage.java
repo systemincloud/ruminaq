@@ -1,10 +1,17 @@
 package org.ruminaq.tasks.rtask.wizards;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.javatuples.Pair;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskPage;
 import org.ruminaq.tasks.rtask.RData;
+import org.ruminaq.tasks.rtask.api.RTaskExtension;
 import org.ruminaq.tasks.rtask.ui.wizards.ICreateRTaskPage;
+import org.ruminaq.util.ServiceUtil;
 
 public class CreateRTaskPage extends CreateUserDefinedTaskPage
     implements ICreateRTaskPage {
@@ -17,8 +24,11 @@ public class CreateRTaskPage extends CreateUserDefinedTaskPage
 
   @Override
   protected List<String> getDataTypes() {
-    for (Pair<String, String> p : RData.INSTANCE.getRTaskDatas())
-      cmb.add(p.getValue1());
+    return ServiceUtil
+        .getServicesAtLatestVersion(CreateRTaskPage.class,
+            RTaskExtension.class)
+        .stream().map(RTaskExtension::getDataTypes).map(Map::keySet)
+        .flatMap(Set::stream).collect(Collectors.toList());
   }
 
   @Override
