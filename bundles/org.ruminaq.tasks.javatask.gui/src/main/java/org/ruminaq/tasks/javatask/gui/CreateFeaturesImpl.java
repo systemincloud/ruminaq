@@ -17,6 +17,7 @@ import org.ruminaq.gui.api.CreateFeaturesExtension;
 import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
+import org.ruminaq.model.desc.NoPorts;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.tasks.javatask.model.javatask.JavataskFactory;
@@ -61,7 +62,7 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
     @Override
     protected Class<? extends PortsDescr> getPortsDescription() {
-      return Port.class;
+      return NoPorts.class;
     }
 
     @Override
