@@ -24,6 +24,8 @@ public class Ports extends JavaTask {
 	public InputPort f;
 	@InputPortInfo(name = "g", dataType = Complex32.class, hold = true, queue = -1)
 	public InputPort g;
+	@OutputPortInfo(name = "h", dataType = Complex32.class)
+	public OutputPort h;
 
 	@Override
 	public void executeAsync(InputPort asynchIn) {

@@ -185,9 +185,8 @@ public class CreatingJavaTaskTest {
     bot.button("Add", 0).click();
 
     bot.textWithLabel("Name:", 0).setText("e");
-    bot.spinner(0).setSelection(1);
+    bot.comboBox(1).setSelection("Complex32");
     bot.button("Add", 0).click();
-    bot.spinner(0).setSelection(-1);
 
     bot.textWithLabel("Name:", 0).setText("f");
     bot.spinner(1).setSelection(3);
@@ -196,6 +195,11 @@ public class CreatingJavaTaskTest {
     bot.textWithLabel("Name:", 0).setText("g");
     bot.checkBox("inf").click();
     bot.button("Add", 0).click();
+
+    bot.textWithLabel("Name:", 1).setText("h");
+    bot.spinner(1).setSelection(1);
+    bot.button("Add", 1).click();
+    bot.spinner(0).setSelection(-1);
 
     Thread.sleep(1000);
 
