@@ -7,6 +7,8 @@
 package org.ruminaq.tasks.javatask.gui.wizards;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -36,7 +38,6 @@ import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
 import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
 import org.ruminaq.eclipse.usertask.model.userdefined.In;
@@ -53,21 +54,32 @@ import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.SicParameter;
 import org.ruminaq.tasks.javatask.client.data.Data;
 import org.ruminaq.tasks.javatask.gui.Messages;
+import org.ruminaq.tasks.javatask.gui.api.JavaTaskExtension;
 import org.ruminaq.tasks.javatask.impl.JavaTaskDataConverter;
+import org.ruminaq.util.ServiceUtil;
 
+/**
+ * JavaTask wizard page.
+ *
+ * @author Marek Jagielski
+ */
 public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
+
+  private List<Class<? extends Data>> dataTypes = ServiceUtil
+      .getServicesAtLatestVersion(CreateJavaTaskPage.class,
+          JavaTaskExtension.class)
+      .stream().map(JavaTaskExtension::getDataTypes).flatMap(List::stream)
+      .collect(Collectors.toList());
 
   public CreateJavaTaskPage(String pageName) {
     super(pageName);
     setTitle(Messages.createJavaTaskWizardName);
-    setDescription("Here you can describe your task features");
   }
 
   @Override
-  protected void fillWithData(Combo cmb) {
-    for (Class<? extends Data> c : JavaTaskDataConverter.INSTANCE
-        .getJavaTaskDatas())
-      cmb.add(c.getSimpleName());
+  protected List<String> getDataTypes() {
+    return dataTypes.stream().map(Class::getSimpleName)
+        .collect(Collectors.toList());
   }
 
   @SuppressWarnings({ "unchecked" })
@@ -147,6 +159,7 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
         javaTaskInfoA
             .setTypeName(ast.newSimpleName(JavaTaskInfo.class.getSimpleName()));
         acu.accept(new ASTVisitor() {
+
           public boolean visit(TypeDeclaration node) {
             rewriter.getListRewrite(node, node.getModifiersProperty())
                 .insertAt(javaTaskInfoA, 0, null);
@@ -198,6 +211,7 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
       // extends JavaTask
       //
       acu.accept(new ASTVisitor() {
+
         @Override
         public boolean visit(TypeDeclaration node) {
           SimpleType st = ast
@@ -212,7 +226,9 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
       //
       // Parameters
       //
-      for (final Parameter p : module.getParameters()) {
+      for (
+
+      final Parameter p : module.getParameters()) {
         acu.accept(new ASTVisitor() {
           public boolean visit(TypeDeclaration node) {
             VariableDeclarationFragment fragment = ast
@@ -278,17 +294,12 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
             mvpName.setValue(vName);
             inputPortInfoA.values().add(mvpName);
 
-            for (Class<? extends Data> c : JavaTaskDataConverter.INSTANCE
-                .getJavaTaskDatas())
-              if (c.getSimpleName().equals(in.getDataType())) {
-                MemberValuePair mvpDt = ast.newMemberValuePair();
-                mvpDt.setName(ast.newSimpleName("dataType"));
-                TypeLiteral vDt = ast.newTypeLiteral();
-                vDt.setType(ast.newSimpleType(ast.newName(in.getDataType())));
-                mvpDt.setValue(vDt);
-                inputPortInfoA.values().add(mvpDt);
-                break;
-              }
+            MemberValuePair mvpDt = ast.newMemberValuePair();
+            mvpDt.setName(ast.newSimpleName("dataType"));
+            TypeLiteral vDt = ast.newTypeLiteral();
+            vDt.setType(ast.newSimpleType(ast.newName(in.getDataType())));
+            mvpDt.setValue(vDt);
+            inputPortInfoA.values().add(mvpDt);
 
             if (in.isAsynchronous()) {
               MemberValuePair mvpAsync = ast.newMemberValuePair();
@@ -360,17 +371,12 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
             mvpName.setValue(vName);
             outputPortInfoA.values().add(mvpName);
 
-            for (Class<? extends Data> c : JavaTaskDataConverter.INSTANCE
-                .getJavaTaskDatas())
-              if (c.getSimpleName().equals(out.getDataType())) {
-                MemberValuePair mvpDt = ast.newMemberValuePair();
-                mvpDt.setName(ast.newSimpleName("dataType"));
-                TypeLiteral vDt = ast.newTypeLiteral();
-                vDt.setType(ast.newSimpleType(ast.newName(out.getDataType())));
-                mvpDt.setValue(vDt);
-                outputPortInfoA.values().add(mvpDt);
-                break;
-              }
+            MemberValuePair mvpDt = ast.newMemberValuePair();
+            mvpDt.setName(ast.newSimpleName("dataType"));
+            TypeLiteral vDt = ast.newTypeLiteral();
+            vDt.setType(ast.newSimpleType(ast.newName(out.getDataType())));
+            mvpDt.setValue(vDt);
+            outputPortInfoA.values().add(mvpDt);
 
             field.modifiers().add(0, outputPortInfoA);
 
@@ -535,14 +541,12 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
     Stream
         .concat(module.getInputs().stream().map(In::getDataType),
             module.getOutputs().stream().map(Out::getDataType))
-        .distinct().sorted().forEach(dt -> {
-          for (Class<? extends Data> c : JavaTaskDataConverter.INSTANCE
-              .getJavaTaskDatas())
-            if (c.getSimpleName().equals(dt)) {
-              addImport(ast, lrw, c.getCanonicalName());
-              break;
-            }
-        });
+        .distinct()
+        .map(dt -> dataTypes.stream()
+            .filter(dti -> dti.getSimpleName().equals(dt)).findFirst())
+        .filter(Optional::isPresent).map(Optional::get)
+        .map(Class::getCanonicalName)
+        .forEach(clazz -> addImport(ast, lrw, clazz));
   }
 
   private static void addImport(AST ast, ListRewrite lrw,
@@ -573,6 +577,6 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
     parser.setKind(ASTParser.K_COMPILATION_UNIT);
     parser.setSource(unit);
     parser.setResolveBindings(true);
-    return (CompilationUnit) parser.createAST(null); // parse
+    return (CompilationUnit) parser.createAST(null);
   }
 }

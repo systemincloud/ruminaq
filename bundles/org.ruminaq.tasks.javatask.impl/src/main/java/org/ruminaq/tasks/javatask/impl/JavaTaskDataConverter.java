@@ -1,8 +1,5 @@
 package org.ruminaq.tasks.javatask.impl;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.ruminaq.runner.impl.data.BoolI;
 import org.ruminaq.runner.impl.data.Complex32I;
 import org.ruminaq.runner.impl.data.Complex64I;
@@ -31,23 +28,6 @@ import org.ruminaq.tasks.javatask.impl.service.JavaTaskServiceManager;
 
 public enum JavaTaskDataConverter {
   INSTANCE;
-
-  public List<Class<? extends Data>> getJavaTaskDatas() {
-    List<Class<? extends Data>> ret = new LinkedList<>();
-    ret.add(Bool.class);
-    ret.add(Complex32.class);
-    ret.add(Complex64.class);
-    ret.add(Control.class);
-    ret.add(Decimal.class);
-    ret.add(Int32.class);
-    ret.add(Int64.class);
-    ret.add(Float32.class);
-    ret.add(Float64.class);
-    ret.add(Raw.class);
-    ret.add(Text.class);
-//    ret.addAll(extensions.getJavaTaskDatas());
-    return ret;
-  }
 
   public Data toJavaTaskData(DataI dataI, Class<? extends Data> to) {
     Data data = JavaTaskServiceManager.INSTANCE.toJavaTaskData(dataI, to);

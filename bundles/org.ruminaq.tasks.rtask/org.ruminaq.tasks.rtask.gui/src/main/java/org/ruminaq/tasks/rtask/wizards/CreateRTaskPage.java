@@ -1,6 +1,5 @@
 package org.ruminaq.tasks.rtask.wizards;
 
-import org.eclipse.swt.widgets.Combo;
 import org.javatuples.Pair;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskPage;
@@ -17,7 +16,7 @@ public class CreateRTaskPage extends CreateUserDefinedTaskPage
   }
 
   @Override
-  protected void fillWithData(Combo cmb) {
+  protected List<String> getDataTypes() {
     for (Pair<String, String> p : RData.INSTANCE.getRTaskDatas())
       cmb.add(p.getValue1());
   }

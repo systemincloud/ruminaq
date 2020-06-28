@@ -7,6 +7,7 @@
 package org.ruminaq.eclipse.wizards.task;
 
 import java.text.Collator;
+import java.util.List;
 import java.util.Locale;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -40,6 +41,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.usertask.model.userdefined.In;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.Out;
@@ -153,6 +155,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
 
   public CreateUserDefinedTaskPage(String pageName) {
     super(pageName);
+    setDescription(Messages.createUserDefinedTaskPageDescription);
   }
 
   @Override
@@ -310,7 +313,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     Stream.of(tblInputs.getColumns()).forEach(TableColumn::pack);
 
     lblInputsAddName.setText("Name:");
-    fillWithData(cmbInputsAddData);
+    getDataTypes().stream().forEach(cmbInputsAddData::add);
     cmbInputsAddData.select(0);
     btnInputsAddAsync.setText("asynchronous");
     btnInputsAddHold.setText("hold last data");
@@ -341,7 +344,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     Stream.of(tblOutputs.getColumns()).forEach(TableColumn::pack);
 
     lblOutputsAddName.setText("Name:");
-    fillWithData(cmbOutputsAddData);
+    getDataTypes().stream().forEach(cmbOutputsAddData::add);
     cmbOutputsAddData.select(0);
     btnOutputsAdd.setText("Add");
     btnOutputsAdd.setEnabled(false);
@@ -367,7 +370,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     btnParametersRemove.setEnabled(false);
   }
 
-  protected abstract void fillWithData(Combo cmb);
+  protected abstract List<String> getDataTypes();
 
   private void initActions() {
     btnAtomic.addSelectionListener(new SelectionAdapter() {
