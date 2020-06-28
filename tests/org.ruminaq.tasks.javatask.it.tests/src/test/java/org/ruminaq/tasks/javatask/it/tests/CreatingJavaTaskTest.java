@@ -82,7 +82,7 @@ public class CreatingJavaTaskTest {
   }
 
   @Test
-  public final void testJavaTaskAnnotation()
+  public final void testJavaTaskOptions()
       throws InterruptedException, CoreException {
     String projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
@@ -186,7 +186,9 @@ public class CreatingJavaTaskTest {
 
     bot.textWithLabel("Name:", 0).setText("e");
     bot.comboBox(0).setSelection("Complex32");
+    bot.spinner(0).setSelection(1);
     bot.button("Add", 0).click();
+    bot.spinner(0).setSelection(-1);
 
     bot.textWithLabel("Name:", 0).setText("f");
     bot.spinner(1).setSelection(3);
