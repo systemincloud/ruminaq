@@ -1,7 +1,14 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.eclipse.wizards.task;
 
 import java.text.Collator;
 import java.util.Locale;
+import java.util.function.Predicate;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -38,6 +45,10 @@ import org.ruminaq.eclipse.usertask.model.userdefined.Out;
 import org.ruminaq.eclipse.usertask.model.userdefined.Parameter;
 import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
 
+/**
+ *
+ * @author Marek Jagielski
+ */
 public abstract class CreateUserDefinedTaskPage extends WizardPage
     implements ICreateUserDefinedTaskPage {
 
@@ -64,14 +75,11 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
   private DragSource tblInputsDragSrc;
   private DropTarget tblInputsDropTrg;
 
-  private Group grpInputsAdd;
   private Label lblInputsAddName;
   private Text txtInputsAddName;
   private Combo cmbInputsAddData;
-  private Composite cmpInputsAddOptions;
   private Button btnInputsAddAsync;
   private Button btnInputsAddHold;
-  private Composite cmpInputsAddGroup;
   private Label lblInputsAddGroup;
   private Spinner spnInputsAddGroup;
   private Composite cmpInputsAddQueue;
@@ -195,7 +203,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     tblInputsDropTrg = new DropTarget(tblInputs,
         DND.DROP_MOVE | DND.DROP_DEFAULT);
 
-    grpInputsAdd = new Group(root, SWT.NONE);
+    Group grpInputsAdd = new Group(root, SWT.NONE);
     grpInputsAdd.setLayout(new GridLayout(5, false));
 
     lblInputsAddName = new Label(grpInputsAdd, SWT.NONE);
@@ -203,11 +211,11 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
         .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
     txtInputsAddName = new Text(grpInputsAdd, SWT.BORDER);
     cmbInputsAddData = new Combo(grpInputsAdd, SWT.NONE | SWT.READ_ONLY);
-    cmpInputsAddOptions = new Composite(grpInputsAdd, SWT.NULL);
+    Composite cmpInputsAddOptions = new Composite(grpInputsAdd, SWT.NULL);
     cmpInputsAddOptions.setLayout(new GridLayout(1, false));
     btnInputsAddAsync = new Button(cmpInputsAddOptions, SWT.CHECK);
     btnInputsAddHold = new Button(cmpInputsAddOptions, SWT.CHECK);
-    cmpInputsAddGroup = new Composite(cmpInputsAddOptions, SWT.NULL);
+    Composite cmpInputsAddGroup = new Composite(cmpInputsAddOptions, SWT.NULL);
     cmpInputsAddGroup.setLayout(new GridLayout(2, false));
     lblInputsAddGroup = new Label(cmpInputsAddGroup, SWT.NONE);
     spnInputsAddGroup = new Spinner(cmpInputsAddGroup, SWT.BORDER);
@@ -717,15 +725,10 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
       module.getOutputs().add(out);
     }
 
-    boolean hasAsync = false;
-    for (In in : module.getInputs())
-      if (in.isAsynchronous())
-        hasAsync = true;
+    boolean hasAsync = module.getInputs().stream().anyMatch(In::isAsynchronous);
 
-    boolean hasNonAsync = false;
-    for (In in : module.getInputs())
-      if (!in.isAsynchronous())
-        hasNonAsync = true;
+    boolean hasNonAsync = module.getInputs().stream()
+        .anyMatch(Predicate.not(In::isAsynchronous));
 
     module.setExecuteAsync((!module.isAtomic() && hasNonAsync) || hasAsync);
     module.setExecuteExtSrc(module.isExternalSource());
