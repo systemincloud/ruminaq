@@ -8,7 +8,7 @@ import org.ruminaq.tasks.javatask.client.data.Bool;
 import org.ruminaq.tasks.javatask.client.data.Complex32;
 
 @JavaTaskInfo
-public class InputPorts extends JavaTask {
+public class Ports extends JavaTask {
 
 	@InputPortInfo(name = "a", dataType = Bool.class)
 	public InputPort a;

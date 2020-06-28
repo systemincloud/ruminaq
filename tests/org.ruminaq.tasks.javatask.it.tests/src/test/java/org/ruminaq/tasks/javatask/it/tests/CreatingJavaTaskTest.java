@@ -164,7 +164,7 @@ public class CreatingJavaTaskTest {
         projectName);
 
     bot.textWithLabel("Package:").setText("test");
-    bot.textWithLabel("Name:").setText("InputPorts");
+    bot.textWithLabel("Name:").setText("Ports");
 
     bot.button("Next >").click();
 
@@ -204,9 +204,9 @@ public class CreatingJavaTaskTest {
     Thread.sleep(3000);
 
     Assert.assertEquals("Java class created",
-        toString(this.getClass().getResourceAsStream("InputPorts.javatest")),
+        toString(this.getClass().getResourceAsStream("Ports.javatest")),
         toString(workspace.getRoot().getProject(projectName)
-            .getFile("src/main/java/test/InputPorts.java").getContents()));
+            .getFile("src/main/java/test/Ports.java").getContents()));
   }
 
   private static String toString(InputStream stream) {
