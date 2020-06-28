@@ -9,6 +9,7 @@ package org.ruminaq.eclipse.wizards.task;
 import java.text.Collator;
 import java.util.Locale;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -306,8 +307,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     tblclInputsQueue.setText("Queue");
     tblInputsDragSrc.setTransfer(types);
     tblInputsDropTrg.setTransfer(types);
-    for (TableColumn tc : tblInputs.getColumns())
-      tc.pack();
+    Stream.of(tblInputs.getColumns()).forEach(TableColumn::pack);
 
     lblInputsAddName.setText("Name:");
     fillWithData(cmbInputsAddData);
@@ -338,8 +338,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     tblclOutputsData.setText("Data type");
     tblOutputsDragSrc.setTransfer(types);
     tblOutputsDropTrg.setTransfer(types);
-    for (TableColumn tc : tblOutputs.getColumns())
-      tc.pack();
+    Stream.of(tblOutputs.getColumns()).forEach(TableColumn::pack);
 
     lblOutputsAddName.setText("Name:");
     fillWithData(cmbOutputsAddData);
@@ -357,8 +356,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
 
     tblclParametersName.setText("Name");
     tblclParametersValue.setText("DefaultValue");
-    for (TableColumn tc : tblParameters.getColumns())
-      tc.pack();
+    Stream.of(tblParameters.getColumns()).forEach(TableColumn::pack);
 
     lblParametersAddName.setText("Name:");
     lblParametersAddValue.setText("Default value:");
