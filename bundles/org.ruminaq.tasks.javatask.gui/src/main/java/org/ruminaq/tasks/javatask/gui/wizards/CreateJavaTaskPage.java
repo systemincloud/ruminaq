@@ -389,21 +389,8 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
         acu.accept(new ASTVisitor() {
           @Override
           public boolean visit(TypeDeclaration node) {
-            MethodDeclaration md = ast.newMethodDeclaration();
-            List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
-            md.modifiers().addAll(modifs);
-
-            MarkerAnnotation overrideA = ast.newMarkerAnnotation();
-            overrideA
-                .setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
-            md.modifiers().add(0, overrideA);
-
-            md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
-            md.setName(ast.newSimpleName("runnerStart"));
-            md.setBody(ast.newBlock());
-
-            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
-                .insertLast(md, null);
+            addMethod(ast, rewriter.getListRewrite(node,
+                node.getBodyDeclarationsProperty()), "runnerStart");
             return false;
           }
         });
@@ -464,21 +451,8 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
         acu.accept(new ASTVisitor() {
           @Override
           public boolean visit(TypeDeclaration node) {
-            MethodDeclaration md = ast.newMethodDeclaration();
-            List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
-            md.modifiers().addAll(modifs);
-
-            MarkerAnnotation overrideA = ast.newMarkerAnnotation();
-            overrideA
-                .setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
-            md.modifiers().add(0, overrideA);
-
-            md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
-            md.setName(ast.newSimpleName("generate"));
-            md.setBody(ast.newBlock());
-
-            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
-                .insertLast(md, null);
+            addMethod(ast, rewriter.getListRewrite(node,
+                node.getBodyDeclarationsProperty()), "generate");
             return false;
           }
         });
@@ -515,21 +489,8 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
         acu.accept(new ASTVisitor() {
           @Override
           public boolean visit(TypeDeclaration node) {
-            MethodDeclaration md = ast.newMethodDeclaration();
-            List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
-            md.modifiers().addAll(modifs);
-
-            MarkerAnnotation overrideA = ast.newMarkerAnnotation();
-            overrideA
-                .setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
-            md.modifiers().add(0, overrideA);
-
-            md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
-            md.setName(ast.newSimpleName("runnerStop"));
-            md.setBody(ast.newBlock());
-
-            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
-                .insertLast(md, null);
+            addMethod(ast, rewriter.getListRewrite(node,
+                node.getBodyDeclarationsProperty()), "runnerStop");
             return false;
           }
         });
@@ -589,6 +550,22 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
     ImportDeclaration id = ast.newImportDeclaration();
     id.setName(ast.newName(canonicalName));
     lrw.insertLast(id, null);
+  }
+
+  private static void addMethod(AST ast, ListRewrite lrw, String name) {
+    MethodDeclaration md = ast.newMethodDeclaration();
+    List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
+    md.modifiers().addAll(modifs);
+
+    MarkerAnnotation overrideA = ast.newMarkerAnnotation();
+    overrideA.setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
+    md.modifiers().add(0, overrideA);
+
+    md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
+    md.setName(ast.newSimpleName(name));
+    md.setBody(ast.newBlock());
+
+    lrw.insertLast(md, null);
   }
 
   public static CompilationUnit parse(ICompilationUnit unit) {
