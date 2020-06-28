@@ -199,7 +199,6 @@ public class CreatingJavaTaskTest {
     bot.textWithLabel("Name:", 1).setText("h");
     bot.spinner(1).setSelection(1);
     bot.button("Add", 1).click();
-    bot.spinner(0).setSelection(-1);
 
     Thread.sleep(1000);
 
