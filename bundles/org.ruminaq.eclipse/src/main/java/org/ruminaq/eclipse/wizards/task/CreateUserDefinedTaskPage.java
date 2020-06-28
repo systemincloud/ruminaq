@@ -25,7 +25,6 @@ import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -57,13 +56,11 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
 
   private Composite root;
 
-  private Group grpGeneral;
   private Button btnAtomic;
   private Button btnGenerator;
   private Button btnExternalSource;
   private Button btnConstant;
 
-  private Group grpRunner;
   private Button btnRunnerStart;
   private Button btnRunnerStop;
 
@@ -85,7 +82,6 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
   private Button btnInputsAddHold;
   private Label lblInputsAddGroup;
   private Spinner spnInputsAddGroup;
-  private Composite cmpInputsAddQueue;
   private Label lblInputsAddQueue;
   private Button btnInputsAddQueueInf;
   private Spinner spnInputsAddQueue;
@@ -100,7 +96,6 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
   private DragSource tblOutputsDragSrc;
   private DropTarget tblOutputsDropTrg;
 
-  private Group grpOutputsAdd;
   private Label lblOutputsAddName;
   private Text txtOutputsAddName;
   private Combo cmbOutputsAddData;
@@ -113,7 +108,6 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
   private TableColumn tblclParametersName;
   private TableColumn tblclParametersValue;
 
-  private Group grpParametersAdd;
   private Label lblParametersAddName;
   private Text txtParametersAddName;
   private Label lblParametersAddValue;
@@ -171,7 +165,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     root = new Composite(parent, SWT.NULL);
     root.setLayout(new GridLayout(2, false));
 
-    grpGeneral = new Group(root, SWT.NONE);
+    Group grpGeneral = new Group(root, SWT.NONE);
     grpGeneral.setLayout(new GridLayout(5, false));
     grpGeneral
         .setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
@@ -181,7 +175,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     btnExternalSource = new Button(grpGeneral, SWT.CHECK);
     btnConstant = new Button(grpGeneral, SWT.CHECK);
 
-    grpRunner = new Group(root, SWT.NONE);
+    Group grpRunner = new Group(root, SWT.NONE);
     grpRunner.setLayout(new GridLayout(2, false));
     grpRunner
         .setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
@@ -223,7 +217,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     cmpInputsAddGroup.setLayout(new GridLayout(2, false));
     lblInputsAddGroup = new Label(cmpInputsAddGroup, SWT.NONE);
     spnInputsAddGroup = new Spinner(cmpInputsAddGroup, SWT.BORDER);
-    cmpInputsAddQueue = new Composite(cmpInputsAddOptions, SWT.NULL);
+    Composite cmpInputsAddQueue = new Composite(cmpInputsAddOptions, SWT.NULL);
     cmpInputsAddQueue.setLayout(new GridLayout(3, false));
     lblInputsAddQueue = new Label(cmpInputsAddQueue, SWT.NONE);
     btnInputsAddQueueInf = new Button(cmpInputsAddQueue, SWT.CHECK);
@@ -247,7 +241,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     tblOutputsDropTrg = new DropTarget(tblOutputs,
         DND.DROP_MOVE | DND.DROP_DEFAULT);
 
-    grpOutputsAdd = new Group(root, SWT.NONE);
+    Group grpOutputsAdd = new Group(root, SWT.NONE);
     grpOutputsAdd.setLayout(new GridLayout(5, false));
 
     btnOutputsRemove = new Button(root, SWT.PUSH);
@@ -271,7 +265,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     tblclParametersName = new TableColumn(tblParameters, SWT.NONE);
     tblclParametersValue = new TableColumn(tblParameters, SWT.NONE);
 
-    grpParametersAdd = new Group(root, SWT.NONE);
+    Group grpParametersAdd = new Group(root, SWT.NONE);
     grpParametersAdd.setLayout(new GridLayout(5, false));
 
     btnParametersRemove = new Button(root, SWT.PUSH);
@@ -465,18 +459,15 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
         tblInputs.redraw();
       }
     });
-    txtInputsAddName.addModifyListener(new ModifyListener() {
-      @Override
-      public void modifyText(ModifyEvent event) {
-        boolean exist = false;
-        for (TableItem it : tblInputs.getItems())
-          if (it.getText(0).equals(txtInputsAddName.getText()))
-            exist = true;
-        if ("".equals(txtInputsAddName.getText()) || exist)
-          btnInputsAdd.setEnabled(false);
-        else
-          btnInputsAdd.setEnabled(true);
-      }
+    txtInputsAddName.addModifyListener((ModifyEvent event) -> {
+      boolean exist = false;
+      for (TableItem it : tblInputs.getItems())
+        if (it.getText(0).equals(txtInputsAddName.getText()))
+          exist = true;
+      if ("".equals(txtInputsAddName.getText()) || exist)
+        btnInputsAdd.setEnabled(false);
+      else
+        btnInputsAdd.setEnabled(true);
     });
     btnInputsAddAsync.addSelectionListener(new SelectionAdapter() {
       @Override
@@ -584,18 +575,15 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
         tblOutputs.redraw();
       }
     });
-    txtOutputsAddName.addModifyListener(new ModifyListener() {
-      @Override
-      public void modifyText(ModifyEvent event) {
-        boolean exist = false;
-        for (TableItem it : tblOutputs.getItems())
-          if (it.getText(0).equals(txtOutputsAddName.getText()))
-            exist = true;
-        if ("".equals(txtOutputsAddName.getText()) || exist)
-          btnOutputsAdd.setEnabled(false);
-        else
-          btnOutputsAdd.setEnabled(true);
-      }
+    txtOutputsAddName.addModifyListener((ModifyEvent event) -> {
+      boolean exist = false;
+      for (TableItem it : tblOutputs.getItems())
+        if (it.getText(0).equals(txtOutputsAddName.getText()))
+          exist = true;
+      if ("".equals(txtOutputsAddName.getText()) || exist)
+        btnOutputsAdd.setEnabled(false);
+      else
+        btnOutputsAdd.setEnabled(true);
     });
     btnOutputsAdd.addSelectionListener(new SelectionAdapter() {
       @Override
@@ -625,18 +613,15 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
         btnParametersRemove.setEnabled(true);
       }
     });
-    txtParametersAddName.addModifyListener(new ModifyListener() {
-      @Override
-      public void modifyText(ModifyEvent event) {
-        boolean exist = false;
-        for (TableItem it : tblParameters.getItems())
-          if (it.getText(0).equals(txtParametersAddName.getText()))
-            exist = true;
-        if ("".equals(txtParametersAddName.getText()) || exist)
-          btnParametersAdd.setEnabled(false);
-        else
-          btnParametersAdd.setEnabled(true);
-      }
+    txtParametersAddName.addModifyListener((ModifyEvent event) -> {
+      boolean exist = false;
+      for (TableItem it : tblParameters.getItems())
+        if (it.getText(0).equals(txtParametersAddName.getText()))
+          exist = true;
+      if ("".equals(txtParametersAddName.getText()) || exist)
+        btnParametersAdd.setEnabled(false);
+      else
+        btnParametersAdd.setEnabled(true);
     });
     btnParametersAdd.addSelectionListener(new SelectionAdapter() {
       @Override
@@ -696,7 +681,8 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     module.setRunnerStop(btnRunnerStop.getSelection());
 
     for (TableItem it : tblParameters.getItems()) {
-      CustomParameter parameter = UserdefinedFactory.eINSTANCE.createCustomParameter();
+      CustomParameter parameter = UserdefinedFactory.eINSTANCE
+          .createCustomParameter();
       parameter.setName(it.getText(0));
       parameter.setDefaultValue(it.getText(1));
       module.getParameters().add(parameter);
