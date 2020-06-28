@@ -6,7 +6,7 @@
 
 package org.ruminaq.tasks.javatask.gui;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.graphiti.features.ICreateFeature;
@@ -23,7 +23,7 @@ import org.ruminaq.tasks.javatask.model.javatask.JavataskFactory;
 
 /**
  * Service CreateFeaturesExtension implementation.
- * 
+ *
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=10" })
@@ -31,7 +31,7 @@ public class CreateFeaturesImpl implements CreateFeaturesExtension {
 
   @Override
   public List<Class<? extends ICreateFeature>> getFeatures() {
-    return Arrays.asList(CreateFeature.class);
+    return Collections.singletonList(CreateFeature.class);
   }
 
   /**
