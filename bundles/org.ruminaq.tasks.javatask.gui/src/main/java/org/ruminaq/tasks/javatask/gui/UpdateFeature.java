@@ -50,7 +50,7 @@ import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
-import org.ruminaq.tasks.javatask.client.annotations.SicParameter;
+import org.ruminaq.tasks.javatask.client.annotations.Parameter;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskPage;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.util.EclipseUtil;
@@ -361,7 +361,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
           for (Object m : node.modifiers()) {
             if (m instanceof NormalAnnotation
                 && ((NormalAnnotation) m).getTypeName().toString()
-                    .equals(SicParameter.class.getSimpleName())) {
+                    .equals(Parameter.class.getSimpleName())) {
               NormalAnnotation sicParameterA = (NormalAnnotation) m;
               String name = null;
               String defaultValue = "";

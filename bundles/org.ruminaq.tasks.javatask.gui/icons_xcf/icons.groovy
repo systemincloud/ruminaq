@@ -1,1 +1,1 @@
-[ "javatask.xcf" : ["diagram", "palette-border", "icon"] ]
+[ "javatask.xcf" : ["diagram", "palette-border", "icon", "target" ] ]

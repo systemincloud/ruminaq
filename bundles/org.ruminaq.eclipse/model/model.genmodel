@@ -37,10 +37,10 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Out/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Out/dataType"/>
     </genClasses>
-    <genClasses ecoreClass="model.ecore#//Parameter">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Parameter/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Parameter/defaultValue"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Parameter/description"/>
+    <genClasses ecoreClass="model.ecore#//CustomParameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CustomParameter/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CustomParameter/defaultValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//CustomParameter/description"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//StringToStringMapEntry">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//StringToStringMapEntry/key"/>

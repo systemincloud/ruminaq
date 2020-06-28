@@ -42,10 +42,10 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Messages;
+import org.ruminaq.eclipse.usertask.model.userdefined.CustomParameter;
 import org.ruminaq.eclipse.usertask.model.userdefined.In;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.Out;
-import org.ruminaq.eclipse.usertask.model.userdefined.Parameter;
 import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
 
 /**
@@ -696,7 +696,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     module.setRunnerStop(btnRunnerStop.getSelection());
 
     for (TableItem it : tblParameters.getItems()) {
-      Parameter parameter = UserdefinedFactory.eINSTANCE.createParameter();
+      CustomParameter parameter = UserdefinedFactory.eINSTANCE.createCustomParameter();
       parameter.setName(it.getText(0));
       parameter.setDefaultValue(it.getText(1));
       module.getParameters().add(parameter);

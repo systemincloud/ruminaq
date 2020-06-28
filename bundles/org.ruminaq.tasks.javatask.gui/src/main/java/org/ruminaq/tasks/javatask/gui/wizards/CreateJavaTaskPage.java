@@ -40,10 +40,10 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.TextEdit;
+import org.ruminaq.eclipse.usertask.model.userdefined.CustomParameter;
 import org.ruminaq.eclipse.usertask.model.userdefined.In;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.Out;
-import org.ruminaq.eclipse.usertask.model.userdefined.Parameter;
 import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskPage;
 import org.ruminaq.tasks.javatask.client.InputPort;
 import org.ruminaq.tasks.javatask.client.JavaTask;
@@ -51,11 +51,10 @@ import org.ruminaq.tasks.javatask.client.OutputPort;
 import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
-import org.ruminaq.tasks.javatask.client.annotations.SicParameter;
+import org.ruminaq.tasks.javatask.client.annotations.Parameter;
 import org.ruminaq.tasks.javatask.client.data.Data;
 import org.ruminaq.tasks.javatask.gui.Messages;
 import org.ruminaq.tasks.javatask.gui.api.JavaTaskExtension;
-import org.ruminaq.tasks.javatask.impl.JavaTaskDataConverter;
 import org.ruminaq.util.ServiceUtil;
 
 /**
@@ -65,21 +64,21 @@ import org.ruminaq.util.ServiceUtil;
  */
 public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
 
-  private List<Class<? extends Data>> dataTypes = ServiceUtil
-      .getServicesAtLatestVersion(CreateJavaTaskPage.class,
-          JavaTaskExtension.class)
-      .stream().map(JavaTaskExtension::getDataTypes).flatMap(List::stream)
-      .collect(Collectors.toList());
-
   public CreateJavaTaskPage(String pageName) {
     super(pageName);
     setTitle(Messages.createJavaTaskWizardName);
   }
 
+  private Stream<Class<? extends Data>> dataTypes() {
+    return ServiceUtil
+        .getServicesAtLatestVersion(CreateJavaTaskPage.class,
+            JavaTaskExtension.class)
+        .stream().map(JavaTaskExtension::getDataTypes).flatMap(List::stream);
+  }
+
   @Override
   protected List<String> getDataTypes() {
-    return dataTypes.stream().map(Class::getSimpleName)
-        .collect(Collectors.toList());
+    return dataTypes().map(Class::getSimpleName).collect(Collectors.toList());
   }
 
   @SuppressWarnings({ "unchecked" })
@@ -95,12 +94,12 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
           rewriter.getListRewrite(acu, CompilationUnit.IMPORTS_PROPERTY),
           module);
 
-      List<Parameter> parameters = module.getParameters();
+      List<CustomParameter> parameters = module.getParameters();
       if (!parameters.isEmpty()) {
-        for (Parameter p : parameters) {
+        for (CustomParameter p : parameters) {
           NormalAnnotation sicParameterA = ast.newNormalAnnotation();
           sicParameterA.setTypeName(
-              ast.newSimpleName(SicParameter.class.getSimpleName()));
+              ast.newSimpleName(Parameter.class.getSimpleName()));
 
           MemberValuePair mvpName = ast.newMemberValuePair();
           mvpName.setName(ast.newSimpleName("name"));
@@ -226,9 +225,7 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
       //
       // Parameters
       //
-      for (
-
-      final Parameter p : module.getParameters()) {
+      for (CustomParameter p : module.getParameters()) {
         acu.accept(new ASTVisitor() {
           public boolean visit(TypeDeclaration node) {
             VariableDeclarationFragment fragment = ast
@@ -535,15 +532,15 @@ public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
     }
 
     if (!module.getParameters().isEmpty()) {
-      addImport(ast, lrw, SicParameter.class.getCanonicalName());
+      addImport(ast, lrw, Parameter.class.getCanonicalName());
     }
 
     Stream
         .concat(module.getInputs().stream().map(In::getDataType),
             module.getOutputs().stream().map(Out::getDataType))
         .distinct()
-        .map(dt -> dataTypes.stream()
-            .filter(dti -> dti.getSimpleName().equals(dt)).findFirst())
+        .map(dt -> dataTypes().filter(dti -> dti.getSimpleName().equals(dt))
+            .findFirst())
         .filter(Optional::isPresent).map(Optional::get)
         .map(Class::getCanonicalName)
         .forEach(clazz -> addImport(ast, lrw, clazz));

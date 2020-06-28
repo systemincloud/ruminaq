@@ -149,7 +149,7 @@
         <plugin>
           <groupId>org.codehaus.gmavenplus</groupId>
           <artifactId>gmavenplus-plugin</artifactId>
-          <version>1.6.1</version>
+          <version>1.6.3</version>
           <dependencies>
             <dependency>
               <groupId>org.codehaus.groovy</groupId>
@@ -483,11 +483,11 @@
         </configuration>
       </plugin>
       <!-- enable source feature generation -->
-      <!--plugin> <groupId>org.eclipse.tycho.extras</groupId> <artifactId>tycho-source-feature-plugin</artifactId> 
-        <version>${tycho.version}</version> <executions> <execution> <id>source-feature</id> 
-        <phase>package</phase> <goals> <goal>source-feature</goal> </goals> </execution> 
-        </executions> </plugin> <plugin> <groupId>org.eclipse.tycho</groupId> <artifactId>tycho-source-plugin</artifactId> 
-        <executions> <execution> <id>plugin-source</id> <goals> <goal>plugin-source</goal> 
+      <!--plugin> <groupId>org.eclipse.tycho.extras</groupId> <artifactId>tycho-source-feature-plugin</artifactId>
+        <version>${tycho.version}</version> <executions> <execution> <id>source-feature</id>
+        <phase>package</phase> <goals> <goal>source-feature</goal> </goals> </execution>
+        </executions> </plugin> <plugin> <groupId>org.eclipse.tycho</groupId> <artifactId>tycho-source-plugin</artifactId>
+        <executions> <execution> <id>plugin-source</id> <goals> <goal>plugin-source</goal>
         </goals> </execution> </executions> </plugin -->
     </plugins>
   </build>

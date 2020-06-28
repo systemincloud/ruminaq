@@ -63,6 +63,9 @@ class PrepareIcons {
 			if(cmds.contains('icon'))    {
 				process = """convert -geometry x30 ${png.absolutePath} ${html_img.absolutePath}/icon.png""".execute() ; process.waitFor()
 			}
+      if(cmds.contains('target'))    {
+        process = """convert -geometry x22 ${png.absolutePath} ${html_img.absolutePath}/target.${fileName}.png""".execute() ; process.waitFor()
+      }
 
 			png.delete()
 		}

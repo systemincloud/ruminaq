@@ -17,10 +17,10 @@ import java.lang.annotation.Target;
  *
  * @author Marek Jagielski
  */
-@Repeatable(SicParameter.List.class)
+@Repeatable(Parameter.List.class)
 @Retention(RetentionPolicy.CLASS)
 @Target({ ElementType.TYPE })
-public @interface SicParameter {
+public @interface Parameter {
 
   String name();
 
@@ -32,7 +32,7 @@ public @interface SicParameter {
   @Target({ElementType.TYPE})
   @interface List {
 
-    SicParameter[] value();
+    Parameter[] value();
 
   }
 }
