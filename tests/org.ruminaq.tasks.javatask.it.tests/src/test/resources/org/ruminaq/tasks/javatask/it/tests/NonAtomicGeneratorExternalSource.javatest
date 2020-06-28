@@ -7,15 +7,15 @@ import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 public class NonAtomicGeneratorExternalSource extends JavaTask {
 
 	@Override
+	public void runnerStart() {
+	}
+
+	@Override
 	public void executeExtSrc() {
 	}
 
 	@Override
 	public void generate() {
-	}
-
-	@Override
-	public void runnerStart() {
 	}
 
 	@Override
