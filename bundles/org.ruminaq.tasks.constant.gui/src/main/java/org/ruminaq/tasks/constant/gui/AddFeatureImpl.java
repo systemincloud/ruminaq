@@ -55,7 +55,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
     public AddFeature(IFeatureProvider fp) {
       super(fp);
     }
-    
+
     @Override
     public TaskShape createTaskShape() {
       return ConstantshapeFactory.eINSTANCE.createConstantShape();

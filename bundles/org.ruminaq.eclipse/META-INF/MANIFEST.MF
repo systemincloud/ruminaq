@@ -87,6 +87,7 @@ Import-Package:
  org.osgi.service.component,
  org.osgi.service.component.annotations,
  org.ruminaq.consts,
+ org.ruminaq.gui.model,
  org.ruminaq.gui.model.diagram,
  org.ruminaq.launch.api,
  org.ruminaq.logs,

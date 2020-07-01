@@ -41,7 +41,9 @@
                         <exec executable="docker">
                           <arg value="run" />
                           <arg value="-v" />
-                          <arg value="${basedir}:/data" />
+			  <arg value="${basedir}:/data" />
+			  <arg value="--user"/>
+			  <arg value="1000:1000"/>
                           <arg value="thrift" />
                           <arg value="thrift" />
                           <arg value="--gen" />

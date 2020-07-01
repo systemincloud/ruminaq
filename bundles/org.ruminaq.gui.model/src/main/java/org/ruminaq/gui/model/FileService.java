@@ -1,4 +1,4 @@
-package org.ruminaq.model;
+package org.ruminaq.gui.model;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.RecordingCommand;
@@ -21,13 +22,12 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.impl.TransactionalEditingDomainImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.internal.services.GraphitiUiInternal;
-import org.ruminaq.model.ruminaq.MainTask;
 
 @SuppressWarnings("restriction")
 public class FileService {
 
   public static TransactionalEditingDomain createEmfFileForDiagram(
-      URI diagramResourceUri, Diagram diagram, MainTask model) {
+      URI diagramResourceUri, Diagram diagram, EObject model) {
 
     // Create a resource set and EditingDomain
     final TransactionalEditingDomain editingDomain = GraphitiUiInternal
