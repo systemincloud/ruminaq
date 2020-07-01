@@ -28,9 +28,6 @@ public final class Constants {
 
   public static final String VALIDATION_MARKER = "org.ruminaq.validation.marker"; //$NON-NLS-1$
 
-  public static final String MAIN_R = "src/main/r"; //$NON-NLS-1$
-  public static final String TEST_R = "src/test/r"; //$NON-NLS-1$
-
   public static final String QUALIFIER = ".qualifier"; //$NON-NLS-1$
   public static final String SNAPSHOT = "-SNAPSHOT"; //$NON-NLS-1$
 

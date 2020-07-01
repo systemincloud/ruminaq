@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.ruminaq.consts.Constants;
+import org.ruminaq.tasks.rtask.EclipseExtensionImpl;
 import org.ruminaq.util.EclipseUtil;
 
 public class CreateProjectWizard {
@@ -26,8 +26,8 @@ public class CreateProjectWizard {
   public List<IClasspathEntry> createClasspathEntries(
       IJavaProject javaProject) {
     List<IClasspathEntry> entries = new LinkedList<>();
-    IPath srcPath1 = javaProject.getPath().append(Constants.MAIN_R);
-    IPath srcPath2 = javaProject.getPath().append(Constants.TEST_R);
+    IPath srcPath1 = javaProject.getPath().append(EclipseExtensionImpl.MAIN_R);
+    IPath srcPath2 = javaProject.getPath().append(EclipseExtensionImpl.TEST_R);
     entries.add(JavaCore.newSourceEntry(srcPath1, new IPath[0]));
     entries.add(JavaCore.newSourceEntry(srcPath2, new IPath[0]));
     return entries;
@@ -63,11 +63,11 @@ public class CreateProjectWizard {
   }
 
   private void createSourceFolders(IProject project) throws CoreException {
-    EclipseUtil.createFolderWithParents(project, Constants.MAIN_R);
-    EclipseUtil.createFileInFolder(project, Constants.MAIN_R,
+    EclipseUtil.createFolderWithParents(project, EclipseExtensionImpl.MAIN_R);
+    EclipseUtil.createFileInFolder(project, EclipseExtensionImpl.MAIN_R,
         "PLACEHOLDER_FOR_R");
-    EclipseUtil.createFolderWithParents(project, Constants.TEST_R);
-    EclipseUtil.createFileInFolder(project, Constants.TEST_R,
+    EclipseUtil.createFolderWithParents(project, EclipseExtensionImpl.TEST_R);
+    EclipseUtil.createFileInFolder(project, EclipseExtensionImpl.TEST_R,
         "PLACEHOLDER_FOR_R");
   }
 }

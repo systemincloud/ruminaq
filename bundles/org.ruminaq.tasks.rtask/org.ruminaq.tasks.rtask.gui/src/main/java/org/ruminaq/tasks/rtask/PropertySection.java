@@ -59,7 +59,6 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.wizards.IWizardDescriptor;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.consts.Constants.SicPlugin;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.ruminaq.ModelUtil;
@@ -175,7 +174,7 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
           fileDialog.setInput(ResourcesPlugin.getWorkspace().getRoot()
               .getProject(
                   EclipseUtil.getProjectNameFromDiagram(dtp.getDiagram()))
-              .getFolder(Constants.MAIN_R));
+              .getFolder(EclipseExtensionImpl.MAIN_R));
 
         fileDialog.setTitle("Select R File");
         fileDialog.setMessage("Select R file from the tree:");
@@ -188,13 +187,13 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
 
             if (element instanceof IFolder) {
               IPath dirs = ((IFolder) element).getProjectRelativePath();
-              IPath mainPath = new Path(Constants.MAIN_R);
+              IPath mainPath = new Path(EclipseExtensionImpl.MAIN_R);
               for (int i = 1; i < mainPath.segmentCount(); i++)
                 if (dirs.equals(mainPath.uptoSegment(i)))
                   return true;
               if (dirs.matchingFirstSegments(mainPath) == 3)
                 return true;
-              IPath testPath = new Path(Constants.TEST_R);
+              IPath testPath = new Path(EclipseExtensionImpl.TEST_R);
               for (int i = 1; i < testPath.segmentCount(); i++)
                 if (dirs.equals(testPath.uptoSegment(i)))
                   return true;
@@ -283,9 +282,9 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
           String taskPath = ((IFile) results[0]).getFullPath()
               .removeFirstSegments(4).toString();
           String show = "";
-          if (selectedPath.toString().startsWith(Constants.MAIN_R))
+          if (selectedPath.toString().startsWith(EclipseExtensionImpl.MAIN_R))
             show = MAIN_PREFIX + taskPath;
-          if (selectedPath.toString().startsWith(Constants.TEST_R))
+          if (selectedPath.toString().startsWith(EclipseExtensionImpl.TEST_R))
             show = TEST_PREFIX + taskPath;
 
           if (taskPath != null)
@@ -321,8 +320,8 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
           if (descriptor != null) {
             IWizard wizard = descriptor.createWizard();
             String folder = RuminaqDiagramUtil.isTest(
-                EclipseUtil.getModelPathFromEObject(pe)) ? Constants.TEST_R
-                    : Constants.MAIN_R;
+                EclipseUtil.getModelPathFromEObject(pe)) ? EclipseExtensionImpl.TEST_R
+                    : EclipseExtensionImpl.MAIN_R;
             String projectName = EclipseUtil
                 .getProjectNameFromDiagram(dtp.getDiagram());
             IStructuredSelection selection = new StructuredSelection(
@@ -358,12 +357,12 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
       if (bo == null)
         return;
       String className = ((RTask) bo).getImplementation();
-      if (className.startsWith(Constants.MAIN_R))
+      if (className.startsWith(EclipseExtensionImpl.MAIN_R))
         txtClassName
-            .setText(className.replace(Constants.MAIN_R + "/", MAIN_PREFIX));
-      else if (className.startsWith(Constants.TEST_R))
+            .setText(className.replace(EclipseExtensionImpl.MAIN_R + "/", MAIN_PREFIX));
+      else if (className.startsWith(EclipseExtensionImpl.TEST_R))
         txtClassName
-            .setText(className.replace(Constants.TEST_R + "/", TEST_PREFIX));
+            .setText(className.replace(EclipseExtensionImpl.TEST_R + "/", TEST_PREFIX));
     }
   }
 

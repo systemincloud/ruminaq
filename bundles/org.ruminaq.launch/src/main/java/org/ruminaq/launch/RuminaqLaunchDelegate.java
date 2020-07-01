@@ -60,6 +60,7 @@ import org.ruminaq.runner.Runner;
 import org.ruminaq.runner.dirmi.DirmiServer;
 import org.ruminaq.runner.dirmi.RegistrationDoneListener;
 import org.ruminaq.runner.impl.debug.IDebugIService;
+import org.ruminaq.util.PlatformUtil;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
@@ -207,7 +208,7 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate
 
   private void addLogbackXml(String logbackPath) {
     if (!new File(logbackPath).exists()) {
-      Bundle bundle = Activator.getDefault().getBundle(SicPlugin.LOGS_ID.s());
+      Bundle bundle = PlatformUtil.getBundle(ModelerLoggerFactory.class);
       Enumeration<?> logbackConf = bundle.findEntries("/", "logback.xml",
           false);
       if (logbackConf == null)
@@ -345,16 +346,16 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate
     IPath path = project.getLocation();
     extendedClasspath.add(path.toString() + "/target/test-classes");
 
-    if (Platform.inDevelopmentMode()) {
-      try {
-        for (SicPlugin p : SicPlugin.values())
-          extendedClasspath.add(pluginIdToJarPath(p.s()) + "target/classes");
-      } catch (IOException e) {
-        throw new CoreException(
-            new Status(IStatus.ERROR, SicPlugin.LAUNCH_ID.s(), IStatus.OK,
-                "Failed to compose classpath!", e));
-      }
-    }
+//    if (Platform.inDevelopmentMode()) {
+//      try {
+//        for (SicPlugin p : SicPlugin.values())
+//          extendedClasspath.add(pluginIdToJarPath(p.s()) + "target/classes");
+//      } catch (IOException e) {
+//        throw new CoreException(
+//            new Status(IStatus.ERROR, SicPlugin.LAUNCH_ID.s(), IStatus.OK,
+//                "Failed to compose classpath!", e));
+//      }
+//    }
     try {
       Bundle bundle = Activator.getDefault().getBundle(SicPlugin.LOGS_ID.s());
       if (bundle != null)

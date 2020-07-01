@@ -19,10 +19,10 @@ import org.eclipse.statet.r.core.model.IRModelInfo;
 import org.eclipse.statet.r.core.model.IRModelManager;
 import org.eclipse.statet.r.core.model.IRWorkspaceSourceUnit;
 import org.eclipse.statet.r.core.model.RModel;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.tasks.rtask.AddFeatureImpl;
+import org.ruminaq.tasks.rtask.EclipseExtensionImpl;
 import org.ruminaq.tasks.rtask.model.rtask.RTask;
 import org.ruminaq.util.EclipseUtil;
 
@@ -69,8 +69,8 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
   @Override
   public boolean load(String path) {
-    if ("".equals(path) || (!path.startsWith(Constants.MAIN_R)
-        && !path.startsWith(Constants.TEST_R)))
+    if ("".equals(path) || (!path.startsWith(EclipseExtensionImpl.MAIN_R)
+        && !path.startsWith(EclipseExtensionImpl.TEST_R)))
       return false;
     IProject p = ResourcesPlugin.getWorkspace().getRoot()
         .getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram()));

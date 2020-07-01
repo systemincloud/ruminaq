@@ -20,7 +20,7 @@ public final class PlatformUtil {
   private PlatformUtil() {
   }
 
-  private static Bundle getBundle(Class<?> clazz) {
+  public static Bundle getBundle(Class<?> clazz) {
     return FrameworkUtil.getBundle(clazz);
   }
 
