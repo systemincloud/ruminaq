@@ -69,6 +69,11 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
       setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
     }
 
+    @Override
+    protected void checkSubclass() {
+        //  allow subclass
+    }
+
     private void initLayout() {
       btnAtomic = new Button(this, SWT.CHECK);
       btnGenerator = new Button(this, SWT.CHECK);
