@@ -611,6 +611,8 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
 
     public ParametersSection(Composite parent, int style) {
       super(parent, style);
+      setLayout(new GridLayout(2, false));
+      setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
     }
 
     @Override
@@ -619,7 +621,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     }
 
     private void initLayout() {
-      tblParameters = new Table(root,
+      tblParameters = new Table(this,
           SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
       tblParameters
           .setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
@@ -627,10 +629,10 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
       tblclParametersName = new TableColumn(tblParameters, SWT.NONE);
       tblclParametersValue = new TableColumn(tblParameters, SWT.NONE);
 
-      Group grpParametersAdd = new Group(root, SWT.NONE);
+      Group grpParametersAdd = new Group(this, SWT.NONE);
       grpParametersAdd.setLayout(new GridLayout(5, false));
 
-      btnParametersRemove = new Button(root, SWT.PUSH);
+      btnParametersRemove = new Button(this, SWT.PUSH);
 
       lblParametersAddName = new Label(grpParametersAdd, SWT.NONE);
       lblParametersAddName.setLayoutData(
