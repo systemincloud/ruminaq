@@ -44,7 +44,7 @@ import org.ruminaq.eclipse.usertask.model.userdefined.CustomParameter;
 import org.ruminaq.eclipse.usertask.model.userdefined.In;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.Out;
-import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskPage;
+import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
 import org.ruminaq.tasks.javatask.client.InputPort;
 import org.ruminaq.tasks.javatask.client.JavaTask;
 import org.ruminaq.tasks.javatask.client.OutputPort;
@@ -62,7 +62,7 @@ import org.ruminaq.util.ServiceUtil;
  *
  * @author Marek Jagielski
  */
-public class CreateJavaTaskPage extends CreateUserDefinedTaskPage {
+public class CreateJavaTaskPage extends AbstractCreateCustomTaskPage {
 
   public CreateJavaTaskPage(String pageName) {
     super(pageName);

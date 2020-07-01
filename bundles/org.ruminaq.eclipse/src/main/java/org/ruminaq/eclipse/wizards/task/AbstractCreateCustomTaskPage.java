@@ -48,18 +48,90 @@ import org.ruminaq.eclipse.usertask.model.userdefined.Out;
 import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
 
 /**
+ * Common wizard page for all custom tasks.
  *
  * @author Marek Jagielski
  */
-public abstract class CreateUserDefinedTaskPage extends WizardPage
+public abstract class AbstractCreateCustomTaskPage extends WizardPage
     implements ICreateUserDefinedTaskPage {
 
-  private Composite root;
 
-  private Button btnAtomic;
-  private Button btnGenerator;
-  private Button btnExternalSource;
-  private Button btnConstant;
+  private class GeneralSection extends Group {
+
+    private Button btnAtomic;
+    private Button btnGenerator;
+    private Button btnExternalSource;
+    private Button btnConstant;
+
+    public GeneralSection(Composite parent, int style) {
+      super(parent, style);
+      setLayout(new GridLayout(5, false));
+      setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+    }
+
+    private void initLayout() {
+      btnAtomic = new Button(this, SWT.CHECK);
+      btnGenerator = new Button(this, SWT.CHECK);
+      btnExternalSource = new Button(this, SWT.CHECK);
+      btnConstant = new Button(this, SWT.CHECK);
+    }
+
+    private void initComponents() {
+      btnAtomic.setText("atomic");
+      btnAtomic.setSelection(true);
+      btnGenerator.setText("generator");
+      btnExternalSource.setText("external source");
+      btnConstant.setText("constant");
+    }
+
+    private void initActions() {
+      btnAtomic.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent event) {
+          if (!btnAtomic.getSelection()) {
+            btnConstant.setSelection(false);
+          }
+        }
+      });
+      btnConstant.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent event) {
+          if (btnConstant.getSelection()) {
+            btnAtomic.setSelection(true);
+            btnGenerator.setSelection(false);
+            btnExternalSource.setSelection(false);
+          }
+        }
+      });
+      btnGenerator.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent event) {
+          if (btnGenerator.getSelection()) {
+            btnConstant.setSelection(false);
+          }
+        }
+      });
+      btnExternalSource.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent event) {
+          if (btnExternalSource.getSelection()) {
+            btnConstant.setSelection(false);
+          }
+        }
+      });
+    }
+
+    private void decorate(Module module) {
+      module.setAtomic(btnAtomic.getSelection());
+      module.setConstant(btnConstant.getSelection());
+      module.setExternalSource(btnExternalSource.getSelection());
+      module.setGenerator(btnGenerator.getSelection());
+    }
+
+  }
+
+  private Composite root;
+  private GeneralSection grpGeneral;
 
   private Button btnRunnerStart;
   private Button btnRunnerStop;
@@ -147,7 +219,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
 
   private Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
 
-  public CreateUserDefinedTaskPage(String pageName) {
+  public AbstractCreateCustomTaskPage(String pageName) {
     super(pageName);
     setDescription(Messages.createUserDefinedTaskPageDescription);
   }
@@ -165,15 +237,9 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
     root = new Composite(parent, SWT.NULL);
     root.setLayout(new GridLayout(2, false));
 
-    Group grpGeneral = new Group(root, SWT.NONE);
-    grpGeneral.setLayout(new GridLayout(5, false));
-    grpGeneral
-        .setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+    grpGeneral = new GeneralSection(root, SWT.NONE);
 
-    btnAtomic = new Button(grpGeneral, SWT.CHECK);
-    btnGenerator = new Button(grpGeneral, SWT.CHECK);
-    btnExternalSource = new Button(grpGeneral, SWT.CHECK);
-    btnConstant = new Button(grpGeneral, SWT.CHECK);
+    grpGeneral.initLayout();
 
     Group grpRunner = new Group(root, SWT.NONE);
     grpRunner.setLayout(new GridLayout(2, false));
@@ -282,11 +348,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
   }
 
   private void initComponents() {
-    btnAtomic.setText("atomic");
-    btnAtomic.setSelection(true);
-    btnGenerator.setText("generator");
-    btnExternalSource.setText("external source");
-    btnConstant.setText("constant");
+    grpGeneral.initComponents();
 
     btnRunnerStart.setText("runnerStart");
     btnRunnerStop.setText("runnerStop");
@@ -367,40 +429,8 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
   protected abstract List<String> getDataTypes();
 
   private void initActions() {
-    btnAtomic.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        if (!btnAtomic.getSelection()) {
-          btnConstant.setSelection(false);
-        }
-      }
-    });
-    btnConstant.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        if (btnConstant.getSelection()) {
-          btnAtomic.setSelection(true);
-          btnGenerator.setSelection(false);
-          btnExternalSource.setSelection(false);
-        }
-      }
-    });
-    btnGenerator.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        if (btnGenerator.getSelection()) {
-          btnConstant.setSelection(false);
-        }
-      }
-    });
-    btnExternalSource.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        if (btnExternalSource.getSelection()) {
-          btnConstant.setSelection(false);
-        }
-      }
-    });
+    grpGeneral.initActions();
+
     tblInputs.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent event) {
@@ -671,11 +701,7 @@ public abstract class CreateUserDefinedTaskPage extends WizardPage
   @Override
   public Module getModel() {
     Module module = UserdefinedFactory.eINSTANCE.createModule();
-
-    module.setAtomic(btnAtomic.getSelection());
-    module.setConstant(btnConstant.getSelection());
-    module.setExternalSource(btnExternalSource.getSelection());
-    module.setGenerator(btnGenerator.getSelection());
+    grpGeneral.decorate(module);
 
     module.setRunnerStart(btnRunnerStart.getSelection());
     module.setRunnerStop(btnRunnerStop.getSelection());
