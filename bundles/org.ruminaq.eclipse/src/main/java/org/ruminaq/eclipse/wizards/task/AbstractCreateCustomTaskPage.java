@@ -593,6 +593,144 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     }
   }
 
+  private class ParametersSection extends Group {
+
+    private Table tblParameters;
+    private TableColumn tblclParametersName;
+    private TableColumn tblclParametersValue;
+
+    private Label lblParametersAddName;
+    private Text txtParametersAddName;
+    private Label lblParametersAddValue;
+    private Text txtParametersAddValue;
+    private Button btnParametersAdd;
+
+    private Button btnParametersRemove;
+
+    public ParametersSection(Composite parent, int style) {
+      super(parent, style);
+    }
+
+    @Override
+    protected void checkSubclass() {
+        //  allow subclass
+    }
+
+    private void initLayout() {
+      tblParameters = new Table(root,
+          SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+      tblParameters
+          .setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
+
+      tblclParametersName = new TableColumn(tblParameters, SWT.NONE);
+      tblclParametersValue = new TableColumn(tblParameters, SWT.NONE);
+
+      Group grpParametersAdd = new Group(root, SWT.NONE);
+      grpParametersAdd.setLayout(new GridLayout(5, false));
+
+      btnParametersRemove = new Button(root, SWT.PUSH);
+
+      lblParametersAddName = new Label(grpParametersAdd, SWT.NONE);
+      lblParametersAddName
+          .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+      txtParametersAddName = new Text(grpParametersAdd, SWT.BORDER);
+      lblParametersAddValue = new Label(grpParametersAdd, SWT.NONE);
+      lblParametersAddValue
+          .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+      txtParametersAddValue = new Text(grpParametersAdd, SWT.BORDER);
+      btnParametersAdd = new Button(grpParametersAdd, SWT.PUSH);
+    }
+
+    private void initComponents() {
+      tblParameters.setHeaderVisible(true);
+      tblParameters.setLinesVisible(true);
+
+      tblclParametersName.setText("Name");
+      tblclParametersValue.setText("DefaultValue");
+      Stream.of(tblParameters.getColumns()).forEach(TableColumn::pack);
+
+      lblParametersAddName.setText("Name:");
+      lblParametersAddValue.setText("Default value:");
+      btnParametersAdd.setText("Add");
+      btnParametersAdd.setEnabled(false);
+
+      btnParametersRemove.setText("Remove");
+      btnParametersRemove.setEnabled(false);
+    }
+
+    private void initActions() {
+      tblParameters.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent event) {
+          btnParametersRemove.setEnabled(true);
+        }
+      });
+      txtParametersAddName.addModifyListener((ModifyEvent event) -> {
+        boolean exist = false;
+        for (TableItem it : tblParameters.getItems())
+          if (it.getText(0).equals(txtParametersAddName.getText()))
+            exist = true;
+        if ("".equals(txtParametersAddName.getText()) || exist)
+          btnParametersAdd.setEnabled(false);
+        else
+          btnParametersAdd.setEnabled(true);
+      });
+      btnParametersAdd.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent event) {
+          TableItem item = new TableItem(tblParameters, SWT.NONE);
+          item.setText(new String[] { txtParametersAddName.getText(),
+              txtParametersAddValue.getText() });
+          for (TableColumn tc : tblParameters.getColumns())
+            tc.pack();
+          sortParameters();
+          tblParameters.layout();
+          txtParametersAddName.setText("");
+          txtParametersAddValue.setText("");
+        }
+      });
+      btnParametersRemove.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent event) {
+          int[] selectionIds = tblParameters.getSelectionIndices();
+          if (selectionIds.length != 0)
+            btnParametersRemove.setEnabled(false);
+          for (int i = 0, n = selectionIds.length; i < n; i++)
+            tblParameters.remove(selectionIds[i]);
+        }
+      });
+    }
+
+    private void sortParameters() {
+      TableItem[] items = tblParameters.getItems();
+      Collator collator = Collator.getInstance(Locale.getDefault());
+      for (int i = 1; i < items.length; i++) {
+        String value1 = items[i].getText(0);
+        for (int j = 0; j < i; j++) {
+          String value2 = items[j].getText(0);
+          if (collator.compare(value1, value2) < 0) {
+            String[] values = { items[i].getText(0) };
+            items[i].dispose();
+            TableItem item = new TableItem(tblParameters, SWT.NONE, j);
+            item.setText(values);
+            items = tblParameters.getItems();
+            break;
+          }
+        }
+      }
+    }
+
+    private void decorate(Module module) {
+      for (TableItem it : tblParameters.getItems()) {
+        CustomParameter parameter = UserdefinedFactory.eINSTANCE
+            .createCustomParameter();
+        parameter.setName(it.getText(0));
+        parameter.setDefaultValue(it.getText(1));
+        module.getParameters().add(parameter);
+      }
+    }
+  }
+
   private Composite root;
   private GeneralSection grpGeneral;
   private RunnerSection grpRunner;
@@ -600,19 +738,8 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
   private InputsSection grpInputs;
   private Label lblOutputPorts;
   private OutputsSection grpOutputs;
-
   private Label lblParameters;
-  private Table tblParameters;
-  private TableColumn tblclParametersName;
-  private TableColumn tblclParametersValue;
-
-  private Label lblParametersAddName;
-  private Text txtParametersAddName;
-  private Label lblParametersAddValue;
-  private Text txtParametersAddValue;
-  private Button btnParametersAdd;
-
-  private Button btnParametersRemove;
+  private ParametersSection grpParameters;
 
   static class RowTransfer extends ByteArrayTransfer {
     private static final String ROWTYPENAME = "RowType";
@@ -687,28 +814,8 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     lblParameters
         .setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 
-    tblParameters = new Table(root,
-        SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
-    tblParameters
-        .setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
-
-    tblclParametersName = new TableColumn(tblParameters, SWT.NONE);
-    tblclParametersValue = new TableColumn(tblParameters, SWT.NONE);
-
-    Group grpParametersAdd = new Group(root, SWT.NONE);
-    grpParametersAdd.setLayout(new GridLayout(5, false));
-
-    btnParametersRemove = new Button(root, SWT.PUSH);
-
-    lblParametersAddName = new Label(grpParametersAdd, SWT.NONE);
-    lblParametersAddName
-        .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-    txtParametersAddName = new Text(grpParametersAdd, SWT.BORDER);
-    lblParametersAddValue = new Label(grpParametersAdd, SWT.NONE);
-    lblParametersAddValue
-        .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-    txtParametersAddValue = new Text(grpParametersAdd, SWT.BORDER);
-    btnParametersAdd = new Button(grpParametersAdd, SWT.PUSH);
+    grpParameters = new ParametersSection(root, SWT.NONE);
+    grpParameters.initLayout();
   }
 
   private void initComponents() {
@@ -718,23 +825,8 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     grpInputs.initComponents();
     lblOutputPorts.setText("Output Ports:");
     grpOutputs.initComponents();
-
     lblParameters.setText("Parameters:");
-
-    tblParameters.setHeaderVisible(true);
-    tblParameters.setLinesVisible(true);
-
-    tblclParametersName.setText("Name");
-    tblclParametersValue.setText("DefaultValue");
-    Stream.of(tblParameters.getColumns()).forEach(TableColumn::pack);
-
-    lblParametersAddName.setText("Name:");
-    lblParametersAddValue.setText("Default value:");
-    btnParametersAdd.setText("Add");
-    btnParametersAdd.setEnabled(false);
-
-    btnParametersRemove.setText("Remove");
-    btnParametersRemove.setEnabled(false);
+    grpParameters.initComponents();
   }
 
   protected abstract List<String> getDataTypes();
@@ -743,66 +835,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     grpGeneral.initActions();
     grpInputs.initActions();
     grpOutputs.initActions();
-
-    tblParameters.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        btnParametersRemove.setEnabled(true);
-      }
-    });
-    txtParametersAddName.addModifyListener((ModifyEvent event) -> {
-      boolean exist = false;
-      for (TableItem it : tblParameters.getItems())
-        if (it.getText(0).equals(txtParametersAddName.getText()))
-          exist = true;
-      if ("".equals(txtParametersAddName.getText()) || exist)
-        btnParametersAdd.setEnabled(false);
-      else
-        btnParametersAdd.setEnabled(true);
-    });
-    btnParametersAdd.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        TableItem item = new TableItem(tblParameters, SWT.NONE);
-        item.setText(new String[] { txtParametersAddName.getText(),
-            txtParametersAddValue.getText() });
-        for (TableColumn tc : tblParameters.getColumns())
-          tc.pack();
-        sortParameters();
-        tblParameters.layout();
-        txtParametersAddName.setText("");
-        txtParametersAddValue.setText("");
-      }
-    });
-    btnParametersRemove.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        int[] selectionIds = tblParameters.getSelectionIndices();
-        if (selectionIds.length != 0)
-          btnParametersRemove.setEnabled(false);
-        for (int i = 0, n = selectionIds.length; i < n; i++)
-          tblParameters.remove(selectionIds[i]);
-      }
-    });
-  }
-
-  private void sortParameters() {
-    TableItem[] items = tblParameters.getItems();
-    Collator collator = Collator.getInstance(Locale.getDefault());
-    for (int i = 1; i < items.length; i++) {
-      String value1 = items[i].getText(0);
-      for (int j = 0; j < i; j++) {
-        String value2 = items[j].getText(0);
-        if (collator.compare(value1, value2) < 0) {
-          String[] values = { items[i].getText(0) };
-          items[i].dispose();
-          TableItem item = new TableItem(tblParameters, SWT.NONE, j);
-          item.setText(values);
-          items = tblParameters.getItems();
-          break;
-        }
-      }
-    }
+    grpParameters.initActions();
   }
 
   @Override
@@ -812,14 +845,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     grpRunner.decorate(module);
     grpInputs.decorate(module);
     grpOutputs.decorate(module);
-
-    for (TableItem it : tblParameters.getItems()) {
-      CustomParameter parameter = UserdefinedFactory.eINSTANCE
-          .createCustomParameter();
-      parameter.setName(it.getText(0));
-      parameter.setDefaultValue(it.getText(1));
-      module.getParameters().add(parameter);
-    }
+    grpParameters.decorate(module);
 
     boolean hasAsync = module.getInputs().stream().anyMatch(In::isAsynchronous);
 
