@@ -10,6 +10,7 @@ import java.text.Collator;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.eclipse.jface.wizard.WizardPage;
@@ -70,7 +71,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
 
     @Override
     protected void checkSubclass() {
-        //  allow subclass
+      // allow subclass
     }
 
     private void initLayout() {
@@ -147,7 +148,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
 
     @Override
     protected void checkSubclass() {
-        //  allow subclass
+      // allow subclass
     }
 
     private void initLayout() {
@@ -201,12 +202,13 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
 
     @Override
     protected void checkSubclass() {
-        //  allow subclass
+      // allow subclass
     }
 
     private void initLayout() {
       tblInputs = new Table(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
-      tblInputs.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
+      tblInputs
+          .setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
 
       tblclInputsName = new TableColumn(tblInputs, SWT.NONE);
       tblclInputsData = new TableColumn(tblInputs, SWT.NONE);
@@ -223,19 +225,21 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
       grpInputsAdd.setLayout(new GridLayout(5, false));
 
       lblInputsAddName = new Label(grpInputsAdd, SWT.NONE);
-      lblInputsAddName
-          .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+      lblInputsAddName.setLayoutData(
+          new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
       txtInputsAddName = new Text(grpInputsAdd, SWT.BORDER);
       cmbInputsAddData = new Combo(grpInputsAdd, SWT.NONE | SWT.READ_ONLY);
       Composite cmpInputsAddOptions = new Composite(grpInputsAdd, SWT.NULL);
       cmpInputsAddOptions.setLayout(new GridLayout(1, false));
       btnInputsAddAsync = new Button(cmpInputsAddOptions, SWT.CHECK);
       btnInputsAddHold = new Button(cmpInputsAddOptions, SWT.CHECK);
-      Composite cmpInputsAddGroup = new Composite(cmpInputsAddOptions, SWT.NULL);
+      Composite cmpInputsAddGroup = new Composite(cmpInputsAddOptions,
+          SWT.NULL);
       cmpInputsAddGroup.setLayout(new GridLayout(2, false));
       lblInputsAddGroup = new Label(cmpInputsAddGroup, SWT.NONE);
       spnInputsAddGroup = new Spinner(cmpInputsAddGroup, SWT.BORDER);
-      Composite cmpInputsAddQueue = new Composite(cmpInputsAddOptions, SWT.NULL);
+      Composite cmpInputsAddQueue = new Composite(cmpInputsAddOptions,
+          SWT.NULL);
       cmpInputsAddQueue.setLayout(new GridLayout(3, false));
       lblInputsAddQueue = new Label(cmpInputsAddQueue, SWT.NONE);
       btnInputsAddQueueInf = new Button(cmpInputsAddQueue, SWT.CHECK);
@@ -327,15 +331,13 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
           if (i == -1 || i >= tblInputs.getItems().length)
             return;
 
-          i = idx + 1;
-          for (TableItem it : items) {
-            new TableItem(tblInputs, SWT.NONE, i)
-                .setText(new String[] { it.getText(0), it.getText(1),
-                    it.getText(2), it.getText(3), it.getText(4), it.getText(5) });
-            i++;
-          }
-          for (TableItem it : items)
-            it.dispose();
+          final int idx2 = idx;
+          IntStream.range(0, items.length)
+              .forEach(j -> new TableItem(tblInputs, SWT.NONE, idx2 + 1 + j).setText(
+                  new String[] { items[j].getText(0), items[j].getText(1),
+                      items[j].getText(2), items[j].getText(3),
+                      items[j].getText(4), items[j].getText(5) }));
+          Stream.of(items).forEach(TableItem::dispose);
           tblInputs.redraw();
         }
       });
@@ -441,7 +443,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
 
     @Override
     protected void checkSubclass() {
-        //  allow subclass
+      // allow subclass
     }
 
     private void initLayout() {
@@ -462,8 +464,8 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
       btnOutputsRemove = new Button(this, SWT.PUSH);
 
       lblOutputsAddName = new Label(grpOutputsAdd, SWT.NONE);
-      lblOutputsAddName
-          .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+      lblOutputsAddName.setLayoutData(
+          new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
       txtOutputsAddName = new Text(grpOutputsAdd, SWT.BORDER);
       cmbOutputsAddData = new Combo(grpOutputsAdd, SWT.NONE | SWT.READ_ONLY);
       btnOutputsAdd = new Button(grpOutputsAdd, SWT.PUSH);
@@ -613,7 +615,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
 
     @Override
     protected void checkSubclass() {
-        //  allow subclass
+      // allow subclass
     }
 
     private void initLayout() {
@@ -631,12 +633,12 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
       btnParametersRemove = new Button(root, SWT.PUSH);
 
       lblParametersAddName = new Label(grpParametersAdd, SWT.NONE);
-      lblParametersAddName
-          .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+      lblParametersAddName.setLayoutData(
+          new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
       txtParametersAddName = new Text(grpParametersAdd, SWT.BORDER);
       lblParametersAddValue = new Label(grpParametersAdd, SWT.NONE);
-      lblParametersAddValue
-          .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+      lblParametersAddValue.setLayoutData(
+          new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
       txtParametersAddValue = new Text(grpParametersAdd, SWT.BORDER);
       btnParametersAdd = new Button(grpParametersAdd, SWT.PUSH);
     }
