@@ -332,8 +332,8 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
             return;
 
           final int idx2 = idx;
-          IntStream.range(0, items.length)
-              .forEach(j -> new TableItem(tblInputs, SWT.NONE, idx2 + 1 + j).setText(
+          IntStream.range(0, items.length).forEach(
+              j -> new TableItem(tblInputs, SWT.NONE, idx2 + 1 + j).setText(
                   new String[] { items[j].getText(0), items[j].getText(1),
                       items[j].getText(2), items[j].getText(3),
                       items[j].getText(4), items[j].getText(5) }));
@@ -854,11 +854,10 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     boolean hasNonAsync = module.getInputs().stream()
         .anyMatch(Predicate.not(In::isAsynchronous));
 
-    module.setExecuteAsync((!module.isAtomic() && hasNonAsync) || hasAsync);
+    module.setExecuteAsync(!module.isAtomic() && hasNonAsync || hasAsync);
     module.setExecuteExtSrc(module.isExternalSource());
     module.setGenerate(module.isGenerator());
-    module
-        .setExecute((module.isAtomic() && hasNonAsync) || module.isConstant());
+    module.setExecute(module.isAtomic() && hasNonAsync || module.isConstant());
 
     return module;
   }
