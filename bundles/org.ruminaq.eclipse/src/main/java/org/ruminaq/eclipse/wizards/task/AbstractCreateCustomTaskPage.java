@@ -56,15 +56,13 @@ import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
 public abstract class AbstractCreateCustomTaskPage extends WizardPage
     implements ICreateUserDefinedTaskPage {
 
-  private class RunnerSection extends Group {
+  private static class RunnerSection extends Group {
 
     private Button btnRunnerStart;
     private Button btnRunnerStop;
 
     public RunnerSection(Composite parent, int style) {
       super(parent, style);
-      setLayout(new GridLayout(2, false));
-      setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
     }
 
     @Override
@@ -73,6 +71,9 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     }
 
     private void initLayout() {
+      setLayout(new GridLayout(2, false));
+      setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+
       btnRunnerStart = new Button(this, SWT.CHECK);
       btnRunnerStop = new Button(this, SWT.CHECK);
     }
