@@ -21,6 +21,9 @@ public enum RunnerServiceManager {
 
   INSTANCE;
 
+  public static final String QUALIFIER = ".qualifier";
+  public static final String SNAPSHOT = "-SNAPSHOT";
+
   private final Logger logger = RunnerLoggerFactory
       .getLogger(RunnerServiceManager.class);
 
