@@ -416,7 +416,181 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
         module.getInputs().add(in);
       }
     }
+  }
 
+  private class OutputsSection extends Group {
+
+    private Table tblOutputs;
+    private TableColumn tblclOutputsName;
+    private TableColumn tblclOutputsData;
+    private DragSource tblOutputsDragSrc;
+    private DropTarget tblOutputsDropTrg;
+
+    private Label lblOutputsAddName;
+    private Text txtOutputsAddName;
+    private Combo cmbOutputsAddData;
+    private Button btnOutputsAdd;
+
+    private Button btnOutputsRemove;
+
+    public OutputsSection(Composite parent, int style) {
+      super(parent, style);
+      setLayout(new GridLayout(2, false));
+      setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+    }
+
+    @Override
+    protected void checkSubclass() {
+        //  allow subclass
+    }
+
+    private void initLayout() {
+      tblOutputs = new Table(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+      tblOutputs
+          .setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
+
+      tblclOutputsName = new TableColumn(tblOutputs, SWT.NONE);
+      tblclOutputsData = new TableColumn(tblOutputs, SWT.NONE);
+
+      tblOutputsDragSrc = new DragSource(tblOutputs, DND.DROP_MOVE);
+      tblOutputsDropTrg = new DropTarget(tblOutputs,
+          DND.DROP_MOVE | DND.DROP_DEFAULT);
+
+      Group grpOutputsAdd = new Group(this, SWT.NONE);
+      grpOutputsAdd.setLayout(new GridLayout(5, false));
+
+      btnOutputsRemove = new Button(this, SWT.PUSH);
+
+      lblOutputsAddName = new Label(grpOutputsAdd, SWT.NONE);
+      lblOutputsAddName
+          .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+      txtOutputsAddName = new Text(grpOutputsAdd, SWT.BORDER);
+      cmbOutputsAddData = new Combo(grpOutputsAdd, SWT.NONE | SWT.READ_ONLY);
+      btnOutputsAdd = new Button(grpOutputsAdd, SWT.PUSH);
+    }
+
+    private void initComponents() {
+      tblOutputs.setHeaderVisible(true);
+      tblOutputs.setLinesVisible(true);
+
+      tblclOutputsName.setText("Name");
+      tblclOutputsData.setText("Data type");
+      tblOutputsDragSrc.setTransfer(types);
+      tblOutputsDropTrg.setTransfer(types);
+      Stream.of(tblOutputs.getColumns()).forEach(TableColumn::pack);
+
+      lblOutputsAddName.setText("Name:");
+      getDataTypes().stream().forEach(cmbOutputsAddData::add);
+      cmbOutputsAddData.select(0);
+      btnOutputsAdd.setText("Add");
+      btnOutputsAdd.setEnabled(false);
+
+      btnOutputsRemove.setText("Remove");
+      btnOutputsRemove.setEnabled(false);
+    }
+
+    private void initActions() {
+      tblOutputs.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent event) {
+          btnOutputsRemove.setEnabled(true);
+        }
+      });
+      tblOutputsDragSrc.addDragListener(new DragSourceAdapter() {
+        @Override
+        public void dragStart(DragSourceEvent event) {
+          int[] is = tblOutputs.getSelectionIndices();
+          for (int i = 0; i < is.length; i++)
+            if (i > 0 && (is[i] - is[i - 1]) != 1) {
+              event.doit = false;
+              return;
+            }
+          event.doit = true;
+        }
+      });
+      tblOutputsDropTrg.addDropListener(new DropTargetAdapter() {
+        @Override
+        public void dragOver(DropTargetEvent event) {
+          event.feedback = DND.FEEDBACK_SELECT | DND.FEEDBACK_SCROLL;
+        }
+
+        @Override
+        public void drop(DropTargetEvent event) {
+          DropTarget target = (DropTarget) event.widget;
+          Table table = (Table) target.getControl();
+          if (table != tblOutputs)
+            return;
+
+          TableItem[] items = tblOutputs.getSelection();
+
+          TableItem ti = (TableItem) event.item;
+          int idx = -1;
+          int i = 0;
+          for (TableItem it : tblOutputs.getItems()) {
+            if (it == ti) {
+              idx = i;
+              break;
+            }
+            i++;
+          }
+          if (i == -1 || i >= tblOutputs.getItems().length)
+            return;
+
+          i = idx + 1;
+          for (TableItem it : items) {
+            new TableItem(tblOutputs, SWT.NONE, i).setText(
+                new String[] { it.getText(0), it.getText(1), it.getText(2) });
+            i++;
+          }
+          for (TableItem it : items)
+            it.dispose();
+          tblOutputs.redraw();
+        }
+      });
+      txtOutputsAddName.addModifyListener((ModifyEvent event) -> {
+        boolean exist = false;
+        for (TableItem it : tblOutputs.getItems())
+          if (it.getText(0).equals(txtOutputsAddName.getText()))
+            exist = true;
+        if ("".equals(txtOutputsAddName.getText()) || exist)
+          btnOutputsAdd.setEnabled(false);
+        else
+          btnOutputsAdd.setEnabled(true);
+      });
+      btnOutputsAdd.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent event) {
+          TableItem item = new TableItem(tblOutputs, SWT.NONE);
+          item.setText(new String[] { txtOutputsAddName.getText(),
+              cmbOutputsAddData.getText() });
+          for (TableColumn tc : tblOutputs.getColumns())
+            tc.pack();
+          tblOutputs.layout();
+          txtOutputsAddName.setText("");
+        }
+      });
+      btnOutputsRemove.addSelectionListener(new SelectionAdapter() {
+        @Override
+        public void widgetSelected(SelectionEvent event) {
+          int[] selectionIds = tblOutputs.getSelectionIndices();
+          if (selectionIds.length != 0)
+            btnOutputsRemove.setEnabled(false);
+          for (int i = 0, n = selectionIds.length; i < n; i++)
+            tblOutputs.remove(selectionIds[i]);
+        }
+      });
+    }
+
+    public void decorate(Module module) {
+      for (TableItem it : tblOutputs.getItems()) {
+        Out out = UserdefinedFactory.eINSTANCE.createOut();
+
+        out.setName(it.getText(0));
+        out.setDataType(it.getText(1));
+
+        module.getOutputs().add(out);
+      }
+    }
   }
 
   private Composite root;
@@ -424,20 +598,8 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
   private RunnerSection grpRunner;
   private Label lblInputPorts;
   private InputsSection grpInputs;
-
   private Label lblOutputPorts;
-  private Table tblOutputs;
-  private TableColumn tblclOutputsName;
-  private TableColumn tblclOutputsData;
-  private DragSource tblOutputsDragSrc;
-  private DropTarget tblOutputsDropTrg;
-
-  private Label lblOutputsAddName;
-  private Text txtOutputsAddName;
-  private Combo cmbOutputsAddData;
-  private Button btnOutputsAdd;
-
-  private Button btnOutputsRemove;
+  private OutputsSection grpOutputs;
 
   private Label lblParameters;
   private Table tblParameters;
@@ -518,28 +680,8 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     lblOutputPorts
         .setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 
-    tblOutputs = new Table(root, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
-    tblOutputs
-        .setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
-
-    tblclOutputsName = new TableColumn(tblOutputs, SWT.NONE);
-    tblclOutputsData = new TableColumn(tblOutputs, SWT.NONE);
-
-    tblOutputsDragSrc = new DragSource(tblOutputs, DND.DROP_MOVE);
-    tblOutputsDropTrg = new DropTarget(tblOutputs,
-        DND.DROP_MOVE | DND.DROP_DEFAULT);
-
-    Group grpOutputsAdd = new Group(root, SWT.NONE);
-    grpOutputsAdd.setLayout(new GridLayout(5, false));
-
-    btnOutputsRemove = new Button(root, SWT.PUSH);
-
-    lblOutputsAddName = new Label(grpOutputsAdd, SWT.NONE);
-    lblOutputsAddName
-        .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-    txtOutputsAddName = new Text(grpOutputsAdd, SWT.BORDER);
-    cmbOutputsAddData = new Combo(grpOutputsAdd, SWT.NONE | SWT.READ_ONLY);
-    btnOutputsAdd = new Button(grpOutputsAdd, SWT.PUSH);
+    grpOutputs = new OutputsSection(root, SWT.NONE);
+    grpOutputs.initLayout();
 
     lblParameters = new Label(root, SWT.NONE);
     lblParameters
@@ -574,26 +716,8 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     grpRunner.initComponents();
     lblInputPorts.setText("Input Ports:");
     grpInputs.initComponents();
-
     lblOutputPorts.setText("Output Ports:");
-
-    tblOutputs.setHeaderVisible(true);
-    tblOutputs.setLinesVisible(true);
-
-    tblclOutputsName.setText("Name");
-    tblclOutputsData.setText("Data type");
-    tblOutputsDragSrc.setTransfer(types);
-    tblOutputsDropTrg.setTransfer(types);
-    Stream.of(tblOutputs.getColumns()).forEach(TableColumn::pack);
-
-    lblOutputsAddName.setText("Name:");
-    getDataTypes().stream().forEach(cmbOutputsAddData::add);
-    cmbOutputsAddData.select(0);
-    btnOutputsAdd.setText("Add");
-    btnOutputsAdd.setEnabled(false);
-
-    btnOutputsRemove.setText("Remove");
-    btnOutputsRemove.setEnabled(false);
+    grpOutputs.initComponents();
 
     lblParameters.setText("Parameters:");
 
@@ -618,96 +742,8 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
   private void initActions() {
     grpGeneral.initActions();
     grpInputs.initActions();
+    grpOutputs.initActions();
 
-    tblOutputs.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        btnOutputsRemove.setEnabled(true);
-      }
-    });
-    tblOutputsDragSrc.addDragListener(new DragSourceAdapter() {
-      @Override
-      public void dragStart(DragSourceEvent event) {
-        int[] is = tblOutputs.getSelectionIndices();
-        for (int i = 0; i < is.length; i++)
-          if (i > 0 && (is[i] - is[i - 1]) != 1) {
-            event.doit = false;
-            return;
-          }
-        event.doit = true;
-      }
-    });
-    tblOutputsDropTrg.addDropListener(new DropTargetAdapter() {
-      @Override
-      public void dragOver(DropTargetEvent event) {
-        event.feedback = DND.FEEDBACK_SELECT | DND.FEEDBACK_SCROLL;
-      }
-
-      @Override
-      public void drop(DropTargetEvent event) {
-        DropTarget target = (DropTarget) event.widget;
-        Table table = (Table) target.getControl();
-        if (table != tblOutputs)
-          return;
-
-        TableItem[] items = tblOutputs.getSelection();
-
-        TableItem ti = (TableItem) event.item;
-        int idx = -1;
-        int i = 0;
-        for (TableItem it : tblOutputs.getItems()) {
-          if (it == ti) {
-            idx = i;
-            break;
-          }
-          i++;
-        }
-        if (i == -1 || i >= tblOutputs.getItems().length)
-          return;
-
-        i = idx + 1;
-        for (TableItem it : items) {
-          new TableItem(tblOutputs, SWT.NONE, i).setText(
-              new String[] { it.getText(0), it.getText(1), it.getText(2) });
-          i++;
-        }
-        for (TableItem it : items)
-          it.dispose();
-        tblOutputs.redraw();
-      }
-    });
-    txtOutputsAddName.addModifyListener((ModifyEvent event) -> {
-      boolean exist = false;
-      for (TableItem it : tblOutputs.getItems())
-        if (it.getText(0).equals(txtOutputsAddName.getText()))
-          exist = true;
-      if ("".equals(txtOutputsAddName.getText()) || exist)
-        btnOutputsAdd.setEnabled(false);
-      else
-        btnOutputsAdd.setEnabled(true);
-    });
-    btnOutputsAdd.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        TableItem item = new TableItem(tblOutputs, SWT.NONE);
-        item.setText(new String[] { txtOutputsAddName.getText(),
-            cmbOutputsAddData.getText() });
-        for (TableColumn tc : tblOutputs.getColumns())
-          tc.pack();
-        tblOutputs.layout();
-        txtOutputsAddName.setText("");
-      }
-    });
-    btnOutputsRemove.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        int[] selectionIds = tblOutputs.getSelectionIndices();
-        if (selectionIds.length != 0)
-          btnOutputsRemove.setEnabled(false);
-        for (int i = 0, n = selectionIds.length; i < n; i++)
-          tblOutputs.remove(selectionIds[i]);
-      }
-    });
     tblParameters.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent event) {
@@ -775,6 +811,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     grpGeneral.decorate(module);
     grpRunner.decorate(module);
     grpInputs.decorate(module);
+    grpOutputs.decorate(module);
 
     for (TableItem it : tblParameters.getItems()) {
       CustomParameter parameter = UserdefinedFactory.eINSTANCE
@@ -782,15 +819,6 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
       parameter.setName(it.getText(0));
       parameter.setDefaultValue(it.getText(1));
       module.getParameters().add(parameter);
-    }
-
-    for (TableItem it : tblOutputs.getItems()) {
-      Out out = UserdefinedFactory.eINSTANCE.createOut();
-
-      out.setName(it.getText(0));
-      out.setDataType(it.getText(1));
-
-      module.getOutputs().add(out);
     }
 
     boolean hasAsync = module.getInputs().stream().anyMatch(In::isAsynchronous);
