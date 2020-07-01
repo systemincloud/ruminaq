@@ -117,8 +117,6 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
 
     public InputsSection(Composite parent, int style) {
       super(parent, style);
-      setLayout(new GridLayout(2, false));
-      setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
     }
 
     @Override
@@ -127,6 +125,9 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     }
 
     private void initLayout() {
+      setLayout(new GridLayout(2, false));
+      setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+
       tblInputs = new Table(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
       tblInputs
           .setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
