@@ -55,7 +55,6 @@ import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
 public abstract class AbstractCreateCustomTaskPage extends WizardPage
     implements ICreateUserDefinedTaskPage {
 
-
   private class GeneralSection extends Group {
 
     private Button btnAtomic;
@@ -135,11 +134,42 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
 
   }
 
+  private class RunnerSection extends Group {
+
+    private Button btnRunnerStart;
+    private Button btnRunnerStop;
+
+    public RunnerSection(Composite parent, int style) {
+      super(parent, style);
+      setLayout(new GridLayout(2, false));
+      setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+    }
+
+    @Override
+    protected void checkSubclass() {
+        //  allow subclass
+    }
+
+    private void initLayout() {
+      btnRunnerStart = new Button(this, SWT.CHECK);
+      btnRunnerStop = new Button(this, SWT.CHECK);
+    }
+
+    private void initComponents() {
+      btnRunnerStart.setText("runnerStart");
+      btnRunnerStop.setText("runnerStop");
+    }
+
+    private void decorate(Module module) {
+      module.setRunnerStart(btnRunnerStart.getSelection());
+      module.setRunnerStop(btnRunnerStop.getSelection());
+    }
+
+  }
+
   private Composite root;
   private GeneralSection grpGeneral;
-
-  private Button btnRunnerStart;
-  private Button btnRunnerStop;
+  private RunnerSection grpRunner;
 
   private Label lblInputPorts;
   private Table tblInputs;
@@ -243,16 +273,10 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     root.setLayout(new GridLayout(2, false));
 
     grpGeneral = new GeneralSection(root, SWT.NONE);
-
     grpGeneral.initLayout();
 
-    Group grpRunner = new Group(root, SWT.NONE);
-    grpRunner.setLayout(new GridLayout(2, false));
-    grpRunner
-        .setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
-
-    btnRunnerStart = new Button(grpRunner, SWT.CHECK);
-    btnRunnerStop = new Button(grpRunner, SWT.CHECK);
+    grpRunner = new RunnerSection(root, SWT.NONE);
+    grpRunner.initLayout();
 
     lblInputPorts = new Label(root, SWT.NONE);
     lblInputPorts
@@ -354,9 +378,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
 
   private void initComponents() {
     grpGeneral.initComponents();
-
-    btnRunnerStart.setText("runnerStart");
-    btnRunnerStop.setText("runnerStop");
+    grpRunner.initComponents();
 
     lblInputPorts.setText("Input Ports:");
 
@@ -707,9 +729,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
   public Module getModel() {
     Module module = UserdefinedFactory.eINSTANCE.createModule();
     grpGeneral.decorate(module);
-
-    module.setRunnerStart(btnRunnerStart.getSelection());
-    module.setRunnerStop(btnRunnerStop.getSelection());
+    grpRunner.decorate(module);
 
     for (TableItem it : tblParameters.getItems()) {
       CustomParameter parameter = UserdefinedFactory.eINSTANCE
