@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.osgi.framework.Version;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.launch.LaunchListener;
 import org.ruminaq.model.ruminaq.Task;

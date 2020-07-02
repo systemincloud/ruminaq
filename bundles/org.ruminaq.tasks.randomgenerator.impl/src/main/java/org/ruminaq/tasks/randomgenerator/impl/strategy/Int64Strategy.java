@@ -17,6 +17,7 @@ import org.ruminaq.runner.impl.data.Int64I;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
 import org.ruminaq.tasks.randomgenerator.model.Port;
 import org.ruminaq.util.NumericUtil;
+
 import ch.qos.logback.classic.Logger;
 
 public class Int64Strategy extends RandomGeneratorNumericStrategy {

@@ -9,12 +9,11 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EMap;
 import org.ruminaq.runner.impl.data.DataI;
+import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
 import org.ruminaq.tasks.randomgenerator.impl.distributions.Distributon;
 import org.ruminaq.tasks.randomgenerator.impl.distributions.NormalDistribution;
 import org.ruminaq.tasks.randomgenerator.impl.distributions.UniformDistribution;
-import org.ruminaq.tasks.randomgenerator.impl.strategy.RandomGeneratorStrategy;
 import org.ruminaq.tasks.randomgenerator.model.Port;
-import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
 import org.ruminaq.util.RandomUtil;
 
 public abstract class RandomGeneratorNumericStrategy

@@ -6,7 +6,6 @@
 package org.ruminaq.tasks.demux.ui.properties;
 
 import org.osgi.framework.FrameworkUtil;
-import org.ruminaq.launch.LaunchListener;
 import org.ruminaq.launch.RuminaqLaunchDelegate;
 import org.ruminaq.tasks.AbstractTaskPropertySection;
 

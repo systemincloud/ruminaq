@@ -21,12 +21,12 @@ import org.eclipse.swt.widgets.Display;
 import org.ruminaq.launch.LaunchListener;
 import org.ruminaq.launch.RuminaqLaunchDelegate;
 import org.ruminaq.runner.dirmi.DirmiServer;
+import org.ruminaq.runner.util.Util;
 import org.ruminaq.tasks.SicWindow;
 import org.ruminaq.tasks.Windows;
 import org.ruminaq.tasks.inspect.impl.InspectIService;
 import org.ruminaq.tasks.inspect.impl.InspectWindowService;
 import org.ruminaq.tasks.inspect.model.inspect.Inspect;
-import org.ruminaq.runner.util.Util;
 
 public class InspectWindow extends JFrame implements LaunchListener, SicWindow {
 

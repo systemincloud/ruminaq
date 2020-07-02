@@ -9,14 +9,8 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.Text;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
-import org.ruminaq.model.ruminaq.DataType;
-import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 
 public class UpdateFeature extends UpdateTaskFeature {

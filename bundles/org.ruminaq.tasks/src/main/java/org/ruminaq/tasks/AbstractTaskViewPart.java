@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
-import org.osgi.framework.Version;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskUiApi;

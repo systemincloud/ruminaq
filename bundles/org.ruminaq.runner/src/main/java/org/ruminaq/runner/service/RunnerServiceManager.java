@@ -12,8 +12,6 @@ import java.util.Optional;
 import java.util.ServiceLoader;
 
 import org.apache.commons.cli.Options;
-import org.osgi.framework.Version;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.EmbeddedTaskI;

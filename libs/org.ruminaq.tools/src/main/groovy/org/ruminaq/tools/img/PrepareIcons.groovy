@@ -1,7 +1,5 @@
 package org.ruminaq.tools.img
 
-import groovy.json.JsonSlurper
-
 class PrepareIcons {
 
 	def execute(basedir) {

@@ -6,8 +6,6 @@
 
 package org.ruminaq.eclipse.prefs;
 
-import ch.qos.logback.classic.Level;
-
 import java.util.stream.Stream;
 
 import org.eclipse.core.runtime.preferences.InstanceScope;
@@ -20,6 +18,8 @@ import org.ruminaq.eclipse.Messages;
 import org.ruminaq.launch.api.LaunchExtension;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.prefs.Prefs;
+
+import ch.qos.logback.classic.Level;
 
 /**
  * Ruminaq prefereneces page.

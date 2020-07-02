@@ -27,8 +27,9 @@ import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.util.GlobalUtil;
 
-import ch.qos.logback.classic.Logger;
 import com.google.common.base.Joiner;
+
+import ch.qos.logback.classic.Logger;
 
 public class TestParametersSection extends AbstractParametersSection {
 

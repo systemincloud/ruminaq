@@ -16,6 +16,7 @@ import org.javatuples.Pair;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.api.ModelExtensionHandler;
+import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.dt.Bool;
 import org.ruminaq.model.ruminaq.dt.Complex32;
 import org.ruminaq.model.ruminaq.dt.Complex64;
@@ -28,7 +29,6 @@ import org.ruminaq.model.ruminaq.dt.Int32;
 import org.ruminaq.model.ruminaq.dt.Int64;
 import org.ruminaq.model.ruminaq.dt.Raw;
 import org.ruminaq.model.ruminaq.dt.Text;
-import org.ruminaq.model.ruminaq.DataType;
 
 import ch.qos.logback.classic.Logger;
 

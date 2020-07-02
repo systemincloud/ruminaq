@@ -6,7 +6,6 @@
 package org.ruminaq.tasks.embeddedtask.ui.properties;
 
 import org.osgi.framework.FrameworkUtil;
-import org.ruminaq.launch.LaunchListener;
 import org.ruminaq.launch.RuminaqLaunchDelegate;
 
 public class ParametersSection {

@@ -8,9 +8,11 @@ package org.ruminaq.tasks.javatask.impl.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
+
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.tasks.javatask.client.data.Data;
+
 import ch.qos.logback.classic.Logger;
 
 public enum JavaTaskServiceManager {

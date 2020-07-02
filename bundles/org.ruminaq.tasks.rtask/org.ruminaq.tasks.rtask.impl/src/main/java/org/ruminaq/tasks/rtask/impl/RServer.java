@@ -5,14 +5,8 @@
  ******************************************************************************/
 package org.ruminaq.tasks.rtask.impl;
 
-import java.util.HashSet;
-import java.util.NoSuchElementException;
-import java.util.Set;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.ruminaq.runner.RunnerLoggerFactory;
+
 import ch.qos.logback.classic.Logger;
 
 //import de.walware.ecommons.ECommons;

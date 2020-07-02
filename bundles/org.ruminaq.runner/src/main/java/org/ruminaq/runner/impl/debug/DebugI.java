@@ -12,7 +12,6 @@ import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.dirmi.DirmiClient;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 import org.ruminaq.runner.impl.debug.events.model.TerminateRequest;
-
 import org.slf4j.Logger;
 
 public enum DebugI {

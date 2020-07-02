@@ -48,6 +48,7 @@ import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.GlobalUtil;
+
 import ch.qos.logback.classic.Logger;
 
 public class UpdateEmbeddedTaskFeature extends UpdateUserDefinedTaskFeature {

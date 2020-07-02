@@ -10,7 +10,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.eclipse.core.runtime.CoreException;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.EmbeddedTaskI;
@@ -18,9 +17,10 @@ import org.ruminaq.runner.impl.GeneratorI;
 import org.ruminaq.runner.impl.PortMap;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.impl.data.DataManager;
-import org.ruminaq.util.GroovyExpressionUtil;
 import org.ruminaq.runner.util.Util;
 import org.ruminaq.tasks.rtask.model.rtask.RTask;
+import org.ruminaq.util.GroovyExpressionUtil;
+
 import ch.qos.logback.classic.Logger;
 
 //import de.walware.rj.servi.RServi;

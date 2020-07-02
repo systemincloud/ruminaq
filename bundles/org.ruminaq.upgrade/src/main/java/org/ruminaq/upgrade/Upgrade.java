@@ -5,9 +5,6 @@
  ******************************************************************************/
 package org.ruminaq.upgrade;
 
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
@@ -15,7 +12,10 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.ruminaq.logs.ModelerLoggerFactory;
+
 import ch.qos.logback.classic.Logger;
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
 
 public class Upgrade {
 

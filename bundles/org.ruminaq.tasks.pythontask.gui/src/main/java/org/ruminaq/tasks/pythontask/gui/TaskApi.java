@@ -5,41 +5,16 @@
  ******************************************************************************/
 package org.ruminaq.tasks.pythontask.gui;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.Executors;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.DefaultArtifact;
-import org.apache.maven.artifact.handler.DefaultArtifactHandler;
 import org.apache.maven.model.Dependency;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.graphiti.features.IAddFeature;
-import org.eclipse.graphiti.features.ICreateFeature;
-import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.IUpdateFeature;
-import org.eclipse.graphiti.features.context.IAddContext;
-import org.eclipse.graphiti.features.context.IDoubleClickContext;
-import org.eclipse.graphiti.features.context.IUpdateContext;
-import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.m2e.core.MavenPlugin;
-import org.javatuples.Triplet;
-import org.osgi.framework.BundleContext;
 import org.osgi.framework.Version;
 import org.osgi.service.component.annotations.Activate;
 import org.python.pydev.ast.interpreter_managers.InterpreterManagersAPI;
@@ -50,15 +25,11 @@ import org.python.pydev.core.IPythonPathNature;
 import org.python.pydev.plugin.nature.PythonNature;
 import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
-import org.ruminaq.tasks.pythontask.gui.features.DoubleClickFeatureFilter;
 import org.ruminaq.tasks.pythontask.gui.wizards.CreateProjectWizard;
 import org.ruminaq.tasks.pythontask.impl.PythonTaskI;
 import org.ruminaq.tasks.pythontask.impl.cpython.CpythonProgramArguments;
 import org.ruminaq.tasks.pythontask.impl.jython.JythonProgramArguments;
-import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
-import org.ruminaq.tasks.pythontask.model.pythontask.PythontaskPackage;
 
 import ch.qos.logback.classic.Logger;
 

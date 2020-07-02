@@ -5,9 +5,9 @@
  ******************************************************************************/
 package org.ruminaq.tasks.pythontask.ui.properties;
 
-import org.ruminaq.tasks.AbstractTaskPropertySection;
 import org.osgi.framework.FrameworkUtil;
 import org.ruminaq.launch.RuminaqLaunchDelegate;
+import org.ruminaq.tasks.AbstractTaskPropertySection;
 
 public class PropertySection extends AbstractTaskPropertySection {
 

@@ -8,9 +8,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.tasks.javatask.client;
 
-import org.ruminaq.tasks.javatask.client.InputPort;
-import org.ruminaq.tasks.javatask.client.JavaTask;
-import org.ruminaq.tasks.javatask.client.OutputPort;
 import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;

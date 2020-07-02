@@ -8,15 +8,9 @@ package org.ruminaq.gui.features.move;
 
 import java.util.Optional;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
-import org.eclipse.graphiti.mm.algorithms.MultiText;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.move.MoveInternalPortFeature.Filter;
 import org.ruminaq.gui.model.GuiUtil;

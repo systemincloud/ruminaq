@@ -8,13 +8,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.tasks.javatask.client.data;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Test;
-import org.ruminaq.tasks.javatask.client.data.Text;
 
 /**
  *

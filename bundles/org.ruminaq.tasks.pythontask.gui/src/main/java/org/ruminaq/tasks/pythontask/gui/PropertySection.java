@@ -33,8 +33,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.wizards.IWizardDescriptor;
+import org.python.pydev.core.IInfo;
 import org.python.pydev.shared_ui.EditorUtils;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
@@ -46,7 +46,6 @@ import org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskWizard;
 import org.ruminaq.util.EclipseUtil;
 
 import com.python.pydev.analysis.additionalinfo.AdditionalInfoAndIInfo;
-import org.python.pydev.core.IInfo;
 
 public class PropertySection
     implements IPropertySection, CreatePythonTaskListener {

@@ -6,9 +6,8 @@
 package org.ruminaq.tasks.randomgenerator.impl.strategy;
 
 import org.eclipse.emf.common.util.EMap;
-import org.ruminaq.tasks.randomgenerator.impl.distributions.Distributon;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
-import org.ruminaq.tasks.randomgenerator.impl.strategy.RandomGeneratorStrategy;
+import org.ruminaq.tasks.randomgenerator.impl.distributions.Distributon;
 import org.ruminaq.util.NumericUtil;
 
 public abstract class RandomGeneratorComplexStrategy

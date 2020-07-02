@@ -17,7 +17,6 @@ import org.cojen.dirmi.SessionAcceptor;
 import org.cojen.dirmi.SessionListener;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.util.Util;
-
 import org.slf4j.Logger;
 
 public enum DirmiServer {

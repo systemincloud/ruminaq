@@ -12,7 +12,6 @@ import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.impl.EmbeddedTaskI;
 import org.ruminaq.runner.impl.TaskI;
 import org.ruminaq.runner.service.AbstractRunnerService;
-import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomgeneratorPackage;
 

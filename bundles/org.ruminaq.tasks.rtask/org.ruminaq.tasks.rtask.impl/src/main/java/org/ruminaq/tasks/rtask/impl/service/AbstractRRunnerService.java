@@ -6,10 +6,7 @@
 package org.ruminaq.tasks.rtask.impl.service;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
-
-import org.ruminaq.runner.impl.data.DataI;
 
 //import de.walware.rj.data.RObject;
 
