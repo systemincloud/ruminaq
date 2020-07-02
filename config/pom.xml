@@ -462,7 +462,7 @@
           <targetJdk>${java.version}</targetJdk>
           <failOnViolation>false</failOnViolation>
           <rulesets>
-            <ruleset>pmd-ruleset.xml</ruleset>
+            <ruleset>${maven.multiModuleProjectDirectory}/pmd-ruleset.xml</ruleset>
           </rulesets>
         </configuration>
         <executions>
