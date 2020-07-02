@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="randomgenerator/src/main/java"
     modelPluginID="" modelName="Randomgenerator" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" complianceLevel="8.0"
-    copyrightFields="false" language="en" usedGenPackages="../../../org.ruminaq.model.ruminaq/model/model.genmodel#//ruminaq"
+    copyrightFields="false" language="en" usedGenPackages="../../org.ruminaq.model.ruminaq/model/model.genmodel#//ruminaq"
     importOrganizing="true">
   <foreignModel>model.ecore</foreignModel>
   <genPackages prefix="Randomgenerator" basePackage="org.ruminaq.tasks.randomgenerator.model"
