@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.it.tests;
 
 import static org.junit.Assert.assertEquals;
@@ -89,14 +95,15 @@ public class MoveTest extends GuiTest {
 
     WithShapeGraphitiEditPart scp = new WithShapeGraphitiEditPart(
         SimpleConnectionPointShape.class);
-    SimpleConnectionPointShape shape = Optional.of(scp).map(GraphitiEditPart::getGEFEditPart)
+    SimpleConnectionPointShape shape = Optional.of(scp)
+        .map(GraphitiEditPart::getGEFEditPart)
         .filter(ShapeEditPart.class::isInstance).map(ShapeEditPart.class::cast)
         .map(ShapeEditPart::getPictogramElement)
         .filter(SimpleConnectionPointShape.class::isInstance)
         .map(SimpleConnectionPointShape.class::cast).orElseThrow();
 
     new MoveShape(gefEditor, scp, 10, 20).execute();
-    
+
     assertEquals("X should change", 306, shape.getX());
     assertEquals("Y should change", 123, shape.getY());
   }

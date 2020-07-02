@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.it.tests;
 
 import static org.junit.Assert.assertEquals;
@@ -64,7 +70,7 @@ public class GuiUtilTest {
         Arguments.of(createPoint(100, 103), createPoint(104, 100),
             createPoint(111, 101), 5));
   }
-  
+
   @ParameterizedTest
   @MethodSource("distanceToSection")
   public void testDistanceToSection(Point a, Point b, Point p, int d) {
@@ -130,10 +136,10 @@ public class GuiUtilTest {
             false),
         Arguments.of(createPoint(0, 10), createPoint(10, 0), createPoint(6, 5),
             true),
-        Arguments.of(createPoint(100, 103), createPoint(104, 100), createPoint(103, 101),
-            true));
+        Arguments.of(createPoint(100, 103), createPoint(104, 100),
+            createPoint(103, 101), true));
   }
-  
+
   @ParameterizedTest
   @MethodSource("pointBelongsToSection")
   public void testPointBelongsToSection(Point a, Point b, Point p,
@@ -160,7 +166,7 @@ public class GuiUtilTest {
             false),
         Arguments.of(createPoint(0, 10), createPoint(10, 0), createPoint(6, 5),
             true),
-        Arguments.of(createPoint(100, 103), createPoint(104, 100), createPoint(103, 101),
-            true));
+        Arguments.of(createPoint(100, 103), createPoint(104, 100),
+            createPoint(103, 101), true));
   }
 }

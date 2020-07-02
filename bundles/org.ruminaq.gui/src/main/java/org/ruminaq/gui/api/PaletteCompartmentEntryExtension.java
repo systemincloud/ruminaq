@@ -17,12 +17,12 @@ import org.eclipse.graphiti.palette.IPaletteCompartmentEntry;
  * @author Marek Jagielski
  */
 public interface PaletteCompartmentEntryExtension {
-  
+
   /**
    * Get all palette entries.
-   * 
-   * @param fp     IFeatureProvider of Graphiti
-   * @return       collections of IPaletteCompartmentEntry
+   *
+   * @param fp IFeatureProvider of Graphiti
+   * @return collections of IPaletteCompartmentEntry
    */
   Collection<IPaletteCompartmentEntry> getPalette(IFeatureProvider fp);
 }

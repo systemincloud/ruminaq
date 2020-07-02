@@ -14,8 +14,8 @@ import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
 
 /**
- * Abstract class for all Ruminaque elements.
- * Elements can have labels assiociated.
+ * Abstract class for all Ruminaque elements. Elements can have labels
+ * assiociated.
  *
  * @author Marek Jagielski
  */
@@ -27,7 +27,7 @@ public abstract class AbstractAddElementFeature
   }
 
   protected LabelShape addLabel(LabeledRuminaqShape labeledShape) {
-    LabelShape labelShape = DiagramFactory.eINSTANCE.createLabelShape(); 
+    LabelShape labelShape = DiagramFactory.eINSTANCE.createLabelShape();
     labeledShape.setLabel(labelShape);
     labelShape.setContainer(labeledShape.getContainer());
     LabelUtil.placeInDefaultPosition(labelShape);

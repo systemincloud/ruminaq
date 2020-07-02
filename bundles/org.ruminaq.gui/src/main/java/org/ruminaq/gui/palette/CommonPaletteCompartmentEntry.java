@@ -54,8 +54,8 @@ public class CommonPaletteCompartmentEntry
     Stream.of(CONNECTIONS_STACK).forEachOrdered((String stackName) -> {
       StackEntry connectionsStackEntry = new StackEntry(CONNECTIONS_STACK, "",
           null);
-      getConnectionCreationToolEntries(createConnectionFeatures,
-          stackName).forEach(connectionsStackEntry::addCreationToolEntry);
+      getConnectionCreationToolEntries(createConnectionFeatures, stackName)
+          .forEach(connectionsStackEntry::addCreationToolEntry);
       if (!connectionsStackEntry.getCreationToolEntries().isEmpty()) {
         commonCompartmentEntry.getToolEntries().add(connectionsStackEntry);
       }

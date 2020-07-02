@@ -87,7 +87,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 
     return taskShape;
   }
-  
+
   public TaskShape createTaskShape() {
     return DiagramFactory.eINSTANCE.createTaskShape();
   }
@@ -172,7 +172,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //      }
 //    }
 //  }
-  
+
   public static ContainerShape addInternalPortLabel(Diagram diagram,
       ContainerShape parent, String label, int width, int height, int x, int y,
       InternalPortLabelPosition position) {

@@ -17,10 +17,10 @@ import org.eclipse.graphiti.features.custom.ICustomFeature;
  * @author Marek Jagielski
  */
 public interface ContextMenuEntryExtension {
-  
+
   /**
    * Is item in context menu available.
-   * 
+   *
    * @param context ICustomContext
    * @return predicate that determine
    */

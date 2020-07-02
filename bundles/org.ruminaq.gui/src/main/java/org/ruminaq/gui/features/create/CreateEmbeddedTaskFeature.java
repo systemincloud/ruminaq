@@ -39,15 +39,14 @@ public class CreateEmbeddedTaskFeature extends AbstractCreateTaskFeature
 
   @Override
   public Object[] create(ICreateContext context) {
-    return super.create(context,
-        RuminaqFactory.eINSTANCE.createEmbeddedTask());
+    return super.create(context, RuminaqFactory.eINSTANCE.createEmbeddedTask());
   }
 
   @Override
   public String getCreateImageId() {
     return Images.IMG_EMBEDDEDTASK_PALETTE;
   }
-  
+
   @Override
   protected Class<? extends PortsDescr> getPortsDescription() {
     return NoPorts.class;

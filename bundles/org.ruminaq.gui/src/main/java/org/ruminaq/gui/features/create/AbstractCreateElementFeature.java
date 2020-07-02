@@ -57,13 +57,12 @@ public abstract class AbstractCreateElementFeature
   /**
    * Does list of shapes contain shape of object with id.
    * 
-   * @param id of shape
+   * @param id     of shape
    * @param shapes collection of shapes
    */
   public static boolean isPresent(String id, Collection<Shape> shapes) {
     return shapes.stream().filter(RuminaqShape.class::isInstance)
         .map(RuminaqShape.class::cast).map(RuminaqShape::getModelObject)
-        .filter(Objects::nonNull).map(BaseElement::getId)
-        .anyMatch(id::equals);
+        .filter(Objects::nonNull).map(BaseElement::getId).anyMatch(id::equals);
   }
 }

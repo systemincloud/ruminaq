@@ -16,19 +16,18 @@ import org.ruminaq.gui.api.ImageDescriptor;
 public class ImageDescriptorImpl implements ImageDescriptor {
 
   private Class<?> clazz;
-  
+
   private String name;
 
   private String path;
-  
+
   /**
    * Common class for Images.
    * 
    * @param clazz any class inside bundle
-   * @param path path of image resource inside bundle
+   * @param path  path of image resource inside bundle
    */
-  public ImageDescriptorImpl(Class<?> clazz,
-      String path) {
+  public ImageDescriptorImpl(Class<?> clazz, String path) {
     this.clazz = clazz;
     this.name = path;
     this.path = path;

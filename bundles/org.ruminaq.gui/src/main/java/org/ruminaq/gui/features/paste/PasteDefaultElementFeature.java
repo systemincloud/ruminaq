@@ -15,8 +15,8 @@ import org.ruminaq.gui.model.diagram.RuminaqShape;
 public class PasteDefaultElementFeature<T extends RuminaqShape>
     extends RuminaqShapePasteFeature<T> {
 
-  public PasteDefaultElementFeature(IFeatureProvider fp, T oldPe,
-      int xMin, int yMin) {
+  public PasteDefaultElementFeature(IFeatureProvider fp, T oldPe, int xMin,
+      int yMin) {
     super(fp, oldPe, yMin, yMin);
   }
 

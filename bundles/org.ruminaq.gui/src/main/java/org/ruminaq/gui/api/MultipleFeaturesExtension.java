@@ -27,7 +27,7 @@ public interface MultipleFeaturesExtension<T> {
 
   /**
    * Create and return all features for classes.
-   * 
+   *
    * @param features list of classes to instantiate
    * @param fp       IFeatureProvider of Graphiti
    * @return collection of features
@@ -46,7 +46,7 @@ public interface MultipleFeaturesExtension<T> {
 
   /**
    * Return all features for classes.
-   * 
+   *
    * @param fp IFeatureProvider of Graphiti
    * @return collection of features
    */

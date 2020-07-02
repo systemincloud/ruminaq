@@ -27,9 +27,8 @@ public class ResizeFilter<T extends Shape>
   public boolean test(IContext context, IFeatureProvider fp) {
     return Optional.ofNullable(context)
         .filter(IResizeShapeContext.class::isInstance)
-        .map(IResizeShapeContext.class::cast)
-        .map(IResizeShapeContext::getShape).filter(clazz::isInstance)
-        .isPresent();
+        .map(IResizeShapeContext.class::cast).map(IResizeShapeContext::getShape)
+        .filter(clazz::isInstance).isPresent();
   }
 
 }

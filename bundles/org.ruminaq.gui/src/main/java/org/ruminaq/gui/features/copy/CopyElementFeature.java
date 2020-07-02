@@ -30,8 +30,9 @@ public class CopyElementFeature extends AbstractCopyFeature {
     PictogramElement[] pes = context.getPictogramElements();
 
     return !(Optional.ofNullable(pes).map(Arrays::asList).stream()
-        .flatMap(List::stream).findAny().isEmpty() || (Stream.of(pes)
-        .anyMatch(Predicate.not(RuminaqShape.class::isInstance)))
+        .flatMap(List::stream).findAny().isEmpty()
+        || (Stream.of(pes)
+            .anyMatch(Predicate.not(RuminaqShape.class::isInstance)))
         || Stream.of(pes).allMatch(LabelShape.class::isInstance));
   }
 

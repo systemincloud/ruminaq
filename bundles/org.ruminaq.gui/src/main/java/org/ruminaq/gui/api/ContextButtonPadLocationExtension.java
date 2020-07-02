@@ -14,10 +14,10 @@ import org.eclipse.graphiti.datatypes.IRectangle;
  * @author Marek Jagielski
  */
 public interface ContextButtonPadLocationExtension {
-  
+
   /**
    * Return a new position of pad icon menu based on actual position.
-   * 
+   *
    * @param rectangle initial position of pad menu
    * @return position of pad menu
    */

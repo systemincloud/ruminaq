@@ -76,7 +76,8 @@ public class DeleteSimpleConnectionPointFeature extends RuminaqDeleteFeature {
             scp.getX() + (scp.getPointSize() >> 1),
             scp.getY() + (scp.getPointSize() >> 1)));
 
-    Optional<FlowTargetShape> targetAnchor = firstOutgoing.map(SimpleConnectionShape::getTarget);
+    Optional<FlowTargetShape> targetAnchor = firstOutgoing
+        .map(SimpleConnectionShape::getTarget);
 
     incommingOpt.ifPresent(i -> targetAnchor.ifPresent(i::setTarget));
     incommingOpt.ifPresent(

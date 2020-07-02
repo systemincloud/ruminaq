@@ -11,7 +11,7 @@ import org.eclipse.graphiti.tb.IDecorator;
 
 /**
  * Decorator pattern on IDecorator to hack around it.
- * 
+ *
  * @author Marek Jagielski
  */
 public interface RuminaqDecorator extends IDecorator {

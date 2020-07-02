@@ -30,7 +30,7 @@ public class ContextButtonPadConnectionPointTool
     implements ContextButtonPadLocationExtension {
 
   private static final int HEIGHT = 80;
-  
+
   public static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override

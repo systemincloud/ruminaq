@@ -45,13 +45,13 @@ public class RuminaqShapePasteFeature<T extends RuminaqShape>
 
     return name;
   }
-  
+
   @Override
   public boolean canPaste(IPasteContext context) {
     PictogramElement[] pes = context.getPictogramElements();
     return pes.length == 1 && pes[0] instanceof RuminaqDiagram;
   }
-  
+
   @Override
   public void paste(IPasteContext context) {
     super.paste(context);

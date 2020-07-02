@@ -39,7 +39,8 @@ public class CopyFeaturesImpl implements CopyFeatureExtension {
       IFeatureProvider fp) {
     return (Class<? extends ICopyFeature> clazz) -> Optional.of(context)
         .filter(ICopyContext.class::isInstance).map(ICopyContext.class::cast)
-        .map(ICopyContext::getPictogramElements).map(Stream::of).orElse(Stream.empty())
+        .map(ICopyContext::getPictogramElements).map(Stream::of)
+        .orElse(Stream.empty())
         .filter(Predicate.not(SimpleConnectionPointShape.class::isInstance))
         .filter(RuminaqShape.class::isInstance).findAny().isPresent();
   }

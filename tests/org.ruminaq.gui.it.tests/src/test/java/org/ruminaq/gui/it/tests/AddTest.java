@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.it.tests;
 
 import static org.junit.Assert.assertEquals;
@@ -83,7 +89,7 @@ public class AddTest extends GuiTest {
         "My Output Port");
     assertEquals("Label shouldn't have any pad buttons", 0,
         opLabel.getContextButtons().size());
-    
+
     Thread.sleep(1000);
 
     assertDiagram(gefEditor, "AddTest.testAddOutputPort.xml");
@@ -102,7 +108,7 @@ public class AddTest extends GuiTest {
 
     new WithShapeGraphitiConnection(SimpleConnectionShape.class).select();
     gefEditor.getContextMenu().getItem("Delete").select();
-    
+
     Thread.sleep(2000);
 
     assertDiagram(gefEditor, "AddTest.testAddSimpleConnection.2.xml");
@@ -145,15 +151,15 @@ public class AddTest extends GuiTest {
 
     assertEquals("8 elements", 8, gefEditor.getNumberOfEditParts());
   }
-  
+
   @Test
   public void testAddEmbeddedTaskFromPalette() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Embedded Task", 200, 100);
-    
+
     WithBoGraphitiEditPart et = new WithBoGraphitiEditPart(EmbeddedTask.class);
     et.select();
-    
+
     List<ContextButton> buttons = et.getContextButtons();
     assertEquals("EmbeddedTask should have 2 pad buttons", 1, buttons.size());
   }

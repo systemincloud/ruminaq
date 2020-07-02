@@ -29,7 +29,7 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
 
   /**
    * Create and return the first matched feature.
-   * 
+   *
    * @param context IContext of Graphiti
    * @param fp      IFeatureProvider of Graphiti
    * @return feature
@@ -42,7 +42,7 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
 
   /**
    * Determine if Feature matches.
-   * 
+   *
    * @param context context of feature
    * @param fp      IFeatureProvider of Graphiti
    * @return predicate used by Extension to determine Feature

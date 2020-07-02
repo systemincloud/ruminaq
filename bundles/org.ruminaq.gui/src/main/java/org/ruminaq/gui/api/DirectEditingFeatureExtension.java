@@ -10,7 +10,7 @@ import org.eclipse.graphiti.features.IDirectEditingFeature;
 
 /**
  * Service api providing graphiti IDirectEditingFeature.
- * 
+ *
  * @author Marek Jagielski
  */
 public interface DirectEditingFeatureExtension

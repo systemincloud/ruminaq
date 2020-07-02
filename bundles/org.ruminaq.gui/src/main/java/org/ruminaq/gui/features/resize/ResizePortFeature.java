@@ -17,8 +17,7 @@ import org.ruminaq.gui.model.diagram.PortShape;
  * @author Marek Jagielski
  */
 @FeatureFilter(Filter.class)
-public class ResizePortFeature
-    extends ResizeShapeForbiddenFeature {
+public class ResizePortFeature extends ResizeShapeForbiddenFeature {
 
   public static class Filter extends ResizeFilter<PortShape> {
     public Filter() {

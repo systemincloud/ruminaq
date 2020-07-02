@@ -83,7 +83,7 @@ public class RuminaqFeatureProvider extends DefaultFeatureProvider {
 
   /**
    * Used where we enable remove (deleting...).
-   * 
+   *
    * @param context IRemoveContext graphiti
    * @return IRemoveFeature graphiti
    */

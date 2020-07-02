@@ -27,7 +27,8 @@ public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
     @Override
     public boolean test(IContext context) {
       IDirectEditingContext directEditingContext = (IDirectEditingContext) context;
-      return LabelShape.class.isInstance(directEditingContext.getPictogramElement());
+      return LabelShape.class
+          .isInstance(directEditingContext.getPictogramElement());
     }
   }
 

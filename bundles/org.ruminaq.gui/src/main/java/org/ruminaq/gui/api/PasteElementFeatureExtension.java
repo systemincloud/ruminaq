@@ -31,7 +31,7 @@ public interface PasteElementFeatureExtension extends
 
   /**
    * Create RuminaqShapePasteFeatures.
-   * 
+   *
    * @param features list of classes of paste features
    * @param fp       IFeatureProvider of Graphiti
    * @param oldPe    original PictogramElement
@@ -54,7 +54,7 @@ public interface PasteElementFeatureExtension extends
 
   /**
    * Get first found RuminaqShapePasteFeature.
-   * 
+   *
    * @param fp    IFeatureProvider of Graphiti
    * @param oldBo original model object
    * @param oldPe original PictogramElement
@@ -72,7 +72,7 @@ public interface PasteElementFeatureExtension extends
 
   /**
    * Check if PasteFeatureFilter matches for BaseElement.
-   * 
+   *
    * @param oldBo domain element
    * @param fp    IFeatureProvider of Graphiti
    * @return predicate determining if class matches the filter

@@ -23,8 +23,7 @@ public class PropertyElementFilter extends AbstractPropertySectionFilter {
 
   @Override
   protected boolean accept(PictogramElement pe) {
-    return Optional.of(pe).filter(
-        RuminaqShape.class::isInstance)
+    return Optional.of(pe).filter(RuminaqShape.class::isInstance)
         .filter(Predicate.not(LabelShape.class::isInstance)).isPresent();
   }
 

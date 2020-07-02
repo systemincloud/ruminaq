@@ -24,8 +24,8 @@ import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.OutputPort;
 
 @PasteFeatureFilter(Filter.class)
-public class PasteOutputPortFeature extends LabeledRuminaqPasteFeature<OutputPortShape>
-    implements PasteAnchorTracker {
+public class PasteOutputPortFeature extends
+    LabeledRuminaqPasteFeature<OutputPortShape> implements PasteAnchorTracker {
 
   public static class Filter implements FeaturePredicate<BaseElement> {
     @Override

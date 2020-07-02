@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.paste;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -28,7 +34,7 @@ public class LabeledRuminaqPasteFeature<T extends LabeledRuminaqShape>
     newPe.setLabel(newLabel);
     newPes.add(newLabel);
     getDiagram().getChildren().add(newLabel);
-    
+
     if (LabelUtil.isInDefaultPosition(oldLabel)) {
       LabelUtil.placeInDefaultPosition(newLabel);
     }

@@ -55,10 +55,8 @@ public class PasteElementFeature extends AbstractPasteFeature {
             .stream()
             .map(ext -> ext.getFeature(getFeatureProvider(),
                 rs.getModelObject(), rs, xMin, yMin))
-            .filter(Objects::nonNull).findFirst()
-            .orElse(null))
-        .filter(Objects::nonNull)
-        .collect(Collectors.toList());
+            .filter(Objects::nonNull).findFirst().orElse(null))
+        .filter(Objects::nonNull).collect(Collectors.toList());
   }
 
   @Override

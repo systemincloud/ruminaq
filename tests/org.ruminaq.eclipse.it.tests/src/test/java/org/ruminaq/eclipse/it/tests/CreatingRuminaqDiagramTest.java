@@ -51,7 +51,7 @@ public class CreatingRuminaqDiagramTest {
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
-    
+
     Thread.sleep(5000);
 
     new CreateRuminaqDiagram().openDiagramWizardFromProjectContextMenu(bot,

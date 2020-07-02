@@ -57,7 +57,7 @@ public abstract class AbstractParametersSection extends GFPropertySection
     initComponents();
     addStyles();
   }
-  
+
   protected RuminaqDiagram getRuminaqDiagram() {
     return (RuminaqDiagram) getDiagram();
   }

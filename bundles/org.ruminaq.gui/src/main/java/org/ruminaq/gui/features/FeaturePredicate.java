@@ -25,7 +25,7 @@ public interface FeaturePredicate<T> extends Predicate<T> {
   default boolean test(T context) {
     return true;
   }
-  
+
   static <T> Predicate<T> predicate(Predicate<T> predicate) {
     return predicate;
   }

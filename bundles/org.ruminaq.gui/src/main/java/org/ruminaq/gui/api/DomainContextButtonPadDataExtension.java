@@ -21,7 +21,7 @@ public interface DomainContextButtonPadDataExtension {
 
   /**
    * Return all DomainContextButtonPadData.
-   * 
+   *
    * @param fp      IFeatureProvider of Graphiti
    * @param context IPictogramElementContext of Graphiti
    * @return collection with DomainContextButtonPadData

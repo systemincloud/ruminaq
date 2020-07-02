@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.update;
 
 import java.util.ArrayList;
@@ -335,9 +341,9 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       for (InternalInputPort iip : inputPorts)
         if (fip.getName().equals(iip.getId()))
           continue loop;
-      createInputPort(task, parent, fip.getName(), true, fip.getDataTypeClasses(),
-          fip.isAsynchronus(), fip.getGroup(), fip.isHold(), fip.getQueue(),
-          Position.LEFT);
+      createInputPort(task, parent, fip.getName(), true,
+          fip.getDataTypeClasses(), fip.isAsynchronus(), fip.getGroup(),
+          fip.isHold(), fip.getQueue(), Position.LEFT);
     }
     return true;
   }
@@ -367,8 +373,8 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       for (InternalOutputPort iop : outputPorts)
         if (fip.getName().equals(iop.getId()))
           continue loop;
-      createOutputPort(task, parent, fip.getName(), true, fip.getDataTypeClasses(),
-          Position.RIGHT);
+      createOutputPort(task, parent, fip.getName(), true,
+          fip.getDataTypeClasses(), Position.RIGHT);
     }
     return true;
   }

@@ -27,7 +27,7 @@ public class AddEmbeddedTaskFeature extends AbstractAddTaskFeature {
       return EmbeddedTask.class;
     }
   }
-  
+
   public static final String NOT_CHOSEN = "???";
 
   public AddEmbeddedTaskFeature(IFeatureProvider fp) {
@@ -36,7 +36,7 @@ public class AddEmbeddedTaskFeature extends AbstractAddTaskFeature {
 
   @Override
   protected String getInsideIconId() {
-    return  Images.IMG_EMBEDDEDTASK_DIAGRAM_MAIN;
+    return Images.IMG_EMBEDDEDTASK_DIAGRAM_MAIN;
   }
 
   @Override

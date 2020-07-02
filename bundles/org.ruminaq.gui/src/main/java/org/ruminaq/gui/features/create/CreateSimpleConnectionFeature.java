@@ -35,14 +35,17 @@ public class CreateSimpleConnectionFeature
 
   @Override
   public boolean canStartConnection(ICreateConnectionContext context) {
-    return Optional.ofNullable(getFlowEnd(context.getSourceAnchor(), FlowSource.class))
+    return Optional
+        .ofNullable(getFlowEnd(context.getSourceAnchor(), FlowSource.class))
         .isPresent();
   }
 
   @Override
   public boolean canCreate(ICreateConnectionContext context) {
-    Optional<FlowSource> source = getFlowEnd(context.getSourceAnchor(), FlowSource.class);
-    Optional<FlowTarget> target = getFlowEnd(context.getTargetAnchor(), FlowTarget.class);
+    Optional<FlowSource> source = getFlowEnd(context.getSourceAnchor(),
+        FlowSource.class);
+    Optional<FlowTarget> target = getFlowEnd(context.getTargetAnchor(),
+        FlowTarget.class);
     return source.isPresent() && target.isPresent()
         && context.getTargetAnchor().getIncomingConnections().isEmpty();
   }
@@ -50,8 +53,10 @@ public class CreateSimpleConnectionFeature
   @Override
   public Connection create(ICreateConnectionContext context) {
     Connection newConnection = null;
-    Optional<FlowSource> source = getFlowEnd(context.getSourceAnchor(), FlowSource.class);
-    Optional<FlowTarget> target = getFlowEnd(context.getTargetAnchor(), FlowTarget.class);
+    Optional<FlowSource> source = getFlowEnd(context.getSourceAnchor(),
+        FlowSource.class);
+    Optional<FlowTarget> target = getFlowEnd(context.getTargetAnchor(),
+        FlowTarget.class);
 
     if (source.isPresent() && target.isPresent()) {
       SimpleConnection simpleConnection = createSimpleConnection(source.get(),

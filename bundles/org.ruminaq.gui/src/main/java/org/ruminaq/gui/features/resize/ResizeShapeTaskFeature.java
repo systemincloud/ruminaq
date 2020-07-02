@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.features.resize;
 
 import java.util.Optional;
@@ -54,13 +60,12 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
     Optional<LabeledRuminaqShape> labeledShape = Optional.of(shape)
         .filter(LabeledRuminaqShape.class::isInstance)
         .map(LabeledRuminaqShape.class::cast);
-    
+
     if (labeledShape.isPresent()) {
       if (LabelUtil.isInDefaultPosition(labeledShape.get().getLabel())
           || isConflictingWithNewSize(labeledShape.get().getLabel(),
               labeledShape.get())) {
-        LabelUtil
-            .placeInDefaultPosition(labeledShape.get().getLabel());
+        LabelUtil.placeInDefaultPosition(labeledShape.get().getLabel());
       }
     }
 

@@ -24,7 +24,7 @@ public interface ImagesExtension {
 
   /**
    * Api for service providing paths to images.
-   * 
+   *
    * @return map image key to path
    */
   default Map<String, String> getImageKeyPath() {

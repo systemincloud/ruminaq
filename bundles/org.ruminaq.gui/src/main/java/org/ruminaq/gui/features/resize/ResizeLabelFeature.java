@@ -17,8 +17,7 @@ import org.ruminaq.gui.model.diagram.LabelShape;
  * @author Marek Jagielski
  */
 @FeatureFilter(Filter.class)
-public class ResizeLabelFeature
-    extends ResizeShapeForbiddenFeature {
+public class ResizeLabelFeature extends ResizeShapeForbiddenFeature {
 
   public static class Filter extends ResizeFilter<LabelShape> {
     public Filter() {

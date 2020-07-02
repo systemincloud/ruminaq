@@ -1,3 +1,9 @@
+/*******************************************************************************
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ ******************************************************************************/
+
 package org.ruminaq.gui.it.tests;
 
 import static org.junit.Assert.assertEquals;
@@ -26,15 +32,15 @@ public class CopyTest extends GuiTest {
 
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InputPort.class);
     ip.select();
-    
+
     gefEditor.getContextMenu().getItem("Copy").select();
-    
+
     gefEditor.click(300, 200);
-    
+
     gefEditor.getContextMenu().getItem("Paste").select();
-    
+
     assertEquals("2 elements added", 5, gefEditor.getNumberOfEditParts());
-    
+
     new WithTextLabel("(Copy) My Input Port");
   }
 
