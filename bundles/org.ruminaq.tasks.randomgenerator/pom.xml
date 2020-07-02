@@ -11,7 +11,6 @@
   </parent>
 
   <modules>
-    <module>org.ruminaq.tasks.randomgenerator.api</module>
     <module>org.ruminaq.tasks.randomgenerator.gui</module>
     <module>org.ruminaq.tasks.randomgenerator.impl</module>
     <module>org.ruminaq.tasks.randomgenerator.model</module>
