@@ -461,7 +461,9 @@
           <linkXRef>false</linkXRef>
           <targetJdk>${java.version}</targetJdk>
           <failOnViolation>false</failOnViolation>
-          <excludeFromFailureFile>${basedir}/exclude-pmd.properties</excludeFromFailureFile>
+          <rulesets>
+            <ruleset>pmd-ruleset.xml</ruleset>
+          </rulesets>
         </configuration>
         <executions>
           <execution>
