@@ -24,6 +24,7 @@ import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 class GeneralSection extends Group {
 
   private static final int NB_OF_COLUMNS = 5;
+  private static final int TWO_COLUMNS = 2;
 
   private Button btnAtomic;
   private Button btnGenerator;
@@ -32,8 +33,6 @@ class GeneralSection extends Group {
 
   public GeneralSection(Composite parent, int style) {
     super(parent, style);
-    setLayout(new GridLayout(NB_OF_COLUMNS, false));
-    setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
   }
 
   @Override
@@ -42,6 +41,8 @@ class GeneralSection extends Group {
   }
 
   void initLayout() {
+    setLayout(new GridLayout(NB_OF_COLUMNS, false));
+    setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
     btnAtomic = new Button(this, SWT.CHECK);
     btnGenerator = new Button(this, SWT.CHECK);
     btnExternalSource = new Button(this, SWT.CHECK);
@@ -93,11 +94,15 @@ class GeneralSection extends Group {
     });
   }
 
+  /**
+   * Contribute to custom task definition.
+   *
+   * @param module custom task definition.
+   */
   void decorate(Module module) {
     module.setAtomic(btnAtomic.getSelection());
     module.setConstant(btnConstant.getSelection());
     module.setExternalSource(btnExternalSource.getSelection());
     module.setGenerator(btnGenerator.getSelection());
   }
-
 }

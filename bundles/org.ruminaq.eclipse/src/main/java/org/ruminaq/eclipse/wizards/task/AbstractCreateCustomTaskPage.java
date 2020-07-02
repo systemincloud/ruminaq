@@ -636,10 +636,10 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     boolean hasNonAsync = module.getInputs().stream()
         .anyMatch(Predicate.not(In::isAsynchronous));
 
-    module.setExecuteAsync(!module.isAtomic() && hasNonAsync || hasAsync);
+    module.setExecuteAsync((!module.isAtomic() && hasNonAsync) || hasAsync);
     module.setExecuteExtSrc(module.isExternalSource());
     module.setGenerate(module.isGenerator());
-    module.setExecute(module.isAtomic() && hasNonAsync || module.isConstant());
+    module.setExecute((module.isAtomic() && hasNonAsync) || module.isConstant());
 
     return module;
   }
