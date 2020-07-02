@@ -63,7 +63,11 @@
     <module>org.ruminaq.tasks.pythontask.gui</module>
     <module>org.ruminaq.tasks.pythontask.model</module>
 
-    <module>org.ruminaq.tasks.randomgenerator</module>
+    <module>org.ruminaq.tasks.randomgenerator.gui</module>
+    <module>org.ruminaq.tasks.randomgenerator.impl</module>
+    <module>org.ruminaq.tasks.randomgenerator.model</module>
+    <module>org.ruminaq.tasks.randomgenerator.ui</module>
+
     <module>org.ruminaq.tasks.rtask</module>
     <module>org.ruminaq.tasks.sipo</module>
     <module>org.ruminaq.upgrade</module>
