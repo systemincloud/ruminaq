@@ -205,7 +205,7 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
   /**
    * GraphicsAlgorithm for Task.
-   * 
+   *
    * @param shape parent TaskShape
    */
   public TaskShapeGA(TaskShape shape) {

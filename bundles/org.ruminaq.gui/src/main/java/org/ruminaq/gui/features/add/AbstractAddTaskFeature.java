@@ -100,8 +100,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //            taskShape, ti.getValue0().getId(), width, height, x, y,
 //            InternalPortLabelPosition.BOTTOM);
 //
-//        link(portLabelShape, new Object[] { ti.getValue0(), containerShape });
-//
 //        portLabelShape.setVisible(ti.getValue1().label());
 //      }
 //
@@ -109,8 +107,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
 //            taskShape, to.getValue0().getId(), width, height, x, y,
 //            InternalPortLabelPosition.BOTTOM);
-//
-//        link(portLabelShape, new Object[] { to.getValue0(), containerShape });
 //
 //        portLabelShape.setVisible(to.getValue1().label());
 //      }
@@ -121,16 +117,12 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //            parent, li.getValue0().getId(), width, height, x, y,
 //            InternalPortLabelPosition.RIGHT);
 //
-//        link(portLabelShape, new Object[] { li.getValue0(), containerShape });
-//
 //        portLabelShape.setVisible(li.getValue1().label());
 //      }
 //
 //        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
 //            parent, lo.getValue0().getId(), width, height, x, y,
 //            InternalPortLabelPosition.RIGHT);
-//
-//        link(portLabelShape, new Object[] { lo.getValue0(), containerShape });
 //
 //        portLabelShape.setVisible(lo.getValue1().label());
 //      }
@@ -156,8 +148,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //      }
 //    }
 //
-//        link(portLabelShape, new Object[] { bi.getValue0(), containerShape });
-//
 //        portLabelShape.setVisible(bi.getValue1().label());
 //      }
 //
@@ -165,8 +155,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 //        ContainerShape portLabelShape = addInternalPortLabel(getDiagram(),
 //            parent, bo.getValue0().getId(), width, height, x, y,
 //            InternalPortLabelPosition.TOP);
-//
-//        link(portLabelShape, new Object[] { bo.getValue0(), containerShape });
 //
 //        portLabelShape.setVisible(bo.getValue1().label());
 //      }
