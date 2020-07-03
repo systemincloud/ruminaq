@@ -154,9 +154,9 @@
       </eGenericType>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="inputPort" upperBound="-1"
-        eType="#//InternalInputPortShape" containment="true" eOpposite="#//InternalOutputPortShape/task"/>
+        eType="#//InternalInputPortShape" containment="true" eOpposite="#//InternalInputPortShape/task"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="outputPort" upperBound="-1"
-        eType="#//InternalOutputPortShape" containment="true" eOpposite="#//InternalInputPortShape/task"/>
+        eType="#//InternalOutputPortShape" containment="true" eOpposite="#//InternalOutputPortShape/task"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="iconId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
@@ -270,7 +270,7 @@
       </eAnnotations>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="task" eType="#//TaskShape"
-        eOpposite="#//TaskShape/outputPort"/>
+        eOpposite="#//TaskShape/inputPort"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InternalOutputPortShape" eSuperTypes="#//InternalPortShape">
     <eOperations name="getGraphicsAlgorithm" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//algorithms/GraphicsAlgorithm">
@@ -279,6 +279,6 @@
       </eAnnotations>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="task" eType="#//TaskShape"
-        eOpposite="#//TaskShape/inputPort"/>
+        eOpposite="#//TaskShape/outputPort"/>
   </eClassifiers>
 </ecore:EPackage>
