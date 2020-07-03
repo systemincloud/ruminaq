@@ -293,36 +293,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
     redistributePorts(taskShape, position);
 
-//          String id = null;
-//          int k = -1;
-//          loop: while (id == null) {
-//            k++;
-//            if (TasksUtil.getAllMutlipleInternalInputPorts(task, in.id())
-//                .size() == 0) {
-//              id = in.id() + " " + 0;
-//              break;
-//            }
-//            for (InternalInputPort ip : task.getInputPort())
-//              if (ip.getId().equals(in.id() + " " + k))
-//                continue loop;
-//            id = in.id() + " " + k;
-//          }
-
-//          String id = null;
-//          int k = -1;
-//          loop: while (id == null) {
-//            k++;
-//            if (TasksUtil.getAllMutlipleInternalOutputPorts(task, out.id())
-//                .size() == 0) {
-//              id = out.id() + " " + 0;
-//              break;
-//            }
-//            for (InternalOutputPort op : task.getOutputPort())
-//              if (op.getId().equals(out.id() + " " + k))
-//                continue loop;
-//            id = out.id() + " " + k;
-//          }
-//      }
 //  ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
 //  getDiagram(), parent, in.getId(), AbstractAddTaskFeature.PORT_SIZE,
 //  AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.RIGHT);
