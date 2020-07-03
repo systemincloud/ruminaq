@@ -69,11 +69,11 @@ public class UpdateLabelFeature extends AbstractUpdateFeature {
         .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
         .orElseThrow();
 
-    boolean updated = false;
     if (postionUpdateNeeded(labelShape)) {
-      updated = updated | postionUpdate(labelShape);
+      postionUpdate(labelShape);
     }
-    return updated;
+
+    return true;
   }
 
   private boolean postionUpdate(LabelShape labelShape) {
