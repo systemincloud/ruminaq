@@ -50,7 +50,7 @@ import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
 
 /**
- * 
+ *
  * @author Marek Jagielski
  */
 @FeatureFilter(Filter.class)
@@ -193,17 +193,15 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   @Override
   public boolean update(IUpdateContext context) {
-    boolean updated = false;
-
     if (super.updateNeeded(context).toBoolean()) {
-      updated = updated | super.update(context);
+      super.update(context);
     }
 
     if (updatePortNeeded(context)) {
-      updated = updated | updatePort(context);
+      updatePort(context);
     }
 
-    return updated;
+    return true;
   }
 
   private boolean updatePort(IUpdateContext context) {
@@ -289,7 +287,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     Position position = portDiagram.map(PortDiagram::pos).orElse(Position.LEFT);
     InternalInputPortShape portShape = DiagramFactory.eINSTANCE
         .createInternalInputPortShape();
-//    portShape.setContainer(taskShape);
     taskShape.getInputPort().add(portShape);
     portShape.setModelObject(p);
     portShape.setX(xOfPostion(taskShape, position));
@@ -346,7 +343,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .orElse(Position.RIGHT);
     InternalOutputPortShape portShape = DiagramFactory.eINSTANCE
         .createInternalOutputPortShape();
-//    portShape.setContainer(taskShape);
     taskShape.getOutputPort().add(portShape);
     portShape.setModelObject(p);
     portShape.setX(xOfPostion(taskShape, position));
