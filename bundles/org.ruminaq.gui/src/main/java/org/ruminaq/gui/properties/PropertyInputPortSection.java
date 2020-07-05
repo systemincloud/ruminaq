@@ -32,6 +32,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.consts.Constants;
+import org.ruminaq.eclipse.SelectionNotDefaultListener;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.util.GlobalUtil;
@@ -96,50 +97,46 @@ public class PropertyInputPortSection extends GFPropertySection
   }
 
   private void initActions() {
-    btnAsync.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent se) {
-        ModelUtil.runModelChange(() -> {
-          PictogramElement pe = getSelectedPictogramElement();
-          if (pe == null)
-            return;
-          Object bo = Graphiti.getLinkService()
-              .getBusinessObjectForLinkedPictogramElement(pe);
-          if (bo == null)
-            return;
-          if (bo instanceof InputPort) {
-            InputPort p = (InputPort) bo;
-            p.setAsynchronous(btnAsync.getSelection());
-            UpdateContext context = new UpdateContext(
-                getSelectedPictogramElement());
-            getDiagramTypeProvider().getFeatureProvider()
-                .updateIfPossible(context);
-            btnHoldLast.setEnabled(!btnAsync.getSelection());
-            spnGroup.setEnabled(!btnAsync.getSelection());
-          }
-        }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-            "Model Update");
-      }
-    });
-    btnHoldLast.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent se) {
-        ModelUtil.runModelChange(() -> {
-          PictogramElement pe = getSelectedPictogramElement();
-          if (pe == null)
-            return;
-          Object bo = Graphiti.getLinkService()
-              .getBusinessObjectForLinkedPictogramElement(pe);
-          if (bo == null)
-            return;
-          if (bo instanceof InputPort) {
-            InputPort p = (InputPort) bo;
-            p.setHoldLast(btnHoldLast.getSelection());
-          }
-        }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-            "Model Update");
-      }
-    });
+    btnAsync.addSelectionListener(
+        (SelectionNotDefaultListener) (SelectionEvent se) -> {
+          ModelUtil.runModelChange(() -> {
+            PictogramElement pe = getSelectedPictogramElement();
+            if (pe == null)
+              return;
+            Object bo = Graphiti.getLinkService()
+                .getBusinessObjectForLinkedPictogramElement(pe);
+            if (bo == null)
+              return;
+            if (bo instanceof InputPort) {
+              InputPort p = (InputPort) bo;
+              p.setAsynchronous(btnAsync.getSelection());
+              UpdateContext context = new UpdateContext(
+                  getSelectedPictogramElement());
+              getDiagramTypeProvider().getFeatureProvider()
+                  .updateIfPossible(context);
+              btnHoldLast.setEnabled(!btnAsync.getSelection());
+              spnGroup.setEnabled(!btnAsync.getSelection());
+            }
+          }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+              "Model Update");
+        });
+    btnHoldLast.addSelectionListener(
+        (SelectionNotDefaultListener) (SelectionEvent se) -> {
+          ModelUtil.runModelChange(() -> {
+            PictogramElement pe = getSelectedPictogramElement();
+            if (pe == null)
+              return;
+            Object bo = Graphiti.getLinkService()
+                .getBusinessObjectForLinkedPictogramElement(pe);
+            if (bo == null)
+              return;
+            if (bo instanceof InputPort) {
+              InputPort p = (InputPort) bo;
+              p.setHoldLast(btnHoldLast.getSelection());
+            }
+          }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+              "Model Update");
+        });
     txtQueueSize.addFocusListener(new FocusAdapter() {
       @Override
       public void focusLost(FocusEvent event) {
@@ -173,26 +170,24 @@ public class PropertyInputPortSection extends GFPropertySection
       if (event.detail == SWT.TRAVERSE_RETURN)
         btnAsync.setFocus();
     });
-    spnGroup.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent se) {
-        ModelUtil.runModelChange(() -> {
-          PictogramElement pe = getSelectedPictogramElement();
-          if (pe == null)
-            return;
-          Object bo = Graphiti.getLinkService()
-              .getBusinessObjectForLinkedPictogramElement(pe);
-          if (bo == null)
-            return;
-          if (bo instanceof InputPort) {
-            InputPort p = (InputPort) bo;
-            p.setGroup(spnGroup.getSelection());
-          }
-        }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-            "Model Update");
-        refresh();
-      }
-    });
+    spnGroup.addSelectionListener(
+        (SelectionNotDefaultListener) (SelectionEvent se) -> {
+          ModelUtil.runModelChange(() -> {
+            PictogramElement pe = getSelectedPictogramElement();
+            if (pe == null)
+              return;
+            Object bo = Graphiti.getLinkService()
+                .getBusinessObjectForLinkedPictogramElement(pe);
+            if (bo == null)
+              return;
+            if (bo instanceof InputPort) {
+              InputPort p = (InputPort) bo;
+              p.setGroup(spnGroup.getSelection());
+            }
+          }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+              "Model Update");
+          refresh();
+        });
   }
 
   private void addStyles() {
