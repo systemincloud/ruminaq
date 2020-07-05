@@ -128,37 +128,35 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       Sipo sipo = modelFromContext(context, Sipo.class)
           .orElseThrow(RuntimeException::new);
 
-      boolean updated = false;
-
       if (clkUpdateNeeded(sipo)) {
-        updated = updated | clkUpdate(sipo);
+        clkUpdate(sipo);
       }
 
       if (idxUpdateNeeded(sipo)) {
-        updated = updated | idxUpdate(sipo);
+        idxUpdate(sipo);
       }
 
       if (trgUpdateNeeded(sipo)) {
-        updated = updated | trgUpdate(sipo);
+        trgUpdate(sipo);
       }
 
       if (sizeUpdateNeeded(sipo)) {
-        updated = updated | sizeUpdate(sipo);
+        sizeUpdate(sipo);
       }
 
       if (lastUpdateNeeded(sipo)) {
-        updated = updated | lastUpdate(sipo);
+        lastUpdate(sipo);
       }
 
       if (sizeOutUpdateNeeded(sipo)) {
-        updated = updated | sizeOutUpdate(sipo);
+        sizeOutUpdate(sipo);
       }
 
       if (super.updateNeeded(context).toBoolean()) {
-        updated = updated | super.update(context);
+        super.update(context);
       }
 
-      return updated;
+      return true;
     }
 
     private boolean clkUpdate(Sipo sipo) {
