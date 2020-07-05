@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model;
 
 import java.util.Collections;
@@ -72,44 +73,41 @@ public class FileService {
       @Override
       public void run(final IProgressMonitor monitor) throws CoreException {
 
-        final Runnable runnable = new Runnable() {
-          @Override
-          public void run() {
-            Transaction parentTx;
-            if (editingDomain != null
-                && (parentTx = ((TransactionalEditingDomainImpl) editingDomain)
-                    .getActiveTransaction()) != null) {
-              do {
-                if (!parentTx.isReadOnly()) {
-                  throw new IllegalStateException(
-                      "FileService.save() called from within a command (likely produces a deadlock)"); //$NON-NLS-1$
-                }
-              } while ((parentTx = ((TransactionalEditingDomainImpl) editingDomain)
-                  .getActiveTransaction().getParent()) != null);
-            }
+        final Runnable runnable = () -> {
+          Transaction parentTx;
+          if (editingDomain != null
+              && (parentTx = ((TransactionalEditingDomainImpl) editingDomain)
+                  .getActiveTransaction()) != null) {
+            do {
+              if (!parentTx.isReadOnly()) {
+                throw new IllegalStateException(
+                    "FileService.save() called from within a command (likely produces a deadlock)"); //$NON-NLS-1$
+              }
+            } while ((parentTx = ((TransactionalEditingDomainImpl) editingDomain)
+                .getActiveTransaction().getParent()) != null);
+          }
 
-            final EList<Resource> resources = editingDomain.getResourceSet()
-                .getResources();
-            // Copy list to an array to prevent
-            // ConcurrentModificationExceptions
-            // during the saving of the dirty resources
-            Resource[] resourcesArray = new Resource[resources.size()];
-            resourcesArray = resources.toArray(resourcesArray);
-            final Set<Resource> savedResources = new HashSet<>();
-            for (int i = 0; i < resourcesArray.length; i++) {
-              // In case resource modification tracking is
-              // switched on, we can check if a resource
-              // has been modified, so that we only need to same
-              // really changed resources; otherwise
-              // we need to save all resources in the set
-              final Resource resource = resourcesArray[i];
-              if (resource.isModified()) {
-                try {
-                  resource.save(options.get(resource));
-                  savedResources.add(resource);
-                } catch (final Throwable t) {
-                  failedSaves.put(resource.getURI(), t);
-                }
+          final EList<Resource> resources = editingDomain.getResourceSet()
+              .getResources();
+          // Copy list to an array to prevent
+          // ConcurrentModificationExceptions
+          // during the saving of the dirty resources
+          Resource[] resourcesArray = new Resource[resources.size()];
+          resourcesArray = resources.toArray(resourcesArray);
+          final Set<Resource> savedResources = new HashSet<>();
+          for (int i = 0; i < resourcesArray.length; i++) {
+            // In case resource modification tracking is
+            // switched on, we can check if a resource
+            // has been modified, so that we only need to same
+            // really changed resources; otherwise
+            // we need to save all resources in the set
+            final Resource resource = resourcesArray[i];
+            if (resource.isModified()) {
+              try {
+                resource.save(options.get(resource));
+                savedResources.add(resource);
+              } catch (final Throwable t) {
+                failedSaves.put(resource.getURI(), t);
               }
             }
           }

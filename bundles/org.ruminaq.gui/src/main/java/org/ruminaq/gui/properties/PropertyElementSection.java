@@ -20,7 +20,6 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.TraverseEvent;
-import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -38,7 +37,7 @@ import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.ModelUtil;
 
 /**
- * 
+ *
  * @author Marek Jagielski
  *
  */
@@ -92,60 +91,53 @@ public class PropertyElementSection extends GFPropertySection
   }
 
   private void initActions() {
-    txtId.addTraverseListener(new TraverseListener() {
-      @Override
-      public void keyTraversed(TraverseEvent event) {
-        if (event.detail == SWT.TRAVERSE_RETURN) {
-          Shell shell = txtId.getShell();
+    txtId.addTraverseListener((TraverseEvent event) -> {
+      if (event.detail == SWT.TRAVERSE_RETURN) {
+        Shell shell = txtId.getShell();
 
-          if (txtId.getText().length() < 1) {
-            MessageDialog.openError(shell, "Can not edit value",
-                "Please enter any text as element id.");
+        if (txtId.getText().length() < 1) {
+          MessageDialog.openError(shell, "Can not edit value",
+              "Please enter any text as element id.");
+          return;
+        } else if (txtId.getText().contains("\n")) {
+          MessageDialog.openError(shell, "Can not edit value",
+              "Line breakes are not allowed in class names.");
+          return;
+        } else if (DirectEditLabelFeature.hasId(getDiagram(),
+            getSelectedPictogramElement(), txtId.getText())) {
+          MessageDialog.openError(shell, "Can not edit value",
+              "Model has already id " + txtId.getText() + ".");
+          return;
+        }
+
+        TransactionalEditingDomain editingDomain = getDiagramContainer()
+            .getDiagramBehavior().getEditingDomain();
+
+        ModelUtil.runModelChange(() -> {
+          Object bo = Graphiti.getLinkService()
+              .getBusinessObjectForLinkedPictogramElement(
+                  getSelectedPictogramElement());
+          if (bo == null)
             return;
-          } else if (txtId.getText().contains("\n")) {
-            MessageDialog.openError(shell, "Can not edit value",
-                "Line breakes are not allowed in class names.");
-            return;
-          } else if (DirectEditLabelFeature.hasId(getDiagram(),
-              getSelectedPictogramElement(), txtId.getText())) {
-            MessageDialog.openError(shell, "Can not edit value",
-                "Model has already id " + txtId.getText() + ".");
-            return;
-          }
+          String id = txtId.getText();
+          if (id != null) {
+            if (bo instanceof BaseElement) {
+              BaseElement element = (BaseElement) bo;
+              element.setId(id);
 
-          TransactionalEditingDomain editingDomain = getDiagramContainer()
-              .getDiagramBehavior().getEditingDomain();
-
-          ModelUtil.runModelChange(new Runnable() {
-            @Override
-            public void run() {
-              Object bo = Graphiti.getLinkService()
-                  .getBusinessObjectForLinkedPictogramElement(
-                      getSelectedPictogramElement());
-              if (bo == null)
-                return;
-              String id = txtId.getText();
-              if (id != null) {
-                if (bo instanceof BaseElement) {
-                  BaseElement element = (BaseElement) bo;
-                  element.setId(id);
-
-                  for (EObject o : getSelectedPictogramElement().getLink()
-                      .getBusinessObjects()) {
-                    if (o instanceof ContainerShape
-                        && LabelShape.class.isInstance(o)) {
-                      UpdateContext context = new UpdateContext(
-                          (ContainerShape) o);
-                      getDiagramTypeProvider().getFeatureProvider()
-                          .updateIfPossible(context);
-                      break;
-                    }
-                  }
+              for (EObject o : getSelectedPictogramElement().getLink()
+                  .getBusinessObjects()) {
+                if (o instanceof ContainerShape
+                    && LabelShape.class.isInstance(o)) {
+                  UpdateContext context = new UpdateContext((ContainerShape) o);
+                  getDiagramTypeProvider().getFeatureProvider()
+                      .updateIfPossible(context);
+                  break;
                 }
               }
             }
-          }, editingDomain, "Model Update");
-        }
+          }
+        }, editingDomain, "Model Update");
       }
     });
   }

@@ -15,11 +15,9 @@ import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
-import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -99,34 +97,28 @@ public abstract class AbstractParametersSection extends GFPropertySection
 
         final Text newEditor = new Text(tblParameters, SWT.NONE);
         newEditor.setText(item.getText(1));
-        newEditor.addTraverseListener(new TraverseListener() {
-          @Override
-          public void keyTraversed(TraverseEvent event) {
-            switch (event.detail) {
-              case SWT.TRAVERSE_RETURN:
-                String key = tblEdParameters.getItem().getText(0);
-                String newValue = tblEdParameters.getItem().getText(1);
-                saveParameter(key, newValue);
-                ((Text) tblEdParameters.getEditor()).dispose();
-                break;
-              case SWT.TRAVERSE_ESCAPE:
-                String actual = getActualParams()
-                    .get(tblEdParameters.getItem().getText(0));
-                String tmp = actual != null ? actual : "";
-                tblEdParameters.getItem().setText(1, tmp);
-                ((Text) tblEdParameters.getEditor()).dispose();
-                break;
-              default:
-                break;
-            }
+        newEditor.addTraverseListener((TraverseEvent event) -> {
+          switch (event.detail) {
+            case SWT.TRAVERSE_RETURN:
+              String key = tblEdParameters.getItem().getText(0);
+              String newValue = tblEdParameters.getItem().getText(1);
+              saveParameter(key, newValue);
+              ((Text) tblEdParameters.getEditor()).dispose();
+              break;
+            case SWT.TRAVERSE_ESCAPE:
+              String actual = getActualParams()
+                  .get(tblEdParameters.getItem().getText(0));
+              String tmp = actual != null ? actual : "";
+              tblEdParameters.getItem().setText(1, tmp);
+              ((Text) tblEdParameters.getEditor()).dispose();
+              break;
+            default:
+              break;
           }
         });
-        newEditor.addModifyListener(new ModifyListener() {
-          @Override
-          public void modifyText(ModifyEvent me) {
-            Text text = (Text) tblEdParameters.getEditor();
-            tblEdParameters.getItem().setText(1, text.getText());
-          }
+        newEditor.addModifyListener((ModifyEvent me) -> {
+          Text text = (Text) tblEdParameters.getEditor();
+          tblEdParameters.getItem().setText(1, text.getText());
         });
         newEditor.selectAll();
         newEditor.setFocus();

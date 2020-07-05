@@ -23,8 +23,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
@@ -49,13 +47,7 @@ public class PropertyDescriptionSection extends GFPropertySection
     gd.grabExcessVerticalSpace = true;
     gd.grabExcessHorizontalSpace = true;
     b.setLayoutData(gd);
-    b.addListener(SWT.MenuDetect, new Listener() {
-      @Override
-      public void handleEvent(Event event) {
-        event.doit = false;
-      }
-    });
-
+    b.addListener(SWT.MenuDetect, event -> event.doit = false);
   }
 
   @Override

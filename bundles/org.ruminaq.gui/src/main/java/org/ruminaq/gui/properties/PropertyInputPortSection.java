@@ -19,7 +19,6 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
-import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -100,26 +99,23 @@ public class PropertyInputPortSection extends GFPropertySection
     btnAsync.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent se) {
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            PictogramElement pe = getSelectedPictogramElement();
-            if (pe == null)
-              return;
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            if (bo == null)
-              return;
-            if (bo instanceof InputPort) {
-              InputPort p = (InputPort) bo;
-              p.setAsynchronous(btnAsync.getSelection());
-              UpdateContext context = new UpdateContext(
-                  getSelectedPictogramElement());
-              getDiagramTypeProvider().getFeatureProvider()
-                  .updateIfPossible(context);
-              btnHoldLast.setEnabled(!btnAsync.getSelection());
-              spnGroup.setEnabled(!btnAsync.getSelection());
-            }
+        ModelUtil.runModelChange(() -> {
+          PictogramElement pe = getSelectedPictogramElement();
+          if (pe == null)
+            return;
+          Object bo = Graphiti.getLinkService()
+              .getBusinessObjectForLinkedPictogramElement(pe);
+          if (bo == null)
+            return;
+          if (bo instanceof InputPort) {
+            InputPort p = (InputPort) bo;
+            p.setAsynchronous(btnAsync.getSelection());
+            UpdateContext context = new UpdateContext(
+                getSelectedPictogramElement());
+            getDiagramTypeProvider().getFeatureProvider()
+                .updateIfPossible(context);
+            btnHoldLast.setEnabled(!btnAsync.getSelection());
+            spnGroup.setEnabled(!btnAsync.getSelection());
           }
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Model Update");
@@ -128,20 +124,17 @@ public class PropertyInputPortSection extends GFPropertySection
     btnHoldLast.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent se) {
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            PictogramElement pe = getSelectedPictogramElement();
-            if (pe == null)
-              return;
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            if (bo == null)
-              return;
-            if (bo instanceof InputPort) {
-              InputPort p = (InputPort) bo;
-              p.setHoldLast(btnHoldLast.getSelection());
-            }
+        ModelUtil.runModelChange(() -> {
+          PictogramElement pe = getSelectedPictogramElement();
+          if (pe == null)
+            return;
+          Object bo = Graphiti.getLinkService()
+              .getBusinessObjectForLinkedPictogramElement(pe);
+          if (bo == null)
+            return;
+          if (bo instanceof InputPort) {
+            InputPort p = (InputPort) bo;
+            p.setHoldLast(btnHoldLast.getSelection());
           }
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Model Update");
@@ -165,12 +158,9 @@ public class PropertyInputPortSection extends GFPropertySection
           return;
         final InputPort ip = (InputPort) bo;
         if (parse) {
-          ModelUtil.runModelChange(new Runnable() {
-            @Override
-            public void run() {
-              ip.setQueueSize(txtQueueSize.getText());
-            }
-          }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+          ModelUtil.runModelChange(
+              () -> ip.setQueueSize(txtQueueSize.getText()),
+              getDiagramContainer().getDiagramBehavior().getEditingDomain(),
               "Change queque size");
         } else {
           MessageDialog.openError(shell, "Can't edit value",
@@ -179,30 +169,24 @@ public class PropertyInputPortSection extends GFPropertySection
         }
       }
     });
-    txtQueueSize.addTraverseListener(new TraverseListener() {
-      @Override
-      public void keyTraversed(TraverseEvent event) {
-        if (event.detail == SWT.TRAVERSE_RETURN)
-          btnAsync.setFocus();
-      }
+    txtQueueSize.addTraverseListener((TraverseEvent event) -> {
+      if (event.detail == SWT.TRAVERSE_RETURN)
+        btnAsync.setFocus();
     });
     spnGroup.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent se) {
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            PictogramElement pe = getSelectedPictogramElement();
-            if (pe == null)
-              return;
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            if (bo == null)
-              return;
-            if (bo instanceof InputPort) {
-              InputPort p = (InputPort) bo;
-              p.setGroup(spnGroup.getSelection());
-            }
+        ModelUtil.runModelChange(() -> {
+          PictogramElement pe = getSelectedPictogramElement();
+          if (pe == null)
+            return;
+          Object bo = Graphiti.getLinkService()
+              .getBusinessObjectForLinkedPictogramElement(pe);
+          if (bo == null)
+            return;
+          if (bo instanceof InputPort) {
+            InputPort p = (InputPort) bo;
+            p.setGroup(spnGroup.getSelection());
           }
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Model Update");
