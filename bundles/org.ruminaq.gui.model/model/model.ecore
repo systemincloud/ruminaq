@@ -262,6 +262,8 @@
         <details key="body" value="return getGraphicsAlgorithm().getHeight();"/>
       </eAnnotations>
     </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="internalPortLabel" eType="#//InternalPortLabelShape"
+        transient="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InternalInputPortShape" eSuperTypes="#//InternalPortShape">
     <eOperations name="getGraphicsAlgorithm" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//algorithms/GraphicsAlgorithm">
@@ -281,7 +283,5 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="task" eType="#//TaskShape"
         eOpposite="#//TaskShape/outputPort"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="InternalPortLabelShape">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="internalPortShape" eType="#//InternalPortShape"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InternalPortLabelShape"/>
 </ecore:EPackage>
