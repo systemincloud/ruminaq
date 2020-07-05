@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -84,34 +83,30 @@ public class UpdateDiagram {
     final Set<Resource> savedResources = new HashSet<Resource>();
     final IWorkspaceRunnable wsRunnable = new IWorkspaceRunnable() {
       public void run(final IProgressMonitor monitor) throws CoreException {
+        final Runnable runnable = () -> {
+          Transaction parentTx;
+          if (ed != null
+              && (parentTx = ((InternalTransactionalEditingDomain) ed)
+                  .getActiveTransaction()) != null) {
+            do {
+              if (!parentTx.isReadOnly())
+                throw new IllegalStateException(
+                    "saveInWorkspaceRunnable() called from within a command (likely to produce deadlock)"); //$NON-NLS-1$
+            } while ((parentTx = ((InternalTransactionalEditingDomain) ed)
+                .getActiveTransaction().getParent()) != null);
+          }
 
-        final Runnable runnable = new Runnable() {
-          public void run() {
-            Transaction parentTx;
-            if (ed != null
-                && (parentTx = ((InternalTransactionalEditingDomain) ed)
-                    .getActiveTransaction()) != null) {
-              do {
-                if (!parentTx.isReadOnly())
-                  throw new IllegalStateException(
-                      "saveInWorkspaceRunnable() called from within a command (likely to produce deadlock)"); //$NON-NLS-1$
-              } while ((parentTx = ((InternalTransactionalEditingDomain) ed)
-                  .getActiveTransaction().getParent()) != null);
-            }
+          final EList<Resource> resources = ed.getResourceSet().getResources();
+          Resource[] resourcesArray = new Resource[resources.size()];
+          resourcesArray = resources.toArray(resourcesArray);
+          for (int i = 0; i < resourcesArray.length; i++) {
+            final Resource resource = resourcesArray[i];
 
-            final EList<Resource> resources = ed.getResourceSet()
-                .getResources();
-            Resource[] resourcesArray = new Resource[resources.size()];
-            resourcesArray = resources.toArray(resourcesArray);
-            for (int i = 0; i < resourcesArray.length; i++) {
-              final Resource resource = resourcesArray[i];
-
-              if (shouldSave(resource, ed)) {
-                try {
-                  resource.save(saveOptions.get(resource));
-                  savedResources.add(resource);
-                } catch (final Throwable t) {
-                }
+            if (shouldSave(resource, ed)) {
+              try {
+                resource.save(saveOptions.get(resource));
+                savedResources.add(resource);
+              } catch (final Throwable t) {
               }
             }
           }
@@ -163,11 +158,8 @@ public class UpdateDiagram {
 
     d.getChildren().stream().filter(TaskShape.class::isInstance)
         .map(TaskShape.class::cast).forEach(ts -> {
-          ModelUtil.runModelChange(new Runnable() {
-            public void run() {
-              UpdateContext context = new UpdateContext(ts);
-              fp.updateIfPossible(context).toBoolean();
-            }
+          ModelUtil.runModelChange(() -> {
+            fp.updateIfPossible(new UpdateContext(ts)).toBoolean();
           }, ed, "Update diagram");
         });
 
@@ -176,16 +168,15 @@ public class UpdateDiagram {
         .getActiveWorkbenchWindow().getActivePage().getEditorReferences()) {
       if (Constants.DIAGRAM_EDITOR_ID.equals(er.getId())
           || Constants.TEST_DIAGRAM_EDITOR_ID.equals(er.getId())) {
-        Display.getCurrent().asyncExec(new Runnable() {
-          public void run() {
-            try {
-              URL fileUrl = FileLocator.toFileURL(new URL(er.getName()));
-              IFile file = ResourcesPlugin.getWorkspace().getRoot()
-                  .getFileForLocation(new Path(fileUrl.getPath()));
-              file.refreshLocal(IResource.DEPTH_ZERO, null);
-            } catch (IOException | CoreException e) {
-            }
+        Display.getCurrent().asyncExec(() -> {
+          try {
+            URL fileUrl = FileLocator.toFileURL(new URL(er.getName()));
+            ResourcesPlugin.getWorkspace().getRoot()
+                .getFileForLocation(new Path(fileUrl.getPath()))
+                .refreshLocal(IResource.DEPTH_ZERO, null);
+          } catch (IOException | CoreException e) {
           }
+
         });
       }
     }
