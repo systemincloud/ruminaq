@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,9 +36,6 @@ import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.operation.IThreadListener;
@@ -48,14 +44,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.ruminaq.consts.Constants;
-import org.ruminaq.model.ruminaq.MainTask;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
+import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
-import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.model.ruminaq.UserDefinedTask;
 
 public class UpdateDiagram {
-
-  private boolean updated = false;
 
   protected final class SaveOperation
       implements IRunnableWithProgress, IThreadListener {
@@ -163,45 +156,37 @@ public class UpdateDiagram {
       return;
     }
 
-    Diagram d = (Diagram) resource.getContents().get(0);
-    MainTask mt = (MainTask) resource.getContents().get(1);
+    RuminaqDiagram d = (RuminaqDiagram) resource.getContents().get(0);
 
     final IFeatureProvider fp = GraphitiUi.getExtensionManager()
         .createFeatureProvider(d);
 
-    for (Task t : mt.getTask()) {
-      if (t instanceof UserDefinedTask) {
-        final List<PictogramElement> ps = Graphiti.getLinkService()
-            .getPictogramElements(d, t);
-        if (!ps.isEmpty()) {
+    d.getChildren().stream().filter(TaskShape.class::isInstance)
+        .map(TaskShape.class::cast).forEach(ts -> {
           ModelUtil.runModelChange(new Runnable() {
             public void run() {
-              UpdateContext context = new UpdateContext(ps.get(0));
-              updated = updated | fp.updateIfPossible(context).toBoolean();
+              UpdateContext context = new UpdateContext(ts);
+              fp.updateIfPossible(context).toBoolean();
             }
           }, ed, "Update diagram");
-        }
-      }
-    }
+        });
 
-    if (updated) {
-      save(resource, fp.getDiagramTypeProvider(), ed);
-      for (final IEditorReference er : PlatformUI.getWorkbench()
-          .getActiveWorkbenchWindow().getActivePage().getEditorReferences()) {
-        if (Constants.DIAGRAM_EDITOR_ID.equals(er.getId())
-            || Constants.TEST_DIAGRAM_EDITOR_ID.equals(er.getId())) {
-          Display.getCurrent().asyncExec(new Runnable() {
-            public void run() {
-              try {
-                URL fileUrl = FileLocator.toFileURL(new URL(er.getName()));
-                IFile file = ResourcesPlugin.getWorkspace().getRoot()
-                    .getFileForLocation(new Path(fileUrl.getPath()));
-                file.refreshLocal(IResource.DEPTH_ZERO, null);
-              } catch (IOException | CoreException e) {
-              }
+    save(resource, fp.getDiagramTypeProvider(), ed);
+    for (final IEditorReference er : PlatformUI.getWorkbench()
+        .getActiveWorkbenchWindow().getActivePage().getEditorReferences()) {
+      if (Constants.DIAGRAM_EDITOR_ID.equals(er.getId())
+          || Constants.TEST_DIAGRAM_EDITOR_ID.equals(er.getId())) {
+        Display.getCurrent().asyncExec(new Runnable() {
+          public void run() {
+            try {
+              URL fileUrl = FileLocator.toFileURL(new URL(er.getName()));
+              IFile file = ResourcesPlugin.getWorkspace().getRoot()
+                  .getFileForLocation(new Path(fileUrl.getPath()));
+              file.refreshLocal(IResource.DEPTH_ZERO, null);
+            } catch (IOException | CoreException e) {
             }
-          });
-        }
+          }
+        });
       }
     }
   }
