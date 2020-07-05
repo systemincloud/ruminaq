@@ -291,5 +291,5 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="task" eType="#//TaskShape"
         eOpposite="#//TaskShape/outputPort"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="InternalPortLabelShape"/>
+  <eClassifiers xsi:type="ecore:EClass" name="InternalPortLabelShape" eSuperTypes="#//LabelShape"/>
 </ecore:EPackage>
