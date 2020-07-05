@@ -252,25 +252,24 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       if (!this.updateNeeded(context).toBoolean())
         return false;
 
-    boolean updated = false;
     if (superUpdateNeeded)
-      updated = updated | super.update(context);
+      super.update(context);
 
     ContainerShape parent = (ContainerShape) context.getPictogramElement();
     Task be = (Task) getBusinessObjectForPictogramElement(parent);
 
     if (descUpdateNeeded)
-      updated = updated | descUpdate(parent, be);
+      descUpdate(parent, be);
     if (inputsUpdateNeeded)
-      updated = updated | inputsUpdate(parent, be);
+      inputsUpdate(parent, be);
     if (outputsUpdateNeeded)
-      updated = updated | outputsUpdate(parent, be);
+      outputsUpdate(parent, be);
     if (atomicUpdateNeeded)
-      updated = updated | atomicUpdate(parent, be);
+      atomicUpdate(parent, be);
     if (paramsUpdateNeeded)
-      updated = updated | paramsUpdate(parent, be);
+      paramsUpdate(parent, be);
 
-    return updated;
+    return true;
   }
 
   //
