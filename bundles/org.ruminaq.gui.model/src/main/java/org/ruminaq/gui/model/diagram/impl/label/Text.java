@@ -23,8 +23,8 @@ import org.ruminaq.model.ruminaq.BaseElement;
  *
  * @author Marek Jagielski
  */
-final class Text extends MultiTextImpl {
-  
+public final class Text extends MultiTextImpl {
+
   public static final Font FONT = StylesFactory.eINSTANCE.createFont();
 
   static {
@@ -40,12 +40,12 @@ final class Text extends MultiTextImpl {
   private final BaseElement modelObject;
 
   /**
-   * Label text. Text value is bind 
+   * Label text. Text value is bind
    * with BaseElement id.
-   * 
+   *
    * @param modelObject ruminaq object
    */
-  Text(BaseElement modelObject) {
+  public Text(BaseElement modelObject) {
     this.modelObject = modelObject;
   }
 

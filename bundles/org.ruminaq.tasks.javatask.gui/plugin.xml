@@ -13,25 +13,25 @@
          <description>Create Java Task Class</description>
       </wizard>
    </extension>
-   
+
    <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
       <propertyTabs contributorId="Ruminaq.PropertyContributor">
          <propertyTab
-               label="Java Task" 
-               id="org.ruminaq.tasks.javaTaskTab" 
-               afterTab="org.ruminaq.common.mainTab" 
+               label="Java Task"
+               id="org.ruminaq.tasks.javaTaskTab"
+               afterTab="org.ruminaq.common.mainTab"
                category="Graphiti" />
-         <propertyTab 
-               label="Parameters" 
-               id="org.ruminaq.tasks.javaTaskParametersTab" 
-               afterTab="org.ruminaq.tasks.javaTaskTab" 
+         <propertyTab
+               label="Parameters"
+               id="org.ruminaq.tasks.javaTaskParametersTab"
+               afterTab="org.ruminaq.tasks.javaTaskTab"
                category="Graphiti" />
       </propertyTabs>
    </extension>
-   
-   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+
+   <!--extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections contributorId="Ruminaq.PropertyContributor">
-         <propertySection 
+         <propertySection
                tab="org.ruminaq.tasks.javaTaskTab"
                class="org.ruminaq.tasks.javatask.ui.properties.PropertySection"
                id="org.ruminaq.tasks.javaTaskTab.Section"
@@ -42,8 +42,8 @@
                id="org.ruminaq.tasks.javaTaskParametersTab.Section"
                filter="org.ruminaq.tasks.javatask.ui.properties.PropertyFilter" />
       </propertySections>
-   </extension>
-   
+   </extension-->
+
    <extension point="org.eclipse.debug.ui.debugModelPresentations">
       <debugModelPresentation
          class="org.ruminaq.tasks.javatask.ui.debug.JavaTasksDebugModelPresentation"

@@ -58,23 +58,13 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//LabeledRuminaqShape/label"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//TaskShape">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//TaskShape/inputPort"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//TaskShape/outputPort"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//TaskShape/internalPort"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//TaskShape/iconId"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//TaskShape/description"/>
       <genOperations ecoreOperation="model.ecore#//TaskShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
-      <genOperations ecoreOperation="model.ecore#//TaskShape/getChildren" body="return org.eclipse.emf.common.util.ECollections
-        .asEList(java.util.stream.Stream
-            .of(getInputPort(), getOutputPort(), getPortLabels())
-            .flatMap(List::stream)
-            .collect(java.util.stream.Collectors.toList()));"/>
-      <genOperations ecoreOperation="model.ecore#//TaskShape/getPortLabels" body="return org.eclipse.emf.common.util.ECollections.asEList(Stream
-        .concat(getInputPort().stream(), getOutputPort().stream())
-        .map(
-            org.ruminaq.gui.model.diagram.InternalPortShape::getInternalPortLabel)
-        .filter(java.util.Objects::nonNull)
-        .collect(java.util.stream.Collectors.toList()));"/>
+      <genOperations ecoreOperation="model.ecore#//TaskShape/getChildren" body="return org.eclipse.emf.common.util.ECollections.asEList(java.util.stream.Stream.of(getInternalPort(), getPortLabels()).flatMap(List::stream).collect(java.util.stream.Collectors.toList()));"/>
+      <genOperations ecoreOperation="model.ecore#//TaskShape/getPortLabels" body="return org.eclipse.emf.common.util.ECollections.asEList(getInternalPort().stream().map(org.ruminaq.gui.model.diagram.InternalPortShape::getInternalPortLabel).filter(java.util.Objects::nonNull).collect(java.util.stream.Collectors.toList()));"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//SimpleConnectionShape">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//SimpleConnectionShape/source"/>
@@ -116,21 +106,23 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//FlowTargetShape/incomingConnections"/>
     </genClasses>
     <genClasses image="false" ecoreClass="model.ecore#//InternalPortShape">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//InternalPortShape/task"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//InternalPortShape/showLabel"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//InternalPortShape/internalPortLabel"/>
-      <genOperations ecoreOperation="model.ecore#//InternalPortShape/getTask" body="return null;"/>
       <genOperations ecoreOperation="model.ecore#//InternalPortShape/getWidth" body="return getGraphicsAlgorithm().getWidth();"/>
       <genOperations ecoreOperation="model.ecore#//InternalPortShape/getHeight" body="return getGraphicsAlgorithm().getHeight();"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//InternalInputPortShape">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//InternalInputPortShape/task"/>
       <genOperations ecoreOperation="model.ecore#//InternalInputPortShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//InternalOutputPortShape">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference model.ecore#//InternalOutputPortShape/task"/>
       <genOperations ecoreOperation="model.ecore#//InternalOutputPortShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
     </genClasses>
-    <genClasses ecoreClass="model.ecore#//InternalPortLabelShape"/>
+    <genClasses ecoreClass="model.ecore#//InternalPortLabelShape">
+      <genOperations ecoreOperation="model.ecore#//InternalPortLabelShape/getGraphicsAlgorithm"
+          body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

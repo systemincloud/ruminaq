@@ -18,8 +18,8 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
   @Override
   public List<Class<? extends IUpdateFeature>> getFeatures() {
-    return Arrays.asList(UpdateLabelFeature.class,
-        UpdateEmbeddedTaskFeature.class);
+    return Arrays.asList(UpdateInternalPortFeature.class,
+        UpdateLabelFeature.class, UpdateEmbeddedTaskFeature.class);
   }
 
 }

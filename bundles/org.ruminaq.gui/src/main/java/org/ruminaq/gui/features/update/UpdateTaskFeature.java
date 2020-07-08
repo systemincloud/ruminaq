@@ -183,9 +183,9 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     Optional<TaskShape> taskShape = shapeFromContext(context);
     Optional<Task> task = modelFromShape(taskShape);
     if (taskShape.isPresent() && task.isPresent()) {
-      return updateInternalPortNeeded(taskShape.get().getInputPort(),
+      return updateInternalPortNeeded(taskShape.get().getInternalPort(),
           task.get().getInputPort(), InternalInputPort.class)
-          || updateInternalPortNeeded(taskShape.get().getOutputPort(),
+          || updateInternalPortNeeded(taskShape.get().getInternalPort(),
               task.get().getOutputPort(), InternalOutputPort.class);
     }
     return false;
@@ -208,11 +208,11 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     Optional<TaskShape> taskShape = shapeFromContext(context);
     Optional<Task> task = modelFromShape(taskShape);
     if (taskShape.isPresent() && task.isPresent()) {
-      if (updateInternalPortNeeded(taskShape.get().getInputPort(),
+      if (updateInternalPortNeeded(taskShape.get().getInternalPort(),
           task.get().getInputPort(), InternalInputPort.class)) {
         updateInputPort(taskShape.get(), task.get());
       }
-      if (updateInternalPortNeeded(taskShape.get().getOutputPort(),
+      if (updateInternalPortNeeded(taskShape.get().getInternalPort(),
           task.get().getOutputPort(), InternalOutputPort.class)) {
         updateOutputPort(taskShape.get(), task.get());
       }
@@ -224,12 +224,13 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   private boolean updateInputPort(TaskShape taskShape, Task task) {
     List<InternalInputPort> fromModel = task.getInputPort();
     List<InternalInputPort> fromShape = internalPortFromShape(
-        taskShape.getInputPort(), InternalInputPort.class);
+        taskShape.getInternalPort(), InternalInputPort.class);
     List<InternalInputPort> portsToAdd = fromModel.stream()
         .filter(Predicate.not(fromShape::contains))
         .collect(Collectors.toList());
-    List<InternalInputPortShape> portsToRemove = taskShape.getInputPort()
-        .stream()
+    List<InternalInputPortShape> portsToRemove = taskShape.getInternalPort()
+        .stream().filter(InternalInputPortShape.class::isInstance)
+        .map(InternalInputPortShape.class::cast)
         .filter(ips -> Optional.ofNullable(ips.getModelObject()).isEmpty())
         .collect(Collectors.toList());
     portsToAdd.stream().forEach(p -> addInputPort(p, fromModel, taskShape));
@@ -240,12 +241,13 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   private boolean updateOutputPort(TaskShape taskShape, Task task) {
     List<InternalOutputPort> fromModel = task.getOutputPort();
     List<InternalOutputPort> fromShape = internalPortFromShape(
-        taskShape.getInputPort(), InternalOutputPort.class);
+        taskShape.getInternalPort(), InternalOutputPort.class);
     List<InternalOutputPort> portsToAdd = fromModel.stream()
         .filter(Predicate.not(fromShape::contains))
         .collect(Collectors.toList());
-    List<InternalOutputPortShape> portsToRemove = taskShape.getOutputPort()
-        .stream()
+    List<InternalOutputPortShape> portsToRemove = taskShape.getInternalPort()
+        .stream().filter(InternalOutputPortShape.class::isInstance)
+        .map(InternalOutputPortShape.class::cast)
         .filter(ips -> Optional.ofNullable(ips.getModelObject()).isEmpty())
         .collect(Collectors.toList());
     portsToAdd.stream().forEach(p -> addOutputPort(p, fromModel, taskShape));
@@ -284,10 +286,12 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     Optional<PortDiagram> portDiagram = getPortDiagram(p.getId(), pd,
         PortType.IN);
     Position position = portDiagram.map(PortDiagram::pos).orElse(Position.LEFT);
+    boolean label = portDiagram.map(PortDiagram::label).orElse(false);
     InternalInputPortShape portShape = DiagramFactory.eINSTANCE
         .createInternalInputPortShape();
-    taskShape.getInputPort().add(portShape);
+    taskShape.getInternalPort().add(portShape);
     portShape.setModelObject(p);
+    portShape.setShowLabel(label);
     portShape.setX(xOfPostion(taskShape, position));
     portShape.setY(yOfPostion(taskShape, position));
 
@@ -296,10 +300,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 //  ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
 //  getDiagram(), parent, in.getId(), AbstractAddTaskFeature.PORT_SIZE,
 //  AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.RIGHT);
-//
-//link(portLabelShape, new Object[] { in, containerShape });
-//if (!showLabel)
-//portLabelShape.setVisible(false);
   }
 
   private void addOutputPort(InternalOutputPort p,
@@ -310,10 +310,12 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         PortType.OUT);
     Position position = portDiagram.map(PortDiagram::pos)
         .orElse(Position.RIGHT);
+    boolean label = portDiagram.map(PortDiagram::label).orElse(false);
     InternalOutputPortShape portShape = DiagramFactory.eINSTANCE
         .createInternalOutputPortShape();
-    taskShape.getOutputPort().add(portShape);
+    taskShape.getInternalPort().add(portShape);
     portShape.setModelObject(p);
+    portShape.setShowLabel(label);
     portShape.setX(xOfPostion(taskShape, position));
     portShape.setY(yOfPostion(taskShape, position));
     redistributePorts(taskShape, position);
@@ -321,11 +323,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 //  ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
 //  getDiagram(), parent, out.getId(), AbstractAddTaskFeature.PORT_SIZE,
 //  AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.LEFT);
-//
-//link(portLabelShape, new Object[] { out, containerShape });
 
-//if (!showLabel)
-//portLabelShape.setVisible(false);
   }
 
   protected void createInputPort(Task task, ContainerShape parent, String name,
@@ -379,8 +377,8 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   private void redistributePorts(TaskShape taskShape, Position pos) {
-    Supplier<Stream<InternalPortShape>> ports = () -> Stream.concat(
-        taskShape.getInputPort().stream(), taskShape.getOutputPort().stream());
+    Supplier<Stream<InternalPortShape>> ports = () -> taskShape
+        .getInternalPort().stream();
     switch (pos) {
       case LEFT:
       case RIGHT:

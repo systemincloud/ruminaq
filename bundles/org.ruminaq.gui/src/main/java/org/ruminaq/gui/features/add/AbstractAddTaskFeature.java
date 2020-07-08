@@ -84,6 +84,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     addLabel(taskShape);
 
     updatePictogramElement(taskShape);
+    taskShape.getInternalPort().forEach(this::updatePictogramElement);
 
     return taskShape;
   }
