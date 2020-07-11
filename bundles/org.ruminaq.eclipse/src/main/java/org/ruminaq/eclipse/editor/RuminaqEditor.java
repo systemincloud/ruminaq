@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -32,7 +33,9 @@ import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.ui.editor.DiagramBehavior;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.swt.widgets.Composite;
@@ -132,13 +135,20 @@ public class RuminaqEditor extends DiagramEditor {
     addMarkerChangeListener();
 
     ModelUtil.runModelChange(
-        () -> getRuminaqDiagram().getChildren().stream().map(UpdateContext::new)
-            .filter(ctx -> getDiagramTypeProvider().getFeatureProvider()
-                .canUpdate(ctx).toBoolean())
-            .forEach(ctx -> getDiagramTypeProvider().getFeatureProvider()
-                .updateIfPossible(ctx)),
+        () -> updateShapes(getRuminaqDiagram().getChildren()),
         getDiagramBehavior().getEditingDomain(),
         Messages.modelChangeInitialization);
+  }
+
+  private void updateShapes(EList<Shape> shapes) {
+    shapes.stream().map(UpdateContext::new)
+        .filter(ctx -> getDiagramTypeProvider().getFeatureProvider()
+            .canUpdate(ctx).toBoolean())
+        .forEach(ctx -> getDiagramTypeProvider().getFeatureProvider()
+            .updateIfPossible(ctx));
+    shapes.stream().filter(ContainerShape.class::isInstance)
+        .map(ContainerShape.class::cast).map(ContainerShape::getChildren)
+        .forEach(this::updateShapes);
   }
 
   private Optional<IOperationHistory> getOperationHistory() {
