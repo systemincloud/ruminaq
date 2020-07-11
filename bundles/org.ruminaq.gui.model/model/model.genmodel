@@ -121,6 +121,7 @@
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//InternalPortLabelShape">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//InternalPortLabelShape/internalPort"/>
       <genOperations ecoreOperation="model.ecore#//InternalPortLabelShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
     </genClasses>

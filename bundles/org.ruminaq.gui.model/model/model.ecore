@@ -267,7 +267,7 @@
         eOpposite="#//TaskShape/internalPort"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="showLabel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="internalPortLabel" eType="#//InternalPortLabelShape"
-        transient="true"/>
+        transient="true" eOpposite="#//InternalPortLabelShape/internalPort"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InternalInputPortShape" eSuperTypes="#//InternalPortShape">
     <eOperations name="getGraphicsAlgorithm" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//algorithms/GraphicsAlgorithm">
@@ -289,5 +289,7 @@
         <details key="body" value="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
       </eAnnotations>
     </eOperations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="internalPort" eType="#//InternalPortShape"
+        transient="true" eOpposite="#//InternalPortShape/internalPortLabel"/>
   </eClassifiers>
 </ecore:EPackage>

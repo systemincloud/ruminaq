@@ -14,7 +14,6 @@ import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.impl.RectangleImpl;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.ruminaq.gui.model.diagram.InternalPortLabelShape;
-import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
 import org.ruminaq.gui.model.diagram.impl.label.Text;
@@ -28,7 +27,7 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
   private EList<GraphicsAlgorithm> children;
 
-  private LabelShape shape;
+  private InternalPortLabelShape shape;
 
   private Text text;
 
@@ -39,7 +38,7 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
    */
   public InternalPortLabelShapeGA(InternalPortLabelShape shape) {
     this.shape = shape;
-    this.text = Optional.of(this.shape.getLabeledShape())
+    this.text = Optional.of(this.shape.getInternalPort())
         .map(LabeledRuminaqShape::getModelObject).map(Text::new).orElseThrow();
     this.children = ECollections.asEList(text);
   }
