@@ -121,14 +121,11 @@ public class RuminaqEditor extends DiagramEditor {
 
     getOperationHistory().ifPresent((IOperationHistory oh) -> oh
         .addOperationHistoryListener((OperationHistoryEvent event) -> {
-          switch (event.getEventType()) {
-            case OperationHistoryEvent.DONE:
-            case OperationHistoryEvent.REDONE:
-            case OperationHistoryEvent.UNDONE:
-              doSave(new NullProgressMonitor());
-              break;
-            default:
-              break;
+          if (Arrays
+              .stream(new int[] { OperationHistoryEvent.DONE,
+                  OperationHistoryEvent.REDONE, OperationHistoryEvent.UNDONE })
+              .anyMatch(i -> i == event.getEventType())) {
+            doSave(new NullProgressMonitor());
           }
         }));
 
