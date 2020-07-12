@@ -33,6 +33,7 @@ import org.ruminaq.gui.api.DomainContextButtonPadDataExtension;
 import org.ruminaq.gui.api.DoubleClickFeatureExtension;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
 import org.ruminaq.gui.api.PaletteCompartmentEntryExtension;
+import org.ruminaq.gui.api.SelectionExtension;
 import org.ruminaq.gui.api.SingleClickFeatureExtension;
 import org.ruminaq.util.ServiceUtil;
 
@@ -173,5 +174,13 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
         DecoratorExtension.class, () -> Arrays.asList(getFeatureProvider(), pe))
         .stream().map(ext -> ext.getDecorators(pe)).flatMap(Collection::stream)
         .toArray(IDecorator[]::new);
+  }
+
+  @Override
+  public PictogramElement[] getSelections(PictogramElement selection) {
+    ServiceUtil
+    .getServicesAtLatestVersion(RuminaqFeatureProvider.class,
+        SelectionExtension.class).stream();
+    return null;
   }
 }
