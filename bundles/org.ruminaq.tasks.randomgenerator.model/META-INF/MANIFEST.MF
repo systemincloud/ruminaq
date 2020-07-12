@@ -29,5 +29,5 @@ Export-Package: org.ruminaq.tasks.randomgenerator.model,
  org.ruminaq.tasks.randomgenerator.model.randomgenerator.impl,
  org.ruminaq.tasks.randomgenerator.model.randomgenerator.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 

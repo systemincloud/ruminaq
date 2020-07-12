@@ -6,7 +6,7 @@ Bundle-SymbolicName: org.ruminaq.tasks.javatask.impl
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.ruminaq.tasks.javatask.impl,
  org.ruminaq.tasks.javatask.impl.service
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.eclipse.emf.ecore,

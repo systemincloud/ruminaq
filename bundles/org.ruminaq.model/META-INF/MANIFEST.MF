@@ -45,6 +45,6 @@ Import-Package: ch.qos.logback.classic,
 Export-Package: org.ruminaq.model,
  org.ruminaq.model.desc
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.model.ModelExtensionHandlerImpl.xml

@@ -55,4 +55,4 @@ Export-Package: org.ruminaq.tasks.rtask.ui,
  org.ruminaq.tasks.rtask.ui.properties,
  org.ruminaq.tasks.rtask.ui.wizards
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14

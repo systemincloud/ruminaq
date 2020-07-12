@@ -5,7 +5,7 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.pythontask.api
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.ruminaq.tasks.pythontask.api
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Import-Package: org.javatuples,
  org.eclipse.emf.transaction,
  org.eclipse.graphiti.mm.pictograms,

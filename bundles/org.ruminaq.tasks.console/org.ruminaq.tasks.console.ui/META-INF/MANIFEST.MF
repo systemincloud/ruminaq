@@ -23,4 +23,4 @@ Import-Package: org.eclipse.core.runtime,
 Export-Package: org.modeler.tasks.console.ui.views,
  org.ruminaq.tasks.console.ui.properties
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14

@@ -5,7 +5,7 @@ Automatic-Module-Name: org.ruminaq.tasks.javatask.client
 Bundle-SymbolicName: org.ruminaq.tasks.javatask.client;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Marek Jagielski
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Export-Package: org.ruminaq.tasks.javatask.client,
  org.ruminaq.tasks.javatask.client.annotations,
  org.ruminaq.tasks.javatask.client.data

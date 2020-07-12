@@ -87,7 +87,7 @@ Export-Package: org.ruminaq.tasks.randomgenerator.gui,
  org.ruminaq.tasks.randomgenerator.gui.features,
  org.ruminaq.tasks.randomgenerator.gui.properties
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.randomgenerator.gui.UpdateFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.randomgenerator.gui.Images.xml,

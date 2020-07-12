@@ -98,7 +98,7 @@ Export-Package: org.ruminaq.gui,
  org.ruminaq.gui.image,
  org.ruminaq.gui.palette,
  org.ruminaq.gui.properties
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadInternalPortTool.xml,
  OSGI-INF/org.ruminaq.gui.features.create.CreateConnectionFeatureImpl.xml,
  OSGI-INF/org.ruminaq.gui.palette.CommonPaletteCompartmentEntry.xml,

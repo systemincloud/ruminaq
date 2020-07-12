@@ -19,4 +19,4 @@ Import-Package: ch.qos.logback.classic,
  org.osgi.service.prefs,
  org.ruminaq.consts
 Export-Package: org.ruminaq.prefs
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14

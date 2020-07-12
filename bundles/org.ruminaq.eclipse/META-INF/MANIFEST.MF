@@ -4,7 +4,7 @@ Bundle-SymbolicName: org.ruminaq.eclipse;singleton:=true
 Automatic-Module-Name: org.ruminaq.eclipse
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Marek Jagielski
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.graphiti,
  org.eclipse.jface,

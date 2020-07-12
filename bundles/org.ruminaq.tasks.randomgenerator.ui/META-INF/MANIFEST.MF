@@ -20,5 +20,5 @@ Import-Package: org.eclipse.core.runtime,
  org.ruminaq.util,
  org.ruminaq.runner.dirmi
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Export-Package: org.ruminaq.tasks.randomgenerator.ui.properties

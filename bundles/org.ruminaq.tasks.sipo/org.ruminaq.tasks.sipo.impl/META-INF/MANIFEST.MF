@@ -6,7 +6,7 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.sipo.impl
 Bundle-Version: 1.0.0.qualifier
 Export-Package: org.ruminaq.tasks.sipo.impl
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core.spi,
  org.eclipse.emf.ecore,

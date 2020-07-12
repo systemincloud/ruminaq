@@ -37,4 +37,4 @@ Export-Package: com.systemincloud.modeler.tasks.embeddedtask.ui.cmd,
  org.ruminaq.tasks.embeddedtask.ui.cmd,
  org.ruminaq.tasks.embeddedtask.ui.properties
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14

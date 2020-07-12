@@ -29,5 +29,5 @@ Export-Package: org.ruminaq.tasks.sipo.model,
  org.ruminaq.tasks.sipo.model.sipo.impl,
  org.ruminaq.tasks.sipo.model.sipo.util
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 

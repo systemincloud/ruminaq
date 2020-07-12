@@ -62,7 +62,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.mux.model.mux,
  org.slf4j
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.mux.gui.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.mux.gui.CreateFeaturesImpl.xml,

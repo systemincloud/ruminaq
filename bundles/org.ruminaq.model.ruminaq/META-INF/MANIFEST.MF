@@ -4,7 +4,7 @@ Bundle-SymbolicName: org.ruminaq.model.ruminaq;singleton:=true
 Bundle-Vendor: Marek Jagielski
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Export-Package: org.ruminaq.model.ruminaq,
  org.ruminaq.model.ruminaq.debug,
  org.ruminaq.model.ruminaq.debug.impl,

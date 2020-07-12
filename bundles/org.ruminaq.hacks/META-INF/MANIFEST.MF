@@ -14,4 +14,4 @@ Export-Package:
  org.ruminaq.hacks.org.eclipse.graphiti.ui.internal.parts;aspects=PictogramElementDelegateHack
 Eclipse-SupplementBundle: 
  org.eclipse.graphiti.ui
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14

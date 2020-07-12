@@ -79,7 +79,7 @@ Import-Package: ch.qos.logback.classic,
 Export-Package: org.ruminaq.tasks.constant.gui,
  org.ruminaq.tasks.constant.properties
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.constant.gui.CreateFeaturesImpl.xml,
  OSGI-INF/org.ruminaq.tasks.constant.gui.UpdateFeatureImpl.xml,

@@ -65,7 +65,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.util,
  org.slf4j
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.sipo.gui.AddFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.sipo.gui.EclipseExtensionImpl.xml,

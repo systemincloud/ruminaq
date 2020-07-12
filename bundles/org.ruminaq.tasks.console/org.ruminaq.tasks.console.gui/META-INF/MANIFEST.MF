@@ -75,7 +75,7 @@ Import-Package: ch.qos.logback.classic,
  swing2swt.layout
 Export-Package: org.ruminaq.tasks.console.gui
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Service-Component: OSGI-INF/org.ruminaq.tasks.console.gui.Images.xml,
  OSGI-INF/org.ruminaq.tasks.console.gui.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.console.gui.CreateFeaturesImpl.xml,

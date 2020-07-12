@@ -5,7 +5,7 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.mux.it.tests
 Bundle-Version: 1.0.0.qualifier
 Fragment-Host: org.ruminaq.tasks.mux.gui
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Require-Bundle: jakarta.xml.bind-api,
  org.junit,
  org.eclipse.reddeer.junit,

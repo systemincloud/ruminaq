@@ -4,7 +4,7 @@ Bundle-ManifestVersion: 2
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tests.common
 Bundle-Version: 1.0.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Require-Bundle: org.eclipse.reddeer.junit,
  org.eclipse.reddeer.go,
  org.eclipse.reddeer.swt,

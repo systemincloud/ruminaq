@@ -117,7 +117,7 @@ Export-Package: org.ruminaq.tasks.rtask,
  org.ruminaq.tasks.rtask.hacks,
  org.ruminaq.tasks.rtask.wizards
 Bundle-ClassPath: .
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-14
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.rtask.AddFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.rtask.CreateFeaturesImpl.xml,
