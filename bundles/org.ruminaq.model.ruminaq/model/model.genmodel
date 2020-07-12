@@ -6,7 +6,7 @@
     modelName="Ruminaq" modelPluginClass="" editPluginClass="org.ruminaq.model.provider.RuminaqEditPlugin"
     editorPluginClass="org.ruminaq.model.presentation.RuminaqEditorPlugin" updateClasspath="false"
     suppressEMFTypes="true" codeFormatting="true" importerID="org.eclipse.emf.importer.ecore"
-    bundleManifest="false" complianceLevel="8.0" copyrightFields="false" providerRootExtendsClass=""
+    bundleManifest="false" complianceLevel="14.0" copyrightFields="false" providerRootExtendsClass=""
     editPluginID="org.ruminaq.model.edit" cleanup="true">
   <foreignModel>model.ecore</foreignModel>
   <genPackages prefix="Ruminaq" basePackage="org.ruminaq.model" resource="XML" disposableProviderFactory="true"
