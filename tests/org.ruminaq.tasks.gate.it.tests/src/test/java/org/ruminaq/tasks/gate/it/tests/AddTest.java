@@ -24,23 +24,22 @@ public class AddTest extends GuiTest {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("And", 200, 100);
   }
-  
+
   @Test
   public void testAddNot() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Not", 200, 100);
   }
-  
+
   @Test
   public void testAddOr() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Or", 200, 100);
   }
-  
+
   @Test
   public void testAddXor() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Or", 200, 100);
   }
-
 }

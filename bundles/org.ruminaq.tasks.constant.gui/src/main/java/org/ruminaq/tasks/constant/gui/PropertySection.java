@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.constant.gui;
 
 import java.util.HashMap;
@@ -229,8 +230,9 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
 
       int i = 0;
       for (String dt : cmbType.getItems()) {
-        if (dt.equals(
-            ModelUtil.getName(constant.getOutputPort().get(0).getDataType().get(0).getClass(), false))) {
+        if (dt.equals(ModelUtil.getName(
+            constant.getOutputPort().get(0).getDataType().get(0).getClass(),
+            false))) {
           break;
         }
         i++;
@@ -238,8 +240,9 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
       cmbType.select(i);
 
       String value = constant.getValue();
-      PropertyValueComposite vc = valueComposites
-          .get(ModelUtil.getName(constant.getOutputPort().get(0).getDataType().get(0).getClass(), false));
+      PropertyValueComposite vc = valueComposites.get(ModelUtil.getName(
+          constant.getOutputPort().get(0).getDataType().get(0).getClass(),
+          false));
       if (vc != null) {
         vc.refresh(value);
         valueStack.topControl = vc.getComposite();

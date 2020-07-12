@@ -26,7 +26,7 @@ import org.ruminaq.tasks.constant.model.constant.Constant;
 public class ConstantShapeGA extends TaskShapeGA {
 
   private static final int MARGIN = 10;
-  
+
   private ConstantShape shape;
 
   /**
@@ -64,7 +64,7 @@ public class ConstantShapeGA extends TaskShapeGA {
     public Orientation getVerticalAlignment() {
       return Orientation.ALIGNMENT_MIDDLE;
     }
-    
+
     @Override
     public Color getForeground() {
       return Colors.BLACK;
@@ -90,7 +90,7 @@ public class ConstantShapeGA extends TaskShapeGA {
 
   /**
    * GraphicsAlgorithm for ConstantShape.
-   * 
+   *
    * @param shape parent TaskShape
    */
   public ConstantShapeGA(ConstantShape shape) {

@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.constant.gui;
 
 import java.util.Collections;
@@ -50,7 +51,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
     public UpdateFeature(IFeatureProvider fp) {
       super(fp);
     }
-    
+
     @Override
     protected Class<? extends PortsDescr> getPortsDescription() {
       return Port.class;

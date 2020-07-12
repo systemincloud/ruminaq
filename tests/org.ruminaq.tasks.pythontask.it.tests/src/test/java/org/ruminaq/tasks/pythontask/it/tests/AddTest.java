@@ -24,5 +24,4 @@ public class AddTest extends GuiTest {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Python Task", 200, 100);
   }
-
 }

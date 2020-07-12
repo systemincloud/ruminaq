@@ -24,7 +24,7 @@ public class AddTest extends GuiTest {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Mux", 200, 100);
   }
-  
+
   @Test
   public void testAddDemux() {
     GEFEditor gefEditor = new GEFEditor(diagramName);

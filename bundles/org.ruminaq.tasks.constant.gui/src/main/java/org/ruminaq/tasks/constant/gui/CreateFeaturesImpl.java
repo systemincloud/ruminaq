@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.constant.gui;
 
 import java.util.Collections;
@@ -24,7 +25,7 @@ import org.ruminaq.tasks.constant.model.constant.ConstantFactory;
 
 /**
  * Service CreateFeaturesExtension implementation.
- * 
+ *
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=10" })
