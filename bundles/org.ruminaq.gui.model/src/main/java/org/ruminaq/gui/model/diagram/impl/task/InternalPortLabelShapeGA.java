@@ -12,9 +12,11 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.impl.RectangleImpl;
+import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.ruminaq.gui.model.diagram.InternalPortLabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
+import org.ruminaq.gui.model.diagram.impl.Colors;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
 import org.ruminaq.gui.model.diagram.impl.label.Text;
 
@@ -45,32 +47,32 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
   @Override
   public int getX() {
-    return shape.getX();
+    return 10;
   }
 
   @Override
   public int getY() {
-    return shape.getY();
+    return 10;
   }
 
   @Override
   public void setX(int newX) {
-    shape.setX(newX);
+//    shape.setX(newX);
   }
 
   @Override
   public void setY(int newY) {
-    shape.setY(newY);
+//    shape.setY(newY);
   }
 
   @Override
   public int getWidth() {
-    return text.getWidth();
+    return 10;//text.getWidth();
   }
 
   @Override
   public int getHeight() {
-    return text.getHeight();
+    return 10;//text.getHeight();
   }
 
   @Override
@@ -85,12 +87,22 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
   @Override
   public Boolean getLineVisible() {
-    return Boolean.FALSE;
+    return Boolean.TRUE;
   }
 
   @Override
   public Double getTransparency() {
     return 0D;
+  }
+
+  @Override
+  public Color getForeground() {
+    return Colors.BLACK;
+  }
+
+  @Override
+  public Color getBackground() {
+    return Colors.WHITE;
   }
 
   @Override

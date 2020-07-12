@@ -15,6 +15,7 @@ import org.eclipse.graphiti.features.impl.Reason;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.update.UpdateInternalPortFeature.Filter;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
+import org.ruminaq.gui.model.diagram.InternalPortLabelShape;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InternalPort;
@@ -59,7 +60,8 @@ public class UpdateInternalPortFeature extends UpdateBaseElementFeature {
   private boolean updateLabelNeeded(IUpdateContext context) {
     Optional<InternalPortShape> shape = shapeFromContext(context);
     if (shape.isPresent()) {
-      return (shape.get().getInternalPortLabel() == null && shape.get().isShowLabel())
+      return (shape.get().getInternalPortLabel() == null
+          && shape.get().isShowLabel())
           || (shape.get().getInternalPortLabel() != null
               && !shape.get().isShowLabel());
     }
@@ -84,9 +86,13 @@ public class UpdateInternalPortFeature extends UpdateBaseElementFeature {
     Optional<InternalPort> model = modelFromShape(shape);
     if (shape.isPresent() && model.isPresent()) {
       if (shape.get().getInternalPortLabel() == null) {
-        shape.get().setInternalPortLabel(
-            DiagramFactory.eINSTANCE.createInternalPortLabelShape());
+        InternalPortLabelShape label = DiagramFactory.eINSTANCE
+            .createInternalPortLabelShape();
+        shape.get().getTask().getTransientChildren().add(label);
+        shape.get().setInternalPortLabel(label);
       } else {
+        shape.get().getTask().getTransientChildren()
+            .remove(shape.get().getInternalPortLabel());
         shape.get().setInternalPortLabel(null);
       }
     }

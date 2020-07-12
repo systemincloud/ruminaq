@@ -147,24 +147,19 @@
     </eOperations>
     <eOperations name="getChildren">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return org.eclipse.emf.common.util.ECollections.asEList(java.util.stream.Stream.of(getInternalPort(), getPortLabels()).flatMap(List::stream).collect(java.util.stream.Collectors.toList()));"/>
+        <details key="body" value="return org.eclipse.emf.common.util.ECollections.asEList(java.util.stream.Stream.of(getInternalPort(), getTransientChildren()).flatMap(List::stream).collect(java.util.stream.Collectors.toList()));"/>
       </eAnnotations>
       <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
         <eTypeArguments eClassifier="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Shape"/>
-      </eGenericType>
-    </eOperations>
-    <eOperations name="getPortLabels">
-      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-        <details key="body" value="return org.eclipse.emf.common.util.ECollections.asEList(getInternalPort().stream().map(org.ruminaq.gui.model.diagram.InternalPortShape::getInternalPortLabel).filter(java.util.Objects::nonNull).collect(java.util.stream.Collectors.toList()));"/>
-      </eAnnotations>
-      <eGenericType eClassifier="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EEList">
-        <eTypeArguments eClassifier="#//InternalPortLabelShape"/>
       </eGenericType>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="internalPort" upperBound="-1"
         eType="#//InternalPortShape" containment="true" eOpposite="#//InternalPortShape/task"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="iconId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transientChildren" upperBound="-1"
+        eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//pictograms/Shape"
+        transient="true" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SimpleConnectionShape" eSuperTypes="#//RuminaqConnection">
     <eOperations name="getGraphicsAlgorithm" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//algorithms/GraphicsAlgorithm">
@@ -287,6 +282,16 @@
     <eOperations name="getGraphicsAlgorithm" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//algorithms/GraphicsAlgorithm">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getX" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getGraphicsAlgorithm().getX();"/>
+      </eAnnotations>
+    </eOperations>
+    <eOperations name="getY" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getGraphicsAlgorithm().getY();"/>
       </eAnnotations>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="internalPort" eType="#//InternalPortShape"

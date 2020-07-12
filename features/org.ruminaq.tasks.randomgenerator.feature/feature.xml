@@ -16,12 +16,6 @@
   </requires>
 
   <plugin
-      id="org.ruminaq.tasks.randomgenerator.api"
-      version="0.0.0"
-      download-size="0"
-      install-size="0"
-      unpack="false"/>
-  <plugin
       id="org.ruminaq.tasks.randomgenerator.gui"
       version="0.0.0"
       download-size="0"
