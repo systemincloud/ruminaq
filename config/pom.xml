@@ -531,6 +531,11 @@
             </reports>
           </reportSet>
         </reportSets>
+        <dependency>
+          <groupId>com.puppycrawl.tools</groupId>
+          <artifactId>checkstyle</artifactId>
+          <version>8.34</version>
+        </dependency>
       </plugin>
     </plugins>
   </reporting>
