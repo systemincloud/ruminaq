@@ -35,7 +35,7 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <tycho.version>2.0.0-SNAPSHOT</tycho.version>
-    <aspectj.version>1.9.6.BUILD-SNAPSHOT</aspectj.version>
+    <aspectj.version>1.9.5</aspectj.version>
     <jaccoco.version>0.8.5</jaccoco.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <source.emf>${basedir}/model/model.genmodel</source.emf>
