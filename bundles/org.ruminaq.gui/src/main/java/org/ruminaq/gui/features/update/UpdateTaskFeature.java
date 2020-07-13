@@ -122,21 +122,23 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   private static int yOfPostion(TaskShape taskShape, Position position) {
-    return switch (position) {
-      case LEFT, RIGHT -> 1;
-      case TOP -> 0;
-      case BOTTOM -> taskShape.getHeight() - InternalPortShapeGA.SIZE;
-      default -> 1;
-    };
+    if (position == Position.LEFT || position == Position.RIGHT) {
+      return 1;
+    } else if (position == Position.TOP) {
+      return 0;
+    } else {
+      return taskShape.getHeight() - InternalPortShapeGA.SIZE;
+    }
   }
 
   private static int xOfPostion(TaskShape taskShape, Position position) {
-    return switch (position) {
-      case LEFT -> 0;
-      case TOP, BOTTOM -> 1;
-      case RIGHT -> taskShape.getWidth() - InternalPortShapeGA.SIZE;
-      default -> 0;
-    };
+    if (position == Position.LEFT) {
+      return 0;
+    } else if (position == Position.TOP || position == Position.BOTTOM) {
+      return 1;
+    } else {
+      return taskShape.getWidth() - InternalPortShapeGA.SIZE;
+    }
   }
 
   public static Position getPosition(TaskShape taskShape, InternalPortShape p) {
