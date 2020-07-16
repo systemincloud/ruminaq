@@ -35,7 +35,8 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <tycho.version>2.0.0-SNAPSHOT</tycho.version>
-    <aspectj.version>1.9.5</aspectj.version>
+    <aspectj.version>1.9.6.BUILD-SNAPSHOT</aspectj.version>
+    <spring.version>5.2.7.RELEASE</spring.version>
     <jaccoco.version>0.8.5</jaccoco.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <source.emf>${basedir}/model/model.genmodel</source.emf>
@@ -350,9 +351,11 @@
           </systemProperties>
           <showEclipseLog>false</showEclipseLog>
           <argLine>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jaccoco.version}/org.jacoco.agent-${jaccoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec
+            -javaagent:${settings.localRepository}/org/springframework/spring-instrument/${spring.version}/spring-instrument-${spring.version}.jar
             -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
             -Dorg.eclipse.swtbot.search.timeout=10000
           </argLine>
+          <!-- -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar -->
           <bundleStartLevel>
             <bundle>
               <id>org.eclipse.m2e.logback.configuration</id>
@@ -392,6 +395,12 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectj.version}</version>
+            <scope>compile</scope>
+          </dependency>
+          <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-instrument</artifactId>
+            <version>${spring.version}</version>
             <scope>compile</scope>
           </dependency>
         </dependencies>

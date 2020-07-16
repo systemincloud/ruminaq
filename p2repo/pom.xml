@@ -67,6 +67,9 @@
                   </instructions>
                 </artifact>
                 <artifact>
+                  <id>org.springframework:spring-aspects:5.2.7.RELEASE</id>
+                </artifact>
+                <artifact>
                   <id>org.apache.commons:commons-lang3:3.8.1</id>
                 </artifact>
                 <artifact>

@@ -3,24 +3,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tests.common;
 
 import java.util.stream.Stream;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
-import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 
 public class SelectView {
 
   public static void closeWelcomeViewIfExists(SWTWorkbenchBot bot) {
-    try {
-      bot.viewByTitle("Welcome").close();
-    } catch (WidgetNotFoundException e) {
-      System.out.println("Welcom view not found");
-    }
+    bot.views().stream().filter(v -> "Welcome".equals(v.getTitle()))
+        .forEach(SWTBotView::close);
   }
 
   public static SWTBotView getProjectExplorer(SWTWorkbenchBot bot) {
