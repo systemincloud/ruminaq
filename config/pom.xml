@@ -351,10 +351,10 @@
           </systemProperties>
           <showEclipseLog>false</showEclipseLog>
           <argLine>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jaccoco.version}/org.jacoco.agent-${jaccoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec
-            -javaagent:${settings.localRepository}/org/springframework/spring-instrument/${spring.version}/spring-instrument-${spring.version}.jar
             -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
             -Dorg.eclipse.swtbot.search.timeout=10000
           </argLine>
+          <!-- -javaagent:${settings.localRepository}/org/springframework/spring-instrument/${spring.version}/spring-instrument-${spring.version}.jar -->
           <!-- -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar -->
           <bundleStartLevel>
             <bundle>
