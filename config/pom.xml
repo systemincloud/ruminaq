@@ -34,7 +34,7 @@
     <java.version>14</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
-    <tycho.version>1.7.0</tycho.version>
+    <tycho.version>2.0.0-SNAPSHOT</tycho.version>
     <aspectj.version>1.9.6.BUILD-SNAPSHOT</aspectj.version>
     <spring.version>5.2.7.RELEASE</spring.version>
     <jaccoco.version>0.8.5</jaccoco.version>
@@ -315,6 +315,7 @@
             </artifact>
           </target>
           <ignoreTychoRepositories>true</ignoreTychoRepositories>
+          <executionEnvironment>JavaSE-14</executionEnvironment>
           <environments>
             <environment>
               <os>linux</os>
