@@ -4,7 +4,7 @@
     <children xsi:type="diagram:InputPortShape" x="200" y="100" modelObject="/1/@inputPort.0" label="/0/@children.1" outgoingConnections="/0/@connections.0"/>
     <children xsi:type="diagram:LabelShape" x="181" y="117" labeledShape="/0/@children.0"/>
     <children xsi:type="diagram:OutputPortShape" x="400" y="300" modelObject="/1/@outputPort.0" label="/0/@children.3" incomingConnections="/0/@connections.0"/>
-    <children xsi:type="diagram:LabelShape" x="376" y="317" labeledShape="/0/@children.2"/>
+    <children xsi:type="diagram:LabelShape" x="377" y="317" labeledShape="/0/@children.2"/>
     <connections xsi:type="diagram:SimpleConnectionShape" source="/0/@children.0" target="/0/@children.2" modelObject="/1/@connection.0"/>
   </diagram:RuminaqDiagram>
   <ruminaq:MainTask version="1.0.0">
