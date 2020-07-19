@@ -28,6 +28,10 @@
       <id>aspectj-snapshots</id>
       <url>https://repo.spring.io/snapshot/</url>
     </pluginRepository>
+    <pluginRepository>
+      <id>jacoco-snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </pluginRepository>
   </pluginRepositories>
 
   <properties>
@@ -37,7 +41,7 @@
     <tycho.version>2.0.0-SNAPSHOT</tycho.version>
     <aspectj.version>1.9.6.BUILD-SNAPSHOT</aspectj.version>
     <spring.version>5.2.7.RELEASE</spring.version>
-    <jaccoco.version>0.8.5</jaccoco.version>
+    <jacoco.version>0.8.6-SNAPSHOT</jacoco.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <source.emf>${basedir}/model/model.genmodel</source.emf>
     <target.emf>${project.build.directory}/generated-sources/emf</target.emf>
@@ -127,7 +131,7 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>${jaccoco.version}</version>
+          <version>${jacoco.version}</version>
         </plugin>
         <plugin>
           <groupId>org.eclipse.xtend</groupId>
@@ -351,8 +355,8 @@
             <!-- <org.slf4j.simpleLogger.showThreadName>false</org.slf4j.simpleLogger.showThreadName> -->
           </systemProperties>
           <showEclipseLog>false</showEclipseLog>
-          <argLine>-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jaccoco.version}/org.jacoco.agent-${jaccoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec
-            -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
+          <argLine>-javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
+            -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${project.build.directory}/jacoco.exec
             -Dorg.eclipse.swtbot.search.timeout=10000
           </argLine>
           <!-- -javaagent:${settings.localRepository}/org/springframework/spring-instrument/${spring.version}/spring-instrument-${spring.version}.jar -->
