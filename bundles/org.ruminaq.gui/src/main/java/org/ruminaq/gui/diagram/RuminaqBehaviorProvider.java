@@ -181,6 +181,6 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
     ServiceUtil
     .getServicesAtLatestVersion(RuminaqFeatureProvider.class,
         SelectionExtension.class).stream();
-    return null;
+    return super.getSelections(selection);
   }
 }
