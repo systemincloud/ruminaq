@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.label;
 
 import org.ruminaq.gui.model.GuiUtil;
@@ -33,8 +34,8 @@ public final class LabelUtil {
   public static boolean isInDefaultPosition(LabelShape labelShape) {
     LabeledRuminaqShape labeledShape = labelShape.getLabeledShape();
 
-    int defaultShapeX = labeledShape.getX() - ((labelShape.getWidth()) >> 1)
-        + (labeledShape.getWidth() >> 1);
+    int defaultShapeX = labeledShape.getX()
+        - ((labelShape.getWidth() - labeledShape.getWidth()) >> 1);
     int defaultShapeY = labeledShape.getY() + labeledShape.getHeight()
         + SHAPE_LABEL_SPACE;
 
@@ -51,8 +52,8 @@ public final class LabelUtil {
    */
   public static void placeInDefaultPosition(LabelShape labelShape) {
     LabeledRuminaqShape labeledShape = labelShape.getLabeledShape();
-    int labelShapeX = labeledShape.getX() - (labelShape.getWidth() >> 1)
-        + (labeledShape.getWidth() >> 1);
+    int labelShapeX = labeledShape.getX()
+        - ((labelShape.getWidth() - labeledShape.getWidth()) >> 1);
     int labelShapeY = labeledShape.getY() + labeledShape.getHeight()
         + SHAPE_LABEL_SPACE;
 

@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tests.common.reddeer;
 
 import static org.junit.Assert.assertFalse;
@@ -22,6 +23,8 @@ import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
+import org.xmlunit.diff.ComparisonResult;
+import org.xmlunit.diff.ComparisonType;
 import org.xmlunit.diff.Diff;
 
 public class GuiTest {
@@ -32,7 +35,7 @@ public class GuiTest {
   protected String projectName;
 
   protected String diagramName;
-  
+
   @BeforeClass
   public static void maximizeWorkbenchShell() {
     new WorkbenchShell().maximize();
@@ -61,14 +64,27 @@ public class GuiTest {
     DeleteUtils.forceProjectDeletion(projectExplorer.getProject(projectName),
         true);
   }
-  
+
   protected void assertDiagram(GEFEditor gefEditor, String resourcePath) {
     Diff diff = DiffBuilder
-        .compare(Input.fromStream(
-            this.getClass().getResourceAsStream(resourcePath)))
+        .compare(
+            Input.fromStream(this.getClass().getResourceAsStream(resourcePath)))
         .withTest(
             Input.fromFile(gefEditor.getAssociatedFile().getAbsolutePath()))
-        .build();
+        .withDifferenceEvaluator(((comparison, outcome) -> {
+          if (outcome == ComparisonResult.DIFFERENT
+              && comparison.getType() == ComparisonType.ATTR_VALUE
+              && comparison.getControlDetails().getXPath().endsWith("@x")) {
+            if (Math.abs(Integer
+                .parseInt((String) comparison.getControlDetails().getValue())
+                - Integer.parseInt(
+                    (String) comparison.getTestDetails().getValue())) < 2) {
+              return ComparisonResult.EQUAL;
+            }
+          }
+
+          return outcome;
+        })).build();
     assertFalse(diff.toString(), diff.hasDifferences());
   }
 }
