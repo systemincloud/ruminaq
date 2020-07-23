@@ -6,13 +6,17 @@
 
 package org.ruminaq.gui.api;
 
-import org.eclipse.graphiti.features.custom.ICustomFeature;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 
 /**
  * Service api providing Graphiti SelectionExtension.
  *
  * @author Marek Jagielski
  */
-public interface SelectionExtension
-    extends BestFeatureExtension<ICustomFeature> {
+public interface SelectionExtension {
+
+  boolean forPictogramElement(PictogramElement selection);
+
+  PictogramElement[] getSelections(PictogramElement selection);
+
 }

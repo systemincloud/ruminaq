@@ -178,9 +178,11 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 
   @Override
   public PictogramElement[] getSelections(PictogramElement selection) {
-    ServiceUtil
-    .getServicesAtLatestVersion(RuminaqFeatureProvider.class,
-        SelectionExtension.class).stream();
-    return super.getSelections(selection);
+    return ServiceUtil
+        .getServicesAtLatestVersion(RuminaqFeatureProvider.class,
+            SelectionExtension.class)
+        .stream().filter(ext -> ext.forPictogramElement(selection)).findFirst()
+        .map(ext -> ext.getSelections(selection))
+        .orElse(new PictogramElement[] { selection });
   }
 }
