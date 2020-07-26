@@ -10,12 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
 import org.eclipse.graphiti.datatypes.IDimension;
 import org.eclipse.graphiti.datatypes.ILocation;
 import org.eclipse.graphiti.mm.algorithms.AbstractText;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
@@ -44,10 +42,6 @@ public final class GuiUtil {
 
   private static final double ERROR_MARGIN = 1.5;
 
-  private static final int SHAPE_PADDING = 6;
-
-  private static final int TEXT_PADDING = 5;
-
   private static final String LINE_BREAK = "\n";
 
   private GuiUtil() {
@@ -56,7 +50,7 @@ public final class GuiUtil {
 
   /**
    * Euclidean distance to line determined by two points.
-   * 
+   *
    * @param a Point on line
    * @param b Point on line
    * @param p Any point
@@ -68,7 +62,7 @@ public final class GuiUtil {
 
   /**
    * Euclidean distance to section.
-   * 
+   *
    * @param a Point of the section
    * @param b Point of the section
    * @param p Any point
@@ -84,7 +78,7 @@ public final class GuiUtil {
 
   /**
    * Euclidean distance between points.
-   * 
+   *
    * @param a Point of the section
    * @param b Point of the section
    * @return distance between points
@@ -96,7 +90,7 @@ public final class GuiUtil {
 
   /**
    * Projection of Point on line determined by two points.
-   * 
+   *
    * @param a Point of the line
    * @param b Point of the line
    * @param p Any point
@@ -135,7 +129,7 @@ public final class GuiUtil {
   /**
    * Check if point lays in line with other two points. The distance should be
    * less than 1.
-   * 
+   *
    * @param a one point that lays on line
    * @param b second point that lays on line
    * @param p point to check if also lays on that line
@@ -147,7 +141,7 @@ public final class GuiUtil {
 
   /**
    * Check if point lays in line with other two points.
-   * 
+   *
    * @param a       one point that lays on line
    * @param b       second point that lays on line
    * @param p       point to check if also lays on that line
@@ -162,7 +156,7 @@ public final class GuiUtil {
 
   /**
    * Check if point lays on line and is between two points.
-   * 
+   *
    * @param a edge point of section
    * @param b edge point of section
    * @param p any point
@@ -208,104 +202,6 @@ public final class GuiUtil {
       return result;
     }
     return 0;
-  }
-
-  public static void onRightOfShape(AbstractText text,
-      ContainerShape labelContainer, int width, int height, int shapeX,
-      int shapeY, int preShapeX, int preShapeY) {
-    final int textHeight = getLabelHeight(text);
-    final int textWidth = getLabelWidth(text);
-
-    text.setRotation(0.0);
-
-    int currentLabelX = labelContainer.getGraphicsAlgorithm().getX();
-    int currentLabelY = labelContainer.getGraphicsAlgorithm().getY();
-
-    int newShapeX = shapeX + width;
-    int newShapeY = shapeY - ((textHeight + 2) >> 1) + (height >> 1);
-
-    if (currentLabelX > 0 && preShapeX > 0) {
-      newShapeX = currentLabelX + (shapeX - preShapeX);
-      newShapeY = currentLabelY + (shapeY - preShapeY);
-    }
-
-    IGaService gaService = Graphiti.getGaService();
-
-    text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-    text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-
-    gaService.setLocationAndSize(labelContainer.getGraphicsAlgorithm(),
-        newShapeX, newShapeY, textWidth + SHAPE_PADDING,
-        textHeight + SHAPE_PADDING);
-    gaService.setLocationAndSize(text, 0, 0, textWidth + TEXT_PADDING,
-        textHeight + TEXT_PADDING);
-  }
-
-  public static void onLeftOfShape(AbstractText text,
-      ContainerShape labelContainer, int width, int height, int shapeX,
-      int shapeY, int preShapeX, int preShapeY) {
-    final int textHeight = getLabelHeight(text);
-    final int textWidth = getLabelWidth(text);
-
-    text.setRotation(0.0);
-
-    int newShapeX = shapeX - textWidth - TEXT_PADDING;
-    int newShapeY = shapeY - ((textHeight + 2) >> 1) + (height >> 1);
-
-    IGaService gaService = Graphiti.getGaService();
-
-    text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-    text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-
-    gaService.setLocationAndSize(labelContainer.getGraphicsAlgorithm(),
-        newShapeX, newShapeY, textWidth + SHAPE_PADDING,
-        textHeight + SHAPE_PADDING);
-    gaService.setLocationAndSize(text, 0, 0, textWidth + TEXT_PADDING,
-        textHeight + TEXT_PADDING);
-  }
-
-  public static void onTopOfShape(AbstractText text,
-      ContainerShape labelContainer, int width, int height, int shapeX,
-      int shapeY, int preShapeX, int preShapeY) {
-    final int textHeight = getLabelHeight(text);
-    final int textWidth = getLabelWidth(text);
-
-    text.setRotation(-90.0);
-
-    int newShapeX = shapeX - ((textHeight + 2) >> 1) + (width >> 1);
-    int newShapeY = shapeY - textWidth - TEXT_PADDING;
-
-    IGaService gaService = Graphiti.getGaService();
-
-    gaService.setLocationAndSize(labelContainer.getGraphicsAlgorithm(),
-        newShapeX, newShapeY, textHeight + SHAPE_PADDING,
-        textWidth + SHAPE_PADDING);
-    gaService.setLocationAndSize(text, -(textWidth >> 1) + TEXT_PADDING, -3,
-        textWidth + SHAPE_PADDING, textWidth + SHAPE_PADDING);
-    text.setHorizontalAlignment(Orientation.ALIGNMENT_CENTER);
-    text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-  }
-
-  public static void onBottomOfShape(AbstractText text,
-      ContainerShape labelContainer, int width, int height, int shapeX,
-      int shapeY, int preShapeX, int preShapeY) {
-    final int textHeight = getLabelHeight(text);
-    final int textWidth = getLabelWidth(text);
-
-    text.setRotation(90.0);
-
-    int newShapeX = shapeX - ((textHeight) >> 1) + (width >> 1);
-    int newShapeY = shapeY + height;
-
-    IGaService gaService = Graphiti.getGaService();
-
-    gaService.setLocationAndSize(labelContainer.getGraphicsAlgorithm(),
-        newShapeX, newShapeY, textHeight, textWidth + SHAPE_PADDING);
-    gaService.setLocationAndSize(text, -(textWidth >> 1) + TEXT_PADDING,
-        TEXT_PADDING, textWidth + TEXT_PADDING, textWidth);
-    text.setVerticalAlignment(Orientation.ALIGNMENT_CENTER);
-    text.setHorizontalAlignment(Orientation.ALIGNMENT_RIGHT);
-
   }
 
   public static boolean almostEqual(int a, int b, int eps) {

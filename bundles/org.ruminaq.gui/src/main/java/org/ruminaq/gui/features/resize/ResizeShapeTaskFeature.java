@@ -7,7 +7,6 @@
 package org.ruminaq.gui.features.resize;
 
 import java.util.Optional;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
@@ -15,7 +14,6 @@ import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.features.move.MoveInternalPortFeature;
 import org.ruminaq.gui.model.GuiUtil;
 import org.ruminaq.gui.model.diagram.LabelShape;
@@ -24,7 +22,7 @@ import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
 
 /**
- * 
+ *
  * @author Marek Jagielski
  */
 public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
@@ -84,8 +82,7 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
     float h_ratio = (float) h / (float) h_before;
 
     for (Shape child : ((ContainerShape) shape).getChildren()) {
-      String isInternalPort = Graphiti.getPeService().getPropertyValue(child,
-          Constants.INTERNAL_PORT);
+      String isInternalPort = "false";
       if (Boolean.parseBoolean(isInternalPort)) {
         int dx = 0;
         int dy = 0;

@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.label;
 
 import java.util.Optional;
@@ -38,7 +39,8 @@ public class LabelShapeGA extends RectangleImpl {
   public LabelShapeGA(LabelShape shape) {
     this.shape = shape;
     this.text = Optional.of(this.shape.getLabeledShape())
-        .map(LabeledRuminaqShape::getModelObject).map(Text::new).orElseThrow();
+        .map(LabeledRuminaqShape::getModelObject).map(Text::new)
+        .orElseThrow();
     this.children = ECollections.asEList(text);
   }
 

@@ -42,6 +42,7 @@ public final class Text extends MultiTextImpl {
   /**
    * Label text. Text value is bind
    * with BaseElement id.
+   * @param parent
    *
    * @param modelObject ruminaq object
    */
