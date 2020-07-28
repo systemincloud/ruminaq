@@ -43,6 +43,10 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
     int getX();
 
     int getY();
+
+    int getWidth();
+
+    int getHeight();
   }
 
   private class Bottom implements Position {
@@ -57,6 +61,16 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
       return internalPortShape.getY() + internalPortShape.getHeight();
     }
 
+    @Override
+    public int getWidth() {
+      return text.getHeight();
+    }
+
+    @Override
+    public int getHeight() {
+      return text.getWidth();
+    }
+
   }
 
   private class Top implements Position {
@@ -68,7 +82,17 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
     @Override
     public int getY() {
-      return internalPortShape.getY() - text.getWidth() + 10;
+      return internalPortShape.getY() - text.getWidth();
+    }
+
+    @Override
+    public int getWidth() {
+      return text.getHeight();
+    }
+
+    @Override
+    public int getHeight() {
+      return text.getWidth();
     }
 
   }
@@ -85,6 +109,16 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
       return internalPortShape.getY() + (internalPortShape.getHeight() >> 1);
     }
 
+    @Override
+    public int getWidth() {
+      return text.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+      return text.getHeight();
+    }
+
   }
 
   private class Left implements Position {
@@ -99,6 +133,16 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
       return internalPortShape.getY() + (internalPortShape.getWidth() >> 1);
     }
 
+    @Override
+    public int getWidth() {
+      return text.getWidth();
+    }
+
+    @Override
+    public int getHeight() {
+      return text.getHeight();
+    }
+
   }
 
   private class RightTop implements Position {
@@ -110,6 +154,16 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
     @Override
     public int getY() {
+      return 0;
+    }
+
+    @Override
+    public int getWidth() {
+      return 0;
+    }
+
+    @Override
+    public int getHeight() {
       return 0;
     }
 
@@ -127,6 +181,16 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
       return 0;
     }
 
+    @Override
+    public int getWidth() {
+      return 0;
+    }
+
+    @Override
+    public int getHeight() {
+      return 0;
+    }
+
   }
 
   private class LeftTop implements Position {
@@ -141,6 +205,16 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
       return 0;
     }
 
+    @Override
+    public int getWidth() {
+      return 0;
+    }
+
+    @Override
+    public int getHeight() {
+      return 0;
+    }
+
   }
 
   private class LeftBottom implements Position {
@@ -152,6 +226,16 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
     @Override
     public int getY() {
+      return 0;
+    }
+
+    @Override
+    public int getWidth() {
+      return 0;
+    }
+
+    @Override
+    public int getHeight() {
       return 0;
     }
 
@@ -228,17 +312,17 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
   @Override
   public int getWidth() {
-    return text.getWidth();
+    return position.getWidth();
   }
 
   @Override
   public int getHeight() {
-    return text.getHeight();
+    return position.getHeight();
   }
 
   @Override
   public Integer getLineWidth() {
-    return 1;
+    return 0;
   }
 
   @Override
@@ -248,7 +332,7 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
   @Override
   public Boolean getLineVisible() {
-    return Boolean.TRUE;
+    return Boolean.FALSE;
   }
 
   @Override
