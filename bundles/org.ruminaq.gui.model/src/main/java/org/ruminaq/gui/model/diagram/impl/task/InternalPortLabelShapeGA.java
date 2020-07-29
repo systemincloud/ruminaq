@@ -7,35 +7,43 @@
 package org.ruminaq.gui.model.diagram.impl.task;
 
 import java.util.Optional;
-import org.eclipse.emf.common.util.ECollections;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.impl.RectangleImpl;
+import org.eclipse.graphiti.mm.algorithms.impl.TextImpl;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
-import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
+import org.eclipse.graphiti.mm.algorithms.styles.Font;
+import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
+import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory;
+import org.eclipse.graphiti.mm.algorithms.styles.StylesPackage;
+import org.eclipse.graphiti.services.IGaService;
+import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.ruminaq.gui.model.diagram.InternalPortLabelShape;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.gui.model.diagram.impl.Colors;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
-import org.ruminaq.gui.model.diagram.impl.label.Text;
+import org.ruminaq.model.ruminaq.BaseElement;
 
 /**
  * GraphicsAlgorithm for Label.
  *
  * @author Marek Jagielski
  */
-public class InternalPortLabelShapeGA extends RectangleImpl {
+public class InternalPortLabelShapeGA extends TextImpl {
 
-  private EList<GraphicsAlgorithm> children;
+  public static final Font FONT = StylesFactory.eINSTANCE.createFont();
+
+  static {
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Name(), IGaService.DEFAULT_FONT);
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Size(),
+        IGaService.DEFAULT_FONT_SIZE);
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Italic(), Boolean.FALSE);
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Bold(), Boolean.FALSE);
+  }
 
   private InternalPortLabelShape shape;
 
   private InternalPortShape internalPortShape;
-
-  private Text text;
 
   private Position position;
 
@@ -47,6 +55,8 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
     int getWidth();
 
     int getHeight();
+
+    Double getRotation();
   }
 
   private class Bottom implements Position {
@@ -63,38 +73,51 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
     @Override
     public int getWidth() {
-      return text.getHeight();
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getHeight();
     }
 
     @Override
     public int getHeight() {
-      return text.getWidth();
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getWidth();
     }
 
+    @Override
+    public Double getRotation() {
+      return 90.0;
+    }
   }
 
   private class Top implements Position {
 
     @Override
     public int getX() {
-      return internalPortShape.getX() - internalPortShape.getWidth();
+      return internalPortShape.getX()
+          - ((getWidth() - internalPortShape.getWidth()) >> 1);
     }
 
     @Override
     public int getY() {
-      return internalPortShape.getY() - text.getWidth();
+      return internalPortShape.getY() - getHeight();
     }
 
     @Override
     public int getWidth() {
-      return text.getHeight();
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getHeight();
     }
 
     @Override
     public int getHeight() {
-      return text.getWidth();
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getWidth();
     }
 
+    @Override
+    public Double getRotation() {
+      return -90.0;
+    }
   }
 
   private class Right implements Position {
@@ -111,21 +134,27 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
     @Override
     public int getWidth() {
-      return text.getWidth();
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getWidth();
     }
 
     @Override
     public int getHeight() {
-      return text.getHeight();
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getHeight();
     }
 
+    @Override
+    public Double getRotation() {
+      return 0.0;
+    }
   }
 
   private class Left implements Position {
 
     @Override
     public int getX() {
-      return internalPortShape.getX() + text.getWidth();
+      return internalPortShape.getX() + getWidth();
     }
 
     @Override
@@ -135,14 +164,20 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
     @Override
     public int getWidth() {
-      return text.getWidth();
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getWidth();
     }
 
     @Override
     public int getHeight() {
-      return text.getHeight();
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getHeight();
     }
 
+    @Override
+    public Double getRotation() {
+      return 0.0;
+    }
   }
 
   private class RightTop implements Position {
@@ -159,12 +194,19 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
     @Override
     public int getWidth() {
-      return 0;
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getWidth();
     }
 
     @Override
     public int getHeight() {
-      return 0;
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getHeight();
+    }
+
+    @Override
+    public Double getRotation() {
+      return 45.0;
     }
 
   }
@@ -183,12 +225,19 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
     @Override
     public int getWidth() {
-      return 0;
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getWidth();
     }
 
     @Override
     public int getHeight() {
-      return 0;
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getHeight();
+    }
+
+    @Override
+    public Double getRotation() {
+      return 45.0;
     }
 
   }
@@ -207,12 +256,19 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
     @Override
     public int getWidth() {
-      return 0;
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getWidth();
     }
 
     @Override
     public int getHeight() {
-      return 0;
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getHeight();
+    }
+
+    @Override
+    public Double getRotation() {
+      return 45.0;
     }
 
   }
@@ -231,12 +287,19 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
     @Override
     public int getWidth() {
-      return 0;
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getWidth();
     }
 
     @Override
     public int getHeight() {
-      return 0;
+      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+          .getHeight();
+    }
+
+    @Override
+    public Double getRotation() {
+      return 45.0;
     }
 
   }
@@ -249,9 +312,6 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
   public InternalPortLabelShapeGA(InternalPortLabelShape shape) {
     this.shape = shape;
     this.internalPortShape = shape.getInternalPort();
-    this.text = Optional.of(this.shape.getInternalPort())
-        .map(LabeledRuminaqShape::getModelObject).map(Text::new).orElseThrow();
-    this.children = ECollections.asEList(text);
     setPosition();
   }
 
@@ -260,44 +320,35 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
 
     if (internalPortShape.getX() == 0 && internalPortShape.getY() == 0) {
       this.position = new RightBottom();
-      this.text.setRotation(45.0);
     } else if (internalPortShape.getX() == 0 && internalPortShape
         .getY() == taskShape.getHeight() - internalPortShape.getHeight()) {
       this.position = new RightTop();
-      this.text.setRotation(45.0);
     } else if (internalPortShape.getX() == taskShape.getWidth()
         - internalPortShape.getWidth() && internalPortShape.getY() == 0) {
       this.position = new LeftBottom();
-      this.text.setRotation(45.0);
     } else if (internalPortShape.getX() == taskShape.getWidth()
         - internalPortShape.getWidth()
         && internalPortShape.getY() == taskShape.getHeight()
             - internalPortShape.getHeight()) {
       this.position = new LeftTop();
-      this.text.setRotation(45.0);
     } else if (internalPortShape.getX() == 0) {
       this.position = new Right();
-      this.text.setRotation(0.0);
     } else if (internalPortShape.getX() == taskShape.getWidth()
         - internalPortShape.getWidth()) {
       this.position = new Left();
-      this.text.setRotation(0.0);
     } else if (internalPortShape.getY() == 0) {
       this.position = new Bottom();
-      this.text.setRotation(90.0);
     } else if (internalPortShape.getY() == taskShape.getHeight()
         - internalPortShape.getHeight()) {
       this.position = new Top();
-      this.text.setRotation(-90.0);
     }
   }
 
   @Override
-  public void setX(int newX) {
-  }
-
-  @Override
-  public void setY(int newY) {
+  public String getValue() {
+    return Optional.of(this.shape.getInternalPort())
+        .map(LabeledRuminaqShape::getModelObject).map(BaseElement::getId)
+        .orElse("");
   }
 
   @Override
@@ -321,18 +372,23 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
   }
 
   @Override
-  public Integer getLineWidth() {
-    return 0;
+  public Double getRotation() {
+    return position.getRotation();
   }
 
   @Override
-  public LineStyle getLineStyle() {
-    return LineStyle.SOLID;
+  public Font getFont() {
+    return FONT;
   }
 
   @Override
-  public Boolean getLineVisible() {
-    return Boolean.FALSE;
+  public Orientation getHorizontalAlignment() {
+    return Orientation.UNSPECIFIED;
+  }
+
+  @Override
+  public Orientation getVerticalAlignment() {
+    return Orientation.UNSPECIFIED;
   }
 
   @Override
@@ -346,8 +402,13 @@ public class InternalPortLabelShapeGA extends RectangleImpl {
   }
 
   @Override
-  public EList<GraphicsAlgorithm> getGraphicsAlgorithmChildren() {
-    return ECollections.unmodifiableEList(children);
+  public Double getTransparency() {
+    return super.getTransparency();
+  }
+
+  @Override
+  public Boolean getFilled() {
+    return Boolean.TRUE;
   }
 
   @Override
