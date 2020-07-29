@@ -67,37 +67,29 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
 
   @Override
   public void postMoveShape(IMoveShapeContext context) {
-//    Shape shape = context.getShape();
-//
-//    for (EObject o : shape.getLink().getBusinessObjects()) {
-//      if (o instanceof Shape && Graphiti.getPeService()
-//          .getPropertyValue((Shape) o, Constants.PORT_LABEL_PROPERTY) != null) {
-//        ContainerShape textContainerShape = (ContainerShape) o;
-//        MultiText text = (MultiText) textContainerShape.getGraphicsAlgorithm()
-//            .getGraphicsAlgorithmChildren().get(0);
-//        int x = context.getPictogramElement().getGraphicsAlgorithm().getX();
-//        int y = context.getPictogramElement().getGraphicsAlgorithm().getY();
-//        int W = context.getTargetContainer().getGraphicsAlgorithm().getWidth();
-//        int H = context.getTargetContainer().getGraphicsAlgorithm().getHeight();
-//        int w = context.getPictogramElement().getGraphicsAlgorithm().getWidth();
-//        int h = context.getPictogramElement().getGraphicsAlgorithm()
-//            .getHeight();
-//
-//        if (x < EPSILON) {
-//          context.getPictogramElement().getGraphicsAlgorithm().setX(0);
-//          GuiUtil.onRightOfShape(text, textContainerShape, w, h, 0, y, 0, 0);
-//        } else if (GuiUtil.almostEqualRight(W - w, x, EPSILON)) {
-//          context.getPictogramElement().getGraphicsAlgorithm().setX(W - w);
-//          GuiUtil.onLeftOfShape(text, textContainerShape, w, h, W - w, y, 0, 0);
-//        } else if (y < EPSILON) {
-//          context.getPictogramElement().getGraphicsAlgorithm().setY(0);
-//          GuiUtil.onBottomOfShape(text, textContainerShape, w, h, x, 0, 0, 0);
-//        } else if (GuiUtil.almostEqualRight(H - h, y, EPSILON)) {
-//          context.getPictogramElement().getGraphicsAlgorithm().setY(H - h);
-//          GuiUtil.onTopOfShape(text, textContainerShape, w, h, x, H - h, 0, 0);
-//        }
-//
-//      }
-//    }
+    InternalPortShape ips = shapeFromContext(context);
+
+    int x = ips.getX();
+    int y = ips.getY();
+    int w = ips.getWidth();
+    int h = ips.getHeight();
+    int W = ips.getTask().getWidth();
+    int H = ips.getTask().getHeight();
+
+    if (x < EPSILON) {
+      ips.setX(0);
+    }
+
+    if (GuiUtil.almostEqualRight(W - w, x, EPSILON)) {
+      ips.setX(W - w);
+    }
+
+    if (y < EPSILON) {
+      ips.setY(0);
+    }
+
+    if (GuiUtil.almostEqualRight(H - h, y, EPSILON)) {
+      ips.setY(H - h);
+    }
   }
 }
