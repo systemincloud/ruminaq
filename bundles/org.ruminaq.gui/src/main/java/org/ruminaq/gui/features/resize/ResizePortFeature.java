@@ -9,19 +9,21 @@ package org.ruminaq.gui.features.resize;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.resize.ResizePortFeature.Filter;
-import org.ruminaq.gui.model.diagram.PortShape;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.Port;
 
 /**
  * Port can't be resized.
- * 
+ *
  * @author Marek Jagielski
  */
 @FeatureFilter(Filter.class)
 public class ResizePortFeature extends ResizeShapeForbiddenFeature {
 
-  public static class Filter extends ResizeFilter<PortShape> {
-    public Filter() {
-      super(PortShape.class);
+  public static class Filter extends AbstractResizeFeatureFilter {
+    @Override
+    public Class<? extends BaseElement> forBusinessObject() {
+      return Port.class;
     }
   }
 

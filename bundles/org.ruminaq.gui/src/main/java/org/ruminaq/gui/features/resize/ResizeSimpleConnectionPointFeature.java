@@ -9,19 +9,29 @@ package org.ruminaq.gui.features.resize;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.resize.ResizeSimpleConnectionPointFeature.Filter;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.NoElement;
 
 /**
- * 
+ *
  * @author Marek Jagielski
  */
 @FeatureFilter(Filter.class)
 public class ResizeSimpleConnectionPointFeature
     extends ResizeShapeForbiddenFeature {
 
-  public static class Filter extends ResizeFilter<SimpleConnectionPointShape> {
-    public Filter() {
-      super(SimpleConnectionPointShape.class);
+
+  public static class Filter extends AbstractResizeFeatureFilter {
+    @Override
+    public Class<? extends RuminaqShape> forShape() {
+      return SimpleConnectionPointShape.class;
+    }
+
+    @Override
+    public Class<? extends BaseElement> forBusinessObject() {
+      return NoElement.class;
     }
   }
 

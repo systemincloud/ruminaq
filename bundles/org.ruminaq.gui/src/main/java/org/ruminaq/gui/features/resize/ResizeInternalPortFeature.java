@@ -9,19 +9,21 @@ package org.ruminaq.gui.features.resize;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.resize.ResizeInternalPortFeature.Filter;
-import org.ruminaq.gui.model.diagram.InternalPortShape;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.InternalPort;
 
 /**
  * InternalPort can't be resized.
- * 
+ *
  * @author Marek Jagielski
  */
 @FeatureFilter(Filter.class)
 public class ResizeInternalPortFeature extends ResizeShapeForbiddenFeature {
 
-  public static class Filter extends ResizeFilter<InternalPortShape> {
-    public Filter() {
-      super(InternalPortShape.class);
+  public static class Filter extends AbstractResizeFeatureFilter {
+    @Override
+    public Class<? extends BaseElement> forBusinessObject() {
+      return InternalPort.class;
     }
   }
 
