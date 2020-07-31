@@ -6,30 +6,41 @@
 
 package org.ruminaq.gui.features.directediting;
 
+import java.util.Optional;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.impl.AbstractDirectEditingFeature;
-import org.eclipse.graphiti.mm.algorithms.MultiText;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.directediting.DirectEditLabelFeature.Filter;
+import org.ruminaq.gui.features.resize.AbstractResizeFeatureFilter;
 import org.ruminaq.gui.model.diagram.LabelShape;
+import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.NoElement;
 
 @FeatureFilter(Filter.class)
 public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
 
-  public static class Filter implements FeaturePredicate<IContext> {
+  public static class Filter extends AbstractDirectEditingFeatureFilter {
     @Override
-    public boolean test(IContext context) {
-      IDirectEditingContext directEditingContext = (IDirectEditingContext) context;
-      return LabelShape.class
-          .isInstance(directEditingContext.getPictogramElement());
+    public Class<? extends RuminaqShape> forShape() {
+      return LabelShape.class;
     }
+
+    @Override
+    public Class<? extends BaseElement> forBusinessObject() {
+      return NoElement.class;
+    }
+  }
+
+  protected static LabelShape shapeFromContext(IDirectEditingContext context) {
+    return Optional.of(context)
+        .map(AbstractResizeFeatureFilter.getPictogramElement)
+        .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
+        .orElseThrow();
   }
 
   public DirectEditLabelFeature(IFeatureProvider fp) {
@@ -53,43 +64,34 @@ public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
 
   @Override
   public String getInitialValue(IDirectEditingContext context) {
-    BaseElement be = (BaseElement) getBusinessObjectForPictogramElement(
-        context.getPictogramElement());
-    return be.getId();
+    return shapeFromContext(context).getLabeledShape().getModelObject().getId();
   }
 
   @Override
   public String checkValueValid(String value, IDirectEditingContext context) {
-    if (value.length() < 1)
+    if (value.length() < 1) {
       return "Please enter any text as element id.";
-    else if (value.contains("\n"))
+    } else if (value.contains("\n")) {
       return "Line breakes are not allowed in class names.";
-    else if (hasId(getDiagram(), context.getPictogramElement(), value))
+    } else if (hasId(getDiagram(), context.getPictogramElement(), value)) {
       return "Model has already id " + value + ".";
-    else
+    } else {
       return null;
+    }
   }
 
   public static boolean hasId(Diagram diagram, PictogramElement pe,
       String value) {
-    for (Shape s : diagram.getChildren()) {
-      if (s == pe)
-        continue;
-      if (LabelShape.class.isInstance(s)) {
-        if (value.equals(((MultiText) s.getGraphicsAlgorithm()
-            .getGraphicsAlgorithmChildren().get(0)).getValue()))
-          return true;
-      }
-    }
-
-    return false;
+    return diagram.getChildren().stream().filter(s -> pe != s)
+        .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
+        .map(LabelShape::getLabeledShape)
+        .map(LabeledRuminaqShape::getModelObject).map(BaseElement::getId)
+        .anyMatch(value::equals);
   }
 
   @Override
   public void setValue(String value, IDirectEditingContext context) {
-    BaseElement be = (BaseElement) getBusinessObjectForPictogramElement(
-        context.getPictogramElement());
-    be.setId(value);
+    shapeFromContext(context).getLabeledShape().getModelObject().setId(value);
     updatePictogramElement(context.getPictogramElement());
   }
 }
