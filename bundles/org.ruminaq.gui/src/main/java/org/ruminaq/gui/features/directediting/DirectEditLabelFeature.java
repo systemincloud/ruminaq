@@ -38,7 +38,7 @@ public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
 
   protected static LabelShape shapeFromContext(IDirectEditingContext context) {
     return Optional.of(context)
-        .map(AbstractResizeFeatureFilter.getPictogramElement)
+        .map(AbstractDirectEditingFeatureFilter.getPictogramElement)
         .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
         .orElseThrow();
   }
