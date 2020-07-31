@@ -14,7 +14,6 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.directediting.DirectEditLabelFeature.Filter;
-import org.ruminaq.gui.features.resize.AbstractResizeFeatureFilter;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
