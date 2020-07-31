@@ -264,14 +264,14 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="internalPortLabel" eType="#//InternalPortLabelShape"
         transient="true" eOpposite="#//InternalPortLabelShape/internalPort"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="InternalInputPortShape" eSuperTypes="#//InternalPortShape">
+  <eClassifiers xsi:type="ecore:EClass" name="InternalInputPortShape" eSuperTypes="#//InternalPortShape #//FlowTargetShape">
     <eOperations name="getGraphicsAlgorithm" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//algorithms/GraphicsAlgorithm">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
       </eAnnotations>
     </eOperations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="InternalOutputPortShape" eSuperTypes="#//InternalPortShape">
+  <eClassifiers xsi:type="ecore:EClass" name="InternalOutputPortShape" eSuperTypes="#//InternalPortShape #//FlowSourceShape">
     <eOperations name="getGraphicsAlgorithm" eType="ecore:EClass platform:/resource/org.eclipse.graphiti.mm/model/graphiti.ecore#//algorithms/GraphicsAlgorithm">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
