@@ -19,7 +19,6 @@ import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.ruminaq.gui.model.diagram.InternalPortLabelShape;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
-import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.gui.model.diagram.impl.Colors;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
 import org.ruminaq.model.ruminaq.BaseElement;
@@ -48,6 +47,8 @@ public class InternalPortLabelShapeGA extends TextImpl {
   private Position position;
 
   private interface Position {
+    boolean isInPosition();
+
     int getX();
 
     int getY();
@@ -62,13 +63,21 @@ public class InternalPortLabelShapeGA extends TextImpl {
   private class Bottom implements Position {
 
     @Override
+    public boolean isInPosition() {
+      return internalPortShape.getY() == 0 && internalPortShape.getX() != 0
+          && internalPortShape.getX() != internalPortShape.getTask().getWidth()
+              - internalPortShape.getWidth();
+    }
+
+    @Override
     public int getX() {
-      return internalPortShape.getX() + (internalPortShape.getWidth() >> 1);
+      return internalPortShape.getX()
+          - ((getWidth() - internalPortShape.getWidth()) >> 1);
     }
 
     @Override
     public int getY() {
-      return internalPortShape.getY() + internalPortShape.getHeight();
+      return internalPortShape.getHeight();
     }
 
     @Override
@@ -85,11 +94,19 @@ public class InternalPortLabelShapeGA extends TextImpl {
 
     @Override
     public Double getRotation() {
-      return 90.0;
+      return -90.0;
     }
   }
 
   private class Top implements Position {
+
+    @Override
+    public boolean isInPosition() {
+      return internalPortShape.getY() == internalPortShape.getTask().getHeight()
+          - internalPortShape.getHeight() && internalPortShape.getX() != 0
+          && internalPortShape.getX() != internalPortShape.getTask().getWidth()
+              - internalPortShape.getWidth();
+    }
 
     @Override
     public int getX() {
@@ -123,13 +140,21 @@ public class InternalPortLabelShapeGA extends TextImpl {
   private class Right implements Position {
 
     @Override
+    public boolean isInPosition() {
+      return internalPortShape.getX() == 0 && internalPortShape.getY() != 0
+          && internalPortShape.getY() != internalPortShape.getTask().getHeight()
+              - internalPortShape.getHeight();
+    }
+
+    @Override
     public int getX() {
-      return internalPortShape.getX() + internalPortShape.getWidth();
+      return internalPortShape.getWidth();
     }
 
     @Override
     public int getY() {
-      return internalPortShape.getY() + (internalPortShape.getHeight() >> 1);
+      return internalPortShape.getY()
+          - (getHeight() - internalPortShape.getHeight() >> 1);
     }
 
     @Override
@@ -153,13 +178,22 @@ public class InternalPortLabelShapeGA extends TextImpl {
   private class Left implements Position {
 
     @Override
+    public boolean isInPosition() {
+      return internalPortShape.getX() == internalPortShape.getTask().getWidth()
+          - internalPortShape.getWidth()
+          && internalPortShape.getY() != internalPortShape.getTask().getHeight()
+              - internalPortShape.getHeight();
+    }
+
+    @Override
     public int getX() {
-      return internalPortShape.getX() + getWidth();
+      return internalPortShape.getX() - getWidth();
     }
 
     @Override
     public int getY() {
-      return internalPortShape.getY() + (internalPortShape.getWidth() >> 1);
+      return internalPortShape.getY()
+          - (getHeight() - internalPortShape.getWidth() >> 1);
     }
 
     @Override
@@ -183,13 +217,20 @@ public class InternalPortLabelShapeGA extends TextImpl {
   private class RightTop implements Position {
 
     @Override
+    public boolean isInPosition() {
+      return internalPortShape.getX() == 0
+          && internalPortShape.getY() == internalPortShape.getTask().getHeight()
+              - internalPortShape.getHeight();
+    }
+
+    @Override
     public int getX() {
-      return 0;
+      return internalPortShape.getWidth();
     }
 
     @Override
     public int getY() {
-      return 0;
+      return internalPortShape.getY() - getHeight();
     }
 
     @Override
@@ -206,7 +247,7 @@ public class InternalPortLabelShapeGA extends TextImpl {
 
     @Override
     public Double getRotation() {
-      return 45.0;
+      return 0.0;
     }
 
   }
@@ -214,13 +255,18 @@ public class InternalPortLabelShapeGA extends TextImpl {
   private class RightBottom implements Position {
 
     @Override
+    public boolean isInPosition() {
+      return internalPortShape.getX() == 0 && internalPortShape.getY() == 0;
+    }
+
+    @Override
     public int getX() {
-      return 0;
+      return internalPortShape.getWidth();
     }
 
     @Override
     public int getY() {
-      return 0;
+      return internalPortShape.getHeight();
     }
 
     @Override
@@ -237,7 +283,7 @@ public class InternalPortLabelShapeGA extends TextImpl {
 
     @Override
     public Double getRotation() {
-      return 45.0;
+      return 0.0;
     }
 
   }
@@ -245,13 +291,21 @@ public class InternalPortLabelShapeGA extends TextImpl {
   private class LeftTop implements Position {
 
     @Override
+    public boolean isInPosition() {
+      return internalPortShape.getX() == internalPortShape.getTask().getWidth()
+          - internalPortShape.getWidth()
+          && internalPortShape.getY() == internalPortShape.getTask().getHeight()
+              - internalPortShape.getHeight();
+    }
+
+    @Override
     public int getX() {
-      return 0;
+      return internalPortShape.getX() - getWidth();
     }
 
     @Override
     public int getY() {
-      return 0;
+      return internalPortShape.getY() - getHeight();
     }
 
     @Override
@@ -268,7 +322,7 @@ public class InternalPortLabelShapeGA extends TextImpl {
 
     @Override
     public Double getRotation() {
-      return 45.0;
+      return 0.0;
     }
 
   }
@@ -276,13 +330,19 @@ public class InternalPortLabelShapeGA extends TextImpl {
   private class LeftBottom implements Position {
 
     @Override
+    public boolean isInPosition() {
+      return internalPortShape.getX() == internalPortShape.getTask().getWidth()
+          - internalPortShape.getWidth() && internalPortShape.getY() == 0;
+    }
+
+    @Override
     public int getX() {
-      return 0;
+      return internalPortShape.getX() - getWidth();
     }
 
     @Override
     public int getY() {
-      return 0;
+      return internalPortShape.getHeight();
     }
 
     @Override
@@ -299,7 +359,7 @@ public class InternalPortLabelShapeGA extends TextImpl {
 
     @Override
     public Double getRotation() {
-      return 45.0;
+      return 0.0;
     }
 
   }
@@ -312,36 +372,31 @@ public class InternalPortLabelShapeGA extends TextImpl {
   public InternalPortLabelShapeGA(InternalPortLabelShape shape) {
     this.shape = shape;
     this.internalPortShape = shape.getInternalPort();
-    setPosition();
+    updatePosition();
   }
 
-  private void setPosition() {
-    TaskShape taskShape = internalPortShape.getTask();
-
-    if (internalPortShape.getX() == 0 && internalPortShape.getY() == 0) {
+  public void updatePosition() {
+    if (new RightBottom().isInPosition()) {
       this.position = new RightBottom();
-    } else if (internalPortShape.getX() == 0 && internalPortShape
-        .getY() == taskShape.getHeight() - internalPortShape.getHeight()) {
+    } else if (new RightTop().isInPosition()) {
       this.position = new RightTop();
-    } else if (internalPortShape.getX() == taskShape.getWidth()
-        - internalPortShape.getWidth() && internalPortShape.getY() == 0) {
+    } else if (new LeftBottom().isInPosition()) {
       this.position = new LeftBottom();
-    } else if (internalPortShape.getX() == taskShape.getWidth()
-        - internalPortShape.getWidth()
-        && internalPortShape.getY() == taskShape.getHeight()
-            - internalPortShape.getHeight()) {
+    } else if (new LeftTop().isInPosition()) {
       this.position = new LeftTop();
-    } else if (internalPortShape.getX() == 0) {
+    } else if (new Right().isInPosition()) {
       this.position = new Right();
-    } else if (internalPortShape.getX() == taskShape.getWidth()
-        - internalPortShape.getWidth()) {
+    } else if (new Left().isInPosition()) {
       this.position = new Left();
-    } else if (internalPortShape.getY() == 0) {
+    } else if (new Bottom().isInPosition()) {
       this.position = new Bottom();
-    } else if (internalPortShape.getY() == taskShape.getHeight()
-        - internalPortShape.getHeight()) {
+    } else if (new Top().isInPosition()) {
       this.position = new Top();
     }
+  }
+
+  public boolean isInPosition() {
+    return position.isInPosition();
   }
 
   @Override

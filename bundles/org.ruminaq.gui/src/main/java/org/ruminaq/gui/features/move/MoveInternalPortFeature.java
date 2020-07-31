@@ -91,5 +91,8 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
     if (GuiUtil.almostEqualRight(H - h, y, EPSILON)) {
       ips.setY(H - h);
     }
+
+    updatePictogramElement(ips.getInternalPortLabel());
+    getDiagramBehavior().refresh();
   }
 }
