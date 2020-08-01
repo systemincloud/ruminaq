@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.simpleconnection;
 
 import java.util.AbstractMap.SimpleEntry;
@@ -16,6 +17,7 @@ import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory;
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.ruminaq.gui.model.GuiUtil;
+import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 
@@ -32,7 +34,7 @@ public final class SimpleConnectionUtil {
 
   /**
    * Euclidean distance of point to connection.
-   * 
+   *
    * @param scs FreeFormConnection that is on RuminaqDiagram
    * @param x   point's coordinate
    * @param y   point's coordinate
@@ -57,14 +59,14 @@ public final class SimpleConnectionUtil {
 
   /**
    * Euclidean projection of point on connection.
-   * 
+   *
    * @param scs FreeFormConnection that is on RuminaqDiagram
    * @param x   point's coordinate
    * @param y   point's coordinate
    * @return euclidean distance
    */
-  public static Optional<Point> projectOnConnection(FreeFormConnection scs, int x,
-      int y) {
+  public static Optional<Point> projectOnConnection(FreeFormConnection scs,
+      int x, int y) {
     Point point = GuiUtil.createPoint(x, y);
 
     List<Point> points = getBendpointsWithEndings(scs);
@@ -85,11 +87,12 @@ public final class SimpleConnectionUtil {
 
   /**
    * List of bendpoints with starting and ending points.
-   * 
+   *
    * @param ffc connection shape
    * @return list of Points
    */
-  public static LinkedList<Point> getBendpointsWithEndings(FreeFormConnection ffc) {
+  public static LinkedList<Point> getBendpointsWithEndings(
+      FreeFormConnection ffc) {
     Point startPoint = StylesFactory.eINSTANCE.createPoint();
     Optional<RuminaqShape> start = Optional.of(ffc.getStart().getParent())
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast);
@@ -113,6 +116,8 @@ public final class SimpleConnectionUtil {
     int xTmp = ruminaqShape.getX() + (ruminaqShape.getWidth() >> 1);
     if (ruminaqShape.getContainer() instanceof RuminaqDiagram) {
       return xTmp;
+    } else if (ruminaqShape instanceof InternalPortShape) {
+      return xOnDiagram(((InternalPortShape) ruminaqShape).getTask());
     } else {
       return xTmp + xOnDiagram(ruminaqShape.getParent());
     }
@@ -122,8 +127,10 @@ public final class SimpleConnectionUtil {
     int yTmp = ruminaqShape.getY() + (ruminaqShape.getHeight() >> 1);
     if (ruminaqShape.getContainer() instanceof RuminaqDiagram) {
       return yTmp;
+    } else if (ruminaqShape instanceof InternalPortShape) {
+      return yOnDiagram(((InternalPortShape) ruminaqShape).getTask());
     } else {
-      return yTmp + xOnDiagram(ruminaqShape.getParent());
+      return yTmp + yOnDiagram(ruminaqShape.getParent());
     }
   }
 

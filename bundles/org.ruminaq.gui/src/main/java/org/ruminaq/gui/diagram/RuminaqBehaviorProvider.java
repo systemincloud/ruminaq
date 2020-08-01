@@ -10,9 +10,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Stream;
-
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.graphiti.datatypes.IRectangle;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.context.IDoubleClickContext;
@@ -115,14 +113,15 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
         .stream().forEach(e -> data.getDomainSpecificContextButtons()
             .addAll(e.getContextButtonPad(getFeatureProvider(), context)));
 
-    data.getPadLocation().setRectangle(ServiceUtil
-        .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
-            ContextButtonPadLocationExtension.class,
-            () -> Arrays.asList(getFeatureProvider(), context))
-        .stream().findFirst()
-        .orElse(
-            (IRectangle rectangle) -> data.getPadLocation().getRectangleCopy())
-        .getPadLocation(data.getPadLocation().getRectangleCopy()));
+    data.getPadLocation()
+        .setRectangle(ServiceUtil
+            .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
+                ContextButtonPadLocationExtension.class,
+                () -> Arrays.asList(getFeatureProvider(), context))
+            .stream().findFirst()
+            .orElse(
+                (ctx, rectangle) -> data.getPadLocation().getRectangleCopy())
+            .getPadLocation(context, data.getPadLocation().getRectangleCopy()));
 
     return data;
   }

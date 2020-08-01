@@ -7,6 +7,7 @@
 package org.ruminaq.gui.api;
 
 import org.eclipse.graphiti.datatypes.IRectangle;
+import org.eclipse.graphiti.features.context.IPictogramElementContext;
 
 /**
  * Service api providing ContextButtonPadLocation.
@@ -18,8 +19,9 @@ public interface ContextButtonPadLocationExtension {
   /**
    * Return a new position of pad icon menu based on actual position.
    *
+   * @param context IPictogramElementContext
    * @param rectangle initial position of pad menu
    * @return position of pad menu
    */
-  IRectangle getPadLocation(IRectangle rectangle);
+  IRectangle getPadLocation(IPictogramElementContext context, IRectangle rectangle);
 }

@@ -21,7 +21,7 @@ import org.ruminaq.util.ServiceFilterArgs;
 
 /**
  * Where to place context pad on SimpleConnectionPointShape.
- * 
+ *
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=5" })
@@ -44,7 +44,8 @@ public class ContextButtonPadConnectionPointTool
   }
 
   @Override
-  public IRectangle getPadLocation(IRectangle rectangle) {
+  public IRectangle getPadLocation(IPictogramElementContext context,
+      IRectangle rectangle) {
     RectangleImpl newRectangle = new RectangleImpl(rectangle);
     newRectangle.setHeight(HEIGHT);
     return newRectangle;

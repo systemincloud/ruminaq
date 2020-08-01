@@ -23,7 +23,7 @@ import org.ruminaq.util.ServiceFilterArgs;
 
 /**
  * Where to place context pad on Port.
- * 
+ *
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=5" })
@@ -47,7 +47,8 @@ public class ContextButtonPadPortTool
   private static final int PAD_LOCATION = 30;
 
   @Override
-  public IRectangle getPadLocation(IRectangle rectangle) {
+  public IRectangle getPadLocation(IPictogramElementContext context,
+      IRectangle rectangle) {
     RectangleImpl ret = new RectangleImpl(rectangle);
     ret.setHeight(PAD_LOCATION);
     return ret;

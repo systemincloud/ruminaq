@@ -115,10 +115,12 @@
     <genClasses ecoreClass="model.ecore#//InternalInputPortShape">
       <genOperations ecoreOperation="model.ecore#//InternalInputPortShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+      <genOperations ecoreOperation="model.ecore#//InternalInputPortShape/getAnchors" body="return AnchorsFactory.INSTANCE.getAnchors(this);"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//InternalOutputPortShape">
       <genOperations ecoreOperation="model.ecore#//InternalOutputPortShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
+      <genOperations ecoreOperation="model.ecore#//InternalOutputPortShape/getAnchors" body="return AnchorsFactory.INSTANCE.getAnchors(this);"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//InternalPortLabelShape">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//InternalPortLabelShape/internalPort"/>
