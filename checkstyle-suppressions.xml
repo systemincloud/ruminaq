@@ -1,14 +1,16 @@
 <?xml version="1.0"?>
- 
+
 <!DOCTYPE suppressions PUBLIC
      "-//Checkstyle//DTD SuppressionFilter Configuration 1.0//EN"
      "https://checkstyle.org/dtds/suppressions_1_0.dtd">
-     
+
 <suppressions>
   <suppress checks="MethodNameCheck"
              files=".*"/>
   <suppress checks="LocalVariableNameCheck"
              files=".*"/>
   <suppress checks="ParameterName"
+             files=".*"/>
+  <suppress checks="CustomImportOrder"
              files=".*"/>
 </suppressions>
