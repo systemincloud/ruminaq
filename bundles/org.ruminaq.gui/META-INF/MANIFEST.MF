@@ -111,6 +111,7 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextBut
  OSGI-INF/org.ruminaq.gui.features.directediting.DirectEditingFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.copy.CopyFeaturesImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.create.CreateFeaturesImpl.xml,
+ OSGI-INF/org.ruminaq.gui.features.selection.InternalPortSelectionImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.resize.ResizeShapeFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.move.MoveFeatureImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.paste.PasteElementFeatures.xml,
@@ -121,5 +122,4 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextBut
  OSGI-INF/org.ruminaq.gui.features.doubleclick.DoubleClickFeatureImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.contextmenu.CreateSimpleConnectionPointContextMenu.xml,
  OSGI-INF/org.ruminaq.gui.features.custom.CustomFeatures.xml,
- OSGI-INF/org.ruminaq.gui.features.update.UpdateFeatureImpl.xml,
- OSGI-INF/org.ruminaq.gui.features.selection.InternalPortSelectionImpl.xml
+ OSGI-INF/org.ruminaq.gui.features.update.UpdateFeatureImpl.xml

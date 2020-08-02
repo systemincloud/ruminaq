@@ -88,8 +88,6 @@
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
       <genOperations ecoreOperation="model.ecore#//SimpleConnectionPointShape/getAnchors"
           body="return AnchorsFactory.INSTANCE.getAnchors(this);"/>
-      <genOperations ecoreOperation="model.ecore#//SimpleConnectionPointShape/getModelObject"
-          body="return ((RuminaqShapeImpl) getAnchors().get(0).getIncomingConnections().get(0).getStart().getParent()).getModelObject();"/>
       <genOperations ecoreOperation="model.ecore#//SimpleConnectionPointShape/setCenteredX"
           body="setX(x - (getPointSize() >> 1));">
         <genParameters ecoreParameter="model.ecore#//SimpleConnectionPointShape/setCenteredX/x"/>

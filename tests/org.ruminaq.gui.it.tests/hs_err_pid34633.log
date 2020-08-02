@@ -1,0 +1,15 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f5c979980ad, pid=34633, tid=34650
+#
+# JRE version: OpenJDK Runtime Environment (14.0.2+12) (build 14.0.2+12-Ubuntu-1)
+# Java VM: OpenJDK 64-Bit Server VM (14.0.2+12-Ubuntu-1, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# C  [libjimage.so+0x30ad]
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /home/lupus/data/git/ruminaq/tests/org.ruminaq.gui.it.tests/core.34633)
+#
+# If you would like to submit a bug report, please visit:
+#   Unknown
+#
