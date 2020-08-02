@@ -131,6 +131,9 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
     super.setGenericContextButtons(data, pe, i);
   }
 
+  /**
+   * Handle context menu.
+   */
   @Override
   public IContextMenuEntry[] getContextMenu(ICustomContext context) {
     return Stream.of(getFeatureProvider().getCustomFeatures(context))
@@ -167,6 +170,9 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
         .orElseGet(() -> super.getSingleClickFeature(context));
   }
 
+  /**
+   * Get decorators of given PictogramElement.
+   */
   @Override
   public IDecorator[] getDecorators(PictogramElement pe) {
     return ServiceUtil.getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
@@ -175,6 +181,9 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
         .toArray(IDecorator[]::new);
   }
 
+  /**
+   * Get PictogramElements when given PictogramElement selected.
+   */
   @Override
   public PictogramElement[] getSelections(PictogramElement selection) {
     return ServiceUtil
