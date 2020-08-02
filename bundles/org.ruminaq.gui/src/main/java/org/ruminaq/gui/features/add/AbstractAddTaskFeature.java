@@ -42,14 +42,23 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     return DEFAULT_TASK_HEIGHT;
   }
 
+  /**
+   * By default no icon inside.
+   */
   protected String getInsideIconId() {
     return null;
   }
 
+  /**
+   * By default no description inside.
+   */
   protected String getInsideIconDesc() {
     return null;
   }
 
+  /**
+   * Tasks can be added on Diagram level.
+   */
   @Override
   public boolean canAdd(IAddContext context) {
     return context.getNewObject() instanceof Task
