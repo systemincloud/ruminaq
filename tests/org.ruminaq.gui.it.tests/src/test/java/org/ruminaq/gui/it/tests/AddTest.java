@@ -18,16 +18,11 @@ import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.reddeer.swt.api.MenuItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.InputPort;
-import org.ruminaq.model.ruminaq.InternalInputPort;
-import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.OutputPort;
-import org.ruminaq.tasks.constant.model.constant.Constant;
-import org.ruminaq.tasks.gate.model.gate.And;
 import org.ruminaq.tests.common.reddeer.CreateSimpleConnection;
 import org.ruminaq.tests.common.reddeer.GuiTest;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
@@ -115,26 +110,6 @@ public class AddTest extends GuiTest {
     Thread.sleep(2000);
 
     assertDiagram(gefEditor, "AddTest.testAddSimpleConnection.2.xml");
-  }
-
-  @Test
-  public void testAddSimpleConnectionBetweenTasks()
-      throws InterruptedException {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Constant", 200, 100);
-
-    WithShapeGraphitiEditPart outputPort = new WithShapeGraphitiEditPart(
-        InternalOutputPortShape.class);
-    assertEquals("Internal Output Port should have 1 context button.", 1,
-        outputPort.getContextButtons().size());
-
-    gefEditor.addToolFromPalette("And", 400, 300);
-
-    new CreateSimpleConnection(gefEditor,
-        new WithBoGraphitiEditPart(Constant.class, InternalOutputPort.class),
-        new WithBoGraphitiEditPart(And.class, InternalInputPort.class))
-            .execute();
-    assertDiagram(gefEditor, "AddTest.testAddSimpleConnectionBetweenTasks.xml");
   }
 
   @Test
