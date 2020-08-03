@@ -37,6 +37,9 @@ public class CreateSimpleConnectionPointContextMenu
 
   private static final int DISTANCE_TOLERANCE_ON_UNSELECTED_CONNECTION = 8;
 
+  /**
+   * Has to be close enough to SimpleConnectionShape.
+   */
   public static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
