@@ -9,7 +9,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-14
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
  org.eclipse.emf.ecore,
- org.ruminaq.gui,
  org.ruminaq.gui.model,
  org.ruminaq.gui.model.diagram.impl.task,
  org.ruminaq.model.desc,
