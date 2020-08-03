@@ -18,6 +18,11 @@ import org.ruminaq.gui.features.delete.DeleteLabeledRuminaqShapeFeature.Filter;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 
+/**
+ * Labels are not deleted but removed.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class DeleteLabeledRuminaqShapeFeature
     extends DeleteRuminaqShapeFeature {
