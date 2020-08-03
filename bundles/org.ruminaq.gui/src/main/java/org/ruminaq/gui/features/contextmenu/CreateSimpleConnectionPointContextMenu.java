@@ -58,6 +58,8 @@ public class CreateSimpleConnectionPointContextMenu
               .anyMatch(scs -> SimpleConnectionUtil.distanceToConnection(scs,
                   context.getX(), context
                       .getY()) < DISTANCE_TOLERANCE_ON_UNSELECTED_CONNECTION);
+        } else {
+          return false;
         }
       }
 
