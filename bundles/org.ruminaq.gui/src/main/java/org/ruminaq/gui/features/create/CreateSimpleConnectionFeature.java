@@ -82,13 +82,15 @@ public class CreateSimpleConnectionFeature
   private static <T> Optional<T> getFlowEnd(Anchor anchor, Class<T> type) {
     Optional<AnchorContainer> anchorContainer = Optional.ofNullable(anchor)
         .map(Anchor::getParent);
-    if (anchorContainer
-        .filter(SimpleConnectionPointShape.class::isInstance).isPresent()) {
+    if (anchorContainer.filter(SimpleConnectionPointShape.class::isInstance)
+        .isPresent()) {
       return anchorContainer.map(SimpleConnectionPointShape.class::cast)
           .map(SimpleConnectionPointShape::getIncomingConnections)
           .map(List::stream).orElseGet(Stream::empty).findFirst()
-          .map(SimpleConnectionShape::getStart).map(a -> getFlowEnd(a, type)).get();
-    } else if (anchorContainer.filter(RuminaqShape.class::isInstance).isPresent()) {
+          .map(SimpleConnectionShape::getStart).map(a -> getFlowEnd(a, type))
+          .orElseGet(Optional::empty);
+    } else if (anchorContainer.filter(RuminaqShape.class::isInstance)
+        .isPresent()) {
       return anchorContainer.map(RuminaqShape.class::cast)
           .map(RuminaqShape::getModelObject).filter(type::isInstance)
           .map(type::cast);
