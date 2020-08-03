@@ -75,11 +75,6 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
   }
 
   @Override
-  public boolean equalsBusinessObjects(Object o1, Object o2) {
-    return o1 == o2;
-  }
-
-  @Override
   public IPaletteCompartmentEntry[] getPalette() {
     return ServiceUtil
         .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
