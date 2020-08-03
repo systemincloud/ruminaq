@@ -43,26 +43,21 @@ public class CreateSimpleConnectionPointContextMenu
     public boolean test(ServiceFilterArgs args) {
       ICustomContext context = (ICustomContext) args.getArgs().get(1);
       PictogramElement[] pes = context.getPictogramElements();
-      if (pes.length == 1) {
-        if (pes[0] instanceof SimpleConnectionShape) {
-          return SimpleConnectionUtil.distanceToConnection(
-              (SimpleConnectionShape) pes[0], context.getX(),
-              context.getY()) < DISTANCE_TOLERANCE_ON_SELECTED_CONNECTION;
-        } else if (pes[0] instanceof RuminaqDiagram) {
-          return Optional.of(pes[0]).filter(RuminaqDiagram.class::isInstance)
-              .map(RuminaqDiagram.class::cast)
-              .map(RuminaqDiagram::getConnections).stream()
-              .flatMap(EList::stream)
-              .filter(SimpleConnectionShape.class::isInstance)
-              .map(SimpleConnectionShape.class::cast)
-              .anyMatch(scs -> SimpleConnectionUtil.distanceToConnection(scs,
-                  context.getX(), context
-                      .getY()) < DISTANCE_TOLERANCE_ON_UNSELECTED_CONNECTION);
-        } else {
-          return false;
-        }
+      if (pes.length == 1 && pes[0] instanceof SimpleConnectionShape) {
+        return SimpleConnectionUtil.distanceToConnection(
+            (SimpleConnectionShape) pes[0], context.getX(),
+            context.getY()) < DISTANCE_TOLERANCE_ON_SELECTED_CONNECTION;
       }
-
+      if (pes.length == 1 && pes[0] instanceof RuminaqDiagram) {
+        return Optional.of(pes[0]).filter(RuminaqDiagram.class::isInstance)
+            .map(RuminaqDiagram.class::cast).map(RuminaqDiagram::getConnections)
+            .stream().flatMap(EList::stream)
+            .filter(SimpleConnectionShape.class::isInstance)
+            .map(SimpleConnectionShape.class::cast)
+            .anyMatch(scs -> SimpleConnectionUtil.distanceToConnection(scs,
+                context.getX(),
+                context.getY()) < DISTANCE_TOLERANCE_ON_UNSELECTED_CONNECTION);
+      }
       return false;
     }
   }
