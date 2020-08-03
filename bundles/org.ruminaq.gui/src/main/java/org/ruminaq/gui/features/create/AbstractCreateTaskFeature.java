@@ -95,11 +95,9 @@ public abstract class AbstractCreateTaskFeature
         .filter(se -> se.getValue() != null)
         .filter(se -> PortType.IN == se.getValue().portType())
         .filter(se -> !se.getValue().opt())
-        .map(se -> new SimpleEntry<>(se.getKey(), se.getValue().n()))
-        .forEach((SimpleEntry<Field, Integer> e) -> IntStream
-            .range(0, e.getValue()).forEach((int i) -> {
-              createInputPort(task, e.getKey());
-            }));
+        .map(se -> new SimpleEntry<>(se.getKey(), se.getValue().n())).forEach(
+            (SimpleEntry<Field, Integer> e) -> IntStream.range(0, e.getValue())
+                .forEach(i -> createInputPort(task, e.getKey())));
   }
 
   public static void createInputPort(Task task, Field field) {
@@ -110,7 +108,7 @@ public abstract class AbstractCreateTaskFeature
     inputPort.setId(Optional.of(pi).filter(p -> p.n() > 1 || p.n() == -1)
         .map(p -> String.format("%s %d", p.id(),
             getAllMutlipleInternalInputPorts(task, p.id()).size() + 1))
-        .orElseGet(() -> pi.id()));
+        .orElseGet(pi::id));
     inputPort.setAsynchronous(pi.asynchronous());
     inputPort.setGroup(portGroup(pi, task));
     inputPort.setDefaultHoldLast(pi.hold());
@@ -135,7 +133,7 @@ public abstract class AbstractCreateTaskFeature
             j++;
           } while (!free);
           return j - 1;
-        }).orElseGet(() -> pi.group());
+        }).orElseGet(pi::group);
   }
 
   private static void addDefaultOutputPorts(Task task,
@@ -144,11 +142,9 @@ public abstract class AbstractCreateTaskFeature
         .filter(se -> se.getValue() != null)
         .filter(se -> PortType.OUT == se.getValue().portType())
         .filter(se -> !se.getValue().opt())
-        .map(se -> new SimpleEntry<>(se.getKey(), se.getValue().n()))
-        .forEach((SimpleEntry<Field, Integer> e) -> IntStream
-            .range(0, e.getValue()).forEach((int i) -> {
-              createOutputPort(task, e.getKey());
-            }));
+        .map(se -> new SimpleEntry<>(se.getKey(), se.getValue().n())).forEach(
+            (SimpleEntry<Field, Integer> e) -> IntStream.range(0, e.getValue())
+                .forEach(i -> createOutputPort(task, e.getKey())));
   }
 
   public static void createOutputPort(Task task, Field field) {
@@ -159,7 +155,7 @@ public abstract class AbstractCreateTaskFeature
     outputPort.setId(Optional.of(pi).filter(p -> p.n() > 1 || p.n() == -1)
         .map(p -> String.format("%s %d", p.id(),
             getAllMutlipleInternalOutputPorts(task, p.id()).size() + 1))
-        .orElseGet(() -> pi.id()));
+        .orElseGet(pi::id));
     getDataTypes(field).forEach(outputPort.getDataType()::add);
 
     task.getOutputPort().add(outputPort);
