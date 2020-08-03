@@ -5,19 +5,11 @@
  ******************************************************************************/
 package org.ruminaq.tasks.constant.it.tests;
 
-import static org.junit.Assert.assertEquals;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
-import org.ruminaq.model.ruminaq.InternalInputPort;
-import org.ruminaq.model.ruminaq.InternalOutputPort;
-import org.ruminaq.tasks.constant.model.constant.Constant;
-import org.ruminaq.tests.common.reddeer.CreateSimpleConnection;
 import org.ruminaq.tests.common.reddeer.GuiTest;
-import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
-import org.ruminaq.tests.common.reddeer.WithShapeGraphitiEditPart;
 
 /**
  * Test adding basic elements to diagram.
@@ -31,24 +23,6 @@ public class AddTest extends GuiTest {
   public void testAddConstant() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Constant", 200, 100);
-  }
-
-  @Test
-  public void testAddSimpleConnectionBetweenTasks()
-      throws InterruptedException {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Constant", 200, 100);
-
-    WithShapeGraphitiEditPart outputPort = new WithShapeGraphitiEditPart(
-        InternalOutputPortShape.class);
-    assertEquals("Internal Output Port should have 1 context button.", 1,
-        outputPort.getContextButtons().size());
-
-    new CreateSimpleConnection(gefEditor,
-        new WithBoGraphitiEditPart(Constant.class, InternalOutputPort.class),
-        new WithBoGraphitiEditPart(Constant.class, InternalInputPort.class))
-            .execute();
-    assertDiagram(gefEditor, "AddTest.testAddSimpleConnectionBetweenTasks.xml");
   }
 
 }
