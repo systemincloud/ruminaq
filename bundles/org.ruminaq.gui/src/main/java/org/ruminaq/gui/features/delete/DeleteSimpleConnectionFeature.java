@@ -52,7 +52,9 @@ public class DeleteSimpleConnectionFeature extends RuminaqDeleteFeature {
         .filter(SimpleConnectionShape.class::isInstance)
         .map(SimpleConnectionShape.class::cast)
         .map(SimpleConnectionShape::getTarget)
-        .filter(SimpleConnectionPointShape.class::isInstance).ifPresent(scp -> {
+        .filter(SimpleConnectionPointShape.class::isInstance)
+        .map(SimpleConnectionPointShape.class::cast)
+        .ifPresent((SimpleConnectionPointShape scp) -> {
           DeleteContext deleteCtx = new DeleteContext(scp);
           deleteCtx.setMultiDeleteInfo(new MultiDeleteInfo(false, false, 1));
           IDeleteFeature deleteFeature = getFeatureProvider()

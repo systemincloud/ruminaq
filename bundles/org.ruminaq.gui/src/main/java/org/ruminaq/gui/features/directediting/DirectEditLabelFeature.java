@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IDirectEditingContext;
 import org.eclipse.graphiti.features.impl.AbstractDirectEditingFeature;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.features.FeatureFilter;
@@ -57,11 +58,6 @@ public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
   }
 
   @Override
-  public boolean canDirectEdit(IDirectEditingContext context) {
-    return true;
-  }
-
-  @Override
   public String getInitialValue(IDirectEditingContext context) {
     return shapeFromContext(context).getLabeledShape().getModelObject().getId();
   }
@@ -79,9 +75,9 @@ public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
     }
   }
 
-  public static boolean hasId(Diagram diagram, PictogramElement pe,
+  public static boolean hasId(ContainerShape containerShape, PictogramElement pe,
       String value) {
-    return diagram.getChildren().stream().filter(s -> pe != s)
+    return containerShape.getChildren().stream().filter(s -> pe != s)
         .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
         .map(LabelShape::getLabeledShape)
         .map(LabeledRuminaqShape::getModelObject).map(BaseElement::getId)
