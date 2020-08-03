@@ -77,7 +77,7 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
 
   @Override
   public boolean equalsBusinessObjects(Object o1, Object o2) {
-    return o1 instanceof EObject && o2 instanceof EObject && o1 == o2;
+    return super.equalsBusinessObjects(o1, o2) && o1 == o2;
   }
 
   @Override
