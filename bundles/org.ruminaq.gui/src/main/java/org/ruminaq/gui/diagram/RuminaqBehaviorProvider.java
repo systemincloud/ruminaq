@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Stream;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.context.IDoubleClickContext;
