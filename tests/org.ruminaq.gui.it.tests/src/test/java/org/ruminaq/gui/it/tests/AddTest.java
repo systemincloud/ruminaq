@@ -9,9 +9,7 @@ package org.ruminaq.gui.it.tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
 import java.util.List;
-
 import org.eclipse.reddeer.gef.api.Palette;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.graphiti.api.ContextButton;
@@ -20,7 +18,6 @@ import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.reddeer.swt.api.MenuItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.gui.model.diagram.InternalInputPortShape;
 import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
@@ -125,11 +122,16 @@ public class AddTest extends GuiTest {
       throws InterruptedException {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Constant", 200, 100);
+
+    WithShapeGraphitiEditPart outputPort = new WithShapeGraphitiEditPart(
+        InternalOutputPortShape.class);
+    assertEquals("Internal Output Port should have 1 context button.", 1,
+        outputPort.getContextButtons().size());
+
     gefEditor.addToolFromPalette("And", 400, 300);
 
     new CreateSimpleConnection(gefEditor,
-        new WithBoGraphitiEditPart(Constant.class,
-            InternalOutputPort.class),
+        new WithBoGraphitiEditPart(Constant.class, InternalOutputPort.class),
         new WithBoGraphitiEditPart(And.class, InternalInputPort.class))
             .execute();
     assertDiagram(gefEditor, "AddTest.testAddSimpleConnectionBetweenTasks.xml");
@@ -162,7 +164,7 @@ public class AddTest extends GuiTest {
 
     WithShapeGraphitiEditPart connectionPoint = new WithShapeGraphitiEditPart(
         SimpleConnectionPointShape.class);
-    assertEquals("Label shouldn't have any pad buttons", 2,
+    assertEquals("Connection point should have 2 buttons.", 2,
         connectionPoint.getContextButtons().size());
 
     gefEditor.addToolFromPalette("Output Port", 400, 200);
