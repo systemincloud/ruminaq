@@ -8,19 +8,19 @@ package org.ruminaq.gui.features.create;
 
 import java.lang.reflect.Field;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
-import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.DataType;
@@ -37,7 +37,7 @@ import org.slf4j.Logger;
 
 /**
  * Common class for all CreateFeautes for Tasks.
- * 
+ *
  * @author Marek Jagielski
  */
 public abstract class AbstractCreateTaskFeature
@@ -73,6 +73,22 @@ public abstract class AbstractCreateTaskFeature
     addDefaultOutputPorts(task, fields);
   }
 
+  public static List<InternalInputPort> getAllMutlipleInternalInputPorts(
+      Task task, String prefix) {
+    return task.getInputPort().stream()
+        .filter(
+            ip -> ip.getId().matches(String.format("%s [1-9][0-9]*", prefix)))
+        .collect(Collectors.toList());
+  }
+
+  public static List<InternalOutputPort> getAllMutlipleInternalOutputPorts(
+      Task task, String prefix) {
+    return task.getOutputPort().stream()
+        .filter(
+            ip -> ip.getId().matches(String.format("%s [1-9][0-9]*", prefix)))
+        .collect(Collectors.toList());
+  }
+
   private static void addDefaultInputPorts(Task task,
       Supplier<Stream<Field>> fields) {
     fields.get().map(f -> new SimpleEntry<>(f, f.getAnnotation(PortInfo.class)))
@@ -91,12 +107,10 @@ public abstract class AbstractCreateTaskFeature
         .createInternalInputPort();
     PortInfo pi = field.getAnnotation(PortInfo.class);
 
-    inputPort
-        .setId(
-            Optional.of(pi).filter(p -> p.n() > 1 || p.n() == -1)
-                .map(p -> String.format("%s %d", p.id(), TasksUtil
-                    .getAllMutlipleInternalInputPorts(task, p.id()).size() + 1))
-                .orElseGet(() -> pi.id()));
+    inputPort.setId(Optional.of(pi).filter(p -> p.n() > 1 || p.n() == -1)
+        .map(p -> String.format("%s %d", p.id(),
+            getAllMutlipleInternalInputPorts(task, p.id()).size() + 1))
+        .orElseGet(() -> pi.id()));
     inputPort.setAsynchronous(pi.asynchronous());
     inputPort.setGroup(portGroup(pi, task));
     inputPort.setDefaultHoldLast(pi.hold());
@@ -142,15 +156,10 @@ public abstract class AbstractCreateTaskFeature
         .createInternalOutputPort();
     PortInfo pi = field.getAnnotation(PortInfo.class);
 
-    outputPort
-        .setId(
-            Optional
-                .of(pi).filter(
-                    p -> p.n() > 1 || p.n() == -1)
-                .map(p -> String.format("%s %d", p.id(),
-                    TasksUtil.getAllMutlipleInternalOutputPorts(task, p.id())
-                        .size() + 1))
-                .orElseGet(() -> pi.id()));
+    outputPort.setId(Optional.of(pi).filter(p -> p.n() > 1 || p.n() == -1)
+        .map(p -> String.format("%s %d", p.id(),
+            getAllMutlipleInternalOutputPorts(task, p.id()).size() + 1))
+        .orElseGet(() -> pi.id()));
     getDataTypes(field).forEach(outputPort.getDataType()::add);
 
     task.getOutputPort().add(outputPort);

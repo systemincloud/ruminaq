@@ -8,16 +8,15 @@ package org.ruminaq.tasks.sipo.gui;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.osgi.service.component.annotations.Component;
-import org.ruminaq.gui.TasksUtil;
 import org.ruminaq.gui.api.UpdateFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
@@ -97,11 +96,11 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     private static boolean sizeUpdateNeeded(Sipo sipo) {
       if (sipo.isIndex()) {
-        return !TasksUtil
+        return !AbstractCreateTaskFeature
             .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId())
             .isEmpty();
       } else {
-        return TasksUtil
+        return AbstractCreateTaskFeature
             .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId())
             .size() != Integer.parseInt(sipo.getSize());
       }
@@ -197,7 +196,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     private boolean sizeUpdate(Sipo sipo) {
       int n = sipo.isIndex() ? -Integer.parseInt(sipo.getSize())
-          : Integer.parseInt(sipo.getSize()) - TasksUtil
+          : Integer.parseInt(sipo.getSize()) - AbstractCreateTaskFeature
               .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId()).size();
       if (n > 0) {
         IntStream.range(0, n).forEach(i -> createOutputPort(sipo, Port.OUT));

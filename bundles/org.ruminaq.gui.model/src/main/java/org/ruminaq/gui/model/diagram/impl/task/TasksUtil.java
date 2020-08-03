@@ -4,15 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.gui;
-
-import java.util.List;
-import java.util.stream.Collectors;
+package org.ruminaq.gui.model.diagram.impl.task;
 
 import org.ruminaq.model.desc.PortsDescr;
-import org.ruminaq.model.ruminaq.InternalInputPort;
-import org.ruminaq.model.ruminaq.InternalOutputPort;
-import org.ruminaq.model.ruminaq.Task;
 
 public class TasksUtil {
 
@@ -28,19 +22,4 @@ public class TasksUtil {
     return Integer.parseInt(id.substring(pd.getId().length() + 1));
   }
 
-  public static List<InternalInputPort> getAllMutlipleInternalInputPorts(
-      Task task, String prefix) {
-    return task.getInputPort().stream()
-        .filter(
-            ip -> ip.getId().matches(String.format("%s [1-9][0-9]*", prefix)))
-        .collect(Collectors.toList());
-  }
-
-  public static List<InternalOutputPort> getAllMutlipleInternalOutputPorts(
-      Task task, String prefix) {
-    return task.getOutputPort().stream()
-        .filter(
-            ip -> ip.getId().matches(String.format("%s [1-9][0-9]*", prefix)))
-        .collect(Collectors.toList());
-  }
 }
