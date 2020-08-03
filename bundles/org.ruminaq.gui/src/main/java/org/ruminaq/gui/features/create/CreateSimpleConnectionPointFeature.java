@@ -29,7 +29,7 @@ import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionUtil;
 
 /**
  * SimpleConnectionPoint create feature.
- * 
+ *
  * @author Marek Jagielski
  */
 public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
@@ -91,7 +91,6 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
         connectionShapeAfterPoint.setTarget(scs.getTarget());
         connectionShapeAfterPoint.getBendpoints().addAll(followingBendpoints);
         connectionShapeAfterPoint.getModelObject().addAll(scs.getModelObject());
-
         scs.setTarget(s);
       }
     }
@@ -116,7 +115,6 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
             me -> !GuiUtil.pointBelongsToSection(me.getKey(), me.getValue(), p))
         .map(SimpleEntry::getValue)
         .collect(Collectors.toCollection(LinkedList::new));
-
     points.removeFirst();
     points.removeLast();
     points.removeAll(notFollowingPoints);
