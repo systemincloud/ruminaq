@@ -60,6 +60,9 @@ public class ContextButtonPadInternalPortTool implements
     return RuminaqBehaviorProvider.CONTEXT_BUTTON_NONE;
   }
 
+  /**
+   * Translate to position absolute.
+   */
   @Override
   public IRectangle getPadLocation(IPictogramElementContext context,
       IRectangle rectangle) {
