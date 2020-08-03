@@ -16,6 +16,11 @@ import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.delete.DeleteLabelFeature.Filter;
 import org.ruminaq.gui.model.diagram.LabelShape;
 
+/**
+ * Label can't be deleted.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class DeleteLabelFeature extends RuminaqDeleteFeature {
 
