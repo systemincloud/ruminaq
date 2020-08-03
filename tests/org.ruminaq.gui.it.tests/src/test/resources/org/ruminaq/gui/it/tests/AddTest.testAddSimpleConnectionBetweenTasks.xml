@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:constant="http://ruminaq.org/tasks/constant" xmlns:constantshape="http://ruminaq.org/tasks/constantshape" xmlns:diagram="http://ruminaq.org/diagram" xmlns:dt="http://ruminaq.org/dt" xmlns:gate="http://ruminaq.org/tasks/gate" xmlns:ruminaq="http://ruminaq.org">
+  <diagram:RuminaqDiagram mainTask="/1">
+    <children xsi:type="constantshape:ConstantShape" x="200" y="100" width="50" height="50" modelObject="/1/@task.0" label="/0/@children.1">
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="40" y="20" modelObject="/1/@task.0/@outputPort.0" outgoingConnections="/0/@connections.0"/>
+    </children>
+    <children xsi:type="diagram:LabelShape" x="193" y="152" labeledShape="/0/@children.0"/>
+    <children xsi:type="diagram:TaskShape" x="400" y="300" width="50" height="50" modelObject="/1/@task.1" label="/0/@children.3" iconId="/icons/diagram.and.png">
+      <internalPort xsi:type="diagram:InternalInputPortShape" y="32" modelObject="/1/@task.1/@inputPort.0"/>
+      <internalPort xsi:type="diagram:InternalInputPortShape" y="7" modelObject="/1/@task.1/@inputPort.1" incomingConnections="/0/@connections.0"/>
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="40" y="20" modelObject="/1/@task.1/@outputPort.0"/>
+    </children>
+    <children xsi:type="diagram:LabelShape" x="405" y="352" labeledShape="/0/@children.2"/>
+    <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.0" source="/0/@children.0/@internalPort.0" target="/0/@children.2/@internalPort.1"/>
+  </diagram:RuminaqDiagram>
+  <ruminaq:MainTask version="1.0.0">
+    <task xsi:type="constant:Constant" id="My Constant" value="0">
+      <outputPort id="Out">
+        <dataType xsi:type="dt:Int32"/>
+      </outputPort>
+    </task>
+    <task xsi:type="gate:And" id="My And">
+      <outputPort id="Out">
+        <dataType xsi:type="dt:Bool"/>
+      </outputPort>
+      <inputPort id="In 1">
+        <dataType xsi:type="dt:Bool"/>
+      </inputPort>
+      <inputPort id="In 2">
+        <dataType xsi:type="dt:Bool"/>
+      </inputPort>
+    </task>
+    <connection xsi:type="ruminaq:SimpleConnection" sourceRef="/1/@task.0/@outputPort.0" targetRef="/1/@task.1/@inputPort.1"/>
+  </ruminaq:MainTask>
+</xmi:XMI>

@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tests.common.reddeer;
 
 public class WithBoGraphitiEditPart extends AbstractExtendedGraphitiEditPart {
@@ -24,6 +25,18 @@ public class WithBoGraphitiEditPart extends AbstractExtendedGraphitiEditPart {
    */
   public WithBoGraphitiEditPart(Class<?> clazz, int index) {
     super(new IsEditPartWithBuisineseObjectOfType(clazz), index);
+  }
+
+  /**
+   * Finds a graphiti edit part with bo
+   * and parent bo of given classes.
+   *
+   * @param clazz
+   * @param childrenClass
+   */
+  public WithBoGraphitiEditPart(Class<?> clazz, Class<?> childrenClass) {
+    super(new IsEditPartWithBuisineseObjectOfTypeAndParentOfType(childrenClass,
+        clazz), 0);
   }
 
 }
