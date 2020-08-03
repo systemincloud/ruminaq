@@ -44,8 +44,6 @@ public class AddTest extends GuiTest {
     assertEquals("Internal Output Port should have 1 context button.", 1,
         outputPort.getContextButtons().size());
 
-    gefEditor.addToolFromPalette("And", 400, 300);
-
     new CreateSimpleConnection(gefEditor,
         new WithBoGraphitiEditPart(Constant.class, InternalOutputPort.class),
         new WithBoGraphitiEditPart(Constant.class, InternalInputPort.class))
