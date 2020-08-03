@@ -40,7 +40,6 @@ public class CopyElementFeature extends AbstractCopyFeature {
   public void copy(ICopyContext context) {
     putToClipboard(Stream.of(context.getPictogramElements())
         .filter(Predicate.not(LabelShape.class::isInstance))
-        .filter(p -> true /* connection point */)
         .toArray(PictogramElement[]::new));
   }
 }
