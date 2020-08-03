@@ -75,6 +75,11 @@ public class CreateSimpleConnectionFeature
     return newConnection;
   }
 
+  /**
+   * Returns RuminaqDiagram.
+   *
+   * @return RuminaqDiagram
+   */
   protected RuminaqDiagram getRuminaqDiagram() {
     return (RuminaqDiagram) getDiagram();
   }
@@ -106,7 +111,6 @@ public class CreateSimpleConnectionFeature
     simpleConnection.setSourceRef(source);
     simpleConnection.setTargetRef(target);
     getRuminaqDiagram().getMainTask().getConnection().add(simpleConnection);
-
     return simpleConnection;
   }
 }
