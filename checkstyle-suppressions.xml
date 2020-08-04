@@ -13,4 +13,6 @@
              files=".*"/>
   <suppress checks="CustomImportOrder"
              files=".*"/>
+  <suppress checks="NeedBracesCheck"
+             files=".*"/>
 </suppressions>
