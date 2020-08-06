@@ -46,7 +46,7 @@ public class ConsoleView implements IView, LaunchListener {
 
   private static final String NEW_LINE = System.lineSeparator();
 
-  private String ENTRY = ">";
+  private String entry = ">";
 
   static private Map<Console, StringBuilder> mementoHistory = new HashMap<>();
   static private Map<Console, Color> mementoTextColor = new HashMap<>();
@@ -163,16 +163,16 @@ public class ConsoleView implements IView, LaunchListener {
           e.doit = false;
           return;
         }
-        if (!text.getLine(text.getLineCount() - 1).startsWith(ENTRY)) {
+        if (!text.getLine(text.getLineCount() - 1).startsWith(entry)) {
           if (text.getLine(text.getLineCount() - 1).length() != 0) {
             text.append(NEW_LINE);
             mementoHistory.get(console).append(NEW_LINE);
           }
-          text.append(ENTRY);
+          text.append(entry);
         }
         if (e.keyCode == SWT.BS) {
           if (text.getText().length()
-              - text.getText().lastIndexOf(ENTRY) == 1) {
+              - text.getText().lastIndexOf(entry) == 1) {
             e.doit = false;
           }
         }
@@ -326,10 +326,10 @@ public class ConsoleView implements IView, LaunchListener {
   }
 
   public void updateType() {
-    /* Prompt */
-    if (console.getConsoleType().equals(ConsoleType.IN))
-      ENTRY = "";
-    else
-      ENTRY = ">";
+    if (console.getConsoleType().equals(ConsoleType.IN)) {
+      entry = "";
+    } else {
+      entry = ">";
+    }
   }
 }

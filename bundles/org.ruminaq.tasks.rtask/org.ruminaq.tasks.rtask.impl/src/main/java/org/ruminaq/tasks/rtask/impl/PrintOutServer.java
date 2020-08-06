@@ -20,7 +20,7 @@ import org.ruminaq.util.Util;
 public enum PrintOutServer {
   INSTACE;
 
-  private int MAIN_PORT = 49252;
+  private static final int MAIN_PORT = 49252;
 
   private int port = 0;
 

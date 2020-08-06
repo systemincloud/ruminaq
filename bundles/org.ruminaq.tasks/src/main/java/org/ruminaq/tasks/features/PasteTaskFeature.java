@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.features;
 
 import java.util.HashMap;
@@ -39,9 +40,7 @@ public class PasteTaskFeature extends RuminaqShapePasteFeature<RuminaqShape>
   @Override
   public boolean canPaste(IPasteContext context) {
     PictogramElement[] pes = context.getPictogramElements();
-    if (pes.length != 1 || !(pes[0] instanceof Diagram))
-      return false;
-    return true;
+    return pes.length == 1 && pes[0] instanceof Diagram;
   }
 
   @Override
