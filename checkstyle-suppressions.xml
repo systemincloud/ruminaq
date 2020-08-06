@@ -7,6 +7,8 @@
 <suppressions>
   <suppress checks="MethodNameCheck"
              files=".*"/>
+  <suppress checks="MemberNameCheck"
+             files=".*"/>
   <suppress checks="LocalVariableNameCheck"
              files=".*"/>
   <suppress checks="ParameterName"
