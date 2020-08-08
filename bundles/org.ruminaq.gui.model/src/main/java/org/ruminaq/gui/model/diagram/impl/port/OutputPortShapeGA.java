@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.port;
 
 import org.ruminaq.gui.model.diagram.OutputPortShape;
@@ -16,7 +17,7 @@ public class OutputPortShapeGA extends PortShapeGA {
 
   /**
    * GraphicsAlgorithm for OutputPort.
-   * 
+   *
    * @param shape parent OutputPortShape
    */
   public OutputPortShapeGA(OutputPortShape shape) {

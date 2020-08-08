@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.port;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -21,14 +22,14 @@ import org.ruminaq.gui.model.diagram.impl.NoResource;
 public class PortShapeGA extends RoundedRectangleImpl {
 
   private static final int CORNER_WIDTH = 20;
-  
+
   private static final int CORNER_HEIGHT = 20;
 
   private PortShape shape;
 
   /**
    * GraphicsAlgorithm for Port.
-   * 
+   *
    * @param shape parent PortShape
    */
   public PortShapeGA(PortShape shape) {
@@ -84,7 +85,7 @@ public class PortShapeGA extends RoundedRectangleImpl {
   public int getHeight() {
     return shape.getHeight();
   }
-  
+
   @Override
   public Color getForeground() {
     return Colors.BLACK;
