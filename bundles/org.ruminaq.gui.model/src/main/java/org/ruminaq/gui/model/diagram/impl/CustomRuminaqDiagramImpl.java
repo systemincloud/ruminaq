@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl;
 
 import org.eclipse.emf.ecore.EObject;
@@ -14,19 +15,19 @@ import org.eclipse.graphiti.services.IGaService;
 
 /**
  * Dynamic GraphicsAlgorithm for Diagram.
- * 
+ *
  * @author Marek Jagielski
  */
 public final class CustomRuminaqDiagramImpl {
 
   public static final String DIAGRAM_TYPE_ID = "Ruminaq";
-  
+
   public static final int GRID_UNIT = -1;
 
   private static final int WIDTH = 1000;
-  
+
   private static final int HEIGHT = 1000;
-  
+
   private CustomRuminaqDiagramImpl() {
     // only static methods
   }

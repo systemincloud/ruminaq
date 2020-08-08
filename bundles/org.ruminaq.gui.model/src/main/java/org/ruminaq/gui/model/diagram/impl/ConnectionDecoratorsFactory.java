@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl;
 
 import java.util.Collections;
@@ -18,7 +19,7 @@ import org.ruminaq.gui.model.diagram.impl.simpleconnection.ArrowDecorator;
 
 /**
  * GraphicsAlgorithm factories.
- * 
+ *
  * @author Marek Jagielski
  */
 public enum ConnectionDecoratorsFactory {
@@ -30,7 +31,7 @@ public enum ConnectionDecoratorsFactory {
 
   /**
    * Flyweight Factory of ConnectionDecorators for PictogramElement.
-   * 
+   *
    * @param shape key for retrieving Flyweight
    */
   public EList<ConnectionDecorator> getConnectionDecorators(

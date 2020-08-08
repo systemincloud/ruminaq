@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -24,7 +25,7 @@ public class FlowTargetAnchor extends ChopboxAnchorImpl {
 
   /**
    * Anchor of OutputPortShape.
-   * 
+   *
    * @param shape parent OutputPortShape
    */
   public FlowTargetAnchor(FlowTargetShape shape) {
