@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.label;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -42,7 +43,6 @@ public final class Text extends MultiTextImpl {
   /**
    * Label text. Text value is bind
    * with BaseElement id.
-   * @param parent
    *
    * @param modelObject ruminaq object
    */
