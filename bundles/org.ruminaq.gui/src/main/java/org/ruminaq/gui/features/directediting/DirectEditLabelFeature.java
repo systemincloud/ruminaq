@@ -40,15 +40,15 @@ public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
     }
   }
 
+  public DirectEditLabelFeature(IFeatureProvider fp) {
+    super(fp);
+  }
+
   protected static LabelShape shapeFromContext(IDirectEditingContext context) {
     return Optional.of(context)
         .map(AbstractDirectEditingFeatureFilter.getPictogramElement)
         .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
         .orElseThrow();
-  }
-
-  public DirectEditLabelFeature(IFeatureProvider fp) {
-    super(fp);
   }
 
   @Override
