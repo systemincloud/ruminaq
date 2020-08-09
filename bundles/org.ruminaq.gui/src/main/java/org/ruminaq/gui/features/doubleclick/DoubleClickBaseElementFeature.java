@@ -23,6 +23,11 @@ import org.ruminaq.gui.features.doubleclick.DoubleClickBaseElementFeature.Filter
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.util.Result;
 
+/**
+ * BaseElement DoubleClick feature.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class DoubleClickBaseElementFeature extends AbstractCustomFeature {
 
