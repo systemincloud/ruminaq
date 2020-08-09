@@ -19,6 +19,11 @@ import org.eclipse.graphiti.ui.features.AbstractCopyFeature;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 
+/**
+ * ICopyFeature for RuminaqShape.
+ *
+ * @author Marek Jagielski
+ */
 public class CopyElementFeature extends AbstractCopyFeature {
 
   public CopyElementFeature(IFeatureProvider fp) {

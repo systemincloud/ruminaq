@@ -15,7 +15,7 @@ import org.ruminaq.model.ruminaq.RuminaqFactory;
 
 /**
  * OutputPort create feature.
- * 
+ *
  * @author Marek Jagielski
  */
 public class CreateOutputPortFeature extends AbstractCreateElementFeature

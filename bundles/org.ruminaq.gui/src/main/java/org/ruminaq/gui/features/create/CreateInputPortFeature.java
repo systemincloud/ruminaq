@@ -15,7 +15,7 @@ import org.ruminaq.model.ruminaq.RuminaqFactory;
 
 /**
  * InputPort create feature.
- * 
+ *
  * @author Marek Jagielski
  */
 public class CreateInputPortFeature extends AbstractCreateElementFeature
