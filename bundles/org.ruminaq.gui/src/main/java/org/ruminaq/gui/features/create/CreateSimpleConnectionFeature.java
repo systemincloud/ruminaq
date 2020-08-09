@@ -46,11 +46,8 @@ public class CreateSimpleConnectionFeature
 
   @Override
   public boolean canCreate(ICreateConnectionContext context) {
-    Optional<FlowSource> source = getFlowEnd(context.getSourceAnchor(),
-        FlowSource.class);
-    Optional<FlowTarget> target = getFlowEnd(context.getTargetAnchor(),
-        FlowTarget.class);
-    return source.isPresent() && target.isPresent()
+    return getFlowEnd(context.getSourceAnchor(), FlowSource.class).isPresent()
+        && getFlowEnd(context.getTargetAnchor(), FlowTarget.class).isPresent()
         && context.getTargetAnchor().getIncomingConnections().isEmpty();
   }
 
