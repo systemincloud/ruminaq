@@ -12,8 +12,13 @@ import org.eclipse.graphiti.features.IDirectEditingFeature;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.DirectEditingFeatureExtension;
 
+/**
+ * Service DirectEditingFeatureExtension implementation.
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
-public class DirectEditingFeatures implements DirectEditingFeatureExtension {
+public class DirectEditingFeatureImpl implements DirectEditingFeatureExtension {
 
   @Override
   public List<Class<? extends IDirectEditingFeature>> getFeatures() {
