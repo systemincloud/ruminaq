@@ -6,13 +6,13 @@
 
 package org.ruminaq.gui.features.create;
 
+import static org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionUtil.distanceToConnection;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
@@ -64,10 +64,8 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
             .filter(SimpleConnectionShape.class::isInstance)
             .map(SimpleConnectionShape.class::cast)
             .min((scs1, scs2) -> Double.compare(
-                SimpleConnectionUtil.distanceToConnection(scs1, context.getX(),
-                    context.getY()),
-                SimpleConnectionUtil.distanceToConnection(scs2, context.getX(),
-                    context.getY()))));
+                distanceToConnection(scs1, context.getX(), context.getY()),
+                distanceToConnection(scs2, context.getX(), context.getY()))));
     if (optScs.isPresent()) {
       SimpleConnectionShape scs = optScs.get();
       Optional<Point> optP = SimpleConnectionUtil.projectOnConnection(scs,
