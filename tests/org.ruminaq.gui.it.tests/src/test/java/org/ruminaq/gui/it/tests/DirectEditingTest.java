@@ -22,13 +22,15 @@ import org.ruminaq.tests.common.reddeer.GuiTest;
 public class DirectEditingTest extends GuiTest {
 
   @Test
-  public void testEditLabel() {
+  public void testEditLabel() throws InterruptedException {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Input Port", 200, 100);
     LabeledGraphitiEditPart ipLabel = new LabeledGraphitiEditPart(
         "My Input Port");
     ipLabel.click();
     ipLabel.setLabel("Label");
+
+    Thread.sleep(1000);
 
     assertDiagram(gefEditor, "DirectEditingTest.testEditLabel.xml");
   }
