@@ -20,6 +20,11 @@ import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.NoElement;
 
+/**
+ * IDirectEditingFeature for Label.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
 
