@@ -51,6 +51,15 @@ public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
         .orElseThrow();
   }
 
+  public static boolean hasId(ContainerShape containerShape, PictogramElement pe,
+      String value) {
+    return containerShape.getChildren().stream().filter(s -> pe != s)
+        .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
+        .map(LabelShape::getLabeledShape)
+        .map(LabeledRuminaqShape::getModelObject).map(BaseElement::getId)
+        .anyMatch(value::equals);
+  }
+
   @Override
   public int getEditingType() {
     return TYPE_TEXT;
@@ -68,24 +77,17 @@ public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
 
   @Override
   public String checkValueValid(String value, IDirectEditingContext context) {
+    String message;
     if (value.length() < 1) {
-      return "Please enter any text as element id.";
+      message = "Please enter any text as element id.";
     } else if (value.contains("\n")) {
-      return "Line breakes are not allowed in class names.";
+      message = "Line breakes are not allowed in class names.";
     } else if (hasId(getDiagram(), context.getPictogramElement(), value)) {
-      return "Model has already id " + value + ".";
+      message = "Model has already id " + value + ".";
     } else {
-      return null;
+      message = null;
     }
-  }
-
-  public static boolean hasId(ContainerShape containerShape, PictogramElement pe,
-      String value) {
-    return containerShape.getChildren().stream().filter(s -> pe != s)
-        .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
-        .map(LabelShape::getLabeledShape)
-        .map(LabeledRuminaqShape::getModelObject).map(BaseElement::getId)
-        .anyMatch(value::equals);
+    return message;
   }
 
   @Override
