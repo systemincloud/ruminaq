@@ -6,7 +6,10 @@
 
 package org.ruminaq.gui.features.create;
 
+import static org.ruminaq.gui.model.GuiUtil.distanceBetweenPoints;
+import static org.ruminaq.gui.model.GuiUtil.pointBelongsToSection;
 import static org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionUtil.distanceToConnection;
+import static org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionUtil.projectOnConnection;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +23,6 @@ import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.ruminaq.gui.model.GuiUtil;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
@@ -68,8 +70,8 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
                 distanceToConnection(scs2, context.getX(), context.getY()))));
     if (optScs.isPresent()) {
       SimpleConnectionShape scs = optScs.get();
-      Optional<Point> optP = SimpleConnectionUtil.projectOnConnection(scs,
-          context.getX(), context.getY());
+      Optional<Point> optP = projectOnConnection(scs, context.getX(),
+          context.getY());
       if (optP.isPresent()) {
         Point p = optP.get();
         SimpleConnectionPointShape s = DiagramFactory.eINSTANCE
@@ -98,7 +100,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
       int d) {
     ffc.getBendpoints()
         .removeAll(ffc.getBendpoints().stream()
-            .filter(pi -> GuiUtil.distanceBetweenPoints(pi, p) < d)
+            .filter(pi -> distanceBetweenPoints(pi, p) < d)
             .collect(Collectors.toList()));
   }
 
@@ -109,8 +111,7 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
     LinkedList<Point> notFollowingPoints = IntStream.range(0, points.size() - 1)
         .mapToObj(i -> new SimpleEntry<Point, Point>(points.get(i),
             points.get(i + 1)))
-        .takeWhile(
-            me -> !GuiUtil.pointBelongsToSection(me.getKey(), me.getValue(), p))
+        .takeWhile(me -> !pointBelongsToSection(me.getKey(), me.getValue(), p))
         .map(SimpleEntry::getValue)
         .collect(Collectors.toCollection(LinkedList::new));
     points.removeFirst();
