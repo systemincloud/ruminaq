@@ -458,7 +458,7 @@ public class InternalPortLabelShapeGA extends TextImpl {
 
   @Override
   public Double getTransparency() {
-    return super.getTransparency();
+    return 0.5D;
   }
 
   @Override

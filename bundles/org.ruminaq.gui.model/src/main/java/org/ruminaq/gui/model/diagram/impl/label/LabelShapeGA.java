@@ -7,29 +7,41 @@
 package org.ruminaq.gui.model.diagram.impl.label;
 
 import java.util.Optional;
-
-import org.eclipse.emf.common.util.ECollections;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.impl.RectangleImpl;
-import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
+import org.eclipse.graphiti.mm.algorithms.impl.TextImpl;
+import org.eclipse.graphiti.mm.algorithms.styles.Color;
+import org.eclipse.graphiti.mm.algorithms.styles.Font;
+import org.eclipse.graphiti.mm.algorithms.styles.Orientation;
+import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory;
+import org.eclipse.graphiti.mm.algorithms.styles.StylesPackage;
+import org.eclipse.graphiti.services.IGaService;
+import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
+import org.ruminaq.gui.model.diagram.impl.Colors;
 import org.ruminaq.gui.model.diagram.impl.NoResource;
+import org.ruminaq.model.ruminaq.BaseElement;
 
 /**
  * GraphicsAlgorithm for Label.
  *
  * @author Marek Jagielski
  */
-public class LabelShapeGA extends RectangleImpl {
+public class LabelShapeGA extends TextImpl {
 
-  private EList<GraphicsAlgorithm> children;
+  public static final Font FONT = StylesFactory.eINSTANCE.createFont();
+
+  static {
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Name(), IGaService.DEFAULT_FONT);
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Size(),
+        IGaService.DEFAULT_FONT_SIZE);
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Italic(), Boolean.FALSE);
+    FONT.eSet(StylesPackage.eINSTANCE.getFont_Bold(), Boolean.FALSE);
+  }
+
+  private static final int TEXT_PADDING = 5;
 
   private LabelShape shape;
-
-  private Text text;
 
   /**
    * GraphicsAlgorithm for Label.
@@ -38,10 +50,6 @@ public class LabelShapeGA extends RectangleImpl {
    */
   public LabelShapeGA(LabelShape shape) {
     this.shape = shape;
-    this.text = Optional.of(this.shape.getLabeledShape())
-        .map(LabeledRuminaqShape::getModelObject).map(Text::new)
-        .orElseThrow();
-    this.children = ECollections.asEList(text);
   }
 
   @Override
@@ -65,38 +73,52 @@ public class LabelShapeGA extends RectangleImpl {
   }
 
   @Override
-  public int getWidth() {
-    return text.getWidth();
+  public String getValue() {
+    return Optional.of(this.shape.getLabeledShape())
+        .map(LabeledRuminaqShape::getModelObject).map(BaseElement::getId)
+        .orElseThrow();
+  }
+
+  @Override
+  public Font getFont() {
+    return FONT;
   }
 
   @Override
   public int getHeight() {
-    return text.getHeight();
+    return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+        .getHeight() + TEXT_PADDING;
   }
 
   @Override
-  public Integer getLineWidth() {
-    return 1;
+  public int getWidth() {
+    return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
+        .getWidth() + TEXT_PADDING;
   }
 
   @Override
-  public LineStyle getLineStyle() {
-    return LineStyle.SOLID;
+  public Orientation getHorizontalAlignment() {
+    return Orientation.ALIGNMENT_CENTER;
   }
 
   @Override
-  public Boolean getLineVisible() {
-    return Boolean.FALSE;
+  public Orientation getVerticalAlignment() {
+    return Orientation.ALIGNMENT_MIDDLE;
   }
-
+  
   @Override
   public Double getTransparency() {
-    return 0D;
+    return 0.5D;
   }
 
   @Override
-  public EList<GraphicsAlgorithm> getGraphicsAlgorithmChildren() {
-    return ECollections.unmodifiableEList(children);
+  public Color getForeground() {
+    return Colors.BLACK;
+  }
+
+  @Override
+  public Color getBackground() {
+    return Colors.WHITE;
   }
 
   @Override
