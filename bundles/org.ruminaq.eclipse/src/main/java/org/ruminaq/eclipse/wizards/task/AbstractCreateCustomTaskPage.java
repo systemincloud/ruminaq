@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.ByteArrayTransfer;
@@ -38,7 +37,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.usertask.model.userdefined.In;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
@@ -52,6 +50,8 @@ import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
  */
 public abstract class AbstractCreateCustomTaskPage extends WizardPage
     implements ICreateUserDefinedTaskPage {
+
+  public static final String INF = "inf";
 
   private static class RunnerSection extends Group {
 
@@ -302,7 +302,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
               async ? "-1" : grp,
               async ? Boolean.toString(false)
                   : Boolean.toString(btnInputsAddHold.getSelection()),
-              inf ? Constants.INF
+              inf ? INF
                   : Integer.toString(spnInputsAddQueue.getSelection()) });
           for (TableColumn tc : tblInputs.getColumns())
             tc.pack();
@@ -332,7 +332,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
         String sGrp = it.getText(3);
         in.setGroup(Integer.parseInt(sGrp));
         in.setHold(Boolean.parseBoolean(it.getText(4)));
-        in.setQueue(it.getText(5).equals(Constants.INF) ? -1
+        in.setQueue(it.getText(5).equals(INF) ? -1
             : Integer.parseInt(it.getText(5)));
 
         module.getInputs().add(in);

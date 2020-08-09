@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -42,7 +41,6 @@ import org.eclipse.jface.operation.ModalContext;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
@@ -76,6 +74,10 @@ public class UpdateDiagram {
         Job.getJobManager().transferRule(rule, thread);
     }
   }
+
+  private static final String DIAGRAM_EDITOR_ID = "org.ruminaq.eclipse.editor.ruminaqEditor"; //$NON-NLS-1$
+  private static final String TEST_DIAGRAM_EDITOR_ID = "org.ruminaq.eclipse.editor.ruminaqEditorTest"; //$NON-NLS-1$
+
 
   protected Set<Resource> save(final TransactionalEditingDomain ed,
       final Map<Resource, Map<?, ?>> saveOptions, IProgressMonitor monitor) {
@@ -166,8 +168,8 @@ public class UpdateDiagram {
     save(resource, fp.getDiagramTypeProvider(), ed);
     for (final IEditorReference er : PlatformUI.getWorkbench()
         .getActiveWorkbenchWindow().getActivePage().getEditorReferences()) {
-      if (Constants.DIAGRAM_EDITOR_ID.equals(er.getId())
-          || Constants.TEST_DIAGRAM_EDITOR_ID.equals(er.getId())) {
+      if (DIAGRAM_EDITOR_ID.equals(er.getId())
+          || TEST_DIAGRAM_EDITOR_ID.equals(er.getId())) {
         Display.getCurrent().asyncExec(() -> {
           try {
             URL fileUrl = FileLocator.toFileURL(new URL(er.getName()));

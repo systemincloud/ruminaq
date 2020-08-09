@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import org.eclipse.core.commands.operations.IOperationHistory;
 import org.eclipse.core.commands.operations.OperationHistoryEvent;
 import org.eclipse.core.resources.IFile;
@@ -42,7 +41,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.gui.model.diagram.DiagramPackage;
@@ -50,6 +48,7 @@ import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.util.ServiceUtil;
+import org.ruminaq.validation.DefaultValidator;
 import org.ruminaq.validation.MarkerChangeListener;
 import org.ruminaq.validation.ProjectValidator;
 import org.ruminaq.validation.ValidationStatusLoader;
@@ -181,7 +180,7 @@ public class RuminaqEditor extends DiagramEditor {
     getModelFile().ifPresent((IFile mf) -> {
       try {
         new ValidationStatusLoader().load(getEditingDomain(),
-            Arrays.asList(mf.findMarkers(Constants.VALIDATION_MARKER, true,
+            Arrays.asList(mf.findMarkers(DefaultValidator.VALIDATION_MARKER, true,
                 IResource.DEPTH_ZERO)));
       } catch (CoreException e) {
         LOGGER.error(Messages.ruminaqEditorLoadMarkersFailed, e);

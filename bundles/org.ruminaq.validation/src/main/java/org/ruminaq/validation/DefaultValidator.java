@@ -45,10 +45,11 @@ import org.eclipse.wst.validation.ValidationEvent;
 import org.eclipse.wst.validation.ValidationResult;
 import org.eclipse.wst.validation.ValidationState;
 import org.eclipse.wst.validation.ValidatorMessage;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.model.ruminaq.MainTask;
 
 public class DefaultValidator extends AbstractValidator {
+
+  public static final String VALIDATION_MARKER = "org.ruminaq.validation.marker"; //$NON-NLS-1$
 
   @Override
   public ValidationResult validate(ValidationEvent event, ValidationState state,
@@ -63,7 +64,7 @@ public class DefaultValidator extends AbstractValidator {
 
     modelFile = (IFile) file;
     try {
-      modelFile.deleteMarkers(Constants.VALIDATION_MARKER, false,
+      modelFile.deleteMarkers(VALIDATION_MARKER, false,
           IProject.DEPTH_INFINITE);
     } catch (CoreException e1) {
     }
@@ -138,7 +139,7 @@ public class DefaultValidator extends AbstractValidator {
     if (status instanceof StatusLocationDecorator)
       message.setAttribute(IMarker.LOCATION,
           ((StatusLocationDecorator) status).getLocation());
-    message.setType(Constants.VALIDATION_MARKER);
+    message.setType(VALIDATION_MARKER);
 
     return message;
   }
@@ -148,7 +149,7 @@ public class DefaultValidator extends AbstractValidator {
       IProgressMonitor monitor) {
     super.clean(project, state, monitor);
     try {
-      project.deleteMarkers(Constants.VALIDATION_MARKER, false,
+      project.deleteMarkers(VALIDATION_MARKER, false,
           IProject.DEPTH_INFINITE);
     } catch (CoreException e) {
     }

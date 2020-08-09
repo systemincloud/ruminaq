@@ -13,6 +13,10 @@ import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.DoubleClickFeatureExtension;
 
+/**
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
 

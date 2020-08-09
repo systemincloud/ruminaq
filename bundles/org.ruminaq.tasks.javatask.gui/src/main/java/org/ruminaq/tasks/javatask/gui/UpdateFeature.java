@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -39,7 +38,7 @@ import org.eclipse.jdt.core.search.SearchParticipant;
 import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.core.search.SearchRequestor;
 import org.eclipse.jdt.internal.core.NamedMember;
-import org.ruminaq.consts.Constants;
+import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
 import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.ruminaq.DataType;
@@ -207,7 +206,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
           if (tmp != null)
             dts.add(tmp);
         }
-        String queueSize = queue == -1 ? Constants.INF : queue.toString();
+        String queueSize = queue == -1 ? AbstractCreateCustomTaskPage.INF : queue.toString();
         inputs.add(
             new FileInternalInputPort(name, dts, asynchronous.booleanValue(),
                 group.intValue(), hold.booleanValue(), queueSize));

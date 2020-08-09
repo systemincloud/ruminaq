@@ -30,8 +30,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.SelectionNotDefaultListener;
+import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.util.GlobalUtil;
@@ -144,7 +144,7 @@ public class PropertyInputPortSection extends GFPropertySection
             .isOneDimPositiveInteger(txtQueueSize.getText())
             && Integer.parseInt(txtQueueSize.getText()) != 0)
             || GlobalUtil.isGlobalVariable(txtQueueSize.getText())
-            || Constants.INF.equals(txtQueueSize.getText());
+            || AbstractCreateCustomTaskPage.INF.equals(txtQueueSize.getText());
         PictogramElement pe = getSelectedPictogramElement();
         if (pe == null)
           return;
