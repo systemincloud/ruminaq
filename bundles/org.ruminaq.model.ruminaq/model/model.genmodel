@@ -40,6 +40,14 @@
       <genOperations ecoreOperation="model.ecore#//Task/getOutputPort" body="return getOutputPort().stream().filter(ip -> ip.getId().equals(id)).findFirst().orElse(null);">
         <genParameters ecoreParameter="model.ecore#//Task/getOutputPort/id"/>
       </genOperations>
+      <genOperations ecoreOperation="model.ecore#//Task/getMutlipleInternalInputPorts"
+          body="return getInputPort().stream().filter(ip -> ip.getId().matches(String.format(&quot;%s [1-9][0-9]*&quot;, prefix))) .collect(java.util.stream.Collectors.toList());">
+        <genParameters ecoreParameter="model.ecore#//Task/getMutlipleInternalInputPorts/prefix"/>
+      </genOperations>
+      <genOperations ecoreOperation="model.ecore#//Task/getMutlipleInternalOutputPorts"
+          body="return getOutputPort().stream().filter(ip -> ip.getId().matches(String.format(&quot;%s [1-9][0-9]*&quot;, prefix))) .collect(java.util.stream.Collectors.toList());">
+        <genParameters ecoreParameter="model.ecore#//Task/getMutlipleInternalOutputPorts/prefix"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Port"/>
     <genClasses ecoreClass="model.ecore#//InternalInputPort">

@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.sipo.gui;
 
 import java.util.Collections;
@@ -96,9 +97,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     private static boolean sizeUpdateNeeded(Sipo sipo) {
       if (sipo.isIndex()) {
-        return !AbstractCreateTaskFeature
-            .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId())
-            .isEmpty();
+        return !sipo.getMutlipleInternalOutputPorts(Port.OUT.getId()).isEmpty();
       } else {
         return AbstractCreateTaskFeature
             .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId())
@@ -196,8 +195,8 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     private boolean sizeUpdate(Sipo sipo) {
       int n = sipo.isIndex() ? -Integer.parseInt(sipo.getSize())
-          : Integer.parseInt(sipo.getSize()) - AbstractCreateTaskFeature
-              .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId()).size();
+          : Integer.parseInt(sipo.getSize())
+              - sipo.getMutlipleInternalOutputPorts(Port.OUT.getId()).size();
       if (n > 0) {
         IntStream.range(0, n).forEach(i -> createOutputPort(sipo, Port.OUT));
       } else {

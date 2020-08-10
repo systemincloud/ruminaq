@@ -25,6 +25,12 @@ import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.delete.DeleteRuminaqShapeFeature.Filter;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 
+/**
+ * Delete RuminaqShape. First delete connections.
+ * Lastly delete domain object.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class DeleteRuminaqShapeFeature extends RuminaqDeleteFeature {
 

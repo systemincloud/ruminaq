@@ -45,6 +45,18 @@
       </eAnnotations>
       <eParameters name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
+    <eOperations name="getMutlipleInternalInputPorts" upperBound="-1" eType="#//InternalInputPort">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getInputPort().stream().filter(ip -> ip.getId().matches(String.format(&quot;%s [1-9][0-9]*&quot;, prefix))) .collect(java.util.stream.Collectors.toList());"/>
+      </eAnnotations>
+      <eParameters name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
+    <eOperations name="getMutlipleInternalOutputPorts" upperBound="-1" eType="#//InternalOutputPort">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="return getOutputPort().stream().filter(ip -> ip.getId().matches(String.format(&quot;%s [1-9][0-9]*&quot;, prefix))) .collect(java.util.stream.Collectors.toList());"/>
+      </eAnnotations>
+      <eParameters name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="atomic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="looped" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
