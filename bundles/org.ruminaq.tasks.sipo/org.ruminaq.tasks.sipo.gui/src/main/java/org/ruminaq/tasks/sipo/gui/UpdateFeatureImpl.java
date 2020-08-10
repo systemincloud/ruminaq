@@ -17,7 +17,6 @@ import org.eclipse.graphiti.features.impl.Reason;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.UpdateFeatureExtension;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.model.desc.PortsDescr;
@@ -99,8 +98,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       if (sipo.isIndex()) {
         return !sipo.getMutlipleInternalOutputPorts(Port.OUT.getId()).isEmpty();
       } else {
-        return AbstractCreateTaskFeature
-            .getAllMutlipleInternalOutputPorts(sipo, Port.OUT.getId())
+        return sipo.getMutlipleInternalOutputPorts(Port.OUT.getId())
             .size() != Integer.parseInt(sipo.getSize());
       }
     }
