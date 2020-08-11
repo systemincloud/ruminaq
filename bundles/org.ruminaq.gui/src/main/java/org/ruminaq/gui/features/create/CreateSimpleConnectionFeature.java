@@ -68,7 +68,6 @@ public class CreateSimpleConnectionFeature
       newConnection = (Connection) getFeatureProvider()
           .addIfPossible(addContext);
     }
-
     return newConnection;
   }
 
