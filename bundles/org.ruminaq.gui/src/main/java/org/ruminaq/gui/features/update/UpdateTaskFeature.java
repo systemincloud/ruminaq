@@ -14,7 +14,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
 import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
@@ -24,7 +23,6 @@ import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.update.UpdateTaskFeature.Filter;
 import org.ruminaq.gui.model.PortDiagram;
 import org.ruminaq.gui.model.Position;
@@ -33,8 +31,8 @@ import org.ruminaq.gui.model.diagram.InternalInputPortShape;
 import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
+import org.ruminaq.gui.model.diagram.impl.TasksUtil;
 import org.ruminaq.gui.model.diagram.impl.task.InternalPortShapeGA;
-import org.ruminaq.gui.model.diagram.impl.task.TasksUtil;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.desc.NoPorts;
 import org.ruminaq.model.desc.PortsDescr;
@@ -254,7 +252,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   protected void createInputPort(Task task, PortsDescr pd) {
     Stream.of(getPortsDescription().getDeclaredFields())
         .filter(f -> f.getName().equals(pd.name())).findFirst()
-        .ifPresent(f -> AbstractCreateTaskFeature.createInputPort(task, f));
+        .ifPresent(f -> TasksUtil.createInputPort(task, f));
   }
 
   protected void deleteInputPort(Task task, String id) {
@@ -264,7 +262,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   protected void createOutputPort(Task task, PortsDescr pd) {
     Stream.of(getPortsDescription().getDeclaredFields())
         .filter(f -> f.getName().equals(pd.name())).findFirst()
-        .ifPresent(f -> AbstractCreateTaskFeature.createOutputPort(task, f));
+        .ifPresent(f -> TasksUtil.createOutputPort(task, f));
   }
 
   protected void deleteOutputPort(Task task, String id) {
