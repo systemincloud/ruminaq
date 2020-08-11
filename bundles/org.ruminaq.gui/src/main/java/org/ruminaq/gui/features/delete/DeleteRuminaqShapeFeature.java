@@ -74,6 +74,9 @@ public class DeleteRuminaqShapeFeature extends RuminaqDeleteFeature {
     return true;
   }
 
+  /**
+   * Delete domain object.
+   */
   @Override
   public void postDelete(IDeleteContext context) {
     Optional.of(context).map(IDeleteContext::getPictogramElement)
