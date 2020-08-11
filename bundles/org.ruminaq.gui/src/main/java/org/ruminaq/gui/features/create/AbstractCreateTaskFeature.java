@@ -41,11 +41,8 @@ public abstract class AbstractCreateTaskFeature
   protected Object[] create(ICreateContext context, Task task) {
     LOGGER.trace("{}", task.getClass().getSimpleName());
     setDefaultId(task, context);
-
     addDefaultPorts(task);
-
     getRuminaqDiagram().getMainTask().getTask().add(task);
-
     addGraphicalRepresentation(context, task);
     return new Object[] { task };
   }

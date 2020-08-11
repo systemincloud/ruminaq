@@ -68,14 +68,16 @@ public class DeleteSimpleConnectionFeature extends RuminaqDeleteFeature {
         });
   }
 
+  /**
+   * Delete domain object.
+   */
   @Override
-  public void delete(IDeleteContext context) {
+  public void postDelete(IDeleteContext context) {
     Optional.of(context).map(IDeleteContext::getPictogramElement)
         .filter(SimpleConnectionShape.class::isInstance)
         .map(SimpleConnectionShape.class::cast)
         .map(SimpleConnectionShape::getModelObject).map(List::stream)
         .orElseGet(Stream::empty).collect(Collectors.toList())
         .forEach(mo -> EcoreUtil.delete(mo, true));
-    super.delete(context);
   }
 }
