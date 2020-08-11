@@ -11,6 +11,11 @@ import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.ui.features.DefaultDeleteFeature;
 import org.ruminaq.gui.diagram.FeatureProviderRemoveDecorator;
 
+/**
+ * Common class for DeleteFeature.
+ *
+ * @author Marek Jagielski
+ */
 public class RuminaqDeleteFeature extends DefaultDeleteFeature {
 
   private boolean isUserDecision = true;
