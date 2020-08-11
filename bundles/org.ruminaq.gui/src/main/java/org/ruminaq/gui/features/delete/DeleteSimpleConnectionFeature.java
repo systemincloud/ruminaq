@@ -24,6 +24,11 @@ import org.ruminaq.gui.features.delete.DeleteSimpleConnectionFeature.Filter;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 
+/**
+ * IDeleteFeature for SimpleConnection.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class DeleteSimpleConnectionFeature extends RuminaqDeleteFeature {
 
