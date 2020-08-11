@@ -48,6 +48,7 @@ import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
 
 /**
+ * IUpdateFeature for Task.
  *
  * @author Marek Jagielski
  */
@@ -286,10 +287,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     portShape.setY(yOfPostion(taskShape, position));
 
     redistributePorts(taskShape, position);
-
-//  ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
-//  getDiagram(), parent, in.getId(), AbstractAddTaskFeature.PORT_SIZE,
-//  AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.RIGHT);
   }
 
   private void addOutputPort(InternalOutputPort p,
@@ -309,11 +306,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     portShape.setX(xOfPostion(taskShape, position));
     portShape.setY(yOfPostion(taskShape, position));
     redistributePorts(taskShape, position);
-
-//  ContainerShape portLabelShape = AbstractAddTaskFeature.addInternalPortLabel(
-//  getDiagram(), parent, out.getId(), AbstractAddTaskFeature.PORT_SIZE,
-//  AbstractAddTaskFeature.PORT_SIZE, x, y, InternalPortLabelPosition.LEFT);
-
   }
 
   protected void createInputPort(Task task, ContainerShape parent, String name,
