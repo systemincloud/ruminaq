@@ -51,6 +51,9 @@ public class DeleteSimpleConnectionFeature extends RuminaqDeleteFeature {
     return true;
   }
 
+  /**
+   * Delete SimpleConnectionPointShape if Target.
+   */
   @Override
   public void preDelete(IDeleteContext context) {
     Optional.of(context).map(IDeleteContext::getPictogramElement)
