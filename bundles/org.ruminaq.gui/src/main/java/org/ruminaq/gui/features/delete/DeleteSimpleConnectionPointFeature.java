@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -29,6 +28,11 @@ import org.ruminaq.gui.model.diagram.FlowTargetShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 
+/**
+ * IDeleteFeature for SimpleConnectionPoint.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class DeleteSimpleConnectionPointFeature extends RuminaqDeleteFeature {
 
@@ -84,18 +88,20 @@ public class DeleteSimpleConnectionPointFeature extends RuminaqDeleteFeature {
         i -> i.getBendpoints().addAll(bendpointInsteadOfConnectionPoint.stream()
             .collect(Collectors.toList())));
     incommingOpt.ifPresent(i -> i.getBendpoints()
-        .addAll(firstOutgoing.map(o -> o.getBendpoints()).map(EList::stream)
-            .orElseGet(Stream::empty).collect(Collectors.toList())));
+        .addAll(firstOutgoing.map(SimpleConnectionShape::getBendpoints)
+            .map(EList::stream).orElseGet(Stream::empty)
+            .collect(Collectors.toList())));
 
-    outgoingsOpt.get().skip(1).collect(Collectors.toList()).forEach(o -> {
-      DeleteContext deleteCtx = new DeleteContext(o);
-      deleteCtx.setMultiDeleteInfo(new MultiDeleteInfo(false, false, 1));
-      IDeleteFeature deleteFeature = getFeatureProvider()
-          .getDeleteFeature(deleteCtx);
-      deleteFeature.delete(deleteCtx);
-    });
+    outgoingsOpt.get().skip(1).collect(Collectors.toList())
+        .forEach((SimpleConnectionShape o) -> {
+          DeleteContext deleteCtx = new DeleteContext(o);
+          deleteCtx.setMultiDeleteInfo(new MultiDeleteInfo(false, false, 1));
+          IDeleteFeature deleteFeature = getFeatureProvider()
+              .getDeleteFeature(deleteCtx);
+          deleteFeature.delete(deleteCtx);
+        });
 
-    firstOutgoing.ifPresent(o -> {
+    firstOutgoing.ifPresent((SimpleConnectionShape o) -> {
       RemoveContext removeCtx = new RemoveContext(o);
       getFeatureProvider().getRemoveFeature(removeCtx).remove(removeCtx);
     });
