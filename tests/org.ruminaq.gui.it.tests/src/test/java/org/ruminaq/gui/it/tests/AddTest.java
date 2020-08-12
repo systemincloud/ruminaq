@@ -155,7 +155,7 @@ public class AddTest extends GuiTest {
   }
 
   @Test
-  public void testAddSimpleConnectionPointAfterBend() {
+  public void testAddSimpleConnectionPointAfterBend() throws InterruptedException {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Input Port", 200, 100);
     gefEditor.addToolFromPalette("Output Port", 400, 100);
@@ -179,6 +179,9 @@ public class AddTest extends GuiTest {
             editDomain, ""));
     gefEditor.click(350, 150);
     gefEditor.getContextMenu().getItem("Create connection point").select();
+
+    Thread.sleep(1000);
+
     assertDiagram(gefEditor, "AddTest.testAddSimpleConnectionPointAfterBend.xml");
   }
 
