@@ -47,6 +47,11 @@ public abstract class AbstractCreateTaskFeature
     return new Object[] { task };
   }
 
+  /**
+   * Metadata of ports.
+   *
+   * @return class containing metadata of ports.
+   */
   protected abstract Class<? extends PortsDescr> getPortsDescription();
 
   private void addDefaultPorts(Task task) {
