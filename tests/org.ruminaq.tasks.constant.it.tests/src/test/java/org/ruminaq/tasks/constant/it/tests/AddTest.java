@@ -23,9 +23,12 @@ import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 public class AddTest extends GuiTest {
 
   @Test
-  public void testAddConstant() {
+  public void testAddConstant() throws InterruptedException {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Constant", 200, 100);
+
+    Thread.sleep(1000);
+
     assertDiagram(gefEditor, "AddTest.testAddConstant.xml");
   }
 
@@ -37,6 +40,8 @@ public class AddTest extends GuiTest {
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InternalOutputPort.class);
     ip.select();
     new MoveInternalPortShape(gefEditor, ip, -38, 0).execute();
+
+    Thread.sleep(1000);
 
     assertDiagram(gefEditor, "AddTest.testMoveInternalPort.xml");
   }
