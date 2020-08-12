@@ -3,12 +3,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tests.common.reddeer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
-
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.internal.figures.GFAbstractShape;
 import org.eclipse.graphiti.ui.internal.figures.GFPolylineConnection;
 import org.eclipse.graphiti.ui.internal.parts.ConnectionEditPart;
@@ -30,13 +31,7 @@ public class IsConnectionWithShapeOfType
     this.clazz = clazz;
   }
 
-  /*
-   * (non-Javadoc)
-   *
-   * @see org.hamcrest.Matcher#matches(java.lang.Object)
-   */
-  @Override
-  public boolean matches(Object obj) {
+  public static Optional<PictogramElement> getPictogramElement(Object obj) {
     return Optional.of(obj).filter(GFPolylineConnection.class::isInstance)
         .map(GFPolylineConnection.class::cast)
         .map((GFPolylineConnection gc) -> {
@@ -52,8 +47,17 @@ public class IsConnectionWithShapeOfType
           }
         }).filter(IPictogramElementDelegate.class::isInstance)
         .map(IPictogramElementDelegate.class::cast)
-        .map(IPictogramElementDelegate::getPictogramElement)
-        .filter(clazz::isInstance).isPresent();
+        .map(IPictogramElementDelegate::getPictogramElement);
+  }
+
+  /*
+   * (non-Javadoc)
+   *
+   * @see org.hamcrest.Matcher#matches(java.lang.Object)
+   */
+  @Override
+  public boolean matches(Object obj) {
+    return getPictogramElement(obj).filter(clazz::isInstance).isPresent();
   }
 
   /*

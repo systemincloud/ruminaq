@@ -10,6 +10,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import java.util.List;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.reddeer.gef.api.Palette;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.graphiti.api.ContextButton;
@@ -18,10 +20,12 @@ import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.reddeer.swt.api.MenuItem;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.eclipse.editor.RuminaqEditor;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.InputPort;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.tests.common.reddeer.CreateSimpleConnection;
 import org.ruminaq.tests.common.reddeer.GuiTest;
@@ -148,6 +152,34 @@ public class AddTest extends GuiTest {
         new WithLabelAssociated("My Output Port 1")).execute();
 
     assertEquals("8 elements", 8, gefEditor.getNumberOfEditParts());
+  }
+
+  @Test
+  public void testAddSimpleConnectionPointAfterBend() {
+    GEFEditor gefEditor = new GEFEditor(diagramName);
+    gefEditor.addToolFromPalette("Input Port", 200, 100);
+    gefEditor.addToolFromPalette("Output Port", 400, 100);
+
+    new CreateSimpleConnection(gefEditor,
+        new WithBoGraphitiEditPart(InputPort.class),
+        new WithBoGraphitiEditPart(OutputPort.class)).execute();
+
+    WithShapeGraphitiConnection connection = new WithShapeGraphitiConnection(
+        SimpleConnectionShape.class);
+    connection.select();
+
+    RuminaqEditor ruminaqEditor = ((RuminaqEditor) gefEditor.getEditorPart());
+    TransactionalEditingDomain editDomain = ruminaqEditor.getDiagramBehavior()
+        .getEditingDomain();
+    connection.getConnection().filter(SimpleConnectionShape.class::isInstance)
+        .map(SimpleConnectionShape.class::cast)
+        .map(SimpleConnectionShape::getBendpoints)
+        .ifPresent(list -> ModelUtil.runModelChange(
+            () -> list.add(Graphiti.getGaService().createPoint(300, 200)),
+            editDomain, ""));
+    gefEditor.click(350, 150);
+    gefEditor.getContextMenu().getItem("Create connection point").select();
+    assertDiagram(gefEditor, "AddTest.testAddSimpleConnectionPointAfterBend.xml");
   }
 
   @Test

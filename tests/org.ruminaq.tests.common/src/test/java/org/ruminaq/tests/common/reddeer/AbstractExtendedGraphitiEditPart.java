@@ -21,7 +21,6 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.reddeer.common.util.Display;
 import org.eclipse.reddeer.common.util.ResultRunnable;
-import org.eclipse.reddeer.graphiti.GraphitiLayerException;
 import org.eclipse.reddeer.graphiti.impl.graphitieditpart.AbstractGraphitiEditPart;
 import org.eclipse.reddeer.graphiti.lookup.DiagramEditorLookup;
 import org.hamcrest.Matcher;
