@@ -71,7 +71,7 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
   }
 
   @Override
-  protected void postMoveShape(final IMoveShapeContext context) {
+  protected void postMoveShape(IMoveShapeContext context) {
     Optional.of(context.getShape())
         .filter(LabeledRuminaqShape.class::isInstance)
         .map(LabeledRuminaqShape.class::cast).map(LabeledRuminaqShape::getLabel)

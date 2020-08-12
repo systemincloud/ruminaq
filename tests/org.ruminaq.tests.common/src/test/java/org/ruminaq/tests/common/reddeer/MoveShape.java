@@ -3,12 +3,16 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tests.common.reddeer;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Optional;
 
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.features.IFeatureProvider;
+import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
@@ -20,9 +24,9 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 
 public class MoveShape {
 
-  private IFeatureProvider featureProvider;
-  private TransactionalEditingDomain editDomain;
-  private MoveShapeContext context;
+  protected IFeatureProvider featureProvider;
+  protected TransactionalEditingDomain editDomain;
+  protected MoveShapeContext context;
 
   public MoveShape(GEFEditor gefEditor, GraphitiEditPart ep, int deltaX,
       int deltaY) {
@@ -51,7 +55,18 @@ public class MoveShape {
   public void execute() {
     MoveElementFeature f = new MoveElementFeature(featureProvider);
     f.canMoveShape(context);
-    ModelUtil.runModelChange(() -> f.moveShape(context), editDomain,
-        "Move shape");
+    ModelUtil.runModelChange(() -> {
+      f.moveShape(context);
+      try {
+        Method postMoveShapeMethod = MoveElementFeature.class
+            .getDeclaredMethod("postMoveShape", IMoveShapeContext.class);
+        postMoveShapeMethod.canAccess(f);
+        postMoveShapeMethod.invoke(f, context);
+      } catch (NoSuchMethodException | SecurityException
+          | IllegalAccessException | IllegalArgumentException
+          | InvocationTargetException e) {
+        e.printStackTrace();
+      }
+    }, editDomain, "Move shape");
   }
 }
