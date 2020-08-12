@@ -44,6 +44,9 @@ public class CreateSimpleConnectionFeature
         .isPresent();
   }
 
+  /**
+   * SimpleConnection can be created between FlowSource and FlowTarget.
+   */
   @Override
   public boolean canCreate(ICreateConnectionContext context) {
     return getFlowEnd(context.getSourceAnchor(), FlowSource.class).isPresent()
