@@ -23,6 +23,13 @@ public class AddTest extends GuiTest {
   public void testAddConstant() {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Constant", 200, 100);
+    assertDiagram(gefEditor, "AddTest.testAddConstant.xml");
+  }
+
+  @Test
+  public void testMoveInternalPort() {
+    GEFEditor gefEditor = new GEFEditor(diagramName);
+    gefEditor.addToolFromPalette("Constant", 200, 100);
   }
 
 }
