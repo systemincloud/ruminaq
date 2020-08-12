@@ -96,6 +96,13 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
     }
   }
 
+  /**
+   * Delete bendpoint which is closed than d from point p.
+   *
+   * @param ffc connection with bendpoints
+   * @param p reference point
+   * @param d distance to refenrece point
+   */
   private static void deleteBendpointsNear(FreeFormConnection ffc, Point p,
       int d) {
     ffc.getBendpoints()
