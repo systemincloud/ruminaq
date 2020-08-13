@@ -55,6 +55,10 @@ public class DeleteSimpleConnectionPointFeature extends RuminaqDeleteFeature {
     return true;
   }
 
+  /**
+   * Replace SimpleConnectionPoint with bendpoint.
+   * Leave just one outgoing connection.
+   */
   @Override
   public void preDelete(IDeleteContext context) {
     Optional<SimpleConnectionPointShape> scpOpt = Optional.of(context)
