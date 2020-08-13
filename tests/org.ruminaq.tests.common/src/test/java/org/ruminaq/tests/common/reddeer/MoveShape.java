@@ -6,19 +6,15 @@
 
 package org.ruminaq.tests.common.reddeer;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Optional;
-
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IMoveShapeContext;
+import org.eclipse.graphiti.features.IMoveFeature;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.graphiti.api.GraphitiEditPart;
 import org.ruminaq.eclipse.editor.RuminaqEditor;
-import org.ruminaq.gui.features.move.MoveElementFeature;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
 
@@ -27,6 +23,7 @@ public class MoveShape {
   protected IFeatureProvider featureProvider;
   protected TransactionalEditingDomain editDomain;
   protected MoveShapeContext context;
+  protected IMoveFeature feature;
 
   public MoveShape(GEFEditor gefEditor, GraphitiEditPart ep, int deltaX,
       int deltaY) {
@@ -50,23 +47,13 @@ public class MoveShape {
     this.context.setY(shape.getY() + deltaY);
     this.context.setDeltaX(deltaX);
     this.context.setDeltaY(deltaY);
+    this.feature = featureProvider.getMoveShapeFeature(context);
   }
 
   public void execute() {
-    MoveElementFeature f = new MoveElementFeature(featureProvider);
-    f.canMoveShape(context);
+    feature.canExecute(context);
     ModelUtil.runModelChange(() -> {
-      f.moveShape(context);
-      try {
-        Method postMoveShapeMethod = MoveElementFeature.class
-            .getDeclaredMethod("postMoveShape", IMoveShapeContext.class);
-        postMoveShapeMethod.canAccess(f);
-        postMoveShapeMethod.invoke(f, context);
-      } catch (NoSuchMethodException | SecurityException
-          | IllegalAccessException | IllegalArgumentException
-          | InvocationTargetException e) {
-        e.printStackTrace();
-      }
+      feature.execute(context);
     }, editDomain, "Move shape");
   }
 }

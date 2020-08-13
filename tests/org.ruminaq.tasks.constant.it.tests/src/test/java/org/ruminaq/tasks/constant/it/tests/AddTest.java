@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.tests.common.reddeer.GuiTest;
-import org.ruminaq.tests.common.reddeer.MoveInternalPortShape;
+import org.ruminaq.tests.common.reddeer.MoveShape;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 
 /**
@@ -39,7 +39,7 @@ public class AddTest extends GuiTest {
 
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InternalOutputPort.class);
     ip.select();
-    new MoveInternalPortShape(gefEditor, ip, -38, 0).execute();
+    new MoveShape(gefEditor, ip, -38, 0).execute();
 
     Thread.sleep(1000);
 
