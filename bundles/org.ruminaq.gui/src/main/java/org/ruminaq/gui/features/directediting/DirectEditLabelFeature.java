@@ -51,6 +51,14 @@ public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
         .orElseThrow();
   }
 
+  /**
+   * Check if ContainerShape contains already given label id.
+   *
+   * @param containerShape shape to check
+   * @param pe PictogramElement
+   * @param value id value
+   * @return contains id
+   */
   public static boolean hasId(ContainerShape containerShape, PictogramElement pe,
       String value) {
     return containerShape.getChildren().stream().filter(s -> pe != s)
