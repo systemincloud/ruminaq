@@ -86,7 +86,6 @@ public class DeleteSimpleConnectionPointFeature extends RuminaqDeleteFeature {
 
     Optional<FlowTargetShape> targetAnchor = firstOutgoing
         .map(SimpleConnectionShape::getTarget);
-
     incommingOpt.ifPresent(i -> targetAnchor.ifPresent(i::setTarget));
     incommingOpt.ifPresent(
         i -> i.getBendpoints().addAll(bendpointInsteadOfConnectionPoint.stream()
