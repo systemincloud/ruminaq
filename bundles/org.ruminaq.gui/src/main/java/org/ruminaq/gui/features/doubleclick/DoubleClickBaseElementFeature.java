@@ -51,6 +51,9 @@ public class DoubleClickBaseElementFeature extends AbstractCustomFeature {
     return true;
   }
 
+  /**
+   * No model changes.
+   */
   @Override
   public boolean hasDoneChanges() {
     return false;
