@@ -13,6 +13,13 @@ import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
 
+/**
+ * IPasteFeature for Ruminaq shape with Label.
+ *
+ * @author Marek Jagielski
+ *
+ * @param <T>
+ */
 public class LabeledRuminaqPasteFeature<T extends LabeledRuminaqShape>
     extends RuminaqShapePasteFeature<T> {
 
