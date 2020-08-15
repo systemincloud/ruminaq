@@ -76,7 +76,6 @@ public class DeleteSimpleConnectionPointFeature extends RuminaqDeleteFeature {
   @Override
   public void preDelete(IDeleteContext context) {
     Optional<SimpleConnectionPointShape> scpOpt = shapeFromContext(context);
-
     Optional<SimpleConnectionShape> incommingOpt = scpOpt
         .map(SimpleConnectionPointShape::getIncomingConnections)
         .map(List::stream).orElseGet(Stream::empty)
