@@ -56,15 +56,26 @@ public class DeleteSimpleConnectionPointFeature extends RuminaqDeleteFeature {
   }
 
   /**
+   * Extract shape from IDeleteContext.
+   *
+   * @param context IDeleteContext
+   * @return shape
+   */
+  private static Optional<SimpleConnectionPointShape> shapeFromContext(
+      IDeleteContext context) {
+    return Optional.of(context)
+        .map(IDeleteContext::getPictogramElement)
+        .filter(SimpleConnectionPointShape.class::isInstance)
+        .map(SimpleConnectionPointShape.class::cast);
+  }
+
+  /**
    * Replace SimpleConnectionPoint with bendpoint.
    * Leave just one outgoing connection.
    */
   @Override
   public void preDelete(IDeleteContext context) {
-    Optional<SimpleConnectionPointShape> scpOpt = Optional.of(context)
-        .map(IDeleteContext::getPictogramElement)
-        .filter(SimpleConnectionPointShape.class::isInstance)
-        .map(SimpleConnectionPointShape.class::cast);
+    Optional<SimpleConnectionPointShape> scpOpt = shapeFromContext(context);
 
     Optional<SimpleConnectionShape> incommingOpt = scpOpt
         .map(SimpleConnectionPointShape::getIncomingConnections)
