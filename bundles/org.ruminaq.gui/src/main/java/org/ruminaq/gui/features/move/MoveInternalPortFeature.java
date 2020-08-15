@@ -18,6 +18,11 @@ import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InternalPort;
 
+/**
+ * IMoveShapeFeature for Task's internalport.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
 
@@ -30,16 +35,34 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
     }
   }
 
+  public MoveInternalPortFeature(IFeatureProvider fp) {
+    super(fp);
+  }
+
   protected static InternalPortShape shapeFromContext(
       IMoveShapeContext context) {
     return Optional.of(context).map(IMoveShapeContext::getPictogramElement)
         .filter(InternalPortShape.class::isInstance)
-        .map(InternalPortShape.class::cast)
-        .orElseThrow(() -> new RuntimeException());
+        .map(InternalPortShape.class::cast).orElseThrow(RuntimeException::new);
   }
 
-  public MoveInternalPortFeature(IFeatureProvider fp) {
-    super(fp);
+  private static boolean isOnBound(IMoveShapeContext context) {
+    InternalPortShape ips = shapeFromContext(context);
+    int taskWidth = ips.getTask().getWidth();
+    int taskHeight = ips.getTask().getHeight();
+
+    int newX = ips.getX() + context.getDeltaX();
+    int newY = ips.getY() + context.getDeltaY();
+
+    if (newY < 0 || newX < 0 || newY + ips.getHeight() > taskHeight
+        || newX + ips.getWidth() > taskWidth) {
+      return false;
+    }
+
+    return newX < EPSILON || newY < EPSILON
+        || GuiUtil.almostEqualRight(taskWidth - ips.getWidth(), newX, EPSILON)
+        || GuiUtil.almostEqualRight(taskHeight - ips.getHeight(), newY,
+            EPSILON);
   }
 
   @Override
@@ -47,49 +70,29 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
     return context.getTargetContainer() == null && isOnBound(context);
   }
 
-  private boolean isOnBound(IMoveShapeContext context) {
-    InternalPortShape ips = shapeFromContext(context);
-    int W = ips.getTask().getWidth();
-    int H = ips.getTask().getHeight();
-    int w = ips.getWidth();
-    int h = ips.getHeight();
-
-    int newX = ips.getX() + context.getDeltaX();
-    int newY = ips.getY() + context.getDeltaY();
-
-    if (newY < 0 || newX < 0 || newY + h > H || newX + w > W) {
-      return false;
-    }
-
-    return newX < EPSILON || GuiUtil.almostEqualRight(W - w, newX, EPSILON)
-        || newY < EPSILON || GuiUtil.almostEqualRight(H - h, newY, EPSILON);
-  }
-
   @Override
   public void postMoveShape(IMoveShapeContext context) {
     InternalPortShape ips = shapeFromContext(context);
 
-    int x = ips.getX();
-    int y = ips.getY();
-    int w = ips.getWidth();
-    int h = ips.getHeight();
-    int W = ips.getTask().getWidth();
-    int H = ips.getTask().getHeight();
+    int taskWidth = ips.getTask().getWidth();
+    int taskHeigth = ips.getTask().getHeight();
 
-    if (x < EPSILON) {
+    if (ips.getX() < EPSILON) {
       ips.setX(0);
     }
 
-    if (GuiUtil.almostEqualRight(W - w, x, EPSILON)) {
-      ips.setX(W - w);
+    if (GuiUtil.almostEqualRight(taskWidth - ips.getWidth(), ips.getX(),
+        EPSILON)) {
+      ips.setX(taskWidth - ips.getWidth());
     }
 
-    if (y < EPSILON) {
+    if (ips.getY() < EPSILON) {
       ips.setY(0);
     }
 
-    if (GuiUtil.almostEqualRight(H - h, y, EPSILON)) {
-      ips.setY(H - h);
+    if (GuiUtil.almostEqualRight(taskHeigth - ips.getHeight(), ips.getY(),
+        EPSILON)) {
+      ips.setY(taskHeigth - ips.getHeight());
     }
 
     updatePictogramElement(ips.getInternalPortLabel());
