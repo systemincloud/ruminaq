@@ -53,6 +53,5 @@ public class MoveLabelFeature extends DefaultMoveShapeFeature {
         .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
         .orElseThrow();
     shape.setDefaultPosition(LabelUtil.isInDefaultPosition(shape));
-    super.postMoveShape(context);
   }
 }
