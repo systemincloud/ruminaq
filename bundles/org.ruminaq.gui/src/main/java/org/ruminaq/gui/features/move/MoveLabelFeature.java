@@ -44,13 +44,7 @@ public class MoveLabelFeature extends DefaultMoveShapeFeature {
 
   @Override
   public boolean canMoveShape(IMoveShapeContext context) {
-    if (Optional.ofNullable(context.getSourceContainer()).isEmpty()) {
-      return false;
-    }
-    if (context.getSourceContainer().equals(context.getTargetContainer())) {
-      return true;
-    }
-    return false;
+    return context.getSourceContainer().equals(context.getTargetContainer());
   }
 
   @Override
