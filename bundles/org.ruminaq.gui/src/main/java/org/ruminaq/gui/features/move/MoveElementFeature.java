@@ -79,7 +79,5 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
           l.setY(l.getY() + context.getDeltaY());
           getFeatureProvider().updateIfPossibleAndNeeded(new UpdateContext(l));
         });
-
-    super.postMoveShape(context);
   }
 }
