@@ -170,7 +170,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     }
   }
 
-  private boolean updatePortNeeded(IUpdateContext context) {
+  private static boolean updatePortNeeded(IUpdateContext context) {
     Optional<TaskShape> taskShape = shapeFromContext(context);
     Optional<Task> task = modelFromShape(taskShape);
     if (taskShape.isPresent() && task.isPresent()) {
