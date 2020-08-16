@@ -56,7 +56,7 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
    * Check if shape is hovering label.
    */
   @Override
-  public void moveShape(IMoveShapeContext context) {
+  public void preMoveShape(IMoveShapeContext context) {
     Optional.ofNullable(context.getTargetContainer())
         .filter(LabelShape.class::isInstance).map(LabelShape.class::cast)
         .ifPresent((LabelShape l) -> {
@@ -67,7 +67,6 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
           c.setX(c.getX() + l.getX());
           c.setY(c.getY() + l.getY());
         });
-    super.moveShape(context);
   }
 
   @Override
