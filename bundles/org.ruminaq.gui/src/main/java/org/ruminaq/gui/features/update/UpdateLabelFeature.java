@@ -41,15 +41,15 @@ public class UpdateLabelFeature extends AbstractUpdateFeature {
     }
   }
 
+  public UpdateLabelFeature(IFeatureProvider fp) {
+    super(fp);
+  }
+
   protected static Optional<LabelShape> shapeFromContext(
       IUpdateContext context) {
     return Optional.of(context)
         .map(AbstractUpdateFeatureFilter.getPictogramElement)
         .filter(LabelShape.class::isInstance).map(LabelShape.class::cast);
-  }
-
-  public UpdateLabelFeature(IFeatureProvider fp) {
-    super(fp);
   }
 
   @Override
