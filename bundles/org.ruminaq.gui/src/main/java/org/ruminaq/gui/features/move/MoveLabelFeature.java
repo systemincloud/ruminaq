@@ -47,6 +47,9 @@ public class MoveLabelFeature extends DefaultMoveShapeFeature {
     return context.getSourceContainer().equals(context.getTargetContainer());
   }
 
+  /**
+   * Check if Label is still in default position.
+   */
   @Override
   protected void postMoveShape(final IMoveShapeContext context) {
     LabelShape shape = Optional.ofNullable(context.getShape())
