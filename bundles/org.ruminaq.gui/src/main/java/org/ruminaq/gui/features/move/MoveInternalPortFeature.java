@@ -75,20 +75,21 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
   public void postMoveShape(IMoveShapeContext context) {
     InternalPortShape ips = shapeFromContext(context);
 
-    int taskWidth = ips.getTask().getWidth();
-    int taskHeigth = ips.getTask().getHeight();
-
     if (ips.getX() < EPSILON) {
       ips.setX(0);
     }
 
+    if (ips.getY() < EPSILON) {
+      ips.setY(0);
+    }
+
+    int taskWidth = ips.getTask().getWidth();
+    int taskHeigth = ips.getTask().getHeight();
+
+
     if (GuiUtil.almostEqualRight(taskWidth - ips.getWidth(), ips.getX(),
         EPSILON)) {
       ips.setX(taskWidth - ips.getWidth());
-    }
-
-    if (ips.getY() < EPSILON) {
-      ips.setY(0);
     }
 
     if (GuiUtil.almostEqualRight(taskHeigth - ips.getHeight(), ips.getY(),
