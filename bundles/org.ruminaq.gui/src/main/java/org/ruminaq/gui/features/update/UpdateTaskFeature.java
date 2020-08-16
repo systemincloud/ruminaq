@@ -358,7 +358,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     optPosition.ifPresent(pos -> redistributePorts(taskShape, pos));
   }
 
-  private void redistributePorts(TaskShape taskShape, Position pos) {
+  private static void redistributePorts(TaskShape taskShape, Position pos) {
     Supplier<Stream<InternalPortShape>> ports = () -> taskShape
         .getInternalPort().stream();
     switch (pos) {
