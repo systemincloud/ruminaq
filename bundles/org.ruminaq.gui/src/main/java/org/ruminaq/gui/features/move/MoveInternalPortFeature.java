@@ -15,6 +15,7 @@ import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.move.MoveInternalPortFeature.Filter;
 import org.ruminaq.gui.model.GuiUtil;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
+import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InternalPort;
 
@@ -48,20 +49,20 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
 
   private static boolean isOnBound(IMoveShapeContext context) {
     InternalPortShape ips = shapeFromContext(context);
-    int taskWidth = ips.getTask().getWidth();
-    int taskHeight = ips.getTask().getHeight();
+    TaskShape task = ips.getTask();
 
     int newX = ips.getX() + context.getDeltaX();
     int newY = ips.getY() + context.getDeltaY();
 
-    if (newY < 0 || newX < 0 || newY + ips.getHeight() > taskHeight
-        || newX + ips.getWidth() > taskWidth) {
+    if (newY < 0 || newX < 0 || newY + ips.getHeight() > task.getHeight()
+        || newX + ips.getWidth() > task.getWidth()) {
       return false;
     }
 
     return newX < EPSILON || newY < EPSILON
-        || GuiUtil.almostEqualRight(taskWidth - ips.getWidth(), newX, EPSILON)
-        || GuiUtil.almostEqualRight(taskHeight - ips.getHeight(), newY,
+        || GuiUtil.almostEqualRight(task.getWidth() - ips.getWidth(), newX,
+            EPSILON)
+        || GuiUtil.almostEqualRight(task.getHeight() - ips.getHeight(), newY,
             EPSILON);
   }
 
