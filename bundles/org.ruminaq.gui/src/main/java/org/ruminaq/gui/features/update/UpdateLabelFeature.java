@@ -21,6 +21,11 @@ import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.NoElement;
 
+/**
+ * IUpdateFeature for Label.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class UpdateLabelFeature extends AbstractUpdateFeature {
 
@@ -63,7 +68,7 @@ public class UpdateLabelFeature extends AbstractUpdateFeature {
     }
   }
 
-  private boolean postionUpdateNeeded(LabelShape labelShape) {
+  private static boolean postionUpdateNeeded(LabelShape labelShape) {
     return labelShape.isDefaultPosition()
         && !LabelUtil.isInDefaultPosition(labelShape);
   }
@@ -79,7 +84,7 @@ public class UpdateLabelFeature extends AbstractUpdateFeature {
     return true;
   }
 
-  private boolean postionUpdate(LabelShape labelShape) {
+  private static boolean postionUpdate(LabelShape labelShape) {
     LabelUtil.placeInDefaultPosition(labelShape);
     return true;
   }
