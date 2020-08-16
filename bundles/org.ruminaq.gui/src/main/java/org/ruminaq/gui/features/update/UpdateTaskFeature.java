@@ -384,9 +384,8 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     ports.sort((p1, p2) -> Integer.compare(p1.getY(), p2.getY()));
     int stepPorts = taskShape.getHeight() / ports.size();
     int startPosition = (stepPorts >> 1) - (InternalPortShapeGA.SIZE >> 1);
-    IntStream.range(0, ports.size()).forEach((int i) -> {
-      ports.get(i).setY(startPosition + i * stepPorts);
-    });
+    IntStream.range(0, ports.size())
+        .forEach(i -> ports.get(i).setY(startPosition + i * stepPorts));
   }
 
   private static void distributePortsHorizontally(TaskShape taskShape,
@@ -394,8 +393,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     ports.sort((p1, p2) -> Integer.compare(p1.getX(), p2.getX()));
     int stepPorts = taskShape.getWidth() / ports.size();
     int startPosition = (stepPorts >> 1) - (InternalPortShapeGA.SIZE >> 1);
-    IntStream.range(0, ports.size()).forEach((int i) -> {
-      ports.get(i).setX(startPosition + i * stepPorts);
-    });
+    IntStream.range(0, ports.size())
+        .forEach(i -> ports.get(i).setX(startPosition + i * stepPorts));
   }
 }

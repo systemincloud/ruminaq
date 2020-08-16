@@ -56,7 +56,7 @@ public class MoveTest extends GuiTest {
   }
 
   @Test
-  public void testMoveOverLAbel() {
+  public void testMoveOverLabel() throws InterruptedException {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Input Port", 200, 100);
 
@@ -64,16 +64,10 @@ public class MoveTest extends GuiTest {
     ip.select();
 
     new MoveShape(gefEditor, ip, 0, 20).execute();
-    InputPortShape shape = Optional.of(ip).map(GraphitiEditPart::getGEFEditPart)
-        .filter(ShapeEditPart.class::isInstance).map(ShapeEditPart.class::cast)
-        .map(ShapeEditPart::getPictogramElement)
-        .filter(InputPortShape.class::isInstance)
-        .map(InputPortShape.class::cast).orElseThrow();
-    LabelShape labelShape = shape.getLabel();
-    assertEquals("X should change", 200, shape.getX());
-    assertEquals("Y should change", 120, shape.getY());
-    assertEquals("label X should change", 181, labelShape.getX());
-    assertEquals("label Y should change", 137, labelShape.getY());
+
+    Thread.sleep(1000);
+
+    assertDiagram(gefEditor, "MoveTest.testMoveOverLabel.xml");
   }
 
   @Test
