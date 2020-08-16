@@ -63,7 +63,7 @@ public class MoveTest extends GuiTest {
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InputPort.class);
     ip.select();
 
-    new MoveShape(gefEditor, ip, 0, 20).execute();
+    new MoveShape(gefEditor, ip, 0, 30).execute();
 
     Thread.sleep(1000);
 

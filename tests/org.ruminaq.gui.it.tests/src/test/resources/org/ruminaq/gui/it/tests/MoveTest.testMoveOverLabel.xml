@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagram="http://ruminaq.org/diagram" xmlns:ruminaq="http://ruminaq.org">
   <diagram:RuminaqDiagram mainTask="/1">
-    <children xsi:type="diagram:InputPortShape" x="200" y="120" modelObject="/1/@inputPort.0" label="/0/@children.1"/>
-    <children xsi:type="diagram:LabelShape" x="181" y="137" labeledShape="/0/@children.0"/>
+    <children xsi:type="diagram:InputPortShape" x="200" y="130" modelObject="/1/@inputPort.0" label="/0/@children.1"/>
+    <children xsi:type="diagram:LabelShape" x="181" y="147" labeledShape="/0/@children.0"/>
   </diagram:RuminaqDiagram>
   <ruminaq:MainTask version="1.0.0">
     <inputPort id="My Input Port"/>
