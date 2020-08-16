@@ -86,7 +86,6 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
     int taskWidth = ips.getTask().getWidth();
     int taskHeigth = ips.getTask().getHeight();
 
-
     if (GuiUtil.almostEqualRight(taskWidth - ips.getWidth(), ips.getX(),
         EPSILON)) {
       ips.setX(taskWidth - ips.getWidth());
