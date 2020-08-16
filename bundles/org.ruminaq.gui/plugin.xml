@@ -1,96 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="4.3"?>
 <plugin>
+  <extension point="org.eclipse.graphiti.ui.diagramTypes">
+    <diagramType
+        description="Ruminaq Model"
+        id="org.ruminaq.gui.RuminaqDiagramType"
+        name="Ruminaq Diagram Type"
+        type="Ruminaq">
+    </diagramType>
+  </extension>
+  <extension point="org.eclipse.graphiti.ui.diagramTypeProviders">
+    <diagramTypeProvider
+        class="org.ruminaq.gui.diagram.RuminaqDiagramTypeProvider"
+        id="org.ruminaq.gui.diagram.RuminaqDiagramTypeProvider"
+        description="This is the editor for Ruminaq Task"
+        name="Ruminaq">
+      <diagramType id="org.ruminaq.gui.RuminaqDiagramType" />
+      <imageProvider id="org.ruminaq.gui.RuminaqImageProvider" />
+    </diagramTypeProvider>
+  </extension>
+  <extension point="org.eclipse.graphiti.ui.imageProviders">
+    <imageProvider
+        class="org.ruminaq.gui.image.ImageProvider"
+        id="org.ruminaq.gui.RuminaqImageProvider">
+    </imageProvider>
+  </extension>
 
-   <extension point="org.eclipse.graphiti.ui.diagramTypes">
-      <diagramType
-            description="Ruminaq Model"
-            id="org.ruminaq.gui.RuminaqDiagramType"
-            name="Ruminaq Diagram Type"
-            type="Ruminaq">
-      </diagramType>
-   </extension>
-   <extension point="org.eclipse.graphiti.ui.diagramTypeProviders">
-      <diagramTypeProvider
-            class="org.ruminaq.gui.diagram.RuminaqDiagramTypeProvider"
-            id="org.ruminaq.gui.diagram.RuminaqDiagramTypeProvider"
-            description="This is the editor for the System in Cloud Task"
-            name="Ruminaq">
-         <diagramType id="org.ruminaq.gui.RuminaqDiagramType" />
-         <imageProvider id="org.ruminaq.gui.RuminaqImageProvider" />
-      </diagramTypeProvider>
-   </extension>
-   
-   <extension point="org.eclipse.graphiti.ui.imageProviders">
-      <imageProvider
-            class="org.ruminaq.gui.image.ImageProvider"
-            id="org.ruminaq.gui.RuminaqImageProvider">
-      </imageProvider>
-   </extension>
-
-   <!-- ******* PROPERTIES ******* -->
-   <extension 
-         point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
-      <propertyContributor 
-            contributorId="Ruminaq.PropertyContributor">
-         <propertyCategory category="Graphiti" />
-      </propertyContributor>
-   </extension>
-
-   <extension 
-         point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
-      <propertyTabs 
-            contributorId="Ruminaq.PropertyContributor">
-         <propertyTab 
-               label="Main Task"
-               id="org.ruminaq.gui.mainTaskTab"
-               category="Graphiti" />
-         <propertyTab 
-               label="Parameters"
-               id="org.ruminaq.gui.parameters"
-               afterTab="org.ruminaq.common.mainTab"
-               category="Graphiti" />
-         <propertyTab 
-               label="Description" 
+  <!-- ******* PROPERTIES ******* -->
+  <extension
+      point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+    <propertyContributor
+        contributorId="Ruminaq.PropertyContributor">
+      <propertyCategory category="Graphiti" />
+    </propertyContributor>
+  </extension>
+  <extension
+      point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+    <propertyTabs
+        contributorId="Ruminaq.PropertyContributor">
+      <propertyTab
+          label="Main Task"
+          id="org.ruminaq.gui.mainTaskTab"
+          category="Graphiti" />
+      <propertyTab
+          label="Parameters"
+          id="org.ruminaq.gui.parameters"
+          afterTab="org.ruminaq.common.mainTab"
+          category="Graphiti" />
+      <propertyTab
+               label="Description"
                id="org.ruminaq.gui.descriptionTab"
                category="Graphiti" />
-         <propertyTab 
+         <propertyTab
                label="General"
                id="org.ruminaq.common.mainTab"
                afterTab="org.ruminaq.common.descriptionTab"
                category="Graphiti" />
-         <propertyTab 
+         <propertyTab
                label="Input Port"
-               id="org.ruminaq.common.inputPortTab"  
+               id="org.ruminaq.common.inputPortTab"
                afterTab="org.ruminaq.common.mainTab"
                category="Graphiti" />
       </propertyTabs>
    </extension>
-   <extension 
+   <extension
          point="org.eclipse.ui.views.properties.tabbed.propertySections">
-      <propertySections 
+      <propertySections
             contributorId="Ruminaq.PropertyContributor">
-         <propertySection 
+         <propertySection
                tab="org.ruminaq.gui.mainTaskTab"
                class="org.ruminaq.gui.properties.PropertyMainTaskSection"
                id="org.ruminaq.gui.mainTab.MainTaskSection"
                filter="org.ruminaq.gui.properties.PropertyMainTaskFilter" />
-         <propertySection 
+         <propertySection
                tab="org.ruminaq.gui.parameters"
                class="org.ruminaq.gui.properties.TestParametersSection"
                id="org.ruminaq.gui.parameters.ParamersSection"
                filter="org.ruminaq.gui.properties.TestParametersFilter" />
-         <propertySection 
+         <propertySection
                tab="org.ruminaq.gui.descriptionTab"
                class="org.ruminaq.gui.properties.PropertyDescriptionSection"
                id="org.ruminaq.gui.descriptionTab.DescriptionSection"
                filter="org.ruminaq.gui.properties.PropertyDescriptionFilter" />
-         <propertySection 
+         <propertySection
                tab="org.ruminaq.common.mainTab"
                class="org.ruminaq.gui.properties.PropertyElementSection"
                id="org.ruminaq.common.mainTab.BaseElementSection"
                filter="org.ruminaq.gui.properties.PropertyElementFilter" />
-         <propertySection 
+         <propertySection
                tab="org.ruminaq.common.inputPortTab"
                class="org.ruminaq.gui.properties.PropertyInputPortSection"
                id="org.ruminaq.common.inputPortTab.InputPortSection"
@@ -102,9 +99,9 @@
     | Wizards
     -->
    <extension point="org.eclipse.ui.newWizards">
-      <category 
-            id="commons" 
-            parentCategory="org.ruminaq.eclipse.newWizards.category" 
+      <category
+            id="commons"
+            parentCategory="org.ruminaq.eclipse.newWizards.category"
             name="Commons"/>
    </extension>
 </plugin>
