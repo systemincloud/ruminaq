@@ -33,7 +33,7 @@ public class MoveTest extends GuiTest {
 
     Thread.sleep(1000);
 
-    assertDiagram(gefEditor, "AddTest.testMoveInternalPort.xml");
+    assertDiagram(gefEditor, "MoveTest.testMoveInternalPort.xml");
   }
 
   @Test
@@ -47,7 +47,7 @@ public class MoveTest extends GuiTest {
 
     Thread.sleep(1000);
 
-    assertDiagram(gefEditor, "AddTest.testMoveInternalPortAlmostOnBoard.xml");
+    assertDiagram(gefEditor, "MoveTest.testMoveInternalPortAlmostOnBoard.xml");
   }
 
 }
