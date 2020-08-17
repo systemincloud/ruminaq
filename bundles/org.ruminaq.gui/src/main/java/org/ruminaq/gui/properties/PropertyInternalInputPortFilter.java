@@ -9,13 +9,13 @@ package org.ruminaq.gui.properties;
 import java.util.Optional;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
-import org.ruminaq.gui.model.diagram.InputPortShape;
+import org.ruminaq.gui.model.diagram.InternalInputPortShape;
 
 public class PropertyInternalInputPortFilter
     extends AbstractPropertySectionFilter {
 
   @Override
   protected boolean accept(PictogramElement pe) {
-    return Optional.of(pe).filter(InputPortShape.class::isInstance).isPresent();
+    return Optional.of(pe).filter(InternalInputPortShape.class::isInstance).isPresent();
   }
 }
