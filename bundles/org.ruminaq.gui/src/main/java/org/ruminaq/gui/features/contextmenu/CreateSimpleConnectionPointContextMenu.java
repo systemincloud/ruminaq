@@ -16,7 +16,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ContextMenuEntryExtension;
 import org.ruminaq.gui.features.contextmenu.CreateSimpleConnectionPointContextMenu.Filter;
-import org.ruminaq.gui.features.create.CreateSimpleConnectionPointFeature;
+import org.ruminaq.gui.features.custom.CreateSimpleConnectionPointFeature;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.gui.model.diagram.impl.simpleconnection.SimpleConnectionUtil;

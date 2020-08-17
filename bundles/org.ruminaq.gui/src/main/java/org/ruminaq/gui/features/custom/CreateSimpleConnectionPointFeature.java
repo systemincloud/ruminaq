@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.gui.features.create;
+package org.ruminaq.gui.features.custom;
 
 import static org.ruminaq.gui.model.GuiUtil.distanceBetweenPoints;
 import static org.ruminaq.gui.model.GuiUtil.pointBelongsToSection;

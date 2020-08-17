@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.features;
+package org.ruminaq.gui.features.custom;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -12,12 +12,12 @@ import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
+import org.ruminaq.gui.image.Images;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.tasks.Images;
 import org.ruminaq.tasks.debug.ui.InternalPortBreakpoint;
 import org.ruminaq.util.EclipseUtil;
 
@@ -27,7 +27,7 @@ public class AllInternalPortToggleBreakpointFeature
   public static final String NAME = "Toggle Breakpoints on all Internal Ports";
 
   public String getImageId() {
-    return Images.K.IMG_TOGGLE_BREAKPOINT.name();
+    return Images.IMG_TOGGLE_BREAKPOINT;
   }
 
   public AllInternalPortToggleBreakpointFeature(IFeatureProvider fp) {

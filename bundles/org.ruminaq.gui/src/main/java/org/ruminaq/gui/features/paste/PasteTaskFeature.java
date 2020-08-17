@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.features;
+package org.ruminaq.gui.features.paste;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,8 +19,6 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
-import org.ruminaq.gui.features.paste.PasteAnchorTracker;
-import org.ruminaq.gui.features.paste.RuminaqShapePasteFeature;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.InternalPort;

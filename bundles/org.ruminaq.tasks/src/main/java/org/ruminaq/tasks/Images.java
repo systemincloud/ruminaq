@@ -15,7 +15,6 @@ import org.osgi.framework.FrameworkUtil;
 public class Images {
 
   public enum K {
-    IMG_TOGGLE_BREAKPOINT("/icons/toggle_breakpoint.gif"),
     IMG_TOGGLE_BREAKPOINT_S("/icons/toggle_breakpoint_s.gif"),
     IMG_TOGGLE_BREAKPOINT_D("/icons/toggle_breakpoint_d.gif");
 
