@@ -69,6 +69,9 @@ public class MoveElementFeature extends DefaultMoveShapeFeature {
         });
   }
 
+  /**
+   * Move respectively label.
+   */
   @Override
   protected void postMoveShape(IMoveShapeContext context) {
     Optional.of(context.getShape())

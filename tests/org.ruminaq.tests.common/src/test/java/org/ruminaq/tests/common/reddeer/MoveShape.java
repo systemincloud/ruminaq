@@ -11,6 +11,7 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IMoveFeature;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.graphiti.api.GraphitiEditPart;
@@ -27,7 +28,11 @@ public class MoveShape {
 
   public MoveShape(GEFEditor gefEditor, GraphitiEditPart ep, int deltaX,
       int deltaY) {
+    this(gefEditor, ep, deltaX, deltaY, null);
+  }
 
+  public MoveShape(GEFEditor gefEditor, GraphitiEditPart ep, int deltaX,
+      int deltaY, ContainerShape targetShape) {
     RuminaqEditor ruminaqEditor = ((RuminaqEditor) gefEditor.getEditorPart());
     this.editDomain = ruminaqEditor.getDiagramBehavior().getEditingDomain();
     this.featureProvider = ruminaqEditor.getDiagramTypeProvider()
@@ -42,9 +47,15 @@ public class MoveShape {
 
     this.context = new MoveShapeContext(shape);
     this.context.setSourceContainer(shape.getContainer());
-    this.context.setTargetContainer(shape.getContainer());
-    this.context.setX(shape.getX() + deltaX);
-    this.context.setY(shape.getY() + deltaY);
+    if (Optional.ofNullable(targetShape).isPresent()) {
+      this.context.setTargetContainer(targetShape);
+      this.context.setX(deltaX);
+      this.context.setY(deltaY);
+    } else {
+      this.context.setTargetContainer(shape.getContainer());
+      this.context.setX(shape.getX() + deltaX);
+      this.context.setY(shape.getY() + deltaY);
+    }
     this.context.setDeltaX(deltaX);
     this.context.setDeltaY(deltaY);
     this.feature = featureProvider.getMoveShapeFeature(context);
