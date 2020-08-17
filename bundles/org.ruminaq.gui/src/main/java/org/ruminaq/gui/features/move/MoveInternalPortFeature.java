@@ -47,7 +47,7 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
         .map(InternalPortShape.class::cast).orElseThrow(RuntimeException::new);
   }
 
-  private static boolean isOnBound(IMoveShapeContext context) {
+  private static boolean isOnBorder(IMoveShapeContext context) {
     InternalPortShape ips = shapeFromContext(context);
     TaskShape task = ips.getTask();
 
@@ -68,9 +68,12 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
 
   @Override
   public boolean canMoveShape(IMoveShapeContext context) {
-    return context.getTargetContainer() == null && isOnBound(context);
+    return context.getTargetContainer() == null && isOnBorder(context);
   }
 
+  /**
+   * Adjust to border.
+   */
   @Override
   public void postMoveShape(IMoveShapeContext context) {
     InternalPortShape ips = shapeFromContext(context);
