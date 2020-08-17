@@ -2,7 +2,7 @@
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagram="http://ruminaq.org/diagram" xmlns:ruminaq="http://ruminaq.org">
   <diagram:RuminaqDiagram mainTask="/1">
     <children xsi:type="diagram:InputPortShape" x="181" y="137" modelObject="/1/@inputPort.0" label="/0/@children.1"/>
-    <children xsi:type="diagram:LabelShape" x="162" y="154" labeledShape="/0/@children.0"/>
+    <children xsi:type="diagram:LabelShape" x="161" y="154" labeledShape="/0/@children.0"/>
   </diagram:RuminaqDiagram>
   <ruminaq:MainTask version="1.0.0">
     <inputPort id="My Input Port"/>
