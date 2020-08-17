@@ -27,7 +27,7 @@ public class Images implements ImagesExtension {
   public static final String IMG_EMBEDDEDTASK_PALETTE = "/icons/palette.embeddedtask_main.png";
   public static final String IMG_EMBEDDEDTASK_DIAGRAM_MAIN = "/icons/diagram.embeddedtask_main.png";
   public static final String IMG_EMBEDDEDTASK_DIAGRAM_TEST = "/icons/diagram.embeddedtask_test.png";
-  public static final String IMG_TOGGLE_BREAKPOINT = "/icons/toggle_breakpoint.gif";
+  public static final String IMG_TOGGLE_BREAKPOINT = "/icons/toggle.breakpoint.gif";
 
   @Override
   public Collection<ImageDescriptor> getImageDecriptors() {
