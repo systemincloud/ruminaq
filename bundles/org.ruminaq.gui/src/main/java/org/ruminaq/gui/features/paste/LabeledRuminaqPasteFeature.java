@@ -18,7 +18,7 @@ import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
  *
  * @author Marek Jagielski
  *
- * @param <T>
+ * @param <T> LabeledRuminaqShape
  */
 public class LabeledRuminaqPasteFeature<T extends LabeledRuminaqShape>
     extends RuminaqShapePasteFeature<T> {
