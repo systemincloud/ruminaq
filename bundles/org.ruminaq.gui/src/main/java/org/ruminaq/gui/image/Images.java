@@ -28,6 +28,8 @@ public class Images implements ImagesExtension {
   public static final String IMG_EMBEDDEDTASK_DIAGRAM_MAIN = "/icons/diagram.embeddedtask_main.png";
   public static final String IMG_EMBEDDEDTASK_DIAGRAM_TEST = "/icons/diagram.embeddedtask_test.png";
   public static final String IMG_TOGGLE_BREAKPOINT = "/icons/toggle.breakpoint.gif";
+  public static final String IMG_TOGGLE_BREAKPOINT_S = "/icons/toggle.breakpoint_s.gif";
+  public static final String IMG_TOGGLE_BREAKPOINT_D = "/icons/toggle.breakpoint_d.gif";
 
   @Override
   public Collection<ImageDescriptor> getImageDecriptors() {
@@ -38,6 +40,8 @@ public class Images implements ImagesExtension {
         new ImageDescriptorImpl(Images.class, IMG_EMBEDDEDTASK_PALETTE),
         new ImageDescriptorImpl(Images.class, IMG_EMBEDDEDTASK_DIAGRAM_MAIN),
         new ImageDescriptorImpl(Images.class, IMG_EMBEDDEDTASK_DIAGRAM_TEST),
-        new ImageDescriptorImpl(Images.class, IMG_TOGGLE_BREAKPOINT));
+        new ImageDescriptorImpl(Images.class, IMG_TOGGLE_BREAKPOINT),
+        new ImageDescriptorImpl(Images.class, IMG_TOGGLE_BREAKPOINT_S),
+        new ImageDescriptorImpl(Images.class, IMG_TOGGLE_BREAKPOINT_D));
   }
 }

@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.features;
+package org.ruminaq.gui.features.decorators;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -24,9 +24,9 @@ import org.eclipse.graphiti.tb.IBorderDecorator;
 import org.eclipse.graphiti.tb.IDecorator;
 import org.eclipse.graphiti.tb.ImageDecorator;
 import org.eclipse.graphiti.util.IColorConstant;
+import org.ruminaq.gui.image.Images;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
-import org.ruminaq.tasks.Images;
 import org.ruminaq.tasks.debug.ui.InternalPortBreakpoint;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.validation.ValidationStatusAdapter;
@@ -110,8 +110,8 @@ public class DecorateInternalPortFeature {
                     .getAttribute(InternalPortBreakpoint.PORT_ID)
                     .equals(ip.getId())) {
               ImageDecorator bp = breakpoint.isEnabled()
-                  ? new ImageDecorator(Images.K.IMG_TOGGLE_BREAKPOINT_S.name())
-                  : new ImageDecorator(Images.K.IMG_TOGGLE_BREAKPOINT_D.name());
+                  ? new ImageDecorator(Images.IMG_TOGGLE_BREAKPOINT_S)
+                  : new ImageDecorator(Images.IMG_TOGGLE_BREAKPOINT_D);
               bp.setX(1);
               bp.setY(1);
               decorators.add(bp);

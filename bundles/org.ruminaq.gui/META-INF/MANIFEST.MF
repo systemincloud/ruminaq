@@ -84,6 +84,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.model.ruminaq.impl,
  org.ruminaq.tasks.debug.ui,
  org.ruminaq.util,
+ org.ruminaq.validation,
  org.slf4j
 Export-Package: org.ruminaq.gui.api,
  org.ruminaq.gui.diagram,
@@ -131,4 +132,5 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextBut
  OSGI-INF/org.ruminaq.gui.features.directediting.DirectEditingFeatureImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.custom.CustomFeatureImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.contextmenu.AllInternalPortToggleBreakpointContextMenu.xml,
- OSGI-INF/org.ruminaq.gui.features.contextmenu.InternalPortBreakpointContextMenu.xml
+ OSGI-INF/org.ruminaq.gui.features.contextmenu.InternalPortBreakpointContextMenu.xml,
+ OSGI-INF/org.ruminaq.gui.features.decorators.DecoratorImpl.xml

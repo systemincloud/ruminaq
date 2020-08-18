@@ -70,7 +70,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.console.impl,
  org.ruminaq.tasks.console.model,
  org.ruminaq.tasks.console.model.console,
- org.ruminaq.tasks.features,
  org.slf4j,
  swing2swt.layout
 Export-Package: org.ruminaq.tasks.console.gui
