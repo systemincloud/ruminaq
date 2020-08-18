@@ -90,5 +90,4 @@ Require-Bundle: org.eclipse.ui.views.properties.tabbed
 Bundle-RequiredExecutionEnvironment: JavaSE-14
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.TasksUiManagerHandlerImpl.xml,
- OSGI-INF/org.ruminaq.tasks.features.LayoutFeatures.xml,
- OSGI-INF/org.ruminaq.tasks.TasksExtensionHandlerImpl.xml
+ OSGI-INF/org.ruminaq.tasks.features.LayoutFeatures.xml

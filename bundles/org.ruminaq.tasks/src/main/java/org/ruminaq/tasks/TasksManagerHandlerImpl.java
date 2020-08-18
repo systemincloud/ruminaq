@@ -41,61 +41,19 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.api.TaskManagerHandler;
-import org.ruminaq.tasks.api.TasksExtensionHandler;
 
 import ch.qos.logback.classic.Logger;
 
-@SuppressWarnings("unchecked")
 public class TasksManagerHandlerImpl implements TaskManagerHandler {
 
   private final Logger logger = ModelerLoggerFactory
       .getLogger(TasksManagerHandlerImpl.class);
 
-  private TasksExtensionHandler extensions;
-
-  private Collection<ITaskApi> tasks;
-  private Collection<ITaskApi> projectVersionTasks;
-
-  @Reference(cardinality = ReferenceCardinality.MULTIPLE,
-      policy = ReferencePolicy.DYNAMIC)
-  protected void bind(ITaskApi extension) {
-    if (tasks == null) {
-      tasks = new ArrayList<>();
-    }
-    if (projectVersionTasks == null) {
-      projectVersionTasks = new ArrayList<>();
-    }
-    tasks.add(extension);
-
-//		String version = extension.getVersion().getMajor() + "."
-//		    + extension.getVersion().getMinor() + "."
-//		    + extension.getVersion().getMicro();
-//		if (version.equals(nameVersion.get(extension.getSymbolicName()))) {
-//			projectVersionTasks.add(extension);
-//		}
-
-    taskJarsPaths.addAll(getPaths(tasks));
-  }
-
-  protected void unbind(ITaskApi extension) {
-    tasks.remove(extension);
-    projectVersionTasks.remove(extension);
-  }
-
   private List<String> taskJarsPaths = new ArrayList<>();
-
-  public Collection<ITaskApi> getTasks() {
-    return tasks;
-  }
-
-  public Collection<ITaskApi> getProjectVersionTasks() {
-    return projectVersionTasks;
-  }
 
   public List<String> getTaskJarsPaths() {
     return taskJarsPaths;
   }
-
 
   public List<String> getPaths(Collection<ITaskApi> tasks) {
     List<String> paths = new ArrayList<>();
@@ -119,8 +77,6 @@ public class TasksManagerHandlerImpl implements TaskManagerHandler {
   public List<IDebugTarget> getDebugTargets(ILaunch launch, IProject project,
       EventDispatchJob dispatcher) {
     List<IDebugTarget> dts = new LinkedList<>();
-    projectVersionTasks.stream().forEach(
-        ta -> dts.addAll(ta.getDebugTargets(launch, project, dispatcher)));
     return dts;
   }
 
@@ -173,11 +129,6 @@ public class TasksManagerHandlerImpl implements TaskManagerHandler {
 
   public LinkedHashSet<String> getProgramArguments(IProject p) {
     LinkedHashSet<String> ret = new LinkedHashSet<>();
-    for (ITaskApi ta : projectVersionTasks) {
-      LinkedHashSet<String> s = ta.getProgramArguments(p);
-      if (s != null)
-        ret.addAll(s);
-    }
     return ret;
   }
 }
