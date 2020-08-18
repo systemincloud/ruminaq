@@ -131,12 +131,11 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
   @Override
   public IContextMenuEntry[] getContextMenu(ICustomContext context) {
     return Stream.of(getFeatureProvider().getCustomFeatures(context))
-        .filter(ServiceUtil
+        .filter(cf -> ServiceUtil
             .getServicesAtLatestVersion(RuminaqBehaviorProvider.class,
                 ContextMenuEntryExtension.class,
                 () -> Arrays.asList(getFeatureProvider(), context))
-            .stream().findFirst().orElse(ctx -> arg -> false)
-            .isAvailable(context))
+            .stream().anyMatch(menu -> menu.isAvailable(context).test(cf)))
         .map((ICustomFeature cf) -> {
           ContextMenuEntry menuEntry = new ContextMenuEntry(cf, context);
           menuEntry.setText(cf.getName());
