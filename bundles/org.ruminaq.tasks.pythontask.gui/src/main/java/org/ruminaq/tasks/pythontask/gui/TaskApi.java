@@ -25,7 +25,6 @@ import org.python.pydev.core.IPythonPathNature;
 import org.python.pydev.plugin.nature.PythonNature;
 import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.pythontask.gui.wizards.CreateProjectWizard;
 import org.ruminaq.tasks.pythontask.impl.PythonTaskI;
 import org.ruminaq.tasks.pythontask.impl.cpython.CpythonProgramArguments;
@@ -34,7 +33,7 @@ import org.ruminaq.tasks.pythontask.impl.jython.JythonProgramArguments;
 import ch.qos.logback.classic.Logger;
 
 //@Component
-public class TaskApi implements ITaskApi, EclipseExtension {
+public class TaskApi implements EclipseExtension {
 
   private final Logger logger = ModelerLoggerFactory.getLogger(TaskApi.class);
 
@@ -153,7 +152,6 @@ public class TaskApi implements ITaskApi, EclipseExtension {
     return Arrays.asList(pythonApi);
   }
 
-  @Override
   public LinkedHashSet<String> getProgramArguments(IProject p) {
     LinkedHashSet<String> ret = new LinkedHashSet<>();
     PythonNature nature = PythonNature.getPythonNature(p);

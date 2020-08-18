@@ -22,11 +22,10 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.osgi.framework.Version;
 import org.ruminaq.eclipse.api.EclipseExtension;
-import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.rtask.model.rtask.RtaskPackage;
 import org.ruminaq.tasks.rtask.wizards.CreateProjectWizard;
 
-public class TaskApi implements ITaskApi, EclipseExtension {
+public class TaskApi implements EclipseExtension {
 
   private String symbolicName;
   private Version version;
@@ -56,7 +55,6 @@ public class TaskApi implements ITaskApi, EclipseExtension {
     return new CreateProjectWizard().createClasspathEntries(javaProject);
   }
 
-  @Override
   public LinkedHashSet<String> getProgramArguments(IProject p) {
     LinkedHashSet<String> ret = new LinkedHashSet<>();
 //        IREnvManager rm = RCore.getREnvManager();

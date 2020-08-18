@@ -19,10 +19,9 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.ruminaq.launch.LaunchListener;
 import org.ruminaq.launch.RuminaqLaunchDelegate;
 import org.ruminaq.runner.dirmi.DirmiServer;
-import org.ruminaq.tasks.api.ITaskApi;
 
 @Component
-public class TaskApi implements ITaskApi, LaunchListener {
+public class TaskApi implements LaunchListener {
 
   private String symbolicName;
   private Version version;

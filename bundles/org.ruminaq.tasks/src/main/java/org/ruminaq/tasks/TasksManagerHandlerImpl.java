@@ -39,7 +39,6 @@ import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.tasks.api.ITaskApi;
 import org.ruminaq.tasks.api.TaskManagerHandler;
 
 import ch.qos.logback.classic.Logger;
@@ -55,24 +54,24 @@ public class TasksManagerHandlerImpl implements TaskManagerHandler {
     return taskJarsPaths;
   }
 
-  public List<String> getPaths(Collection<ITaskApi> tasks) {
-    List<String> paths = new ArrayList<>();
-    for (ITaskApi ta : tasks) {
-      Bundle b = FrameworkUtil.getBundle(ta.getClass());
-      URL url = b.getEntry("/");
-      if (url == null)
-        continue;
-      try {
-        String p = FileLocator.toFileURL(url).getFile();
-        logger.trace("add task classpath: {}", p);
-        paths.add(p);
-        if (Platform.inDevelopmentMode())
-          paths.add(p + "target/classes");
-      } catch (IOException e) {
-      }
-    }
-    return paths;
-  }
+//  public List<String> getPaths(Collection<ITaskApi> tasks) {
+//    List<String> paths = new ArrayList<>();
+//    for (ITaskApi ta : tasks) {
+//      Bundle b = FrameworkUtil.getBundle(ta.getClass());
+//      URL url = b.getEntry("/");
+//      if (url == null)
+//        continue;
+//      try {
+//        String p = FileLocator.toFileURL(url).getFile();
+//        logger.trace("add task classpath: {}", p);
+//        paths.add(p);
+//        if (Platform.inDevelopmentMode())
+//          paths.add(p + "target/classes");
+//      } catch (IOException e) {
+//      }
+//    }
+//    return paths;
+//  }
 
   public List<IDebugTarget> getDebugTargets(ILaunch launch, IProject project,
       EventDispatchJob dispatcher) {
