@@ -6,6 +6,8 @@
 
 package org.ruminaq.gui.features.custom;
 
+import java.util.Optional;
+import java.util.stream.Stream;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugPlugin;
@@ -14,6 +16,7 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.ruminaq.gui.image.Images;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
@@ -32,12 +35,13 @@ public class AllInternalPortToggleBreakpointFeature
 
   public static final String NAME = "Toggle Breakpoints on all Internal Ports";
 
-  public String getImageId() {
-    return Images.IMG_TOGGLE_BREAKPOINT;
-  }
-
   public AllInternalPortToggleBreakpointFeature(IFeatureProvider fp) {
     super(fp);
+  }
+
+  @Override
+  public String getImageId() {
+    return Images.IMG_TOGGLE_BREAKPOINT;
   }
 
   @Override
@@ -55,75 +59,79 @@ public class AllInternalPortToggleBreakpointFeature
     return false;
   }
 
-  @Override
-  public void execute(ICustomContext context) {
-    doExecute(context, getFeatureProvider());
+  private static Optional<RuminaqDiagram> shapeFromContext(
+      ICustomContext context) {
+    return Optional.of(context).map(ICustomContext::getPictogramElements)
+        .map(Stream::of).orElseGet(Stream::empty).findFirst()
+        .filter(RuminaqDiagram.class::isInstance)
+        .map(RuminaqDiagram.class::cast);
   }
 
-  public static void doExecute(ICustomContext context, IFeatureProvider fp) {
+  private static Optional<MainTask> modelFromContext(ICustomContext context) {
+    return shapeFromContext(context).map(RuminaqDiagram::getMainTask);
+  }
+
+  @Override
+  public void execute(ICustomContext context) {
     IResource resource = EclipseUtil.emfResourceToIResource(
-        fp.getDiagramTypeProvider().getDiagram().eResource());
-    Object bo = fp.getBusinessObjectForPictogramElement(
-        context.getPictogramElements()[0]);
+        getFeatureProvider().getDiagramTypeProvider().getDiagram().eResource());
     String path = resource.getRawLocation().toOSString();
+    MainTask mt = modelFromContext(context).orElseThrow();
 
     try {
-      if (bo != null && bo instanceof MainTask) {
-        MainTask mt = (MainTask) bo;
-        for (Task t : mt.getTask()) {
-          for (InternalInputPort p : t.getInputPort()) {
-            boolean tmp = false;
-            IBreakpoint[] breakpoints = DebugPlugin.getDefault()
-                .getBreakpointManager()
-                .getBreakpoints(InternalPortBreakpoint.ID);
-            for (int i = 0; i < breakpoints.length; i++) {
-              IBreakpoint breakpoint = breakpoints[i];
-              if (resource.equals(breakpoint.getMarker().getResource())) {
-                if (breakpoint.getMarker()
-                    .getAttribute(Task.class.getSimpleName()).equals(t.getId())
-                    && breakpoint.getMarker()
-                        .getAttribute(InternalPort.class.getSimpleName())
-                        .equals(p.getId())) {
-                  breakpoint.delete();
-                  tmp = true;
-                }
+      for (Task t : mt.getTask()) {
+        for (InternalInputPort p : t.getInputPort()) {
+          boolean tmp = false;
+          IBreakpoint[] breakpoints = DebugPlugin.getDefault()
+              .getBreakpointManager().getBreakpoints(InternalPortBreakpoint.ID);
+          for (int i = 0; i < breakpoints.length; i++) {
+            IBreakpoint breakpoint = breakpoints[i];
+            if (resource.equals(breakpoint.getMarker().getResource())) {
+              if (breakpoint.getMarker()
+                  .getAttribute(Task.class.getSimpleName()).equals(t.getId())
+                  && breakpoint.getMarker()
+                      .getAttribute(InternalPort.class.getSimpleName())
+                      .equals(p.getId())) {
+                breakpoint.delete();
+                tmp = true;
               }
-            }
-            if (!tmp) {
-              InternalPortBreakpoint internalPortBreakpoint = new InternalPortBreakpoint(
-                  resource, path, t.getId(), p.getId());
-              DebugPlugin.getDefault().getBreakpointManager()
-                  .addBreakpoint(internalPortBreakpoint);
             }
           }
-          for (InternalOutputPort p : t.getOutputPort()) {
-            boolean tmp = false;
-            IBreakpoint[] breakpoints = DebugPlugin.getDefault()
-                .getBreakpointManager()
-                .getBreakpoints(InternalPortBreakpoint.ID);
-            for (int i = 0; i < breakpoints.length; i++) {
-              IBreakpoint breakpoint = breakpoints[i];
-              if (resource.equals(breakpoint.getMarker().getResource())) {
-                if (breakpoint.getMarker()
-                    .getAttribute(Task.class.getSimpleName()).equals(t.getId())
-                    && breakpoint.getMarker()
-                        .getAttribute(InternalPort.class.getSimpleName())
-                        .equals(p.getId())) {
-                  breakpoint.delete();
-                  tmp = true;
-                }
+          if (!tmp) {
+            InternalPortBreakpoint internalPortBreakpoint = new InternalPortBreakpoint(
+                resource, path, t.getId(), p.getId());
+            DebugPlugin.getDefault().getBreakpointManager()
+                .addBreakpoint(internalPortBreakpoint);
+          }
+        }
+        for (InternalOutputPort p : t.getOutputPort()) {
+          boolean tmp = false;
+          IBreakpoint[] breakpoints = DebugPlugin.getDefault()
+              .getBreakpointManager().getBreakpoints(InternalPortBreakpoint.ID);
+          for (int i = 0; i < breakpoints.length; i++) {
+            IBreakpoint breakpoint = breakpoints[i];
+            if (resource.equals(breakpoint.getMarker().getResource())) {
+              if (breakpoint.getMarker()
+                  .getAttribute(Task.class.getSimpleName()).equals(t.getId())
+                  && breakpoint.getMarker()
+                      .getAttribute(InternalPort.class.getSimpleName())
+                      .equals(p.getId())) {
+                breakpoint.delete();
+                tmp = true;
               }
             }
-            if (!tmp) {
-              InternalPortBreakpoint internalPortBreakpoint = new InternalPortBreakpoint(
-                  resource, path, t.getId(), p.getId());
-              DebugPlugin.getDefault().getBreakpointManager()
-                  .addBreakpoint(internalPortBreakpoint);
-            }
+          }
+          if (!tmp) {
+            InternalPortBreakpoint internalPortBreakpoint = new InternalPortBreakpoint(
+                resource, path, t.getId(), p.getId());
+            DebugPlugin.getDefault().getBreakpointManager()
+                .addBreakpoint(internalPortBreakpoint);
           }
         }
       }
     } catch (CoreException e) {
+
     }
+
   }
 }
