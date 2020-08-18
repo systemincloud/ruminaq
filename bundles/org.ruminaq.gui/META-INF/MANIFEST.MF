@@ -134,4 +134,4 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextBut
  OSGI-INF/org.ruminaq.gui.features.custom.CustomFeatureImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.contextmenu.AllInternalPortToggleBreakpointContextMenu.xml,
  OSGI-INF/org.ruminaq.gui.features.contextmenu.InternalPortBreakpointContextMenu.xml,
- OSGI-INF/org.ruminaq.gui.features.decorators.DecoratorImpl.xml
+ OSGI-INF/org.ruminaq.gui.features.decorators.DecorateTaskFeature.xml

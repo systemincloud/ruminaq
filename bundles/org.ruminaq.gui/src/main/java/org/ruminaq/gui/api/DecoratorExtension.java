@@ -19,10 +19,19 @@ import org.eclipse.graphiti.tb.IDecorator;
 public interface DecoratorExtension {
 
   /**
+   * Check is extension can contain any decorations.
+   *
+   * @param pe PictogramElement that is going to be decorated
+   * @return flag
+   */
+  boolean forPictogramElement(PictogramElement pe);
+
+  /**
    * Return all decorators that matches to given PictogramElement.
    *
    * @param pe PictogramElement that is going to be decorated
    * @return collection of decorators
    */
   Collection<IDecorator> getDecorators(PictogramElement pe);
+
 }
