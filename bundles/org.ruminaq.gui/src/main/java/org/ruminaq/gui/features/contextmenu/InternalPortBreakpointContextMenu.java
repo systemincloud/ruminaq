@@ -33,7 +33,7 @@ public class InternalPortBreakpointContextMenu
     implements ContextMenuEntryExtension {
 
   /**
-   * Has to be RuminaqDiagram.
+   * Has to be InternalPortShape.
    */
   public static class Filter implements Predicate<ServiceFilterArgs> {
 
