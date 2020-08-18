@@ -3,6 +3,9 @@
     <Bug pattern="AI_ANNOTATION_ISSUES_NEEDS_NULLABLE" />
   </Match>
   <Match>
+    <Bug pattern="CE_CLASS_ENVY" />
+  </Match>
+  <Match>
     <Bug pattern="CRLF_INJECTION_LOGS" />
   </Match>
   <Match>
