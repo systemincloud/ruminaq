@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.features;
+package org.ruminaq.gui.features.custom;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
