@@ -125,6 +125,6 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextBut
  OSGI-INF/org.ruminaq.gui.features.paste.PasteFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.doubleclick.DoubleClickFeatureImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.contextmenu.CreateSimpleConnectionPointContextMenu.xml,
- OSGI-INF/org.ruminaq.gui.features.custom.CustomFeatures.xml,
  OSGI-INF/org.ruminaq.gui.features.update.UpdateFeatureImpl.xml,
- OSGI-INF/org.ruminaq.gui.features.directediting.DirectEditingFeatureImpl.xml
+ OSGI-INF/org.ruminaq.gui.features.directediting.DirectEditingFeatureImpl.xml,
+ OSGI-INF/org.ruminaq.gui.features.custom.CustomFeatureImpl.xml

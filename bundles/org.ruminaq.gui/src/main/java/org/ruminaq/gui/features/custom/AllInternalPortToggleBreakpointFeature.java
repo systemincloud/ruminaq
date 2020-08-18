@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.features.custom;
 
 import org.eclipse.core.resources.IResource;
@@ -21,6 +22,11 @@ import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.debug.ui.InternalPortBreakpoint;
 import org.ruminaq.util.EclipseUtil;
 
+/**
+ * Toggle breakpoints.
+ *
+ * @author Marek Jagielski
+ */
 public class AllInternalPortToggleBreakpointFeature
     extends AbstractCustomFeature {
 
