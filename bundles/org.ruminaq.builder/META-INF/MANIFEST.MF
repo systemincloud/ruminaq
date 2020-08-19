@@ -7,6 +7,7 @@ Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core.spi,
  org.eclipse.core.resources,
  org.eclipse.core.runtime,
+ org.eclipse.osgi.internal.messages,
  org.ruminaq.logs,
  org.slf4j
 Export-Package: org.ruminaq.builder
