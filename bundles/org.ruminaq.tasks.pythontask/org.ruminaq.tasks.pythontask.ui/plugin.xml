@@ -12,14 +12,14 @@
          <propertyTab label="Parameters" id="org.ruminaq.tasks.pythonTaskParametersTab" afterTab="org.ruminaq.tasks.pythonTaskTab" category="Graphiti" />
       </propertyTabs>
    </extension>
-   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+   <!--extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections contributorId="Ruminaq.PropertyContributor">
          <propertySection tab="org.ruminaq.tasks.pythonTaskTab"                    class="org.ruminaq.tasks.pythontask.ui.properties.PropertySection"
                            id="org.ruminaq.tasks.pythonTaskTab.Section"           filter="org.ruminaq.tasks.pythontask.ui.properties.PropertyFilter" />
          <propertySection tab="org.ruminaq.tasks.pythonTaskParametersTab"          class="org.ruminaq.tasks.pythontask.ui.properties.ParametersSection"
                            id="org.ruminaq.tasks.pythonTaskParametersTab.Section" filter="org.ruminaq.tasks.pythontask.ui.properties.PropertyFilter" />
       </propertySections>
-   </extension>
+   </extension-->
 
    <!--
     | Wizards

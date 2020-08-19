@@ -10,15 +10,15 @@
          <propertyTab label="Debug"                id="org.ruminaq.gui.internalOutputPortDebugTab" category="Graphiti" afterTab="org.ruminaq.common.mainTab" /-->
       </propertyTabs>
    </extension>
-   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+   <!--extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections contributorId="Ruminaq.PropertyContributor">
          <propertySection tab="org.ruminaq.gui.synchronizationTab"                      class="org.ruminaq.tasks.properties.PropertySynchronizationSection"
                            id="org.ruminaq.gui.synchronizationTab.PortSection"         filter="org.ruminaq.tasks.properties.PropertySynchronizationFilter" />
-         <!--propertySection tab="org.ruminaq.gui.internalInputPortDebugTab"               class="org.ruminaq.tasks.properties.PropertyInternalInputPortDebugSection"
+         <propertySection tab="org.ruminaq.gui.internalInputPortDebugTab"               class="org.ruminaq.tasks.properties.PropertyInternalInputPortDebugSection"
                            id="org.ruminaq.gui.internalInputPortDebugTab.PortSection"  filter="org.ruminaq.tasks.properties.PropertyInternalInputPortDebugFilter" />
          <propertySection tab="org.ruminaq.gui.internalOutputPortDebugTab"              class="org.ruminaq.tasks.properties.PropertyInternalOutputPortDebugSection"
-                           id="org.ruminaq.gui.internalOutputPortDebugTab.PortSection" filter="org.ruminaq.tasks.properties.PropertyInternalOutputPortDebugFilter" /-->
+                           id="org.ruminaq.gui.internalOutputPortDebugTab.PortSection" filter="org.ruminaq.tasks.properties.PropertyInternalOutputPortDebugFilter" />
       </propertySections>
-   </extension>
+   </extension-->
 
 </plugin>

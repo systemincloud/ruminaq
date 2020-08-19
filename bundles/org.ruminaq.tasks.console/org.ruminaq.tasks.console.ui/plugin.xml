@@ -2,26 +2,26 @@
 
 <plugin>
   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
-    <propertyTabs 
+    <propertyTabs
         contributorId="Ruminaq.PropertyContributor">
-      <propertyTab 
-          label="Console" 
-          id="org.ruminaq.tasks.consoleTab" 
-          afterTab="org.ruminaq.common.mainTab" 
+      <propertyTab
+          label="Console"
+          id="org.ruminaq.tasks.consoleTab"
+          afterTab="org.ruminaq.common.mainTab"
           category="Graphiti" />
     </propertyTabs>
   </extension>
-  <extension 
+  <!--extension
       point="org.eclipse.ui.views.properties.tabbed.propertySections">
-    <propertySections 
+    <propertySections
         contributorId="Ruminaq.PropertyContributor">
-      <propertySection 
-          tab="org.ruminaq.tasks.consoleTab"          
+      <propertySection
+          tab="org.ruminaq.tasks.consoleTab"
           class="org.ruminaq.tasks.console.ui.properties.PropertySection"
-          id="org.ruminaq.tasks.consoleTab.Section" 
+          id="org.ruminaq.tasks.consoleTab.Section"
           filter="org.ruminaq.tasks.console.ui.properties.PropertyFilter" />
     </propertySections>
-  </extension>
+  </extension-->
   <extension point="org.eclipse.ui.views">
     <view
         id="org.ruminaq.tasks.console.views.ConsoleView"

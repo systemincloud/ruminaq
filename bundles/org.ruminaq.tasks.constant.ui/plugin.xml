@@ -11,11 +11,11 @@
          <propertyTab label="Constant" id="org.ruminaq.tasks.constantTab" afterTab="org.ruminaq.common.mainTab" category="Graphiti" />
       </propertyTabs>
    </extension>
-   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+   <!--extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections contributorId="Ruminaq.PropertyContributor">
          <propertySection tab="org.ruminsaq.tasks.constantTab"          class="org.ruminaq.tasks.constant.ui.properties.PropertySection"
                            id="org.ruminaq.tasks.constantTab.Section" filter="org.ruminaq.tasks.constant.ui.properties.PropertyFilter" />
       </propertySections>
-   </extension>
-   
+   </extension-->
+
 </plugin>

@@ -11,11 +11,11 @@
          <propertyTab label="Mux" id="org.ruminaq.tasks.muxTab" afterTab="org.ruminaq.common.mainTab" category="Graphiti" />
       </propertyTabs>
    </extension>
-   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+   <!--extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections contributorId="Ruminaq.PropertyContributor">
          <propertySection tab="org.ruminaq.tasks.muxTab"          class="org.ruminaq.tasks.mux.ui.properties.PropertySection"
                            id="org.ruminaq.tasks.muxTab.Section" filter="org.ruminaq.tasks.mux.ui.properties.PropertyFilter" />
       </propertySections>
-   </extension>
+   </extension-->
 
 </plugin>

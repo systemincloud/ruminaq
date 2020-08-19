@@ -15,7 +15,7 @@
           category="Graphiti" />
     </propertyTabs>
   </extension>
-  <extension
+  <!--extension
       point="org.eclipse.ui.views.properties.tabbed.propertySections">
     <propertySections
         contributorId="Ruminaq.PropertyContributor">
@@ -30,7 +30,7 @@
           id="org.ruminaq.tasks.embeddedTaskParametersTab.Section"
           filter="org.ruminaq.tasks.embeddedtask.ui.properties.PropertyFilter" />
     </propertySections>
-  </extension>
+  </extension-->
   <extension
       point="org.eclipse.ui.commands">
     <command
