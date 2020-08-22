@@ -12,7 +12,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.tests.common.reddeer.GuiTest;
-import org.ruminaq.tests.common.reddeer.MoveShape;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 
 /**
