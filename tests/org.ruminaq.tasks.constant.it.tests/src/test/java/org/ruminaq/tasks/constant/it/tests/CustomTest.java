@@ -33,6 +33,8 @@ public class CustomTest extends GuiTest {
     gefEditor.getContextMenu().getItem("Toggle Breakpoint").select();
 
     Thread.sleep(1000);
+
+    gefEditor.getContextMenu().getItem("Toggle Breakpoint").select();
   }
 
 }
