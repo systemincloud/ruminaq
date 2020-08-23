@@ -17,6 +17,10 @@ import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.Breakpoint;
 import org.eclipse.debug.core.model.IBreakpoint;
 
+/**
+ *
+ * @author Marek Jagielski
+ */
 public class InternalPortBreakpoint extends Breakpoint {
 
   public static final String ID = "org.ruminaq.debug.internalPortBreakpoint";
