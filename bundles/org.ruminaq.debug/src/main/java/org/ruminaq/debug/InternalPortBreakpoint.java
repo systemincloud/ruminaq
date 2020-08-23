@@ -19,8 +19,8 @@ import org.eclipse.debug.core.model.IBreakpoint;
 
 public class InternalPortBreakpoint extends Breakpoint {
 
-  public static final String ID = "org.ruminaq.tasks.debug.ui.internalPortBreakpoint";
-  public static final String INTERNAL_PORT_BREAKPOINT = "org.ruminaq.tasks.debug.ui.internalPortBreakpointMarker";
+  public static final String ID = "org.ruminaq.debug.internalPortBreakpoint";
+  public static final String INTERNAL_PORT_BREAKPOINT = "org.ruminaq.debug.internalPortBreakpointMarker";
   public static final String PATH = "path";
   public static final String TASK_ID = "taskId";
   public static final String PORT_ID = "portId";
@@ -146,8 +146,4 @@ public class InternalPortBreakpoint extends Breakpoint {
     return ID;
   }
 
-  @SuppressWarnings("rawtypes")
-  public Object getAdapter(Class adapter) {
-    return super.getAdapter(adapter);
-  }
 }

@@ -20,7 +20,13 @@ import org.ruminaq.gui.image.Images;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.util.EclipseUtil;
+import org.ruminaq.util.Result;
 
+/**
+ * InternalPortBreakpoint toggle.
+ *
+ * @author Marek Jagielski
+ */
 public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
 
   public static final String NAME = "Toggle Breakpoint";
@@ -74,27 +80,26 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
     InternalPort ip = modelFromContext(context).orElseThrow();
     String path = resource.getRawLocation().toOSString();
 
+    Optional<IBreakpoint> breakpoint = Stream
+        .of(DebugPlugin.getDefault().getBreakpointManager()
+            .getBreakpoints(InternalPortBreakpoint.ID))
+        .filter(b -> resource.equals(b.getMarker().getResource()))
+        .filter(b -> ip.getTask().getId().equals(Result.attempt(
+            () -> b.getMarker().getAttribute(InternalPortBreakpoint.TASK_ID))
+            .orElse(null)))
+        .filter(b -> ip.getId().equals(Result.attempt(
+            () -> b.getMarker().getAttribute(InternalPortBreakpoint.PORT_ID))
+            .orElse(null)))
+        .findFirst();
     try {
-      IBreakpoint[] breakpoints = DebugPlugin.getDefault()
-          .getBreakpointManager().getBreakpoints(InternalPortBreakpoint.ID);
-      for (int i = 0; i < breakpoints.length; i++) {
-        IBreakpoint breakpoint = breakpoints[i];
-        if (resource.equals(breakpoint.getMarker().getResource())) {
-          if (breakpoint.getMarker()
-              .getAttribute(InternalPortBreakpoint.TASK_ID)
-              .equals(ip.getTask().getId())
-              && breakpoint.getMarker()
-                  .getAttribute(InternalPortBreakpoint.PORT_ID)
-                  .equals(ip.getId())) {
-            breakpoint.delete();
-            return;
-          }
-        }
+      if (breakpoint.isPresent()) {
+        breakpoint.get().delete();
+      } else {
+        InternalPortBreakpoint internalPortBreakpoint = new InternalPortBreakpoint(
+            resource, path, ip.getTask().getId(), ip.getId());
+        DebugPlugin.getDefault().getBreakpointManager()
+            .addBreakpoint(internalPortBreakpoint);
       }
-      InternalPortBreakpoint internalPortBreakpoint = new InternalPortBreakpoint(
-          resource, path, ip.getTask().getId(), ip.getId());
-      DebugPlugin.getDefault().getBreakpointManager()
-          .addBreakpoint(internalPortBreakpoint);
     } catch (CoreException e) {
     }
   }
