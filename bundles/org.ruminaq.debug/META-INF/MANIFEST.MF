@@ -5,6 +5,7 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.debug;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.ruminaq.debug.Activator
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core.spi,
  org.eclipse.core.resources,
@@ -12,6 +13,8 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.core.runtime.jobs,
  org.eclipse.debug.core,
  org.eclipse.debug.core.model,
+ org.eclipse.debug.internal.ui.model.elements,
+ org.eclipse.debug.internal.ui.viewers.model.provisional,
  org.eclipse.debug.ui,
  org.eclipse.jdt.internal.debug.core.model,
  org.eclipse.jface.viewers,

@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.debug.ui;
+package org.ruminaq.debug;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,7 +14,6 @@ import org.eclipse.debug.internal.ui.model.elements.BreakpointLabelProvider;
 import org.eclipse.debug.internal.ui.viewers.model.provisional.IElementLabelProvider;
 import org.eclipse.debug.internal.ui.viewers.model.provisional.IPresentationContext;
 import org.eclipse.jface.viewers.TreePath;
-import org.ruminaq.debug.InternalPortBreakpoint;
 
 @SuppressWarnings("restriction")
 public class InternalPortBreakpointWorkbenchAdapterFactory

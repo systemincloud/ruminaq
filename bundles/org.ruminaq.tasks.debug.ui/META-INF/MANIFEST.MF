@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.debug.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.ruminaq.tasks.debug.ui.Activator
+Bundle-Activator: org.ruminaq.debug.Activator
 Require-Bundle: org.eclipse.jface
 Import-Package: org.eclipse.core.resources,
  org.eclipse.core.runtime,

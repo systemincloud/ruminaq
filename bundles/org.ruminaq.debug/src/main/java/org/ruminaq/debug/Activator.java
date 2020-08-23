@@ -3,14 +3,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.debug.ui;
+package org.ruminaq.debug;
 
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-import org.ruminaq.debug.InternalPortBreakpoint;
 
+/**
+ *
+ * @author Marek Jagielski
+ */
 public class Activator extends AbstractUIPlugin {
 
   private InternalPortBreakpointWorkbenchAdapterFactory breakpointAdapterFactory;
