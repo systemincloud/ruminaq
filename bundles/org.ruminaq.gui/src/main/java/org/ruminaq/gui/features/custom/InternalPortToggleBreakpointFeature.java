@@ -18,9 +18,11 @@ import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.ruminaq.debug.InternalPortBreakpoint;
 import org.ruminaq.gui.image.Images;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
+import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.Result;
+import org.slf4j.Logger;
 
 /**
  * InternalPortBreakpoint toggle.
@@ -28,6 +30,9 @@ import org.ruminaq.util.Result;
  * @author Marek Jagielski
  */
 public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
+
+  private static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(InternalPortToggleBreakpointFeature.class);
 
   public static final String NAME = "Toggle Breakpoint";
 
@@ -78,7 +83,7 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
    * Toggle breakpoint action.
    *
    * @param context context of action
-   * @param fp IFeatureProvider to be able to get resource
+   * @param fp      IFeatureProvider to be able to get resource
    */
   public static void doExecute(ICustomContext context, IFeatureProvider fp) {
     IResource resource = EclipseUtil.emfResourceToIResource(
@@ -106,6 +111,7 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
             .addBreakpoint(internalPortBreakpoint);
       }
     } catch (CoreException e) {
+      LOGGER.error("Can't toggle breakpoint", e);
     }
   }
 }
