@@ -35,7 +35,7 @@ import org.osgi.framework.Version;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
-import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
+import org.ruminaq.debug.api.EventDispatchJob;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Task;

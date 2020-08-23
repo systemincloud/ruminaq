@@ -14,7 +14,7 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IMemoryBlock;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IThread;
-import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
+import org.ruminaq.debug.api.EventDispatchJob;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.ResumedEvent;

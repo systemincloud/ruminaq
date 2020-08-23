@@ -15,7 +15,6 @@
     <module>org.ruminaq.builder</module>
     <module>org.ruminaq.consts</module>
     <module>org.ruminaq.debug</module>
-    <module>org.ruminaq.debug.api</module>
     <module>org.ruminaq.eclipse</module>
     <module>org.ruminaq.gui</module>
     <module>org.ruminaq.gui.model</module>

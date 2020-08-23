@@ -22,7 +22,7 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IMemoryBlock;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IThread;
-import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
+import org.ruminaq.debug.api.EventDispatchJob;
 import org.ruminaq.debug.model.ISicTarget;
 import org.ruminaq.debug.model.IState;
 import org.ruminaq.debug.model.TerminateTargetDecoration;

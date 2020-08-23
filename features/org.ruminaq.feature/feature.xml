@@ -57,7 +57,7 @@
    <includes
          id="org.ruminaq.tasks.sipo.feature"
          version="0.0.0"/>
-         
+
    <requires>
       <import feature="org.eclipse.graphiti.feature"/>
    </requires>
@@ -78,13 +78,6 @@
 
    <plugin
          id="org.ruminaq.debug"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.debug.api"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"

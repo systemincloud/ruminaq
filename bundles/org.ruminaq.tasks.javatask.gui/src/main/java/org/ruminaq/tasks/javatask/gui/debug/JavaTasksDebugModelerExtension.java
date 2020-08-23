@@ -14,7 +14,7 @@ import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.debug.api.DebugExtension;
-import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
+import org.ruminaq.debug.api.EventDispatchJob;
 
 @Component(immediate = true)
 public class JavaTasksDebugModelerExtension implements DebugExtension {

@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.ruminaq.debug.api.dispatcher;
+package org.ruminaq.debug.api;
 
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 

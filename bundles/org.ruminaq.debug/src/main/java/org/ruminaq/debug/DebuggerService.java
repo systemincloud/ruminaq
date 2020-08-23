@@ -6,9 +6,8 @@
 package org.ruminaq.debug;
 
 import java.rmi.RemoteException;
-
-import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
-import org.ruminaq.debug.api.dispatcher.IEventProcessor;
+import org.ruminaq.debug.api.EventDispatchJob;
+import org.ruminaq.debug.api.IEventProcessor;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.runner.impl.debug.IDebugIService;
 import org.ruminaq.runner.impl.debug.IDebugService;

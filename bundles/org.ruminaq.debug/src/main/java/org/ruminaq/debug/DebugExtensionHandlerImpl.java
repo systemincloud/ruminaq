@@ -18,7 +18,7 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.ruminaq.debug.api.DebugExtension;
 import org.ruminaq.debug.api.DebugExtensionHandler;
-import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
+import org.ruminaq.debug.api.EventDispatchJob;
 
 @Component(immediate = true)
 public class DebugExtensionHandlerImpl implements DebugExtensionHandler {

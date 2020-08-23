@@ -53,7 +53,7 @@ import org.ruminaq.builder.ProjectBuilder;
 import org.ruminaq.consts.Constants.SicPlugin;
 import org.ruminaq.debug.DebuggerService;
 import org.ruminaq.debug.api.DebugExtensionHandler;
-import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
+import org.ruminaq.debug.api.EventDispatchJob;
 import org.ruminaq.debug.model.RuminaqDebugTarget;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.launch.api.LaunchExtension;

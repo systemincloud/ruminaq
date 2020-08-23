@@ -5,7 +5,7 @@
  ******************************************************************************/
 package org.ruminaq.debug.model;
 
-import org.ruminaq.debug.api.dispatcher.IEventProcessor;
+import org.ruminaq.debug.api.IEventProcessor;
 
 public interface ISicTarget extends IEventProcessor {
   void setState(IState state);

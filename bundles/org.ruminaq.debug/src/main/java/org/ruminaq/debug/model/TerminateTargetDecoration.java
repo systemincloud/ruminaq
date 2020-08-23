@@ -5,8 +5,8 @@
  ******************************************************************************/
 package org.ruminaq.debug.model;
 
-import org.ruminaq.debug.api.dispatcher.EventDispatchJob;
-import org.ruminaq.debug.api.dispatcher.IEventProcessor;
+import org.ruminaq.debug.api.EventDispatchJob;
+import org.ruminaq.debug.api.IEventProcessor;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.StartedEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.TerminatedEvent;
