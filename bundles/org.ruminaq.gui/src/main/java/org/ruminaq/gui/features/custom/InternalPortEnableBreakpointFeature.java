@@ -13,9 +13,9 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
+import org.ruminaq.debug.InternalPortBreakpoint;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.tasks.debug.ui.InternalPortBreakpoint;
 import org.ruminaq.util.EclipseUtil;
 
 public class InternalPortEnableBreakpointFeature extends AbstractCustomFeature {

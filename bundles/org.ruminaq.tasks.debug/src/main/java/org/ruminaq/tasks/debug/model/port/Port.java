@@ -18,6 +18,8 @@ import org.eclipse.debug.core.IBreakpointListener;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IStackFrame;
+import org.ruminaq.debug.InternalPortBreakpoint;
+import org.ruminaq.debug.InternalPortBreakpoint.SuspendPolicy;
 import org.ruminaq.debug.api.IEventProcessor;
 import org.ruminaq.debug.model.DiagramSource;
 import org.ruminaq.debug.model.MainState;
@@ -34,9 +36,6 @@ import org.ruminaq.runner.impl.debug.events.model.ResumePortRequest;
 import org.ruminaq.runner.impl.debug.events.model.SuspendPortRequest;
 import org.ruminaq.tasks.debug.model.Task;
 import org.ruminaq.tasks.debug.model.TasksDebugElement;
-import org.ruminaq.tasks.debug.ui.InternalPortBreakpoint;
-import org.ruminaq.tasks.debug.ui.InternalPortBreakpoint.SuspendPolicy;
-
 import ch.qos.logback.classic.Logger;
 
 public abstract class Port extends TasksDebugElement

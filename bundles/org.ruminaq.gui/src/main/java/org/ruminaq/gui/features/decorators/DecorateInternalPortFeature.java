@@ -24,10 +24,10 @@ import org.eclipse.graphiti.tb.IBorderDecorator;
 import org.eclipse.graphiti.tb.IDecorator;
 import org.eclipse.graphiti.tb.ImageDecorator;
 import org.eclipse.graphiti.util.IColorConstant;
+import org.ruminaq.debug.InternalPortBreakpoint;
 import org.ruminaq.gui.image.Images;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
-import org.ruminaq.tasks.debug.ui.InternalPortBreakpoint;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.validation.ValidationStatusAdapter;
 

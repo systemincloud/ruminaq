@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.debug.ui;
+package org.ruminaq.debug;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;

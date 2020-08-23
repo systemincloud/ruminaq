@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.dialogs.PropertyPage;
+import org.ruminaq.debug.InternalPortBreakpoint;
 
 public class InternalPortBreakpointPage extends PropertyPage {
 

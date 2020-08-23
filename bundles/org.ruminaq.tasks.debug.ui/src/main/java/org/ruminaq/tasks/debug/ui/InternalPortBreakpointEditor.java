@@ -23,7 +23,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
-import org.ruminaq.tasks.debug.ui.InternalPortBreakpoint.SuspendPolicy;
+import org.ruminaq.debug.InternalPortBreakpoint;
+import org.ruminaq.debug.InternalPortBreakpoint.SuspendPolicy;
 
 @SuppressWarnings("restriction")
 public class InternalPortBreakpointEditor extends AbstractJavaBreakpointEditor {

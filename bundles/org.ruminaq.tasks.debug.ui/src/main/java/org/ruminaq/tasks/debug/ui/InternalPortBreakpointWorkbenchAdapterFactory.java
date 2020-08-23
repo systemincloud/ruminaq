@@ -14,6 +14,7 @@ import org.eclipse.debug.internal.ui.model.elements.BreakpointLabelProvider;
 import org.eclipse.debug.internal.ui.viewers.model.provisional.IElementLabelProvider;
 import org.eclipse.debug.internal.ui.viewers.model.provisional.IPresentationContext;
 import org.eclipse.jface.viewers.TreePath;
+import org.ruminaq.debug.InternalPortBreakpoint;
 
 @SuppressWarnings("restriction")
 public class InternalPortBreakpointWorkbenchAdapterFactory

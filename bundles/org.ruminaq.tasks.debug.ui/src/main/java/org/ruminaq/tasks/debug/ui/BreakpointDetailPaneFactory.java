@@ -15,6 +15,7 @@ import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.ui.IDetailPane;
 import org.eclipse.debug.ui.IDetailPaneFactory;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.ruminaq.debug.InternalPortBreakpoint;
 
 public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
 

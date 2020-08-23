@@ -15,10 +15,10 @@ import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
+import org.ruminaq.debug.InternalPortBreakpoint;
 import org.ruminaq.gui.image.Images;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.model.ruminaq.InternalPort;
-import org.ruminaq.tasks.debug.ui.InternalPortBreakpoint;
 import org.ruminaq.util.EclipseUtil;
 
 public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {

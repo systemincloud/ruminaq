@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.ruminaq.debug.InternalPortBreakpoint;
 
 public class Activator extends AbstractUIPlugin {
 
