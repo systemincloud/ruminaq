@@ -37,7 +37,7 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
         IBreakpoint b = (IBreakpoint) o;
         try {
           String type = b.getMarker().getType();
-          if (InternalPortBreakpoint.INTERNAL_PORT_BREAKPOINT.equals(type))
+          if (InternalPortBreakpoint.MARKER_ID.equals(type))
             return InternalPortBreakpointDetailPane.DETAIL_PANE_INTERNAL_PORT_BREAKPOINT;
         } catch (CoreException e) {
         }
@@ -54,7 +54,7 @@ public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
         IBreakpoint b = (IBreakpoint) o;
         try {
           String type = b.getMarker().getType();
-          if (InternalPortBreakpoint.INTERNAL_PORT_BREAKPOINT.equals(type))
+          if (InternalPortBreakpoint.MARKER_ID.equals(type))
             return Collections.singleton(
                 InternalPortBreakpointDetailPane.DETAIL_PANE_INTERNAL_PORT_BREAKPOINT);
         } catch (CoreException e) {

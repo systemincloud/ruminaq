@@ -24,7 +24,7 @@ import org.eclipse.debug.core.model.IBreakpoint;
 public class InternalPortBreakpoint extends Breakpoint {
 
   public static final String ID = "org.ruminaq.debug.internalPortBreakpoint";
-  public static final String INTERNAL_PORT_BREAKPOINT = "org.ruminaq.debug.internalPortBreakpointMarker";
+  public static final String MARKER_ID = "org.ruminaq.debug.internalPortBreakpointMarker";
   public static final String PATH = "path";
   public static final String TASK_ID = "taskId";
   public static final String PORT_ID = "portId";
@@ -129,7 +129,7 @@ public class InternalPortBreakpoint extends Breakpoint {
       @Override
       public void run(IProgressMonitor monitor) throws CoreException {
         InternalPortBreakpoint.this.marker = resource
-            .createMarker(INTERNAL_PORT_BREAKPOINT);
+            .createMarker(MARKER_ID);
         setMarker(marker);
         marker.setAttribute(IBreakpoint.ENABLED, true);
         marker.setAttribute(IBreakpoint.PERSISTED, true);
