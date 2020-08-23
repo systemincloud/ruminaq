@@ -28,13 +28,18 @@ public class DeleteTest extends GuiTest {
   GEFEditor gefEditor;
 
   @Before
-  public void initLayout() {
+  public void initLayout() throws InterruptedException {
     gefEditor = new GEFEditor(diagramName);
 
     gefEditor.addToolFromPalette("Input Port", 100, 100);
+    Thread.sleep(500);
     gefEditor.addToolFromPalette("Output Port", 500, 100);
+    Thread.sleep(500);
     gefEditor.addToolFromPalette("Output Port", 500, 200);
+    Thread.sleep(500);
     gefEditor.addToolFromPalette("Output Port", 500, 300);
+
+    Thread.sleep(500);
 
     new CreateSimpleConnection(gefEditor,
         new WithLabelAssociated("My Input Port"),
