@@ -74,11 +74,16 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
         .filter(InternalPort.class::isInstance).map(InternalPort.class::cast);
   }
 
+  /**
+   * Toggle breakpoint action.
+   *
+   * @param context context of action
+   * @param fp IFeatureProvider to be able to get resource
+   */
   public static void doExecute(ICustomContext context, IFeatureProvider fp) {
     IResource resource = EclipseUtil.emfResourceToIResource(
         fp.getDiagramTypeProvider().getDiagram().eResource());
     InternalPort ip = modelFromContext(context).orElseThrow();
-    String path = resource.getRawLocation().toOSString();
 
     Optional<IBreakpoint> breakpoint = Stream
         .of(DebugPlugin.getDefault().getBreakpointManager()
@@ -96,7 +101,7 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
         breakpoint.get().delete();
       } else {
         InternalPortBreakpoint internalPortBreakpoint = new InternalPortBreakpoint(
-            resource, path, ip.getTask().getId(), ip.getId());
+            resource, ip.getTask().getId(), ip.getId());
         DebugPlugin.getDefault().getBreakpointManager()
             .addBreakpoint(internalPortBreakpoint);
       }

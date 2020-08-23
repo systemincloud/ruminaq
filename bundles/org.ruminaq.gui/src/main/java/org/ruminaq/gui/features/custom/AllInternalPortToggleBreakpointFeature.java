@@ -75,7 +75,6 @@ public class AllInternalPortToggleBreakpointFeature
   public void execute(ICustomContext context) {
     IResource resource = EclipseUtil.emfResourceToIResource(
         getFeatureProvider().getDiagramTypeProvider().getDiagram().eResource());
-    String path = resource.getRawLocation().toOSString();
     MainTask mt = modelFromContext(context).orElseThrow();
 
     try {
@@ -99,7 +98,7 @@ public class AllInternalPortToggleBreakpointFeature
           }
           if (!tmp) {
             InternalPortBreakpoint internalPortBreakpoint = new InternalPortBreakpoint(
-                resource, path, t.getId(), p.getId());
+                resource, t.getId(), p.getId());
             DebugPlugin.getDefault().getBreakpointManager()
                 .addBreakpoint(internalPortBreakpoint);
           }
@@ -123,7 +122,7 @@ public class AllInternalPortToggleBreakpointFeature
           }
           if (!tmp) {
             InternalPortBreakpoint internalPortBreakpoint = new InternalPortBreakpoint(
-                resource, path, t.getId(), p.getId());
+                resource, t.getId(), p.getId());
             DebugPlugin.getDefault().getBreakpointManager()
                 .addBreakpoint(internalPortBreakpoint);
           }

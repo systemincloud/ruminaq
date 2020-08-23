@@ -120,10 +120,9 @@ public class InternalPortBreakpoint extends Breakpoint {
   public InternalPortBreakpoint() {
   }
 
-  public InternalPortBreakpoint(final IResource resource,
-      final String diagramPath, final String taskId, final String portId)
-      throws DebugException {
-    this.diagramPath = diagramPath;
+  public InternalPortBreakpoint(IResource resource, String taskId,
+      String portId) throws DebugException {
+    this.diagramPath = resource.getRawLocation().toOSString();
     this.taskId = taskId;
     this.portId = portId;
     IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
