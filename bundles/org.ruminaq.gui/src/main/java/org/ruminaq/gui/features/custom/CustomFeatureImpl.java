@@ -23,7 +23,6 @@ public class CustomFeatureImpl implements CustomFeaturesExtension {
   @Override
   public List<Class<? extends ICustomFeature>> getFeatures() {
     return Arrays.asList(CreateSimpleConnectionPointFeature.class,
-        AllInternalPortToggleBreakpointFeature.class,
         InternalPortToggleBreakpointFeature.class);
   }
 }
