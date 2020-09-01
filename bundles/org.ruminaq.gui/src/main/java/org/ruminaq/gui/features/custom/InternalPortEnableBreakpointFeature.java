@@ -4,7 +4,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-
 package org.ruminaq.gui.features.custom;
 
 import org.eclipse.core.runtime.CoreException;
@@ -13,6 +12,11 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.ruminaq.util.Result;
 
+/**
+ * InternalPortEnableBreakpoint toggle.
+ *
+ * @author Marek Jagielski
+ */
 public class InternalPortEnableBreakpointFeature extends InternalPortDisableBreakpointFeature {
 
   public static final String NAME = "Enable Breakpoint";
@@ -33,14 +37,10 @@ public class InternalPortEnableBreakpointFeature extends InternalPortDisableBrea
 
   @Override
   public void execute(ICustomContext context) {
-    doExecute(context, getFeatureProvider());
-  }
-
-  public static void doExecute(ICustomContext context, IFeatureProvider fp) {
-    InternalPortToggleBreakpointFeature.breakpointFromContext(context, fp)
-        .ifPresent((IBreakpoint b) -> Result.attempt(() -> {
-          b.setEnabled(true);
-          return Boolean.TRUE;
-        }));
+    InternalPortToggleBreakpointFeature.breakpointFromContext(context, getFeatureProvider())
+    .ifPresent((IBreakpoint b) -> Result.attempt(() -> {
+      b.setEnabled(true);
+      return Boolean.TRUE;
+    }));
   }
 }

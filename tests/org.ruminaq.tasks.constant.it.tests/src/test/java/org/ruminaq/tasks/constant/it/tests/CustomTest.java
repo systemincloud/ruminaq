@@ -34,6 +34,14 @@ public class CustomTest extends GuiTest {
 
     Thread.sleep(1000);
 
+    gefEditor.getContextMenu().getItem("Disable Breakpoint").select();
+
+    Thread.sleep(1000);
+
+    gefEditor.getContextMenu().getItem("Enable Breakpoint").select();
+
+    Thread.sleep(1000);
+
     gefEditor.getContextMenu().getItem("Toggle Breakpoint").select();
   }
 
