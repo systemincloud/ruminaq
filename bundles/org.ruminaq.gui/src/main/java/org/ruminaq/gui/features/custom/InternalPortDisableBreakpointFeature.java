@@ -4,10 +4,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-
 package org.ruminaq.gui.features.custom;
 
 import java.util.Optional;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
@@ -36,9 +36,13 @@ public class InternalPortDisableBreakpointFeature
             Optional.of(context).filter(ICustomContext.class::isInstance)
                 .map(ICustomContext.class::cast).orElse(null),
             getFeatureProvider())
-        .map(b -> Result.attempt(() -> b.isEnabled()))
+        .map(b -> Result.attempt(() -> isAvailable(b)))
         .flatMap(r -> Optional.ofNullable(r.orElse(Boolean.FALSE)))
         .orElse(Boolean.FALSE);
+  }
+
+  protected boolean isAvailable(IBreakpoint breakpoint) throws CoreException {
+    return breakpoint.isEnabled();
   }
 
   @Override
@@ -60,7 +64,7 @@ public class InternalPortDisableBreakpointFeature
     InternalPortToggleBreakpointFeature.breakpointFromContext(context, fp)
         .ifPresent((IBreakpoint b) -> Result.attempt(() -> {
           b.setEnabled(false);
-          return true;
+          return Boolean.TRUE;
         }));
   }
 }

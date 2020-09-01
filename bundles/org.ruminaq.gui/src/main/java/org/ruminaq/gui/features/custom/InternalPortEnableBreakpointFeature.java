@@ -7,15 +7,13 @@
 
 package org.ruminaq.gui.features.custom;
 
-import java.util.Optional;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
-import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.ruminaq.util.Result;
 
-public class InternalPortEnableBreakpointFeature extends AbstractCustomFeature {
+public class InternalPortEnableBreakpointFeature extends InternalPortDisableBreakpointFeature {
 
   public static final String NAME = "Enable Breakpoint";
 
@@ -29,25 +27,8 @@ public class InternalPortEnableBreakpointFeature extends AbstractCustomFeature {
   }
 
   @Override
-  public boolean isAvailable(IContext context) {
-    return InternalPortToggleBreakpointFeature
-        .breakpointFromContext(
-            Optional.of(context).filter(ICustomContext.class::isInstance)
-                .map(ICustomContext.class::cast).orElse(null),
-            getFeatureProvider())
-        .map(b -> Result.attempt(() -> !b.isEnabled()))
-        .flatMap(r -> Optional.ofNullable(r.orElse(Boolean.FALSE)))
-        .orElse(Boolean.FALSE);
-  }
-
-  @Override
-  public boolean canExecute(ICustomContext context) {
-    return true;
-  }
-
-  @Override
-  public boolean hasDoneChanges() {
-    return false;
+  protected boolean isAvailable(IBreakpoint breakpoint) throws CoreException {
+    return !breakpoint.isEnabled();
   }
 
   @Override
@@ -59,7 +40,7 @@ public class InternalPortEnableBreakpointFeature extends AbstractCustomFeature {
     InternalPortToggleBreakpointFeature.breakpointFromContext(context, fp)
         .ifPresent((IBreakpoint b) -> Result.attempt(() -> {
           b.setEnabled(true);
-          return true;
+          return Boolean.TRUE;
         }));
   }
 }
