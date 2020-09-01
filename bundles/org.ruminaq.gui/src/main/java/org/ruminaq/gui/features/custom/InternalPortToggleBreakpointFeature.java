@@ -98,9 +98,8 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
       ICustomContext context, IFeatureProvider fp) {
     IResource resource = EclipseUtil.emfResourceToIResource(
         fp.getDiagramTypeProvider().getDiagram().eResource());
-    InternalPort ip = InternalPortToggleBreakpointFeature
-        .modelFromContext(context).orElseThrow();
-    return breakpointFromModel(resource, ip);
+    return InternalPortToggleBreakpointFeature.modelFromContext(context)
+        .flatMap(ip -> breakpointFromModel(resource, ip));
   }
 
   /**
