@@ -79,6 +79,25 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
         .filter(InternalPort.class::isInstance).map(InternalPort.class::cast);
   }
 
+  public static Optional<IBreakpoint> breakpointFromContext(
+      ICustomContext context, IFeatureProvider fp) {
+    IResource resource = EclipseUtil.emfResourceToIResource(
+        fp.getDiagramTypeProvider().getDiagram().eResource());
+    InternalPort ip = InternalPortToggleBreakpointFeature
+        .modelFromContext(context).orElseThrow();
+    return Stream
+        .of(DebugPlugin.getDefault().getBreakpointManager()
+            .getBreakpoints(InternalPortBreakpoint.ID))
+        .filter(b -> resource.equals(b.getMarker().getResource()))
+        .filter(b -> ip.getTask().getId().equals(Result.attempt(
+            () -> b.getMarker().getAttribute(InternalPortBreakpoint.TASK_ID))
+            .orElse(null)))
+        .filter(b -> ip.getId().equals(Result.attempt(
+            () -> b.getMarker().getAttribute(InternalPortBreakpoint.PORT_ID))
+            .orElse(null)))
+        .findFirst();
+  }
+
   /**
    * Toggle breakpoint action.
    *
@@ -90,17 +109,7 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
         fp.getDiagramTypeProvider().getDiagram().eResource());
     InternalPort ip = modelFromContext(context).orElseThrow();
 
-    Optional<IBreakpoint> breakpoint = Stream
-        .of(DebugPlugin.getDefault().getBreakpointManager()
-            .getBreakpoints(InternalPortBreakpoint.ID))
-        .filter(b -> resource.equals(b.getMarker().getResource()))
-        .filter(b -> ip.getTask().getId().equals(Result.attempt(
-            () -> b.getMarker().getAttribute(InternalPortBreakpoint.TASK_ID))
-            .orElse(null)))
-        .filter(b -> ip.getId().equals(Result.attempt(
-            () -> b.getMarker().getAttribute(InternalPortBreakpoint.PORT_ID))
-            .orElse(null)))
-        .findFirst();
+    Optional<IBreakpoint> breakpoint = breakpointFromContext(context, fp);
     try {
       if (breakpoint.isPresent()) {
         breakpoint.get().delete();
