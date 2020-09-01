@@ -17,7 +17,8 @@ import org.ruminaq.util.Result;
  *
  * @author Marek Jagielski
  */
-public class InternalPortEnableBreakpointFeature extends InternalPortDisableBreakpointFeature {
+public class InternalPortEnableBreakpointFeature
+    extends InternalPortDisableBreakpointFeature {
 
   public static final String NAME = "Enable Breakpoint";
 
@@ -37,10 +38,11 @@ public class InternalPortEnableBreakpointFeature extends InternalPortDisableBrea
 
   @Override
   public void execute(ICustomContext context) {
-    InternalPortToggleBreakpointFeature.breakpointFromContext(context, getFeatureProvider())
-    .ifPresent((IBreakpoint b) -> Result.attempt(() -> {
-      b.setEnabled(true);
-      return Boolean.TRUE;
-    }));
+    InternalPortToggleBreakpointFeature
+        .breakpointFromContext(context, getFeatureProvider())
+        .ifPresent((IBreakpoint b) -> Result.attempt(() -> {
+          b.setEnabled(true);
+          return Boolean.TRUE;
+        }));
   }
 }
