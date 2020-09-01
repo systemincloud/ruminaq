@@ -7,7 +7,7 @@
 package org.ruminaq.gui.api;
 
 import java.util.Collection;
-
+import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.tb.IDecorator;
 
@@ -30,8 +30,10 @@ public interface DecoratorExtension {
    * Return all decorators that matches to given PictogramElement.
    *
    * @param pe PictogramElement that is going to be decorated
+   * @param fp IFeatureProvider
    * @return collection of decorators
    */
-  Collection<IDecorator> getDecorators(PictogramElement pe);
+  Collection<IDecorator> getDecorators(PictogramElement pe,
+      IFeatureProvider fp);
 
 }

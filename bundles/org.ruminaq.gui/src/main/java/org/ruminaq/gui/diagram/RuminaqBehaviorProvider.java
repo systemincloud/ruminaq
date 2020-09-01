@@ -173,7 +173,7 @@ public class RuminaqBehaviorProvider extends DefaultToolBehaviorProvider {
             DecoratorExtension.class,
             () -> Arrays.asList(getFeatureProvider(), pe))
         .stream().filter(ext -> ext.forPictogramElement(pe))
-        .map(ext -> ext.getDecorators(pe)).flatMap(Collection::stream)
+        .map(ext -> ext.getDecorators(pe, getFeatureProvider())).flatMap(Collection::stream)
         .toArray(IDecorator[]::new);
   }
 

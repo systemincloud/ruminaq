@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.platform.IPlatformImageConstants;
 import org.eclipse.graphiti.tb.IDecorator;
@@ -30,8 +31,7 @@ import org.ruminaq.validation.ValidationStatusAdapter;
 @Component(property = { "service.ranking:Integer=5" })
 public class DecorateTaskFeature implements DecoratorExtension {
 
-  private static Optional<Task> modelFromPictogramElement(
-      PictogramElement pe) {
+  private static Optional<Task> modelFromPictogramElement(PictogramElement pe) {
     return Optional.of(pe).filter(TaskShape.class::isInstance)
         .map(TaskShape.class::cast).map(TaskShape::getModelObject)
         .filter(Task.class::isInstance).map(Task.class::cast);
@@ -43,7 +43,8 @@ public class DecorateTaskFeature implements DecoratorExtension {
   }
 
   @Override
-  public Collection<IDecorator> getDecorators(PictogramElement pe) {
+  public Collection<IDecorator> getDecorators(PictogramElement pe,
+      IFeatureProvider fp) {
     int x_dec = -5;
     int y_dec = -5;
     return modelFromPictogramElement(pe)
