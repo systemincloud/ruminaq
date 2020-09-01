@@ -32,6 +32,12 @@
   <dependencies>
     <dependency>
       <groupId>org.ruminaq</groupId>
+      <artifactId>org.ruminaq.debug</artifactId>
+      <version>${project.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.eclipse</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
