@@ -80,7 +80,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.model.desc,
  org.ruminaq.model.ruminaq,
  org.ruminaq.tasks.api,
- org.ruminaq.tasks.debug.ui,
  org.ruminaq.util,
  org.ruminaq.validation,
  org.slf4j
