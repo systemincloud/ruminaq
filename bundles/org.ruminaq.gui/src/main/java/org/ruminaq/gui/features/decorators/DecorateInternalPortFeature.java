@@ -37,6 +37,10 @@ import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.Result;
 import org.ruminaq.validation.ValidationStatusAdapter;
 
+/**
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 public class DecorateInternalPortFeature implements DecoratorExtension {
 
