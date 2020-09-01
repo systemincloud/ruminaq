@@ -12,15 +12,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.model.IBreakpoint;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
+import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.tb.BorderDecorator;
 import org.eclipse.graphiti.tb.IBorderDecorator;
@@ -28,12 +27,11 @@ import org.eclipse.graphiti.tb.IDecorator;
 import org.eclipse.graphiti.tb.ImageDecorator;
 import org.eclipse.graphiti.util.IColorConstant;
 import org.osgi.service.component.annotations.Component;
-import org.ruminaq.debug.InternalPortBreakpoint;
 import org.ruminaq.gui.api.DecoratorExtension;
 import org.ruminaq.gui.features.custom.InternalPortToggleBreakpointFeature;
 import org.ruminaq.gui.image.Images;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
-import org.ruminaq.model.ruminaq.InternalInputPort;
+import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.Result;
@@ -65,51 +63,47 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
     InternalPortShape shape = shapeFromPictogramElement(pe).orElseThrow();
     return modelFromPictogramElement(pe).map(ip -> {
       List<IDecorator> decorators = new LinkedList<>();
-      decorators.addAll(validationDecorators(shape, ip, fp));
+      validationDecorator(shape, ip, fp).ifPresent(decorators::add);
       breakpointDecorator(shape, ip, fp).ifPresent(decorators::add);
       return decorators;
     }).orElse(Collections.emptyList());
   }
 
-  private Collection<? extends IDecorator> validationDecorators(
-      InternalPortShape shape, InternalPort ip, IFeatureProvider fp) {
-    List<IDecorator> decorators = new LinkedList<>();
-    shape.getAnchors();
+  private Optional<IDecorator> validationDecorator(InternalPortShape shape,
+      InternalPort ip, IFeatureProvider fp) {
+    return Optional.of(shape).map(InternalPortShape::getAnchors)
+        .map(EList::stream).orElseGet(Stream::empty).findFirst()
+        .map(Anchor::getIncomingConnections).map(EList::stream)
+        .orElseGet(Stream::empty)
+        .filter(SimpleConnectionShape.class::isInstance)
+        .map(SimpleConnectionShape.class::cast).findFirst()
+        .map(SimpleConnectionShape::getModelObject)
+        .map(sc -> EcoreUtil.getRegisteredAdapter((EObject) sc,
+            ValidationStatusAdapter.class))
+        .filter(ValidationStatusAdapter.class::isInstance)
+        .map(ValidationStatusAdapter.class::cast).map(statusAdapter -> {
+          final IBorderDecorator decorator;
+          final IStatus status = statusAdapter.getValidationStatus();
+          switch (status.getSeverity()) {
+            case IStatus.INFO:
+              decorator = new BorderDecorator(IColorConstant.BLUE, 2, 3);
+              break;
+            case IStatus.WARNING:
+              decorator = new BorderDecorator(IColorConstant.YELLOW, 2, 3);
+              break;
+            case IStatus.ERROR:
+              decorator = new BorderDecorator(IColorConstant.RED, 2, 3);
+              break;
+            default:
+              decorator = null;
+              break;
+          }
 
-//      if (ac.getAnchors().size() > 0
-//          && ac.getAnchors().get(0).getIncomingConnections().size() > 0) {
-//        Object boo = fp.getBusinessObjectForPictogramElement(
-//            ac.getAnchors().get(0).getIncomingConnections().get(0));
-//
-//        ValidationStatusAdapter statusAdapter = (ValidationStatusAdapter) EcoreUtil
-//            .getRegisteredAdapter((EObject) boo, ValidationStatusAdapter.class);
-//        if (statusAdapter == null)
-//          return decorators;
-//        final IBorderDecorator decorator;
-//        final IStatus status = statusAdapter.getValidationStatus();
-//        switch (status.getSeverity()) {
-//          case IStatus.INFO:
-//            decorator = new BorderDecorator(IColorConstant.BLUE, 2, 3);
-//            break;
-//          case IStatus.WARNING:
-//            decorator = new BorderDecorator(IColorConstant.YELLOW, 2, 3);
-//            break;
-//          case IStatus.ERROR:
-//            decorator = new BorderDecorator(IColorConstant.RED, 2, 3);
-//            break;
-//          default:
-//            decorator = null;
-//            break;
-//        }
-//
-//        if (decorator != null) {
-//          decorator.setMessage(status.getMessage());
-//          decorators.add(decorator);
-//        }
-//      }
-//    }
-
-    return decorators;
+          if (decorator != null) {
+            decorator.setMessage(status.getMessage());
+          }
+          return decorator;
+        });
   }
 
   private Optional<IDecorator> breakpointDecorator(PictogramElement pe,
