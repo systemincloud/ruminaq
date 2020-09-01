@@ -7,7 +7,6 @@
 package org.ruminaq.gui.features.custom;
 
 import java.util.Optional;
-import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
@@ -20,6 +19,11 @@ import org.eclipse.jface.window.SameShellProvider;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.PropertyDialogAction;
 
+/**
+ * Show InternalPortBreakpoint properties.
+ *
+ * @author Marek Jagielski
+ */
 public class InternalPortBreakpointPropertiesFeature
     extends AbstractCustomFeature {
 
@@ -56,37 +60,29 @@ public class InternalPortBreakpointPropertiesFeature
 
   @Override
   public void execute(ICustomContext context) {
-    doExecute(context, getFeatureProvider());
-  }
-
-  public static void doExecute(ICustomContext context, IFeatureProvider fp) {
-    Optional<IBreakpoint> bp = InternalPortToggleBreakpointFeature
+    InternalPortToggleBreakpointFeature
         .breakpointFromContext(
             Optional.of(context).filter(ICustomContext.class::isInstance)
                 .map(ICustomContext.class::cast).orElse(null),
-            fp);
+            getFeatureProvider())
+        .ifPresent(bp -> new PropertyDialogAction(
+            new SameShellProvider(PlatformUI.getWorkbench()
+                .getActiveWorkbenchWindow().getShell()),
+            new ISelectionProvider() {
+              public void addSelectionChangedListener(
+                  ISelectionChangedListener listener) {
+              }
 
-    if (bp.isPresent()) {
-      PropertyDialogAction action = new PropertyDialogAction(
-          new SameShellProvider(
-              PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()),
-          new ISelectionProvider() {
-            public void addSelectionChangedListener(
-                ISelectionChangedListener listener) {
-            }
+              public ISelection getSelection() {
+                return new StructuredSelection(bp);
+              }
 
-            public ISelection getSelection() {
-              return new StructuredSelection(bp.get());
-            }
+              public void removeSelectionChangedListener(
+                  ISelectionChangedListener listener) {
+              }
 
-            public void removeSelectionChangedListener(
-                ISelectionChangedListener listener) {
-            }
-
-            public void setSelection(ISelection selection) {
-            }
-          });
-      action.run();
-    }
+              public void setSelection(ISelection selection) {
+              }
+            }).run());
   }
 }
