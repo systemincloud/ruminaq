@@ -3,20 +3,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
+
 package org.ruminaq.gui.features.custom;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.debug.core.DebugPlugin;
+import java.util.Optional;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
-import org.ruminaq.debug.InternalPortBreakpoint;
-import org.ruminaq.model.ruminaq.InternalPort;
-import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.util.EclipseUtil;
+import org.ruminaq.util.Result;
 
 public class InternalPortDisableBreakpointFeature
     extends AbstractCustomFeature {
@@ -34,33 +31,14 @@ public class InternalPortDisableBreakpointFeature
 
   @Override
   public boolean isAvailable(IContext context) {
-    IResource resource = EclipseUtil.emfResourceToIResource(
-        getFeatureProvider().getDiagramTypeProvider().getDiagram().eResource());
-    Object bo = getFeatureProvider().getBusinessObjectForPictogramElement(
-        ((ICustomContext) context).getPictogramElements()[0]);
-
-    try {
-      if (bo != null && bo instanceof InternalPort) {
-        InternalPort ip = (InternalPort) bo;
-        IBreakpoint[] breakpoints = DebugPlugin.getDefault()
-            .getBreakpointManager().getBreakpoints(InternalPortBreakpoint.ID);
-        for (int i = 0; i < breakpoints.length; i++) {
-          IBreakpoint breakpoint = breakpoints[i];
-          if (resource.equals(breakpoint.getMarker().getResource())) {
-            if (breakpoint.getMarker()
-                .getAttribute(InternalPortBreakpoint.TASK_ID)
-                .equals(ip.getTask().getId())
-                && breakpoint.getMarker()
-                    .getAttribute(InternalPortBreakpoint.PORT_ID)
-                    .equals(ip.getId())) {
-              return breakpoint.isEnabled();
-            }
-          }
-        }
-      }
-    } catch (CoreException e) {
-    }
-    return false;
+    return InternalPortToggleBreakpointFeature
+        .breakpointFromContext(
+            Optional.of(context).filter(ICustomContext.class::isInstance)
+                .map(ICustomContext.class::cast).orElse(null),
+            getFeatureProvider())
+        .map(b -> Result.attempt(() -> b.isEnabled()))
+        .flatMap(r -> Optional.ofNullable(r.orElse(Boolean.FALSE)))
+        .orElse(Boolean.FALSE);
   }
 
   @Override
@@ -79,30 +57,10 @@ public class InternalPortDisableBreakpointFeature
   }
 
   public static void doExecute(ICustomContext context, IFeatureProvider fp) {
-    IResource resource = EclipseUtil.emfResourceToIResource(
-        fp.getDiagramTypeProvider().getDiagram().eResource());
-    Object bo = fp.getBusinessObjectForPictogramElement(
-        context.getPictogramElements()[0]);
-
-    try {
-      if (bo != null && bo instanceof InternalPort) {
-        InternalPort ip = (InternalPort) bo;
-        IBreakpoint[] breakpoints = DebugPlugin.getDefault()
-            .getBreakpointManager().getBreakpoints(InternalPortBreakpoint.ID);
-        for (int i = 0; i < breakpoints.length; i++) {
-          IBreakpoint breakpoint = breakpoints[i];
-          if (resource.equals(breakpoint.getMarker().getResource())) {
-            if (breakpoint.getMarker().getAttribute(Task.class.getSimpleName())
-                .equals(ip.getTask().getId())
-                && breakpoint.getMarker()
-                    .getAttribute(InternalPort.class.getSimpleName())
-                    .equals(ip.getId())) {
-              breakpoint.setEnabled(false);
-            }
-          }
-        }
-      }
-    } catch (CoreException e) {
-    }
+    InternalPortToggleBreakpointFeature.breakpointFromContext(context, fp)
+        .ifPresent((IBreakpoint b) -> Result.attempt(() -> {
+          b.setEnabled(false);
+          return true;
+        }));
   }
 }

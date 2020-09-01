@@ -24,6 +24,8 @@ public class CustomFeatureImpl implements CustomFeaturesExtension {
   public List<Class<? extends ICustomFeature>> getFeatures() {
     return Arrays.asList(CreateSimpleConnectionPointFeature.class,
         InternalPortToggleBreakpointFeature.class,
-        InternalPortBreakpointPropertiesFeature.class);
+        InternalPortBreakpointPropertiesFeature.class,
+        InternalPortDisableBreakpointFeature.class,
+        InternalPortEnableBreakpointFeature.class);
   }
 }
