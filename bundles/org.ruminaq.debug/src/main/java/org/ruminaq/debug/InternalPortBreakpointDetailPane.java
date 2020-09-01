@@ -3,11 +3,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.debug.ui;
+package org.ruminaq.debug;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ListenerList;
@@ -31,7 +30,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartConstants;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.part.EditorActionBarContributor;
-import org.ruminaq.tasks.debug.ui.InternalPortBreakpointEditor.Properties;
+import org.ruminaq.debug.InternalPortBreakpointEditor.Properties;
 
 @SuppressWarnings("restriction")
 public class InternalPortBreakpointDetailPane implements IDetailPane3 {

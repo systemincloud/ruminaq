@@ -39,12 +39,12 @@
 
    <extension point="org.eclipse.ui.propertyPages">
       <page name="InternalPort Breakpoint"
-            class="org.ruminaq.tasks.debug.ui.InternalPortBreakpointPage"
-            id="org.ruminaq.tasks.debug.ui.InternalPortBreakpointPage">
+            class="org.ruminaq.debug.InternalPortBreakpointPage"
+            id="org.ruminaq.debug.InternalPortBreakpointPage">
          <enabledWhen>
             <or>
-               <instanceof value="org.ruminaq.tasks.debug.ui.InternalPortBreakpoint"/>
-               <adapt       type="org.ruminaq.tasks.debug.ui.InternalPortBreakpoint"/>
+               <instanceof value="org.ruminaq.debug.InternalPortBreakpoint"/>
+               <adapt       type="org.ruminaq.debug.InternalPortBreakpoint"/>
             </or>
          </enabledWhen>
       </page>

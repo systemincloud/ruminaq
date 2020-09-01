@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.debug.ui;
+package org.ruminaq.debug;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,7 +15,6 @@ import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.debug.ui.IDetailPane;
 import org.eclipse.debug.ui.IDetailPaneFactory;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.ruminaq.debug.InternalPortBreakpoint;
 
 public class BreakpointDetailPaneFactory implements IDetailPaneFactory {
 
