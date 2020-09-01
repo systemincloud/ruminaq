@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.debug.model.port;
+package org.ruminaq.debug.model;
 
 import java.nio.file.Paths;
 import java.util.LinkedList;
@@ -21,8 +21,6 @@ import org.eclipse.debug.core.model.IStackFrame;
 import org.ruminaq.debug.InternalPortBreakpoint;
 import org.ruminaq.debug.InternalPortBreakpoint.SuspendPolicy;
 import org.ruminaq.debug.api.IEventProcessor;
-import org.ruminaq.debug.model.DiagramSource;
-import org.ruminaq.debug.model.MainState;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.runner.impl.debug.events.AbstractPortEvent;
 import org.ruminaq.runner.impl.debug.events.AbstractPortEventListener;
@@ -34,8 +32,6 @@ import org.ruminaq.runner.impl.debug.events.debugger.TerminatedEvent;
 import org.ruminaq.runner.impl.debug.events.model.PortBreakpointRequest;
 import org.ruminaq.runner.impl.debug.events.model.ResumePortRequest;
 import org.ruminaq.runner.impl.debug.events.model.SuspendPortRequest;
-import org.ruminaq.tasks.debug.model.Task;
-import org.ruminaq.tasks.debug.model.TasksDebugElement;
 import ch.qos.logback.classic.Logger;
 
 public abstract class Port extends TasksDebugElement

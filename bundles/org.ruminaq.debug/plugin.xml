@@ -63,4 +63,9 @@
           id="org.ruminaq.debug.model.SicDebugModelPresentation">
       </debugModelPresentation>
    </extension>
+   <extension point="org.eclipse.debug.ui.debugModelPresentations">
+      <debugModelPresentation class="org.ruminaq.debug.model.TasksDebugModelPresentation"
+                                 id="org.ruminaq.debug.model.TasksDebugModelPresentation">
+      </debugModelPresentation>
+   </extension>
 </plugin>

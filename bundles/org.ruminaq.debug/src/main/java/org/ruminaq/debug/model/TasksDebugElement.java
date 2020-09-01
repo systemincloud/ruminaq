@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.debug.model;
+package org.ruminaq.debug.model;
 
 import org.eclipse.debug.core.DebugException;
 import org.eclipse.debug.core.model.DebugElement;
@@ -12,9 +12,6 @@ import org.eclipse.debug.core.model.IDisconnect;
 import org.eclipse.debug.core.model.IStep;
 import org.eclipse.debug.core.model.ISuspendResume;
 import org.eclipse.debug.core.model.ITerminate;
-import org.ruminaq.debug.model.IState;
-import org.ruminaq.debug.model.IStateElement;
-import org.ruminaq.debug.model.MainState;
 
 public abstract class TasksDebugElement extends DebugElement
     implements ISuspendResume, IDisconnect, ITerminate, IStep, IStateElement {

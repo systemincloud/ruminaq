@@ -3,7 +3,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.debug.model;
+
+package org.ruminaq.debug.model;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -19,15 +20,11 @@ import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.debug.core.model.IStackFrame;
 import org.eclipse.debug.core.model.IThread;
 import org.ruminaq.debug.api.IEventProcessor;
-import org.ruminaq.debug.model.MainState;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.runner.impl.debug.events.IDebugEvent;
 import org.ruminaq.runner.impl.debug.events.debugger.NewInputPort;
 import org.ruminaq.runner.impl.debug.events.debugger.NewOutputPort;
 import org.ruminaq.runner.impl.debug.events.debugger.NewTaskEvent;
-import org.ruminaq.tasks.debug.model.port.Port;
-import org.ruminaq.tasks.debug.model.port.in.InputPort;
-import org.ruminaq.tasks.debug.model.port.out.OutputPort;
 
 import ch.qos.logback.classic.Logger;
 

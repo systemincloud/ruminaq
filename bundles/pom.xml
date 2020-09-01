@@ -40,7 +40,6 @@
     <module>org.ruminaq.tasks.constant.model</module>
     <module>org.ruminaq.tasks.constant.ui</module>
 
-    <module>org.ruminaq.tasks.debug</module>
     <module>org.ruminaq.tasks.demux</module>
     <module>org.ruminaq.tasks.embeddedtask</module>
     <module>org.ruminaq.tasks.embeddedtask.ui</module>

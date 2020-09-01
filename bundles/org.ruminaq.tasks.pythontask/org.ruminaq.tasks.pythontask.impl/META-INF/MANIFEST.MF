@@ -34,7 +34,6 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.service,
  org.ruminaq.runner.thrift,
  org.ruminaq.runner.util,
- org.ruminaq.tasks.debug.model,
  org.ruminaq.tasks.pythontask.model.pythontask,
  org.ruminaq.util,
  org.slf4j

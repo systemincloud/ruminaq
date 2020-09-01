@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.debug.model;
+package org.ruminaq.debug.model;
 
 import java.net.URL;
 
@@ -24,9 +24,6 @@ import org.osgi.framework.FrameworkUtil;
 import org.ruminaq.debug.model.vars.Data;
 import org.ruminaq.debug.model.vars.KeyValueGroupVariable;
 import org.ruminaq.debug.model.vars.SicVariable;
-import org.ruminaq.tasks.debug.model.port.in.DataQueueVariable;
-import org.ruminaq.tasks.debug.model.port.in.InputPort;
-import org.ruminaq.tasks.debug.model.port.out.OutputPort;
 
 public class TasksDebugModelPresentation implements IDebugModelPresentation {
 

@@ -22,6 +22,7 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.jdt.internal.debug.ui.breakpoints,
  org.eclipse.jface.action,
  org.eclipse.jface.preference,
+ org.eclipse.jface.resource,
  org.eclipse.jface.viewers,
  org.eclipse.swt,
  org.eclipse.swt.events,
@@ -48,4 +49,5 @@ Export-Package: org.ruminaq.debug,
  org.ruminaq.debug.model,
  org.ruminaq.debug.model.vars
 Bundle-RequiredExecutionEnvironment: JavaSE-14
-Service-Component: OSGI-INF/org.ruminaq.debug.DebugExtensionHandlerImpl.xml
+Service-Component: OSGI-INF/org.ruminaq.debug.DebugExtensionHandlerImpl.xml,
+ OSGI-INF/org.ruminaq.debug.TasksDebugModelerExtension.xml
