@@ -30,7 +30,7 @@ import org.ruminaq.validation.ValidationStatusAdapter;
 @Component(property = { "service.ranking:Integer=5" })
 public class DecorateTaskFeature implements DecoratorExtension {
 
-  protected static Optional<Task> modelFromPictogramElement(
+  private static Optional<Task> modelFromPictogramElement(
       PictogramElement pe) {
     return Optional.of(pe).filter(TaskShape.class::isInstance)
         .map(TaskShape.class::cast).map(TaskShape::getModelObject)
