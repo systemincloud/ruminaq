@@ -23,14 +23,15 @@
       <attribute name="hitCount"/>
       <attribute name="suspendPolicy"/>
    </extension>
-
-   <extension point="org.eclipse.debug.ui.detailPaneFactories">
-      <detailFactories class="org.ruminaq.tasks.debug.ui.BreakpointDetailPaneFactory"
-                          id="org.ruminaq.tasks.debug.ui.breakpoint.detailFactories">
+   <extension
+         point="org.eclipse.debug.ui.detailPaneFactories">
+      <detailFactories
+            class="org.ruminaq.debug.BreakpointDetailPaneFactory"
+            id="org.ruminaq.debug.breakpoint.detailFactories">
          <enablement>
             <with variable="selection">
                <count value="1"/>
-               <iterate><or><instanceof value="org.ruminaq.tasks.debug.ui.InternalPortBreakpoint"/></or></iterate>
+               <iterate><or><instanceof value="org.ruminaq.debug.InternalPortBreakpoint"/></or></iterate>
             </with>
          </enablement>
       </detailFactories>
