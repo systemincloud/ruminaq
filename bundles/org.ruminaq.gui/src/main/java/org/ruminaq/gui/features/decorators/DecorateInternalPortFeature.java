@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -35,6 +36,7 @@ import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.util.EclipseUtil;
+import org.ruminaq.util.Result;
 import org.ruminaq.validation.ValidationStatusAdapter;
 
 @Component(property = { "service.ranking:Integer=5" })
@@ -64,7 +66,7 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
     return modelFromPictogramElement(pe).map(ip -> {
       List<IDecorator> decorators = new LinkedList<>();
       decorators.addAll(validationDecorators(shape, ip, fp));
-      decorators.addAll(breakpointDecorators(shape, ip, fp));
+      breakpointDecorator(shape, ip, fp).ifPresent(decorators::add);
       return decorators;
     }).orElse(Collections.emptyList());
   }
@@ -110,26 +112,20 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
     return decorators;
   }
 
-  private Collection<? extends IDecorator> breakpointDecorators(
-      PictogramElement pe, InternalPort ip, IFeatureProvider fp) {
-    List<IDecorator> decorators = new LinkedList<>();
+  private Optional<IDecorator> breakpointDecorator(PictogramElement pe,
+      InternalPort ip, IFeatureProvider fp) {
     IResource resource = EclipseUtil.emfResourceToIResource(
         fp.getDiagramTypeProvider().getDiagram().eResource());
-    InternalPortToggleBreakpointFeature.breakpointFromModel(resource, ip)
-        .ifPresent(b -> {
-          try {
-            ImageDecorator bp = b.isEnabled()
-                ? new ImageDecorator(Images.IMG_TOGGLE_BREAKPOINT_S)
-                : new ImageDecorator(Images.IMG_TOGGLE_BREAKPOINT_D);
-            bp.setX(1);
-            bp.setY(1);
-            decorators.add(bp);
-          } catch (CoreException e) {
-            e.printStackTrace();
-          }
-
+    return InternalPortToggleBreakpointFeature.breakpointFromModel(resource, ip)
+        .map(b -> Result.attempt(() -> b.isEnabled()).orElse(null))
+        .filter(Objects::nonNull).map(e -> {
+          ImageDecorator bp = e.booleanValue()
+              ? new ImageDecorator(Images.IMG_TOGGLE_BREAKPOINT_S)
+              : new ImageDecorator(Images.IMG_TOGGLE_BREAKPOINT_D);
+          bp.setX(1);
+          bp.setY(1);
+          return bp;
         });
-    return decorators;
   }
 
 }
