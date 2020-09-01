@@ -58,7 +58,6 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
       List<IDecorator> decorators = new LinkedList<>();
       decorators.addAll(validationDecorators(pe, ip));
       decorators.addAll(breakpointDecorators(pe, ip));
-      decorators.addAll(debugDecorators(pe, ip));
       return decorators;
     }).orElse(Collections.emptyList());
   }
@@ -138,12 +137,6 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
 //      }
 //    } catch (CoreException e) {
 //    }
-
-    return decorators;
-  }
-
-  private Collection<? extends IDecorator> debugDecorators(PictogramElement pe, Object bo) {
-    List<IDecorator> decorators = new LinkedList<>();
 
     return decorators;
   }
