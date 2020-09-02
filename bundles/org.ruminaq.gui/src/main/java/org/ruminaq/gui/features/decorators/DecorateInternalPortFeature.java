@@ -79,6 +79,12 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
     }).orElseGet(Collections::emptyList);
   }
 
+  /**
+   * Add color border.
+   *
+   * @param shape model object
+   * @return BorderDecorator
+   */
   private static Optional<IDecorator> validationDecorator(
       InternalPortShape shape) {
     return Optional.of(shape).map(InternalPortShape::getAnchors)
@@ -109,6 +115,13 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
         });
   }
 
+  /**
+   * Add small dot in the top right corner.
+   *
+   * @param ip model object
+   * @param fp IFeatureProvider
+   * @return ImageDecorator
+   */
   private static Optional<IDecorator> breakpointDecorator(InternalPort ip,
       IFeatureProvider fp) {
     IResource resource = EclipseUtil.emfResourceToIResource(
