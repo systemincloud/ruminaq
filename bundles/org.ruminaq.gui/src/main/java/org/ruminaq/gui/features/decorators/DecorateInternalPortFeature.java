@@ -94,16 +94,15 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
         .map((IStatus status) -> {
           IBorderDecorator decorator = switch (status.getSeverity()) {
             case IStatus.INFO -> new BorderDecorator(IColorConstant.BLUE,
-                  MARKER_LINE_WIDTH, Graphics.LINE_DOT);
+                MARKER_LINE_WIDTH, Graphics.LINE_DOT);
             case IStatus.WARNING -> new BorderDecorator(IColorConstant.YELLOW,
-                  MARKER_LINE_WIDTH, Graphics.LINE_DOT);
+                MARKER_LINE_WIDTH, Graphics.LINE_DOT);
             case IStatus.ERROR -> new BorderDecorator(IColorConstant.RED,
-                  MARKER_LINE_WIDTH, Graphics.LINE_DOT);
+                MARKER_LINE_WIDTH, Graphics.LINE_DOT);
             default -> null;
           };
-          if (decorator != null) {
-            decorator.setMessage(status.getMessage());
-          }
+          Optional.ofNullable(decorator)
+              .ifPresent(d -> d.setMessage(status.getMessage()));
           return decorator;
         });
   }
