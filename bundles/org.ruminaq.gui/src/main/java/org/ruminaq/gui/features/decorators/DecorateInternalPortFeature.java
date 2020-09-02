@@ -86,9 +86,10 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
         .map(sc -> EcoreUtil.getRegisteredAdapter((EObject) sc,
             ValidationStatusAdapter.class))
         .filter(ValidationStatusAdapter.class::isInstance)
-        .map(ValidationStatusAdapter.class::cast).map(statusAdapter -> {
+        .map(ValidationStatusAdapter.class::cast)
+        .map(ValidationStatusAdapter::getValidationStatus)
+        .map((IStatus status) -> {
           final IBorderDecorator decorator;
-          final IStatus status = statusAdapter.getValidationStatus();
           switch (status.getSeverity()) {
             case IStatus.INFO:
               decorator = new BorderDecorator(IColorConstant.BLUE, 2, 3);
@@ -120,7 +121,7 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
         .filter(Objects::nonNull).map((Boolean e) -> {
           ImageDecorator bp = new ImageDecorator(
               Images.IMG_TOGGLE_BREAKPOINT_S);
-          if (!e) {
+          if (!e.booleanValue()) {
             bp = new ImageDecorator(Images.IMG_TOGGLE_BREAKPOINT_D);
           }
           bp.setX(1);
