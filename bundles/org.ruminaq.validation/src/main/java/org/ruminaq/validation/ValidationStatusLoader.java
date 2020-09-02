@@ -44,7 +44,6 @@ import org.eclipse.emf.validation.model.IModelConstraint;
 import org.eclipse.emf.validation.service.ConstraintFactory;
 import org.eclipse.emf.validation.service.ConstraintRegistry;
 import org.eclipse.emf.validation.service.IConstraintDescriptor;
-import org.ruminaq.consts.Constants.SicPlugin;
 
 public class ValidationStatusLoader {
 

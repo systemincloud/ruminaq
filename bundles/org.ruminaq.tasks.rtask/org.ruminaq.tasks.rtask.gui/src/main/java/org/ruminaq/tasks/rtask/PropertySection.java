@@ -64,7 +64,6 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.wizards.IWizardDescriptor;
-import org.ruminaq.consts.Constants.SicPlugin;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;

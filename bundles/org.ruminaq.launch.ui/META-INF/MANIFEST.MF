@@ -28,7 +28,6 @@ Import-Package: org.eclipse.core.expressions,
  org.eclipse.ui.model,
  org.eclipse.ui.plugin,
  org.osgi.framework,
- org.ruminaq.consts,
  org.ruminaq.eclipse,
  org.ruminaq.launch,
  org.ruminaq.util

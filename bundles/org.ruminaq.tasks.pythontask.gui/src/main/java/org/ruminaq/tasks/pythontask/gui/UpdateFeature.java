@@ -33,7 +33,6 @@ import org.python.pydev.parser.jython.ast.stmtType;
 import org.python.pydev.parser.visitors.scope.ASTEntry;
 import org.python.pydev.parser.visitors.scope.EasyASTIteratorVisitor;
 import org.python.pydev.plugin.nature.PythonNature;
-import org.ruminaq.consts.Constants;
 import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
 import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
 import org.ruminaq.model.DataTypeManager;

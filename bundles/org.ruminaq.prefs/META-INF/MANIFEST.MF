@@ -16,7 +16,6 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.ui.preferences,
  org.eclipse.ui.views.properties.tabbed,
  org.osgi.framework,
- org.osgi.service.prefs,
- org.ruminaq.consts
+ org.osgi.service.prefs
 Export-Package: org.ruminaq.prefs
 Bundle-RequiredExecutionEnvironment: JavaSE-14

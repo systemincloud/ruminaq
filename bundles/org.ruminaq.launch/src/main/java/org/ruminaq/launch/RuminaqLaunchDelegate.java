@@ -50,7 +50,6 @@ import org.eclipse.m2e.core.MavenPlugin;
 import org.osgi.framework.Bundle;
 import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.builder.ProjectBuilder;
-import org.ruminaq.consts.Constants.SicPlugin;
 import org.ruminaq.debug.DebuggerService;
 import org.ruminaq.debug.api.DebugExtensionHandler;
 import org.ruminaq.debug.api.EventDispatchJob;
