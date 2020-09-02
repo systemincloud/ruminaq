@@ -13,8 +13,13 @@ import org.eclipse.graphiti.features.IReconnectionFeature;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ReconnectionFeatureExtension;
 
+/**
+ * Service ReconnectionFeatureExtension implementation.
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
-public class ReconnectionFeatures implements ReconnectionFeatureExtension {
+public class ReconnectionFeatureImpl implements ReconnectionFeatureExtension {
 
   @Override
   public List<Class<? extends IReconnectionFeature>> getFeatures() {
