@@ -46,7 +46,9 @@ import org.ruminaq.validation.ValidationStatusAdapter;
 @Component(property = { "service.ranking:Integer=5" })
 public class DecorateInternalPortFeature implements DecoratorExtension {
 
-  private static final int MARKER_LINE_WIDTH = 2;
+  private static final int MARKER_WIDTH = 2;
+
+  private static final int MARKER_STYLE = Graphics.LINE_DOT;
 
   private static Optional<InternalPortShape> shapeFromPictogramElement(
       PictogramElement pe) {
@@ -94,11 +96,11 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
         .map((IStatus status) -> {
           IBorderDecorator decorator = switch (status.getSeverity()) {
             case IStatus.INFO -> new BorderDecorator(IColorConstant.BLUE,
-                MARKER_LINE_WIDTH, Graphics.LINE_DOT);
+                MARKER_WIDTH, MARKER_STYLE);
             case IStatus.WARNING -> new BorderDecorator(IColorConstant.YELLOW,
-                MARKER_LINE_WIDTH, Graphics.LINE_DOT);
+                MARKER_WIDTH, MARKER_STYLE);
             case IStatus.ERROR -> new BorderDecorator(IColorConstant.RED,
-                MARKER_LINE_WIDTH, Graphics.LINE_DOT);
+                MARKER_WIDTH, MARKER_STYLE);
             default -> null;
           };
           Optional.ofNullable(decorator)
