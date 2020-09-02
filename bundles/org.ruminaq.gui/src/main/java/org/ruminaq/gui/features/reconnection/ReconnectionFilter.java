@@ -14,6 +14,11 @@ import org.eclipse.graphiti.features.context.IReconnectionContext;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.ruminaq.gui.features.FeaturePredicate;
 
+/**
+ * Specification of FeaturePredicate to IReconnectionContext.
+ *
+ * @author Marek Jagielski
+ */
 public class ReconnectionFilter<V extends Connection>
     implements FeaturePredicate<IContext> {
 
@@ -30,5 +35,4 @@ public class ReconnectionFilter<V extends Connection>
         .map(IReconnectionContext::getConnection)
         .filter(connectionClass::isInstance).isPresent();
   }
-
 }
