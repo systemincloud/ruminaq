@@ -30,7 +30,7 @@ public class InternalPortBreakpointPropertiesFeature
   public static final String NAME = "Breakpoint Properties...";
 
   @FunctionalInterface
-  private interface ISelectionProviderGetSelection extends ISelectionProvider {
+  private interface SelectionProviderGetSelection extends ISelectionProvider {
     default void addSelectionChangedListener(
         ISelectionChangedListener listener) {
     }
@@ -75,6 +75,9 @@ public class InternalPortBreakpointPropertiesFeature
     return false;
   }
 
+  /**
+   * Open a new window.
+   */
   @Override
   public void execute(ICustomContext context) {
     InternalPortToggleBreakpointFeature
@@ -82,7 +85,7 @@ public class InternalPortBreakpointPropertiesFeature
         .ifPresent(bp -> new PropertyDialogAction(
             new SameShellProvider(PlatformUI.getWorkbench()
                 .getActiveWorkbenchWindow().getShell()),
-            (ISelectionProviderGetSelection) () -> new StructuredSelection(bp))
+            (SelectionProviderGetSelection) () -> new StructuredSelection(bp))
                 .run());
   }
 }
