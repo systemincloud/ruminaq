@@ -67,8 +67,9 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
 
   private static Optional<InternalPortShape> shapeFromContext(
       ICustomContext context) {
-    return Optional.of(context).map(ICustomContext::getPictogramElements)
-        .map(Stream::of).orElseGet(Stream::empty).findFirst()
+    return Optional.ofNullable(context)
+        .map(ICustomContext::getPictogramElements).map(Stream::of)
+        .orElseGet(Stream::empty).findFirst()
         .filter(InternalPortShape.class::isInstance)
         .map(InternalPortShape.class::cast);
   }
@@ -83,7 +84,7 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
    * Retrieve breakpoint from InternalPort.
    *
    * @param resource file
-   * @param ip InternalPort domian object
+   * @param ip       InternalPort domian object
    * @return
    */
   public static Optional<IBreakpoint> breakpointFromModel(IResource resource,
@@ -105,7 +106,7 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
    * Retrieve breakpoint from ICustomContext that points to InternalPort.
    *
    * @param context ICustomContext
-   * @param fp IFeatureProvider
+   * @param fp      IFeatureProvider
    * @return
    */
   public static Optional<IBreakpoint> breakpointFromContext(

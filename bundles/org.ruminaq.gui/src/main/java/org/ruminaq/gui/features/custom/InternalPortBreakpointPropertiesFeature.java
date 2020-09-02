@@ -78,10 +78,7 @@ public class InternalPortBreakpointPropertiesFeature
   @Override
   public void execute(ICustomContext context) {
     InternalPortToggleBreakpointFeature
-        .breakpointFromContext(
-            Optional.of(context).filter(ICustomContext.class::isInstance)
-                .map(ICustomContext.class::cast).orElse(null),
-            getFeatureProvider())
+        .breakpointFromContext(context, getFeatureProvider())
         .ifPresent(bp -> new PropertyDialogAction(
             new SameShellProvider(PlatformUI.getWorkbench()
                 .getActiveWorkbenchWindow().getShell()),
