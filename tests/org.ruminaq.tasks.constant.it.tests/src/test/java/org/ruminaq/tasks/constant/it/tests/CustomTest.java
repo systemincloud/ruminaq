@@ -8,6 +8,9 @@ package org.ruminaq.tasks.constant.it.tests;
 
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
+import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
@@ -22,6 +25,18 @@ import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 @RunWith(RedDeerSuite.class)
 public class CustomTest extends GuiTest {
 
+  private static SWTWorkbenchBot bot;
+
+  @BeforeClass
+  public static void initBot() {
+    bot = new SWTWorkbenchBot();
+  }
+
+  @AfterClass
+  public static void after() {
+    bot.resetWorkbench();
+  }
+
   @Test
   public void testInternalPortBreakpoint() throws InterruptedException {
     GEFEditor gefEditor = new GEFEditor(diagramName);
@@ -33,6 +48,16 @@ public class CustomTest extends GuiTest {
     gefEditor.getContextMenu().getItem("Toggle Breakpoint").select();
 
     Thread.sleep(1000);
+
+    gefEditor.getContextMenu().getItem("Breakpoint Properties...").select();
+
+    Thread.sleep(1000);
+
+    bot.button("Cancel").click();
+
+    Thread.sleep(1000);
+
+    ip.select();
 
     gefEditor.getContextMenu().getItem("Disable Breakpoint").select();
 

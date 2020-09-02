@@ -11,6 +11,7 @@
 			<accessrule kind="accessible" pattern="org/eclipse/reddeer/gef/impl/editpart/*"/>
 			<accessrule kind="accessible" pattern="org/eclipse/graphiti/ui/internal/parts/*"/>
 			<accessrule kind="accessible" pattern="org/eclipse/reddeer/gef/impl/connection/*"/>
+			<accessrule kind="accessible" pattern="org/eclipse/swtbot/swt/finder/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="src" path="src/test/java">
