@@ -38,6 +38,7 @@ import org.ruminaq.util.Result;
 import org.ruminaq.validation.ValidationStatusAdapter;
 
 /**
+ * Decorate InternalPoint with warnings, breakpoints, etc.
  *
  * @author Marek Jagielski
  */
@@ -65,16 +66,16 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
   public Collection<IDecorator> getDecorators(PictogramElement pe,
       IFeatureProvider fp) {
     InternalPortShape shape = shapeFromPictogramElement(pe).orElseThrow();
-    return modelFromPictogramElement(pe).map(ip -> {
+    return modelFromPictogramElement(pe).map((InternalPort ip) -> {
       List<IDecorator> decorators = new LinkedList<>();
-      validationDecorator(shape, ip, fp).ifPresent(decorators::add);
-      breakpointDecorator(shape, ip, fp).ifPresent(decorators::add);
+      validationDecorator(shape).ifPresent(decorators::add);
+      breakpointDecorator(ip, fp).ifPresent(decorators::add);
       return decorators;
-    }).orElse(Collections.emptyList());
+    }).orElseGet(Collections::emptyList);
   }
 
-  private Optional<IDecorator> validationDecorator(InternalPortShape shape,
-      InternalPort ip, IFeatureProvider fp) {
+  private static Optional<IDecorator> validationDecorator(
+      InternalPortShape shape) {
     return Optional.of(shape).map(InternalPortShape::getAnchors)
         .map(EList::stream).orElseGet(Stream::empty).findFirst()
         .map(Anchor::getIncomingConnections).map(EList::stream)
@@ -110,8 +111,8 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
         });
   }
 
-  private Optional<IDecorator> breakpointDecorator(PictogramElement pe,
-      InternalPort ip, IFeatureProvider fp) {
+  private static Optional<IDecorator> breakpointDecorator(InternalPort ip,
+      IFeatureProvider fp) {
     IResource resource = EclipseUtil.emfResourceToIResource(
         fp.getDiagramTypeProvider().getDiagram().eResource());
     return InternalPortToggleBreakpointFeature.breakpointFromModel(resource, ip)

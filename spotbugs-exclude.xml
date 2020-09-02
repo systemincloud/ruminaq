@@ -33,6 +33,9 @@
     <Bug pattern="SCII_SPOILED_CHILD_INTERFACE_IMPLEMENTOR" />
   </Match>
   <Match>
+    <Bug pattern="UP_UNUSED_PARAMETER" />
+  </Match>
+  <Match>
     <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD" />
   </Match>
 </FindBugsFilter>
