@@ -26,7 +26,7 @@ import org.ruminaq.model.ruminaq.SimpleConnection;
 
 /**
  * IAddFeature for SimpleConnection.
- * 
+ *
  * @author Marek Jagielski
  */
 @FeatureFilter(Filter.class)
