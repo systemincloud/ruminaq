@@ -31,6 +31,10 @@ import org.ruminaq.validation.ValidationStatusAdapter;
 @Component(property = { "service.ranking:Integer=5" })
 public class DecorateTaskFeature implements DecoratorExtension {
 
+  private static final int POSITION_X = -5;
+
+  private static final int POSITION_Y = -5;
+
   private static Optional<Task> modelFromPictogramElement(PictogramElement pe) {
     return Optional.of(pe).filter(TaskShape.class::isInstance)
         .map(TaskShape.class::cast).map(TaskShape::getModelObject)
@@ -45,8 +49,6 @@ public class DecorateTaskFeature implements DecoratorExtension {
   @Override
   public Collection<IDecorator> getDecorators(PictogramElement pe,
       IFeatureProvider fp) {
-    int x_dec = -5;
-    int y_dec = -5;
     return modelFromPictogramElement(pe)
         .map(task -> EcoreUtil.getRegisteredAdapter(task,
             ValidationStatusAdapter.class))
@@ -54,30 +56,21 @@ public class DecorateTaskFeature implements DecoratorExtension {
         .map(ValidationStatusAdapter.class::cast)
         .map(ValidationStatusAdapter::getValidationStatus)
         .map((IStatus status) -> {
-          IImageDecorator decorator;
-          switch (status.getSeverity()) {
-            case IStatus.INFO:
-              decorator = new ImageDecorator(
-                  IPlatformImageConstants.IMG_ECLIPSE_INFORMATION_TSK);
-              break;
-            case IStatus.WARNING:
-              decorator = new ImageDecorator(
-                  IPlatformImageConstants.IMG_ECLIPSE_WARNING_TSK);
-              break;
-            case IStatus.ERROR:
-              decorator = new ImageDecorator(
-                  IPlatformImageConstants.IMG_ECLIPSE_ERROR_TSK);
-              break;
-            default:
-              decorator = null;
-              break;
-          }
-
-          decorator.setX(x_dec);
-          decorator.setY(y_dec);
-          decorator.setMessage(status.getMessage());
+          IImageDecorator decorator = switch (status.getSeverity()) {
+            case IStatus.INFO -> new ImageDecorator(
+                IPlatformImageConstants.IMG_ECLIPSE_INFORMATION_TSK);
+            case IStatus.WARNING -> new ImageDecorator(
+                IPlatformImageConstants.IMG_ECLIPSE_WARNING_TSK);
+            case IStatus.ERROR -> new ImageDecorator(
+                IPlatformImageConstants.IMG_ECLIPSE_ERROR_TSK);
+            default -> null;
+          };
+          Optional.ofNullable(decorator).ifPresent((IImageDecorator d) -> {
+            d.setX(POSITION_X);
+            d.setY(POSITION_Y);
+            d.setMessage(status.getMessage());
+          });
           return decorator;
         }).stream().collect(Collectors.toList());
-
   }
 }
