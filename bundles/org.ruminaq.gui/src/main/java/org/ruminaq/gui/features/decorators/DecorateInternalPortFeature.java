@@ -116,7 +116,7 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
     IResource resource = EclipseUtil.emfResourceToIResource(
         fp.getDiagramTypeProvider().getDiagram().eResource());
     return InternalPortToggleBreakpointFeature.breakpointFromModel(resource, ip)
-        .map(b -> Result.attempt(() -> b.isEnabled()).orElse(null))
+        .map(b -> Result.attempt(b::isEnabled).orElse(null))
         .filter(Objects::nonNull).map(e -> {
           ImageDecorator bp = e.booleanValue()
               ? new ImageDecorator(Images.IMG_TOGGLE_BREAKPOINT_S)
@@ -126,5 +126,4 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
           return bp;
         });
   }
-
 }
