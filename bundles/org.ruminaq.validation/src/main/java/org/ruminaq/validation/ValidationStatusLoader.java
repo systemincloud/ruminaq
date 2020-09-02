@@ -138,7 +138,7 @@ public class ValidationStatusLoader {
         default:
           severity = IStatus.OK;
       }
-      return new Status(severity, SicPlugin.ECLIPSE_ID.s(), message);
+      return new Status(severity, "org.ruminaq.eclipse", message);
     }
     try {
       marker.setAttribute(EValidator.RELATED_URIS_ATTRIBUTE,

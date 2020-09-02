@@ -361,7 +361,7 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate
 //      }
 //    }
     try {
-      Bundle bundle = Activator.getDefault().getBundle(SicPlugin.LOGS_ID.s());
+      Bundle bundle = Activator.getDefault().getBundle("org.ruminaq.logs");
       if (bundle != null)
         addInsideJars(bundle, extendedClasspath);
 
@@ -389,8 +389,8 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate
       extendedClasspath.add(pluginIdToJarPath("org.apache.commons.lang3"));
       extendedClasspath.add(pluginIdToJarPath("org.apache.commons.math3"));
 
-      for (SicPlugin p : SicPlugin.values())
-        extendedClasspath.add(pluginIdToJarPath(p.s()));
+//      for (SicPlugin p : SicPlugin.values())
+//        extendedClasspath.add(pluginIdToJarPath(p.s()));
 
       for (String id : launchExtensions.getPluginIdsToRunnerClasspath())
         extendedClasspath.add(id);
@@ -409,8 +409,8 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate
       extendedClasspath.add(pluginIdToJarPath(GRAPHITI_MM_PLUGIN_ID));
 
     } catch (IOException e) {
-      throw new CoreException(new Status(IStatus.ERROR, SicPlugin.LAUNCH_ID.s(),
-          IStatus.OK, "Failed to compose classpath!", e));
+//      throw new CoreException(new Status(IStatus.ERROR, SicPlugin.LAUNCH_ID.s(),
+//          IStatus.OK, "Failed to compose classpath!", e));
     }
     return extendedClasspath.toArray(new String[extendedClasspath.size()]);
   }

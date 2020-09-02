@@ -13,7 +13,6 @@
 
   <modules>
     <module>org.ruminaq.builder</module>
-    <module>org.ruminaq.consts</module>
     <module>org.ruminaq.debug</module>
     <module>org.ruminaq.eclipse</module>
     <module>org.ruminaq.gui</module>

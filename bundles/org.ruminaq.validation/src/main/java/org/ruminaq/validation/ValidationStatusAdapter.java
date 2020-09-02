@@ -67,7 +67,7 @@ public class ValidationStatusAdapter extends AdapterImpl {
     private String message;
 
     public MultiStatusWithMessage(IStatus[] newChildren) {
-      super(SicPlugin.ECLIPSE_ID.s(), 0, newChildren, "", null);
+      super("org.ruminaq.eclipse", 0, newChildren, "", null);
     }
 
     @Override

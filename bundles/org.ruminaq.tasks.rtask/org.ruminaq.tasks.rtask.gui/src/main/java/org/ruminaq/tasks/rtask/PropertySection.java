@@ -271,11 +271,12 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
         fileDialog.setValidator(new ISelectionStatusValidator() {
           @Override
           public IStatus validate(Object[] selection) {
-            if (selection.length == 1 && selection[0] instanceof IFile)
-              return new Status(IStatus.OK, SicPlugin.GUI_ID.s(), 0, "", null);
-            else
-              return new Status(IStatus.ERROR, SicPlugin.GUI_ID.s(), 0, "",
-                  null);
+//            if (selection.length == 1 && selection[0] instanceof IFile)
+//              return new Status(IStatus.OK, SicPlugin.GUI_ID.s(), 0, "", null);
+//            else
+//              return new Status(IStatus.ERROR, SicPlugin.GUI_ID.s(), 0, "",
+//                  null);
+            return null;
           }
         });
         fileDialog.open();

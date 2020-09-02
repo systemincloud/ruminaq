@@ -1,7 +1,0 @@
-Automatic-Module-Name: org.ruminaq.consts
-Bundle-ManifestVersion: 2
-Bundle-Vendor: Marek Jagielski
-Bundle-SymbolicName: org.ruminaq.consts;singleton:=true
-Bundle-Version: 1.0.0.qualifier
-Export-Package: org.ruminaq.consts
-Bundle-RequiredExecutionEnvironment: JavaSE-14
