@@ -362,14 +362,12 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     Supplier<Stream<InternalPortShape>> ports = () -> taskShape
         .getInternalPort().stream();
     switch (pos) {
-      case LEFT:
-      case RIGHT:
+      case LEFT, RIGHT:
         distributePortsVertically(taskShape,
             ports.get().filter(p -> pos == getPosition(taskShape, p))
                 .collect(Collectors.toList()));
         break;
-      case TOP:
-      case BOTTOM:
+      case TOP, BOTTOM:
         distributePortsHorizontally(taskShape,
             ports.get().filter(p -> pos == getPosition(taskShape, p))
                 .collect(Collectors.toList()));

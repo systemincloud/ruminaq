@@ -22,19 +22,11 @@ public class TextStrategyUtil {
       String textCase) {
 
     StringBuffer buffer = new StringBuffer();
-    String characters = "";
-
-    switch (mode) {
-      case ALPHA:
-        characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        break;
-      case ALPHANUMERIC:
-        characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-        break;
-      case NUMERIC:
-        characters = "1234567890";
-        break;
-    }
+    String characters = switch (mode) {
+      case ALPHA -> "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      case ALPHANUMERIC -> "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+      case NUMERIC -> "1234567890";
+    };
 
     int charactersLength = characters.length();
 

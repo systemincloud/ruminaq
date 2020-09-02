@@ -37,11 +37,8 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
     @Override
     public boolean visit(IResourceDelta delta) throws CoreException {
       switch (delta.getKind()) {
-        case IResourceDelta.ADDED:
-        case IResourceDelta.CHANGED:
+        case IResourceDelta.ADDED, IResourceDelta.CHANGED:
           validate(delta, monitor);
-          break;
-        case IResourceDelta.REMOVED:
           break;
         default:
           break;

@@ -113,8 +113,7 @@ public class DefaultValidator extends AbstractValidator {
       case IStatus.WARNING:
         message.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
         break;
-      case IStatus.ERROR:
-      case IStatus.CANCEL:
+      case IStatus.ERROR, IStatus.CANCEL:
         message.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
         break;
     }
