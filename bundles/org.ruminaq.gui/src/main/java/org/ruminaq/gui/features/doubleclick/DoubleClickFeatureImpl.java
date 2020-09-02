@@ -6,7 +6,7 @@
 
 package org.ruminaq.gui.features.doubleclick;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.osgi.service.component.annotations.Component;
@@ -22,6 +22,7 @@ public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
 
   @Override
   public List<Class<? extends ICustomFeature>> getFeatures() {
-    return Collections.singletonList(DoubleClickBaseElementFeature.class);
+    return Arrays.asList(InternalPortDoubleClickFeature.class,
+        DoubleClickBaseElementFeature.class);
   }
 }
