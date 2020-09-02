@@ -117,10 +117,12 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
         fp.getDiagramTypeProvider().getDiagram().eResource());
     return InternalPortToggleBreakpointFeature.breakpointFromModel(resource, ip)
         .map(b -> Result.attempt(b::isEnabled).orElse(null))
-        .filter(Objects::nonNull).map(e -> {
-          ImageDecorator bp = e.booleanValue()
-              ? new ImageDecorator(Images.IMG_TOGGLE_BREAKPOINT_S)
-              : new ImageDecorator(Images.IMG_TOGGLE_BREAKPOINT_D);
+        .filter(Objects::nonNull).map((Boolean e) -> {
+          ImageDecorator bp = new ImageDecorator(
+              Images.IMG_TOGGLE_BREAKPOINT_S);
+          if (!e) {
+            bp = new ImageDecorator(Images.IMG_TOGGLE_BREAKPOINT_D);
+          }
           bp.setX(1);
           bp.setY(1);
           return bp;
