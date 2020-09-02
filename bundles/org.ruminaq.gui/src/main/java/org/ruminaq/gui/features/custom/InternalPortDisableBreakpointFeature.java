@@ -42,8 +42,7 @@ public class InternalPortDisableBreakpointFeature
                 .map(ICustomContext.class::cast).orElse(null),
             getFeatureProvider())
         .map(b -> Result.attempt(() -> isAvailable(b)))
-        .flatMap(r -> Optional.ofNullable(r.orElse(Boolean.FALSE)))
-        .orElse(Boolean.FALSE);
+        .map(r -> r.orElse(Boolean.FALSE)).orElse(Boolean.FALSE);
   }
 
   protected boolean isAvailable(IBreakpoint breakpoint) throws CoreException {
