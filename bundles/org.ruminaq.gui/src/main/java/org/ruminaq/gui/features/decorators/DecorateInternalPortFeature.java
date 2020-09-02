@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -44,6 +45,8 @@ import org.ruminaq.validation.ValidationStatusAdapter;
  */
 @Component(property = { "service.ranking:Integer=5" })
 public class DecorateInternalPortFeature implements DecoratorExtension {
+
+  private static final int MARKER_LINE_WIDTH = 2;
 
   private static Optional<InternalPortShape> shapeFromPictogramElement(
       PictogramElement pe) {
@@ -89,16 +92,19 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
         .map(ValidationStatusAdapter.class::cast)
         .map(ValidationStatusAdapter::getValidationStatus)
         .map((IStatus status) -> {
-          final IBorderDecorator decorator;
+          IBorderDecorator decorator;
           switch (status.getSeverity()) {
             case IStatus.INFO:
-              decorator = new BorderDecorator(IColorConstant.BLUE, 2, 3);
+              decorator = new BorderDecorator(IColorConstant.BLUE,
+                  MARKER_LINE_WIDTH, Graphics.LINE_DOT);
               break;
             case IStatus.WARNING:
-              decorator = new BorderDecorator(IColorConstant.YELLOW, 2, 3);
+              decorator = new BorderDecorator(IColorConstant.YELLOW,
+                  MARKER_LINE_WIDTH, Graphics.LINE_DOT);
               break;
             case IStatus.ERROR:
-              decorator = new BorderDecorator(IColorConstant.RED, 2, 3);
+              decorator = new BorderDecorator(IColorConstant.RED,
+                  MARKER_LINE_WIDTH, Graphics.LINE_DOT);
               break;
             default:
               decorator = null;
