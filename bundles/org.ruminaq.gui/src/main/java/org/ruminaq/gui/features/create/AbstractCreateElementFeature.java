@@ -20,7 +20,7 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 
 /**
  * Base class for creating Ruminaq elements.
- * 
+ *
  * @author Marek Jagielski
  */
 public abstract class AbstractCreateElementFeature
@@ -56,7 +56,7 @@ public abstract class AbstractCreateElementFeature
 
   /**
    * Does list of shapes contain shape of object with id.
-   * 
+   *
    * @param id     of shape
    * @param shapes collection of shapes
    */

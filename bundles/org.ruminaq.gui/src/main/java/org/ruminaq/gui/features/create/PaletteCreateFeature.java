@@ -8,7 +8,7 @@ package org.ruminaq.gui.features.create;
 
 /**
  * Features that should be in Palette.
- * 
+ *
  * @author Marek Jagielski
  */
 public interface PaletteCreateFeature {

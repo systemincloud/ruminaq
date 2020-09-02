@@ -20,7 +20,7 @@ import org.ruminaq.util.ServiceFilterArgs;
 
 /**
  * Label doesn't have context pad buttons.
- * 
+ *
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=5" })

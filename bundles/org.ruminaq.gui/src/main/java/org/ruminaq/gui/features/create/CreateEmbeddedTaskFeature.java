@@ -17,7 +17,7 @@ import org.ruminaq.model.ruminaq.RuminaqFactory;
 
 /**
  * EmbeddedTask create feature.
- * 
+ *
  * @author Marek Jagielski
  */
 public class CreateEmbeddedTaskFeature extends AbstractCreateTaskFeature

@@ -20,7 +20,7 @@ import org.ruminaq.util.ServiceFilterArgs;
 
 /**
  * Embedded Task can be updated.
- * 
+ *
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=10" })
