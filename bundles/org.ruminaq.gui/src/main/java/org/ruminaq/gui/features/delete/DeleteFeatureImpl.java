@@ -15,7 +15,7 @@ import org.ruminaq.gui.api.DeleteFeatureExtension;
 
 /**
  * Service DeleteFeatureExtension implementation.
- * 
+ *
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=5" })
