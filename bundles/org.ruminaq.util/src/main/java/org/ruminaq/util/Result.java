@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 /**
- * 
+ *
  * @author Brian Gerstle, Marek Jagielski
  *
  * @param <V>
@@ -55,13 +55,13 @@ public class Result<V, E extends Throwable> {
     return Optional.ofNullable(error).map(e -> Result.<T, E>failure(e))
         .orElseGet(() -> Result.success(mapper.apply(value)));
   }
-  
+
   public V orElse(V orValue) {
     return Optional.ofNullable(value).orElse(orValue);
   }
-  
+
   public V orElseThrow() throws E {
     return Optional.ofNullable(value).orElseThrow(() -> error);
   }
-  
+
 }
