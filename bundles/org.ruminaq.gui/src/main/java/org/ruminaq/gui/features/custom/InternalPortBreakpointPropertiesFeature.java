@@ -52,6 +52,9 @@ public class InternalPortBreakpointPropertiesFeature
     return NAME;
   }
 
+  /**
+   * Available only if breakpoint on InernalPort.
+   */
   @Override
   public boolean isAvailable(IContext context) {
     return InternalPortToggleBreakpointFeature
