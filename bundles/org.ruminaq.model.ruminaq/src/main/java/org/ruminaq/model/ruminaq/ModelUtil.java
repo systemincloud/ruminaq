@@ -3,17 +3,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.model.ruminaq;
 
-import java.util.List;
-
+import java.util.Collection;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 
 /**
- * 
+ *
  * @author Marek Jagielski
  */
 public class ModelUtil {
@@ -50,23 +50,23 @@ public class ModelUtil {
     return name;
   }
 
-  public static boolean areEquals(List<DataType> left, List<DataType> right) {
-    if (left.size() != right.size())
-      return false;
-    if (left.size() == 0)
-      return true;
-
-    loop: for (DataType l : left) {
-      for (DataType r : right)
-        if (l.getClass().equals(r.getClass()))
-          continue loop;
+  public static boolean areEquals(Collection<DataType> left,
+      Collection<DataType> right) {
+    if (left.size() != right.size()) {
       return false;
     }
 
-    loop: for (DataType r : right) {
-      for (DataType l : left)
-        if (r.getClass().equals(l.getClass()))
-          continue loop;
+    if (left.size() == 0) {
+      return true;
+    }
+
+    if (left.stream().map(Object::getClass).anyMatch(
+        l -> right.stream().map(Object::getClass).noneMatch(l::equals))) {
+      return false;
+    }
+
+    if (right.stream().map(Object::getClass).anyMatch(
+        r -> left.stream().map(Object::getClass).noneMatch(r::equals))) {
       return false;
     }
 
