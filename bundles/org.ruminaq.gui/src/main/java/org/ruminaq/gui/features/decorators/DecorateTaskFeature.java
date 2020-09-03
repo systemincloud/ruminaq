@@ -46,6 +46,9 @@ public class DecorateTaskFeature implements DecoratorExtension {
     return modelFromPictogramElement(pe).isPresent();
   }
 
+  /**
+   * Add icon in top right corner if issue.
+   */
   @Override
   public Collection<IDecorator> getDecorators(PictogramElement pe,
       IFeatureProvider fp) {
@@ -56,15 +59,7 @@ public class DecorateTaskFeature implements DecoratorExtension {
         .map(ValidationStatusAdapter.class::cast)
         .map(ValidationStatusAdapter::getValidationStatus)
         .map((IStatus status) -> {
-          IImageDecorator decorator = switch (status.getSeverity()) {
-            case IStatus.INFO -> new ImageDecorator(
-                IPlatformImageConstants.IMG_ECLIPSE_INFORMATION_TSK);
-            case IStatus.WARNING -> new ImageDecorator(
-                IPlatformImageConstants.IMG_ECLIPSE_WARNING_TSK);
-            case IStatus.ERROR -> new ImageDecorator(
-                IPlatformImageConstants.IMG_ECLIPSE_ERROR_TSK);
-            default -> null;
-          };
+          IImageDecorator decorator = statusToDecorator(status);
           Optional.ofNullable(decorator).ifPresent((IImageDecorator d) -> {
             d.setX(POSITION_X);
             d.setY(POSITION_Y);
@@ -72,5 +67,18 @@ public class DecorateTaskFeature implements DecoratorExtension {
           });
           return decorator;
         }).stream().collect(Collectors.toList());
+  }
+
+  private static IImageDecorator statusToDecorator(IStatus status) {
+    IImageDecorator decorator = switch (status.getSeverity()) {
+      case IStatus.INFO -> new ImageDecorator(
+          IPlatformImageConstants.IMG_ECLIPSE_INFORMATION_TSK);
+      case IStatus.WARNING -> new ImageDecorator(
+          IPlatformImageConstants.IMG_ECLIPSE_WARNING_TSK);
+      case IStatus.ERROR -> new ImageDecorator(
+          IPlatformImageConstants.IMG_ECLIPSE_ERROR_TSK);
+      default -> null;
+    };
+    return decorator;
   }
 }

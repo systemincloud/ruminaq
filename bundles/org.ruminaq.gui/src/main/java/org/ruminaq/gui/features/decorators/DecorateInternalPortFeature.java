@@ -100,19 +100,24 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
         .map(ValidationStatusAdapter.class::cast)
         .map(ValidationStatusAdapter::getValidationStatus)
         .map((IStatus status) -> {
-          IBorderDecorator decorator = switch (status.getSeverity()) {
-            case IStatus.INFO -> new BorderDecorator(IColorConstant.BLUE,
-                MARKER_WIDTH, MARKER_STYLE);
-            case IStatus.WARNING -> new BorderDecorator(IColorConstant.YELLOW,
-                MARKER_WIDTH, MARKER_STYLE);
-            case IStatus.ERROR -> new BorderDecorator(IColorConstant.RED,
-                MARKER_WIDTH, MARKER_STYLE);
-            default -> null;
-          };
+          IBorderDecorator decorator = statusToDecorator(status);
           Optional.ofNullable(decorator)
               .ifPresent(d -> d.setMessage(status.getMessage()));
           return decorator;
         });
+  }
+
+  private static IBorderDecorator statusToDecorator(IStatus status) {
+    IBorderDecorator decorator = switch (status.getSeverity()) {
+      case IStatus.INFO -> new BorderDecorator(IColorConstant.BLUE,
+          MARKER_WIDTH, MARKER_STYLE);
+      case IStatus.WARNING -> new BorderDecorator(IColorConstant.YELLOW,
+          MARKER_WIDTH, MARKER_STYLE);
+      case IStatus.ERROR -> new BorderDecorator(IColorConstant.RED,
+          MARKER_WIDTH, MARKER_STYLE);
+      default -> null;
+    };
+    return decorator;
   }
 
   /**
