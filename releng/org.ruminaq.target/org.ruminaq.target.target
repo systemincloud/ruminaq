@@ -50,6 +50,10 @@
         <repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20200529191137/repository"/>
       </location>
       <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+        <unit id="markdown.editor.feature.feature.group" version="0.0.0"/>
+        <repository location="https://nodeclipse.github.io/updates/markdown/"/>
+      </location>
+      <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
         <unit id="org.aspectj.source.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.ajdt.feature.group" version="0.0.0"/>
         <unit id="org.eclipse.contribution.weaving.feature.group" version="0.0.0"/>

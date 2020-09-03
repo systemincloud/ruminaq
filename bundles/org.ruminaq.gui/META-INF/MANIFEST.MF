@@ -86,7 +86,8 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.model.ruminaq.impl,
  org.ruminaq.util,
  org.ruminaq.validation,
- org.slf4j
+ org.slf4j,
+ winterwell.markdown.pagemodel
 Export-Package: org.ruminaq.gui.api,
  org.ruminaq.gui.diagram,
  org.ruminaq.gui.features,

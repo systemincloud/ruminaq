@@ -87,12 +87,12 @@
           tab="org.ruminaq.gui.descriptionTab"
           class="org.ruminaq.gui.properties.PropertyDescriptionSection"
           id="org.ruminaq.gui.descriptionTab.DescriptionSection"
-          filter="org.ruminaq.gui.properties.PropertyDescriptionFilter" />
+          filter="org.ruminaq.gui.properties.PropertyRuminaqShapeFilter" />
       <propertySection
           tab="org.ruminaq.common.mainTab"
           class="org.ruminaq.gui.properties.PropertyElementSection"
           id="org.ruminaq.common.mainTab.BaseElementSection"
-          filter="org.ruminaq.gui.properties.PropertyElementFilter" />
+          filter="org.ruminaq.gui.properties.PropertyRuminaqShapeFilter" />
       <propertySection
           tab="org.ruminaq.common.inputPortTab"
           class="org.ruminaq.gui.properties.PropertyInputPortSection"
