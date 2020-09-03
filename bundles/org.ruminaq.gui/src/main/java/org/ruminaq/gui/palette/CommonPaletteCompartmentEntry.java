@@ -98,7 +98,7 @@ public class CommonPaletteCompartmentEntry
 
   /**
    * Choose create feature for given stack.
-   * 
+   *
    * @param <K>            chosen ICreateInfo
    * @param createFeatures all create features found
    * @param stackName      to which stack we look match
