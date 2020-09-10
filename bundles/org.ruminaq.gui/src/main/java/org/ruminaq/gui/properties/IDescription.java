@@ -16,6 +16,11 @@ import java.util.stream.Stream;
 import org.osgi.framework.FrameworkUtil;
 import org.ruminaq.util.Result;
 
+/**
+ * Common methods for PropertyDescriptionExtension.
+ *
+ * @author Marek Jagielski
+ */
 public interface IDescription {
 
   default String getEntry(Class<?> bundleClass, String path) {
