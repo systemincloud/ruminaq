@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="console/src/main/java/" modelPluginID="org.ruminaq.tasks.console.model"
     modelName="Console" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" bundleManifest="false" complianceLevel="8.0"
-    copyrightFields="false" usedGenPackages="../../../org.ruminaq.model.ruminaq/model/model.genmodel#//ruminaq"
+    copyrightFields="false" usedGenPackages="../../org.ruminaq.model.ruminaq/model/model.genmodel#//ruminaq"
     importOrganizing="true">
   <foreignModel>model.ecore</foreignModel>
   <genPackages prefix="Console" basePackage="org.ruminaq.tasks.console.model" resource="XML"

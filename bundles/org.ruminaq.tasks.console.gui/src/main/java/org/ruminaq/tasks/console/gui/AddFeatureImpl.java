@@ -3,11 +3,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.console.gui;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.osgi.service.component.annotations.Component;
@@ -29,7 +29,7 @@ public class AddFeatureImpl implements AddFeatureExtension {
 
   @Override
   public List<Class<? extends IAddFeature>> getFeatures() {
-    return Arrays.asList(AddFeature.class);
+    return Collections.singletonList(AddFeature.class);
   }
 
   /**
@@ -44,11 +44,11 @@ public class AddFeatureImpl implements AddFeatureExtension {
         return Console.class;
       }
     }
-    
+
     private static final int HEIGHT = 50;
 
     private static final int WIDTH = 50;
-    
+
     public AddFeature(IFeatureProvider fp) {
       super(fp);
     }
