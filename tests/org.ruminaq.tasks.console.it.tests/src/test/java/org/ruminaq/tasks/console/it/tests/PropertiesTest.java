@@ -44,7 +44,7 @@ public class PropertiesTest extends GuiTest {
     gefEditor.addToolFromPalette("Console", 200, 100);
 
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(Console.class);
-    ip.doubleClick();
+    ip.select();
 
     Thread.sleep(1000);
 
