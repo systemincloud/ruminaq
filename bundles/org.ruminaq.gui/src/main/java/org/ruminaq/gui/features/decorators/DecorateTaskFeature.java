@@ -70,7 +70,7 @@ public class DecorateTaskFeature implements DecoratorExtension {
   }
 
   private static IImageDecorator statusToDecorator(IStatus status) {
-    IImageDecorator decorator = switch (status.getSeverity()) {
+    return switch (status.getSeverity()) {
       case IStatus.INFO -> new ImageDecorator(
           IPlatformImageConstants.IMG_ECLIPSE_INFORMATION_TSK);
       case IStatus.WARNING -> new ImageDecorator(
@@ -79,6 +79,5 @@ public class DecorateTaskFeature implements DecoratorExtension {
           IPlatformImageConstants.IMG_ECLIPSE_ERROR_TSK);
       default -> null;
     };
-    return decorator;
   }
 }
