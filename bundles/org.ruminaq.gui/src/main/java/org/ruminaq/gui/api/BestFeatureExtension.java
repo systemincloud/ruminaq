@@ -6,12 +6,9 @@
 
 package org.ruminaq.gui.api;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.ruminaq.gui.features.FeatureFilter;
@@ -57,11 +54,6 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
         .map(f -> Result.attempt(f::newInstance))
         .flatMap(r -> Optional.ofNullable(r.orElse(null)))
         .map(f -> f.test(context, fp)).orElse(Boolean.TRUE);
-  }
-
-  @Override
-  default List<Class<? extends T>> getFeatures() {
-    return Collections.emptyList();
   }
 
 }
