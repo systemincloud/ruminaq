@@ -14,7 +14,7 @@ import org.ruminaq.gui.model.diagram.InputPortShape;
 
 /**
  * InputPort Shape properties filter.
- * 
+ *
  * @author Marek Jagielski
  */
 public class PropertyInputPortFilter extends AbstractPropertySectionFilter {
