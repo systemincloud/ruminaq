@@ -9,13 +9,11 @@ package org.ruminaq.gui.properties;
 import java.util.Collections;
 import java.util.Optional;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.gui.api.PropertyDescriptionExtension;
@@ -57,11 +55,6 @@ public class PropertyDescriptionSection extends GFPropertySection
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
         .map(RuminaqShape::getModelObject)
         .map(PropertyDescriptionSection::getPage).ifPresent(b::setText);
-  }
-
-  @Override
-  public void setInput(IWorkbenchPart part, ISelection selection) {
-    super.setInput(part, selection);
   }
 
   private static String getPage(BaseElement bo) {
