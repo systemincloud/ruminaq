@@ -24,16 +24,20 @@ import org.ruminaq.util.Result;
 public interface IDescription {
 
   default String getEntry(Class<?> bundleClass, String path) {
-    return Optional.of(FrameworkUtil.getBundle(bundleClass))
-        .map(b -> b.getEntry(path))
-        .map(url -> Result.attempt(url::openConnection))
-        .map(r -> r.orElse(null)).filter(Objects::nonNull)
-        .map(urlConn -> Result.attempt(urlConn::getInputStream))
-        .map(r -> r.orElse(null)).filter(Objects::nonNull)
-        .map(is -> new BufferedReader(
-            new InputStreamReader(is, StandardCharsets.UTF_8)))
-        .map(BufferedReader::lines).orElseGet(Stream::empty)
-        .collect(Collectors.joining("\n"));
+    if (!path.contains("://")) {
+      return Optional.of(FrameworkUtil.getBundle(bundleClass))
+          .map(b -> b.getEntry(path))
+          .map(url -> Result.attempt(url::openConnection))
+          .map(r -> r.orElse(null)).filter(Objects::nonNull)
+          .map(urlConn -> Result.attempt(urlConn::getInputStream))
+          .map(r -> r.orElse(null)).filter(Objects::nonNull)
+          .map(is -> new BufferedReader(
+              new InputStreamReader(is, StandardCharsets.UTF_8)))
+          .map(BufferedReader::lines).orElseGet(Stream::empty)
+          .collect(Collectors.joining("\n"));
+    } else {
+      return "";
+    }
   }
 
 }
