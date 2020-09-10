@@ -50,6 +50,7 @@ public class PropertiesTest extends GuiTest {
 
     PropertySheet propertiesView = new PropertySheet();
 
+    propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Description");
   }
