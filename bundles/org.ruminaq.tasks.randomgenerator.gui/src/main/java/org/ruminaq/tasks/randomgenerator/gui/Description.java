@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.constant.gui;
+package org.ruminaq.tasks.randomgenerator.gui;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,8 +17,8 @@ import java.util.stream.Stream;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.PropertyDescriptionExtension;
-import org.ruminaq.tasks.constant.gui.Description.Filter;
-import org.ruminaq.tasks.constant.model.constant.Constant;
+import org.ruminaq.tasks.randomgenerator.gui.Description.Filter;
+import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.util.Result;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
@@ -35,14 +35,14 @@ public class Description implements PropertyDescriptionExtension {
     @Override
     public boolean test(ServiceFilterArgs args) {
       return Optional.ofNullable(args).map(ServiceFilterArgs::getArgs)
-          .map(l -> l.get(0)).filter(Constant.class::isInstance).isPresent();
+          .map(l -> l.get(0)).filter(RandomGenerator.class::isInstance).isPresent();
     }
   }
 
   @Override
   public String getDescription() {
     return Optional.of(FrameworkUtil.getBundle(Description.class))
-        .map(b -> b.getEntry("docs/Constant.md"))
+        .map(b -> b.getEntry("docs/RandomGenerator.md"))
         .map(url -> Result.attempt(() -> url.openConnection()))
         .map(r -> r.orElse(null)).filter(Objects::nonNull)
         .map(urlConn -> Result.attempt(() -> urlConn.getInputStream()))
