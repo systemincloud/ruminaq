@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.PropertyDescriptionExtension;
-import org.ruminaq.gui.properties.AbstractDescription;
+import org.ruminaq.gui.properties.IDescription;
 import org.ruminaq.tasks.console.gui.Description.Filter;
 import org.ruminaq.tasks.console.model.console.Console;
 import org.ruminaq.util.ServiceFilter;
@@ -18,7 +18,7 @@ import org.ruminaq.util.ServiceFilterArgs;
 
 @Component(property = { "service.ranking:Integer=5" })
 @ServiceFilter(Filter.class)
-public class Description extends AbstractDescription implements PropertyDescriptionExtension {
+public class Description implements IDescription, PropertyDescriptionExtension {
 
   /**
    * Only on Constant.

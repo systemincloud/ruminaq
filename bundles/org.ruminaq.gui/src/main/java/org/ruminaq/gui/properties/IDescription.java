@@ -16,14 +16,14 @@ import java.util.stream.Stream;
 import org.osgi.framework.FrameworkUtil;
 import org.ruminaq.util.Result;
 
-public abstract class AbstractDescription {
+public interface IDescription {
 
-  protected String getEntry(Class<?> bundleClass, String path) {
+  default String getEntry(Class<?> bundleClass, String path) {
     return Optional.of(FrameworkUtil.getBundle(bundleClass))
         .map(b -> b.getEntry(path))
-        .map(url -> Result.attempt(() -> url.openConnection()))
+        .map(url -> Result.attempt(url::openConnection))
         .map(r -> r.orElse(null)).filter(Objects::nonNull)
-        .map(urlConn -> Result.attempt(() -> urlConn.getInputStream()))
+        .map(urlConn -> Result.attempt(urlConn::getInputStream))
         .map(r -> r.orElse(null)).filter(Objects::nonNull)
         .map(is -> new BufferedReader(
             new InputStreamReader(is, StandardCharsets.UTF_8)))
