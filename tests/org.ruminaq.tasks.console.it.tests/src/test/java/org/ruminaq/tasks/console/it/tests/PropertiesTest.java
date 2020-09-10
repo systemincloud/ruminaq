@@ -41,7 +41,7 @@ public class PropertiesTest extends GuiTest {
   @Test
   public void testDescrptionTab() throws InterruptedException {
     GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Constant", 200, 100);
+    gefEditor.addToolFromPalette("Console", 200, 100);
 
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(Console.class);
     ip.doubleClick();
