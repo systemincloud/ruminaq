@@ -39,7 +39,6 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 /**
  *
  * @author Marek Jagielski
- *
  */
 public class PropertyElementSection extends GFPropertySection
     implements ITabbedPropertyConstants {

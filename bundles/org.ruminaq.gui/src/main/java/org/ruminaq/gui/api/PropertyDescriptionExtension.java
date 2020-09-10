@@ -6,13 +6,13 @@
 
 package org.ruminaq.gui.api;
 
-import org.eclipse.graphiti.features.IDeleteFeature;
-
 /**
- * Service api providing graphiti DeleteFeature.
+ * Service api providing Description.
  *
  * @author Marek Jagielski
  */
-public interface DeleteFeatureExtension
-    extends BestFeatureExtension<IDeleteFeature> {
+public interface PropertyDescriptionExtension {
+
+  String getDescription();
+
 }

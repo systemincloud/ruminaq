@@ -6,8 +6,8 @@
 
 package org.ruminaq.gui.properties;
 
+import java.util.Collections;
 import java.util.Optional;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
@@ -18,10 +18,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.ruminaq.gui.api.PropertyDescriptionExtension;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.util.ServiceUtil;
 import winterwell.markdown.pagemodel.MarkdownPage;
 
 /**
+ * PropertySection with description on selected BaseElement.
  *
  * @author Marek Jagielski
  */
@@ -60,7 +64,12 @@ public class PropertyDescriptionSection extends GFPropertySection
     super.setInput(part, selection);
   }
 
-  private static String getPage(EObject bo) {
-    return new MarkdownPage("XXX").html();
+  private static String getPage(BaseElement bo) {
+    return new MarkdownPage(ServiceUtil
+        .getServicesAtLatestVersion(PropertyDescriptionSection.class,
+            PropertyDescriptionExtension.class,
+            () -> Collections.singletonList(bo))
+        .stream().findFirst().map(PropertyDescriptionExtension::getDescription)
+        .orElse("")).html();
   }
 }
