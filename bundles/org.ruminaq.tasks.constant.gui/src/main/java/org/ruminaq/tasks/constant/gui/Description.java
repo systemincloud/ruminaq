@@ -6,26 +6,19 @@
 
 package org.ruminaq.tasks.constant.gui;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.osgi.framework.FrameworkUtil;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.PropertyDescriptionExtension;
+import org.ruminaq.gui.properties.AbstractDescription;
 import org.ruminaq.tasks.constant.gui.Description.Filter;
 import org.ruminaq.tasks.constant.model.constant.Constant;
-import org.ruminaq.util.Result;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
 
 @Component(property = { "service.ranking:Integer=5" })
 @ServiceFilter(Filter.class)
-public class Description implements PropertyDescriptionExtension {
+public class Description extends AbstractDescription implements PropertyDescriptionExtension {
 
   /**
    * Only on Constant.
@@ -41,16 +34,7 @@ public class Description implements PropertyDescriptionExtension {
 
   @Override
   public String getDescription() {
-    return Optional.of(FrameworkUtil.getBundle(Description.class))
-        .map(b -> b.getEntry("docs/Constant.md"))
-        .map(url -> Result.attempt(() -> url.openConnection()))
-        .map(r -> r.orElse(null)).filter(Objects::nonNull)
-        .map(urlConn -> Result.attempt(() -> urlConn.getInputStream()))
-        .map(r -> r.orElse(null)).filter(Objects::nonNull)
-        .map(is -> new BufferedReader(
-            new InputStreamReader(is, StandardCharsets.UTF_8)))
-        .map(BufferedReader::lines).orElseGet(Stream::empty)
-        .collect(Collectors.joining("\n"));
+    return getEntry(Description.class, "docs/Constant.md");
   }
 
 }
