@@ -59,6 +59,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.gui.image,
  org.ruminaq.gui.model.diagram,
  org.ruminaq.gui.palette,
+ org.ruminaq.gui.properties,
  org.ruminaq.launch,
  org.ruminaq.model.desc,
  org.ruminaq.model.ruminaq,
@@ -69,6 +70,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.console.impl,
  org.ruminaq.tasks.console.model,
  org.ruminaq.tasks.console.model.console,
+ org.ruminaq.util,
  org.slf4j,
  swing2swt.layout
 Export-Package: org.ruminaq.tasks.console.gui
@@ -80,4 +82,5 @@ Service-Component: OSGI-INF/org.ruminaq.tasks.console.gui.Images.xml,
  OSGI-INF/org.ruminaq.tasks.console.gui.UpdateFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.console.gui.AddFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.console.gui.TaskApi.xml,
- OSGI-INF/org.ruminaq.tasks.console.gui.DoubleClickFeatureImpl.xml
+ OSGI-INF/org.ruminaq.tasks.console.gui.DoubleClickFeatureImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.console.gui.Description.xml
