@@ -108,7 +108,7 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
   }
 
   private static IBorderDecorator statusToDecorator(IStatus status) {
-    IBorderDecorator decorator = switch (status.getSeverity()) {
+    return switch (status.getSeverity()) {
       case IStatus.INFO -> new BorderDecorator(IColorConstant.BLUE,
           MARKER_WIDTH, MARKER_STYLE);
       case IStatus.WARNING -> new BorderDecorator(IColorConstant.YELLOW,
@@ -117,7 +117,6 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
           MARKER_WIDTH, MARKER_STYLE);
       default -> null;
     };
-    return decorator;
   }
 
   /**
