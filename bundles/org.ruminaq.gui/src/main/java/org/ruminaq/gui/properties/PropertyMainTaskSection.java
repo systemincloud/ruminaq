@@ -84,12 +84,9 @@ public class PropertyMainTaskSection extends GFPropertySection
       public void widgetSelected(SelectionEvent se) {
         TransactionalEditingDomain editingDomain = getDiagramContainer()
             .getDiagramBehavior().getEditingDomain();
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            mt.setPreventLosts(btnPreventLost.getSelection());
-          }
-        }, editingDomain, "Model Update");
+        ModelUtil.runModelChange(
+            () -> mt.setPreventLosts(btnPreventLost.getSelection()),
+            editingDomain, "Model Update");
       }
     });
   }

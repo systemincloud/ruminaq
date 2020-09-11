@@ -3,11 +3,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.util;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -43,10 +46,21 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+import org.osgi.framework.FrameworkUtil;
 
 public final class EclipseUtil {
 
   private EclipseUtil() {
+  }
+
+  public static Optional<InputStream> resourceFromBundle(Class<?> bundleClass,
+      String path) {
+    return Optional.of(FrameworkUtil.getBundle(bundleClass))
+        .map(b -> b.getEntry(path))
+        .map(url -> Result.attempt(url::openConnection))
+        .map(r -> r.orElse(null)).filter(Objects::nonNull)
+        .map(urlConn -> Result.attempt(urlConn::getInputStream))
+        .map(r -> r.orElse(null)).filter(Objects::nonNull);
   }
 
   public static IProject getWorkspaceProjectFromEObject(EObject eobject) {
@@ -227,6 +241,7 @@ public final class EclipseUtil {
           .getElementName();
     }
     return Optional.ofNullable(projectName)
-        .map(pn -> ResourcesPlugin.getWorkspace().getRoot().getProject(pn)).orElse(null);
+        .map(pn -> ResourcesPlugin.getWorkspace().getRoot().getProject(pn))
+        .orElse(null);
   }
 }
