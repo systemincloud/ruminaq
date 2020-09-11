@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.osgi.framework.FrameworkUtil;
 import org.ruminaq.util.Result;
+import winterwell.markdown.pagemodel.MarkdownPage;
 
 /**
  * Common methods for PropertyDescriptionExtension.
@@ -25,7 +26,7 @@ public interface IDescription {
 
   default String getEntry(Class<?> bundleClass, String path) {
     if (!path.contains("://")) {
-      return Optional.of(FrameworkUtil.getBundle(bundleClass))
+      return new MarkdownPage(Optional.of(FrameworkUtil.getBundle(bundleClass))
           .map(b -> b.getEntry(path))
           .map(url -> Result.attempt(url::openConnection))
           .map(r -> r.orElse(null)).filter(Objects::nonNull)
@@ -34,7 +35,7 @@ public interface IDescription {
           .map(is -> new BufferedReader(
               new InputStreamReader(is, StandardCharsets.UTF_8)))
           .map(BufferedReader::lines).orElseGet(Stream::empty)
-          .collect(Collectors.joining("\n"));
+          .collect(Collectors.joining("\n"))).html();
     } else {
       return "";
     }

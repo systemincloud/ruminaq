@@ -20,7 +20,6 @@ import org.ruminaq.gui.api.PropertyDescriptionExtension;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.util.ServiceUtil;
-import winterwell.markdown.pagemodel.MarkdownPage;
 
 /**
  * PropertySection with description on selected BaseElement.
@@ -58,11 +57,11 @@ public class PropertyDescriptionSection extends GFPropertySection
   }
 
   private static String getPage(BaseElement bo) {
-    return new MarkdownPage(ServiceUtil
+    return ServiceUtil
         .getServicesAtLatestVersion(PropertyDescriptionSection.class,
             PropertyDescriptionExtension.class,
             () -> Collections.singletonList(bo))
         .stream().findFirst().map(PropertyDescriptionExtension::getDescription)
-        .orElse("")).html();
+        .orElse("");
   }
 }

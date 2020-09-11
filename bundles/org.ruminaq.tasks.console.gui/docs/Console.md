@@ -1,5 +1,9 @@
 ### Console
 ***
+
+![](diagram.png)
+![](bundleentry://542.fwk77971870/docs/Console.md)
+
 Console Task enable communication with your system via Text commands
 as it would be a Linux terminal.</p>
 
