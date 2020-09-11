@@ -1,7 +1,7 @@
 ### Console
 ***
 
-<div style="text-align:center"><img src="diagram.png"/></div>
+<div style="text-align:center"><img src="imgs/diagram.png"/></div>
 
 Console Task enable communication with your system via Text commands
 as it would be a Linux terminal.</p>

@@ -42,7 +42,7 @@ public interface IDescription {
 
   default String replaceImagesWithBase64(Class<?> bundleClass, String basePath,
       String html) {
-    Pattern pattern = Pattern.compile("<img src=\"([^[\"|://]]*)[^/]*/>");
+    Pattern pattern = Pattern.compile("<img src=\"([^[\"|:]]*)[^/]*/>");
     Matcher m = pattern.matcher(html);
     StringBuffer sb = new StringBuffer(html.length());
     while (m.find()) {
