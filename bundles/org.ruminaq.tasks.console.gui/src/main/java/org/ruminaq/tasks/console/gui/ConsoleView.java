@@ -135,41 +135,37 @@ public class ConsoleView implements IView, LaunchListener {
   }
 
   private void initActions(final Shell shell) {
-    text.addVerifyKeyListener(new VerifyKeyListener() {
-      @Override
-      public void verifyKey(VerifyEvent e) {
-        if (e.keyCode == SWT.ARROW_DOWN)
-          return;
-        if (e.keyCode == SWT.ARROW_LEFT)
-          return;
-        if (e.keyCode == SWT.ARROW_RIGHT)
-          return;
-        if (e.keyCode == SWT.ARROW_UP)
-          return;
-        if (e.keyCode == SWT.CTRL)
-          return;
-        if (e.keyCode == SWT.SHIFT)
-          return;
+    text.addVerifyKeyListener(e -> {
+      if (e.keyCode == SWT.ARROW_DOWN)
+        return;
+      if (e.keyCode == SWT.ARROW_LEFT)
+        return;
+      if (e.keyCode == SWT.ARROW_RIGHT)
+        return;
+      if (e.keyCode == SWT.ARROW_UP)
+        return;
+      if (e.keyCode == SWT.CTRL)
+        return;
+      if (e.keyCode == SWT.SHIFT)
+        return;
 
-        if (console.getConsoleType().equals(ConsoleType.IN)) {
-          e.doit = false;
-          return;
-        }
-        if (!text.getLine(text.getLineCount() - 1).startsWith(entry)) {
-          if (text.getLine(text.getLineCount() - 1).length() != 0) {
-            text.append(NEW_LINE);
-            mementoHistory.get(console).append(NEW_LINE);
-          }
-          text.append(entry);
-        }
-        if (e.keyCode == SWT.BS) {
-          if (text.getText().length()
-              - text.getText().lastIndexOf(entry) == 1) {
-            e.doit = false;
-          }
-        }
-        text.setSelection(text.getText().length());
+      if (console.getConsoleType().equals(ConsoleType.IN)) {
+        e.doit = false;
+        return;
       }
+      if (!text.getLine(text.getLineCount() - 1).startsWith(entry)) {
+        if (text.getLine(text.getLineCount() - 1).length() != 0) {
+          text.append(NEW_LINE);
+          mementoHistory.get(console).append(NEW_LINE);
+        }
+        text.append(entry);
+      }
+      if (e.keyCode == SWT.BS) {
+        if (text.getText().length() - text.getText().lastIndexOf(entry) == 1) {
+          e.doit = false;
+        }
+      }
+      text.setSelection(text.getText().length());
     });
     text.addTraverseListener(new TraverseListener() {
       @Override
