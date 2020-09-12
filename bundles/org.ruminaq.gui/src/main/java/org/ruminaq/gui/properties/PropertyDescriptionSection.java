@@ -35,7 +35,6 @@ public class PropertyDescriptionSection extends GFPropertySection
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {
     super.createControls(parent, tabbedPropertySheetPage);
-
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
