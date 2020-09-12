@@ -16,12 +16,17 @@ import org.ruminaq.tasks.console.model.console.Console;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
 
+/**
+ * Service PropertyDescriptionExtension implementation.
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 @ServiceFilter(Filter.class)
 public class Description implements IDescription, PropertyDescriptionExtension {
 
   /**
-   * Only on Constant.
+   * Only on Console.
    */
   public static class Filter implements Predicate<ServiceFilterArgs> {
 
