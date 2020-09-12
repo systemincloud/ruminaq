@@ -9,17 +9,14 @@ package org.ruminaq.tasks.console.gui;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.custom.VerifyKeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
-import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridLayout;
@@ -37,7 +34,6 @@ import org.ruminaq.tasks.console.impl.ConsoleIService;
 import org.ruminaq.tasks.console.impl.ConsoleViewService;
 import org.ruminaq.tasks.console.model.console.Console;
 import org.ruminaq.tasks.console.model.console.ConsoleType;
-
 import swing2swt.layout.BorderLayout;
 
 public class ConsoleView implements IView, LaunchListener {
