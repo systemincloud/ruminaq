@@ -78,9 +78,7 @@ public class ConsoleView implements IView, LaunchListener {
 
     @Override
     public void clearScreen() throws RemoteException {
-      Display.getDefault().syncExec(() -> {
-        clear();
-      });
+      Display.getDefault().syncExec(() -> clear());
     }
 
     @Override
@@ -163,22 +161,19 @@ public class ConsoleView implements IView, LaunchListener {
       }
       text.setSelection(text.getText().length());
     });
-    text.addTraverseListener(new TraverseListener() {
-      @Override
-      public void keyTraversed(TraverseEvent event) {
-        if (event.detail == SWT.TRAVERSE_RETURN) {
-          text.setSelection(text.getText().length());
-          String lastLine = text.getLine(text.getLineCount() - 1);
-          mementoHistory.get(console).append(lastLine + NEW_LINE);
-          String cmd = lastLine.substring(1);
-          ConsoleIService api = DirmiServer.INSTANCE
-              .getRemote(Util.getUniqueId(console), ConsoleIService.class);
-          if (api != null)
-            try {
-              api.newCommand(cmd);
-            } catch (RemoteException e) {
-            }
-        }
+    text.addTraverseListener(event -> {
+      if (event.detail == SWT.TRAVERSE_RETURN) {
+        text.setSelection(text.getText().length());
+        String lastLine = text.getLine(text.getLineCount() - 1);
+        mementoHistory.get(console).append(lastLine + NEW_LINE);
+        String cmd = lastLine.substring(1);
+        ConsoleIService api = DirmiServer.INSTANCE
+            .getRemote(Util.getUniqueId(console), ConsoleIService.class);
+        if (api != null)
+          try {
+            api.newCommand(cmd);
+          } catch (RemoteException e) {
+          }
       }
     });
     btnClear.addSelectionListener(new SelectionAdapter() {
