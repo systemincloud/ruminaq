@@ -23,7 +23,7 @@ import winterwell.markdown.pagemodel.MarkdownPage;
  *
  * @author Marek Jagielski
  */
-public interface IDescription {
+public interface MarkdownDescription {
 
   default String getEntry(Class<?> bundleClass, String path) {
     if (!path.contains("://")) {

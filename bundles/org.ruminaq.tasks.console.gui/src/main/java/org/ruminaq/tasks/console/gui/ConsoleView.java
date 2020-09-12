@@ -73,33 +73,27 @@ public class ConsoleView implements IView, LaunchListener {
   private ConsoleViewService viewApi = new ConsoleViewService() {
     @Override
     public void newOutput(final String out) {
-      Display.getDefault().syncExec(new Runnable() {
-        public void run() {
-          text.append(out);
-          mementoHistory.get(console).append(out);
-          text.setSelection(text.getText().length());
-        }
+      Display.getDefault().syncExec(() -> {
+        text.append(out);
+        mementoHistory.get(console).append(out);
+        text.setSelection(text.getText().length());
       });
     }
 
     @Override
     public void clearScreen() throws RemoteException {
-      Display.getDefault().syncExec(new Runnable() {
-        public void run() {
-          clear();
-        }
+      Display.getDefault().syncExec(() -> {
+        clear();
       });
     }
 
     @Override
     public void deleteFirstLine() throws RemoteException {
-      Display.getDefault().syncExec(new Runnable() {
-        public void run() {
-          text.setText(text.getText().substring(text.getLine(0).length() + 1));
-          mementoHistory.get(console).delete(0,
-              mementoHistory.get(console).indexOf("\n") + 1);
-          text.setSelection(text.getText().length());
-        }
+      Display.getDefault().syncExec(() -> {
+        text.setText(text.getText().substring(text.getLine(0).length() + 1));
+        mementoHistory.get(console).delete(0,
+            mementoHistory.get(console).indexOf("\n") + 1);
+        text.setSelection(text.getText().length());
       });
     }
   };

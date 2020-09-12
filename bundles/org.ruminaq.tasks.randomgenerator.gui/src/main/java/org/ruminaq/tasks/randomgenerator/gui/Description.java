@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.PropertyDescriptionExtension;
-import org.ruminaq.gui.properties.IDescription;
+import org.ruminaq.gui.properties.MarkdownDescription;
 import org.ruminaq.tasks.randomgenerator.gui.Description.Filter;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.util.ServiceFilter;
@@ -18,7 +18,7 @@ import org.ruminaq.util.ServiceFilterArgs;
 
 @Component(property = { "service.ranking:Integer=5" })
 @ServiceFilter(Filter.class)
-public class Description implements IDescription, PropertyDescriptionExtension {
+public class Description implements MarkdownDescription, PropertyDescriptionExtension {
 
   /**
    * Only on Constant.
