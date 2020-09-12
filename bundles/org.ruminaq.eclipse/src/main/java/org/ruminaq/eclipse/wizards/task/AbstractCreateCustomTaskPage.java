@@ -51,43 +51,9 @@ import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
 public abstract class AbstractCreateCustomTaskPage extends WizardPage
     implements ICreateUserDefinedTaskPage {
 
-  private static final int TWO_COLUMNS = 2;
+  static final int TWO_COLUMNS = 2;
 
   public static final String INF = "inf";
-
-  private static class RunnerSection extends Group {
-
-    private Button btnRunnerStart;
-    private Button btnRunnerStop;
-
-    public RunnerSection(Composite parent, int style) {
-      super(parent, style);
-    }
-
-    @Override
-    protected void checkSubclass() {
-      // allow subclass
-    }
-
-    private void initLayout() {
-      setLayout(new GridLayout(2, false));
-      setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
-
-      btnRunnerStart = new Button(this, SWT.CHECK);
-      btnRunnerStop = new Button(this, SWT.CHECK);
-    }
-
-    private void initComponents() {
-      btnRunnerStart.setText("runnerStart");
-      btnRunnerStop.setText("runnerStop");
-    }
-
-    private void decorate(Module module) {
-      module.setRunnerStart(btnRunnerStart.getSelection());
-      module.setRunnerStop(btnRunnerStop.getSelection());
-    }
-
-  }
 
   private class InputsSection extends Group {
 
@@ -573,7 +539,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
 
   private void initLayout(Composite parent) {
     root = new Composite(parent, SWT.NULL);
-    root.setLayout(new GridLayout(2, false));
+    root.setLayout(new GridLayout(TWO_COLUMNS, false));
 
     grpGeneral = new GeneralSection(root, SWT.NONE);
     grpGeneral.initLayout();
