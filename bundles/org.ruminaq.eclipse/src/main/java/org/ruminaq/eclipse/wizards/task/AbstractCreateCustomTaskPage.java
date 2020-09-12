@@ -302,8 +302,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
               async ? "-1" : grp,
               async ? Boolean.toString(false)
                   : Boolean.toString(btnInputsAddHold.getSelection()),
-              inf ? INF
-                  : Integer.toString(spnInputsAddQueue.getSelection()) });
+              inf ? INF : Integer.toString(spnInputsAddQueue.getSelection()) });
           for (TableColumn tc : tblInputs.getColumns())
             tc.pack();
           tblInputs.layout();
@@ -332,8 +331,8 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
         String sGrp = it.getText(3);
         in.setGroup(Integer.parseInt(sGrp));
         in.setHold(Boolean.parseBoolean(it.getText(4)));
-        in.setQueue(it.getText(5).equals(INF) ? -1
-            : Integer.parseInt(it.getText(5)));
+        in.setQueue(
+            it.getText(5).equals(INF) ? -1 : Integer.parseInt(it.getText(5)));
 
         module.getInputs().add(in);
       }
@@ -639,7 +638,8 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     module.setExecuteAsync((!module.isAtomic() && hasNonAsync) || hasAsync);
     module.setExecuteExtSrc(module.isExternalSource());
     module.setGenerate(module.isGenerator());
-    module.setExecute((module.isAtomic() && hasNonAsync) || module.isConstant());
+    module
+        .setExecute((module.isAtomic() && hasNonAsync) || module.isConstant());
 
     return module;
   }

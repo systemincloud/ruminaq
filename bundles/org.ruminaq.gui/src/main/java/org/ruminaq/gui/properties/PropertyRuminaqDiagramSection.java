@@ -75,12 +75,8 @@ public class PropertyRuminaqDiagramSection extends GFPropertySection
       public void widgetSelected(SelectionEvent se) {
         TransactionalEditingDomain editingDomain = getDiagramContainer()
             .getDiagramBehavior().getEditingDomain();
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            mt.setAtomic(btnAtomic.getSelection());
-          }
-        }, editingDomain, "Model Update");
+        ModelUtil.runModelChange(() -> mt.setAtomic(btnAtomic.getSelection()),
+            editingDomain, "Model Update");
       }
     });
     btnPreventLost.addSelectionListener(new SelectionAdapter() {
