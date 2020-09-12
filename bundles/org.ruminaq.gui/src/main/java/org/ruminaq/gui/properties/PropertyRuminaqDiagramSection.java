@@ -26,7 +26,11 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.ModelUtil;
 
-public class PropertyMainTaskSection extends GFPropertySection
+/**
+ *
+ * @author Marek Jagielski
+ */
+public class PropertyRuminaqDiagramSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
   private Composite composite;
