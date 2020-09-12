@@ -51,6 +51,8 @@ import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
 public abstract class AbstractCreateCustomTaskPage extends WizardPage
     implements ICreateUserDefinedTaskPage {
 
+  private static final int TWO_COLUMNS = 2;
+
   public static final String INF = "inf";
 
   private static class RunnerSection extends Group {
@@ -580,22 +582,22 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     grpRunner.initLayout();
 
     lblInputPorts = new Label(root, SWT.NONE);
-    lblInputPorts
-        .setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+    lblInputPorts.setLayoutData(
+        new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
     grpInputs = new InputsSection(root, SWT.NONE);
     grpInputs.initLayout();
 
     lblOutputPorts = new Label(root, SWT.NONE);
-    lblOutputPorts
-        .setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+    lblOutputPorts.setLayoutData(
+        new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
     grpOutputs = new OutputsSection(root, SWT.NONE);
     grpOutputs.initLayout();
 
     lblParameters = new Label(root, SWT.NONE);
-    lblParameters
-        .setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+    lblParameters.setLayoutData(
+        new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
     grpParameters = new ParametersSection(root, SWT.NONE);
     grpParameters.initLayout();
@@ -631,7 +633,6 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     grpParameters.decorate(module);
 
     boolean hasAsync = module.getInputs().stream().anyMatch(In::isAsynchronous);
-
     boolean hasNonAsync = module.getInputs().stream()
         .anyMatch(Predicate.not(In::isAsynchronous));
 
