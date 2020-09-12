@@ -57,11 +57,13 @@ public interface MarkdownDescription {
   }
 
   /**
+   * Util method that replace from html references to resource images with
+   * Base64 encoded inline image.
    *
-   * @param bundleClass
-   * @param basePath
-   * @param html
-   * @return
+   * @param bundleClass class in bundle
+   * @param basePath    reference path
+   * @param html        document with images
+   * @return html with embedded images
    */
   default String replaceImagesWithBase64(Class<?> bundleClass, String basePath,
       String html) {
@@ -75,8 +77,7 @@ public interface MarkdownDescription {
               is.read(bytes);
               m.appendReplacement(sb,
                   Matcher.quoteReplacement("<img src=\"data:image/png;base64, "
-                      + new String(Base64.getEncoder().encode(bytes))
-                      + "\"/>"));
+                      + Base64.getEncoder().encodeToString(bytes) + "\"/>"));
             } catch (IOException e) {
               LOGGER.error("Can't read image {}", m.group(1), e);
             }
