@@ -12,6 +12,7 @@ import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 
 /**
+ * RuminaqDiagram properties filter.
  *
  * @author Marek Jagielski
  */
