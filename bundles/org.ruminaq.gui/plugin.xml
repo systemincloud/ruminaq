@@ -67,6 +67,11 @@
           label="Internal Output Port"
           id="org.ruminaq.gui.internalOutputPortTab"
           category="Graphiti" />
+      <propertyTab
+          label="Synchronization"
+          id="org.ruminaq.gui.synchronizationTab"
+          category="Graphiti"
+          afterTab="org.ruminaq.common.mainTab" />
     </propertyTabs>
   </extension>
   <extension
@@ -108,6 +113,11 @@
           class="org.ruminaq.gui.properties.PropertyInternalOutputPortSection"
           id="org.ruminaq.gui.internalOutputPortTab.PortSection"
           filter="org.ruminaq.gui.properties.PropertyInternalOutputPortFilter" />
+      <propertySection
+          tab="org.ruminaq.gui.synchronizationTab"
+          class="org.ruminaq.gui.properties.PropertySynchronizationSection"
+          id="org.ruminaq.gui.synchronizationTab.PortSection"
+          filter="org.ruminaq.gui.properties.PropertyTaskFilter" />
     </propertySections>
   </extension>
   <extension point="org.eclipse.ui.newWizards">

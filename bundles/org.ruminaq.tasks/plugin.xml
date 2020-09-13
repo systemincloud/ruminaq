@@ -5,15 +5,12 @@
    <!-- ******* PROPERTIES ******* -->
    <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
       <propertyTabs contributorId="Ruminaq.PropertyContributor">
-         <propertyTab label="Synchronization"      id="org.ruminaq.gui.synchronizationTab"         category="Graphiti" afterTab="org.ruminaq.common.mainTab" />
          <!--propertyTab label="Debug"                id="org.ruminaq.gui.internalInputPortDebugTab"  category="Graphiti" afterTab="org.ruminaq.common.mainTab" />
          <propertyTab label="Debug"                id="org.ruminaq.gui.internalOutputPortDebugTab" category="Graphiti" afterTab="org.ruminaq.common.mainTab" /-->
       </propertyTabs>
    </extension>
    <!--extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections contributorId="Ruminaq.PropertyContributor">
-         <propertySection tab="org.ruminaq.gui.synchronizationTab"                      class="org.ruminaq.tasks.properties.PropertySynchronizationSection"
-                           id="org.ruminaq.gui.synchronizationTab.PortSection"         filter="org.ruminaq.tasks.properties.PropertySynchronizationFilter" />
          <propertySection tab="org.ruminaq.gui.internalInputPortDebugTab"               class="org.ruminaq.tasks.properties.PropertyInternalInputPortDebugSection"
                            id="org.ruminaq.gui.internalInputPortDebugTab.PortSection"  filter="org.ruminaq.tasks.properties.PropertyInternalInputPortDebugFilter" />
          <propertySection tab="org.ruminaq.gui.internalOutputPortDebugTab"              class="org.ruminaq.tasks.properties.PropertyInternalOutputPortDebugSection"
