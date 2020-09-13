@@ -7,14 +7,9 @@
 package org.ruminaq.gui.properties;
 
 import java.util.Optional;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -25,6 +20,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.ModelUtil;
+import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**
  *
@@ -66,26 +62,17 @@ public class PropertyRuminaqDiagramSection extends GFPropertySection
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
-  private void initActions(final MainTask mt) {
-    btnAtomic.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent se) {
-        TransactionalEditingDomain editingDomain = getDiagramContainer()
-            .getDiagramBehavior().getEditingDomain();
-        ModelUtil.runModelChange(() -> mt.setAtomic(btnAtomic.getSelection()),
-            editingDomain, "Model Update");
-      }
-    });
-    btnPreventLost.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent se) {
-        TransactionalEditingDomain editingDomain = getDiagramContainer()
-            .getDiagramBehavior().getEditingDomain();
-        ModelUtil.runModelChange(
+  private void initActions(MainTask mt) {
+    btnAtomic.addSelectionListener(
+        (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
+            () -> mt.setAtomic(btnAtomic.getSelection()),
+            getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+            "Model Update"));
+    btnPreventLost.addSelectionListener(
+        (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
             () -> mt.setPreventLosts(btnPreventLost.getSelection()),
-            editingDomain, "Model Update");
-      }
-    });
+            getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+            "Model Update"));
   }
 
   private void initComponents() {
@@ -109,6 +96,7 @@ public class PropertyRuminaqDiagramSection extends GFPropertySection
         .filter(RuminaqDiagram.class::isInstance)
         .map(RuminaqDiagram.class::cast).map(RuminaqDiagram::getMainTask)
         .ifPresent((MainTask mt) -> {
+          initActions(mt);
           versionValue.setText(mt.getVersion());
           btnAtomic.setSelection(mt.isAtomic());
           btnPreventLost.setSelection(mt.isPreventLosts());
