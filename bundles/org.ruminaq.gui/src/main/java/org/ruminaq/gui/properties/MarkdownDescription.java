@@ -22,15 +22,17 @@ import org.slf4j.Logger;
 import winterwell.markdown.pagemodel.MarkdownPage;
 
 /**
- * Common methods for PropertyDescriptionExtension.
+ * Common methods for PropertyDescriptionExtension that are in markdown format.
  *
  * @author Marek Jagielski
  */
-public interface MarkdownDescription {
+public class MarkdownDescription {
 
-  Logger LOGGER = ModelerLoggerFactory.getLogger(MarkdownDescription.class);
+  private static Logger LOGGER = ModelerLoggerFactory
+      .getLogger(MarkdownDescription.class);
 
-  Pattern IMG_PATTERN = Pattern.compile("<img src=\"([^[\"|:]]*)[^/]*/>");
+  private static Pattern IMG_PATTERN = Pattern
+      .compile("<img src=\"([^[\"|:]]*)[^/]*/>");
 
   /**
    * Util method that reads bundle resource in markdown format and converts it
@@ -40,7 +42,7 @@ public interface MarkdownDescription {
    * @param path        resource path in bundle
    * @return html
    */
-  default String getEntry(Class<?> bundleClass, String path) {
+  protected String getEntry(Class<?> bundleClass, String path) {
     if (path.contains("://")) {
       return "";
     }
@@ -63,8 +65,8 @@ public interface MarkdownDescription {
    * @param html        document with images
    * @return html with embedded images
    */
-  default String replaceImagesWithBase64(Class<?> bundleClass, String basePath,
-      String html) {
+  protected String replaceImagesWithBase64(Class<?> bundleClass,
+      String basePath, String html) {
     Matcher m = IMG_PATTERN.matcher(html);
     StringBuffer sb = new StringBuffer(html.length());
     while (m.find()) {
@@ -72,8 +74,7 @@ public interface MarkdownDescription {
           .ifPresent((InputStream is) -> {
             try {
               byte[] bytes = new byte[is.available()];
-              int count = is.read(bytes);
-              if (count > 0) {
+              if (is.read(bytes) > 0) {
                 m.appendReplacement(sb, Matcher
                     .quoteReplacement("<img src=\"data:image/png;base64, "
                         + Base64.getEncoder().encodeToString(bytes) + "\"/>"));
