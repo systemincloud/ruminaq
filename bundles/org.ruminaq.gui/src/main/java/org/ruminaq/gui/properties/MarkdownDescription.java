@@ -28,10 +28,10 @@ import winterwell.markdown.pagemodel.MarkdownPage;
  */
 public class MarkdownDescription {
 
-  private static Logger LOGGER = ModelerLoggerFactory
+  private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(MarkdownDescription.class);
 
-  private static Pattern IMG_PATTERN = Pattern
+  private static final Pattern IMG_PATTERN = Pattern
       .compile("<img src=\"([^[\"|:]]*)[^/]*/>");
 
   /**
