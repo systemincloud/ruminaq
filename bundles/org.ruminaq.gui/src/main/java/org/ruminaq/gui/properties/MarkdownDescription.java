@@ -72,10 +72,12 @@ public interface MarkdownDescription {
           .ifPresent((InputStream is) -> {
             try {
               byte[] bytes = new byte[is.available()];
-              is.read(bytes);
-              m.appendReplacement(sb,
-                  Matcher.quoteReplacement("<img src=\"data:image/png;base64, "
-                      + Base64.getEncoder().encodeToString(bytes) + "\"/>"));
+              int count = is.read(bytes);
+              if (count > 0) {
+                m.appendReplacement(sb, Matcher
+                    .quoteReplacement("<img src=\"data:image/png;base64, "
+                        + Base64.getEncoder().encodeToString(bytes) + "\"/>"));
+              }
             } catch (IOException e) {
               LOGGER.error("Can't read image {}", m.group(1), e);
             }
