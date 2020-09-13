@@ -28,11 +28,9 @@ import winterwell.markdown.pagemodel.MarkdownPage;
  */
 public interface MarkdownDescription {
 
-  static final Logger LOGGER = ModelerLoggerFactory
-      .getLogger(MarkdownDescription.class);
+  Logger LOGGER = ModelerLoggerFactory.getLogger(MarkdownDescription.class);
 
-  static final Pattern IMG_PATTERN = Pattern
-      .compile("<img src=\"([^[\"|:]]*)[^/]*/>");
+  Pattern IMG_PATTERN = Pattern.compile("<img src=\"([^[\"|:]]*)[^/]*/>");
 
   /**
    * Util method that reads bundle resource in markdown format and converts it
