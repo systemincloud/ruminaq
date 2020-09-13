@@ -26,9 +26,6 @@ import org.ruminaq.util.ServiceFilterArgs;
 public class Description extends MarkdownDescription
     implements PropertyDescriptionExtension {
 
-  /**
-   * Only on Console.
-   */
   public static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override

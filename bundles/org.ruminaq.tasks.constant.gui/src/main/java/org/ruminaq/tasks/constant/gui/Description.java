@@ -16,14 +16,16 @@ import org.ruminaq.tasks.constant.model.constant.Constant;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
 
+/**
+ * Service PropertyDescriptionExtension implementation.
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 @ServiceFilter(Filter.class)
 public class Description extends MarkdownDescription
     implements PropertyDescriptionExtension {
 
-  /**
-   * Only on Constant.
-   */
   public static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
