@@ -18,7 +18,8 @@ import org.ruminaq.util.ServiceFilterArgs;
 
 @Component(property = { "service.ranking:Integer=5" })
 @ServiceFilter(Filter.class)
-public class Description implements MarkdownDescription, PropertyDescriptionExtension {
+public class Description extends MarkdownDescription
+    implements PropertyDescriptionExtension {
 
   /**
    * Only on Constant.
@@ -28,7 +29,8 @@ public class Description implements MarkdownDescription, PropertyDescriptionExte
     @Override
     public boolean test(ServiceFilterArgs args) {
       return Optional.ofNullable(args).map(ServiceFilterArgs::getArgs)
-          .map(l -> l.get(0)).filter(RandomGenerator.class::isInstance).isPresent();
+          .map(l -> l.get(0)).filter(RandomGenerator.class::isInstance)
+          .isPresent();
     }
   }
 

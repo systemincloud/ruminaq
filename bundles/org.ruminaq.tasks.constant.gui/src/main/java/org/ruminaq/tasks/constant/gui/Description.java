@@ -18,7 +18,8 @@ import org.ruminaq.util.ServiceFilterArgs;
 
 @Component(property = { "service.ranking:Integer=5" })
 @ServiceFilter(Filter.class)
-public class Description implements MarkdownDescription, PropertyDescriptionExtension {
+public class Description extends MarkdownDescription
+    implements PropertyDescriptionExtension {
 
   /**
    * Only on Constant.
