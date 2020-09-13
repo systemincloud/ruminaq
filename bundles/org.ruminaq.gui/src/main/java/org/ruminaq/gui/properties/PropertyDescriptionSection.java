@@ -22,7 +22,8 @@ import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.util.ServiceUtil;
 
 /**
- * PropertySection with description on selected BaseElement.
+ * PropertySection with description on selected BaseElement. It should be
+ * written in html.
  *
  * @author Marek Jagielski
  */
