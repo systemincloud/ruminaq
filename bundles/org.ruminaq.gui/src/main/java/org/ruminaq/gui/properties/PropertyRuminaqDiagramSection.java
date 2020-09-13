@@ -6,11 +6,11 @@
 
 package org.ruminaq.gui.properties;
 
+import java.util.Optional;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -20,9 +20,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.ModelUtil;
 
@@ -40,9 +40,6 @@ public class PropertyRuminaqDiagramSection extends GFPropertySection
   private Button btnAtomic;
   private Button btnPreventLost;
 
-  /**
-   * @wbp.parser.entryPoint
-   */
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -108,22 +105,13 @@ public class PropertyRuminaqDiagramSection extends GFPropertySection
 
   @Override
   public void refresh() {
-    PictogramElement pe = getSelectedPictogramElement();
-    if (pe != null) {
-      Object bo = Graphiti.getLinkService()
-          .getBusinessObjectForLinkedPictogramElement(pe);
-      if (bo == null)
-        return;
-      MainTask mt = (MainTask) bo;
-      initActions(mt);
-      versionValue.setText(mt.getVersion());
-      btnAtomic.setSelection(mt.isAtomic());
-      btnPreventLost.setSelection(mt.isPreventLosts());
-    }
-  }
-
-  @Override
-  public void setInput(IWorkbenchPart part, ISelection selection) {
-    super.setInput(part, selection);
+    Optional.ofNullable(getSelectedPictogramElement())
+        .filter(RuminaqDiagram.class::isInstance)
+        .map(RuminaqDiagram.class::cast).map(RuminaqDiagram::getMainTask)
+        .ifPresent((MainTask mt) -> {
+          versionValue.setText(mt.getVersion());
+          btnAtomic.setSelection(mt.isAtomic());
+          btnPreventLost.setSelection(mt.isPreventLosts());
+        });
   }
 }
