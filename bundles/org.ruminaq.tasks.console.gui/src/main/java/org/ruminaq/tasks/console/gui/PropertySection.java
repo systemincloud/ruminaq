@@ -29,6 +29,7 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.console.model.console.Console;
 import org.ruminaq.tasks.console.model.console.ConsoleType;
+import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 public class PropertySection implements IPropertySection {
 
@@ -97,27 +98,26 @@ public class PropertySection implements IPropertySection {
 
   private void initActions(final PictogramElement pe,
       final TransactionalEditingDomain ed, final IDiagramTypeProvider dtp) {
-    cmbType.addSelectionListener(new SelectionAdapter() {
-      public void widgetSelected(SelectionEvent e) {
-        final ConsoleType ct = ConsoleType.getByName(cmbType.getText());
-        ModelUtil.runModelChange(new Runnable() {
-          public void run() {
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            if (bo == null)
-              return;
-            if (ct != null) {
-              if (bo instanceof Console) {
-                Console console = (Console) bo;
-                console.setConsoleType(ct);
-                UpdateContext context = new UpdateContext(pe);
-                dtp.getFeatureProvider().updateIfPossible(context);
+    cmbType.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
+          final ConsoleType ct = ConsoleType.getByName(cmbType.getText());
+          ModelUtil.runModelChange(new Runnable() {
+            public void run() {
+              Object bo = Graphiti.getLinkService()
+                  .getBusinessObjectForLinkedPictogramElement(pe);
+              if (bo == null)
+                return;
+              if (ct != null) {
+                if (bo instanceof Console) {
+                  Console console = (Console) bo;
+                  console.setConsoleType(ct);
+                  UpdateContext context = new UpdateContext(pe);
+                  dtp.getFeatureProvider().updateIfPossible(context);
+                }
               }
             }
-          }
-        }, ed, "Change console type");
-      }
-    });
+          }, ed, "Change console type");
+        });
     newLineCombo.addSelectionListener(new SelectionAdapter() {
       public void widgetSelected(SelectionEvent e) {
         final boolean newLine = Boolean.parseBoolean(newLineCombo.getText());
@@ -135,22 +135,20 @@ public class PropertySection implements IPropertySection {
         }, ed, "Change console type");
       }
     });
-    btnMatricesPretty.addSelectionListener(new SelectionAdapter() {
-      public void widgetSelected(SelectionEvent e) {
-        ModelUtil.runModelChange(new Runnable() {
-          public void run() {
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            if (bo == null)
-              return;
-            if (bo instanceof Console) {
-              Console console = (Console) bo;
-              console.setMatricesPretty(btnMatricesPretty.getSelection());
-            }
-          }
-        }, ed, "Change console type");
-      }
-    });
+    btnMatricesPretty
+        .addSelectionListener((WidgetSelectedSelectionListener) e -> ModelUtil
+            .runModelChange(new Runnable() {
+              public void run() {
+                Object bo = Graphiti.getLinkService()
+                    .getBusinessObjectForLinkedPictogramElement(pe);
+                if (bo == null)
+                  return;
+                if (bo instanceof Console) {
+                  Console console = (Console) bo;
+                  console.setMatricesPretty(btnMatricesPretty.getSelection());
+                }
+              }
+            }, ed, "Change console type"));
     spnNbLines.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent se) {

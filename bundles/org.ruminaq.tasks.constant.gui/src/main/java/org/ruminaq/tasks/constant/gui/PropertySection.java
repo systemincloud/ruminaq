@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
@@ -20,7 +19,6 @@ import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -51,6 +49,7 @@ import org.ruminaq.tasks.constant.properties.ComplexPropertyValue;
 import org.ruminaq.tasks.constant.properties.ControlPropertyValue;
 import org.ruminaq.tasks.constant.properties.NumericPropertyValue;
 import org.ruminaq.tasks.constant.properties.TextPropertyValue;
+import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 public class PropertySection implements IPropertySection, ValueSaveListener {
 
@@ -172,43 +171,42 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
   }
 
   private void initActions(final TransactionalEditingDomain ed) {
-    cmbType.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        final DataType dt = DataTypeManager.INSTANCE
-            .getDataTypeFromName(cmbType.getText());
-        if (dt != null) {
-          ModelUtil.runModelChange(() -> {
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            if (bo instanceof Constant) {
-              Constant constant = (Constant) bo;
-              constant.getOutputPort().get(0).getDataType().clear();
-              constant.getOutputPort().get(0).getDataType().add(dt);
-              while (constant.getOutputPort().get(0).getDataType().size() > 0) {
-                constant.getOutputPort().get(0).getDataType().remove(0);
-              }
-              constant.getOutputPort().get(0).getDataType()
-                  .add(EcoreUtil.copy(dt));
+    cmbType.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
+          final DataType dt = DataTypeManager.INSTANCE
+              .getDataTypeFromName(cmbType.getText());
+          if (dt != null) {
+            ModelUtil.runModelChange(() -> {
+              Object bo = Graphiti.getLinkService()
+                  .getBusinessObjectForLinkedPictogramElement(pe);
+              if (bo instanceof Constant) {
+                Constant constant = (Constant) bo;
+                constant.getOutputPort().get(0).getDataType().clear();
+                constant.getOutputPort().get(0).getDataType().add(dt);
+                while (constant.getOutputPort().get(0).getDataType()
+                    .size() > 0) {
+                  constant.getOutputPort().get(0).getDataType().remove(0);
+                }
+                constant.getOutputPort().get(0).getDataType()
+                    .add(EcoreUtil.copy(dt));
 
-              PropertyValueComposite vc = valueComposites
-                  .get(ModelUtil.getName(dt.getClass(), false));
-              if (vc == null) {
-                valueStack.topControl = noValue.getComposite();
-                constant.setValue(noValue.getValue());
-              } else {
-                vc.refresh(constant.getValue());
-                constant.setValue(vc.getValue());
-                valueStack.topControl = vc.getComposite();
-              }
-              valueRoot.layout();
+                PropertyValueComposite vc = valueComposites
+                    .get(ModelUtil.getName(dt.getClass(), false));
+                if (vc == null) {
+                  valueStack.topControl = noValue.getComposite();
+                  constant.setValue(noValue.getValue());
+                } else {
+                  vc.refresh(constant.getValue());
+                  constant.setValue(vc.getValue());
+                  valueStack.topControl = vc.getComposite();
+                }
+                valueRoot.layout();
 
-              update();
-            }
-          }, ed, "Change constant value");
-        }
-      }
-    });
+                update();
+              }
+            }, ed, "Change constant value");
+          }
+        });
   }
 
   private void addStyles() {

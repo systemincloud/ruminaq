@@ -10,12 +10,10 @@ import java.text.Collator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.layout.GridData;
@@ -30,6 +28,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
+import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 public abstract class AbstractParametersSection extends GFPropertySection
     implements ITabbedPropertyConstants {
@@ -84,47 +83,45 @@ public abstract class AbstractParametersSection extends GFPropertySection
   }
 
   private void initActions() {
-    tblParameters.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        Control oldEditor = tblEdParameters.getEditor();
-        if (oldEditor != null)
-          oldEditor.dispose();
+    tblParameters.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
+          Control oldEditor = tblEdParameters.getEditor();
+          if (oldEditor != null)
+            oldEditor.dispose();
 
-        TableItem item = (TableItem) e.item;
-        if (item == null)
-          return;
+          TableItem item = (TableItem) e.item;
+          if (item == null)
+            return;
 
-        final Text newEditor = new Text(tblParameters, SWT.NONE);
-        newEditor.setText(item.getText(1));
-        newEditor.addTraverseListener((TraverseEvent event) -> {
-          switch (event.detail) {
-            case SWT.TRAVERSE_RETURN:
-              String key = tblEdParameters.getItem().getText(0);
-              String newValue = tblEdParameters.getItem().getText(1);
-              saveParameter(key, newValue);
-              ((Text) tblEdParameters.getEditor()).dispose();
-              break;
-            case SWT.TRAVERSE_ESCAPE:
-              String actual = getActualParams()
-                  .get(tblEdParameters.getItem().getText(0));
-              String tmp = actual != null ? actual : "";
-              tblEdParameters.getItem().setText(1, tmp);
-              ((Text) tblEdParameters.getEditor()).dispose();
-              break;
-            default:
-              break;
-          }
+          final Text newEditor = new Text(tblParameters, SWT.NONE);
+          newEditor.setText(item.getText(1));
+          newEditor.addTraverseListener((TraverseEvent event) -> {
+            switch (event.detail) {
+              case SWT.TRAVERSE_RETURN:
+                String key = tblEdParameters.getItem().getText(0);
+                String newValue = tblEdParameters.getItem().getText(1);
+                saveParameter(key, newValue);
+                ((Text) tblEdParameters.getEditor()).dispose();
+                break;
+              case SWT.TRAVERSE_ESCAPE:
+                String actual = getActualParams()
+                    .get(tblEdParameters.getItem().getText(0));
+                String tmp = actual != null ? actual : "";
+                tblEdParameters.getItem().setText(1, tmp);
+                ((Text) tblEdParameters.getEditor()).dispose();
+                break;
+              default:
+                break;
+            }
+          });
+          newEditor.addModifyListener((ModifyEvent me) -> {
+            Text text = (Text) tblEdParameters.getEditor();
+            tblEdParameters.getItem().setText(1, text.getText());
+          });
+          newEditor.selectAll();
+          newEditor.setFocus();
+          tblEdParameters.setEditor(newEditor, item, 1);
         });
-        newEditor.addModifyListener((ModifyEvent me) -> {
-          Text text = (Text) tblEdParameters.getEditor();
-          tblEdParameters.getItem().setText(1, text.getText());
-        });
-        newEditor.selectAll();
-        newEditor.setFocus();
-        tblEdParameters.setEditor(newEditor, item, 1);
-      }
-    });
   }
 
   private void initComponents() {

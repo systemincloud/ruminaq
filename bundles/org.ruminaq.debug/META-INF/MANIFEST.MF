@@ -41,6 +41,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.impl.debug.events,
  org.ruminaq.runner.impl.debug.events.debugger,
  org.ruminaq.runner.impl.debug.events.model,
+ org.ruminaq.util,
  org.slf4j,
  org.slf4j.spi
 Export-Package: org.ruminaq.debug,

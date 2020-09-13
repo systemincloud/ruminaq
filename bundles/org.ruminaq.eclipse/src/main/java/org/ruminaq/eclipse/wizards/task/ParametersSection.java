@@ -9,10 +9,8 @@ package org.ruminaq.eclipse.wizards.task;
 import java.text.Collator;
 import java.util.Locale;
 import java.util.stream.Stream;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -27,6 +25,7 @@ import org.eclipse.swt.widgets.Text;
 import org.ruminaq.eclipse.usertask.model.userdefined.CustomParameter;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
+import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**
  * Parameters of task.
@@ -73,12 +72,12 @@ class ParametersSection extends Group {
     btnParametersRemove = new Button(this, SWT.PUSH);
 
     lblParametersAddName = new Label(grpParametersAdd, SWT.NONE);
-    lblParametersAddName.setLayoutData(
-        new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+    lblParametersAddName
+        .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
     txtParametersAddName = new Text(grpParametersAdd, SWT.BORDER);
     lblParametersAddValue = new Label(grpParametersAdd, SWT.NONE);
-    lblParametersAddValue.setLayoutData(
-        new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+    lblParametersAddValue
+        .setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
     txtParametersAddValue = new Text(grpParametersAdd, SWT.BORDER);
     btnParametersAdd = new Button(grpParametersAdd, SWT.PUSH);
   }
@@ -101,12 +100,9 @@ class ParametersSection extends Group {
   }
 
   void initActions() {
-    tblParameters.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        btnParametersRemove.setEnabled(true);
-      }
-    });
+    tblParameters.addSelectionListener(
+        (WidgetSelectedSelectionListener) event -> btnParametersRemove
+            .setEnabled(true));
     txtParametersAddName.addModifyListener((ModifyEvent event) -> {
       boolean exist = false;
       for (TableItem it : tblParameters.getItems())
@@ -117,30 +113,26 @@ class ParametersSection extends Group {
       else
         btnParametersAdd.setEnabled(true);
     });
-    btnParametersAdd.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        TableItem item = new TableItem(tblParameters, SWT.NONE);
-        item.setText(new String[] { txtParametersAddName.getText(),
-            txtParametersAddValue.getText() });
-        for (TableColumn tc : tblParameters.getColumns())
-          tc.pack();
-        sortParameters();
-        tblParameters.layout();
-        txtParametersAddName.setText("");
-        txtParametersAddValue.setText("");
-      }
-    });
-    btnParametersRemove.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        int[] selectionIds = tblParameters.getSelectionIndices();
-        if (selectionIds.length != 0)
-          btnParametersRemove.setEnabled(false);
-        for (int i = 0, n = selectionIds.length; i < n; i++)
-          tblParameters.remove(selectionIds[i]);
-      }
-    });
+    btnParametersAdd.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
+          TableItem item = new TableItem(tblParameters, SWT.NONE);
+          item.setText(new String[] { txtParametersAddName.getText(),
+              txtParametersAddValue.getText() });
+          for (TableColumn tc : tblParameters.getColumns())
+            tc.pack();
+          sortParameters();
+          tblParameters.layout();
+          txtParametersAddName.setText("");
+          txtParametersAddValue.setText("");
+        });
+    btnParametersRemove.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
+          int[] selectionIds = tblParameters.getSelectionIndices();
+          if (selectionIds.length != 0)
+            btnParametersRemove.setEnabled(false);
+          for (int i = 0, n = selectionIds.length; i < n; i++)
+            tblParameters.remove(selectionIds[i]);
+        });
   }
 
   private void sortParameters() {

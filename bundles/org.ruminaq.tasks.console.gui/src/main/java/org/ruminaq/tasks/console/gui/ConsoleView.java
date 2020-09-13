@@ -32,6 +32,7 @@ import org.ruminaq.tasks.console.impl.ConsoleIService;
 import org.ruminaq.tasks.console.impl.ConsoleViewService;
 import org.ruminaq.tasks.console.model.console.Console;
 import org.ruminaq.tasks.console.model.console.ConsoleType;
+import org.ruminaq.util.WidgetSelectedSelectionListener;
 import swing2swt.layout.BorderLayout;
 
 public class ConsoleView implements IView, LaunchListener {
@@ -174,34 +175,30 @@ public class ConsoleView implements IView, LaunchListener {
           }
       }
     });
-    btnClear.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        clear();
-        ConsoleIService api = DirmiServer.INSTANCE
-            .getRemote(Util.getUniqueId(console), ConsoleIService.class);
-        if (api != null)
-          try {
-            api.clearHistory();
-          } catch (RemoteException e1) {
-          }
-      }
-    });
-    btnTextColor.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        ColorDialog cd = new ColorDialog(shell);
-        cd.setText("Text Color");
-        cd.setRGB(text.getForeground().getRGB());
-        RGB newColor = cd.open();
-        if (newColor == null)
-          return;
-        Color color = new Color(shell.getDisplay(), newColor);
-        text.setForeground(color);
-        mementoTextColor.put(console, color);
-        text.setFocus();
-      }
-    });
+    btnClear.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
+          clear();
+          ConsoleIService api = DirmiServer.INSTANCE
+              .getRemote(Util.getUniqueId(console), ConsoleIService.class);
+          if (api != null)
+            try {
+              api.clearHistory();
+            } catch (RemoteException e1) {
+            }
+        });
+    btnTextColor.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
+          ColorDialog cd = new ColorDialog(shell);
+          cd.setText("Text Color");
+          cd.setRGB(text.getForeground().getRGB());
+          RGB newColor = cd.open();
+          if (newColor == null)
+            return;
+          Color color = new Color(shell.getDisplay(), newColor);
+          text.setForeground(color);
+          mementoTextColor.put(console, color);
+          text.setFocus();
+        });
     btnBackgroundColor.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent e) {

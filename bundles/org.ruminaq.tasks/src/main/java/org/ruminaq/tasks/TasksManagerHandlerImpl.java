@@ -8,17 +8,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.ruminaq.tasks;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.model.IDebugTarget;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -29,24 +23,13 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.Version;
-import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicy;
 import org.ruminaq.debug.api.EventDispatchJob;
-import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.tasks.api.TaskManagerHandler;
 
-import ch.qos.logback.classic.Logger;
-
 public class TasksManagerHandlerImpl implements TaskManagerHandler {
-
-  private final Logger logger = ModelerLoggerFactory
-      .getLogger(TasksManagerHandlerImpl.class);
 
   private List<String> taskJarsPaths = new ArrayList<>();
 

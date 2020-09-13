@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.debug;
 
 import org.eclipse.core.runtime.CoreException;
@@ -16,14 +17,13 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.ruminaq.debug.InternalPortBreakpoint.SuspendPolicy;
+import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 @SuppressWarnings("restriction")
 public class InternalPortBreakpointEditor extends AbstractJavaBreakpointEditor {
@@ -74,34 +74,26 @@ public class InternalPortBreakpointEditor extends AbstractJavaBreakpointEditor {
   }
 
   private void initActions() {
-    btnHitCount.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        boolean enabled = btnHitCount.getSelection();
-        txtHitCountText.setEnabled(enabled);
-        if (enabled)
-          txtHitCountText.setFocus();
-        else
-          setDirty(Properties.PROP_HIT_COUNT_ENABLED.ordinal());
-      }
-    });
+    btnHitCount
+        .addSelectionListener((WidgetSelectedSelectionListener) event -> {
+          boolean enabled = btnHitCount.getSelection();
+          txtHitCountText.setEnabled(enabled);
+          if (enabled)
+            txtHitCountText.setFocus();
+          else
+            setDirty(Properties.PROP_HIT_COUNT_ENABLED.ordinal());
+        });
     txtHitCountText.addModifyListener(new ModifyListener() {
       public void modifyText(ModifyEvent e) {
         setDirty(Properties.PROP_HIT_COUNT.ordinal());
       }
     });
-    btnSuspendPort.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        setDirty(Properties.PROP_SUSPEND_POLICY.ordinal());
-      }
-    });
-    btnSuspendAll.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        setDirty(Properties.PROP_SUSPEND_POLICY.ordinal());
-      }
-    });
+    btnSuspendPort
+        .addSelectionListener((WidgetSelectedSelectionListener) e -> setDirty(
+            Properties.PROP_SUSPEND_POLICY.ordinal()));
+    btnSuspendAll
+        .addSelectionListener((WidgetSelectedSelectionListener) e -> setDirty(
+            Properties.PROP_SUSPEND_POLICY.ordinal()));
     root.addDisposeListener(new DisposeListener() {
       @Override
       public void widgetDisposed(DisposeEvent e) {
@@ -211,12 +203,8 @@ public class InternalPortBreakpointEditor extends AbstractJavaBreakpointEditor {
     button.setText(text);
     GridData gd = new GridData(SWT.BEGINNING);
     button.setLayoutData(gd);
-    button.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        setDirty(propId);
-      }
-    });
+    button.addSelectionListener(
+        (WidgetSelectedSelectionListener) e -> setDirty(propId));
     return button;
   }
 }

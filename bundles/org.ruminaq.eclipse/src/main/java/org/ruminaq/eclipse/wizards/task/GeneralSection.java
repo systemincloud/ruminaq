@@ -7,7 +7,6 @@
 package org.ruminaq.eclipse.wizards.task;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -15,6 +14,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
+import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**
  * General configuration of task.
@@ -42,7 +42,8 @@ class GeneralSection extends Group {
 
   void initLayout() {
     setLayout(new GridLayout(NB_OF_COLUMNS, false));
-    setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
+    setLayoutData(
+        new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
     btnAtomic = new Button(this, SWT.CHECK);
     btnGenerator = new Button(this, SWT.CHECK);
     btnExternalSource = new Button(this, SWT.CHECK);
@@ -58,40 +59,32 @@ class GeneralSection extends Group {
   }
 
   void initActions() {
-    btnAtomic.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        if (!btnAtomic.getSelection()) {
-          btnConstant.setSelection(false);
-        }
-      }
-    });
-    btnConstant.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        if (btnConstant.getSelection()) {
-          btnAtomic.setSelection(true);
-          btnGenerator.setSelection(false);
-          btnExternalSource.setSelection(false);
-        }
-      }
-    });
-    btnGenerator.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        if (btnGenerator.getSelection()) {
-          btnConstant.setSelection(false);
-        }
-      }
-    });
-    btnExternalSource.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        if (btnExternalSource.getSelection()) {
-          btnConstant.setSelection(false);
-        }
-      }
-    });
+    btnAtomic.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
+          if (!btnAtomic.getSelection()) {
+            btnConstant.setSelection(false);
+          }
+        });
+    btnConstant.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
+          if (btnConstant.getSelection()) {
+            btnAtomic.setSelection(true);
+            btnGenerator.setSelection(false);
+            btnExternalSource.setSelection(false);
+          }
+        });
+    btnGenerator.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
+          if (btnGenerator.getSelection()) {
+            btnConstant.setSelection(false);
+          }
+        });
+    btnExternalSource.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
+          if (btnExternalSource.getSelection()) {
+            btnConstant.setSelection(false);
+          }
+        });
   }
 
   /**

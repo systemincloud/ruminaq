@@ -7,10 +7,8 @@
 package org.ruminaq.eclipse.prefs;
 
 import java.util.Optional;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -27,6 +25,7 @@ import org.ruminaq.prefs.ProjectProps;
 import org.ruminaq.prefs.Props;
 import org.ruminaq.upgrade.Upgrade;
 import org.ruminaq.util.PlatformUtil;
+import org.ruminaq.util.WidgetSelectedSelectionListener;
 import org.slf4j.Logger;
 
 /**
@@ -112,22 +111,20 @@ public class ProjectPropsPage extends PropertyPage {
    * Set listeners.
    */
   private void initActions() {
-    btnUpgrade.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        LOGGER.trace("Upgrade button pushed");
-        boolean status = new Upgrade(
-            projectProps.get(ProjectProps.RUMINAQ_VERSION),
-            PlatformUtil.getBundleVersion(this.getClass()).toString(),
-            getElement().getAdapter(IProject.class)).execute();
-        if (status) {
-          btnUpgrade.setText(Messages.projectPropsUpgradeButton);
-          btnUpgrade.setEnabled(false);
-          lblVersion.setText(
-              PlatformUtil.getBundleVersion(this.getClass()).toString());
-        }
-      }
-    });
+    btnUpgrade.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
+          LOGGER.trace("Upgrade button pushed");
+          boolean status = new Upgrade(
+              projectProps.get(ProjectProps.RUMINAQ_VERSION),
+              PlatformUtil.getBundleVersion(this.getClass()).toString(),
+              getElement().getAdapter(IProject.class)).execute();
+          if (status) {
+            btnUpgrade.setText(Messages.projectPropsUpgradeButton);
+            btnUpgrade.setEnabled(false);
+            lblVersion.setText(
+                PlatformUtil.getBundleVersion(this.getClass()).toString());
+          }
+        });
   }
 
   @Override

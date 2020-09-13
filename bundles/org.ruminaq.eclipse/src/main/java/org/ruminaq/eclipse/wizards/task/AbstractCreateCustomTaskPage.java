@@ -42,6 +42,7 @@ import org.ruminaq.eclipse.usertask.model.userdefined.In;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.Out;
 import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
+import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**
  * Common wizard page for all custom tasks.
@@ -173,12 +174,9 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
     }
 
     public void initActions() {
-      tblInputs.addSelectionListener(new SelectionAdapter() {
-        @Override
-        public void widgetSelected(SelectionEvent event) {
-          btnInputsRemove.setEnabled(true);
-        }
-      });
+      tblInputs.addSelectionListener(
+          (WidgetSelectedSelectionListener) event -> btnInputsRemove
+              .setEnabled(true));
       tblInputsDragSrc.addDragListener(new DragSourceAdapter() {
         @Override
         public void dragStart(DragSourceEvent event) {
@@ -246,12 +244,9 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
           spnInputsAddGroup.setEnabled(!btnInputsAddAsync.getSelection());
         }
       });
-      btnInputsAddQueueInf.addSelectionListener(new SelectionAdapter() {
-        @Override
-        public void widgetSelected(SelectionEvent event) {
-          spnInputsAddQueue.setEnabled(!btnInputsAddQueueInf.getSelection());
-        }
-      });
+      btnInputsAddQueueInf.addSelectionListener(
+          (WidgetSelectedSelectionListener) event -> spnInputsAddQueue
+              .setEnabled(!btnInputsAddQueueInf.getSelection()));
       spnInputsAddQueue.addSelectionListener(new SelectionAdapter() {
         @Override
         public void widgetSelected(SelectionEvent event) {

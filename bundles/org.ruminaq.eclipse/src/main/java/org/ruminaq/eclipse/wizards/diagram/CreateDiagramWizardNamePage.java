@@ -44,6 +44,7 @@ import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.ImageUtil;
+import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**
  * Create new Diagram page.
@@ -244,20 +245,12 @@ public class CreateDiagramWizardNamePage extends WizardPage {
    */
   private void initActions() {
     txtProject.addModifyListener(e -> dialogChanged());
-    btnProject.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        handleBrowseProject();
-      }
-    });
+    btnProject.addSelectionListener(
+        (WidgetSelectedSelectionListener) e -> handleBrowseProject());
     txtContainer.addModifyListener(e -> dialogChanged());
-    btnContainer.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent e) {
-        handleBrowse(ResourcesPlugin.getWorkspace().getRoot()
-            .getProject(txtProject.getText()));
-      }
-    });
+    btnContainer.addSelectionListener(
+        (WidgetSelectedSelectionListener) e -> handleBrowse(ResourcesPlugin
+            .getWorkspace().getRoot().getProject(txtProject.getText())));
     txtFile.addModifyListener(e -> dialogChanged());
   }
 
