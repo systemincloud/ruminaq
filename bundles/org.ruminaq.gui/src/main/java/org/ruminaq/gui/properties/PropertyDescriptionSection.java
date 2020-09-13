@@ -37,7 +37,6 @@ public class PropertyDescriptionSection extends GFPropertySection
     super.createControls(parent, tabbedPropertySheetPage);
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
-
     b = new Browser(parent, SWT.NONE);
     parent.setLayout(new GridLayout());
     GridData gd = new GridData(GridData.FILL_BOTH);
