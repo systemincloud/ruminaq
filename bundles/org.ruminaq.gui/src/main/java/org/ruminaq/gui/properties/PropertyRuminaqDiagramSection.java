@@ -14,7 +14,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
@@ -28,6 +27,8 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  */
 public class PropertyRuminaqDiagramSection extends GFPropertySection
     implements ITabbedPropertyConstants {
+
+  private static final int TWO_COLUMNS = 2;
 
   private Composite composite;
 
@@ -50,7 +51,7 @@ public class PropertyRuminaqDiagramSection extends GFPropertySection
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
     composite = new Composite(parent, SWT.NULL);
-    composite.setLayout(new GridLayout(2, false));
+    composite.setLayout(new GridLayout(TWO_COLUMNS, false));
 
     lblVersion = new CLabel(composite, SWT.NONE);
     versionValue = new CLabel(composite, SWT.NONE);
@@ -77,7 +78,6 @@ public class PropertyRuminaqDiagramSection extends GFPropertySection
     btnAtomic.setText("Atomic");
     btnPreventLost.setText("Prevent data lost");
   }
-
 
   @Override
   public void refresh() {
