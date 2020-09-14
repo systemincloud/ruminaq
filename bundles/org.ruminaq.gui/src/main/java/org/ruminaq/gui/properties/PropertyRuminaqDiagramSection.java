@@ -43,7 +43,6 @@ public class PropertyRuminaqDiagramSection extends GFPropertySection
 
     initLayout(parent);
     initComponents();
-    addStyles();
   }
 
   private void initLayout(Composite parent) {
@@ -58,8 +57,6 @@ public class PropertyRuminaqDiagramSection extends GFPropertySection
 
     btnAtomic = new Button(composite, SWT.CHECK);
     btnPreventLost = new Button(composite, SWT.CHECK);
-    new CLabel(composite, SWT.NONE)
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
   private void initActions(MainTask mt) {
@@ -81,14 +78,6 @@ public class PropertyRuminaqDiagramSection extends GFPropertySection
     btnPreventLost.setText("Prevent data lost");
   }
 
-  private void addStyles() {
-    composite
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    lblVersion
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    versionValue
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-  }
 
   @Override
   public void refresh() {
