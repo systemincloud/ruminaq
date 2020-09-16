@@ -70,13 +70,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.ruminaq.consts"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
          id="org.ruminaq.debug"
          download-size="0"
          install-size="0"
@@ -204,20 +197,6 @@
 
    <plugin
          id="org.ruminaq.tasks.embeddedtask.ui"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.debug"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.tasks.debug.ui"
          download-size="0"
          install-size="0"
          version="1.0.0.qualifier"
