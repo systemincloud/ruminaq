@@ -30,8 +30,6 @@ public class PropertyRuminaqDiagramSection extends GFPropertySection
 
   private static final int TWO_COLUMNS = 2;
 
-  private Composite composite;
-
   private CLabel lblVersion;
   private CLabel versionValue;
   private Button btnAtomic;
@@ -50,7 +48,7 @@ public class PropertyRuminaqDiagramSection extends GFPropertySection
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
-    composite = new Composite(parent, SWT.NULL);
+    Composite composite = new Composite(parent, SWT.NULL);
     composite.setLayout(new GridLayout(TWO_COLUMNS, false));
 
     lblVersion = new CLabel(composite, SWT.NONE);
