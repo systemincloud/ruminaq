@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.properties;
 
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -22,6 +23,10 @@ import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 public class PropertyInternalOutputPortSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
@@ -30,9 +35,6 @@ public class PropertyInternalOutputPortSection extends GFPropertySection
   private Label lblTypeOfData;
   private Label dataTypeValue;
 
-  /**
-   * @wbp.parser.entryPoint
-   */
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -90,10 +92,5 @@ public class PropertyInternalOutputPortSection extends GFPropertySection
       dataTypeValue.setText(dataType.toString());
     }
     lblTypeOfData.getParent().layout();
-  }
-
-  @Override
-  public void setInput(IWorkbenchPart part, ISelection selection) {
-    super.setInput(part, selection);
   }
 }
