@@ -48,9 +48,6 @@ public class PropertyInputPortSection extends GFPropertySection
   private CLabel lblGroup;
   private Spinner spnGroup;
 
-  /**
-   * @wbp.parser.entryPoint
-   */
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {

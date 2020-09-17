@@ -5,6 +5,7 @@ Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.gui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.swtbot.eclipse.finder
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core.spi,
  com.google.common.base,

@@ -22,6 +22,7 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**
+ * PropertySection for RuminaqDiagram.
  *
  * @author Marek Jagielski
  */
@@ -74,7 +75,7 @@ public class PropertyRuminaqDiagramSection extends GFPropertySection
   private void initComponents() {
     lblVersion.setText("Version:");
     btnAtomic.setText("Atomic");
-    btnPreventLost.setText("Prevent data lost");
+    btnPreventLost.setText("Prevent data loss");
   }
 
   @Override
