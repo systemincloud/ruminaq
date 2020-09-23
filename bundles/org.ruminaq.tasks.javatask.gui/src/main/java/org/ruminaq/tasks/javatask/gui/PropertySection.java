@@ -6,6 +6,7 @@
 
 package org.ruminaq.tasks.javatask.gui;
 
+import java.util.Optional;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
@@ -46,6 +47,7 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskListener;
@@ -53,8 +55,15 @@ import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.util.EclipseUtil;
 
+/**
+ * PropertySection for JavaTask.
+ *
+ * @author Marek Jagielski
+ */
 public class PropertySection extends GFPropertySection
     implements CreateJavaTaskListener {
+
+  private static final int FOUR_COLUMNS = 4;
 
   private Composite root;
   private CLabel lblClassSelect;
@@ -65,6 +74,7 @@ public class PropertySection extends GFPropertySection
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {
+    super.createControls(parent, tabbedPropertySheetPage);
 
     initLayout(parent);
     initComponents();
@@ -74,8 +84,9 @@ public class PropertySection extends GFPropertySection
   private void initLayout(Composite parent) {
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
+
     root = new Composite(parent, SWT.NULL);
-    root.setLayout(new GridLayout(4, false));
+    root.setLayout(new GridLayout(FOUR_COLUMNS, false));
 
     lblClassSelect = new CLabel(root, SWT.NONE);
     txtClassName = new Text(root, SWT.BORDER);
@@ -258,23 +269,14 @@ public class PropertySection extends GFPropertySection
 
   @Override
   public void created(IType type) {
-    final String className = type.getFullyQualifiedName();
-    ModelUtil.runModelChange(new Runnable() {
-      public void run() {
-        Object bo = Graphiti.getLinkService()
-            .getBusinessObjectForLinkedPictogramElement(
-                getSelectedPictogramElement());
-        if (bo == null)
-          return;
-        if (bo instanceof JavaTask) {
-          JavaTask javaTask = (JavaTask) bo;
-          javaTask.setImplementationClass(className);
-          UpdateContext context = new UpdateContext(
-              getSelectedPictogramElement());
-          getDiagramTypeProvider().getFeatureProvider()
-              .updateIfPossible(context);
-        }
-      }
+    ModelUtil.runModelChange(() -> {
+      Optional.of(getSelectedPictogramElement())
+          .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+          .map(RuminaqShape::getModelObject).filter(JavaTask.class::isInstance)
+          .map(JavaTask.class::cast).ifPresent(javaTask -> javaTask
+              .setImplementationClass(type.getFullyQualifiedName()));
+      getDiagramTypeProvider().getFeatureProvider()
+          .updateIfPossible(new UpdateContext(getSelectedPictogramElement()));
     }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
         "Set Java Class");
   }
