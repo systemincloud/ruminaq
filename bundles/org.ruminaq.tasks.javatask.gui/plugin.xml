@@ -29,20 +29,20 @@
       </propertyTabs>
    </extension>
 
-   <!--extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections contributorId="Ruminaq.PropertyContributor">
          <propertySection
                tab="org.ruminaq.tasks.javaTaskTab"
-               class="org.ruminaq.tasks.javatask.ui.properties.PropertySection"
+               class="org.ruminaq.tasks.javatask.gui.PropertySection"
                id="org.ruminaq.tasks.javaTaskTab.Section"
-               filter="org.ruminaq.tasks.javatask.ui.properties.PropertyFilter" />
+               filter="org.ruminaq.tasks.javatask.gui.PropertyFilter" />
          <propertySection
                tab="org.ruminaq.tasks.javaTaskParametersTab"
                class="org.ruminaq.tasks.javatask.ui.properties.ParametersSection"
                id="org.ruminaq.tasks.javaTaskParametersTab.Section"
                filter="org.ruminaq.tasks.javatask.ui.properties.PropertyFilter" />
       </propertySections>
-   </extension-->
+   </extension>
 
    <extension point="org.eclipse.debug.ui.debugModelPresentations">
       <debugModelPresentation

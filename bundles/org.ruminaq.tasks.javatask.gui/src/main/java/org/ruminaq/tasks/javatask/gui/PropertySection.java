@@ -3,15 +3,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.javatask.gui;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
@@ -44,18 +43,18 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.ruminaq.ModelUtil;
-import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskListener;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.util.EclipseUtil;
 
-public class PropertySection
-    implements IPropertySection, CreateJavaTaskListener {
+public class PropertySection extends GFPropertySection
+    implements CreateJavaTaskListener {
 
   private Composite root;
   private CLabel lblClassSelect;
@@ -63,20 +62,13 @@ public class PropertySection
   private Button btnClassSelect;
   private Button btnClassNew;
 
-  private PictogramElement pe;
-  private TransactionalEditingDomain ed;
-  private IDiagramTypeProvider dtp;
-
-  public PropertySection(Composite parent, PictogramElement pe,
-      TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
-    this.pe = pe;
-    this.ed = ed;
-    this.dtp = dtp;
+  @Override
+  public void createControls(Composite parent,
+      TabbedPropertySheetPage tabbedPropertySheetPage) {
 
     initLayout(parent);
     initComponents();
-    initActions(pe, ed, dtp);
-    addStyles();
+    initActions();
   }
 
   private void initLayout(Composite parent) {
@@ -101,30 +93,32 @@ public class PropertySection
 
   private void save() {
     Shell shell = txtClassName.getShell();
-    boolean parse = new UpdateFeature(dtp.getFeatureProvider())
-        .load(txtClassName.getText());
+    boolean parse = new UpdateFeature(
+        getDiagramTypeProvider().getFeatureProvider())
+            .load(txtClassName.getText());
     if (parse) {
-      ModelUtil.runModelChange(new Runnable() {
-        public void run() {
-          Object bo = Graphiti.getLinkService()
-              .getBusinessObjectForLinkedPictogramElement(pe);
-          if (bo == null)
-            return;
-          if (bo instanceof JavaTask) {
-            JavaTask javaTask = (JavaTask) bo;
-            javaTask.setImplementationClass(txtClassName.getText());
-            UpdateContext context = new UpdateContext(pe);
-            dtp.getFeatureProvider().updateIfPossible(context);
-          }
+      ModelUtil.runModelChange(() -> {
+        Object bo = Graphiti.getLinkService()
+            .getBusinessObjectForLinkedPictogramElement(
+                getSelectedPictogramElement());
+        if (bo == null)
+          return;
+        if (bo instanceof JavaTask) {
+          JavaTask javaTask = (JavaTask) bo;
+          javaTask.setImplementationClass(txtClassName.getText());
+          UpdateContext context = new UpdateContext(
+              getSelectedPictogramElement());
+          getDiagramTypeProvider().getFeatureProvider()
+              .updateIfPossible(context);
         }
-      }, ed, "Set Java Class");
+      }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+          "Set Java Class");
     } else
       MessageDialog.openError(shell, "Can't edit value",
           "Class not found or incorrect.");
   }
 
-  private void initActions(final PictogramElement pe,
-      final TransactionalEditingDomain ed, final IDiagramTypeProvider dtp) {
+  private void initActions() {
     txtClassName.addTraverseListener(new TraverseListener() {
       @Override
       public void keyTraversed(TraverseEvent event) {
@@ -137,7 +131,7 @@ public class PropertySection
         Shell shell = txtClassName.getShell();
         final IJavaProject project = JavaCore
             .create(ResourcesPlugin.getWorkspace().getRoot().getProject(
-                EclipseUtil.getProjectNameFromDiagram(dtp.getDiagram())));
+                EclipseUtil.getProjectNameFromDiagram(getDiagram())));
         try {
           SelectionDialog dialog = JavaUI.createTypeDialog(shell, null,
               SearchEngine
@@ -193,7 +187,8 @@ public class PropertySection
             ModelUtil.runModelChange(new Runnable() {
               public void run() {
                 Object bo = Graphiti.getLinkService()
-                    .getBusinessObjectForLinkedPictogramElement(pe);
+                    .getBusinessObjectForLinkedPictogramElement(
+                        getSelectedPictogramElement());
                 if (bo == null)
                   return;
                 String implementationName = txtClassName.getText();
@@ -201,12 +196,15 @@ public class PropertySection
                   if (bo instanceof JavaTask) {
                     JavaTask javaTask = (JavaTask) bo;
                     javaTask.setImplementationClass(implementationName);
-                    UpdateContext context = new UpdateContext(pe);
-                    dtp.getFeatureProvider().updateIfPossible(context);
+                    UpdateContext context = new UpdateContext(
+                        getSelectedPictogramElement());
+                    getDiagramTypeProvider().getFeatureProvider()
+                        .updateIfPossible(context);
                   }
                 }
               }
-            }, ed, "Set Java Class");
+            }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+                "Set Java Class");
           }
         } catch (Exception ex) {
           ex.printStackTrace();
@@ -220,12 +218,12 @@ public class PropertySection
         try {
           if (descriptor != null) {
             IWizard wizard = descriptor.createWizard();
-            String folder = RuminaqDiagramUtil
-                .isTest(EclipseUtil.getModelPathFromEObject(pe))
+            String folder = RuminaqDiagramUtil.isTest(EclipseUtil
+                .getModelPathFromEObject(getSelectedPictogramElement()))
                     ? EclipseExtensionImpl.TEST_JAVA
                     : EclipseExtensionImpl.MAIN_JAVA;
-            String projectName = EclipseUtil
-                .getProjectNameFromDiagram(dtp.getDiagram());
+            String projectName = EclipseUtil.getProjectNameFromDiagram(
+                getDiagramContainer().getDiagramTypeProvider().getDiagram());
             IStructuredSelection selection = new StructuredSelection(
                 JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
                     .getProject(projectName).getFolder(folder)));
@@ -245,19 +243,12 @@ public class PropertySection
     });
   }
 
-  private void addStyles() {
-    root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    lblClassSelect
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    txtClassName
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-  }
-
   @Override
-  public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
-    if (pe != null) {
+  public void refresh() {
+    if (getSelectedPictogramElement() != null) {
       Object bo = Graphiti.getLinkService()
-          .getBusinessObjectForLinkedPictogramElement(pe);
+          .getBusinessObjectForLinkedPictogramElement(
+              getSelectedPictogramElement());
       if (bo == null)
         return;
       String className = ((JavaTask) bo).getImplementationClass();
@@ -271,16 +262,20 @@ public class PropertySection
     ModelUtil.runModelChange(new Runnable() {
       public void run() {
         Object bo = Graphiti.getLinkService()
-            .getBusinessObjectForLinkedPictogramElement(pe);
+            .getBusinessObjectForLinkedPictogramElement(
+                getSelectedPictogramElement());
         if (bo == null)
           return;
         if (bo instanceof JavaTask) {
           JavaTask javaTask = (JavaTask) bo;
           javaTask.setImplementationClass(className);
-          UpdateContext context = new UpdateContext(pe);
-          dtp.getFeatureProvider().updateIfPossible(context);
+          UpdateContext context = new UpdateContext(
+              getSelectedPictogramElement());
+          getDiagramTypeProvider().getFeatureProvider()
+              .updateIfPossible(context);
         }
       }
-    }, ed, "Set Java Class");
+    }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+        "Set Java Class");
   }
 }
