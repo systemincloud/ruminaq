@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.javatask.gui;
 
 import java.util.Collections;
@@ -31,7 +32,6 @@ public class AddFeatureImpl implements AddFeatureExtension {
   public List<Class<? extends IAddFeature>> getFeatures() {
     return Collections.singletonList(AddFeature.class);
   }
-
 
   /**
    * JavaTask AddFeature.
