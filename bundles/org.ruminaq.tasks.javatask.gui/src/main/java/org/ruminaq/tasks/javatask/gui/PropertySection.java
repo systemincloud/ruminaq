@@ -35,7 +35,6 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
-import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -117,19 +116,11 @@ public class PropertySection extends GFPropertySection
             .load(txtClassName.getText());
     if (parse) {
       ModelUtil.runModelChange(() -> {
-        Object bo = Graphiti.getLinkService()
-            .getBusinessObjectForLinkedPictogramElement(
-                getSelectedPictogramElement());
-        if (bo == null)
-          return;
-        if (bo instanceof JavaTask) {
-          JavaTask javaTask = (JavaTask) bo;
-          javaTask.setImplementationClass(txtClassName.getText());
-          UpdateContext context = new UpdateContext(
-              getSelectedPictogramElement());
-          getDiagramTypeProvider().getFeatureProvider()
-              .updateIfPossible(context);
-        }
+        selectedPictogramToJavaTask(getSelectedPictogramElement())
+            .ifPresent(javaTask -> javaTask
+                .setImplementationClass(txtClassName.getText()));
+        getDiagramTypeProvider().getFeatureProvider()
+            .updateIfPossible(new UpdateContext(getSelectedPictogramElement()));
       }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
           "Set Java Class");
     } else
@@ -138,11 +129,9 @@ public class PropertySection extends GFPropertySection
   }
 
   private void initActions() {
-    txtClassName.addTraverseListener(new TraverseListener() {
-      @Override
-      public void keyTraversed(TraverseEvent event) {
-        if (event.detail == SWT.TRAVERSE_RETURN)
-          save();
+    txtClassName.addTraverseListener((TraverseEvent event) -> {
+      if (event.detail == SWT.TRAVERSE_RETURN) {
+        save();
       }
     });
     btnClassSelect.addSelectionListener(new SelectionAdapter() {
