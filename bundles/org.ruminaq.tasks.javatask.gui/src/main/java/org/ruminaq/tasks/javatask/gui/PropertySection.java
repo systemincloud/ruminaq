@@ -193,21 +193,13 @@ public class PropertySection extends GFPropertySection
               txtClassName.setText(className);
 
             ModelUtil.runModelChange(() -> {
-              Object bo = Graphiti.getLinkService()
-                  .getBusinessObjectForLinkedPictogramElement(
-                      getSelectedPictogramElement());
-              if (bo == null)
-                return;
               String implementationName = txtClassName.getText();
               if (implementationName != null) {
-                if (bo instanceof JavaTask) {
-                  JavaTask javaTask = (JavaTask) bo;
-                  javaTask.setImplementationClass(implementationName);
-                  UpdateContext context = new UpdateContext(
-                      getSelectedPictogramElement());
-                  getDiagramTypeProvider().getFeatureProvider()
-                      .updateIfPossible(context);
-                }
+                selectedPictogramToJavaTask(getSelectedPictogramElement())
+                    .ifPresent(
+                        jt -> jt.setImplementationClass(implementationName));
+                getDiagramTypeProvider().getFeatureProvider().updateIfPossible(
+                    new UpdateContext(getSelectedPictogramElement()));
               }
             }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
                 "Set Java Class");
