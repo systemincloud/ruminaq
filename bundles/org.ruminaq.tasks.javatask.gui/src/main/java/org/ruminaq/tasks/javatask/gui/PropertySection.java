@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jdt.core.IAnnotation;
@@ -70,6 +71,13 @@ public class PropertySection extends GFPropertySection
   private Text txtClassName;
   private Button btnClassSelect;
   private Button btnClassNew;
+
+  private static Optional<JavaTask> selectedPictogramToJavaTask(
+      PictogramElement pe) {
+    return Optional.ofNullable(pe).filter(RuminaqShape.class::isInstance)
+        .map(RuminaqShape.class::cast).map(RuminaqShape::getModelObject)
+        .filter(JavaTask.class::isInstance).map(JavaTask.class::cast);
+  }
 
   @Override
   public void createControls(Composite parent,
@@ -195,23 +203,21 @@ public class PropertySection extends GFPropertySection
             if (className != null)
               txtClassName.setText(className);
 
-            ModelUtil.runModelChange(new Runnable() {
-              public void run() {
-                Object bo = Graphiti.getLinkService()
-                    .getBusinessObjectForLinkedPictogramElement(
-                        getSelectedPictogramElement());
-                if (bo == null)
-                  return;
-                String implementationName = txtClassName.getText();
-                if (implementationName != null) {
-                  if (bo instanceof JavaTask) {
-                    JavaTask javaTask = (JavaTask) bo;
-                    javaTask.setImplementationClass(implementationName);
-                    UpdateContext context = new UpdateContext(
-                        getSelectedPictogramElement());
-                    getDiagramTypeProvider().getFeatureProvider()
-                        .updateIfPossible(context);
-                  }
+            ModelUtil.runModelChange(() -> {
+              Object bo = Graphiti.getLinkService()
+                  .getBusinessObjectForLinkedPictogramElement(
+                      getSelectedPictogramElement());
+              if (bo == null)
+                return;
+              String implementationName = txtClassName.getText();
+              if (implementationName != null) {
+                if (bo instanceof JavaTask) {
+                  JavaTask javaTask = (JavaTask) bo;
+                  javaTask.setImplementationClass(implementationName);
+                  UpdateContext context = new UpdateContext(
+                      getSelectedPictogramElement());
+                  getDiagramTypeProvider().getFeatureProvider()
+                      .updateIfPossible(context);
                 }
               }
             }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
@@ -256,24 +262,15 @@ public class PropertySection extends GFPropertySection
 
   @Override
   public void refresh() {
-    if (getSelectedPictogramElement() != null) {
-      Object bo = Graphiti.getLinkService()
-          .getBusinessObjectForLinkedPictogramElement(
-              getSelectedPictogramElement());
-      if (bo == null)
-        return;
-      String className = ((JavaTask) bo).getImplementationClass();
-      txtClassName.setText(className);
-    }
+    selectedPictogramToJavaTask(getSelectedPictogramElement()).ifPresent(
+        javaTask -> txtClassName.setText(javaTask.getImplementationClass()));
   }
 
   @Override
   public void created(IType type) {
     ModelUtil.runModelChange(() -> {
-      Optional.of(getSelectedPictogramElement())
-          .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
-          .map(RuminaqShape::getModelObject).filter(JavaTask.class::isInstance)
-          .map(JavaTask.class::cast).ifPresent(javaTask -> javaTask
+      selectedPictogramToJavaTask(getSelectedPictogramElement())
+          .ifPresent(javaTask -> javaTask
               .setImplementationClass(type.getFullyQualifiedName()));
       getDiagramTypeProvider().getFeatureProvider()
           .updateIfPossible(new UpdateContext(getSelectedPictogramElement()));
