@@ -5,7 +5,7 @@ class PrepareIcons {
 	def execute(basedir) {
 		File icons_xcf = new File(basedir + "/icons_xcf")
 		def icons = new File(basedir + "/icons")
-		def html_img  = new File(basedir + "/html/img")
+		def docs_img  = new File(basedir + "/docs/img")
 
 		def conf = Eval.me(new File(icons_xcf.absolutePath + '/icons.groovy').text)
 		println conf
@@ -15,7 +15,7 @@ class PrepareIcons {
 		if (!icons.exists()) {
 			icons.mkdir()
 		}
-		if (!html_img.exists()) {
+		if (!docs_img.exists()) {
 			icons.mkdir()
 		}
 
@@ -62,7 +62,7 @@ class PrepareIcons {
         process = """convert -geometry x22 ${png.absolutePath} ${icons.absolutePath}/target.${fileName}.png""".execute() ; process.waitFor()
       }
 			if(cmds.contains('icon'))    {
-				process = """convert -geometry x30 ${png.absolutePath} ${html_img.absolutePath}/icon.png""".execute() ; process.waitFor()
+				process = """convert -geometry x30 ${png.absolutePath} ${docs_img.absolutePath}/icon.png""".execute() ; process.waitFor()
 			}
 
 			png.delete()

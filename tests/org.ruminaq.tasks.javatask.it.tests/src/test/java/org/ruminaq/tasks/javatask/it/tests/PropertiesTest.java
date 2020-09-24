@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.console.it.tests;
+package org.ruminaq.tasks.javatask.it.tests;
 
 import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
@@ -14,7 +14,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.tasks.console.model.console.Console;
+import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.tests.common.reddeer.GuiTest;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 
@@ -43,8 +43,8 @@ public class PropertiesTest extends GuiTest {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Console", 200, 100);
 
-    WithBoGraphitiEditPart c = new WithBoGraphitiEditPart(Console.class);
-    c.select();
+    WithBoGraphitiEditPart jt = new WithBoGraphitiEditPart(JavaTask.class);
+    jt.select();
 
     Thread.sleep(1000);
 

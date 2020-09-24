@@ -1,8 +1,42 @@
-/*******************************************************************************
- * This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/.
- ******************************************************************************/
+### JavaTask
+***
+
+<div align="center"><img src="imgs/diagram.png"/></div>
+
+With Java Task you can define your own task with Java programming language.
+
+**Input Ports**
+
+* Ports are defined by User.
+
+**Output Ports**
+
+* Ports are defined by User.
+
+**Properties**
+
+<div align="center"><img src="imgs/properties.png" /></div>
+
+* **Java Task Class:** <em>&lt;fully qualified name&gt;</em><br>
+You can use search window to find the class. You can also open a wizard
+to create a new Java Task Class either by clicking here or on right clicking
+in Package Explorer (New -&gt; Other... -&gt; System in Cloud -&gt; Commons -&gt; Java Task Class).
+
+Some properties are set inside annotation in Java Task Class implementation. They are:
+
+* **atomic:** <em><b>true</b>|false</em><br>
+    You can set if the task will be atomic or not (see User Guide).
+
+* **generator:** <em>true|<b>false</b></em><br>
+    You can indicate that this Task will be generating data periodically even if it doesn't receive any.
+      
+* **external source:** <em>true|<b>false</b></em><br>
+    This Task can be activated in any moment depending on external conditions. (e.g. receiving data from Internet).
+
+* **constant:** <em>true|<b>false</b></em><br>
+    This task is run only once when the parent module is activated synchronously.
+    
+<pre><code>
 package com.test;
 
 import org.ruminaq.tasks.javatask.api.InputPort;
@@ -63,3 +97,5 @@ public class MyJavaTaskClass extends JavaTask {
          */
     }
 }
+
+</code></pre>
