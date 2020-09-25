@@ -54,6 +54,8 @@ public class PropertiesTest extends GuiTest {
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Description");
+    
+    
   }
 
 }

@@ -39,7 +39,7 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 public class PropertyElementSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
-  private String created = null;
+  private String created;
   private Composite parent;
 
   private Composite composite;
@@ -47,9 +47,6 @@ public class PropertyElementSection extends GFPropertySection
   private CLabel lblId;
   private Text txtId;
 
-  /**
-   * @wbp.parser.entryPoint
-   */
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {
