@@ -8,7 +8,6 @@ package org.ruminaq.gui.properties;
 
 import java.util.Optional;
 import java.util.function.Predicate;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
@@ -24,7 +23,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchPart;
@@ -65,7 +63,6 @@ public class PropertyElementSection extends GFPropertySection
     initLayout(parent);
     initActions();
     initComponents();
-    addStyles();
 
     Object bo = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement(
@@ -143,13 +140,6 @@ public class PropertyElementSection extends GFPropertySection
 
   private void initComponents() {
     lblId.setText("Id:");
-  }
-
-  private void addStyles() {
-    composite
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    lblId.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    txtId.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
   @Override
