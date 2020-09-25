@@ -168,9 +168,4 @@ public class PropertyElementSection extends GFPropertySection
 
     id.ifPresent(txtId::setText);
   }
-
-  @Override
-  public void setInput(IWorkbenchPart part, ISelection selection) {
-    super.setInput(part, selection);
-  }
 }
