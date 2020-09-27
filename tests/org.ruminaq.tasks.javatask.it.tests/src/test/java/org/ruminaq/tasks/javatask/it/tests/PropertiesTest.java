@@ -6,6 +6,7 @@
 
 package org.ruminaq.tasks.javatask.it.tests;
 
+import static org.junit.Assert.assertTrue;
 import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.gef.api.EditPart;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
@@ -54,8 +55,26 @@ public class PropertiesTest extends GuiTest {
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Description");
-    
-    
+
+    assertTrue("Description should be filled",
+        bot.browser().getText().startsWith("<h3>JavaTask</h3>"));
+  }
+  
+  @Test
+  public void testPropertyTab() throws InterruptedException {
+    GEFEditor gefEditor = new GEFEditor(diagramName);
+    gefEditor.addToolFromPalette("Java Task", 200, 100);
+
+    WithBoGraphitiEditPart jt = new WithBoGraphitiEditPart(JavaTask.class);
+    ((EditPart) jt).select();
+
+    Thread.sleep(1000);
+
+    PropertySheet propertiesView = new PropertySheet();
+
+    propertiesView.open();
+    propertiesView.activate();
+    propertiesView.selectTab("Java Task");
   }
 
 }
