@@ -21,11 +21,11 @@
                id="org.ruminaq.tasks.javaTaskTab"
                afterTab="org.ruminaq.common.mainTab"
                category="Graphiti" />
-         <propertyTab
+         <!--propertyTab
                label="Parameters"
                id="org.ruminaq.tasks.javaTaskParametersTab"
                afterTab="org.ruminaq.tasks.javaTaskTab"
-               category="Graphiti" />
+               category="Graphiti" /-->
       </propertyTabs>
    </extension>
 
@@ -36,18 +36,18 @@
                class="org.ruminaq.tasks.javatask.gui.PropertySection"
                id="org.ruminaq.tasks.javaTaskTab.Section"
                filter="org.ruminaq.tasks.javatask.gui.PropertyFilter" />
-         <propertySection
+         <!--propertySection
                tab="org.ruminaq.tasks.javaTaskParametersTab"
                class="org.ruminaq.tasks.javatask.ui.properties.ParametersSection"
                id="org.ruminaq.tasks.javaTaskParametersTab.Section"
-               filter="org.ruminaq.tasks.javatask.ui.properties.PropertyFilter" />
+               filter="org.ruminaq.tasks.javatask.ui.properties.PropertyFilter" /-->
       </propertySections>
    </extension>
 
    <extension point="org.eclipse.debug.ui.debugModelPresentations">
-      <debugModelPresentation
+      <!--debugModelPresentation
          class="org.ruminaq.tasks.javatask.ui.debug.JavaTasksDebugModelPresentation"
          id="org.ruminaq.tasks.javatask.ui.debug.JavaTasksDebugModelPresentation">
-      </debugModelPresentation>
+      </debugModelPresentation-->
    </extension>
 </plugin>
