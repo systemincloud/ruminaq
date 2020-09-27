@@ -64,7 +64,6 @@ public class PropertySection extends GFPropertySection
 
   private static final int FOUR_COLUMNS = 4;
 
-  private Composite root;
   private CLabel lblClassSelect;
   private Text txtClassName;
   private Button btnClassSelect;
@@ -91,7 +90,7 @@ public class PropertySection extends GFPropertySection
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
-    root = new Composite(parent, SWT.NULL);
+    Composite root = new Composite(parent, SWT.NULL);
     root.setLayout(new GridLayout(FOUR_COLUMNS, false));
 
     lblClassSelect = new CLabel(root, SWT.NONE);
