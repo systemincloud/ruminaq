@@ -29,16 +29,6 @@ public interface ImagesExtension {
    */
   default Map<String, String> getImageKeyPath() {
     return getImageDecriptors().stream()
-        .peek((ImageDescriptor i) -> { System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"); })
-        .peek((ImageDescriptor i) -> { System.out.println(i.name()); })
-        .peek((ImageDescriptor i) -> { System.out.println(i.clazz()); })
-        .peek((ImageDescriptor i) -> { System.out.println(FrameworkUtil.getBundle(i.clazz())); })
-        .peek((ImageDescriptor i) -> { System.out.println(i.path()); })
-        .peek((ImageDescriptor i) -> { System.out.println(FileLocator
-            .find(FrameworkUtil.getBundle(i.clazz()), new Path(i.path()), null)); })
-        .peek((ImageDescriptor i) -> { System.out.println(FileLocator
-            .find(FrameworkUtil.getBundle(i.clazz()), new Path(i.path()), null)
-            .toExternalForm()); })
         .collect(Collectors.toMap(ImageDescriptor::name, i -> FileLocator
             .find(FrameworkUtil.getBundle(i.clazz()), new Path(i.path()), null)
             .toExternalForm()));

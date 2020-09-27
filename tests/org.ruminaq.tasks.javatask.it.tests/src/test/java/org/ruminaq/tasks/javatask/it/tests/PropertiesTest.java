@@ -56,6 +56,8 @@ public class PropertiesTest extends GuiTest {
     propertiesView.activate();
     propertiesView.selectTab("Description");
 
+    Thread.sleep(1000);
+
     assertTrue("Description should be filled",
         bot.browser().getText().startsWith("<h3>JavaTask</h3>"));
   }
