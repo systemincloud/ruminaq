@@ -210,7 +210,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
           }
 
           if (asynchronous == null)
-            asynchronous = new Boolean(false);
+            asynchronous = Boolean.FALSE;
           if (group == null)
             group = new Integer(-1);
           if (hold == null)
