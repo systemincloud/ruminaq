@@ -31,7 +31,6 @@ import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.layout.GridData;
@@ -110,7 +109,7 @@ public class PropertySection extends GFPropertySection
 
   private void save() {
     Shell shell = txtClassName.getShell();
-    boolean parse = new UpdateFeature(
+    boolean parse = new UpdateFeatureImpl.UpdateFeature(
         getDiagramTypeProvider().getFeatureProvider())
             .load(txtClassName.getText());
     if (parse) {
