@@ -186,18 +186,16 @@ public class PropertySection extends GFPropertySection
               if (className != null)
                 txtClassName.setText(className);
 
-              ModelUtil.runModelChange(() -> {
-                String implementationName = txtClassName.getText();
-                if (implementationName != null) {
-                  selectedPictogramToJavaTask(getSelectedPictogramElement())
-                      .ifPresent(
-                          jt -> jt.setImplementationClass(implementationName));
-                  getDiagramTypeProvider().getFeatureProvider()
-                      .updateIfPossible(
-                          new UpdateContext(getSelectedPictogramElement()));
-                }
-              }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-                  "Set Java Class");
+              Optional.ofNullable(txtClassName.getText()).ifPresent(
+                  implementationName -> ModelUtil.runModelChange(() -> {
+                    selectedPictogramToJavaTask(getSelectedPictogramElement())
+                        .ifPresent(jt -> jt
+                            .setImplementationClass(implementationName));
+                    getDiagramTypeProvider().getFeatureProvider()
+                        .updateIfPossible(
+                            new UpdateContext(getSelectedPictogramElement()));
+                  }, getDiagramContainer().getDiagramBehavior()
+                      .getEditingDomain(), "Set Java Class"));
             }
           } catch (Exception ex) {
             ex.printStackTrace();
