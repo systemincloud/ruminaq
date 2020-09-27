@@ -12,6 +12,11 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 import org.ruminaq.gui.model.diagram.TaskShape;
 
+/**
+ * Task Shape properties filter.
+ * 
+ * @author Marek Jagielski
+ */
 public class PropertyTaskFilter extends AbstractPropertySectionFilter {
 
   @Override

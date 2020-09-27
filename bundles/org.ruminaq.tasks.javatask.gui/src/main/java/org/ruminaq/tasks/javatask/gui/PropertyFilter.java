@@ -13,7 +13,8 @@ import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 
 /**
- * 
+ * JavaTask Shape properties filter.
+ *
  * @author Marek Jagielski
  */
 public class PropertyFilter extends AbstractPropertySectionFilter {
