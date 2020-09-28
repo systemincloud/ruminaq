@@ -45,6 +45,7 @@ import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.OutputPort;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.GlobalUtil;
@@ -142,8 +143,8 @@ public class UpdateEmbeddedTaskFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected String getResource(Object bo) {
-    EmbeddedTask be = (EmbeddedTask) bo;
+  protected String getResource(Task task) {
+    EmbeddedTask be = (EmbeddedTask) task;
     return be.getImplementationTask();
   }
 
