@@ -15,7 +15,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IUpdateFeature;
-import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
@@ -83,13 +82,6 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     public UpdateFeature(IFeatureProvider fp) {
       super(fp);
-    }
-
-    @Override
-    public boolean canUpdate(IUpdateContext context) {
-      Object bo = getBusinessObjectForPictogramElement(
-          context.getPictogramElement());
-      return (bo instanceof JavaTask);
     }
 
     @Override
