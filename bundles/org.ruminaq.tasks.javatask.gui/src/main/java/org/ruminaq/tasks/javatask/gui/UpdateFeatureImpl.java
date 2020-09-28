@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -49,6 +50,7 @@ import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
@@ -59,6 +61,10 @@ import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskPage;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.util.EclipseUtil;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
@@ -76,8 +82,8 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
         return JavaTask.class;
       }
     }
-    
-    private NamedMember type = null;
+
+    private NamedMember type;
     private String desc = AddFeatureImpl.AddFeature.NOT_CHOSEN;
 
     public UpdateFeature(IFeatureProvider fp) {
@@ -85,9 +91,10 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
     }
 
     @Override
-    protected String getResource(Object bo) {
-      JavaTask be = (JavaTask) bo;
-      return be.getImplementationClass();
+    protected String getResource(Task task) {
+      return Optional.of(task).filter(JavaTask.class::isInstance)
+          .map(JavaTask.class::cast).map(JavaTask::getImplementationClass)
+          .orElse("");
     }
 
     @Override
@@ -185,30 +192,39 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
           Integer queue = null;
 
           for (IMemberValuePair mvp : inputPortInfo.getMemberValuePairs()) {
-            if ("name".equals(mvp.getMemberName()))
-              name = (String) mvp.getValue();
-            if ("dataType".equals(mvp.getMemberName()))
-              dataType = mvp.getValue() instanceof String
-                  ? new Object[] { mvp.getValue() }
-                  : (Object[]) mvp.getValue();
-            if ("asynchronous".equals(mvp.getMemberName()))
-              asynchronous = (Boolean) mvp.getValue();
-            if ("group".equals(mvp.getMemberName()))
-              group = (Integer) mvp.getValue();
-            if ("hold".equals(mvp.getMemberName()))
-              hold = (Boolean) mvp.getValue();
-            if ("queue".equals(mvp.getMemberName()))
-              queue = (Integer) mvp.getValue();
+            switch (mvp.getMemberName()) {
+              case "name":
+                name = (String) mvp.getValue();
+                break;
+              case "dataType":
+                dataType = mvp.getValue() instanceof String
+                    ? new Object[] { mvp.getValue() }
+                    : (Object[]) mvp.getValue();
+                break;
+              case "asynchronous":
+                asynchronous = Optional.of(mvp.getValue())
+                    .filter(Boolean.class::isInstance).map(Boolean.class::cast)
+                    .orElse(Boolean.FALSE);
+                break;
+              case "group":
+                group = Optional.of(mvp.getValue())
+                    .filter(Integer.class::isInstance).map(Integer.class::cast)
+                    .orElse(-1);
+                break;
+              case "hold":
+                hold = Optional.of(mvp.getValue())
+                    .filter(Boolean.class::isInstance).map(Boolean.class::cast)
+                    .orElse(Boolean.FALSE);
+                break;
+              case "queue":
+                queue = Optional.of(mvp.getValue())
+                    .filter(Integer.class::isInstance).map(Integer.class::cast)
+                    .orElse(1);
+                break;
+              default:
+                break;
+            }
           }
-
-          if (asynchronous == null)
-            asynchronous = Boolean.FALSE;
-          if (group == null)
-            group = new Integer(-1);
-          if (hold == null)
-            hold = new Boolean(false);
-          if (queue == null)
-            queue = new Integer(1);
 
           if (queue == 0)
             queue = new Integer(1);

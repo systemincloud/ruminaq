@@ -231,7 +231,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       return Reason.createFalseReason();
   }
 
-  protected abstract String getResource(Object bo);
+  protected abstract String getResource(Task task);
 
   public abstract boolean load(String resource);
 

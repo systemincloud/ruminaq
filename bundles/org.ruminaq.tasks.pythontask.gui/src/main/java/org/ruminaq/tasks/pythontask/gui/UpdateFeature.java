@@ -37,6 +37,7 @@ import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
 import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.util.EclipseUtil;
@@ -58,7 +59,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected String getResource(Object bo) {
+  protected String getResource(Task bo) {
     PythonTask be = (PythonTask) bo;
     return be.getImplementation();
   }
