@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -20,6 +21,7 @@ import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.model.Position;
+import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.InternalInputPort;
@@ -27,13 +29,23 @@ import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
-
 import ch.qos.logback.classic.Logger;
 
 public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 
-  private final Logger logger = ModelerLoggerFactory
+  private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(UpdateUserDefinedTaskFeature.class);
+
+  private static Optional<TaskShape> toTaskShape(PictogramElement pe) {
+    return Optional.of(pe).filter(TaskShape.class::isInstance)
+        .map(TaskShape.class::cast);
+  }
+
+  private static Optional<UserDefinedTask> toModel(PictogramElement pe) {
+    return toTaskShape(pe).map(TaskShape::getModelObject)
+        .filter(UserDefinedTask.class::isInstance)
+        .map(UserDefinedTask.class::cast);
+  }
 
   private boolean updateNeededChecked = false;
 
@@ -180,7 +192,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
   }
 
   private boolean compareParams(UserDefinedTask udt) {
-    logger.trace("compareParams");
+    LOGGER.trace("compareParams");
     Map<String, String> shouldBe = getParameters(udt);
     Set<String> is = udt.getParameters().keySet();
     return shouldBe.keySet().equals(is);
@@ -195,8 +207,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     outputs = new ArrayList<>();
     PictogramElement pictogramElement = context.getPictogramElement();
 
-    Object bo = getBusinessObjectForPictogramElement(pictogramElement);
-    Task task = (Task) bo;
+    Task task = toModel(pictogramElement).get();
     String resource = getResource(task);
 
     inputPorts = task.getInputPort();
