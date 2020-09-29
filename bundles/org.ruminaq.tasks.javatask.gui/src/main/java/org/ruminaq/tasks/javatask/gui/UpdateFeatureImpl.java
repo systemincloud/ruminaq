@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -60,6 +61,7 @@ import org.ruminaq.tasks.javatask.gui.UpdateFeatureImpl.UpdateFeature.Filter;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskPage;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.util.EclipseUtil;
+import org.ruminaq.util.Result;
 
 /**
  * 
@@ -81,6 +83,40 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       public Class<? extends BaseElement> forBusinessObject() {
         return JavaTask.class;
       }
+    }
+
+    private static Optional<IAnnotation> toAnnotation(SearchMatch sm,
+        Class<?> annotationType) {
+      return Optional.of(sm).map(SearchMatch::getElement)
+          .filter(NamedMember.class::isInstance).map(NamedMember.class::cast)
+          .map(nm -> nm.getAnnotation(annotationType.getSimpleName()));
+    }
+
+    private static Optional<Object> annotationValue(IAnnotation annotation,
+        String name) {
+      return Optional.of(annotation)
+          .map(a -> Result.attempt(a::getMemberValuePairs))
+          .flatMap(r -> Optional.ofNullable(r.orElse(null))).map(Stream::of)
+          .orElseGet(Stream::empty).filter(mvp -> mvp.getMemberName() == name)
+          .findFirst().map(IMemberValuePair::getValue);
+    }
+
+    private static Optional<Object> annotationValue(SearchMatch sm,
+        Class<?> annotationType, String name) {
+      return toAnnotation(sm, annotationType)
+          .flatMap(a -> annotationValue(a, name));
+    }
+
+    private static <T> Optional<T> annotationValueCasted(IAnnotation annotation,
+        String name, Class<T> type) {
+      return annotationValue(annotation, name).filter(type::isInstance)
+          .map(type::cast);
+    }
+
+    private static <T> Optional<T> annotationValueCasted(SearchMatch sm,
+        Class<?> annotationType, String name, Class<T> type) {
+      return toAnnotation(sm, annotationType)
+          .flatMap(a -> annotationValueCasted(a, name, type));
     }
 
     private NamedMember type;
@@ -166,70 +202,22 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       SearchRequestor requestor = new SearchRequestor() {
         @Override
         public void acceptSearchMatch(SearchMatch sm) throws CoreException {
-          NamedMember el = (NamedMember) sm.getElement();
-          IAnnotation[] annotations;
-          try {
-            annotations = el.getAnnotations();
-          } catch (JavaModelException e) {
-            return;
-          }
-          if (annotations == null)
-            return;
-
-          IAnnotation inputPortInfo = null;
-          for (IAnnotation a : annotations)
-            if (a.getElementName().equals(InputPortInfo.class.getSimpleName()))
-              inputPortInfo = a;
-
-          if (inputPortInfo == null)
-            return;
-
-          String name = null;
-          Object[] dataType = null;
-          Boolean asynchronous = null;
-          Integer group = null;
-          Boolean hold = null;
-          Integer queue = null;
-
-          for (IMemberValuePair mvp : inputPortInfo.getMemberValuePairs()) {
-            switch (mvp.getMemberName()) {
-              case "name":
-                name = (String) mvp.getValue();
-                break;
-              case "dataType":
-                dataType = mvp.getValue() instanceof String
-                    ? new Object[] { mvp.getValue() }
-                    : (Object[]) mvp.getValue();
-                break;
-              case "asynchronous":
-                asynchronous = Optional.of(mvp.getValue())
-                    .filter(Boolean.class::isInstance).map(Boolean.class::cast)
-                    .orElse(Boolean.FALSE);
-                break;
-              case "group":
-                group = Optional.of(mvp.getValue())
-                    .filter(Integer.class::isInstance).map(Integer.class::cast)
-                    .orElse(-1);
-                break;
-              case "hold":
-                hold = Optional.of(mvp.getValue())
-                    .filter(Boolean.class::isInstance).map(Boolean.class::cast)
-                    .orElse(Boolean.FALSE);
-                break;
-              case "queue":
-                queue = Optional.of(mvp.getValue())
-                    .filter(Integer.class::isInstance).map(Integer.class::cast)
-                    .orElse(1);
-                break;
-              default:
-                break;
-            }
-          }
-
-          if (queue == 0)
-            queue = new Integer(1);
-          if (queue < 0)
-            queue = new Integer(-1);
+          String name = annotationValueCasted(sm, InputPortInfo.class, "name",
+              String.class).orElse("");
+          Object[] dataType = annotationValue(sm, InputPortInfo.class,
+              "dataType").filter(String.class::isInstance)
+                  .map(v -> new Object[] { v })
+                  .orElse(annotationValue(sm, InputPortInfo.class, "dataType")
+                      .map(Object[].class::cast).get());
+          Boolean asynchronous = annotationValueCasted(sm, InputPortInfo.class,
+              "asynchronous", Boolean.class).orElse(Boolean.FALSE);
+          Integer group = annotationValueCasted(sm, InputPortInfo.class,
+              "group", Integer.class).orElse(-1);
+          Boolean hold = annotationValueCasted(sm, InputPortInfo.class, "hold",
+              Boolean.class).orElse(Boolean.FALSE);
+          Integer queue = annotationValueCasted(sm, InputPortInfo.class,
+              "queue", Integer.class).filter(i -> i != 0).filter(i -> i >= -1)
+                  .orElse(1);
 
           List<DataType> dts = new LinkedList<>();
           for (Object d : dataType) {
