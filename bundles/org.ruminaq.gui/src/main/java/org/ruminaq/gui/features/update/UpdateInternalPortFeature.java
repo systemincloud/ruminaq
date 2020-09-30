@@ -20,6 +20,11 @@ import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InternalPort;
 
+/**
+ * IUpdateFeature for InternalPort.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class UpdateInternalPortFeature extends UpdateBaseElementFeature {
 

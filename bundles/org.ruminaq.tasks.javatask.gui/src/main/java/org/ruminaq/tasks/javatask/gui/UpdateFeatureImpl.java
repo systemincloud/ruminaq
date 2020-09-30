@@ -62,7 +62,8 @@ import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.Result;
 
 /**
- * 
+ * Service UpdateFeatureExtension implementation.
+ *
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=5" })

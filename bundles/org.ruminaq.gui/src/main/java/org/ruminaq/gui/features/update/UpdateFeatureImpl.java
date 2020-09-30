@@ -13,6 +13,11 @@ import org.eclipse.graphiti.features.IUpdateFeature;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.UpdateFeatureExtension;
 
+/**
+ * Service UpdateFeatureExtension implementation.
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
