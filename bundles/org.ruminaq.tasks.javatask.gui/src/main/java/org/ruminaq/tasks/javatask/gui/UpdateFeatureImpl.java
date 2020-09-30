@@ -192,90 +192,95 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     @Override
     protected void loadInputPorts() {
-      IJavaSearchScope scope = SearchEngine
-          .createJavaSearchScope(new IJavaElement[] { type });
-      SearchPattern pattern = SearchPattern.createPattern(
-          InputPortInfo.class.getSimpleName(),
-          IJavaSearchConstants.ANNOTATION_TYPE,
-          IJavaSearchConstants.ALL_OCCURRENCES,
-          SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
-      SearchRequestor requestor = new SearchRequestor() {
-        @Override
-        public void acceptSearchMatch(SearchMatch sm) {
-          Integer queue = annotationValueCasted(sm, InputPortInfo.class,
-              "queue", Integer.class).filter(i -> i != 0).filter(i -> i >= -1)
-                  .orElse(1);
-          String queueSize = queue == -1 ? AbstractCreateCustomTaskPage.INF
-              : queue.toString();
-          inputs
-              .add(new FileInternalInputPort(
-                  annotationValueCasted(sm, InputPortInfo.class, "name",
-                      String.class).orElse(""),
-                  Stream
-                      .of(annotationValue(sm, InputPortInfo.class, "dataType")
-                          .filter(String.class::isInstance)
-                          .map(v -> new Object[] { v })
-                          .orElse(annotationValue(sm, InputPortInfo.class,
-                              "dataType").map(Object[].class::cast)
-                                  .orElse(new Object[0])))
-                      .map(String.class::cast)
-                      .map(DataTypeManager.INSTANCE::getDataTypeFromName)
-                      .filter(Objects::nonNull).collect(Collectors.toList()),
-                  annotationValueCasted(sm, InputPortInfo.class, "asynchronous",
-                      Boolean.class).orElse(Boolean.FALSE).booleanValue(),
-                  annotationValueCasted(sm, InputPortInfo.class, "group",
-                      Integer.class).orElse(-1).intValue(),
-                  annotationValueCasted(sm, InputPortInfo.class, "hold",
-                      Boolean.class).orElse(Boolean.FALSE).booleanValue(),
-                  queueSize));
-        }
-      };
-
-      SearchEngine searchEngine = new SearchEngine();
       try {
-        searchEngine.search(pattern,
-            new SearchParticipant[] {
-                SearchEngine.getDefaultSearchParticipant() },
-            scope, requestor, null);
+        new SearchEngine()
+            .search(
+                SearchPattern.createPattern(InputPortInfo.class.getSimpleName(),
+                    IJavaSearchConstants.ANNOTATION_TYPE,
+                    IJavaSearchConstants.ALL_OCCURRENCES,
+                    SearchPattern.R_EXACT_MATCH
+                        | SearchPattern.R_CASE_SENSITIVE),
+
+                new SearchParticipant[] {
+                    SearchEngine.getDefaultSearchParticipant() },
+
+                SearchEngine.createJavaSearchScope(new IJavaElement[] { type }),
+
+                new SearchRequestor() {
+                  @Override
+                  public void acceptSearchMatch(SearchMatch sm) {
+                    Integer queue = annotationValueCasted(sm,
+                        InputPortInfo.class, "queue", Integer.class)
+                            .filter(i -> i != 0).filter(i -> i >= -1).orElse(1);
+                    String queueSize = queue == -1
+                        ? AbstractCreateCustomTaskPage.INF
+                        : queue.toString();
+                    inputs.add(new FileInternalInputPort(
+                        annotationValueCasted(sm, InputPortInfo.class, "name",
+                            String.class).orElse(""),
+                        Stream.of(
+                            annotationValue(sm, InputPortInfo.class, "dataType")
+                                .filter(String.class::isInstance)
+                                .map(v -> new Object[] { v })
+                                .orElse(annotationValue(sm, InputPortInfo.class,
+                                    "dataType").map(Object[].class::cast)
+                                        .orElse(new Object[0])))
+                            .map(String.class::cast)
+                            .map(DataTypeManager.INSTANCE::getDataTypeFromName)
+                            .filter(Objects::nonNull)
+                            .collect(Collectors.toList()),
+                        annotationValueCasted(sm, InputPortInfo.class,
+                            "asynchronous", Boolean.class).orElse(Boolean.FALSE)
+                                .booleanValue(),
+                        annotationValueCasted(sm, InputPortInfo.class, "group",
+                            Integer.class).orElse(-1).intValue(),
+                        annotationValueCasted(sm, InputPortInfo.class, "hold",
+                            Boolean.class).orElse(Boolean.FALSE).booleanValue(),
+                        queueSize));
+                  }
+                },
+
+                null);
       } catch (CoreException e) {
       }
     }
 
     @Override
     protected void loadOutputPorts() {
-      IJavaSearchScope scope = SearchEngine
-          .createJavaSearchScope(new IJavaElement[] { type });
-      SearchPattern pattern = SearchPattern.createPattern(
-          OutputPortInfo.class.getSimpleName(),
-          IJavaSearchConstants.ANNOTATION_TYPE,
-          IJavaSearchConstants.ALL_OCCURRENCES,
-          SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
-      SearchRequestor requestor = new SearchRequestor() {
-        @Override
-        public void acceptSearchMatch(SearchMatch sm) throws CoreException {
-          outputs
-              .add(new FileInternalOutputPort(
-                  annotationValueCasted(sm, OutputPortInfo.class, "name",
-                      String.class).orElse(""),
-                  Stream
-                      .of(annotationValue(sm, OutputPortInfo.class, "dataType")
-                          .filter(String.class::isInstance)
-                          .map(v -> new Object[] { v })
-                          .orElse(annotationValue(sm, OutputPortInfo.class,
-                              "dataType").map(Object[].class::cast)
-                                  .orElse(new Object[0])))
-                      .map(String.class::cast)
-                      .map(DataTypeManager.INSTANCE::getDataTypeFromName)
-                      .filter(Objects::nonNull).collect(Collectors.toList())));
-        }
-      };
-
-      SearchEngine searchEngine = new SearchEngine();
       try {
-        searchEngine.search(pattern,
+        new SearchEngine().search(
+            SearchPattern.createPattern(OutputPortInfo.class.getSimpleName(),
+                IJavaSearchConstants.ANNOTATION_TYPE,
+                IJavaSearchConstants.ALL_OCCURRENCES,
+                SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE),
+
             new SearchParticipant[] {
                 SearchEngine.getDefaultSearchParticipant() },
-            scope, requestor, null);
+
+            SearchEngine.createJavaSearchScope(new IJavaElement[] { type }),
+
+            new SearchRequestor() {
+              @Override
+              public void acceptSearchMatch(SearchMatch sm)
+                  throws CoreException {
+                outputs.add(new FileInternalOutputPort(
+                    annotationValueCasted(sm, OutputPortInfo.class, "name",
+                        String.class).orElse(""),
+                    Stream.of(
+                        annotationValue(sm, OutputPortInfo.class, "dataType")
+                            .filter(String.class::isInstance)
+                            .map(v -> new Object[] { v })
+                            .orElse(annotationValue(sm, OutputPortInfo.class,
+                                "dataType").map(Object[].class::cast)
+                                    .orElse(new Object[0])))
+                        .map(String.class::cast)
+                        .map(DataTypeManager.INSTANCE::getDataTypeFromName)
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList())));
+              }
+            },
+
+            null);
       } catch (CoreException e) {
       }
     }
