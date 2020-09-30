@@ -47,10 +47,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
         .map(UserDefinedTask.class::cast);
   }
 
-  private boolean updateNeededChecked = false;
-
   private boolean descUpdateNeeded = false;
-  private boolean superUpdateNeeded = false;
   private boolean inputsUpdateNeeded = false;
   private boolean outputsUpdateNeeded = false;
   private boolean atomicUpdateNeeded = false;
@@ -149,7 +146,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     super(fp);
   }
 
-  private boolean compareIconDescription(PictogramElement pe) {
+  private boolean iconDescriptionUpdateNeeded(PictogramElement pe) {
 //    if (iconDesc != null)
 //      for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
 //          .getGraphicsAlgorithmChildren())
@@ -200,9 +197,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 
   @Override
   public IReason updateNeeded(IUpdateContext context) {
-    this.updateNeededChecked = true;
-    superUpdateNeeded = super.updateNeeded(context).toBoolean();
-
     inputs = new ArrayList<>();
     outputs = new ArrayList<>();
     PictogramElement pictogramElement = context.getPictogramElement();
@@ -226,17 +220,16 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     loadOutputPorts();
     loadAtomic();
 
-    this.descUpdateNeeded = !compareIconDescription(pictogramElement);
     this.inputsUpdateNeeded = !compareInputPorts(inputs, inputPorts);
     this.outputsUpdateNeeded = !compareOutputPorts(outputs, outputPorts);
     this.atomicUpdateNeeded = atomic != task.isAtomic() ? true : false;
     this.paramsUpdateNeeded = !compareParams(((UserDefinedTask) task));
 
-    boolean updateNeeded = this.superUpdateNeeded || this.descUpdateNeeded
-        || this.inputsUpdateNeeded || this.outputsUpdateNeeded
+    boolean updateNeeded = this.inputsUpdateNeeded || this.outputsUpdateNeeded
         || this.atomicUpdateNeeded || this.onlyLocalUpdateNeeded
         || this.paramsUpdateNeeded;
-    if (updateNeeded) {
+    if (super.updateNeeded(context).toBoolean()
+        || iconDescriptionUpdateNeeded(pictogramElement) || updateNeeded) {
       return Reason.createTrueReason();
     } else {
       return Reason.createFalseReason();
@@ -260,26 +253,32 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 
   @Override
   public boolean update(IUpdateContext context) {
-    if (!updateNeededChecked)
-      if (!this.updateNeeded(context).toBoolean())
-        return false;
-
-    if (superUpdateNeeded)
+    if (super.updateNeeded(context).toBoolean()) {
       super.update(context);
+    }
 
     ContainerShape parent = (ContainerShape) context.getPictogramElement();
     Task be = (Task) getBusinessObjectForPictogramElement(parent);
 
-    if (descUpdateNeeded)
-      descUpdate(parent, be);
-    if (inputsUpdateNeeded)
+    if (iconDescriptionUpdateNeeded(parent)) {
+      iconDescriptionUpdate(parent, be);
+    }
+
+    if (inputsUpdateNeeded) {
       inputsUpdate(parent, be);
-    if (outputsUpdateNeeded)
+    }
+
+    if (outputsUpdateNeeded) {
       outputsUpdate(parent, be);
-    if (atomicUpdateNeeded)
+    }
+
+    if (atomicUpdateNeeded) {
       atomicUpdate(parent, be);
-    if (paramsUpdateNeeded)
+    }
+
+    if (paramsUpdateNeeded) {
       paramsUpdate(parent, be);
+    }
 
     return true;
   }
@@ -288,7 +287,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
   // DESC IF EXISTS
   // ***************************************************************************
   //
-  private boolean descUpdate(ContainerShape parent, Task be) {
+  private boolean iconDescriptionUpdate(ContainerShape parent, Task be) {
 //    if (iconDesc != null)
 //      for (GraphicsAlgorithm ga : parent.getGraphicsAlgorithm()
 //          .getGraphicsAlgorithmChildren())
