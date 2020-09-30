@@ -163,7 +163,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   @Override
   public IReason updateNeeded(IUpdateContext context) {
-    if (super.updateNeeded(context).toBoolean() || updatePortNeeded(context)) {
+    if (updatePortNeeded(context)) {
       return Reason.createTrueReason();
     } else {
       return Reason.createFalseReason();
@@ -184,10 +184,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   @Override
   public boolean update(IUpdateContext context) {
-    if (super.updateNeeded(context).toBoolean()) {
-      super.update(context);
-    }
-
     if (updatePortNeeded(context)) {
       updatePort(context);
     }

@@ -59,9 +59,7 @@ public class UpdateLabelFeature extends AbstractUpdateFeature {
 
   @Override
   public IReason updateNeeded(IUpdateContext context) {
-    LabelShape labelShape = shapeFromContext(context).orElseThrow();
-
-    if (postionUpdateNeeded(labelShape)) {
+    if (postionUpdateNeeded(shapeFromContext(context).orElseThrow())) {
       return Reason.createTrueReason();
     } else {
       return Reason.createFalseReason();

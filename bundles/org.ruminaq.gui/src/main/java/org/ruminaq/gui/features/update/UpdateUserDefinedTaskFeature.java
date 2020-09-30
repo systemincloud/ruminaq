@@ -236,10 +236,11 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
         || this.inputsUpdateNeeded || this.outputsUpdateNeeded
         || this.atomicUpdateNeeded || this.onlyLocalUpdateNeeded
         || this.paramsUpdateNeeded;
-    if (updateNeeded)
+    if (updateNeeded) {
       return Reason.createTrueReason();
-    else
+    } else {
       return Reason.createFalseReason();
+    }
   }
 
   protected abstract String getResource(Task task);
