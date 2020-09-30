@@ -106,7 +106,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
   public List<Class<? extends IUpdateFeature>> getFeatures() {
     return Collections.singletonList(UpdateFeature.class);
   }
-  
+
   public static class Filter extends AbstractUpdateFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
@@ -118,7 +118,6 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
   public static class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
     private NamedMember type;
-    private String desc = AddFeatureImpl.AddFeature.NOT_CHOSEN;
 
     public UpdateFeature(IFeatureProvider fp) {
       super(fp);
@@ -162,33 +161,19 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
         return false;
       }
 
-      if (type == null)
-        return false;
-      this.desc = "".equals(type.getElementName())
-          ? AddFeatureImpl.AddFeature.NOT_CHOSEN
-          : type.getElementName();
-
-      IAnnotation[] annotations;
-      try {
-        annotations = type.getAnnotations();
-      } catch (JavaModelException e) {
-        return false;
-      }
-
-      if (annotations == null)
-        return false;
-
-      IAnnotation sicInfo = null;
-      for (IAnnotation a : annotations) {
-        if (a.getElementName().equals(JavaTaskInfo.class.getSimpleName()))
-          sicInfo = a;
-      }
-
-      return sicInfo != null;
+      return Optional.ofNullable(type)
+          .map(t -> Result.attempt(t::getAnnotations))
+          .flatMap(r -> Optional.ofNullable(r.orElse(null))).map(Stream::of)
+          .orElseGet(Stream::empty).map(IAnnotation::getElementName)
+          .filter(JavaTaskInfo.class.getSimpleName()::equals).findAny()
+          .isPresent();
     }
 
     protected void loadIconDesc() {
-      this.iconDesc = desc;
+      this.iconDesc = "".equals(type.getElementName())
+          ? AddFeatureImpl.AddFeature.NOT_CHOSEN
+          : type.getElementName();
+      ;
     }
 
     @Override
