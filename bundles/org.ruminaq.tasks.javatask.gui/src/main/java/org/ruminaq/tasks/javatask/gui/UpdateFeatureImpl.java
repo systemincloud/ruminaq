@@ -8,7 +8,6 @@ package org.ruminaq.tasks.javatask.gui;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -52,7 +51,6 @@ import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
@@ -255,44 +253,20 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       SearchRequestor requestor = new SearchRequestor() {
         @Override
         public void acceptSearchMatch(SearchMatch sm) throws CoreException {
-          NamedMember el = (NamedMember) sm.getElement();
-          IAnnotation[] annotations;
-          try {
-            annotations = el.getAnnotations();
-          } catch (JavaModelException e) {
-            return;
-          }
-          if (annotations == null)
-            return;
-
-          IAnnotation outputPortInfo = null;
-          for (IAnnotation a : annotations)
-            if (a.getElementName().equals(OutputPortInfo.class.getSimpleName()))
-              outputPortInfo = a;
-
-          if (outputPortInfo == null)
-            return;
-
-          String name = null;
-          Object[] dataType = null;
-
-          for (IMemberValuePair mvp : outputPortInfo.getMemberValuePairs()) {
-            if ("name".equals(mvp.getMemberName()))
-              name = (String) mvp.getValue();
-            if ("dataType".equals(mvp.getMemberName()))
-              dataType = mvp.getValue() instanceof String
-                  ? new Object[] { (String) mvp.getValue() }
-                  : (Object[]) mvp.getValue();
-          }
-
-          List<DataType> dts = new LinkedList<>();
-          for (Object d : dataType) {
-            DataType tmp = DataTypeManager.INSTANCE
-                .getDataTypeFromName((String) d);
-            if (tmp != null)
-              dts.add(tmp);
-          }
-          outputs.add(new FileInternalOutputPort(name, dts));
+          outputs
+              .add(new FileInternalOutputPort(
+                  annotationValueCasted(sm, OutputPortInfo.class, "name",
+                      String.class).orElse(""),
+                  Stream
+                      .of(annotationValue(sm, OutputPortInfo.class, "dataType")
+                          .filter(String.class::isInstance)
+                          .map(v -> new Object[] { v })
+                          .orElse(annotationValue(sm, OutputPortInfo.class,
+                              "dataType").map(Object[].class::cast)
+                                  .orElse(new Object[0])))
+                      .map(String.class::cast)
+                      .map(DataTypeManager.INSTANCE::getDataTypeFromName)
+                      .filter(Objects::nonNull).collect(Collectors.toList())));
         }
       };
 
