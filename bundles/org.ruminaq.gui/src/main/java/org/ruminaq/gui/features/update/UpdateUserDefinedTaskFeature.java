@@ -145,7 +145,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     super(fp);
   }
 
-  private boolean iconDescriptionUpdateNeeded(PictogramElement pe) {
+  private boolean iconDescriptionUpdateNeeded(IUpdateContext context) {
 //    if (iconDesc != null)
 //      for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
 //          .getGraphicsAlgorithmChildren())
@@ -228,7 +228,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
         || this.atomicUpdateNeeded || this.onlyLocalUpdateNeeded
         || this.paramsUpdateNeeded;
     if (super.updateNeeded(context).toBoolean()
-        || iconDescriptionUpdateNeeded(pictogramElement) || updateNeeded) {
+        || iconDescriptionUpdateNeeded(context) || updateNeeded) {
       return Reason.createTrueReason();
     } else {
       return Reason.createFalseReason();
@@ -259,8 +259,8 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     ContainerShape parent = (ContainerShape) context.getPictogramElement();
     Task be = (Task) getBusinessObjectForPictogramElement(parent);
 
-    if (iconDescriptionUpdateNeeded(parent)) {
-      iconDescriptionUpdate(parent, be);
+    if (iconDescriptionUpdateNeeded(context)) {
+      iconDescriptionUpdate(context);
     }
 
     if (inputsUpdateNeeded) {
@@ -282,7 +282,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return true;
   }
 
-  private boolean iconDescriptionUpdate(ContainerShape parent, Task be) {
+  private boolean iconDescriptionUpdate(IUpdateContext context) {
 //    if (iconDesc != null)
 //      for (GraphicsAlgorithm ga : parent.getGraphicsAlgorithm()
 //          .getGraphicsAlgorithmChildren())
