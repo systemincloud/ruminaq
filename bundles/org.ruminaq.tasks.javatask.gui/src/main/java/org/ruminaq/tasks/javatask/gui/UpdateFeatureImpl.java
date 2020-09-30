@@ -138,25 +138,30 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       IJavaProject project = JavaCore
           .create(ResourcesPlugin.getWorkspace().getRoot()
               .getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram())));
-      IJavaSearchScope scope = SearchEngine
-          .createJavaSearchScope(new IJavaElement[] { project });
-      SearchPattern pattern = SearchPattern.createPattern(className,
-          IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE,
-          SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
 
-      SearchRequestor requestor = new SearchRequestor() {
-        @Override
-        public void acceptSearchMatch(SearchMatch sm) throws CoreException {
-          type = (NamedMember) sm.getElement();
-        }
-      };
-
-      SearchEngine searchEngine = new SearchEngine();
       try {
-        searchEngine.search(pattern,
-            new SearchParticipant[] {
-                SearchEngine.getDefaultSearchParticipant() },
-            scope, requestor, null);
+        new SearchEngine()
+            .search(
+                SearchPattern.createPattern(className,
+                    IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE,
+                    SearchPattern.R_FULL_MATCH
+                        | SearchPattern.R_CASE_SENSITIVE),
+
+                new SearchParticipant[] {
+                    SearchEngine.getDefaultSearchParticipant() },
+
+                SearchEngine
+                    .createJavaSearchScope(new IJavaElement[] { project }),
+
+                new SearchRequestor() {
+                  @Override
+                  public void acceptSearchMatch(SearchMatch sm)
+                      throws CoreException {
+                    type = (NamedMember) sm.getElement();
+                  }
+                },
+
+                null);
       } catch (CoreException e) {
         return false;
       }
