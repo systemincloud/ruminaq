@@ -54,7 +54,6 @@ import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.Parameter;
-import org.ruminaq.tasks.javatask.gui.UpdateFeatureImpl.UpdateFeature.Filter;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskPage;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.util.EclipseUtil;
@@ -68,55 +67,55 @@ import org.ruminaq.util.Result;
 @Component(property = { "service.ranking:Integer=5" })
 public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
+  private static Optional<IAnnotation> toAnnotation(SearchMatch sm,
+      Class<?> annotationType) {
+    return Optional.of(sm).map(SearchMatch::getElement)
+        .filter(NamedMember.class::isInstance).map(NamedMember.class::cast)
+        .map(nm -> nm.getAnnotation(annotationType.getSimpleName()));
+  }
+
+  private static Optional<Object> annotationValue(IAnnotation annotation,
+      String name) {
+    return Optional.of(annotation)
+        .map(a -> Result.attempt(a::getMemberValuePairs))
+        .flatMap(r -> Optional.ofNullable(r.orElse(null))).map(Stream::of)
+        .orElseGet(Stream::empty)
+        .filter(mvp -> mvp.getMemberName().equals(name)).findFirst()
+        .map(IMemberValuePair::getValue);
+  }
+
+  private static Optional<Object> annotationValue(SearchMatch sm,
+      Class<?> annotationType, String name) {
+    return toAnnotation(sm, annotationType)
+        .flatMap(a -> annotationValue(a, name));
+  }
+
+  private static <T> Optional<T> annotationValueCasted(IAnnotation annotation,
+      String name, Class<T> type) {
+    return annotationValue(annotation, name).filter(type::isInstance)
+        .map(type::cast);
+  }
+
+  private static <T> Optional<T> annotationValueCasted(SearchMatch sm,
+      Class<?> annotationType, String name, Class<T> type) {
+    return toAnnotation(sm, annotationType)
+        .flatMap(a -> annotationValueCasted(a, name, type));
+  }
+
   @Override
   public List<Class<? extends IUpdateFeature>> getFeatures() {
     return Collections.singletonList(UpdateFeature.class);
   }
+  
+  public static class Filter extends AbstractUpdateFeatureFilter {
+    @Override
+    public Class<? extends BaseElement> forBusinessObject() {
+      return JavaTask.class;
+    }
+  }
 
   @FeatureFilter(Filter.class)
   public static class UpdateFeature extends UpdateUserDefinedTaskFeature {
-
-    public static class Filter extends AbstractUpdateFeatureFilter {
-      @Override
-      public Class<? extends BaseElement> forBusinessObject() {
-        return JavaTask.class;
-      }
-    }
-
-    private static Optional<IAnnotation> toAnnotation(SearchMatch sm,
-        Class<?> annotationType) {
-      return Optional.of(sm).map(SearchMatch::getElement)
-          .filter(NamedMember.class::isInstance).map(NamedMember.class::cast)
-          .map(nm -> nm.getAnnotation(annotationType.getSimpleName()));
-    }
-
-    private static Optional<Object> annotationValue(IAnnotation annotation,
-        String name) {
-      return Optional.of(annotation)
-          .map(a -> Result.attempt(a::getMemberValuePairs))
-          .flatMap(r -> Optional.ofNullable(r.orElse(null))).map(Stream::of)
-          .orElseGet(Stream::empty)
-          .filter(mvp -> mvp.getMemberName().equals(name)).findFirst()
-          .map(IMemberValuePair::getValue);
-    }
-
-    private static Optional<Object> annotationValue(SearchMatch sm,
-        Class<?> annotationType, String name) {
-      return toAnnotation(sm, annotationType)
-          .flatMap(a -> annotationValue(a, name));
-    }
-
-    private static <T> Optional<T> annotationValueCasted(IAnnotation annotation,
-        String name, Class<T> type) {
-      return annotationValue(annotation, name).filter(type::isInstance)
-          .map(type::cast);
-    }
-
-    private static <T> Optional<T> annotationValueCasted(SearchMatch sm,
-        Class<?> annotationType, String name, Class<T> type) {
-      return toAnnotation(sm, annotationType)
-          .flatMap(a -> annotationValueCasted(a, name, type));
-    }
 
     private NamedMember type;
     private String desc = AddFeatureImpl.AddFeature.NOT_CHOSEN;
