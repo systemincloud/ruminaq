@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -201,36 +203,33 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
           SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
       SearchRequestor requestor = new SearchRequestor() {
         @Override
-        public void acceptSearchMatch(SearchMatch sm) throws CoreException {
-          String name = annotationValueCasted(sm, InputPortInfo.class, "name",
-              String.class).orElse("");
-          Object[] dataType = annotationValue(sm, InputPortInfo.class,
-              "dataType").filter(String.class::isInstance)
-                  .map(v -> new Object[] { v })
-                  .orElse(annotationValue(sm, InputPortInfo.class, "dataType")
-                      .map(Object[].class::cast).get());
-          Boolean asynchronous = annotationValueCasted(sm, InputPortInfo.class,
-              "asynchronous", Boolean.class).orElse(Boolean.FALSE);
-          Integer group = annotationValueCasted(sm, InputPortInfo.class,
-              "group", Integer.class).orElse(-1);
-          Boolean hold = annotationValueCasted(sm, InputPortInfo.class, "hold",
-              Boolean.class).orElse(Boolean.FALSE);
+        public void acceptSearchMatch(SearchMatch sm) {
           Integer queue = annotationValueCasted(sm, InputPortInfo.class,
               "queue", Integer.class).filter(i -> i != 0).filter(i -> i >= -1)
                   .orElse(1);
-
-          List<DataType> dts = new LinkedList<>();
-          for (Object d : dataType) {
-            DataType tmp = DataTypeManager.INSTANCE
-                .getDataTypeFromName((String) d);
-            if (tmp != null)
-              dts.add(tmp);
-          }
           String queueSize = queue == -1 ? AbstractCreateCustomTaskPage.INF
               : queue.toString();
-          inputs.add(
-              new FileInternalInputPort(name, dts, asynchronous.booleanValue(),
-                  group.intValue(), hold.booleanValue(), queueSize));
+          inputs
+              .add(new FileInternalInputPort(
+                  annotationValueCasted(sm, InputPortInfo.class, "name",
+                      String.class).orElse(""),
+                  Stream
+                      .of(annotationValue(sm, InputPortInfo.class, "dataType")
+                          .filter(String.class::isInstance)
+                          .map(v -> new Object[] { v })
+                          .orElse(annotationValue(sm, InputPortInfo.class,
+                              "dataType").map(Object[].class::cast)
+                                  .orElse(new Object[0])))
+                      .map(String.class::cast)
+                      .map(DataTypeManager.INSTANCE::getDataTypeFromName)
+                      .filter(Objects::nonNull).collect(Collectors.toList()),
+                  annotationValueCasted(sm, InputPortInfo.class, "asynchronous",
+                      Boolean.class).orElse(Boolean.FALSE).booleanValue(),
+                  annotationValueCasted(sm, InputPortInfo.class, "group",
+                      Integer.class).orElse(-1).intValue(),
+                  annotationValueCasted(sm, InputPortInfo.class, "hold",
+                      Boolean.class).orElse(Boolean.FALSE).booleanValue(),
+                  queueSize));
         }
       };
 
