@@ -19,14 +19,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.jdt.core.IAnnotation;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTVisitor;
-import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
@@ -351,53 +349,51 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
         if (type == null)
           return ret;
 
-        final ICompilationUnit cu = type.getCompilationUnit();
-
-        final CompilationUnit acu = CreateJavaTaskPage.parse(cu);
-
-        acu.accept(new ASTVisitor() {
-          @Override
-          public boolean visit(TypeDeclaration node) {
-            for (Object m : node.modifiers()) {
-              if (m instanceof NormalAnnotation
-                  && ((NormalAnnotation) m).getTypeName().toString()
-                      .equals(Parameter.class.getSimpleName())) {
-                NormalAnnotation sicParameterA = (NormalAnnotation) m;
-                String name = null;
-                String defaultValue = "";
-                for (Object i : sicParameterA.values()) {
-                  if (i instanceof MemberValuePair) {
-                    MemberValuePair mvp = (MemberValuePair) i;
-                    if ("name".equals(mvp.getName().toString())) {
-                      Expression e2 = mvp.getValue();
-                      if (e2 instanceof QualifiedName) {
-                        QualifiedName qn = (QualifiedName) e2;
-                        IBinding b = qn.resolveBinding();
-                        if (b instanceof IVariableBinding)
-                          name = (String) ((IVariableBinding) b)
-                              .getConstantValue();
-                      } else if (e2 instanceof StringLiteral)
-                        name = ((StringLiteral) e2).getLiteralValue();
-                    } else if ("defaultValue"
-                        .equals(mvp.getName().toString())) {
-                      Expression e2 = mvp.getValue();
-                      if (e2 instanceof QualifiedName) {
-                        QualifiedName qn = (QualifiedName) e2;
-                        IBinding b = qn.resolveBinding();
-                        if (b instanceof IVariableBinding)
-                          defaultValue = (String) ((IVariableBinding) b)
-                              .getConstantValue();
-                      } else if (e2 instanceof StringLiteral)
-                        defaultValue = ((StringLiteral) e2).getLiteralValue();
+        CreateJavaTaskPage.parse(type.getCompilationUnit())
+            .accept(new ASTVisitor() {
+              @Override
+              public boolean visit(TypeDeclaration node) {
+                for (Object m : node.modifiers()) {
+                  if (m instanceof NormalAnnotation
+                      && ((NormalAnnotation) m).getTypeName().toString()
+                          .equals(Parameter.class.getSimpleName())) {
+                    NormalAnnotation sicParameterA = (NormalAnnotation) m;
+                    String name = null;
+                    String defaultValue = "";
+                    for (Object i : sicParameterA.values()) {
+                      if (i instanceof MemberValuePair) {
+                        MemberValuePair mvp = (MemberValuePair) i;
+                        if ("name".equals(mvp.getName().toString())) {
+                          Expression e2 = mvp.getValue();
+                          if (e2 instanceof QualifiedName) {
+                            QualifiedName qn = (QualifiedName) e2;
+                            IBinding b = qn.resolveBinding();
+                            if (b instanceof IVariableBinding)
+                              name = (String) ((IVariableBinding) b)
+                                  .getConstantValue();
+                          } else if (e2 instanceof StringLiteral)
+                            name = ((StringLiteral) e2).getLiteralValue();
+                        } else if ("defaultValue"
+                            .equals(mvp.getName().toString())) {
+                          Expression e2 = mvp.getValue();
+                          if (e2 instanceof QualifiedName) {
+                            QualifiedName qn = (QualifiedName) e2;
+                            IBinding b = qn.resolveBinding();
+                            if (b instanceof IVariableBinding)
+                              defaultValue = (String) ((IVariableBinding) b)
+                                  .getConstantValue();
+                          } else if (e2 instanceof StringLiteral)
+                            defaultValue = ((StringLiteral) e2)
+                                .getLiteralValue();
+                        }
+                      }
+                      ret.put(name, defaultValue);
                     }
                   }
-                  ret.put(name, defaultValue);
                 }
+                return false;
               }
-            }
-            return false;
-          }
-        });
+            });
       }
       return ret;
     }
