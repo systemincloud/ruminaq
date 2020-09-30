@@ -131,6 +131,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     }
   }
 
+  protected String iconDesc = "";
   protected List<FileInternalInputPort> inputs = null;
   protected List<FileInternalOutputPort> outputs = null;
   protected boolean atomic = true;
