@@ -20,7 +20,6 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
@@ -96,8 +95,9 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
       return Optional.of(annotation)
           .map(a -> Result.attempt(a::getMemberValuePairs))
           .flatMap(r -> Optional.ofNullable(r.orElse(null))).map(Stream::of)
-          .orElseGet(Stream::empty).filter(mvp -> mvp.getMemberName() == name)
-          .findFirst().map(IMemberValuePair::getValue);
+          .orElseGet(Stream::empty)
+          .filter(mvp -> mvp.getMemberName().equals(name)).findFirst()
+          .map(IMemberValuePair::getValue);
     }
 
     private static Optional<Object> annotationValue(SearchMatch sm,
@@ -134,10 +134,6 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     @Override
     public boolean load(String className) {
-      IJavaProject project = JavaCore
-          .create(ResourcesPlugin.getWorkspace().getRoot()
-              .getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram())));
-
       try {
         new SearchEngine()
             .search(
@@ -149,8 +145,10 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
                 new SearchParticipant[] {
                     SearchEngine.getDefaultSearchParticipant() },
 
-                SearchEngine
-                    .createJavaSearchScope(new IJavaElement[] { project }),
+                SearchEngine.createJavaSearchScope(new IJavaElement[] {
+                    JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
+                        .getProject(EclipseUtil
+                            .getProjectNameFromDiagram(getDiagram()))) }),
 
                 new SearchRequestor() {
                   @Override
