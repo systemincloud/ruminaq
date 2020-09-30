@@ -291,32 +291,9 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     @Override
     protected void loadAtomic() {
-      IAnnotation[] annotations;
-      try {
-        annotations = type.getAnnotations();
-      } catch (JavaModelException e) {
-        return;
-      }
-
-      if (annotations == null)
-        return;
-
-      IAnnotation sicInfo = null;
-      for (IAnnotation a : annotations)
-        if (a.getElementName().equals(JavaTaskInfo.class.getSimpleName()))
-          sicInfo = a;
-
-      IMemberValuePair[] mvps = null;
-      try {
-        mvps = sicInfo.getMemberValuePairs();
-      } catch (JavaModelException e) {
-      }
-      if (mvps == null)
-        return;
-
-      for (IMemberValuePair mvp : mvps)
-        if (mvp.getMemberName().equals("atomic"))
-          atomic = ((Boolean) mvp.getValue()).booleanValue();
+      atomic = annotationValueCasted(
+          type.getAnnotation(JavaTaskInfo.class.getSimpleName()), "atomic",
+          Boolean.class).orElse(Boolean.TRUE);
     }
 
     @Override
