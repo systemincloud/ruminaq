@@ -47,7 +47,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
         .map(UserDefinedTask.class::cast);
   }
 
-  private boolean descUpdateNeeded = false;
   private boolean inputsUpdateNeeded = false;
   private boolean outputsUpdateNeeded = false;
   private boolean atomicUpdateNeeded = false;
@@ -283,10 +282,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return true;
   }
 
-  //
-  // DESC IF EXISTS
-  // ***************************************************************************
-  //
   private boolean iconDescriptionUpdate(ContainerShape parent, Task be) {
 //    if (iconDesc != null)
 //      for (GraphicsAlgorithm ga : parent.getGraphicsAlgorithm()
@@ -299,10 +294,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return false;
   }
 
-  //
-  // INPUTS
-  // ***********************************************************************************
-  //
   private boolean inputsUpdate(ContainerShape parent, Task task) {
     List<InternalInputPort> inputsToRemove = new ArrayList<>();
     loop: for (InternalInputPort iip : inputPorts) {
@@ -358,10 +349,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return true;
   }
 
-  //
-  // OUTPUTS
-  // ***********************************************************************************
-  //
   private boolean outputsUpdate(ContainerShape parent, Task task) {
     List<InternalOutputPort> outputsToRemove = new ArrayList<>();
     loop: for (InternalOutputPort iop : outputPorts) {
@@ -389,10 +376,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return true;
   }
 
-  //
-  // ATOMIC
-  // ***********************************************************************************
-  //
   private boolean atomicUpdate(ContainerShape parent, Task be) {
     be.setAtomic(atomic);
     if (atomic)
@@ -404,10 +387,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return true;
   }
 
-  //
-  // PARAMS
-  // ***********************************************************************************
-  //
   private boolean paramsUpdate(ContainerShape parent, Task be) {
     UserDefinedTask udt = (UserDefinedTask) be;
     Map<String, String> shouldBe = getParameters(udt);
