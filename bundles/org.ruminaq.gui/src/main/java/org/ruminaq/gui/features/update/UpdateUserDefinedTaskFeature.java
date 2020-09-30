@@ -47,7 +47,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
         .map(UserDefinedTask.class::cast);
   }
 
-  private boolean inputsUpdateNeeded = false;
   private boolean outputsUpdateNeeded = false;
   private boolean atomicUpdateNeeded = false;
   private boolean onlyLocalUpdateNeeded = false;
@@ -132,8 +131,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     }
   }
 
-  protected String iconDesc = null;
-
   protected List<FileInternalInputPort> inputs = null;
   protected List<FileInternalOutputPort> outputs = null;
   protected boolean atomic = true;
@@ -155,7 +152,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return true;
   }
 
-  private boolean compareInputPorts(List<FileInternalInputPort> inputs,
+  private boolean inputPortsUpdateNeeded(List<FileInternalInputPort> inputs,
       List<InternalInputPort> inputPorts) {
     if (inputs.size() != inputPorts.size())
       return false;
@@ -219,16 +216,15 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     loadOutputPorts();
     loadAtomic();
 
-    this.inputsUpdateNeeded = !compareInputPorts(inputs, inputPorts);
     this.outputsUpdateNeeded = !compareOutputPorts(outputs, outputPorts);
     this.atomicUpdateNeeded = atomic != task.isAtomic() ? true : false;
     this.paramsUpdateNeeded = !compareParams(((UserDefinedTask) task));
 
-    boolean updateNeeded = this.inputsUpdateNeeded || this.outputsUpdateNeeded
-        || this.atomicUpdateNeeded || this.onlyLocalUpdateNeeded
-        || this.paramsUpdateNeeded;
+    boolean updateNeeded = this.outputsUpdateNeeded || this.atomicUpdateNeeded
+        || this.onlyLocalUpdateNeeded || this.paramsUpdateNeeded;
     if (super.updateNeeded(context).toBoolean()
-        || iconDescriptionUpdateNeeded(context) || updateNeeded) {
+        || iconDescriptionUpdateNeeded(context)
+        || inputPortsUpdateNeeded(inputs, inputPorts) || updateNeeded) {
       return Reason.createTrueReason();
     } else {
       return Reason.createFalseReason();
@@ -263,7 +259,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       iconDescriptionUpdate(context);
     }
 
-    if (inputsUpdateNeeded) {
+    if (inputPortsUpdateNeeded(inputs, inputPorts)) {
       inputsUpdate(parent, be);
     }
 
