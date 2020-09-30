@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -168,11 +169,11 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
           .isPresent();
     }
 
+    @Override
     protected void loadIconDesc() {
-      this.iconDesc = "".equals(type.getElementName())
-          ? AddFeatureImpl.AddFeature.NOT_CHOSEN
-          : type.getElementName();
-      ;
+      this.iconDesc = Optional.ofNullable(type).map(NamedMember::getElementName)
+          .filter(Predicate.not(""::equals))
+          .orElse(AddFeatureImpl.AddFeature.NOT_CHOSEN);
     }
 
     @Override
