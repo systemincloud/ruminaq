@@ -109,7 +109,7 @@ public class PropertySection extends GFPropertySection
 
   private void save() {
     Shell shell = txtClassName.getShell();
-    boolean parse = new UpdateFeatureImpl.UpdateFeature(
+    boolean parse = new UpdateFeature(
         getDiagramTypeProvider().getFeatureProvider())
             .load(txtClassName.getText());
     if (parse) {
