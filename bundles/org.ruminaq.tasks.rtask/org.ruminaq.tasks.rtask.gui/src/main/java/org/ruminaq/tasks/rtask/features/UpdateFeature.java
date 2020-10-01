@@ -110,8 +110,8 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected void loadIconDesc() {
-    this.iconDesc = desc;
+  protected String iconDesc() {
+    return desc;
   }
 //
 //    protected Args getPublic() {

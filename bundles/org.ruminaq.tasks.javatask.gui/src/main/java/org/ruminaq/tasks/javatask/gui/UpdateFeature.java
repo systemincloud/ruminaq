@@ -151,8 +151,8 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected void loadIconDesc() {
-    this.iconDesc = Optional.ofNullable(type).map(NamedMember::getElementName)
+  protected String iconDesc() {
+    return Optional.ofNullable(type).map(NamedMember::getElementName)
         .filter(Predicate.not(""::equals))
         .orElse(AddFeatureImpl.AddFeature.NOT_CHOSEN);
   }

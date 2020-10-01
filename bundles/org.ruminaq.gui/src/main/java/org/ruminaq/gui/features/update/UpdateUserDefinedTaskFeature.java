@@ -130,29 +130,21 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     }
   }
 
-  protected String iconDesc = "";
   protected List<FileInternalInputPort> inputs = null;
   protected List<FileInternalOutputPort> outputs = null;
-  protected boolean atomic = true;
-  protected boolean onlyLocal = false;
 
   public UpdateUserDefinedTaskFeature(IFeatureProvider fp) {
     super(fp);
   }
 
   private boolean iconDescriptionUpdateNeeded(IUpdateContext context) {
-//    if (iconDesc != null)
-//      for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
-//          .getGraphicsAlgorithmChildren())
-//        if (Graphiti.getPeService().getProperty(ga,
-//            AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null)
-//          return iconDesc.equals(((Text) ga).getValue());
-    return true;
+    return toTaskShape(context).map(TaskShape::getDescription)
+        .map(iconDesc()::equals).orElse(false);
   }
 
   private boolean inputPortsUpdateNeeded(IUpdateContext context) {
     if (inputs.size() != toModel(context).get().getInputPort().size())
-      return false;
+      return true;
     loop: for (FileInternalInputPort fip : inputs) {
       for (InternalInputPort iip : toModel(context).get().getInputPort())
         if (fip.getName().equals(iip.getId())
@@ -162,14 +154,14 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
             && fip.isHold() == iip.isDefaultHoldLast()
             && fip.getQueue().equals(iip.getDefaultQueueSize()))
           continue loop;
-      return false;
+      return true;
     }
-    return true;
+    return false;
   }
 
   private boolean outputPortsUpdateNeeded(IUpdateContext context) {
     if (outputs.size() != toModel(context).get().getOutputPort().size())
-      return false;
+      return true;
     loop: for (FileInternalOutputPort fip : outputs) {
       for (InternalOutputPort iop : toModel(context).get().getOutputPort())
         if (fip.getName().equals(iop.getId())
@@ -201,14 +193,11 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     String resource = getResource(task);
 
     if ("".equals(resource)) {
-      loadIconDesc();
       return Reason.createFalseReason();
     }
     if (!load(resource)) {
-      loadIconDesc();
       return Reason.createFalseReason();
     }
-    loadIconDesc();
     loadInputPorts();
     loadOutputPorts();
 
@@ -226,7 +215,8 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 
   public abstract boolean load(String resource);
 
-  protected void loadIconDesc() {
+  protected String iconDesc() {
+    return "";
   }
 
   protected abstract void loadInputPorts();
@@ -266,16 +256,8 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return true;
   }
 
-  private boolean iconDescriptionUpdate(IUpdateContext context) {
-//    if (iconDesc != null)
-//      for (GraphicsAlgorithm ga : parent.getGraphicsAlgorithm()
-//          .getGraphicsAlgorithmChildren())
-//        if (Graphiti.getPeService().getProperty(ga,
-//            AbstractAddTaskFeature.ICON_DESC_PROPERTY) != null) {
-//          ((Text) ga).setValue(iconDesc);
-//          return true;
-//        }
-    return false;
+  private void iconDescriptionUpdate(IUpdateContext context) {
+    toTaskShape(context).ifPresent(ts -> ts.setDescription(iconDesc()));
   }
 
   private boolean inputsUpdate(IUpdateContext context) {

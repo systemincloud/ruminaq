@@ -176,8 +176,9 @@ public class UpdateEmbeddedTaskFeature extends UpdateUserDefinedTaskFeature {
       return false;
   }
 
-  protected void loadIconDesc() {
-    this.iconDesc = desc;
+  @Override
+  protected String iconDesc() {
+    return desc;
   }
 
   @Override
