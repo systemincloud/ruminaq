@@ -45,7 +45,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
         .map(UserDefinedTask.class::cast);
   }
 
-  private boolean outputsUpdateNeeded = false;
   private boolean atomicUpdateNeeded = false;
   private boolean onlyLocalUpdateNeeded = false;
   private boolean paramsUpdateNeeded = false;
@@ -169,7 +168,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return true;
   }
 
-  private boolean compareOutputPorts(List<FileInternalOutputPort> outputs,
+  private boolean outputPortsUpdateNeeded(List<FileInternalOutputPort> outputs,
       List<InternalOutputPort> outputPorts) {
     if (outputs.size() != outputPorts.size())
       return false;
@@ -178,9 +177,9 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
         if (fip.getName().equals(iop.getId())
             && ModelUtil.areEquals(fip.getDataType(), iop.getDataType()))
           continue loop;
-      return false;
+      return true;
     }
-    return true;
+    return false;
   }
 
   private boolean compareParams(UserDefinedTask udt) {
@@ -214,15 +213,15 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     loadInputPorts();
     loadOutputPorts();
 
-    this.outputsUpdateNeeded = !compareOutputPorts(outputs, outputPorts);
     this.atomicUpdateNeeded = isAtomic() != task.isAtomic() ? true : false;
     this.paramsUpdateNeeded = !compareParams(((UserDefinedTask) task));
 
-    boolean updateNeeded = this.outputsUpdateNeeded || this.atomicUpdateNeeded
-        || this.onlyLocalUpdateNeeded || this.paramsUpdateNeeded;
+    boolean updateNeeded = this.atomicUpdateNeeded || this.onlyLocalUpdateNeeded
+        || this.paramsUpdateNeeded;
     if (super.updateNeeded(context).toBoolean()
         || iconDescriptionUpdateNeeded(context)
-        || inputPortsUpdateNeeded(inputs, inputPorts) || updateNeeded) {
+        || inputPortsUpdateNeeded(inputs, inputPorts)
+        || outputPortsUpdateNeeded(outputs, outputPorts) || updateNeeded) {
       return Reason.createTrueReason();
     } else {
       return Reason.createFalseReason();
@@ -261,7 +260,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       inputsUpdate(parent, be);
     }
 
-    if (outputsUpdateNeeded) {
+    if (outputPortsUpdateNeeded(outputs, outputPorts)) {
       outputsUpdate(parent, be);
     }
 
