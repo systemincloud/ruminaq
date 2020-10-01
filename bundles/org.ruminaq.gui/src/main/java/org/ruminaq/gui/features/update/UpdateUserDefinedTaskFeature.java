@@ -12,12 +12,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
-import org.eclipse.graphiti.mm.algorithms.styles.LineStyle;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.model.Position;
@@ -268,7 +266,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     }
 
     if (atomicUpdateNeeded) {
-      atomicUpdate(parent, be);
+      atomicUpdate(context);
     }
 
     if (paramsUpdateNeeded) {
@@ -372,15 +370,9 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return true;
   }
 
-  private boolean atomicUpdate(ContainerShape parent, Task be) {
-    be.setAtomic(isAtomic());
-    if (atomic)
-      parent.getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
-          .setLineStyle(LineStyle.SOLID);
-    else
-      parent.getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
-          .setLineStyle(LineStyle.DOT);
-    return true;
+  private void atomicUpdate(IUpdateContext context) {
+    toModel(context.getPictogramElement())
+        .ifPresent(t -> t.setAtomic(isAtomic()));
   }
 
   private boolean paramsUpdate(ContainerShape parent, Task be) {
