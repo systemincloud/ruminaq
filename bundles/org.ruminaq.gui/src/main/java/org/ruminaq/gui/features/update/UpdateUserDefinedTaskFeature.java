@@ -16,27 +16,29 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.model.Position;
 import org.ruminaq.gui.model.diagram.TaskShape;
-import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
-import ch.qos.logback.classic.Logger;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
-
-  private static final Logger LOGGER = ModelerLoggerFactory
-      .getLogger(UpdateUserDefinedTaskFeature.class);
 
   private static Optional<TaskShape> toTaskShape(PictogramElement pe) {
     return Optional.of(pe).filter(TaskShape.class::isInstance)
         .map(TaskShape.class::cast);
+  }
+
+  private static Optional<TaskShape> toTaskShape(IUpdateContext context) {
+    return toTaskShape(context.getPictogramElement());
   }
 
   private static Optional<UserDefinedTask> toModel(PictogramElement pe) {
@@ -45,9 +47,9 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
         .map(UserDefinedTask.class::cast);
   }
 
-  private boolean atomicUpdateNeeded = false;
-  private boolean onlyLocalUpdateNeeded = false;
-  private boolean paramsUpdateNeeded = false;
+  private static Optional<UserDefinedTask> toModel(IUpdateContext context) {
+    return toModel(context.getPictogramElement());
+  }
 
   @SuppressWarnings("unchecked")
   protected final class FileInternalInputPort {
@@ -133,8 +135,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
   protected List<FileInternalOutputPort> outputs = null;
   protected boolean atomic = true;
   protected boolean onlyLocal = false;
-  protected List<InternalInputPort> inputPorts = null;
-  protected List<InternalOutputPort> outputPorts = null;
 
   public UpdateUserDefinedTaskFeature(IFeatureProvider fp) {
     super(fp);
@@ -150,12 +150,11 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return true;
   }
 
-  private boolean inputPortsUpdateNeeded(List<FileInternalInputPort> inputs,
-      List<InternalInputPort> inputPorts) {
-    if (inputs.size() != inputPorts.size())
+  private boolean inputPortsUpdateNeeded(IUpdateContext context) {
+    if (inputs.size() != toModel(context).get().getInputPort().size())
       return false;
     loop: for (FileInternalInputPort fip : inputs) {
-      for (InternalInputPort iip : inputPorts)
+      for (InternalInputPort iip : toModel(context).get().getInputPort())
         if (fip.getName().equals(iip.getId())
             && ModelUtil.areEquals(fip.getDataType(), iip.getDataType())
             && fip.isAsynchronus() == iip.isAsynchronous()
@@ -168,12 +167,11 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return true;
   }
 
-  private boolean outputPortsUpdateNeeded(List<FileInternalOutputPort> outputs,
-      List<InternalOutputPort> outputPorts) {
-    if (outputs.size() != outputPorts.size())
+  private boolean outputPortsUpdateNeeded(IUpdateContext context) {
+    if (outputs.size() != toModel(context).get().getOutputPort().size())
       return false;
     loop: for (FileInternalOutputPort fip : outputs) {
-      for (InternalOutputPort iop : outputPorts)
+      for (InternalOutputPort iop : toModel(context).get().getOutputPort())
         if (fip.getName().equals(iop.getId())
             && ModelUtil.areEquals(fip.getDataType(), iop.getDataType()))
           continue loop;
@@ -182,10 +180,14 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return false;
   }
 
-  private boolean compareParams(UserDefinedTask udt) {
-    LOGGER.trace("compareParams");
-    Map<String, String> shouldBe = getParameters(udt);
-    Set<String> is = udt.getParameters().keySet();
+  private boolean atomicUpdateNeeded(IUpdateContext context) {
+    return toModel(context).map(Task::isAtomic).filter(a -> a != isAtomic())
+        .orElse(false);
+  }
+
+  private boolean paramsUpdateNeeded(IUpdateContext context) {
+    Map<String, String> shouldBe = getParameters(toModel(context).get());
+    Set<String> is = toModel(context).get().getParameters().keySet();
     return shouldBe.keySet().equals(is);
   }
 
@@ -197,9 +199,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 
     Task task = toModel(pictogramElement).get();
     String resource = getResource(task);
-
-    inputPorts = task.getInputPort();
-    outputPorts = task.getOutputPort();
 
     if ("".equals(resource)) {
       loadIconDesc();
@@ -213,15 +212,10 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     loadInputPorts();
     loadOutputPorts();
 
-    this.atomicUpdateNeeded = isAtomic() != task.isAtomic() ? true : false;
-    this.paramsUpdateNeeded = !compareParams(((UserDefinedTask) task));
-
-    boolean updateNeeded = this.atomicUpdateNeeded || this.onlyLocalUpdateNeeded
-        || this.paramsUpdateNeeded;
     if (super.updateNeeded(context).toBoolean()
         || iconDescriptionUpdateNeeded(context)
-        || inputPortsUpdateNeeded(inputs, inputPorts)
-        || outputPortsUpdateNeeded(outputs, outputPorts) || updateNeeded) {
+        || inputPortsUpdateNeeded(context) || outputPortsUpdateNeeded(context)
+        || atomicUpdateNeeded(context) || paramsUpdateNeeded(context)) {
       return Reason.createTrueReason();
     } else {
       return Reason.createFalseReason();
@@ -249,27 +243,24 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       super.update(context);
     }
 
-    ContainerShape parent = (ContainerShape) context.getPictogramElement();
-    Task be = (Task) getBusinessObjectForPictogramElement(parent);
-
     if (iconDescriptionUpdateNeeded(context)) {
       iconDescriptionUpdate(context);
     }
 
-    if (inputPortsUpdateNeeded(inputs, inputPorts)) {
-      inputsUpdate(parent, be);
+    if (inputPortsUpdateNeeded(context)) {
+      inputsUpdate(context);
     }
 
-    if (outputPortsUpdateNeeded(outputs, outputPorts)) {
-      outputsUpdate(parent, be);
+    if (outputPortsUpdateNeeded(context)) {
+      outputsUpdate(context);
     }
 
-    if (atomicUpdateNeeded) {
+    if (atomicUpdateNeeded(context)) {
       atomicUpdate(context);
     }
 
-    if (paramsUpdateNeeded) {
-      paramsUpdate(parent, be);
+    if (paramsUpdateNeeded(context)) {
+      paramsUpdate(context);
     }
 
     return true;
@@ -287,9 +278,9 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return false;
   }
 
-  private boolean inputsUpdate(ContainerShape parent, Task task) {
+  private boolean inputsUpdate(IUpdateContext context) {
     List<InternalInputPort> inputsToRemove = new ArrayList<>();
-    loop: for (InternalInputPort iip : inputPorts) {
+    loop: for (InternalInputPort iip : toModel(context).get().getInputPort()) {
       for (FileInternalInputPort fip : inputs)
         if (fip.getName().equals(iip.getId())) {
 
@@ -332,19 +323,20 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 //      removePortShape(task, parent, iip);
 
     loop: for (FileInternalInputPort fip : inputs) {
-      for (InternalInputPort iip : inputPorts)
+      for (InternalInputPort iip : toModel(context).get().getInputPort())
         if (fip.getName().equals(iip.getId()))
           continue loop;
-      createInputPort(task, parent, fip.getName(), true,
-          fip.getDataTypeClasses(), fip.isAsynchronus(), fip.getGroup(),
-          fip.isHold(), fip.getQueue(), Position.LEFT);
+      createInputPort(toModel(context).get(), toTaskShape(context).get(),
+          fip.getName(), true, fip.getDataTypeClasses(), fip.isAsynchronus(),
+          fip.getGroup(), fip.isHold(), fip.getQueue(), Position.LEFT);
     }
     return true;
   }
 
-  private boolean outputsUpdate(ContainerShape parent, Task task) {
+  private boolean outputsUpdate(IUpdateContext context) {
     List<InternalOutputPort> outputsToRemove = new ArrayList<>();
-    loop: for (InternalOutputPort iop : outputPorts) {
+    loop: for (InternalOutputPort iop : toModel(context).get()
+        .getOutputPort()) {
       for (FileInternalOutputPort fip : outputs)
         if (fip.getName().equals(iop.getId())) {
           if (!ModelUtil.areEquals(fip.getDataType(), iop.getDataType())) {
@@ -360,22 +352,21 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 //      removePortShape(task, parent, iop);
 
     loop: for (FileInternalOutputPort fip : outputs) {
-      for (InternalOutputPort iop : outputPorts)
+      for (InternalOutputPort iop : toModel(context).get().getOutputPort())
         if (fip.getName().equals(iop.getId()))
           continue loop;
-      createOutputPort(task, parent, fip.getName(), true,
-          fip.getDataTypeClasses(), Position.RIGHT);
+      createOutputPort(toModel(context).get(), toTaskShape(context).get(),
+          fip.getName(), true, fip.getDataTypeClasses(), Position.RIGHT);
     }
     return true;
   }
 
   private void atomicUpdate(IUpdateContext context) {
-    toModel(context.getPictogramElement())
-        .ifPresent(t -> t.setAtomic(isAtomic()));
+    toModel(context).ifPresent(t -> t.setAtomic(isAtomic()));
   }
 
-  private boolean paramsUpdate(ContainerShape parent, Task be) {
-    UserDefinedTask udt = (UserDefinedTask) be;
+  private boolean paramsUpdate(IUpdateContext context) {
+    UserDefinedTask udt = toModel(context).get();
     Map<String, String> shouldBe = getParameters(udt);
     Set<String> is = udt.getParameters().keySet();
 
