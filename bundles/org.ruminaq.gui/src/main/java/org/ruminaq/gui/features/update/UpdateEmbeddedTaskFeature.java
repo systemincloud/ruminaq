@@ -224,8 +224,8 @@ public class UpdateEmbeddedTaskFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected void loadAtomic() {
-    atomic = embeddedTask.isAtomic();
+  protected boolean isAtomic() {
+    return embeddedTask.isAtomic();
   }
 
   @Override

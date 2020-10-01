@@ -215,10 +215,9 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     loadIconDesc();
     loadInputPorts();
     loadOutputPorts();
-    loadAtomic();
 
     this.outputsUpdateNeeded = !compareOutputPorts(outputs, outputPorts);
-    this.atomicUpdateNeeded = atomic != task.isAtomic() ? true : false;
+    this.atomicUpdateNeeded = isAtomic() != task.isAtomic() ? true : false;
     this.paramsUpdateNeeded = !compareParams(((UserDefinedTask) task));
 
     boolean updateNeeded = this.outputsUpdateNeeded || this.atomicUpdateNeeded
@@ -243,7 +242,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 
   protected abstract void loadOutputPorts();
 
-  protected abstract void loadAtomic();
+  protected abstract boolean isAtomic();
 
   protected abstract Map<String, String> getParameters(UserDefinedTask udt);
 
@@ -374,7 +373,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
   }
 
   private boolean atomicUpdate(ContainerShape parent, Task be) {
-    be.setAtomic(atomic);
+    be.setAtomic(isAtomic());
     if (atomic)
       parent.getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
           .setLineStyle(LineStyle.SOLID);

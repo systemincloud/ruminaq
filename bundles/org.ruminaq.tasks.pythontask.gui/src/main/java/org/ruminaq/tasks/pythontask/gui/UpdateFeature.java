@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.pythontask.gui;
 
 import java.util.HashMap;
@@ -170,7 +171,8 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
                     if (tmp != null)
                       dts.add(tmp);
                   }
-                  String queueSize = queue == -1 ? AbstractCreateCustomTaskPage.INF
+                  String queueSize = queue == -1
+                      ? AbstractCreateCustomTaskPage.INF
                       : Integer.toString(queue);
                   inputs.add(new FileInternalInputPort(name, dts, asynchronous,
                       group, hold, queueSize));
@@ -243,7 +245,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected void loadAtomic() {
+  protected boolean isAtomic() {
     SimpleNode ast = sourceModule.getAst();
     EasyASTIteratorVisitor visitor = EasyASTIteratorVisitor.create(ast);
     Iterator<ASTEntry> it = visitor.getClassesAndMethodsIterator();
@@ -259,12 +261,11 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
               && ((Name) d.func).id.equals("PythonTaskInfo"))
             for (keywordType k : d.keywords)
               if ("atomic".equals(((NameTok) k.arg).id)) {
-                this.atomic = "True".equals(((Name) k.value).id);
-                return;
+                return "True".equals(((Name) k.value).id);
               }
       }
     }
-    this.atomic = true;
+    return true;
   }
 
   @Override

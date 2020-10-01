@@ -249,8 +249,8 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected void loadAtomic() {
-    atomic = annotationValueCasted(
+  protected boolean isAtomic() {
+    return annotationValueCasted(
         type.getAnnotation(JavaTaskInfo.class.getSimpleName()), "atomic",
         Boolean.class).orElse(Boolean.TRUE);
   }
