@@ -68,6 +68,12 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
       return JavaTask.class;
     }
   }
+  
+  private NamedMember type;
+
+  public UpdateFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
   private static Optional<IAnnotation> toAnnotation(SearchMatch sm,
       Class<?> annotationType) {
@@ -102,12 +108,6 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
       Class<?> annotationType, String name, Class<T> type) {
     return toAnnotation(sm, annotationType)
         .flatMap(a -> annotationValueCasted(a, name, type));
-  }
-
-  private NamedMember type;
-
-  public UpdateFeature(IFeatureProvider fp) {
-    super(fp);
   }
 
   @Override
