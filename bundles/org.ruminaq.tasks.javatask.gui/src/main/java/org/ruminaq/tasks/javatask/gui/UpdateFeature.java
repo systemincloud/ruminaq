@@ -1,3 +1,4 @@
+
 package org.ruminaq.tasks.javatask.gui;
 
 import java.util.HashMap;
@@ -114,40 +115,34 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
   @Override
   public boolean load(String className) {
     try {
-      new SearchEngine()
-          .search(
-              SearchPattern.createPattern(className,
-                  IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE,
-                  SearchPattern.R_FULL_MATCH
-                      | SearchPattern.R_CASE_SENSITIVE),
+      new SearchEngine().search(
+          SearchPattern.createPattern(className, IJavaSearchConstants.TYPE,
+              IJavaSearchConstants.TYPE,
+              SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE),
 
-              new SearchParticipant[] {
-                  SearchEngine.getDefaultSearchParticipant() },
+          new SearchParticipant[] {
+              SearchEngine.getDefaultSearchParticipant() },
 
-              SearchEngine.createJavaSearchScope(new IJavaElement[] {
-                  JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
-                      .getProject(EclipseUtil
-                          .getProjectNameFromDiagram(getDiagram()))) }),
+          SearchEngine.createJavaSearchScope(new IJavaElement[] { JavaCore
+              .create(ResourcesPlugin.getWorkspace().getRoot().getProject(
+                  EclipseUtil.getProjectNameFromDiagram(getDiagram()))) }),
 
-              new SearchRequestor() {
-                @Override
-                public void acceptSearchMatch(SearchMatch sm)
-                    throws CoreException {
-                  type = (NamedMember) sm.getElement();
-                }
-              },
+          new SearchRequestor() {
+            @Override
+            public void acceptSearchMatch(SearchMatch sm) throws CoreException {
+              type = (NamedMember) sm.getElement();
+            }
+          },
 
-              null);
+          null);
     } catch (CoreException e) {
       return false;
     }
 
-    return Optional.ofNullable(type)
-        .map(t -> Result.attempt(t::getAnnotations))
+    return Optional.ofNullable(type).map(t -> Result.attempt(t::getAnnotations))
         .flatMap(r -> Optional.ofNullable(r.orElse(null))).map(Stream::of)
         .orElseGet(Stream::empty).map(IAnnotation::getElementName)
-        .filter(JavaTaskInfo.class.getSimpleName()::equals).findAny()
-        .isPresent();
+        .anyMatch(JavaTaskInfo.class.getSimpleName()::equals);
   }
 
   @Override
@@ -160,38 +155,39 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
   @Override
   protected void loadInputPorts() {
     try {
-      new SearchEngine()
-          .search(
-              SearchPattern.createPattern(InputPortInfo.class.getSimpleName(),
-                  IJavaSearchConstants.ANNOTATION_TYPE,
-                  IJavaSearchConstants.ALL_OCCURRENCES,
-                  SearchPattern.R_EXACT_MATCH
-                      | SearchPattern.R_CASE_SENSITIVE),
+      new SearchEngine().search(
+          SearchPattern.createPattern(InputPortInfo.class.getSimpleName(),
+              IJavaSearchConstants.ANNOTATION_TYPE,
+              IJavaSearchConstants.ALL_OCCURRENCES,
+              SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE),
 
-              new SearchParticipant[] {
-                  SearchEngine.getDefaultSearchParticipant() },
+          new SearchParticipant[] {
+              SearchEngine.getDefaultSearchParticipant() },
 
-              SearchEngine.createJavaSearchScope(new IJavaElement[] { type }),
+          SearchEngine.createJavaSearchScope(new IJavaElement[] { type }),
 
-              new SearchRequestor() {
-                @Override
-                public void acceptSearchMatch(SearchMatch sm) {
-                  Integer queue = annotationValueCasted(sm,
-                      InputPortInfo.class, "queue", Integer.class)
-                          .filter(i -> i != 0).filter(i -> i >= -1).orElse(1);
-                  String queueSize = queue == -1
-                      ? AbstractCreateCustomTaskPage.INF
-                      : queue.toString();
-                  inputs.add(new FileInternalInputPort(
+          new SearchRequestor() {
+            @Override
+            public void acceptSearchMatch(SearchMatch sm) {
+              Integer queue = annotationValueCasted(sm, InputPortInfo.class,
+                  "queue", Integer.class).filter(i -> i != 0)
+                      .filter(i -> i >= -1).orElse(1);
+              String queueSize = queue == -1 ? AbstractCreateCustomTaskPage.INF
+                  : queue.toString();
+              inputs
+                  .add(new FileInternalInputPort(
                       annotationValueCasted(sm, InputPortInfo.class, "name",
                           String.class).orElse(""),
-                      Stream.of(
-                          annotationValue(sm, InputPortInfo.class, "dataType")
-                              .filter(String.class::isInstance)
-                              .map(v -> new Object[] { v })
-                              .orElse(annotationValue(sm, InputPortInfo.class,
-                                  "dataType").map(Object[].class::cast)
-                                      .orElse(new Object[0])))
+                      Stream
+                          .of(annotationValue(sm, InputPortInfo.class,
+                              "dataType")
+                                  .filter(
+                                      Predicate.not(Object[].class::isInstance))
+                                  .map(v -> new Object[] { v })
+                                  .orElseGet(() -> annotationValue(sm,
+                                      InputPortInfo.class, "dataType")
+                                          .map(Object[].class::cast)
+                                          .orElse(new Object[0])))
                           .map(String.class::cast)
                           .map(DataTypeManager.INSTANCE::getDataTypeFromName)
                           .filter(Objects::nonNull)
@@ -204,10 +200,10 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
                       annotationValueCasted(sm, InputPortInfo.class, "hold",
                           Boolean.class).orElse(Boolean.FALSE).booleanValue(),
                       queueSize));
-                }
-              },
+            }
+          },
 
-              null);
+          null);
     } catch (CoreException e) {
     }
   }
@@ -228,22 +224,22 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
           new SearchRequestor() {
             @Override
-            public void acceptSearchMatch(SearchMatch sm)
-                throws CoreException {
+            public void acceptSearchMatch(SearchMatch sm) throws CoreException {
               outputs.add(new FileInternalOutputPort(
                   annotationValueCasted(sm, OutputPortInfo.class, "name",
                       String.class).orElse(""),
-                  Stream.of(
-                      annotationValue(sm, OutputPortInfo.class, "dataType")
-                          .filter(String.class::isInstance)
-                          .map(v -> new Object[] { v })
-                          .orElse(annotationValue(sm, OutputPortInfo.class,
-                              "dataType").map(Object[].class::cast)
-                                  .orElse(new Object[0])))
+                  Stream
+                      .of(annotationValue(sm, OutputPortInfo.class,
+                          "dataType")
+                              .filter(Predicate.not(Object[].class::isInstance))
+                              .map(v -> new Object[] { v })
+                              .orElseGet(() -> annotationValue(sm,
+                                  OutputPortInfo.class, "dataType")
+                                      .map(Object[].class::cast)
+                                      .orElse(new Object[0])))
                       .map(String.class::cast)
                       .map(DataTypeManager.INSTANCE::getDataTypeFromName)
-                      .filter(Objects::nonNull)
-                      .collect(Collectors.toList())));
+                      .filter(Objects::nonNull).collect(Collectors.toList())));
             }
           },
 
@@ -324,8 +320,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
                             defaultValue = (String) ((IVariableBinding) b)
                                 .getConstantValue();
                         } else if (e2 instanceof StringLiteral)
-                          defaultValue = ((StringLiteral) e2)
-                              .getLiteralValue();
+                          defaultValue = ((StringLiteral) e2).getLiteralValue();
                       }
                     }
                     ret.put(name, defaultValue);
