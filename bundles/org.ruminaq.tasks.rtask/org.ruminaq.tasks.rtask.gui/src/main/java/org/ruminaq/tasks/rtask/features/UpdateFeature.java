@@ -7,6 +7,7 @@
 package org.ruminaq.tasks.rtask.features;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -324,13 +325,15 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected void loadInputPorts() {
+  protected List<FileInternalInputPort> inputPorts() {
+    return null;
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  protected void loadOutputPorts() {
+  protected List<FileInternalOutputPort> outputPorts() {
+    return null;
     // TODO Auto-generated method stub
 
   }

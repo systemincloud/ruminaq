@@ -7,6 +7,8 @@
 package org.ruminaq.tasks.javatask.gui;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -158,7 +160,8 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected void loadInputPorts() {
+  protected List<FileInternalInputPort> inputPorts() {
+    List<FileInternalInputPort> inputs = new LinkedList<>();
     try {
       new SearchEngine().search(
           SearchPattern.createPattern(InputPortInfo.class.getSimpleName(),
@@ -211,10 +214,12 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
           null);
     } catch (CoreException e) {
     }
+    return inputs;
   }
 
   @Override
-  protected void loadOutputPorts() {
+  protected List<FileInternalOutputPort> outputPorts() {
+    List<FileInternalOutputPort> outputs = new LinkedList<>();
     try {
       new SearchEngine().search(
           SearchPattern.createPattern(OutputPortInfo.class.getSimpleName(),
@@ -251,6 +256,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
           null);
     } catch (CoreException e) {
     }
+    return outputs;
   }
 
   @Override

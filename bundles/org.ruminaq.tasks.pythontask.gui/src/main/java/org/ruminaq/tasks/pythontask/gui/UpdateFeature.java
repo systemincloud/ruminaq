@@ -106,7 +106,8 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected void loadInputPorts() {
+  protected List<FileInternalInputPort> inputPorts() {
+    List<FileInternalInputPort> inputs = new LinkedList<>();
     SimpleNode ast = sourceModule.getAst();
     EasyASTIteratorVisitor visitor = EasyASTIteratorVisitor.create(ast);
     Iterator<ASTEntry> it = visitor.getClassesAndMethodsIterator();
@@ -183,10 +184,12 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
         }
       }
     }
+    return inputs;
   }
 
   @Override
-  protected void loadOutputPorts() {
+  protected List<FileInternalOutputPort> outputPorts() {
+    List<FileInternalOutputPort> outputs = new LinkedList<>();
     SimpleNode ast = sourceModule.getAst();
     EasyASTIteratorVisitor visitor = EasyASTIteratorVisitor.create(ast);
     Iterator<ASTEntry> it = visitor.getClassesAndMethodsIterator();
@@ -242,6 +245,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
         }
       }
     }
+    return outputs;
   }
 
   @Override

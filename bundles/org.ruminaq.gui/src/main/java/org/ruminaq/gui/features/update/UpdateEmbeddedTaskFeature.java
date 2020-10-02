@@ -182,7 +182,8 @@ public class UpdateEmbeddedTaskFeature extends UpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected void loadInputPorts() {
+  protected List<FileInternalInputPort> inputPorts() {
+    List<FileInternalInputPort> inputs = new LinkedList<>();
     for (InputPort ip : embeddedTask.getInputPort()) {
       List<DataType> dt = new LinkedList<>();
       for (Connection c : embeddedTask.getConnection()) {
@@ -201,10 +202,12 @@ public class UpdateEmbeddedTaskFeature extends UpdateUserDefinedTaskFeature {
       inputs.add(new FileInternalInputPort(ip.getId(), dt, ip.isAsynchronous(),
           ip.getGroup(), ip.isHoldLast(), ip.getQueueSize()));
     }
+    return inputs;
   }
 
   @Override
-  protected void loadOutputPorts() {
+  protected List<FileInternalOutputPort> outputPorts() {
+    List<FileInternalOutputPort> outputs = new LinkedList<>();
     for (OutputPort op : embeddedTask.getOutputPort()) {
       List<DataType> dt = new LinkedList<>();
       for (Connection c : embeddedTask.getConnection()) {
@@ -222,6 +225,7 @@ public class UpdateEmbeddedTaskFeature extends UpdateUserDefinedTaskFeature {
 
       outputs.add(new FileInternalOutputPort(op.getId(), dt));
     }
+    return outputs;
   }
 
   @Override
