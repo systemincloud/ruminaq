@@ -130,9 +130,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     }
   }
 
-  protected List<FileInternalInputPort> inputs = null;
-  protected List<FileInternalOutputPort> outputs = null;
-
   public UpdateUserDefinedTaskFeature(IFeatureProvider fp) {
     super(fp);
   }
@@ -143,9 +140,9 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
   }
 
   private boolean inputPortsUpdateNeeded(IUpdateContext context) {
-    if (inputs.size() != toModel(context).get().getInputPort().size())
+    if (inputPorts().size() != toModel(context).get().getInputPort().size())
       return true;
-    loop: for (FileInternalInputPort fip : inputs) {
+    loop: for (FileInternalInputPort fip : inputPorts()) {
       for (InternalInputPort iip : toModel(context).get().getInputPort())
         if (fip.getName().equals(iip.getId())
             && ModelUtil.areEquals(fip.getDataType(), iip.getDataType())
@@ -160,9 +157,9 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
   }
 
   private boolean outputPortsUpdateNeeded(IUpdateContext context) {
-    if (outputs.size() != toModel(context).get().getOutputPort().size())
+    if (outputPorts().size() != toModel(context).get().getOutputPort().size())
       return true;
-    loop: for (FileInternalOutputPort fip : outputs) {
+    loop: for (FileInternalOutputPort fip : outputPorts()) {
       for (InternalOutputPort iop : toModel(context).get().getOutputPort())
         if (fip.getName().equals(iop.getId())
             && ModelUtil.areEquals(fip.getDataType(), iop.getDataType()))
@@ -185,8 +182,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 
   @Override
   public IReason updateNeeded(IUpdateContext context) {
-    inputs = new ArrayList<>();
-    outputs = new ArrayList<>();
     PictogramElement pictogramElement = context.getPictogramElement();
 
     Task task = toModel(pictogramElement).get();
@@ -198,8 +193,6 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     if (!load(resource)) {
       return Reason.createFalseReason();
     }
-    loadInputPorts();
-    loadOutputPorts();
 
     if (super.updateNeeded(context).toBoolean()
         || iconDescriptionUpdateNeeded(context)
@@ -219,9 +212,9 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return "";
   }
 
-  protected abstract void loadInputPorts();
+  protected abstract List<FileInternalInputPort> inputPorts();
 
-  protected abstract void loadOutputPorts();
+  protected abstract List<FileInternalOutputPort> outputPorts();
 
   protected abstract boolean isAtomic();
 
@@ -261,6 +254,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
   }
 
   private boolean inputsUpdate(IUpdateContext context) {
+    List<FileInternalInputPort> inputs = null;
     List<InternalInputPort> inputsToRemove = new ArrayList<>();
     loop: for (InternalInputPort iip : toModel(context).get().getInputPort()) {
       for (FileInternalInputPort fip : inputs)
@@ -319,7 +313,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     List<InternalOutputPort> outputsToRemove = new ArrayList<>();
     loop: for (InternalOutputPort iop : toModel(context).get()
         .getOutputPort()) {
-      for (FileInternalOutputPort fip : outputs)
+      for (FileInternalOutputPort fip : outputPorts())
         if (fip.getName().equals(iop.getId())) {
           if (!ModelUtil.areEquals(fip.getDataType(), iop.getDataType())) {
             while (iop.getDataType().size() > 0)
@@ -333,7 +327,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 //    for (InternalOutputPort iop : outputsToRemove)
 //      removePortShape(task, parent, iop);
 
-    loop: for (FileInternalOutputPort fip : outputs) {
+    loop: for (FileInternalOutputPort fip : outputPorts()) {
       for (InternalOutputPort iop : toModel(context).get().getOutputPort())
         if (fip.getName().equals(iop.getId()))
           continue loop;
