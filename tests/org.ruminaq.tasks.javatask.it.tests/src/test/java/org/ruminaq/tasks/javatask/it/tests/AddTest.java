@@ -11,7 +11,6 @@ import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
-import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -89,7 +88,8 @@ public class AddTest extends GuiTest {
 
     Thread.sleep(1000);
 
-    assertEquals("Ports.java", bot.activeEditor().getTitle(), "Should open Java Editor");
+    assertEquals("Ports.java", bot.activeEditor().getTitle(),
+        "Should open Java Editor");
 
     gefEditor.activate();
   }
