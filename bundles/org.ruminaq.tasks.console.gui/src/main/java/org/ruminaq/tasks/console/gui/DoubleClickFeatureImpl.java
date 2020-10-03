@@ -6,11 +6,10 @@
 
 package org.ruminaq.tasks.console.gui;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
@@ -37,7 +36,7 @@ public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
 
   @Override
   public List<Class<? extends ICustomFeature>> getFeatures() {
-    return Arrays.asList(DoubleClickFeature.class);
+    return Collections.singletonList(DoubleClickFeature.class);
   }
 
   @FeatureFilter(Filter.class)
