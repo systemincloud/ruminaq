@@ -180,11 +180,6 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
           new SearchRequestor() {
             @Override
             public void acceptSearchMatch(SearchMatch sm) {
-              Integer queue = annotationValueCasted(sm, InputPortInfo.class,
-                  "queue", Integer.class).filter(i -> i != 0)
-                      .filter(i -> i >= -1).orElse(1);
-              String queueSize = queue == -1 ? AbstractCreateCustomTaskPage.INF
-                  : queue.toString();
               inputs
                   .add(new FileInternalInputPort(
                       annotationValueCasted(sm, InputPortInfo.class, "name",
@@ -210,7 +205,12 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
                           Integer.class).orElse(-1).intValue(),
                       annotationValueCasted(sm, InputPortInfo.class, "hold",
                           Boolean.class).orElse(Boolean.FALSE).booleanValue(),
-                      queueSize));
+                      Optional
+                          .of(annotationValueCasted(sm, InputPortInfo.class,
+                              "queue", Integer.class).filter(i -> i != 0)
+                                  .filter(i -> i >= -1).orElse(1))
+                          .filter(q -> q != -1).map(q -> q.toString())
+                          .orElse(AbstractCreateCustomTaskPage.INF)));
             }
           },
 
@@ -283,7 +283,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
           SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
       SearchRequestor requestor = new SearchRequestor() {
         @Override
-        public void acceptSearchMatch(SearchMatch sm) throws CoreException {
+        public void acceptSearchMatch(SearchMatch sm) {
           type = (NamedMember) sm.getElement();
         }
       };

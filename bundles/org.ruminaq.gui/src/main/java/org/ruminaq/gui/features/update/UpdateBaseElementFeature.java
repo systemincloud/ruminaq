@@ -14,7 +14,7 @@ import org.eclipse.graphiti.features.impl.Reason;
 
 /**
  * Common class for all Base Elements.
- * 
+ *
  * @author Marek Jagielski
  */
 public class UpdateBaseElementFeature extends AbstractUpdateFeature {
