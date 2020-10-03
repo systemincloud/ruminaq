@@ -29,8 +29,15 @@ import org.eclipse.emf.transaction.impl.TransactionalEditingDomainImpl;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.ui.internal.services.GraphitiUiInternal;
 
-@SuppressWarnings("restriction")
+/**
+ *
+ * @author Marek Jagielski
+ */
 public class FileService {
+  
+  private FileService() {
+    // only static methods.
+  }
 
   public static TransactionalEditingDomain createEmfFileForDiagram(
       URI diagramResourceUri, Diagram diagram, EObject model) {
