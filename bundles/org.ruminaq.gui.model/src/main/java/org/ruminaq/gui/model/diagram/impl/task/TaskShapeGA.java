@@ -3,11 +3,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.task;
 
 import java.util.Objects;
 import java.util.Optional;
-
+import java.util.function.Predicate;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -236,7 +237,7 @@ public class TaskShapeGA extends RoundedRectangleImpl {
   public LineStyle getLineStyle() {
     return Optional.of(shape).map(RuminaqShape::getModelObject)
         .filter(Task.class::isInstance).map(Task.class::cast)
-        .filter(Task::isAtomic).map(t -> LineStyle.SOLID)
+        .filter(Predicate.not(Task::isAtomic)).map(t -> LineStyle.DASH)
         .orElse(LineStyle.SOLID);
   }
 

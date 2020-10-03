@@ -171,7 +171,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
   }
 
   private boolean atomicUpdateNeeded(IUpdateContext context) {
-    return toModel(context).map(Task::isAtomic).filter(a -> a != isAtomic())
+    return toModel(context).map(Task::isAtomic).map(a -> a != isAtomic())
         .orElse(false);
   }
 
@@ -185,13 +185,13 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
   public IReason updateNeeded(IUpdateContext context) {
     return toModel(context).map(this::getResource)
         .filter(Predicate.not(""::equals)).filter(this::load)
-        .filter(Predicate.not(r -> super.updateNeeded(context).toBoolean()
+        .filter(r -> super.updateNeeded(context).toBoolean()
             || iconDescriptionUpdateNeeded(context)
             || inputPortsUpdateNeeded(context)
             || outputPortsUpdateNeeded(context) || atomicUpdateNeeded(context)
-            || paramsUpdateNeeded(context)))
-        .map(r -> Reason.createFalseReason())
-        .orElseGet(Reason::createTrueReason);
+            || paramsUpdateNeeded(context))
+        .map(r -> Reason.createTrueReason())
+        .orElseGet(Reason::createFalseReason);
   }
 
   protected abstract String getResource(Task task);
