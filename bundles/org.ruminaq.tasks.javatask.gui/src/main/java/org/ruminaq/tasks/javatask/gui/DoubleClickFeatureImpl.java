@@ -12,7 +12,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -31,8 +30,6 @@ import org.eclipse.jdt.core.search.SearchParticipant;
 import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.core.search.SearchRequestor;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.service.component.annotations.Component;
@@ -43,6 +40,7 @@ import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.tasks.javatask.gui.DoubleClickFeatureImpl.DoubleClickFeature.Filter;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.util.EclipseUtil;
+import org.ruminaq.util.Result;
 
 @Component(property = { "service.ranking:Integer=10" })
 public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
@@ -91,12 +89,13 @@ public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
     @Override
     public void execute(ICustomContext context) {
       toModel(context).map(JavaTask::getImplementationClass)
-          .filter(Predicate.not(""::equals)).map((String c) -> {
+          .filter(Predicate.not(""::equals))
+          .map(c -> SearchPattern.createPattern(c, IJavaSearchConstants.TYPE,
+              IJavaSearchConstants.TYPE,
+              SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE))
+          .map((SearchPattern p) -> {
             try {
-              new SearchEngine().search(
-                  SearchPattern.createPattern(c, IJavaSearchConstants.TYPE,
-                      IJavaSearchConstants.TYPE, SearchPattern.R_FULL_MATCH
-                          | SearchPattern.R_CASE_SENSITIVE),
+              new SearchEngine().search(p,
 
                   new SearchParticipant[] {
                       SearchEngine.getDefaultSearchParticipant() },
@@ -117,15 +116,18 @@ public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
             } catch (CoreException e) {
             }
             return type;
-          }).ifPresent(t -> Display.getCurrent().asyncExec(() -> {
-            IWorkbenchPage page = PlatformUI.getWorkbench()
-                .getActiveWorkbenchWindow().getActivePage();
-            try {
-              IResource r = t.getResource();
-              IDE.openEditor(page, (IFile) r, true);
-            } catch (PartInitException e) {
-            }
-          }));
+          }).map(IType::getResource).filter(
+              IFile.class::isInstance)
+          .map(
+              IFile.class::cast)
+          .ifPresent(
+              f -> Display.getCurrent()
+                  .asyncExec(
+                      () -> Result
+                          .attempt(() -> IDE.openEditor(
+                              PlatformUI.getWorkbench()
+                                  .getActiveWorkbenchWindow().getActivePage(),
+                              f, true))));
     }
   }
 }
