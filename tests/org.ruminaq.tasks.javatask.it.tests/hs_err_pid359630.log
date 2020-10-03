@@ -1,0 +1,21 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f410e51a0ad, pid=359630, tid=359647
+#
+# JRE version: OpenJDK Runtime Environment (14.0.2+12) (build 14.0.2+12-Ubuntu-1)
+# Java VM: OpenJDK 64-Bit Server VM (14.0.2+12-Ubuntu-1, mixed mode, sharing, tiered, compressed oops, g1 gc, linux-amd64)
+# Problematic frame:
+# C  [libjimage.so+0x30ad]
+#
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /home/lupus/data/git/ruminaq/tests/org.ruminaq.tasks.javatask.it.tests/core.359630)
+#
+# If you would like to submit a bug report, please visit:
+#   Unknown
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -XX:+ShowCodeDetailsInExceptionMessages -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:40229 -ea -Declipse.pde.launch=true -Declipse.p2.data.area=@config.dir/p2 --add-modules=ALL-SYSTEM -Dfile.encoding=UTF-8 org.eclipse.equinox.launcher.Main -os linux -ws gtk -arch x86_64 -nl en_US -consoleLog -version 3 -port 41477 -testLoaderClass org.eclipse.jdt.internal.junit4.runner.JUnit4TestLoader -loaderpluginname org.eclipse.jdt.junit4.runtime -test org.ruminaq.tasks.javatask.it.tests.AddTest:testAddJavaTask -application org.eclipse.swtbot.eclipse.core.swtbottestapplication -product org.eclipse.platform.ide -data /home/lupus/data/eclipse-workspace/ruminaq/../junit-workspace -configuration file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/pde-junit/ -dev file:/home/lupus/data/eclipse-workspace/ruminaq/.metadata/.plugins/org.eclipse.pde.core/pde-junit/dev.properties -os linux -ws gtk -arch x86_64 -nl en_US -consoleLog -testpluginname org.ruminaq.tasks.javatask.gui
+
+Host: 
