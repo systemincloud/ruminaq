@@ -119,6 +119,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-14
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.ruminaq.tasks.rtask.AddFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.rtask.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.rtask.ContextButtonPadTool.xml,
  OSGI-INF/org.ruminaq.tasks.rtask.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.rtask.Images.xml

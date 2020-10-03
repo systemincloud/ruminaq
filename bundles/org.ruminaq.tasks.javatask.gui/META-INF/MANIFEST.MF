@@ -120,7 +120,6 @@ Bundle-ClassPath: .
 Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.gui.Images.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.debug.JavaTasksDebugModelerExtension.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.AddFeatureImpl.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.ContextButtonPadTool.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.JavaTaskExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.CreateFeaturesImpl.xml,

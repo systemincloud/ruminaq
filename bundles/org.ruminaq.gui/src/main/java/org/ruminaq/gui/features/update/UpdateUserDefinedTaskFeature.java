@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
@@ -182,26 +183,15 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 
   @Override
   public IReason updateNeeded(IUpdateContext context) {
-    PictogramElement pictogramElement = context.getPictogramElement();
-
-    Task task = toModel(pictogramElement).get();
-    String resource = getResource(task);
-
-    if ("".equals(resource)) {
-      return Reason.createFalseReason();
-    }
-    if (!load(resource)) {
-      return Reason.createFalseReason();
-    }
-
-    if (super.updateNeeded(context).toBoolean()
-        || iconDescriptionUpdateNeeded(context)
-        || inputPortsUpdateNeeded(context) || outputPortsUpdateNeeded(context)
-        || atomicUpdateNeeded(context) || paramsUpdateNeeded(context)) {
-      return Reason.createTrueReason();
-    } else {
-      return Reason.createFalseReason();
-    }
+    return toModel(context).map(this::getResource)
+        .filter(Predicate.not(""::equals)).filter(this::load)
+        .filter(Predicate.not(r -> super.updateNeeded(context).toBoolean()
+            || iconDescriptionUpdateNeeded(context)
+            || inputPortsUpdateNeeded(context)
+            || outputPortsUpdateNeeded(context) || atomicUpdateNeeded(context)
+            || paramsUpdateNeeded(context)))
+        .map(r -> Reason.createFalseReason())
+        .orElseGet(Reason::createTrueReason);
   }
 
   protected abstract String getResource(Task task);

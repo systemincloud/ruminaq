@@ -70,7 +70,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
       return JavaTask.class;
     }
   }
-  
+
   private NamedMember type;
 
   public UpdateFeature(IFeatureProvider fp) {
@@ -136,8 +136,11 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
           new SearchRequestor() {
             @Override
-            public void acceptSearchMatch(SearchMatch sm) throws CoreException {
-              type = (NamedMember) sm.getElement();
+            public void acceptSearchMatch(SearchMatch sm) {
+              UpdateFeature.this.type = Optional.of(sm)
+                  .map(SearchMatch::getElement)
+                  .filter(NamedMember.class::isInstance)
+                  .map(NamedMember.class::cast).orElse(null);
             }
           },
 
@@ -261,9 +264,10 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
   @Override
   protected boolean isAtomic() {
-    return annotationValueCasted(
-        type.getAnnotation(JavaTaskInfo.class.getSimpleName()), "atomic",
-        Boolean.class).orElse(Boolean.TRUE);
+    return Optional.ofNullable(type)
+        .map(t -> t.getAnnotation(JavaTaskInfo.class.getSimpleName()))
+        .flatMap(a -> annotationValueCasted(a, "atomic", Boolean.class))
+        .orElse(Boolean.TRUE);
   }
 
   @Override

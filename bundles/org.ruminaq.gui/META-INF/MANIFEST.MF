@@ -117,7 +117,6 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextBut
  OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadConnectionPointTool.xml,
  OSGI-INF/org.ruminaq.gui.features.delete.DeleteFeatureImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadPortTool.xml,
- OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadEmbeddedTaskTool.xml,
  OSGI-INF/org.ruminaq.gui.features.copy.CopyFeaturesImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.create.CreateFeaturesImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.selection.InternalPortSelectionImpl.xml,
@@ -136,4 +135,5 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextBut
  OSGI-INF/org.ruminaq.gui.features.contextmenu.InternalPortBreakpointContextMenu.xml,
  OSGI-INF/org.ruminaq.gui.features.decorators.DecorateTaskFeature.xml,
  OSGI-INF/org.ruminaq.gui.features.decorators.DecorateInternalPortFeature.xml,
- OSGI-INF/org.ruminaq.gui.features.reconnection.ReconnectionFeatureImpl.xml
+ OSGI-INF/org.ruminaq.gui.features.reconnection.ReconnectionFeatureImpl.xml,
+ OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadUserDefinedTaskTool.xml

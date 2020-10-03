@@ -124,8 +124,7 @@ Export-Package: org.ruminaq.tasks.pythontask.gui,
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-14
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.pythontask.gui.ContextButtonPadTool.xml,
- OSGI-INF/org.ruminaq.tasks.pythontask.gui.EclipseExtensionImpl.xml,
+Service-Component: OSGI-INF/org.ruminaq.tasks.pythontask.gui.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.pythontask.gui.AddFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.pythontask.gui.Images.xml,
  OSGI-INF/org.ruminaq.tasks.pythontask.gui.CreateFeaturesImpl.xml
