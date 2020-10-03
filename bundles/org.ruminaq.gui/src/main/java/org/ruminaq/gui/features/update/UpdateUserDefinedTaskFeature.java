@@ -178,7 +178,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
   private boolean paramsUpdateNeeded(IUpdateContext context) {
     Map<String, String> shouldBe = getParameters(toModel(context).get());
     Set<String> is = toModel(context).get().getParameters().keySet();
-    return shouldBe.keySet().equals(is);
+    return !shouldBe.keySet().equals(is);
   }
 
   @Override
