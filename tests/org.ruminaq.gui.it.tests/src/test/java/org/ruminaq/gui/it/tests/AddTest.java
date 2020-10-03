@@ -194,6 +194,6 @@ public class AddTest extends GuiTest {
     et.select();
 
     List<ContextButton> buttons = et.getContextButtons();
-    assertEquals("EmbeddedTask should have 2 pad buttons", 1, buttons.size());
+    assertEquals("EmbeddedTask should have 2 pad buttons", 2, buttons.size());
   }
 }
