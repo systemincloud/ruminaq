@@ -66,8 +66,8 @@ import org.ruminaq.util.Result;
 @FeatureFilter(UpdateFeature.Filter.class)
 public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
-  private static int QUEUE_DEFAULT_SIZE = 1;
-  private static int QUEUE_INFINITE = -1;
+  private static final int QUEUE_DEFAULT_SIZE = 1;
+  private static final int QUEUE_INFINITE = -1;
 
   public static class Filter extends AbstractUpdateFeatureFilter {
     @Override
