@@ -155,8 +155,8 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
                   .map(NamedMember.class::cast).orElse(null);
             }
           }, null);
-      return true;
-    }).orElse(false);
+      return Boolean.TRUE;
+    }).orElse(Boolean.FALSE);
 
     return Optional.ofNullable(type).filter(t -> loaded)
         .map(t -> Result.attempt(t::getAnnotations))
