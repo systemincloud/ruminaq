@@ -46,6 +46,7 @@ import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.ruminaq.BaseElement;
+import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
@@ -113,6 +114,19 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
         .flatMap(a -> annotationValueCasted(a, name, type));
   }
 
+  private static List<DataType> annotationValueArray(SearchMatch sm,
+      Class<?> annotationType, String name) {
+    return Stream
+        .of(annotationValue(sm, annotationType, name)
+            .filter(Predicate.not(Object[].class::isInstance))
+            .map(v -> new Object[] { v })
+            .orElseGet(() -> annotationValue(sm, annotationType, name)
+                .map(Object[].class::cast).orElse(new Object[0])))
+        .map(String.class::cast)
+        .map(DataTypeManager.INSTANCE::getDataTypeFromName)
+        .filter(Objects::nonNull).collect(Collectors.toList());
+  }
+
   @Override
   protected String getResource(Task task) {
     return Optional.of(task).filter(JavaTask.class::isInstance)
@@ -167,46 +181,28 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
               IJavaSearchConstants.ANNOTATION_TYPE,
               IJavaSearchConstants.ALL_OCCURRENCES,
               SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE),
-
           new SearchParticipant[] {
               SearchEngine.getDefaultSearchParticipant() },
-
           SearchEngine.createJavaSearchScope(new IJavaElement[] { type }),
-
           new SearchRequestor() {
             @Override
             public void acceptSearchMatch(SearchMatch sm) {
-              inputs
-                  .add(new FileInternalInputPort(
-                      annotationValueCasted(sm, InputPortInfo.class, "name",
-                          String.class).orElse(""),
-                      Stream
-                          .of(annotationValue(sm, InputPortInfo.class,
-                              "dataType")
-                                  .filter(
-                                      Predicate.not(Object[].class::isInstance))
-                                  .map(v -> new Object[] { v })
-                                  .orElseGet(() -> annotationValue(sm,
-                                      InputPortInfo.class, "dataType")
-                                          .map(Object[].class::cast)
-                                          .orElse(new Object[0])))
-                          .map(String.class::cast)
-                          .map(DataTypeManager.INSTANCE::getDataTypeFromName)
-                          .filter(Objects::nonNull)
-                          .collect(Collectors.toList()),
-                      annotationValueCasted(sm, InputPortInfo.class,
-                          "asynchronous", Boolean.class).orElse(Boolean.FALSE)
-                              .booleanValue(),
-                      annotationValueCasted(sm, InputPortInfo.class, "group",
-                          Integer.class).orElse(-1).intValue(),
-                      annotationValueCasted(sm, InputPortInfo.class, "hold",
-                          Boolean.class).orElse(Boolean.FALSE).booleanValue(),
-                      Optional
-                          .of(annotationValueCasted(sm, InputPortInfo.class,
-                              "queue", Integer.class).filter(i -> i != 0)
-                                  .filter(i -> i >= -1).orElse(1))
-                          .filter(q -> q != -1).map(q -> q.toString())
-                          .orElse(AbstractCreateCustomTaskPage.INF)));
+              inputs.add(new FileInternalInputPort(
+                  annotationValueCasted(sm, InputPortInfo.class, "name",
+                      String.class).orElse(""),
+                  annotationValueArray(sm, InputPortInfo.class, "dataType"),
+                  annotationValueCasted(sm, InputPortInfo.class, "asynchronous",
+                      Boolean.class).orElse(Boolean.FALSE).booleanValue(),
+                  annotationValueCasted(sm, InputPortInfo.class, "group",
+                      Integer.class).orElse(-1).intValue(),
+                  annotationValueCasted(sm, InputPortInfo.class, "hold",
+                      Boolean.class).orElse(Boolean.FALSE).booleanValue(),
+                  Optional
+                      .of(annotationValueCasted(sm, InputPortInfo.class,
+                          "queue", Integer.class).filter(i -> i != 0)
+                              .filter(i -> i >= -1).orElse(1))
+                      .filter(q -> q != -1).map(q -> q.toString())
+                      .orElse(AbstractCreateCustomTaskPage.INF)));
             }
           }, null);
       return inputs;
@@ -222,30 +218,16 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
               IJavaSearchConstants.ANNOTATION_TYPE,
               IJavaSearchConstants.ALL_OCCURRENCES,
               SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE),
-
           new SearchParticipant[] {
               SearchEngine.getDefaultSearchParticipant() },
-
           SearchEngine.createJavaSearchScope(new IJavaElement[] { type }),
-
           new SearchRequestor() {
             @Override
             public void acceptSearchMatch(SearchMatch sm) throws CoreException {
               outputs.add(new FileInternalOutputPort(
                   annotationValueCasted(sm, OutputPortInfo.class, "name",
                       String.class).orElse(""),
-                  Stream
-                      .of(annotationValue(sm, OutputPortInfo.class,
-                          "dataType")
-                              .filter(Predicate.not(Object[].class::isInstance))
-                              .map(v -> new Object[] { v })
-                              .orElseGet(() -> annotationValue(sm,
-                                  OutputPortInfo.class, "dataType")
-                                      .map(Object[].class::cast)
-                                      .orElse(new Object[0])))
-                      .map(String.class::cast)
-                      .map(DataTypeManager.INSTANCE::getDataTypeFromName)
-                      .filter(Objects::nonNull).collect(Collectors.toList())));
+                  annotationValueArray(sm, OutputPortInfo.class, "dataType")));
             }
           },
 
