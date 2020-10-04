@@ -68,6 +68,7 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
   private static final int QUEUE_DEFAULT_SIZE = 1;
   private static final int QUEUE_INFINITE = -1;
+  private static final int DEFAULT_GROUP = -1;
 
   public static class Filter extends AbstractUpdateFeatureFilter {
     @Override
@@ -199,14 +200,14 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
                   annotationValueCasted(sm, InputPortInfo.class, "asynchronous",
                       Boolean.class).orElse(Boolean.FALSE).booleanValue(),
                   annotationValueCasted(sm, InputPortInfo.class, "group",
-                      Integer.class).orElse(-1).intValue(),
+                      Integer.class).orElseGet(() -> DEFAULT_GROUP).intValue(),
                   annotationValueCasted(sm, InputPortInfo.class, "hold",
                       Boolean.class).orElse(Boolean.FALSE).booleanValue(),
                   Optional
                       .of(annotationValueCasted(sm, InputPortInfo.class,
                           "queue", Integer.class).filter(i -> i != 0)
                               .filter(i -> i >= QUEUE_INFINITE)
-                              .orElse(QUEUE_DEFAULT_SIZE))
+                              .orElseGet(() -> QUEUE_DEFAULT_SIZE))
                       .filter(q -> q != QUEUE_INFINITE).map(Object::toString)
                       .orElse(AbstractCreateCustomTaskPage.INF)));
             }
