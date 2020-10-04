@@ -102,8 +102,10 @@ public class AddTest extends GuiTest {
     gefEditor.activate();
     
     new WithBoGraphitiEditPart(JavaTask.class).getContextButton("Update").click();
-    
-    assertDiagram(gefEditor, "AddTest.testAddJavaTask.1.xml");
+
+    Thread.sleep(1000);
+
+    assertDiagram(gefEditor, "AddTest.testAddJavaTask.2.xml");
   }
 
 }

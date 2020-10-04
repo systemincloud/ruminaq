@@ -212,28 +212,32 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 
   @Override
   public boolean update(IUpdateContext context) {
-    if (super.updateNeeded(context).toBoolean()) {
-      super.update(context);
-    }
+    Optional<String> resource = toModel(context).map(this::getResource)
+        .filter(Predicate.not(""::equals)).filter(this::load);
+    if (resource.isPresent()) {
+      if (super.updateNeeded(context).toBoolean()) {
+        super.update(context);
+      }
 
-    if (iconDescriptionUpdateNeeded(context)) {
-      iconDescriptionUpdate(context);
-    }
+      if (iconDescriptionUpdateNeeded(context)) {
+        iconDescriptionUpdate(context);
+      }
 
-    if (inputPortsUpdateNeeded(context)) {
-      inputsUpdate(context);
-    }
+      if (inputPortsUpdateNeeded(context)) {
+        inputsUpdate(context);
+      }
 
-    if (outputPortsUpdateNeeded(context)) {
-      outputsUpdate(context);
-    }
+      if (outputPortsUpdateNeeded(context)) {
+        outputsUpdate(context);
+      }
 
-    if (atomicUpdateNeeded(context)) {
-      atomicUpdate(context);
-    }
+      if (atomicUpdateNeeded(context)) {
+        atomicUpdate(context);
+      }
 
-    if (paramsUpdateNeeded(context)) {
-      paramsUpdate(context);
+      if (paramsUpdateNeeded(context)) {
+        paramsUpdate(context);
+      }
     }
 
     return true;
