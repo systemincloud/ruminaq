@@ -65,7 +65,8 @@ import org.ruminaq.util.Result;
  */
 @FeatureFilter(UpdateFeature.Filter.class)
 public class UpdateFeature extends UpdateUserDefinedTaskFeature {
-  
+
+  private static int QUEUE_DEFAULT_SIZE = 1;
   private static int QUEUE_INFINITE = -1;
 
   public static class Filter extends AbstractUpdateFeatureFilter {
@@ -176,16 +177,18 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
   @Override
   protected List<FileInternalInputPort> inputPorts() {
+    SearchPattern pattern = SearchPattern.createPattern(
+        InputPortInfo.class.getSimpleName(),
+        IJavaSearchConstants.ANNOTATION_TYPE,
+        IJavaSearchConstants.ALL_OCCURRENCES,
+        SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
+    SearchParticipant[] participants = new SearchParticipant[] {
+        SearchEngine.getDefaultSearchParticipant() };
+    IJavaSearchScope scope = SearchEngine
+        .createJavaSearchScope(new IJavaElement[] { type });
     return Result.attempt(() -> {
       List<FileInternalInputPort> inputs = new LinkedList<>();
-      new SearchEngine().search(
-          SearchPattern.createPattern(InputPortInfo.class.getSimpleName(),
-              IJavaSearchConstants.ANNOTATION_TYPE,
-              IJavaSearchConstants.ALL_OCCURRENCES,
-              SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE),
-          new SearchParticipant[] {
-              SearchEngine.getDefaultSearchParticipant() },
-          SearchEngine.createJavaSearchScope(new IJavaElement[] { type }),
+      new SearchEngine().search(pattern, participants, scope,
           new SearchRequestor() {
             @Override
             public void acceptSearchMatch(SearchMatch sm) {
@@ -202,8 +205,9 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
                   Optional
                       .of(annotationValueCasted(sm, InputPortInfo.class,
                           "queue", Integer.class).filter(i -> i != 0)
-                              .filter(i -> i >= QUEUE_INFINITE).orElse(1))
-                      .filter(q -> q != QUEUE_INFINITE).map(q -> q.toString())
+                              .filter(i -> i >= QUEUE_INFINITE)
+                              .orElse(QUEUE_DEFAULT_SIZE))
+                      .filter(q -> q != QUEUE_INFINITE).map(Object::toString)
                       .orElse(AbstractCreateCustomTaskPage.INF)));
             }
           }, null);
@@ -213,16 +217,18 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
   @Override
   protected List<FileInternalOutputPort> outputPorts() {
+    SearchPattern pattern = SearchPattern.createPattern(
+        OutputPortInfo.class.getSimpleName(),
+        IJavaSearchConstants.ANNOTATION_TYPE,
+        IJavaSearchConstants.ALL_OCCURRENCES,
+        SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE);
+    SearchParticipant[] participants = new SearchParticipant[] {
+        SearchEngine.getDefaultSearchParticipant() };
+    IJavaSearchScope scope = SearchEngine
+        .createJavaSearchScope(new IJavaElement[] { type });
     return Result.attempt(() -> {
       List<FileInternalOutputPort> outputs = new LinkedList<>();
-      new SearchEngine().search(
-          SearchPattern.createPattern(OutputPortInfo.class.getSimpleName(),
-              IJavaSearchConstants.ANNOTATION_TYPE,
-              IJavaSearchConstants.ALL_OCCURRENCES,
-              SearchPattern.R_EXACT_MATCH | SearchPattern.R_CASE_SENSITIVE),
-          new SearchParticipant[] {
-              SearchEngine.getDefaultSearchParticipant() },
-          SearchEngine.createJavaSearchScope(new IJavaElement[] { type }),
+      new SearchEngine().search(pattern, participants, scope,
           new SearchRequestor() {
             @Override
             public void acceptSearchMatch(SearchMatch sm) throws CoreException {
