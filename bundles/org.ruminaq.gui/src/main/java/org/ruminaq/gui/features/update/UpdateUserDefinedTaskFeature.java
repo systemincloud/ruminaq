@@ -238,6 +238,8 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
       if (paramsUpdateNeeded(context)) {
         paramsUpdate(context);
       }
+      
+      getDiagramBehavior().refreshContent();
     }
 
     return true;
