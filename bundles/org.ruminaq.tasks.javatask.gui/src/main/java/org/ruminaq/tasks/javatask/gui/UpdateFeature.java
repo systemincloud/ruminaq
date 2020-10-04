@@ -6,6 +6,7 @@
 
 package org.ruminaq.tasks.javatask.gui;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -159,8 +160,8 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
   @Override
   protected List<FileInternalInputPort> inputPorts() {
-    List<FileInternalInputPort> inputs = new LinkedList<>();
-    try {
+    return Result.attempt(() -> {
+      List<FileInternalInputPort> inputs = new LinkedList<>();
       new SearchEngine().search(
           SearchPattern.createPattern(InputPortInfo.class.getSimpleName(),
               IJavaSearchConstants.ANNOTATION_TYPE,
@@ -207,18 +208,15 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
                           .filter(q -> q != -1).map(q -> q.toString())
                           .orElse(AbstractCreateCustomTaskPage.INF)));
             }
-          },
-
-          null);
-    } catch (CoreException e) {
-    }
-    return inputs;
+          }, null);
+      return inputs;
+    }).orElse(Collections.emptyList());
   }
 
   @Override
   protected List<FileInternalOutputPort> outputPorts() {
-    List<FileInternalOutputPort> outputs = new LinkedList<>();
-    try {
+    return Result.attempt(() -> {
+      List<FileInternalOutputPort> outputs = new LinkedList<>();
       new SearchEngine().search(
           SearchPattern.createPattern(OutputPortInfo.class.getSimpleName(),
               IJavaSearchConstants.ANNOTATION_TYPE,
@@ -252,9 +250,8 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
           },
 
           null);
-    } catch (CoreException e) {
-    }
-    return outputs;
+      return outputs;
+    }).orElse(Collections.emptyList());
   }
 
   @Override
