@@ -137,7 +137,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 
   private boolean iconDescriptionUpdateNeeded(IUpdateContext context) {
     return toTaskShape(context).map(TaskShape::getDescription)
-        .map(iconDesc()::equals).orElse(false);
+        .map(iconDesc()::equals).orElse(Boolean.FALSE);
   }
 
   private boolean inputPortsUpdateNeeded(IUpdateContext context) {
@@ -172,7 +172,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 
   private boolean atomicUpdateNeeded(IUpdateContext context) {
     return toModel(context).map(Task::isAtomic).map(a -> a != isAtomic())
-        .orElse(false);
+        .orElse(Boolean.FALSE);
   }
 
   private boolean paramsUpdateNeeded(IUpdateContext context) {
