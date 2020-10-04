@@ -11,6 +11,7 @@ import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -84,6 +85,8 @@ public class AddTest extends GuiTest {
 
     assertEquals("test.Ports", bot.text().getText(), "Should fill field");
 
+    assertDiagram(gefEditor, "AddTest.testAddJavaTask.1.xml");
+
     jt.doubleClick();
 
     Thread.sleep(1000);
@@ -91,9 +94,16 @@ public class AddTest extends GuiTest {
     assertEquals("Ports.java", bot.activeEditor().getTitle(),
         "Should open Java Editor");
     
-    
+    SWTBotEclipseEditor textEditor = bot.activeEditor().toTextEditor();
+    textEditor.navigateTo(4, 13);
+    textEditor.typeText("(atomic = false)");
+    textEditor.save();
 
     gefEditor.activate();
+    
+    new WithBoGraphitiEditPart(JavaTask.class).getContextButton("Update").click();
+    
+    assertDiagram(gefEditor, "AddTest.testAddJavaTask.1.xml");
   }
 
 }
