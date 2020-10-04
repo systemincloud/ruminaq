@@ -8,12 +8,12 @@ package org.ruminaq.tasks.javatask.gui;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
+import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.core.search.SearchMatch;
 import org.eclipse.jdt.core.search.SearchParticipant;
@@ -55,16 +56,6 @@ public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
 
     private IType type;
 
-    private static Optional<JavaTask> toModel(IContext context) {
-      return Optional.of(context).filter(IDoubleClickContext.class::isInstance)
-          .map(IDoubleClickContext.class::cast)
-          .map(IDoubleClickContext::getPictogramElements).map(Stream::of)
-          .orElseGet(Stream::empty).findFirst()
-          .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
-          .map(RuminaqShape::getModelObject).filter(JavaTask.class::isInstance)
-          .map(JavaTask.class::cast);
-    }
-
     public static class Filter implements FeaturePredicate<IContext> {
       @Override
       public boolean test(IContext context) {
@@ -74,6 +65,16 @@ public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
 
     public DoubleClickFeature(IFeatureProvider fp) {
       super(fp);
+    }
+
+    private static Optional<JavaTask> toModel(IContext context) {
+      return Optional.of(context).filter(IDoubleClickContext.class::isInstance)
+          .map(IDoubleClickContext.class::cast)
+          .map(IDoubleClickContext::getPictogramElements).map(Stream::of)
+          .orElseGet(Stream::empty).findFirst()
+          .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+          .map(RuminaqShape::getModelObject).filter(JavaTask.class::isInstance)
+          .map(JavaTask.class::cast);
     }
 
     @Override
@@ -88,35 +89,30 @@ public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
 
     @Override
     public void execute(ICustomContext context) {
+      SearchParticipant[] participants = new SearchParticipant[] {
+          SearchEngine.getDefaultSearchParticipant() };
+      IJavaSearchScope scope = SearchEngine
+          .createJavaSearchScope(new IJavaElement[] { JavaCore
+              .create(ResourcesPlugin.getWorkspace().getRoot().getProject(
+                  EclipseUtil.getProjectNameFromDiagram(getDiagram()))) });
       toModel(context).map(JavaTask::getImplementationClass)
           .filter(Predicate.not(""::equals))
           .map(c -> SearchPattern.createPattern(c, IJavaSearchConstants.TYPE,
               IJavaSearchConstants.TYPE,
               SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE))
-          .map((SearchPattern p) -> {
-            try {
-              new SearchEngine().search(p,
-
-                  new SearchParticipant[] {
-                      SearchEngine.getDefaultSearchParticipant() },
-
-                  SearchEngine.createJavaSearchScope(new IJavaElement[] {
-                      JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
-                          .getProject(EclipseUtil
-                              .getProjectNameFromDiagram(getDiagram()))) }),
-
-                  new SearchRequestor() {
-                    @Override
-                    public void acceptSearchMatch(SearchMatch sm) {
-                      type = Optional.of(sm).map(SearchMatch::getElement)
-                          .filter(IType.class::isInstance)
-                          .map(IType.class::cast).orElse(null);
-                    }
-                  }, null);
-            } catch (CoreException e) {
-            }
+          .map(p -> Result.attempt(() -> {
+            new SearchEngine().search(p, participants, scope,
+                new SearchRequestor() {
+                  @Override
+                  public void acceptSearchMatch(SearchMatch sm) {
+                    type = Optional.of(sm).map(SearchMatch::getElement)
+                        .filter(IType.class::isInstance).map(IType.class::cast)
+                        .orElse(null);
+                  }
+                }, null);
             return type;
-          }).map(IType::getResource).filter(
+          }).orElse(null)).filter(Objects::nonNull).map(IType::getResource)
+          .filter(
               IFile.class::isInstance)
           .map(
               IFile.class::cast)
