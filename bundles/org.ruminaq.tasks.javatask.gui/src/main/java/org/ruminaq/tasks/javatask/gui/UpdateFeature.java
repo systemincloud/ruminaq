@@ -121,19 +121,16 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
   @Override
   public boolean load(String className) {
-    try {
+    boolean loaded = Result.attempt(() -> {
       new SearchEngine().search(
           SearchPattern.createPattern(className, IJavaSearchConstants.TYPE,
               IJavaSearchConstants.TYPE,
               SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE),
-
           new SearchParticipant[] {
               SearchEngine.getDefaultSearchParticipant() },
-
           SearchEngine.createJavaSearchScope(new IJavaElement[] { JavaCore
               .create(ResourcesPlugin.getWorkspace().getRoot().getProject(
                   EclipseUtil.getProjectNameFromDiagram(getDiagram()))) }),
-
           new SearchRequestor() {
             @Override
             public void acceptSearchMatch(SearchMatch sm) {
@@ -142,14 +139,12 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
                   .filter(NamedMember.class::isInstance)
                   .map(NamedMember.class::cast).orElse(null);
             }
-          },
+          }, null);
+      return true;
+    }).orElse(false);
 
-          null);
-    } catch (CoreException e) {
-      return false;
-    }
-
-    return Optional.ofNullable(type).map(t -> Result.attempt(t::getAnnotations))
+    return Optional.ofNullable(type).filter(t -> loaded)
+        .map(t -> Result.attempt(t::getAnnotations))
         .flatMap(r -> Optional.ofNullable(r.orElse(null))).map(Stream::of)
         .orElseGet(Stream::empty).map(IAnnotation::getElementName)
         .anyMatch(JavaTaskInfo.class.getSimpleName()::equals);
