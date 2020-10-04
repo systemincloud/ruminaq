@@ -65,6 +65,8 @@ import org.ruminaq.util.Result;
  */
 @FeatureFilter(UpdateFeature.Filter.class)
 public class UpdateFeature extends UpdateUserDefinedTaskFeature {
+  
+  private static int QUEUE_INFINITE = -1;
 
   public static class Filter extends AbstractUpdateFeatureFilter {
     @Override
@@ -200,8 +202,8 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
                   Optional
                       .of(annotationValueCasted(sm, InputPortInfo.class,
                           "queue", Integer.class).filter(i -> i != 0)
-                              .filter(i -> i >= -1).orElse(1))
-                      .filter(q -> q != -1).map(q -> q.toString())
+                              .filter(i -> i >= QUEUE_INFINITE).orElse(1))
+                      .filter(q -> q != QUEUE_INFINITE).map(q -> q.toString())
                       .orElse(AbstractCreateCustomTaskPage.INF)));
             }
           }, null);
