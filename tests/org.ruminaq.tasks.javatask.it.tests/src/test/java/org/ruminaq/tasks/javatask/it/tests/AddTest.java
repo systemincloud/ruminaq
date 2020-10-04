@@ -90,6 +90,8 @@ public class AddTest extends GuiTest {
 
     assertEquals("Ports.java", bot.activeEditor().getTitle(),
         "Should open Java Editor");
+    
+    
 
     gefEditor.activate();
   }

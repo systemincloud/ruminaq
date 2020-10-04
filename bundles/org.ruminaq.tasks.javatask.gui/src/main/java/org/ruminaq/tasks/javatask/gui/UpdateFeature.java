@@ -140,16 +140,17 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
 
   @Override
   public boolean load(String className) {
+    SearchPattern pattern = SearchPattern.createPattern(className,
+        IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE,
+        SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
+    SearchParticipant[] participants = new SearchParticipant[] {
+        SearchEngine.getDefaultSearchParticipant() };
+    IJavaSearchScope scope = SearchEngine
+        .createJavaSearchScope(new IJavaElement[] {
+            JavaCore.create(ResourcesPlugin.getWorkspace().getRoot().getProject(
+                EclipseUtil.getProjectNameFromDiagram(getDiagram()))) });
     boolean loaded = Result.attempt(() -> {
-      new SearchEngine().search(
-          SearchPattern.createPattern(className, IJavaSearchConstants.TYPE,
-              IJavaSearchConstants.TYPE,
-              SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE),
-          new SearchParticipant[] {
-              SearchEngine.getDefaultSearchParticipant() },
-          SearchEngine.createJavaSearchScope(new IJavaElement[] { JavaCore
-              .create(ResourcesPlugin.getWorkspace().getRoot().getProject(
-                  EclipseUtil.getProjectNameFromDiagram(getDiagram()))) }),
+      new SearchEngine().search(pattern, participants, scope,
           new SearchRequestor() {
             @Override
             public void acceptSearchMatch(SearchMatch sm) {
@@ -187,31 +188,32 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
         SearchEngine.getDefaultSearchParticipant() };
     IJavaSearchScope scope = SearchEngine
         .createJavaSearchScope(new IJavaElement[] { type });
+    List<FileInternalInputPort> inputs = new LinkedList<>();
+    SearchRequestor searchRequestor = new SearchRequestor() {
+      @Override
+      public void acceptSearchMatch(SearchMatch sm) {
+        inputs.add(new FileInternalInputPort(
+            annotationValueCasted(sm, InputPortInfo.class, "name", String.class)
+                .orElse(""),
+            annotationValueArray(sm, InputPortInfo.class, "dataType"),
+            annotationValueCasted(sm, InputPortInfo.class, "asynchronous",
+                Boolean.class).orElse(Boolean.FALSE).booleanValue(),
+            annotationValueCasted(sm, InputPortInfo.class, "group",
+                Integer.class).orElseGet(() -> DEFAULT_GROUP).intValue(),
+            annotationValueCasted(sm, InputPortInfo.class, "hold",
+                Boolean.class).orElse(Boolean.FALSE).booleanValue(),
+            Optional
+                .of(annotationValueCasted(sm, InputPortInfo.class, "queue",
+                    Integer.class).filter(i -> i != 0)
+                        .filter(i -> i >= QUEUE_INFINITE)
+                        .orElseGet(() -> QUEUE_DEFAULT_SIZE))
+                .filter(q -> q != QUEUE_INFINITE).map(Object::toString)
+                .orElse(AbstractCreateCustomTaskPage.INF)));
+      }
+    };
     return Result.attempt(() -> {
-      List<FileInternalInputPort> inputs = new LinkedList<>();
-      new SearchEngine().search(pattern, participants, scope,
-          new SearchRequestor() {
-            @Override
-            public void acceptSearchMatch(SearchMatch sm) {
-              inputs.add(new FileInternalInputPort(
-                  annotationValueCasted(sm, InputPortInfo.class, "name",
-                      String.class).orElse(""),
-                  annotationValueArray(sm, InputPortInfo.class, "dataType"),
-                  annotationValueCasted(sm, InputPortInfo.class, "asynchronous",
-                      Boolean.class).orElse(Boolean.FALSE).booleanValue(),
-                  annotationValueCasted(sm, InputPortInfo.class, "group",
-                      Integer.class).orElseGet(() -> DEFAULT_GROUP).intValue(),
-                  annotationValueCasted(sm, InputPortInfo.class, "hold",
-                      Boolean.class).orElse(Boolean.FALSE).booleanValue(),
-                  Optional
-                      .of(annotationValueCasted(sm, InputPortInfo.class,
-                          "queue", Integer.class).filter(i -> i != 0)
-                              .filter(i -> i >= QUEUE_INFINITE)
-                              .orElseGet(() -> QUEUE_DEFAULT_SIZE))
-                      .filter(q -> q != QUEUE_INFINITE).map(Object::toString)
-                      .orElse(AbstractCreateCustomTaskPage.INF)));
-            }
-          }, null);
+      new SearchEngine().search(pattern, participants, scope, searchRequestor,
+          null);
       return inputs;
     }).orElse(Collections.emptyList());
   }
@@ -227,19 +229,18 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
         SearchEngine.getDefaultSearchParticipant() };
     IJavaSearchScope scope = SearchEngine
         .createJavaSearchScope(new IJavaElement[] { type });
+    List<FileInternalOutputPort> outputs = new LinkedList<>();
+    SearchRequestor searchRequestor = new SearchRequestor() {
+      @Override
+      public void acceptSearchMatch(SearchMatch sm) throws CoreException {
+        outputs.add(new FileInternalOutputPort(
+            annotationValueCasted(sm, OutputPortInfo.class, "name",
+                String.class).orElse(""),
+            annotationValueArray(sm, OutputPortInfo.class, "dataType")));
+      }
+    };
     return Result.attempt(() -> {
-      List<FileInternalOutputPort> outputs = new LinkedList<>();
-      new SearchEngine().search(pattern, participants, scope,
-          new SearchRequestor() {
-            @Override
-            public void acceptSearchMatch(SearchMatch sm) throws CoreException {
-              outputs.add(new FileInternalOutputPort(
-                  annotationValueCasted(sm, OutputPortInfo.class, "name",
-                      String.class).orElse(""),
-                  annotationValueArray(sm, OutputPortInfo.class, "dataType")));
-            }
-          },
-
+      new SearchEngine().search(pattern, participants, scope, searchRequestor,
           null);
       return outputs;
     }).orElse(Collections.emptyList());
