@@ -240,6 +240,6 @@ public class PropertySection extends GFPropertySection
       getDiagramTypeProvider().getFeatureProvider()
           .updateIfPossible(new UpdateContext(getSelectedPictogramElement()));
     }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-        "Set Java Class");
+        Messages.propertySectionSetCommand);
   }
 }
