@@ -141,60 +141,58 @@ public class PropertySection extends GFPropertySection
                   EclipseUtil.getProjectNameFromDiagram(getDiagram())));
           IJavaSearchScope scope = SearchEngine
               .createJavaSearchScope(new IJavaElement[] { project });
-          try {
-            SelectionDialog dialog = JavaUI.createTypeDialog(
-                txtClassName.getShell(), null, scope,
-                IJavaElementSearchConstants.CONSIDER_CLASSES, false, "",
-                new TypeSelectionExtension() {
-                  @Override
-                  public ITypeInfoFilterExtension getFilterExtension() {
-                    return (ITypeInfoRequestor requestor) -> {
-                      String pag = requestor.getPackageName();
-                      String typeName = (pag.equals("") ? "" : pag + ".")
-                          + requestor.getTypeName();
-                      Optional<IType> type = Optional
-                          .ofNullable(
-                              Result.attempt(() -> project.findType(typeName)))
-                          .map(r -> r.orElse(null)).filter(Objects::nonNull)
-                          .filter(IType::exists);
+          SelectionDialog dialog = Result
+              .attempt(() -> JavaUI.createTypeDialog(txtClassName.getShell(),
+                  null, scope, IJavaElementSearchConstants.CONSIDER_CLASSES,
+                  false, "", new TypeSelectionExtension() {
+                    @Override
+                    public ITypeInfoFilterExtension getFilterExtension() {
+                      return (ITypeInfoRequestor requestor) -> {
+                        String pag = requestor.getPackageName();
+                        String typeName = (pag.equals("") ? "" : pag + ".")
+                            + requestor.getTypeName();
+                        Optional<IType> type = Optional
+                            .ofNullable(Result
+                                .attempt(() -> project.findType(typeName)))
+                            .map(r -> r.orElse(null)).filter(Objects::nonNull)
+                            .filter(IType::exists);
 
-                      return type
-                          .map(t -> t.getAnnotation(
-                              JavaTaskInfo.class.getSimpleName()))
-                          .isPresent()
-                          && type
-                              .map(t -> Result
-                                  .attempt(() -> t.newSupertypeHierarchy(null)
-                                      .getSuperclass(t)))
-                              .map(r -> r.orElse(null)).filter(Objects::nonNull)
-                              .map(IType::getFullyQualifiedName)
-                              .filter(
-                                  org.ruminaq.tasks.javatask.client.JavaTask.class
-                                      .getCanonicalName()::equals)
-                              .isPresent();
-                    };
-                  }
-                });
-            if (dialog.open() == SelectionDialog.OK) {
-              Object[] result = dialog.getResult();
-              String className = ((IType) result[0]).getFullyQualifiedName();
+                        return type
+                            .map(t -> t.getAnnotation(
+                                JavaTaskInfo.class.getSimpleName()))
+                            .isPresent()
+                            && type
+                                .map(t -> Result
+                                    .attempt(() -> t.newSupertypeHierarchy(null)
+                                        .getSuperclass(t)))
+                                .map(r -> r.orElse(null))
+                                .filter(Objects::nonNull)
+                                .map(IType::getFullyQualifiedName)
+                                .filter(
+                                    org.ruminaq.tasks.javatask.client.JavaTask.class
+                                        .getCanonicalName()::equals)
+                                .isPresent();
+                      };
+                    }
+                  }))
+              .orElse(null);
+          if (dialog != null && dialog.open() == SelectionDialog.OK) {
+            Object[] result = dialog.getResult();
+            String className = ((IType) result[0]).getFullyQualifiedName();
 
-              if (className != null)
-                txtClassName.setText(className);
+            if (className != null)
+              txtClassName.setText(className);
 
-              Optional.ofNullable(txtClassName.getText()).ifPresent(
-                  implementationName -> ModelUtil.runModelChange(() -> {
-                    selectedPictogramToJavaTask(getSelectedPictogramElement())
-                        .ifPresent(jt -> jt
-                            .setImplementationClass(implementationName));
-                    getDiagramTypeProvider().getFeatureProvider()
-                        .updateIfPossible(
-                            new UpdateContext(getSelectedPictogramElement()));
-                  }, getDiagramContainer().getDiagramBehavior()
-                      .getEditingDomain(), Messages.propertySectionSetCommand));
-            }
-          } catch (Exception ex) {
-            ex.printStackTrace();
+            Optional.ofNullable(txtClassName.getText()).ifPresent(
+                implementationName -> ModelUtil.runModelChange(() -> {
+                  selectedPictogramToJavaTask(getSelectedPictogramElement())
+                      .ifPresent(
+                          jt -> jt.setImplementationClass(implementationName));
+                  getDiagramTypeProvider().getFeatureProvider()
+                      .updateIfPossible(
+                          new UpdateContext(getSelectedPictogramElement()));
+                }, getDiagramContainer().getDiagramBehavior()
+                    .getEditingDomain(), Messages.propertySectionSetCommand));
           }
         });
     btnClassNew.addSelectionListener(
