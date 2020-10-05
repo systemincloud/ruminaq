@@ -7,6 +7,7 @@ Bundle-Version: 1.0.0.qualifier
 Fragment-Host: org.ruminaq.tasks.javatask.gui
 Bundle-RequiredExecutionEnvironment: JavaSE-14
 Require-Bundle: org.eclipse.swtbot.eclipse.finder,
+ org.eclipse.swtbot.swt.finder,
  org.eclipse.swtbot.junit4_x,
  org.junit,
  org.eclipse.jdt.junit4.runtime,
