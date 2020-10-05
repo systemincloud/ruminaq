@@ -42,42 +42,42 @@ public class AddTest extends GuiTest {
 
   @Test
   public void testAddJavaTask() throws InterruptedException {
-    String className = "Ports";
-    new CreateJavaTask().openJavaTaskWizardFromProjectContextMenu(bot,
-        projectName);
-    bot.textWithLabel("Package:").setText("test");
-    bot.textWithLabel("Name:").setText(className);
-
-    bot.button("Next >").click();
-
-    bot.button("Finish").click();
-
-    Thread.sleep(2000);
-
     GEFEditor gefEditor = new GEFEditor(diagramName);
-
-    Thread.sleep(1000);
-
     gefEditor.addToolFromPalette("Java Task", 200, 100);
-
-    WithBoGraphitiEditPart jt = new WithBoGraphitiEditPart(JavaTask.class);
-    jt.select();
-
-    Thread.sleep(1000);
 
     PropertySheet propertiesView = new PropertySheet();
 
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Java Task");
+    
+    bot.button("Create").click();
+    
+    bot.textWithLabel("Package:").setText("test");
+    bot.textWithLabel("Name:").setText("Ports");
 
-    bot.button().click();
+    bot.button("Next >").click();
+
+    bot.button("Finish").click();
+
+    Thread.sleep(10000);
+
+    gefEditor.activate();
+
+    WithBoGraphitiEditPart jt = new WithBoGraphitiEditPart(JavaTask.class);
+    jt.select();
+
+    propertiesView.open();
+    propertiesView.activate();
+    propertiesView.selectTab("Java Task");
+
+    bot.button("Select class").click();
 
     Thread.sleep(1000);
 
-    bot.text().setText(className);
+    bot.text().setText("test.Ports");
 
-    Thread.sleep(10000);
+    Thread.sleep(5000);
 
     bot.button("OK").click();
 

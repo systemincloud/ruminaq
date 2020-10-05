@@ -117,6 +117,7 @@ Import-Package: ch.qos.logback.classic,
 Export-Package: org.ruminaq.tasks.javatask.gui,
  org.ruminaq.tasks.javatask.gui.wizards
 Bundle-ClassPath: .
+Eclipse-RegisterBuddy: org.eclipse.swtbot.swt.finder
 Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.gui.Images.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.debug.JavaTasksDebugModelerExtension.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.AddFeatureImpl.xml,

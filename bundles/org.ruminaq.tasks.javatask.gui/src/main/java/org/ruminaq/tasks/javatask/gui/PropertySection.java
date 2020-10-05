@@ -108,7 +108,6 @@ public class PropertySection extends GFPropertySection
   }
 
   private void save() {
-    Shell shell = txtClassName.getShell();
     boolean parse = new UpdateFeature(
         getDiagramTypeProvider().getFeatureProvider())
             .load(txtClassName.getText());
@@ -120,10 +119,11 @@ public class PropertySection extends GFPropertySection
         getDiagramTypeProvider().getFeatureProvider()
             .updateIfPossible(new UpdateContext(getSelectedPictogramElement()));
       }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-          "Set Java Class");
-    } else
-      MessageDialog.openError(shell, "Can't edit value",
+          Messages.propertySectionSetCommand);
+    } else {
+      MessageDialog.openError(txtClassName.getShell(), "Can't edit value",
           "Class not found or incorrect.");
+    }
   }
 
   private void initActions() {
@@ -195,7 +195,7 @@ public class PropertySection extends GFPropertySection
                         .updateIfPossible(
                             new UpdateContext(getSelectedPictogramElement()));
                   }, getDiagramContainer().getDiagramBehavior()
-                      .getEditingDomain(), "Set Java Class"));
+                      .getEditingDomain(), Messages.propertySectionSetCommand));
             }
           } catch (Exception ex) {
             ex.printStackTrace();

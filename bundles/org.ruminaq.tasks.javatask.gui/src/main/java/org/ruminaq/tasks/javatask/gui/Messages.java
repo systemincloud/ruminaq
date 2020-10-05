@@ -18,6 +18,7 @@ public final class Messages extends NLS {
 
   public static String createJavaTaskWizardName;
   public static String customNewClassWizardPageDescription;
+  public static String propertySectionSetCommand;
 
   static {
     NLS.initializeMessages(
