@@ -13,12 +13,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.ui.IJavaElementSearchConstants;
@@ -29,6 +27,7 @@ import org.eclipse.jdt.ui.dialogs.TypeSelectionExtension;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
@@ -176,7 +175,7 @@ public class PropertySection extends GFPropertySection
                     }
                   }))
               .orElse(null);
-          if (dialog != null && dialog.open() == SelectionDialog.OK) {
+          if (dialog != null && dialog.open() == Window.OK) {
             Object[] result = dialog.getResult();
             String className = ((IType) result[0]).getFullyQualifiedName();
 
