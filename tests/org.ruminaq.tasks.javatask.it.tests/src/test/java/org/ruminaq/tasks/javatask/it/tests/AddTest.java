@@ -12,6 +12,7 @@ import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,6 +34,7 @@ public class AddTest extends GuiTest {
   @BeforeClass
   public static void initBot() {
     bot = new SWTWorkbenchBot();
+    SWTBotPreferences.KEYBOARD_LAYOUT = "EN_US";
   }
 
   @AfterClass
