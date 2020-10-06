@@ -149,17 +149,17 @@ public class UpdateFeature extends UpdateUserDefinedTaskFeature {
         .createJavaSearchScope(new IJavaElement[] {
             JavaCore.create(ResourcesPlugin.getWorkspace().getRoot().getProject(
                 EclipseUtil.getProjectNameFromDiagram(getDiagram()))) });
+    SearchRequestor searchRequestor = new SearchRequestor() {
+      @Override
+      public void acceptSearchMatch(SearchMatch sm) {
+        UpdateFeature.this.type = Optional.of(sm).map(SearchMatch::getElement)
+            .filter(NamedMember.class::isInstance).map(NamedMember.class::cast)
+            .orElse(null);
+      }
+    };
     boolean loaded = Result.attempt(() -> {
-      new SearchEngine().search(pattern, participants, scope,
-          new SearchRequestor() {
-            @Override
-            public void acceptSearchMatch(SearchMatch sm) {
-              UpdateFeature.this.type = Optional.of(sm)
-                  .map(SearchMatch::getElement)
-                  .filter(NamedMember.class::isInstance)
-                  .map(NamedMember.class::cast).orElse(null);
-            }
-          }, null);
+      new SearchEngine().search(pattern, participants, scope, searchRequestor,
+          null);
       return Boolean.TRUE;
     }).orElse(Boolean.FALSE);
 
