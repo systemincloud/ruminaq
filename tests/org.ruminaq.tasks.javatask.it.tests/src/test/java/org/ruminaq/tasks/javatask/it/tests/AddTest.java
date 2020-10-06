@@ -33,8 +33,8 @@ public class AddTest extends GuiTest {
 
   @BeforeClass
   public static void initBot() {
-    bot = new SWTWorkbenchBot();
     SWTBotPreferences.KEYBOARD_LAYOUT = "EN_US";
+    bot = new SWTWorkbenchBot();
   }
 
   @AfterClass
