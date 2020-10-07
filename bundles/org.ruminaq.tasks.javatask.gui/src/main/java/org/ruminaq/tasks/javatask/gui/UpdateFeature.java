@@ -131,6 +131,37 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
         .filter(Objects::nonNull).collect(Collectors.toList());
   }
 
+  private static Stream<NormalAnnotation> annotationsOnType(
+      TypeDeclaration type, Class<?> clazz) {
+    List<?> modifiers = Collections.synchronizedList(type.modifiers());
+    return modifiers.stream().filter(NormalAnnotation.class::isInstance)
+        .map(NormalAnnotation.class::cast).filter(
+            na -> clazz.getSimpleName().equals(na.getTypeName().toString()));
+  }
+
+  private static Optional<MemberValuePair> memberValuePairFromAnnotation(
+      NormalAnnotation na, String name) {
+    List<?> parameterValues = Collections.synchronizedList(na.values());
+    return parameterValues.stream().filter(MemberValuePair.class::isInstance)
+        .map(MemberValuePair.class::cast)
+        .filter(mvp -> name.equals(mvp.getName().toString())).findFirst();
+  }
+
+  private static String annotationValue(NormalAnnotation na, String name) {
+    return memberValuePairFromAnnotation(na, name)
+        .map(MemberValuePair::getValue).filter(QualifiedName.class::isInstance)
+        .map(QualifiedName.class::cast).map(QualifiedName::resolveBinding)
+        .filter(IVariableBinding.class::isInstance)
+        .map(IVariableBinding.class::cast)
+        .map(IVariableBinding::getConstantValue).map(String.class::isInstance)
+        .map(String.class::cast)
+        .orElseGet(() -> memberValuePairFromAnnotation(na, name)
+            .map(MemberValuePair::getValue)
+            .filter(StringLiteral.class::isInstance)
+            .map(StringLiteral.class::cast).map(StringLiteral::getLiteralValue)
+            .orElse(""));
+  }
+
   @Override
   protected String getResource(Task task) {
     return Optional.of(task).filter(JavaTask.class::isInstance)
@@ -288,45 +319,12 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
       CreateJavaTaskPage.parse(type.getCompilationUnit())
           .accept(new ASTVisitor() {
             @Override
-            public boolean visit(TypeDeclaration node) {
-              for (Object m : node.modifiers()) {
-                if (m instanceof NormalAnnotation
-                    && ((NormalAnnotation) m).getTypeName().toString()
-                        .equals(Parameter.class.getSimpleName())) {
-                  NormalAnnotation sicParameterA = (NormalAnnotation) m;
-                  String name = null;
-                  String defaultValue = "";
-                  for (Object i : sicParameterA.values()) {
-                    if (i instanceof MemberValuePair) {
-                      MemberValuePair mvp = (MemberValuePair) i;
-                      if ("name".equals(mvp.getName().toString())) {
-                        Expression e2 = mvp.getValue();
-                        if (e2 instanceof QualifiedName) {
-                          QualifiedName qn = (QualifiedName) e2;
-                          IBinding b = qn.resolveBinding();
-                          if (b instanceof IVariableBinding)
-                            name = (String) ((IVariableBinding) b)
-                                .getConstantValue();
-                        } else if (e2 instanceof StringLiteral)
-                          name = ((StringLiteral) e2).getLiteralValue();
-                      } else if ("defaultValue"
-                          .equals(mvp.getName().toString())) {
-                        Expression e2 = mvp.getValue();
-                        if (e2 instanceof QualifiedName) {
-                          QualifiedName qn = (QualifiedName) e2;
-                          IBinding b = qn.resolveBinding();
-                          if (b instanceof IVariableBinding)
-                            defaultValue = (String) ((IVariableBinding) b)
-                                .getConstantValue();
-                        } else if (e2 instanceof StringLiteral)
-                          defaultValue = ((StringLiteral) e2).getLiteralValue();
-                      }
-                    }
-                    ret.put(name, defaultValue);
-                  }
-                }
-              }
-              return false;
+            public boolean visit(TypeDeclaration type) {
+              return annotationsOnType(type, Parameter.class).peek(na -> {
+                String name = annotationValue(na, "name");
+                String defaultValue = annotationValue(na, "defaultValue");
+                ret.put(name, defaultValue);
+              }).findAny().isPresent();
             }
           });
     }
