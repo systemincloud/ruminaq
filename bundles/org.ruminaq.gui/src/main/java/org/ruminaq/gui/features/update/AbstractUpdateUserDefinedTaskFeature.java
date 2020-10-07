@@ -52,12 +52,12 @@ public abstract class AbstractUpdateUserDefinedTaskFeature extends UpdateTaskFea
     return toModel(context.getPictogramElement());
   }
 
-  protected static class FileInternalInputPort {
-    private String name = null;
+  protected static final class FileInternalInputPort {
+    private String name;
     private List<DataType> dataType = null;
-    private boolean asynchronous = false;
+    private boolean asynchronous;
     private int group = -1;
-    private boolean hold = false;
+    private boolean hold;
     private String queue = "1";
 
     public FileInternalInputPort(String name, List<DataType> dataType,
@@ -103,8 +103,8 @@ public abstract class AbstractUpdateUserDefinedTaskFeature extends UpdateTaskFea
     }
   }
 
-  protected static class FileInternalOutputPort {
-    private String name = null;
+  protected static final class FileInternalOutputPort {
+    private String name;
     private List<DataType> dataType = null;
 
     public FileInternalOutputPort(String name, List<DataType> dataType) {
