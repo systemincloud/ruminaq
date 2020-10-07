@@ -127,7 +127,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     }
   }
 
-  public AbstractUpdateUserDefinedTaskFeature(IFeatureProvider fp) {
+  protected AbstractUpdateUserDefinedTaskFeature(IFeatureProvider fp) {
     super(fp);
   }
 
