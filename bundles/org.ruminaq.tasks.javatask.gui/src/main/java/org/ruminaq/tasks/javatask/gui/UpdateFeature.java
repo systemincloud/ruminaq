@@ -24,8 +24,6 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.ASTVisitor;
-import org.eclipse.jdt.core.dom.Expression;
-import org.eclipse.jdt.core.dom.IBinding;
 import org.eclipse.jdt.core.dom.IVariableBinding;
 import org.eclipse.jdt.core.dom.MemberValuePair;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
@@ -287,47 +285,18 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
 
   @Override
   protected Map<String, String> getParameters(UserDefinedTask udt) {
-    final Map<String, String> ret = new HashMap<>();
-    JavaTask jt = (JavaTask) udt;
-    if (jt != null) {
-      String className = jt.getImplementationClass();
-
-      IJavaSearchScope scope = SearchEngine.createWorkspaceScope();
-      SearchPattern pattern = SearchPattern.createPattern(className,
-          IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE,
-          SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
-      SearchRequestor requestor = new SearchRequestor() {
-        @Override
-        public void acceptSearchMatch(SearchMatch sm) {
-          type = (NamedMember) sm.getElement();
-        }
-      };
-
-      SearchEngine searchEngine = new SearchEngine();
-      try {
-        searchEngine.search(pattern,
-            new SearchParticipant[] {
-                SearchEngine.getDefaultSearchParticipant() },
-            scope, requestor, null);
-      } catch (Exception e) {
-        return ret;
-      }
-
-      if (type == null)
-        return ret;
-
-      CreateJavaTaskPage.parse(type.getCompilationUnit())
-          .accept(new ASTVisitor() {
-            @Override
-            public boolean visit(TypeDeclaration type) {
-              return annotationsOnType(type, Parameter.class).peek(na -> {
-                String name = annotationValue(na, "name");
-                String defaultValue = annotationValue(na, "defaultValue");
-                ret.put(name, defaultValue);
-              }).findAny().isPresent();
-            }
-          });
-    }
+    Map<String, String> ret = new HashMap<>();
+    Optional.ofNullable(type).map(NamedMember::getCompilationUnit)
+        .ifPresent(cu -> CreateJavaTaskPage.parse(cu).accept(new ASTVisitor() {
+          @Override
+          public boolean visit(TypeDeclaration type) {
+            return annotationsOnType(type, Parameter.class).peek(na -> {
+              String name = annotationValue(na, "name");
+              String defaultValue = annotationValue(na, "defaultValue");
+              ret.put(name, defaultValue);
+            }).findAny().isPresent();
+          }
+        }));
     return ret;
   }
 }
