@@ -37,25 +37,6 @@ import org.ruminaq.model.ruminaq.UserDefinedTask;
 public abstract class AbstractUpdateUserDefinedTaskFeature
     extends UpdateTaskFeature {
 
-  private static Optional<TaskShape> toTaskShape(PictogramElement pe) {
-    return Optional.of(pe).filter(TaskShape.class::isInstance)
-        .map(TaskShape.class::cast);
-  }
-
-  private static Optional<TaskShape> toTaskShape(IUpdateContext context) {
-    return toTaskShape(context.getPictogramElement());
-  }
-
-  private static Optional<UserDefinedTask> toModel(PictogramElement pe) {
-    return toTaskShape(pe).map(TaskShape::getModelObject)
-        .filter(UserDefinedTask.class::isInstance)
-        .map(UserDefinedTask.class::cast);
-  }
-
-  private static Optional<UserDefinedTask> toModel(IUpdateContext context) {
-    return toModel(context.getPictogramElement());
-  }
-
   protected static final class FileInternalInputPort {
     private String name;
     private List<DataType> dataType = null;
@@ -129,6 +110,25 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 
   protected AbstractUpdateUserDefinedTaskFeature(IFeatureProvider fp) {
     super(fp);
+  }
+
+  private static Optional<TaskShape> toTaskShape(PictogramElement pe) {
+    return Optional.of(pe).filter(TaskShape.class::isInstance)
+        .map(TaskShape.class::cast);
+  }
+
+  private static Optional<TaskShape> toTaskShape(IUpdateContext context) {
+    return toTaskShape(context.getPictogramElement());
+  }
+
+  private static Optional<UserDefinedTask> toModel(PictogramElement pe) {
+    return toTaskShape(pe).map(TaskShape::getModelObject)
+        .filter(UserDefinedTask.class::isInstance)
+        .map(UserDefinedTask.class::cast);
+  }
+
+  private static Optional<UserDefinedTask> toModel(IUpdateContext context) {
+    return toModel(context.getPictogramElement());
   }
 
   private boolean iconDescriptionUpdateNeeded(IUpdateContext context) {
