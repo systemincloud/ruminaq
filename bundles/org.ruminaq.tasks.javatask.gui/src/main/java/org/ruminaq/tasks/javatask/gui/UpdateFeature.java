@@ -43,7 +43,7 @@ import org.eclipse.jdt.internal.core.NamedMember;
 import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
-import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
+import org.ruminaq.gui.features.update.AbstractUpdateUserDefinedTaskFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.DataType;
@@ -64,7 +64,7 @@ import org.ruminaq.util.Result;
  * @author Marek Jagielski
  */
 @FeatureFilter(UpdateFeature.Filter.class)
-public class UpdateFeature extends UpdateUserDefinedTaskFeature {
+public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
 
   private static final int QUEUE_DEFAULT_SIZE = 1;
   private static final int QUEUE_INFINITE = -1;

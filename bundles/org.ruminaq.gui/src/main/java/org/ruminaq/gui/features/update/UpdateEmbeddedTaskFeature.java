@@ -52,7 +52,7 @@ import org.ruminaq.util.GlobalUtil;
 
 import ch.qos.logback.classic.Logger;
 
-public class UpdateEmbeddedTaskFeature extends UpdateUserDefinedTaskFeature {
+public class UpdateEmbeddedTaskFeature extends AbstractUpdateUserDefinedTaskFeature {
 
   private final Logger logger = ModelerLoggerFactory
       .getLogger(UpdateEmbeddedTaskFeature.class);

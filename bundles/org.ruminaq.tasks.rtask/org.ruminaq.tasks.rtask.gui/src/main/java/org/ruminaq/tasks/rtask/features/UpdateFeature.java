@@ -26,7 +26,7 @@ import org.eclipse.statet.r.core.model.IRModelInfo;
 import org.eclipse.statet.r.core.model.IRModelManager;
 import org.eclipse.statet.r.core.model.IRWorkspaceSourceUnit;
 import org.eclipse.statet.r.core.model.RModel;
-import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
+import org.ruminaq.gui.features.update.AbstractUpdateUserDefinedTaskFeature;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.tasks.rtask.AddFeatureImpl;
@@ -53,7 +53,7 @@ import org.ruminaq.util.EclipseUtil;
 //import de.walware.statet.r.core.rsource.ast.StringConst;
 //import de.walware.statet.r.core.rsource.ast.Symbol;
 
-public class UpdateFeature extends UpdateUserDefinedTaskFeature {
+public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
 
 //    private IRLangSourceElement se = null;
   private String desc = AddFeatureImpl.AddFeature.NOT_CHOSEN;

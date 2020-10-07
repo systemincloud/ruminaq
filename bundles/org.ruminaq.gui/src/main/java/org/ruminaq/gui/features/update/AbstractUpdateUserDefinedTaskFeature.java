@@ -31,7 +31,7 @@ import org.ruminaq.model.ruminaq.UserDefinedTask;
  * 
  * @author Marek Jagielski
  */
-public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
+public abstract class AbstractUpdateUserDefinedTaskFeature extends UpdateTaskFeature {
 
   private static Optional<TaskShape> toTaskShape(PictogramElement pe) {
     return Optional.of(pe).filter(TaskShape.class::isInstance)
@@ -52,8 +52,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     return toModel(context.getPictogramElement());
   }
 
-  @SuppressWarnings("unchecked")
-  protected final class FileInternalInputPort {
+  protected static class FileInternalInputPort {
     private String name = null;
     private List<DataType> dataType = null;
     private boolean asynchronous = false;
@@ -104,8 +103,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     }
   }
 
-  @SuppressWarnings("unchecked")
-  protected final class FileInternalOutputPort {
+  protected static class FileInternalOutputPort {
     private String name = null;
     private List<DataType> dataType = null;
 
@@ -131,7 +129,7 @@ public abstract class UpdateUserDefinedTaskFeature extends UpdateTaskFeature {
     }
   }
 
-  public UpdateUserDefinedTaskFeature(IFeatureProvider fp) {
+  public AbstractUpdateUserDefinedTaskFeature(IFeatureProvider fp) {
     super(fp);
   }
 

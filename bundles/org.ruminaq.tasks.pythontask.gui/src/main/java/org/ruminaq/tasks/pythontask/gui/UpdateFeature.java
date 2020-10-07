@@ -35,7 +35,7 @@ import org.python.pydev.parser.visitors.scope.ASTEntry;
 import org.python.pydev.parser.visitors.scope.EasyASTIteratorVisitor;
 import org.python.pydev.plugin.nature.PythonNature;
 import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
-import org.ruminaq.gui.features.update.UpdateUserDefinedTaskFeature;
+import org.ruminaq.gui.features.update.AbstractUpdateUserDefinedTaskFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.Task;
@@ -43,7 +43,7 @@ import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.util.EclipseUtil;
 
-public class UpdateFeature extends UpdateUserDefinedTaskFeature {
+public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
 
   private SourceModule sourceModule;
   private String desc = AddFeatureImpl.AddFeature.NOT_CHOSEN;
