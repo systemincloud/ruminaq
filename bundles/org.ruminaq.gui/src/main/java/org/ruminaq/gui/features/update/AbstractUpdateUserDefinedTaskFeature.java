@@ -7,12 +7,14 @@
 package org.ruminaq.gui.features.update;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
@@ -28,10 +30,12 @@ import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 
 /**
- * 
+ * CommonUpdateTaskFeature for UserDefinedTask.
+ *
  * @author Marek Jagielski
  */
-public abstract class AbstractUpdateUserDefinedTaskFeature extends UpdateTaskFeature {
+public abstract class AbstractUpdateUserDefinedTaskFeature
+    extends UpdateTaskFeature {
 
   private static Optional<TaskShape> toTaskShape(PictogramElement pe) {
     return Optional.of(pe).filter(TaskShape.class::isInstance)
@@ -94,12 +98,9 @@ public abstract class AbstractUpdateUserDefinedTaskFeature extends UpdateTaskFea
       return queue;
     }
 
-    Class<? extends DataType>[] getDataTypeClasses() {
-      Class<?>[] ret = new Class<?>[dataType.size()];
-      int i = 0;
-      for (DataType dt : dataType)
-        ret[i++] = dt.getClass();
-      return (Class<? extends DataType>[]) ret;
+    Collection<Class<? extends DataType>> getDataTypeClasses() {
+      return dataType.stream().map(DataType::getClass)
+          .collect(Collectors.toList());
     }
   }
 
@@ -120,12 +121,9 @@ public abstract class AbstractUpdateUserDefinedTaskFeature extends UpdateTaskFea
       return dataType;
     }
 
-    Class<? extends DataType>[] getDataTypeClasses() {
-      Class<?>[] ret = new Class<?>[dataType.size()];
-      int i = 0;
-      for (DataType dt : dataType)
-        ret[i++] = dt.getClass();
-      return (Class<? extends DataType>[]) ret;
+    Collection<Class<? extends DataType>> getDataTypeClasses() {
+      return dataType.stream().map(DataType::getClass)
+          .collect(Collectors.toList());
     }
   }
 
@@ -236,7 +234,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature extends UpdateTaskFea
       if (paramsUpdateNeeded(context)) {
         paramsUpdate(context);
       }
-      
+
       getDiagramBehavior().refreshContent();
     }
 

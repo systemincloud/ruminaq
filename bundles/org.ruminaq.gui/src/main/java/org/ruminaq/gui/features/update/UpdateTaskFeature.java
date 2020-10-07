@@ -6,6 +6,7 @@
 
 package org.ruminaq.gui.features.update;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -305,7 +306,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   protected void createInputPort(Task task, ContainerShape parent, String name,
-      boolean showLabel, Class<? extends DataType>[] datatypes, boolean asyn,
+      boolean showLabel, Collection<Class<? extends DataType>> datatypes, boolean asyn,
       int grp, boolean hold, String queue, Position pos) {
     InternalInputPort in = (InternalInputPort) RuminaqFactory.eINSTANCE
         .createInternalInputPort();
@@ -326,7 +327,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   protected void createOutputPort(Task task, ContainerShape parent, String name,
-      boolean showLabel, Class<? extends DataType>[] datatypes, Position pos) {
+      boolean showLabel, Collection<Class<? extends DataType>> datatypes, Position pos) {
     InternalOutputPort out = (InternalOutputPort) RuminaqFactory.eINSTANCE
         .createInternalOutputPort();
     out.setId(name);
