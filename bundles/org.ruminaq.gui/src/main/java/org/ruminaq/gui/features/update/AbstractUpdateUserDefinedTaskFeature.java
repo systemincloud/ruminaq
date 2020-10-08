@@ -133,7 +133,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 
   private boolean iconDescriptionUpdateNeeded(IUpdateContext context) {
     return toTaskShape(context).map(TaskShape::getDescription)
-        .map(iconDesc()::equals).orElse(Boolean.FALSE);
+        .filter(iconDesc()::equals).isEmpty();
   }
 
   private boolean inputPortsUpdateNeeded(IUpdateContext context) {

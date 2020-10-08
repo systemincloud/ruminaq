@@ -48,6 +48,8 @@ public class PropertiesTest extends GuiTest {
     bot.checkBox("Atomic").deselect();
     bot.checkBox("Prevent data loss").deselect();
     
+    Thread.sleep(1000);
+    
     assertDiagram(gefEditor, "PropertiesTest.testMainTaskTab.xml");
   }
 
