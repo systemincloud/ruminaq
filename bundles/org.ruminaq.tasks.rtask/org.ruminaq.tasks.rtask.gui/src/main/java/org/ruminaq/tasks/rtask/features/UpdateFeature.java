@@ -319,7 +319,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
 //    }
 
   @Override
-  protected Map<String, String> getParameters(UserDefinedTask udt) {
+  protected Map<String, String> getParameters() {
     final Map<String, String> ret = new HashMap<>();
     return ret;
   }

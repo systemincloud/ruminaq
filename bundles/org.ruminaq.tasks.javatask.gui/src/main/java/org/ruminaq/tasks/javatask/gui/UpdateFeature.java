@@ -103,7 +103,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
     return toAnnotation(sm, annotationType)
         .flatMap(a -> annotationValue(a, name));
   }
-  
+
   private static String annotationValue(NormalAnnotation na, String name) {
     return memberValuePairFromAnnotation(na, name)
         .map(MemberValuePair::getValue).filter(QualifiedName.class::isInstance)
@@ -284,17 +284,19 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected Map<String, String> getParameters(UserDefinedTask udt) {
+  protected Map<String, String> getParameters() {
     Map<String, String> ret = new HashMap<>();
     Optional.ofNullable(type).map(NamedMember::getCompilationUnit)
         .ifPresent(cu -> CreateJavaTaskPage.parse(cu).accept(new ASTVisitor() {
           @Override
           public boolean visit(TypeDeclaration type) {
-            return annotationsOnType(type, Parameter.class).peek(na -> {
-              String name = annotationValue(na, "name");
-              String defaultValue = annotationValue(na, "defaultValue");
-              ret.put(name, defaultValue);
-            }).findAny().isPresent();
+            annotationsOnType(type, Parameter.class)
+                .forEach((NormalAnnotation na) -> {
+                  String name = annotationValue(na, "name");
+                  String defaultValue = annotationValue(na, "defaultValue");
+                  ret.put(name, defaultValue);
+                });
+            return true;
           }
         }));
     return ret;

@@ -172,7 +172,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   }
 
   private boolean paramsUpdateNeeded(IUpdateContext context) {
-    Map<String, String> shouldBe = getParameters(toModel(context).get());
+    Map<String, String> shouldBe = getParameters();
     Set<String> is = toModel(context).get().getParameters().keySet();
     return !shouldBe.keySet().equals(is);
   }
@@ -204,7 +204,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 
   protected abstract boolean isAtomic();
 
-  protected abstract Map<String, String> getParameters(UserDefinedTask udt);
+  protected abstract Map<String, String> getParameters();
 
   @Override
   public boolean update(IUpdateContext context) {
@@ -335,7 +335,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 
   private boolean paramsUpdate(IUpdateContext context) {
     UserDefinedTask udt = toModel(context).get();
-    Map<String, String> shouldBe = getParameters(udt);
+    Map<String, String> shouldBe = getParameters();
     Set<String> is = udt.getParameters().keySet();
 
     List<String> toRemove = new LinkedList<>();

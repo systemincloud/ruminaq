@@ -39,7 +39,6 @@ import org.ruminaq.gui.features.update.AbstractUpdateUserDefinedTaskFeature;
 import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.util.EclipseUtil;
 
@@ -273,7 +272,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected Map<String, String> getParameters(UserDefinedTask udt) {
+  protected Map<String, String> getParameters() {
     final Map<String, String> ret = new HashMap<>();
     SimpleNode ast = sourceModule.getAst();
     EasyASTIteratorVisitor visitor = EasyASTIteratorVisitor.create(ast);
