@@ -46,7 +46,6 @@ import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
