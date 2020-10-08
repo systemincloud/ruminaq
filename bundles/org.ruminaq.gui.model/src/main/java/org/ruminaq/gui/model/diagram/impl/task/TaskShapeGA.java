@@ -40,7 +40,7 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
   private TaskShape shape;
 
-  protected EList<GraphicsAlgorithm> children;
+  protected EList<GraphicsAlgorithm> children = ECollections.newBasicEList();
 
   /**
    * Optional icon in the center of TaskShape.
@@ -157,25 +157,19 @@ public class TaskShapeGA extends RoundedRectangleImpl {
    */
   private class Description extends TextImpl {
 
-    private String text;
-
-    Description(String text) {
-      this.text = text;
-    }
-
     @Override
     public int getWidth() {
-      return shape.getWidth();
+      return shape.getWidth() - (CORNER << 1);
     }
 
     @Override
     public int getHeight() {
-      return shape.getHeight() - ICON_SIZE;
+      return shape.getHeight() - ICON_SIZE - 1;
     }
 
     @Override
     public int getX() {
-      return 0;
+      return CORNER;
     }
 
     @Override
@@ -195,7 +189,12 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
     @Override
     public String getValue() {
-      return text;
+      return shape.getDescription();
+    }
+
+    @Override
+    public Color getBackground() {
+      return Colors.WHITE;
     }
 
     @Override
@@ -211,10 +210,10 @@ public class TaskShapeGA extends RoundedRectangleImpl {
    */
   public TaskShapeGA(TaskShape shape) {
     this.shape = shape;
-    this.children = ECollections.asEList(Optional.of(shape)
-        .map(TaskShape::getIconId).filter(Objects::nonNull).map(Icon::new)
+    this.children.add(Optional.of(shape).map(TaskShape::getIconId)
+        .filter(Objects::nonNull).map(Icon::new)
         .map(GraphicsAlgorithm.class::cast).orElseGet(Name::new));
-    Optional.of(shape).map(TaskShape::getDescription).map(Description::new)
+    Optional.of(shape).map(s -> new Description())
         .ifPresent(this.children::add);
   }
 
