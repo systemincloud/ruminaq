@@ -103,6 +103,21 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
     return toAnnotation(sm, annotationType)
         .flatMap(a -> annotationValue(a, name));
   }
+  
+  private static String annotationValue(NormalAnnotation na, String name) {
+    return memberValuePairFromAnnotation(na, name)
+        .map(MemberValuePair::getValue).filter(QualifiedName.class::isInstance)
+        .map(QualifiedName.class::cast).map(QualifiedName::resolveBinding)
+        .filter(IVariableBinding.class::isInstance)
+        .map(IVariableBinding.class::cast)
+        .map(IVariableBinding::getConstantValue).map(String.class::isInstance)
+        .map(String.class::cast)
+        .orElseGet(() -> memberValuePairFromAnnotation(na, name)
+            .map(MemberValuePair::getValue)
+            .filter(StringLiteral.class::isInstance)
+            .map(StringLiteral.class::cast).map(StringLiteral::getLiteralValue)
+            .orElse(""));
+  }
 
   private static <T> Optional<T> annotationValueCasted(IAnnotation annotation,
       String name, Class<T> type) {
@@ -131,7 +146,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
 
   private static Stream<NormalAnnotation> annotationsOnType(
       TypeDeclaration type, Class<?> clazz) {
-    List<?> modifiers = Collections.synchronizedList(type.modifiers());
+    List<?> modifiers = type.modifiers();
     return modifiers.stream().filter(NormalAnnotation.class::isInstance)
         .map(NormalAnnotation.class::cast).filter(
             na -> clazz.getSimpleName().equals(na.getTypeName().toString()));
@@ -139,25 +154,10 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
 
   private static Optional<MemberValuePair> memberValuePairFromAnnotation(
       NormalAnnotation na, String name) {
-    List<?> parameterValues = Collections.synchronizedList(na.values());
+    List<?> parameterValues = na.values();
     return parameterValues.stream().filter(MemberValuePair.class::isInstance)
         .map(MemberValuePair.class::cast)
         .filter(mvp -> name.equals(mvp.getName().toString())).findFirst();
-  }
-
-  private static String annotationValue(NormalAnnotation na, String name) {
-    return memberValuePairFromAnnotation(na, name)
-        .map(MemberValuePair::getValue).filter(QualifiedName.class::isInstance)
-        .map(QualifiedName.class::cast).map(QualifiedName::resolveBinding)
-        .filter(IVariableBinding.class::isInstance)
-        .map(IVariableBinding.class::cast)
-        .map(IVariableBinding::getConstantValue).map(String.class::isInstance)
-        .map(String.class::cast)
-        .orElseGet(() -> memberValuePairFromAnnotation(na, name)
-            .map(MemberValuePair::getValue)
-            .filter(StringLiteral.class::isInstance)
-            .map(StringLiteral.class::cast).map(StringLiteral::getLiteralValue)
-            .orElse(""));
   }
 
   @Override
