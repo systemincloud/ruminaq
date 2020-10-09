@@ -190,7 +190,11 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
         .orElseGet(Reason::createFalseReason);
   }
 
-  protected abstract String getResource(Task task);
+  protected String getResource(Task task) {
+    return Optional.of(task).filter(UserDefinedTask.class::isInstance)
+        .map(UserDefinedTask.class::cast)
+        .map(UserDefinedTask::getImplementationPath).orElse("");
+  }
 
   public abstract boolean load(String resource);
 
