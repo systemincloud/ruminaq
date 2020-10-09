@@ -95,7 +95,7 @@ public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
           .createJavaSearchScope(new IJavaElement[] { JavaCore
               .create(ResourcesPlugin.getWorkspace().getRoot().getProject(
                   EclipseUtil.getProjectNameFromDiagram(getDiagram()))) });
-      toModel(context).map(JavaTask::getImplementationClass)
+      toModel(context).map(JavaTask::getImplementationPath)
           .filter(Predicate.not(""::equals))
           .map(c -> SearchPattern.createPattern(c, IJavaSearchConstants.TYPE,
               IJavaSearchConstants.TYPE,

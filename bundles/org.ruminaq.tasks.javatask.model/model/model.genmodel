@@ -9,7 +9,6 @@
   <genPackages prefix="Javatask" basePackage="org.ruminaq.tasks.javatask.model" resource="XML"
       disposableProviderFactory="true" ecorePackage="model.ecore#/">
     <genClasses ecoreClass="model.ecore#//JavaTask">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//JavaTask/implementationClass"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

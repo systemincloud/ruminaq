@@ -46,6 +46,7 @@ import org.ruminaq.model.DataTypeManager;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.Task;
+import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
@@ -161,9 +162,9 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
 
   @Override
   protected String getResource(Task task) {
-    return Optional.of(task).filter(JavaTask.class::isInstance)
-        .map(JavaTask.class::cast).map(JavaTask::getImplementationClass)
-        .orElse("");
+    return Optional.of(task).filter(UserDefinedTask.class::isInstance)
+        .map(UserDefinedTask.class::cast)
+        .map(UserDefinedTask::getImplementationPath).orElse("");
   }
 
   @Override

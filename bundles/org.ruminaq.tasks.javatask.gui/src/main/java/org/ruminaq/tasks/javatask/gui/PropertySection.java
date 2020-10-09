@@ -116,7 +116,7 @@ public class PropertySection extends GFPropertySection
       ModelUtil.runModelChange(() -> {
         selectedPictogramToJavaTask(getSelectedPictogramElement())
             .ifPresent(javaTask -> javaTask
-                .setImplementationClass(txtClassName.getText()));
+                .setImplementationPath(txtClassName.getText()));
         getDiagramTypeProvider().getFeatureProvider()
             .updateIfPossible(new UpdateContext(getSelectedPictogramElement()));
       }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
@@ -186,7 +186,7 @@ public class PropertySection extends GFPropertySection
                 implementationName -> ModelUtil.runModelChange(() -> {
                   selectedPictogramToJavaTask(getSelectedPictogramElement())
                       .ifPresent(
-                          jt -> jt.setImplementationClass(implementationName));
+                          jt -> jt.setImplementationPath(implementationName));
                   getDiagramTypeProvider().getFeatureProvider()
                       .updateIfPossible(
                           new UpdateContext(getSelectedPictogramElement()));
@@ -228,7 +228,7 @@ public class PropertySection extends GFPropertySection
   @Override
   public void refresh() {
     selectedPictogramToJavaTask(getSelectedPictogramElement()).ifPresent(
-        javaTask -> txtClassName.setText(javaTask.getImplementationClass()));
+        javaTask -> txtClassName.setText(javaTask.getImplementationPath()));
   }
 
   @Override
@@ -236,7 +236,7 @@ public class PropertySection extends GFPropertySection
     ModelUtil.runModelChange(() -> {
       selectedPictogramToJavaTask(getSelectedPictogramElement())
           .ifPresent(javaTask -> javaTask
-              .setImplementationClass(type.getFullyQualifiedName()));
+              .setImplementationPath(type.getFullyQualifiedName()));
       getDiagramTypeProvider().getFeatureProvider()
           .updateIfPossible(new UpdateContext(getSelectedPictogramElement()));
     }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),

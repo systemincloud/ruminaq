@@ -96,6 +96,7 @@
     <genClasses image="false" ecoreClass="model.ecore#//UserDefinedTask">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//UserDefinedTask/parameters"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//UserDefinedTask/defaultParameters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//UserDefinedTask/implementationPath"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//StringToStringMapEntry">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//StringToStringMapEntry/key"/>

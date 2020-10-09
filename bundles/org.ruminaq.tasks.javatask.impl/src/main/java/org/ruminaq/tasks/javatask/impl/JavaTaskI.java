@@ -43,7 +43,7 @@ public class JavaTaskI extends GeneratorI implements JavaTaskListener {
   public JavaTaskI(EmbeddedTaskI parent, Task task) {
     super(parent, task);
     String implementationClass = ((org.ruminaq.tasks.javatask.model.javatask.JavaTask) task)
-        .getImplementationClass();
+        .getImplementationPath();
     try {
       this.clazz = (Class<? extends JavaTask>) JavaTaskI.class.getClassLoader()
           .loadClass(implementationClass);
