@@ -161,13 +161,6 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
   }
 
   @Override
-  protected String getResource(Task task) {
-    return Optional.of(task).filter(UserDefinedTask.class::isInstance)
-        .map(UserDefinedTask.class::cast)
-        .map(UserDefinedTask::getImplementationPath).orElse("");
-  }
-
-  @Override
   public boolean load(String className) {
     SearchPattern pattern = SearchPattern.createPattern(className,
         IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE,
