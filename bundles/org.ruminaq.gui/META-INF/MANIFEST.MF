@@ -84,6 +84,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.model,
  org.ruminaq.model.desc,
  org.ruminaq.model.ruminaq,
+ org.ruminaq.model.ruminaq.dt,
  org.ruminaq.model.ruminaq.impl,
  org.ruminaq.util,
  org.ruminaq.validation,
@@ -136,4 +137,5 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextBut
  OSGI-INF/org.ruminaq.gui.features.decorators.DecorateTaskFeature.xml,
  OSGI-INF/org.ruminaq.gui.features.decorators.DecorateInternalPortFeature.xml,
  OSGI-INF/org.ruminaq.gui.features.reconnection.ReconnectionFeatureImpl.xml,
- OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadUserDefinedTaskTool.xml
+ OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadUserDefinedTaskTool.xml,
+ OSGI-INF/org.ruminaq.gui.DataExtensionImpl.xml

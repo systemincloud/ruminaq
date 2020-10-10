@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.apache.commons.lang3.text.WordUtils;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IType;
@@ -44,6 +43,8 @@ import org.ruminaq.eclipse.usertask.model.userdefined.In;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.Out;
 import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
+import org.ruminaq.gui.api.DataExtension;
+import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.tasks.javatask.client.InputPort;
 import org.ruminaq.tasks.javatask.client.JavaTask;
 import org.ruminaq.tasks.javatask.client.OutputPort;
@@ -51,9 +52,7 @@ import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.Parameter;
-import org.ruminaq.tasks.javatask.client.data.Data;
 import org.ruminaq.tasks.javatask.gui.Messages;
-import org.ruminaq.tasks.javatask.gui.api.JavaTaskExtension;
 import org.ruminaq.util.ServiceUtil;
 
 /**
@@ -68,11 +67,11 @@ public class CreateJavaTaskPage extends AbstractCreateCustomTaskPage {
     setTitle(Messages.createJavaTaskWizardName);
   }
 
-  private Stream<Class<? extends Data>> dataTypes() {
+  private Stream<Class<? extends DataType>> dataTypes() {
     return ServiceUtil
         .getServicesAtLatestVersion(CreateJavaTaskPage.class,
-            JavaTaskExtension.class)
-        .stream().map(JavaTaskExtension::getDataTypes).flatMap(List::stream);
+            DataExtension.class)
+        .stream().map(DataExtension::getDataTypes).flatMap(List::stream);
   }
 
   @Override

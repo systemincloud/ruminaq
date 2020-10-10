@@ -4,19 +4,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.javatask.gui.api;
+package org.ruminaq.gui.api;
 
 import java.util.List;
-
-import org.ruminaq.tasks.javatask.client.data.Data;
+import org.ruminaq.model.ruminaq.DataType;
 
 /**
- * Service api providing JavaTask configuration.
+ * Service api providing DataTypes.
  *
  * @author Marek Jagielski
  */
-public interface JavaTaskExtension {
+public interface DataExtension {
 
-  List<Class<? extends Data>> getDataTypes();
+  List<Class<? extends DataType>> getDataTypes();
 
 }
