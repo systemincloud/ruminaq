@@ -9,9 +9,7 @@ package org.ruminaq.tasks.javatask.gui;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.maven.model.Dependency;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
