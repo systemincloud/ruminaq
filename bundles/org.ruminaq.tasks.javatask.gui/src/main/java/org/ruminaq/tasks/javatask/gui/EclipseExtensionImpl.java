@@ -21,13 +21,14 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateProjectWizard;
 import org.ruminaq.tasks.javatask.model.javatask.JavataskPackage;
+import org.ruminaq.util.Result;
 
 /**
  * Service EclipseExtension implementation.
  *
  * @author Marek Jagielski
  */
-@Component
+@Component(property = { "service.ranking:Integer=10" })
 public class EclipseExtensionImpl implements EclipseExtension {
 
   public static final String MAIN_JAVA = "src/main/java";
@@ -39,11 +40,9 @@ public class EclipseExtensionImpl implements EclipseExtension {
 
   @Override
   public boolean createProjectWizardPerformFinish(IJavaProject javaProject) {
-    try {
-      return new CreateProjectWizard().performFinish(javaProject);
-    } catch (CoreException e) {
-      return false;
-    }
+    return Result
+        .attempt(() -> new CreateProjectWizard().performFinish(javaProject))
+        .orElse(Boolean.FALSE);
   }
 
   @Override
