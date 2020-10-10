@@ -5,6 +5,6 @@
     <children xsi:type="diagram:LabelShape" x="226" y="172" labeledShape="/0/@children.0"/>
   </diagram:RuminaqDiagram>
   <ruminaq:MainTask version="1.0.0">
-    <task xsi:type="javatask:JavaTask" id="My Java Task" atomic="false" implementationClass="test.Ports"/>
+    <task xsi:type="javatask:JavaTask" id="My Java Task" atomic="false" implementationPath="test.Ports"/>
   </ruminaq:MainTask>
 </xmi:XMI>

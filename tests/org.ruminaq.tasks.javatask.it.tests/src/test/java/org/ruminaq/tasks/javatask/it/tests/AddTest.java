@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
+import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
@@ -72,6 +73,12 @@ public class AddTest extends GuiTest {
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Java Task");
+    
+    bot.text().setText("test.NotExisting");
+    
+    bot.text().pressShortcut(SWT.CR, SWT.LF);
+    
+    bot.button("OK").click();
 
     bot.button("Select class").click();
 
