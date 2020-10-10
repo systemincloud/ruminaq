@@ -41,7 +41,7 @@
     <tycho.version>2.0.0</tycho.version>
     <aspectj.version>1.9.6</aspectj.version>
     <spring.version>5.2.7.RELEASE</spring.version>
-    <jacoco.version>0.8.6-SNAPSHOT</jacoco.version>
+    <jacoco.version>0.8.6</jacoco.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <source.emf>${basedir}/model/model.genmodel</source.emf>
     <target.emf>${project.build.directory}/generated-sources/emf</target.emf>
