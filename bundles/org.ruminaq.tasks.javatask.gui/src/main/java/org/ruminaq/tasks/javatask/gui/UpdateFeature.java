@@ -158,6 +158,12 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
         .filter(mvp -> name.equals(mvp.getName().toString())).findFirst();
   }
 
+  /**
+   * Try to retrieve attributes from InputPortInfo.
+   * 
+   * @param sm SearchMatch
+   * @return helper object FileInternalInputPort
+   */
   private static FileInternalInputPort toFileInternalInputPort(SearchMatch sm) {
     return new FileInternalInputPort(
         annotationValueCasted(sm, InputPortInfo.class, "name", String.class)
@@ -178,6 +184,12 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
             .orElse(AbstractCreateCustomTaskPage.INF));
   }
   
+  /**
+   * Try to retrieve name and datatype of OutputPortInfo.
+   * 
+   * @param sm SearchMatch
+   * @return helper object FileInternalOutputPort
+   */
   private static FileInternalOutputPort toFileInternalOutputPort(
       SearchMatch sm) {
     return new FileInternalOutputPort(
