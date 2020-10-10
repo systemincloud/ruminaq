@@ -66,6 +66,13 @@ public class UpdateLabelFeature extends AbstractUpdateFeature {
     }
   }
 
+  /**
+   * If Lable suppose to be in default position and is not
+   * the position should be updated.
+   * 
+   * @param labelShape LabelShape
+   * @return should update
+   */
   private static boolean postionUpdateNeeded(LabelShape labelShape) {
     return labelShape.isDefaultPosition()
         && !LabelUtil.isInDefaultPosition(labelShape);
