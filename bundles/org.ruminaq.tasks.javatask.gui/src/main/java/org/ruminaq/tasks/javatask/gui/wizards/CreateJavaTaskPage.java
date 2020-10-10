@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.javatask.gui.wizards;
 
 import java.util.List;
@@ -52,7 +53,10 @@ import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.Parameter;
+import org.ruminaq.tasks.javatask.client.data.Data;
+import org.ruminaq.tasks.javatask.gui.JavaTaskExtension;
 import org.ruminaq.tasks.javatask.gui.Messages;
+import org.ruminaq.tasks.javatask.model.JavaTaskDataConverter;
 import org.ruminaq.util.ServiceUtil;
 
 /**
@@ -67,11 +71,12 @@ public class CreateJavaTaskPage extends AbstractCreateCustomTaskPage {
     setTitle(Messages.createJavaTaskWizardName);
   }
 
-  private Stream<Class<? extends DataType>> dataTypes() {
+  private Stream<Class<? extends Data>> dataTypes() {
     return ServiceUtil
         .getServicesAtLatestVersion(CreateJavaTaskPage.class,
-            DataExtension.class)
-        .stream().map(DataExtension::getDataTypes).flatMap(List::stream);
+            JavaTaskExtension.class)
+        .stream().map(JavaTaskExtension::getSupportedData)
+        .flatMap(List::stream);
   }
 
   @Override
@@ -96,8 +101,8 @@ public class CreateJavaTaskPage extends AbstractCreateCustomTaskPage {
       if (!parameters.isEmpty()) {
         for (CustomParameter p : parameters) {
           NormalAnnotation sicParameterA = ast.newNormalAnnotation();
-          sicParameterA.setTypeName(
-              ast.newSimpleName(Parameter.class.getSimpleName()));
+          sicParameterA
+              .setTypeName(ast.newSimpleName(Parameter.class.getSimpleName()));
 
           MemberValuePair mvpName = ast.newMemberValuePair();
           mvpName.setName(ast.newSimpleName("name"));

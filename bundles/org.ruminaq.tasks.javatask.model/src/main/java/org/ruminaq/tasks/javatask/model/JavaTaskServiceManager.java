@@ -3,23 +3,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.javatask.impl.service;
+package org.ruminaq.tasks.javatask.model;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
 
-import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.tasks.javatask.client.data.Data;
 
-import ch.qos.logback.classic.Logger;
-
 public enum JavaTaskServiceManager {
   INSTANCE;
-
-  private final Logger logger = RunnerLoggerFactory
-      .getLogger(JavaTaskServiceManager.class);
 
   private List<JavaTaskService> services = new ArrayList<>();
 
@@ -30,7 +24,7 @@ public enum JavaTaskServiceManager {
       // TODO : Only project version tasks
       services.add(srv);
     }
-    logger.trace("found {} extensions", services.size());
+//    logger.trace("found {} extensions", services.size());
   }
 
   public Data toJavaTaskData(DataI dataI, Class<? extends Data> to) {

@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.javatask.impl;
 
 import java.lang.reflect.Field;
@@ -23,6 +24,7 @@ import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
 import org.ruminaq.tasks.javatask.client.data.Data;
+import org.ruminaq.tasks.javatask.model.JavaTaskDataConverter;
 import org.ruminaq.util.GroovyExpressionUtil;
 import ch.qos.logback.classic.Logger;
 

@@ -3,7 +3,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.javatask.impl;
+
+package org.ruminaq.tasks.javatask.model;
 
 import org.ruminaq.runner.impl.data.BoolI;
 import org.ruminaq.runner.impl.data.Complex32I;
@@ -29,7 +30,6 @@ import org.ruminaq.tasks.javatask.client.data.Int32;
 import org.ruminaq.tasks.javatask.client.data.Int64;
 import org.ruminaq.tasks.javatask.client.data.Raw;
 import org.ruminaq.tasks.javatask.client.data.Text;
-import org.ruminaq.tasks.javatask.impl.service.JavaTaskServiceManager;
 
 public enum JavaTaskDataConverter {
   INSTANCE;
@@ -149,4 +149,5 @@ public enum JavaTaskDataConverter {
     else
       return null;
   }
+
 }

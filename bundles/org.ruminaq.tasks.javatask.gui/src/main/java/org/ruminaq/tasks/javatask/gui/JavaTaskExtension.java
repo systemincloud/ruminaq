@@ -3,15 +3,19 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.javatask.impl.service;
 
-import org.ruminaq.runner.impl.data.DataI;
+package org.ruminaq.tasks.javatask.gui;
+
+import java.util.List;
 import org.ruminaq.tasks.javatask.client.data.Data;
 
-public interface JavaTaskService {
-  Data toJavaTaskData(DataI dataI, Class<? extends Data> to);
+/**
+ * Service api providing JavaTask features.
+ *
+ * @author Marek Jagielski
+ */
+public interface JavaTaskExtension {
 
-  Data toJavaTaskData(DataI dataI);
+  List<Class<? extends Data>> getSupportedData();
 
-  DataI fromJavaTaskData(Data data, boolean copy);
 }

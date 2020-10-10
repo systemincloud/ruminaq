@@ -18,10 +18,15 @@ Import-Package: org.eclipse.emf.common,
  org.ruminaq.model.ruminaq,
  org.ruminaq.model.ruminaq.debug,
  org.ruminaq.model.ruminaq.debug.impl,
+ org.ruminaq.model.ruminaq.dt,
  org.ruminaq.model.ruminaq.impl,
+ org.ruminaq.runner.impl.data,
  org.ruminaq.tasks.gate.model.gate,
- org.ruminaq.tasks.gate.model.gate.impl
-Export-Package: org.ruminaq.tasks.javatask.model.javatask,
+ org.ruminaq.tasks.gate.model.gate.impl,
+ org.ruminaq.tasks.javatask.client.data,
+ org.ruminaq.util
+Export-Package: org.ruminaq.tasks.javatask.model,
+ org.ruminaq.tasks.javatask.model.javatask,
  org.ruminaq.tasks.javatask.model.javatask.impl,
  org.ruminaq.tasks.javatask.model.javatask.util
 Bundle-ClassPath: .

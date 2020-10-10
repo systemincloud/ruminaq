@@ -111,6 +111,7 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.tasks.javatask.client.annotations,
  org.ruminaq.tasks.javatask.client.data,
  org.ruminaq.tasks.javatask.impl,
+ org.ruminaq.tasks.javatask.model,
  org.ruminaq.tasks.javatask.model.javatask,
  org.ruminaq.util,
  org.slf4j
@@ -125,4 +126,5 @@ Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.gui.Images.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.CreateFeaturesImpl.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.Description.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.UpdateFeatureImpl.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.DoubleClickFeatureImpl.xml
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.DoubleClickFeatureImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.JavaTaskExtensionImpl.xml
