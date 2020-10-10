@@ -27,8 +27,6 @@ import org.eclipse.statet.r.core.model.IRModelManager;
 import org.eclipse.statet.r.core.model.IRWorkspaceSourceUnit;
 import org.eclipse.statet.r.core.model.RModel;
 import org.ruminaq.gui.features.update.AbstractUpdateUserDefinedTaskFeature;
-import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.tasks.rtask.AddFeatureImpl;
 import org.ruminaq.tasks.rtask.EclipseExtensionImpl;
 import org.ruminaq.tasks.rtask.model.rtask.RTask;
@@ -67,12 +65,6 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
     Object bo = getBusinessObjectForPictogramElement(
         context.getPictogramElement());
     return (bo instanceof RTask);
-  }
-
-  @Override
-  protected String getResource(Task bo) {
-    RTask be = (RTask) bo;
-    return be.getImplementation();
   }
 
   @Override
