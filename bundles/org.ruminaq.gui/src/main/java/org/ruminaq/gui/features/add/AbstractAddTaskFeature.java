@@ -72,6 +72,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     taskShape.setX(context.getX());
     taskShape.setY(context.getY());
     taskShape.setIconId(getInsideIconId());
+    taskShape.setDescription(getInsideIconDesc());
 
     taskShape.setWidth(Optional.of(context).map(IAddContext::getWidth)
         .filter(i -> i > 0).orElseGet(this::getWidth));

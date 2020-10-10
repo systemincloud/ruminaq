@@ -158,6 +158,34 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
         .filter(mvp -> name.equals(mvp.getName().toString())).findFirst();
   }
 
+  private static FileInternalInputPort toFileInternalInputPort(SearchMatch sm) {
+    return new FileInternalInputPort(
+        annotationValueCasted(sm, InputPortInfo.class, "name", String.class)
+            .orElse(""),
+        annotationValueArray(sm, InputPortInfo.class, "dataType"),
+        annotationValueCasted(sm, InputPortInfo.class, "asynchronous",
+            Boolean.class).orElse(Boolean.FALSE).booleanValue(),
+        annotationValueCasted(sm, InputPortInfo.class, "group", Integer.class)
+            .orElseGet(() -> DEFAULT_GROUP).intValue(),
+        annotationValueCasted(sm, InputPortInfo.class, "hold", Boolean.class)
+            .orElse(Boolean.FALSE).booleanValue(),
+        Optional
+            .of(annotationValueCasted(sm, InputPortInfo.class, "queue",
+                Integer.class).filter(i -> i != 0)
+                    .filter(i -> i >= QUEUE_INFINITE)
+                    .orElseGet(() -> QUEUE_DEFAULT_SIZE))
+            .filter(q -> q != QUEUE_INFINITE).map(Object::toString)
+            .orElse(AbstractCreateCustomTaskPage.INF));
+  }
+  
+  private static FileInternalOutputPort toFileInternalOutputPort(
+      SearchMatch sm) {
+    return new FileInternalOutputPort(
+        annotationValueCasted(sm, OutputPortInfo.class, "name",
+            String.class).orElse(""),
+        annotationValueArray(sm, OutputPortInfo.class, "dataType"));
+  }
+
   @Override
   public boolean load(String className) {
     SearchPattern pattern = SearchPattern.createPattern(className,
@@ -212,23 +240,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
     SearchRequestor searchRequestor = new SearchRequestor() {
       @Override
       public void acceptSearchMatch(SearchMatch sm) {
-        inputs.add(new FileInternalInputPort(
-            annotationValueCasted(sm, InputPortInfo.class, "name", String.class)
-                .orElse(""),
-            annotationValueArray(sm, InputPortInfo.class, "dataType"),
-            annotationValueCasted(sm, InputPortInfo.class, "asynchronous",
-                Boolean.class).orElse(Boolean.FALSE).booleanValue(),
-            annotationValueCasted(sm, InputPortInfo.class, "group",
-                Integer.class).orElseGet(() -> DEFAULT_GROUP).intValue(),
-            annotationValueCasted(sm, InputPortInfo.class, "hold",
-                Boolean.class).orElse(Boolean.FALSE).booleanValue(),
-            Optional
-                .of(annotationValueCasted(sm, InputPortInfo.class, "queue",
-                    Integer.class).filter(i -> i != 0)
-                        .filter(i -> i >= QUEUE_INFINITE)
-                        .orElseGet(() -> QUEUE_DEFAULT_SIZE))
-                .filter(q -> q != QUEUE_INFINITE).map(Object::toString)
-                .orElse(AbstractCreateCustomTaskPage.INF)));
+        inputs.add(toFileInternalInputPort(sm));
       }
     };
     return Result.attempt(() -> {
@@ -253,10 +265,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
     SearchRequestor searchRequestor = new SearchRequestor() {
       @Override
       public void acceptSearchMatch(SearchMatch sm) throws CoreException {
-        outputs.add(new FileInternalOutputPort(
-            annotationValueCasted(sm, OutputPortInfo.class, "name",
-                String.class).orElse(""),
-            annotationValueArray(sm, OutputPortInfo.class, "dataType")));
+        outputs.add(toFileInternalOutputPort(sm));
       }
     };
     return Result.attempt(() -> {
