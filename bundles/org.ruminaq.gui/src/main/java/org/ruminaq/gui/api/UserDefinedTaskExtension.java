@@ -7,15 +7,16 @@
 package org.ruminaq.gui.api;
 
 import java.util.List;
-import org.ruminaq.model.ruminaq.DataType;
 
 /**
- * Service api providing DataTypes.
+ * Service api providing UserDefinedTaskExtension features.
  *
  * @author Marek Jagielski
  */
-public interface DataExtension {
+public interface UserDefinedTaskExtension {
 
-  List<Class<? extends DataType>> getDataTypes();
+  List<String> getSupportedData();
+  
+  String getCannonicalDataName(String dataName);
 
 }

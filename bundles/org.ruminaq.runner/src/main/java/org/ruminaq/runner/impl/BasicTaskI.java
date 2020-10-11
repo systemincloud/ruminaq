@@ -11,8 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-import org.ruminaq.model.desc.PortsDescr;
+import org.ruminaq.model.ruminaq.PortsDescr;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.DataI;

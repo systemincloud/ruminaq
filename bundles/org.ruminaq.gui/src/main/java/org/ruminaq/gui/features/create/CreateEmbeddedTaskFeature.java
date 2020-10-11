@@ -10,9 +10,9 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.ruminaq.gui.image.Images;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
-import org.ruminaq.model.desc.NoPorts;
-import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
+import org.ruminaq.model.ruminaq.NoPorts;
+import org.ruminaq.model.ruminaq.PortsDescr;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 
 /**

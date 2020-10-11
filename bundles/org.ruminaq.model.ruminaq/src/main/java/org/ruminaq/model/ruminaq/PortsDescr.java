@@ -3,11 +3,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.model.desc;
+
+package org.ruminaq.model.ruminaq;
 
 import java.util.Optional;
-
-import org.ruminaq.model.ruminaq.PortInfo;
 import org.ruminaq.util.Result;
 
 public interface PortsDescr {

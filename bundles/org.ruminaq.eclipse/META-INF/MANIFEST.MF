@@ -92,7 +92,6 @@ Import-Package:
  org.ruminaq.gui.model.diagram,
  org.ruminaq.launch.api,
  org.ruminaq.logs,
- org.ruminaq.model,
  org.ruminaq.model.ruminaq,
  org.ruminaq.prefs,
  org.ruminaq.upgrade,

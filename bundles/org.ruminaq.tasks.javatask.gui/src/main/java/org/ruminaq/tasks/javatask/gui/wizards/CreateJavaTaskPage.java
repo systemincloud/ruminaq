@@ -6,7 +6,9 @@
 
 package org.ruminaq.tasks.javatask.gui.wizards;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -44,8 +46,7 @@ import org.ruminaq.eclipse.usertask.model.userdefined.In;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.Out;
 import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
-import org.ruminaq.gui.api.DataExtension;
-import org.ruminaq.model.ruminaq.DataType;
+import org.ruminaq.gui.api.UserDefinedTaskExtension;
 import org.ruminaq.tasks.javatask.client.InputPort;
 import org.ruminaq.tasks.javatask.client.JavaTask;
 import org.ruminaq.tasks.javatask.client.OutputPort;
@@ -53,10 +54,7 @@ import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.Parameter;
-import org.ruminaq.tasks.javatask.client.data.Data;
-import org.ruminaq.tasks.javatask.gui.JavaTaskExtension;
 import org.ruminaq.tasks.javatask.gui.Messages;
-import org.ruminaq.tasks.javatask.model.JavaTaskDataConverter;
 import org.ruminaq.util.ServiceUtil;
 
 /**
@@ -71,17 +69,16 @@ public class CreateJavaTaskPage extends AbstractCreateCustomTaskPage {
     setTitle(Messages.createJavaTaskWizardName);
   }
 
-  private Stream<Class<? extends Data>> dataTypes() {
-    return ServiceUtil
-        .getServicesAtLatestVersion(CreateJavaTaskPage.class,
-            JavaTaskExtension.class)
-        .stream().map(JavaTaskExtension::getSupportedData)
-        .flatMap(List::stream);
+  private Stream<UserDefinedTaskExtension> javaTaskExtensions() {
+    return ServiceUtil.getServicesAtLatestVersion(CreateJavaTaskPage.class,
+        UserDefinedTaskExtension.class,
+        () -> Collections.singletonList(JavaTask.class)).stream();
   }
 
   @Override
   protected List<String> getDataTypes() {
-    return dataTypes().map(Class::getSimpleName).collect(Collectors.toList());
+    return javaTaskExtensions().map(UserDefinedTaskExtension::getSupportedData)
+        .flatMap(List::stream).collect(Collectors.toList());
   }
 
   @SuppressWarnings({ "unchecked" })
@@ -542,10 +539,9 @@ public class CreateJavaTaskPage extends AbstractCreateCustomTaskPage {
         .concat(module.getInputs().stream().map(In::getDataType),
             module.getOutputs().stream().map(Out::getDataType))
         .distinct()
-        .map(dt -> dataTypes().filter(dti -> dti.getSimpleName().equals(dt))
-            .findFirst())
+        .map(dt -> javaTaskExtensions().map(s -> s.getCannonicalDataName(dt))
+            .filter(Objects::nonNull).findFirst())
         .filter(Optional::isPresent).map(Optional::get)
-        .map(Class::getCanonicalName)
         .forEach(clazz -> addImport(ast, lrw, clazz));
   }
 

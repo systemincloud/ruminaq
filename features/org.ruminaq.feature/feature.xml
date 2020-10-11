@@ -133,20 +133,6 @@
          fragment="true"/>
 
    <plugin
-         id="org.ruminaq.model"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
-         id="org.ruminaq.model.api"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.qualifier"
-         unpack="false"/>
-
-   <plugin
          id="org.ruminaq.model.ruminaq"
          download-size="0"
          install-size="0"

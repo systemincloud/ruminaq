@@ -5,7 +5,7 @@
  ******************************************************************************/
 package org.ruminaq.tasks.rtask;
 
-import org.ruminaq.model.desc.PortsDescr;
+import org.ruminaq.model.ruminaq.PortsDescr;
 
 public enum Port implements PortsDescr {
 }

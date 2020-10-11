@@ -8,8 +8,7 @@ package org.ruminaq.runner.impl;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.ruminaq.model.desc.PortsDescr;
+import org.ruminaq.model.ruminaq.PortsDescr;
 import org.ruminaq.runner.impl.data.DataI;
 
 public class PortMap extends HashMap<String, DataI> {

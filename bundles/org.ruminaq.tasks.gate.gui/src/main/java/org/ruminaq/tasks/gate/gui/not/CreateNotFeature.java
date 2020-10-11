@@ -10,7 +10,7 @@ import org.eclipse.graphiti.features.context.ICreateContext;
 import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
-import org.ruminaq.model.desc.PortsDescr;
+import org.ruminaq.model.ruminaq.PortsDescr;
 import org.ruminaq.tasks.gate.gui.Images;
 import org.ruminaq.tasks.gate.model.gate.GateFactory;
 import org.ruminaq.tasks.gate.model.gate.Not;

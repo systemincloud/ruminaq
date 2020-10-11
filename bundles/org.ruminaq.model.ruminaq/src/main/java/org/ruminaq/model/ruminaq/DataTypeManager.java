@@ -3,19 +3,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.model;
+
+package org.ruminaq.model.ruminaq;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
-
-import org.javatuples.Pair;
-import org.osgi.service.component.annotations.Reference;
-import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.model.api.ModelExtensionHandler;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.dt.Bool;
 import org.ruminaq.model.ruminaq.dt.Complex32;
@@ -30,42 +24,10 @@ import org.ruminaq.model.ruminaq.dt.Int64;
 import org.ruminaq.model.ruminaq.dt.Raw;
 import org.ruminaq.model.ruminaq.dt.Text;
 
-import ch.qos.logback.classic.Logger;
-
 public enum DataTypeManager {
   INSTANCE;
 
-  private static final Logger logger = ModelerLoggerFactory
-      .getLogger(DataTypeManager.class);
-
-  @Reference
-  private ModelExtensionHandler extensions;
-
-  private Map<Class<? extends DataType>, List<Pair<Class<? extends DataType>, Boolean>>> canCast = new HashMap<>();
-
-  public List<Class<? extends DataType>> getDataTypes() {
-    List<Class<? extends DataType>> dts = new LinkedList<>();
-    dts.add(Bool.class);
-    dts.add(Complex32.class);
-    dts.add(Complex64.class);
-    dts.add(Control.class);
-    dts.add(Decimal.class);
-    dts.add(Float32.class);
-    dts.add(Float64.class);
-    dts.add(Int32.class);
-    dts.add(Int64.class);
-    dts.add(Raw.class);
-    dts.add(Text.class);
-    dts.addAll(extensions.getDataTypes());
-    return dts;
-  }
-
   public DataType getDataTypeFromName(String name) {
-    logger.trace("Look for: {} in Modeler Extensions", name);
-    Optional<DataType> dataType = extensions.getDataTypeFromName(name);
-    if (dataType.isPresent())
-      return dataType.get();
-    logger.trace("Not found in Extensions");
     if (Bool.class.getSimpleName().equals(name))
       return DatatypeFactory.eINSTANCE.createBool();
     else if (Complex32.class.getSimpleName().equals(name))
@@ -94,28 +56,24 @@ public enum DataTypeManager {
 
   public boolean canCastFromTo(Class<? extends DataType> from,
       Class<? extends DataType> to) {
-    if (extensions.canCastFromTo(from, to))
-      return true;
-    for (Entry<Class<? extends DataType>, List<Pair<Class<? extends DataType>, Boolean>>> es : canCast
-        .entrySet())
-      if (es.getKey().isAssignableFrom(from))
-        for (Pair<Class<? extends DataType>, Boolean> it : es.getValue())
-          if (it.getValue0().isAssignableFrom(to))
-            return true;
+//    for (Entry<Class<? extends DataType>, List<Pair<Class<? extends DataType>, Boolean>>> es : canCast
+//        .entrySet())
+//      if (es.getKey().isAssignableFrom(from))
+//        for (Pair<Class<? extends DataType>, Boolean> it : es.getValue())
+//          if (it.getValue0().isAssignableFrom(to))
+//            return true;
     return false;
   }
 
   public boolean isLossyCastFromTo(Class<? extends DataType> from,
       Class<? extends DataType> to) {
-    if (extensions.isLossyCastFromTo(from, to))
-      return true;
-    for (Entry<Class<? extends DataType>, List<Pair<Class<? extends DataType>, Boolean>>> es : canCast
-        .entrySet())
-      if (es.getKey().isAssignableFrom(from))
-        for (Pair<Class<? extends DataType>, Boolean> it : es.getValue())
-          if (it.getValue0().isAssignableFrom(to)
-              && it.getValue1().booleanValue() == false)
-            return true;
+//    for (Entry<Class<? extends DataType>, List<Pair<Class<? extends DataType>, Boolean>>> es : canCast
+//        .entrySet())
+//      if (es.getKey().isAssignableFrom(from))
+//        for (Pair<Class<? extends DataType>, Boolean> it : es.getValue())
+//          if (it.getValue0().isAssignableFrom(to)
+//              && it.getValue1().booleanValue() == false)
+//            return true;
     return false;
   }
 }

@@ -16,7 +16,7 @@ import org.ruminaq.gui.api.CreateFeaturesExtension;
 import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
-import org.ruminaq.model.desc.PortsDescr;
+import org.ruminaq.model.ruminaq.PortsDescr;
 import org.ruminaq.tasks.randomgenerator.model.Port;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomgeneratorFactory;

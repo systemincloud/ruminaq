@@ -17,8 +17,8 @@ import org.ruminaq.gui.api.CreateFeaturesExtension;
 import org.ruminaq.gui.features.create.AbstractCreateTaskFeature;
 import org.ruminaq.gui.features.create.PaletteCreateFeature;
 import org.ruminaq.gui.palette.CommonPaletteCompartmentEntry;
-import org.ruminaq.model.desc.NoPorts;
-import org.ruminaq.model.desc.PortsDescr;
+import org.ruminaq.model.ruminaq.NoPorts;
+import org.ruminaq.model.ruminaq.PortsDescr;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.tasks.javatask.model.javatask.JavataskFactory;
 

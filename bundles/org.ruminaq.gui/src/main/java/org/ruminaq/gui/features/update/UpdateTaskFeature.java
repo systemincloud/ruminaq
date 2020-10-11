@@ -34,17 +34,17 @@ import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.gui.model.diagram.impl.TasksUtil;
 import org.ruminaq.gui.model.diagram.impl.task.InternalPortShapeGA;
-import org.ruminaq.model.DataTypeManager;
-import org.ruminaq.model.desc.NoPorts;
-import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.DataType;
+import org.ruminaq.model.ruminaq.DataTypeManager;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
+import org.ruminaq.model.ruminaq.NoPorts;
 import org.ruminaq.model.ruminaq.PortInfo;
 import org.ruminaq.model.ruminaq.PortType;
+import org.ruminaq.model.ruminaq.PortsDescr;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
 
@@ -311,6 +311,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     InternalInputPort in = (InternalInputPort) RuminaqFactory.eINSTANCE
         .createInternalInputPort();
     in.setId(name);
+    datatypes.stream();
     for (Class<? extends DataType> cdt : datatypes) {
       DataType dt = DataTypeManager.INSTANCE
           .getDataTypeFromName(ModelUtil.getName(cdt));

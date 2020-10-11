@@ -6,10 +6,10 @@
 package org.ruminaq.tasks.gate.not.impl;
 
 import org.ruminaq.gui.model.PortDiagram;
-import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.PortData;
 import org.ruminaq.model.ruminaq.PortInfo;
 import org.ruminaq.model.ruminaq.PortType;
+import org.ruminaq.model.ruminaq.PortsDescr;
 import org.ruminaq.model.ruminaq.dt.Bool;
 
 public enum Port implements PortsDescr {

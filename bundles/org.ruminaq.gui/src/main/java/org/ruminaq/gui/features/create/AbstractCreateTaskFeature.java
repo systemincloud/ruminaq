@@ -16,9 +16,9 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICreateContext;
 import org.ruminaq.gui.model.diagram.impl.TasksUtil;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.model.desc.PortsDescr;
 import org.ruminaq.model.ruminaq.PortInfo;
 import org.ruminaq.model.ruminaq.PortType;
+import org.ruminaq.model.ruminaq.PortsDescr;
 import org.ruminaq.model.ruminaq.Task;
 import org.slf4j.Logger;
 
