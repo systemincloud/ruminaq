@@ -50,7 +50,7 @@ public class UserDefinedTaskExtensionImpl implements UserDefinedTaskExtension {
     public boolean test(ServiceFilterArgs args) {
       return Optional.ofNullable(args).map(ServiceFilterArgs::getArgs)
           .map(List::stream).orElseGet(Stream::empty)
-          .filter(JavaTask.class::equals).findFirst().isPresent();
+          .anyMatch(JavaTask.class::equals);
     }
   }
 

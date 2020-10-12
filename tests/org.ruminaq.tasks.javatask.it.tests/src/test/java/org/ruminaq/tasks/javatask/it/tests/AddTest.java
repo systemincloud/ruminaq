@@ -53,9 +53,9 @@ public class AddTest extends GuiTest {
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Java Task");
-    
+
     bot.button("Create").click();
-    
+
     bot.textWithLabel("Package:").setText("test");
     bot.textWithLabel("Name:").setText("Ports");
 
@@ -73,11 +73,11 @@ public class AddTest extends GuiTest {
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Java Task");
-    
+
     bot.text().setText("test.NotExisting");
-    
+
     bot.text().pressShortcut(SWT.CR, SWT.LF);
-    
+
     bot.button("OK").click();
 
     bot.button("Select class").click();
@@ -102,15 +102,19 @@ public class AddTest extends GuiTest {
 
     assertEquals("Ports.java", bot.activeEditor().getTitle(),
         "Should open Java Editor");
-    
+
     SWTBotEclipseEditor textEditor = bot.activeEditor().toTextEditor();
     textEditor.navigateTo(4, 13);
     textEditor.typeText("(atomic = false)");
+
+    textEditor.insertText(3, 0,
+        "import org.ruminaq.tasks.javatask.client.InputPort;");
     textEditor.save();
 
     gefEditor.activate();
-    
-    new WithBoGraphitiEditPart(JavaTask.class).getContextButton("Update").click();
+
+    new WithBoGraphitiEditPart(JavaTask.class).getContextButton("Update")
+        .click();
 
     Thread.sleep(1000);
 
