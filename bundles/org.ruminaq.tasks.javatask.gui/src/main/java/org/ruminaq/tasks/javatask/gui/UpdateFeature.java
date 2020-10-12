@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IJavaElement;
@@ -160,7 +160,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
 
   /**
    * Try to retrieve attributes from InputPortInfo.
-   * 
+   *
    * @param sm SearchMatch
    * @return helper object FileInternalInputPort
    */
@@ -175,26 +175,26 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
             .orElseGet(() -> DEFAULT_GROUP).intValue(),
         annotationValueCasted(sm, InputPortInfo.class, "hold", Boolean.class)
             .orElse(Boolean.FALSE).booleanValue(),
-        Optional
+        OptionalInt
             .of(annotationValueCasted(sm, InputPortInfo.class, "queue",
                 Integer.class).filter(i -> i != 0)
                     .filter(i -> i >= QUEUE_INFINITE)
                     .orElseGet(() -> QUEUE_DEFAULT_SIZE))
-            .filter(q -> q != QUEUE_INFINITE).map(Object::toString)
-            .orElse(AbstractCreateCustomTaskPage.INF));
+            .stream().boxed().findFirst().filter(q -> q != QUEUE_INFINITE)
+            .map(Object::toString).orElse(AbstractCreateCustomTaskPage.INF));
   }
-  
+
   /**
    * Try to retrieve name and datatype of OutputPortInfo.
-   * 
+   *
    * @param sm SearchMatch
    * @return helper object FileInternalOutputPort
    */
   private static FileInternalOutputPort toFileInternalOutputPort(
       SearchMatch sm) {
     return new FileInternalOutputPort(
-        annotationValueCasted(sm, OutputPortInfo.class, "name",
-            String.class).orElse(""),
+        annotationValueCasted(sm, OutputPortInfo.class, "name", String.class)
+            .orElse(""),
         annotationValueArray(sm, OutputPortInfo.class, "dataType"));
   }
 
@@ -276,7 +276,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
     List<FileInternalOutputPort> outputs = new LinkedList<>();
     SearchRequestor searchRequestor = new SearchRequestor() {
       @Override
-      public void acceptSearchMatch(SearchMatch sm) throws CoreException {
+      public void acceptSearchMatch(SearchMatch sm) {
         outputs.add(toFileInternalOutputPort(sm));
       }
     };
