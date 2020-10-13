@@ -108,7 +108,9 @@ public class AddTest extends GuiTest {
     textEditor.typeText("(atomic = false)");
 
     textEditor.insertText(3, 0,
-        "import org.ruminaq.tasks.javatask.client.InputPort;");
+        "import org.ruminaq.tasks.javatask.client.InputPort;\n");
+    textEditor.insertText(3, 0,
+        "import org.ruminaq.tasks.javatask.client.OutputPort;\n");
     textEditor.save();
 
     gefEditor.activate();

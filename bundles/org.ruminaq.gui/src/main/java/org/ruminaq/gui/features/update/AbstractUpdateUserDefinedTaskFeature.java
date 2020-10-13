@@ -137,33 +137,27 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   }
 
   private boolean inputPortsUpdateNeeded(IUpdateContext context) {
-    if (inputPorts().size() != toModel(context).get().getInputPort().size())
-      return true;
-    loop: for (FileInternalInputPort fip : inputPorts()) {
-      for (InternalInputPort iip : toModel(context).get().getInputPort())
-        if (fip.getName().equals(iip.getId())
-            && ModelUtil.areEquals(fip.getDataType(), iip.getDataType())
-            && fip.isAsynchronus() == iip.isAsynchronous()
-            && fip.getGroup() == iip.getGroup()
-            && fip.isHold() == iip.isDefaultHoldLast()
-            && fip.getQueue().equals(iip.getDefaultQueueSize()))
-          continue loop;
+    if (inputPorts().size() != toModel(context).get().getInputPort().size()) {
       return true;
     }
-    return false;
+    return inputPorts().stream()
+        .anyMatch(fip -> toModel(context).get().getInputPort().stream()
+            .noneMatch(iip -> fip.getName().equals(iip.getId())
+                && ModelUtil.areEquals(fip.getDataType(), iip.getDataType())
+                && fip.isAsynchronus() == iip.isAsynchronous()
+                && fip.getGroup() == iip.getGroup()
+                && fip.isHold() == iip.isDefaultHoldLast()
+                && fip.getQueue().equals(iip.getDefaultQueueSize())));
   }
 
   private boolean outputPortsUpdateNeeded(IUpdateContext context) {
-    if (outputPorts().size() != toModel(context).get().getOutputPort().size())
-      return true;
-    loop: for (FileInternalOutputPort fip : outputPorts()) {
-      for (InternalOutputPort iop : toModel(context).get().getOutputPort())
-        if (fip.getName().equals(iop.getId())
-            && ModelUtil.areEquals(fip.getDataType(), iop.getDataType()))
-          continue loop;
+    if (outputPorts().size() != toModel(context).get().getOutputPort().size()) {
       return true;
     }
-    return false;
+    return outputPorts().stream()
+        .anyMatch(fip -> toModel(context).get().getOutputPort().stream()
+            .noneMatch(iop -> fip.getName().equals(iop.getId())
+                && ModelUtil.areEquals(fip.getDataType(), iop.getDataType())));
   }
 
   private boolean atomicUpdateNeeded(IUpdateContext context) {
