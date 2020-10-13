@@ -306,12 +306,10 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   protected void createInputPort(Task task, ContainerShape parent, String name,
-      boolean showLabel, Collection<Class<? extends DataType>> datatypes, boolean asyn,
-      int grp, boolean hold, String queue, Position pos) {
-    InternalInputPort in = (InternalInputPort) RuminaqFactory.eINSTANCE
-        .createInternalInputPort();
+      boolean showLabel, Collection<Class<? extends DataType>> datatypes,
+      boolean asyn, int grp, boolean hold, String queue, Position pos) {
+    InternalInputPort in = RuminaqFactory.eINSTANCE.createInternalInputPort();
     in.setId(name);
-    datatypes.stream();
     for (Class<? extends DataType> cdt : datatypes) {
       DataType dt = DataTypeManager.INSTANCE
           .getDataTypeFromName(ModelUtil.getName(cdt));
@@ -328,8 +326,9 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   protected void createOutputPort(Task task, ContainerShape parent, String name,
-      boolean showLabel, Collection<Class<? extends DataType>> datatypes, Position pos) {
-    InternalOutputPort out = (InternalOutputPort) RuminaqFactory.eINSTANCE
+      boolean showLabel, Collection<Class<? extends DataType>> datatypes,
+      Position pos) {
+    InternalOutputPort out = RuminaqFactory.eINSTANCE
         .createInternalOutputPort();
     out.setId(name);
     for (Class<? extends DataType> cdt : datatypes) {
