@@ -31,7 +31,8 @@ import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
 
 /**
- * Service UserDefinedTaskExtension implementation.
+ * Service UserDefinedTaskExtension implementation
+ * for JavaTask.
  *
  * @author Marek Jagielski
  */

@@ -73,6 +73,9 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
     }
   }
 
+  /**
+   * Loaded once type representing Java class.
+   */
   private NamedMember type;
 
   public UpdateFeature(IFeatureProvider fp) {
