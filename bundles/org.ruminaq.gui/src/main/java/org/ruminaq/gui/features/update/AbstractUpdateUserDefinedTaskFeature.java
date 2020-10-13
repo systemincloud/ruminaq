@@ -244,10 +244,9 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   }
 
   private boolean inputsUpdate(IUpdateContext context) {
-    List<FileInternalInputPort> inputs = null;
     List<InternalInputPort> inputsToRemove = new ArrayList<>();
     loop: for (InternalInputPort iip : toModel(context).get().getInputPort()) {
-      for (FileInternalInputPort fip : inputs)
+      for (FileInternalInputPort fip : inputPorts())
         if (fip.getName().equals(iip.getId())) {
 
           if (!ModelUtil.areEquals(fip.getDataType(), iip.getDataType())) {
@@ -288,7 +287,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 //    for (InternalInputPort iip : inputsToRemove)
 //      removePortShape(task, parent, iip);
 
-    loop: for (FileInternalInputPort fip : inputs) {
+    loop: for (FileInternalInputPort fip : inputPorts()) {
       for (InternalInputPort iip : toModel(context).get().getInputPort())
         if (fip.getName().equals(iip.getId()))
           continue loop;
