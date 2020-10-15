@@ -107,14 +107,38 @@ public class AddTest extends GuiTest {
     textEditor.navigateTo(4, 13);
     textEditor.typeText("(atomic = false)");
 
+    Thread.sleep(1000);
+
     textEditor.insertText(3, 0,
         "import org.ruminaq.tasks.javatask.client.InputPort;\n");
     textEditor.insertText(3, 0,
         "import org.ruminaq.tasks.javatask.client.OutputPort;\n");
+    textEditor.insertText(3, 0,
+        "import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;\n");
+    textEditor.insertText(3, 0,
+        "import org.ruminaq.tasks.javatask.client.data.Complex64;\n");
+
+    Thread.sleep(1000);
+
+    textEditor.insertText(7, 0,
+        "\t@InputPortInfo(name = \"a\", dataType = Complex64.class)\n");
+    textEditor.insertText(8, 0, "\tpublic InputPort a;\n");
+
+    textEditor.insertText(9, 0, "\n");
+    textEditor.insertText(10, 0, "\t@Override\n");
+    textEditor.insertText(11, 0, "\tpublic void execute(int grp) {\n");
+    textEditor.insertText(12, 0, "\t}\n");
+
     textEditor.save();
 
     gefEditor.activate();
 
+    new WithBoGraphitiEditPart(JavaTask.class).select();
+
+    Thread.sleep(1000);
+
+    new WithBoGraphitiEditPart(JavaTask.class).getContextButton("Update")
+        .click();
     new WithBoGraphitiEditPart(JavaTask.class).getContextButton("Update")
         .click();
 
