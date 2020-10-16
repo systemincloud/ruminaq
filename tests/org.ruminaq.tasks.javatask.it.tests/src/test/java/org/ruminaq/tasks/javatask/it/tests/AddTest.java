@@ -146,8 +146,6 @@ public class AddTest extends GuiTest {
 
     new WithBoGraphitiEditPart(JavaTask.class).getContextButton("Update")
         .click();
-    new WithBoGraphitiEditPart(JavaTask.class).getContextButton("Update")
-        .click();
 
     Thread.sleep(1000);
 

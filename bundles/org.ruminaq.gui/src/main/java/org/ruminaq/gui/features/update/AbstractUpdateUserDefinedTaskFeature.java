@@ -175,11 +175,11 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   public IReason updateNeeded(IUpdateContext context) {
     return toModel(context).map(this::getResource)
         .filter(Predicate.not(""::equals)).filter(this::load)
-        .filter(r -> super.updateNeeded(context).toBoolean()
-            || iconDescriptionUpdateNeeded(context)
+        .filter(r -> iconDescriptionUpdateNeeded(context)
             || inputPortsUpdateNeeded(context)
             || outputPortsUpdateNeeded(context) || atomicUpdateNeeded(context)
-            || paramsUpdateNeeded(context))
+            || paramsUpdateNeeded(context)
+            || super.updateNeeded(context).toBoolean())
         .map(r -> Reason.createTrueReason())
         .orElseGet(Reason::createFalseReason);
   }
@@ -209,10 +209,6 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     Optional<String> resource = toModel(context).map(this::getResource)
         .filter(Predicate.not(""::equals)).filter(this::load);
     if (resource.isPresent()) {
-      if (super.updateNeeded(context).toBoolean()) {
-        super.update(context);
-      }
-
       if (iconDescriptionUpdateNeeded(context)) {
         iconDescriptionUpdate(context);
       }
@@ -231,6 +227,10 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 
       if (paramsUpdateNeeded(context)) {
         paramsUpdate(context);
+      }
+
+      if (super.updateNeeded(context).toBoolean()) {
+        super.update(context);
       }
 
       getDiagramBehavior().refreshContent();
