@@ -9,6 +9,7 @@
   <ruminaq:MainTask version="1.0.0">
     <task xsi:type="javatask:JavaTask" id="My Java Task" atomic="false" implementationPath="test.Ports">
       <inputPort id="a">
+        <dataType xsi:type="dt:Complex32"/>
         <dataType xsi:type="dt:Complex64"/>
       </inputPort>
     </task>

@@ -116,18 +116,25 @@ public class AddTest extends GuiTest {
     textEditor.insertText(3, 0,
         "import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;\n");
     textEditor.insertText(3, 0,
+        "import org.ruminaq.tasks.javatask.client.data.Complex32;\n");
+    textEditor.insertText(3, 0,
         "import org.ruminaq.tasks.javatask.client.data.Complex64;\n");
-
     Thread.sleep(1000);
 
     textEditor.insertText(7, 0,
-        "\t@InputPortInfo(name = \"a\", dataType = Complex64.class)\n");
+        "\t@InputPortInfo(name = \"a\", dataType = { Complex32.class, Complex64.class })\n");
     textEditor.insertText(8, 0, "\tpublic InputPort a;\n");
 
     textEditor.insertText(9, 0, "\n");
-    textEditor.insertText(10, 0, "\t@Override\n");
-    textEditor.insertText(11, 0, "\tpublic void execute(int grp) {\n");
-    textEditor.insertText(12, 0, "\t}\n");
+
+    textEditor.insertText(10, 0,
+        "\t@InputPortInfo(name = \"a\", dataType = Complex64.class)\n");
+    textEditor.insertText(11, 0, "\tpublic OutputPort b;\n");
+
+    textEditor.insertText(12, 0, "\n");
+    textEditor.insertText(13, 0, "\t@Override\n");
+    textEditor.insertText(14, 0, "\tpublic void execute(int grp) {\n");
+    textEditor.insertText(15, 0, "\t}\n");
 
     textEditor.save();
 
