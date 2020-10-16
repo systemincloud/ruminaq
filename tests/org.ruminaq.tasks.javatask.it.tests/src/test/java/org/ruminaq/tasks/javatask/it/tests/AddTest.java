@@ -128,7 +128,7 @@ public class AddTest extends GuiTest {
     textEditor.insertText(9, 0, "\n");
 
     textEditor.insertText(10, 0,
-        "\t@InputPortInfo(name = \"a\", dataType = Complex64.class)\n");
+        "\t@OutputPortInfo(name = \"b\", dataType = Complex64.class)\n");
     textEditor.insertText(11, 0, "\tpublic OutputPort b;\n");
 
     textEditor.insertText(12, 0, "\n");

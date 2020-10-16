@@ -3,11 +3,15 @@
   <diagram:RuminaqDiagram mainTask="/1">
     <children xsi:type="diagram:TaskShape" x="200" y="100" width="120" height="70" modelObject="/1/@task.0" label="/0/@children.1" iconId="/icons/diagram.javatask.png" description="Ports">
       <internalPort xsi:type="diagram:InternalInputPortShape" y="30" modelObject="/1/@task.0/@inputPort.0"/>
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="110" y="30" modelObject="/1/@task.0/@outputPort.0"/>
     </children>
     <children xsi:type="diagram:LabelShape" x="226" y="172" labeledShape="/0/@children.0"/>
   </diagram:RuminaqDiagram>
   <ruminaq:MainTask version="1.0.0">
     <task xsi:type="javatask:JavaTask" id="My Java Task" atomic="false" implementationPath="test.Ports">
+      <outputPort id="b">
+        <dataType xsi:type="dt:Complex64"/>
+      </outputPort>
       <inputPort id="a">
         <dataType xsi:type="dt:Complex32"/>
         <dataType xsi:type="dt:Complex64"/>
