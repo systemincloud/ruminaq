@@ -21,6 +21,11 @@ import org.ruminaq.gui.model.diagram.impl.task.InternalPortLabelShapeGA;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.NoElement;
 
+/**
+ * IUpdateFeature for InternalPortLabel.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class UpdateInternalPortLabelFeature extends AbstractUpdateFeature {
 
@@ -35,17 +40,32 @@ public class UpdateInternalPortLabelFeature extends AbstractUpdateFeature {
       return NoElement.class;
     }
   }
+  
+  public UpdateInternalPortLabelFeature(IFeatureProvider fp) {
+    super(fp);
+  }
 
-  protected static Optional<InternalPortLabelShape> shapeFromContext(
+  private static Optional<InternalPortLabelShape> shapeFromContext(
       IUpdateContext context) {
     return Optional.of(context)
         .map(AbstractUpdateFeatureFilter.getPictogramElement)
         .filter(InternalPortLabelShape.class::isInstance)
         .map(InternalPortLabelShape.class::cast);
   }
-
-  public UpdateInternalPortLabelFeature(IFeatureProvider fp) {
-    super(fp);
+  
+  private static boolean postionUpdateNeeded(InternalPortLabelShape labelShape) {
+    return Optional.of(labelShape).map(PictogramElement::getGraphicsAlgorithm)
+        .filter(InternalPortLabelShapeGA.class::isInstance)
+        .map(InternalPortLabelShapeGA.class::cast)
+        .filter(InternalPortLabelShapeGA::isInPosition).isEmpty();
+  }
+  
+  private static boolean postionUpdate(InternalPortLabelShape labelShape) {
+    Optional.of(labelShape).map(PictogramElement::getGraphicsAlgorithm)
+        .filter(InternalPortLabelShapeGA.class::isInstance)
+        .map(InternalPortLabelShapeGA.class::cast)
+        .ifPresent(InternalPortLabelShapeGA::updatePosition);
+    return true;
   }
 
   @Override
@@ -64,13 +84,6 @@ public class UpdateInternalPortLabelFeature extends AbstractUpdateFeature {
     }
   }
 
-  private boolean postionUpdateNeeded(InternalPortLabelShape labelShape) {
-    return Optional.of(labelShape).map(PictogramElement::getGraphicsAlgorithm)
-        .filter(InternalPortLabelShapeGA.class::isInstance)
-        .map(InternalPortLabelShapeGA.class::cast)
-        .filter(InternalPortLabelShapeGA::isInPosition).isEmpty();
-  }
-
   @Override
   public boolean update(IUpdateContext context) {
     InternalPortLabelShape labelShape = shapeFromContext(context).orElseThrow();
@@ -79,14 +92,6 @@ public class UpdateInternalPortLabelFeature extends AbstractUpdateFeature {
       postionUpdate(labelShape);
     }
 
-    return true;
-  }
-
-  private boolean postionUpdate(InternalPortLabelShape labelShape) {
-    Optional.of(labelShape).map(PictogramElement::getGraphicsAlgorithm)
-        .filter(InternalPortLabelShapeGA.class::isInstance)
-        .map(InternalPortLabelShapeGA.class::cast)
-        .ifPresent(InternalPortLabelShapeGA::updatePosition);
     return true;
   }
 
