@@ -35,6 +35,10 @@ public class UpdateInternalPortFeature extends UpdateBaseElementFeature {
     }
   }
 
+  public UpdateInternalPortFeature(IFeatureProvider fp) {
+    super(fp);
+  }
+
   protected static Optional<InternalPortShape> shapeFromContext(
       IUpdateContext context) {
     return Optional.of(context)
@@ -43,26 +47,13 @@ public class UpdateInternalPortFeature extends UpdateBaseElementFeature {
         .map(InternalPortShape.class::cast);
   }
 
-  protected static Optional<InternalPort> modelFromShape(
-      Optional<InternalPortShape> shape) {
-    return shape.map(InternalPortShape::getModelObject)
+  protected static Optional<InternalPort> modelFromContext(
+      IUpdateContext context) {
+    return shapeFromContext(context).map(InternalPortShape::getModelObject)
         .filter(InternalPort.class::isInstance).map(InternalPort.class::cast);
   }
 
-  public UpdateInternalPortFeature(IFeatureProvider fp) {
-    super(fp);
-  }
-
-  @Override
-  public IReason updateNeeded(IUpdateContext context) {
-    if (super.updateNeeded(context).toBoolean() || updateLabelNeeded(context)) {
-      return Reason.createTrueReason();
-    } else {
-      return Reason.createFalseReason();
-    }
-  }
-
-  private boolean updateLabelNeeded(IUpdateContext context) {
+  private static boolean updateLabelNeeded(IUpdateContext context) {
     Optional<InternalPortShape> shape = shapeFromContext(context);
     if (shape.isPresent()) {
       return (shape.get().getInternalPortLabel() == null
@@ -72,23 +63,10 @@ public class UpdateInternalPortFeature extends UpdateBaseElementFeature {
     }
     return false;
   }
-
-  @Override
-  public boolean update(IUpdateContext context) {
-    if (super.updateNeeded(context).toBoolean()) {
-      super.update(context);
-    }
-
-    if (updateLabelNeeded(context)) {
-      updateLabel(context);
-    }
-
-    return true;
-  }
-
-  private void updateLabel(IUpdateContext context) {
+  
+  private static void updateLabel(IUpdateContext context) {
     Optional<InternalPortShape> shape = shapeFromContext(context);
-    Optional<InternalPort> model = modelFromShape(shape);
+    Optional<InternalPort> model = modelFromContext(context);
     if (shape.isPresent() && model.isPresent()) {
       if (shape.get().getInternalPortLabel() == null) {
         InternalPortLabelShape label = DiagramFactory.eINSTANCE
@@ -103,4 +81,25 @@ public class UpdateInternalPortFeature extends UpdateBaseElementFeature {
     }
   }
 
+  @Override
+  public IReason updateNeeded(IUpdateContext context) {
+    if (super.updateNeeded(context).toBoolean() || updateLabelNeeded(context)) {
+      return Reason.createTrueReason();
+    } else {
+      return Reason.createFalseReason();
+    }
+  }
+
+  @Override
+  public boolean update(IUpdateContext context) {
+    if (super.updateNeeded(context).toBoolean()) {
+      super.update(context);
+    }
+
+    if (updateLabelNeeded(context)) {
+      updateLabel(context);
+    }
+
+    return true;
+  }
 }
