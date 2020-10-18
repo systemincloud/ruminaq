@@ -21,7 +21,7 @@ public abstract class AbstractUpdateFeatureFilter
   public static final GetPictogramElement getPictogramElement = ctx -> ((IUpdateContext) ctx)
       .getPictogramElement();
 
-  public AbstractUpdateFeatureFilter() {
+  protected AbstractUpdateFeatureFilter() {
     super(IUpdateContext.class, getPictogramElement);
   }
 
