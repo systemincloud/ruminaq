@@ -16,6 +16,8 @@
         <dataType xsi:type="dt:Complex32"/>
         <dataType xsi:type="dt:Complex64"/>
       </inputPort>
+      <parameters key="x" value=""/>
+      <defaultParameters key="x" value=""/>
     </task>
   </ruminaq:MainTask>
 </xmi:XMI>
