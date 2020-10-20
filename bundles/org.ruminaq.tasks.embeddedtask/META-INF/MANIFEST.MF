@@ -75,4 +75,3 @@ Export-Package: org.ruminaq.tasks.embeddedtask,
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-14
 Bundle-ActivationPolicy: lazy
-Service-Component: OSGI-INF/org.ruminaq.tasks.embeddedtask.TaskUiApi.xml

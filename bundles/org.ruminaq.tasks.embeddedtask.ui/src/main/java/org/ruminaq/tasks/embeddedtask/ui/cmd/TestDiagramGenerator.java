@@ -32,15 +32,10 @@ import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.prefs.ProjectProps;
-import org.ruminaq.tasks.api.ITaskUiApi;
-import org.ruminaq.tasks.api.TasksUiManagerHandler;
 import org.ruminaq.tasks.embeddedtask.ui.IEmbeddedTaskUiApi;
 import org.ruminaq.util.EclipseUtil;
 
 public class TestDiagramGenerator {
-
-  @Reference
-  private TasksUiManagerHandler tasks;
 
   public void generateTestDiagram(IResource file) throws Exception {
     IProject project = file.getProject();
@@ -84,24 +79,22 @@ public class TestDiagramGenerator {
     final IFile diagramFile = fileTmp;
 
     String symbolicName = FrameworkUtil.getBundle(getClass()).getSymbolicName();
-    List<ITaskUiApi> ts = tasks.getTasks(
-        symbolicName.substring(0, symbolicName.length() - ".ui".length()));
     String modelerVersion = ProjectProps.getInstance(project)
         .get(ProjectProps.RUMINAQ_VERSION);
     String versionToFill = "";
     String maxModelerVer = "0.0.0";
-    for (ITaskUiApi t : ts) {
-      String tmp = ((IEmbeddedTaskUiApi) t).getModelerVersion();
-      if (versionCompare(tmp, maxModelerVer) > 0)
-        maxModelerVer = tmp;
-    }
-    for (ITaskUiApi t : ts) {
-      if (maxModelerVer.equals(((IEmbeddedTaskUiApi) t).getModelerVersion())) {
-        versionToFill = t.getVersion().getMajor() + "."
-            + t.getVersion().getMinor() + "." + t.getVersion().getMicro();
-      }
+//    for (ITaskUiApi t : ts) {
+//      String tmp = ((IEmbeddedTaskUiApi) t).getModelerVersion();
+//      if (versionCompare(tmp, maxModelerVer) > 0)
+//        maxModelerVer = tmp;
+//    }
+//    for (ITaskUiApi t : ts) {
+//      if (maxModelerVer.equals(((IEmbeddedTaskUiApi) t).getModelerVersion())) {
+//        versionToFill = t.getVersion().getMajor() + "."
+//            + t.getVersion().getMinor() + "." + t.getVersion().getMicro();
+//      }
 
-    }
+//    }
 
     InputStream is = this.getClass().getResourceAsStream("TestTask.template");
     String diagramContent = IOUtils.toString(is, "UTF-8")

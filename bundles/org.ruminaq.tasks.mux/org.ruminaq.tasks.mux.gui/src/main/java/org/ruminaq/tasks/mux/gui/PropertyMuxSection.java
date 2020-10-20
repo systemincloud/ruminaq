@@ -22,10 +22,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Spinner;
 import org.ruminaq.model.ruminaq.ModelUtil;
-import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.mux.model.mux.Mux;
 
-public class PropertyMuxSection implements IPropertySection {
+public class PropertyMuxSection {
 
   private Composite root;
   private CLabel lblNbInputs;
@@ -123,7 +122,6 @@ public class PropertyMuxSection implements IPropertySection {
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
-  @Override
   public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
     if (pe != null) {
       Object bo = Graphiti.getLinkService()

@@ -66,14 +66,13 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.ruminaq.ModelUtil;
-import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.rtask.features.UpdateFeature;
 import org.ruminaq.tasks.rtask.model.rtask.RTask;
 import org.ruminaq.tasks.rtask.ui.wizards.CreateRTaskListener;
 import org.ruminaq.tasks.rtask.ui.wizards.CreateRTaskWizard;
 import org.ruminaq.util.EclipseUtil;
 
-public class PropertySection implements IPropertySection, CreateRTaskListener {
+public class PropertySection implements CreateRTaskListener {
 
   public static final String MAIN_PREFIX = "main:";
   public static final String TEST_PREFIX = "test:";
@@ -354,7 +353,6 @@ public class PropertySection implements IPropertySection, CreateRTaskListener {
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
-  @Override
   public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
     if (pe != null) {
       Object bo = Graphiti.getLinkService()

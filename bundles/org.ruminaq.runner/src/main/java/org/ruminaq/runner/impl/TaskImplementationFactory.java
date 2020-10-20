@@ -27,7 +27,7 @@ public enum TaskImplementationFactory {
     else if (task instanceof EmbeddedTask)
       return new EmbeddedTaskI(parent, task,
           basePath + ((EmbeddedTask) task).getImplementationTask(),
-          ((EmbeddedTask) task).getParameters());
+          ((EmbeddedTask) task).getParameter());
     else {
 
     }

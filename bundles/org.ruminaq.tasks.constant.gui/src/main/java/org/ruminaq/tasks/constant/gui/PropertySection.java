@@ -39,7 +39,6 @@ import org.ruminaq.model.ruminaq.dt.Float32;
 import org.ruminaq.model.ruminaq.dt.Float64;
 import org.ruminaq.model.ruminaq.dt.Int32;
 import org.ruminaq.model.ruminaq.dt.Int64;
-import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.constant.api.ConstantExtensionHandler;
 import org.ruminaq.tasks.constant.api.PropertyValueComposite;
 import org.ruminaq.tasks.constant.api.ValueSaveListener;
@@ -51,7 +50,7 @@ import org.ruminaq.tasks.constant.properties.NumericPropertyValue;
 import org.ruminaq.tasks.constant.properties.TextPropertyValue;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
-public class PropertySection implements IPropertySection, ValueSaveListener {
+public class PropertySection implements ValueSaveListener {
 
   @Reference
   private ConstantExtensionHandler extensions;
@@ -216,7 +215,6 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
-  @Override
   public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
     if (pe != null) {
       Object bo = Graphiti.getLinkService()

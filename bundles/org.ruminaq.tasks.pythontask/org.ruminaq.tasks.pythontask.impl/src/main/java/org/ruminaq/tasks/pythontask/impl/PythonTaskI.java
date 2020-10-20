@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.pythontask.impl;
 
 import java.io.File;
@@ -10,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
+import org.ruminaq.model.ruminaq.Parameter;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.Runner;
 import org.ruminaq.runner.RunnerLoggerFactory;
@@ -72,8 +73,8 @@ public class PythonTaskI extends GeneratorI implements PythonTaskListener {
     //
     // Parameters
     //
-    for (Entry<String, String> p : ((org.ruminaq.tasks.pythontask.model.pythontask.PythonTask) task)
-        .getParameters().entrySet())
+    for (Parameter p : ((org.ruminaq.tasks.pythontask.model.pythontask.PythonTask) task)
+        .getParameter())
       parameters.put(p.getKey(), parent.replaceVariables(p.getValue()));
 
     this.pyProxy = interpreter.createTask(impl,

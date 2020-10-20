@@ -49,7 +49,6 @@ import org.ruminaq.model.ruminaq.dt.Float32;
 import org.ruminaq.model.ruminaq.dt.Float64;
 import org.ruminaq.model.ruminaq.dt.Int32;
 import org.ruminaq.model.ruminaq.dt.Int64;
-import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.randomgenerator.gui.properties.Complex32Property;
 import org.ruminaq.tasks.randomgenerator.gui.properties.Complex64Property;
 import org.ruminaq.tasks.randomgenerator.gui.properties.ControlProperty;
@@ -62,7 +61,7 @@ import org.ruminaq.tasks.randomgenerator.gui.properties.TextProperty;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.util.GlobalUtil;
 
-public class PropertySection implements IPropertySection, ValueSaveListener {
+public class PropertySection implements ValueSaveListener {
 
   private Composite root;
   private CLabel lblType;
@@ -309,7 +308,6 @@ public class PropertySection implements IPropertySection, ValueSaveListener {
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
-  @Override
   public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
     if (pe != null) {
       Object bo = Graphiti.getLinkService()

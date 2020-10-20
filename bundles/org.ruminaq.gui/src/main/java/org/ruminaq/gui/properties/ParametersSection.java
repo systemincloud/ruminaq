@@ -3,24 +3,24 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.pythontask.gui;
+
+package org.ruminaq.gui.properties;
 
 import java.util.Map;
-
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.swt.widgets.Composite;
-import org.ruminaq.gui.properties.AbstractParametersSection;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
-import org.ruminaq.tasks.api.IPropertySection;
-import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
+import org.ruminaq.model.ruminaq.Parameter;
+import org.ruminaq.model.ruminaq.UserDefinedTask;
 
-public class ParametersSection extends AbstractParametersSection
-    implements IPropertySection {
+public class ParametersSection extends AbstractParametersSection {
 
-  private PythonTask bo;
+  private UserDefinedTask bo;
 
   private TransactionalEditingDomain ed;
 
@@ -35,25 +35,25 @@ public class ParametersSection extends AbstractParametersSection
   }
 
   @Override
-  public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
-    if (pe != null) {
-      Object bo = Graphiti.getLinkService()
-          .getBusinessObjectForLinkedPictogramElement(pe);
-      if (bo != null && bo instanceof PythonTask)
-        this.bo = (PythonTask) bo;
-    }
-    this.ed = ed;
+  public void refresh() {
+    this.bo = Optional.ofNullable(getSelectedPictogramElement())
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+        .map(RuminaqShape::getModelObject)
+        .filter(UserDefinedTask.class::isInstance)
+        .map(UserDefinedTask.class::cast).get();
     super.refresh();
   }
 
   @Override
   protected Map<String, String> getActualParams() {
-    return bo.getParameters();
+    return bo.getParameter().stream()
+        .collect(Collectors.toMap(Parameter::getKey, Parameter::getValue));
   }
 
   @Override
   protected Map<String, String> getDefaultParams() {
-    return bo.getDefaultParameters();
+    return bo.getParameter().stream().collect(
+        Collectors.toMap(Parameter::getKey, Parameter::getDefaultValue));
   }
 
   @Override
@@ -62,7 +62,8 @@ public class ParametersSection extends AbstractParametersSection
       public void run() {
         if (bo == null)
           return;
-        bo.getParameters().put(key, value);
+        bo.getParameter().stream().filter(p -> p.getKey().equals(key))
+            .findFirst().ifPresent(p -> p.setValue(value));
       }
     }, ed, "Change parameter");
   }

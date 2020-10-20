@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.runner.impl;
 
 import java.io.File;
@@ -13,11 +14,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -34,6 +37,7 @@ import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.OutputPort;
+import org.ruminaq.model.ruminaq.Parameter;
 import org.ruminaq.model.ruminaq.RuminaqPackage;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerException;
@@ -64,7 +68,7 @@ public class EmbeddedTaskI extends TaskI {
     return diagramPath;
   }
 
-  private HashMap<String, String> parameters = new HashMap<>();
+  private Map<String, String> parameters = new HashMap<>();
 
   private boolean hasExternalSource = false;
   private boolean syncConns = true;
@@ -103,7 +107,7 @@ public class EmbeddedTaskI extends TaskI {
 //    public void hangEngine()   { parent.hangEngine(); }
 
   public EmbeddedTaskI(EmbeddedTaskI parent, Task task, String path,
-      Map<String, String> params) {
+      List<Parameter> params) {
     super(parent, task);
     this.diagramPath = path;
     MainTask mainTask = loadTask(path);
@@ -111,11 +115,13 @@ public class EmbeddedTaskI extends TaskI {
       throw new ImplementationException(
           "Can't load " + ((EmbeddedTask) task).getImplementationTask());
     }
-    if (params != null) {
-      parameters.putAll(params);
-    } else {
-      parameters.putAll(mainTask.getParameters());
+    parameters = Optional.ofNullable(params).map(List::stream)
+        .orElseGet(Stream::empty)
+        .collect(Collectors.toMap(Parameter::getKey, Parameter::getValue));
+    if (parameters.isEmpty()) {
+      parameters = mainTask.getParameters();
     }
+
     this.syncConns = mainTask.isPreventLosts();
 
     createImplementation(mainTask);

@@ -9,7 +9,7 @@ package org.ruminaq.tasks.javatask.impl;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
+import org.ruminaq.model.ruminaq.Parameter;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.EmbeddedTaskI;
@@ -57,8 +57,8 @@ public class JavaTaskI extends GeneratorI implements JavaTaskListener {
     //
     // Parameters
     //
-    for (Entry<String, String> p : ((org.ruminaq.tasks.javatask.model.javatask.JavaTask) task)
-        .getParameters().entrySet())
+    for (Parameter p : ((org.ruminaq.tasks.javatask.model.javatask.JavaTask) task)
+        .getParameter())
       parameters.put(p.getKey(), parent.replaceVariables(p.getValue()));
 
     //

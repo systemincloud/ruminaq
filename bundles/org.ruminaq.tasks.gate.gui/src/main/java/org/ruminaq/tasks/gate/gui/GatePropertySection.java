@@ -22,10 +22,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Spinner;
 import org.ruminaq.model.ruminaq.ModelUtil;
-import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.gate.model.gate.Gate;
 
-public class GatePropertySection implements IPropertySection {
+public class GatePropertySection {
 
   private Composite root;
   private CLabel lblNumberOfInputs;
@@ -94,7 +93,6 @@ public class GatePropertySection implements IPropertySection {
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
-  @Override
   public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
     if (pe != null) {
       Object bo = Graphiti.getLinkService()

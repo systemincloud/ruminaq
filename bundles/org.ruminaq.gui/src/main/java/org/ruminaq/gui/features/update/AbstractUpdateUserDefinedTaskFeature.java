@@ -8,13 +8,13 @@ package org.ruminaq.gui.features.update;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
@@ -26,6 +26,8 @@ import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
+import org.ruminaq.model.ruminaq.Parameter;
+import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 
@@ -167,7 +169,9 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 
   private boolean paramsUpdateNeeded(IUpdateContext context) {
     Map<String, String> shouldBe = getParameters();
-    Set<String> is = toModel(context).get().getParameters().keySet();
+    Set<String> is = toModel(context).map(UserDefinedTask::getParameter)
+        .map(List::stream).orElseGet(Stream::empty).map(Parameter::getKey)
+        .collect(Collectors.toSet());
     return !shouldBe.keySet().equals(is);
   }
 
@@ -331,28 +335,25 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   }
 
   private boolean paramsUpdate(IUpdateContext context) {
-    UserDefinedTask udt = toModel(context).get();
-    Map<String, String> shouldBe = getParameters();
-    Set<String> is = udt.getParameters().keySet();
-
-    List<String> toRemove = new LinkedList<>();
-    for (String s : is)
-      if (!shouldBe.keySet().contains(s))
-        toRemove.add(s);
-    for (String s : toRemove)
-      udt.getParameters().remove(s);
-    for (String s : toRemove)
-      udt.getDefaultParameters().remove(s);
-
-    List<String> toAdd = new LinkedList<>();
-    for (String s : shouldBe.keySet())
-      if (!is.contains(s))
-        toAdd.add(s);
-    for (String s : toAdd)
-      udt.getParameters().put(s, shouldBe.get(s));
-    for (String s : toAdd)
-      udt.getDefaultParameters().put(s, shouldBe.get(s));
+    toModel(context).ifPresent((UserDefinedTask udt) -> {
+      Map<String, String> shouldBe = getParameters();
+      udt.getParameter().removeIf(p -> !shouldBe.keySet().contains(p.getKey()));
+      shouldBe
+          .keySet().stream().filter(p -> udt.getParameter().stream()
+              .map(Parameter::getKey).anyMatch(p::equals))
+          .forEach(p -> createParameter(udt, p));
+      shouldBe.entrySet().stream()
+          .forEach(e -> udt.getParameter().stream()
+              .filter(p -> p.getKey().equals(e.getKey())).findAny()
+              .ifPresent(p -> p.setValue(e.getValue())));
+    });
 
     return true;
+  }
+
+  private void createParameter(UserDefinedTask task, String parameterKey) {
+    Parameter parameter = RuminaqFactory.eINSTANCE.createParameter();
+    parameter.setKey(parameterKey);
+    task.getParameter().add(parameter);
   }
 }

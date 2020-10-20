@@ -74,9 +74,9 @@ public class RTaskI extends GeneratorI implements RTaskListener {
     //
     // Parameters
     //
-    for (Entry<String, String> p : ((org.ruminaq.tasks.rtask.model.rtask.RTask) task)
-        .getParameters().entrySet())
-      parameters.put(p.getKey(), parent.replaceVariables(p.getValue()));
+//    for (Entry<String, String> p : ((org.ruminaq.tasks.rtask.model.rtask.RTask) task)
+//        .getParameters().entrySet())
+//      parameters.put(p.getKey(), parent.replaceVariables(p.getValue()));
 
 //    try {
 //      PrintOutServer.INSTACE.start(this);

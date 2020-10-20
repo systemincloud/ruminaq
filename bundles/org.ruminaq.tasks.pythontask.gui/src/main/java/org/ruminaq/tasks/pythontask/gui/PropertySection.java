@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.pythontask.gui;
 
 import org.eclipse.core.resources.IProject;
@@ -37,7 +38,6 @@ import org.python.pydev.core.IInfo;
 import org.python.pydev.shared_ui.EditorUtils;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.ruminaq.ModelUtil;
-import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.pythontask.gui.util.FindPythonTask;
 import org.ruminaq.tasks.pythontask.gui.util.SicGlobalsTwoPanelElementSelector2;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
@@ -47,8 +47,7 @@ import org.ruminaq.util.EclipseUtil;
 
 import com.python.pydev.analysis.additionalinfo.AdditionalInfoAndIInfo;
 
-public class PropertySection
-    implements IPropertySection, CreatePythonTaskListener {
+public class PropertySection implements CreatePythonTaskListener {
 
   private Composite root;
   private CLabel lblClassSelect;
@@ -173,8 +172,9 @@ public class PropertySection
         try {
           if (descriptor != null) {
             IWizard wizard = descriptor.createWizard();
-            String folder = RuminaqDiagramUtil.isTest(
-                EclipseUtil.getModelPathFromEObject(pe)) ? EclipseExtensionImpl.TEST_PYTHON
+            String folder = RuminaqDiagramUtil
+                .isTest(EclipseUtil.getModelPathFromEObject(pe))
+                    ? EclipseExtensionImpl.TEST_PYTHON
                     : EclipseExtensionImpl.MAIN_PYTHON;
             String projectName = EclipseUtil
                 .getProjectNameFromDiagram(dtp.getDiagram());
@@ -204,7 +204,6 @@ public class PropertySection
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
-  @Override
   public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
     if (pe != null) {
       Object bo = Graphiti.getLinkService()

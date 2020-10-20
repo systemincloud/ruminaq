@@ -29,12 +29,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.ruminaq.model.ruminaq.ModelUtil;
-import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.sipo.model.sipo.Sipo;
 import org.ruminaq.util.GroovyExpressionUtil;
 import org.ruminaq.util.NumericUtil;
 
-public class PropertySection implements IPropertySection {
+public class PropertySection {
 
   private Composite root;
 
@@ -261,7 +260,6 @@ public class PropertySection implements IPropertySection {
     txtSize.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
-  @Override
   public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
     if (pe != null) {
       Object bo = Graphiti.getLinkService()

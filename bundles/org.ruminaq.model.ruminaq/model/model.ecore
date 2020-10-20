@@ -133,12 +133,10 @@
         defaultValueLiteral=""/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UserDefinedTask" abstract="true" eSuperTypes="#//Task">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
-        eType="#//StringToStringMapEntry" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultParameters" upperBound="-1"
-        eType="#//StringToStringMapEntry" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="implementationPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameter" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="StringToStringMapEntry" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -157,6 +155,11 @@
         eType="#//InternalOutputPort"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="skipLoop" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eSubpackages name="debug" nsURI="http://ruminaq.org/debug" nsPrefix="debug">
     <eClassifiers xsi:type="ecore:EClass" name="Debug" abstract="true"/>

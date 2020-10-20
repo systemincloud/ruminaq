@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.ruminaq.tasks.TasksUiManagerHandlerImpl">
-   <service>
-      <provide interface="org.ruminaq.tasks.api.TasksUiManagerHandler"/>
-   </service>
-   <reference bind="bind" cardinality="0..n" interface="org.ruminaq.tasks.api.ITaskUiApi" policy="dynamic" unbind="unbind"/>
-   <implementation class="org.ruminaq.tasks.TasksUiManagerHandlerImpl"/>
-</scr:component>

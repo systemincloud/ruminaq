@@ -56,10 +56,9 @@ import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.gui.features.update.UpdateEmbeddedTaskFeature;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.ModelUtil;
-import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.util.EclipseUtil;
 
-public class PropertySection implements IPropertySection {
+public class PropertySection {
 
   public static final String MAIN_PREFIX = "main:";
   public static final String TEST_PREFIX = "test:";
@@ -335,7 +334,6 @@ public class PropertySection implements IPropertySection {
           .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
-  @Override
   public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
     if (pe != null) {
       Object bo = Graphiti.getLinkService()

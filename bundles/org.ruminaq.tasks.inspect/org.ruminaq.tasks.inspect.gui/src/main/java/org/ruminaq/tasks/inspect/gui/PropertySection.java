@@ -19,10 +19,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.ruminaq.model.ruminaq.ModelUtil;
-import org.ruminaq.tasks.api.IPropertySection;
 import org.ruminaq.tasks.inspect.model.inspect.Inspect;
 
-public class PropertySection implements IPropertySection {
+public class PropertySection {
 
   private Composite composite;
   private CLabel lblMatricesPretty;
@@ -75,7 +74,6 @@ public class PropertySection implements IPropertySection {
         .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
-  @Override
   public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
     if (pe != null) {
       Object bo = Graphiti.getLinkService()
