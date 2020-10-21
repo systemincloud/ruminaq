@@ -133,12 +133,19 @@ public class AddTest extends GuiTest {
     textEditor.insertText(9, 0, "\tpublic InputPort a;\n");
 
     textEditor.insertText(10, 0, "\n");
-
+    
     textEditor.insertText(11, 0,
-        "\t@OutputPortInfo(name = \"b\", dataType = Complex64.class)\n");
-    textEditor.insertText(12, 0, "\tpublic OutputPort b;\n");
+        "\t@InputPortInfo(name = \"b\", queue = -1)\n");
+    textEditor.insertText(12, 0, "\tpublic InputPort b;\n");
 
     textEditor.insertText(13, 0, "\n");
+
+    textEditor.insertText(14, 0,
+        "\t@OutputPortInfo(name = \"z\", dataType = Complex64.class)\n");
+    textEditor.insertText(15, 0, "\tpublic OutputPort z;\n");
+
+    textEditor.insertText(16, 0, "\n");
+
     textEditor.insertText(14, 0, "\t@Override\n");
     textEditor.insertText(15, 0, "\tpublic void execute(int grp) {\n");
     textEditor.insertText(16, 0, "\t}\n");
