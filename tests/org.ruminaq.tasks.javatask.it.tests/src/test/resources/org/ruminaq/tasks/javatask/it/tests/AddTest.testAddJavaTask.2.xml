@@ -17,7 +17,7 @@
         <dataType xsi:type="dt:Complex32"/>
         <dataType xsi:type="dt:Complex64"/>
       </inputPort>
-      <inputPort id="b" queueSize="inf" defaultQueueSize="inf"/>
+      <inputPort id="b" queueSize="inf"/>
       <parameter key="x" value=""/>
     </task>
   </ruminaq:MainTask>

@@ -320,7 +320,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     in.setGroup(grp);
     in.setDefaultHoldLast(hold);
     in.setHoldLast(hold);
-    in.setDefaultQueueSize(queue);
     in.setQueueSize(queue);
     task.getInputPort().add(in);
   }
