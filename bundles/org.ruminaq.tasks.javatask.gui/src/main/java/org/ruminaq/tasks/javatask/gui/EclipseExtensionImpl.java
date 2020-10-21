@@ -54,15 +54,13 @@ public class EclipseExtensionImpl implements EclipseExtension {
 
   @Override
   public List<IClasspathEntry> getClasspathEntries(IJavaProject javaProject) {
-    IPath[] javaPath = new IPath[] { new Path("**/*.java") };
-    IPath testOutputLocation = javaProject.getPath()
-        .append("target/test-classes");
-
+    IPath[] javaPath = { new Path("**/*.java") };
     return Arrays.asList(
         JavaCore.newSourceEntry(javaProject.getPath().append(MAIN_JAVA),
             javaPath, null, null),
         JavaCore.newSourceEntry(javaProject.getPath().append(TEST_JAVA),
-            javaPath, null, testOutputLocation));
+            javaPath, null,
+            javaProject.getPath().append("target/test-classes")));
   }
 
   @Override
