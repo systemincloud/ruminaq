@@ -57,7 +57,7 @@ import org.ruminaq.util.Result;
 /**
  * JavaTask UpdateFeature.
  *
- * It provides extraction of UserDefinedTask parameters
+ * <p>It provides extraction of UserDefinedTask parameters
  * from Java class.
  *
  * @author Marek Jagielski
