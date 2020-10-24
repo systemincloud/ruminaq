@@ -60,24 +60,24 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection impl
     Composite root = new Composite(parent, SWT.NULL);
     root.setLayout(new GridLayout(4, false));
 
-    lblClassSelect = new CLabel(root, SWT.NONE);
-    txtClassName = new Text(root, SWT.BORDER);
-    txtClassName
+    lblImplementation = new CLabel(root, SWT.NONE);
+    txtImplementation = new Text(root, SWT.BORDER);
+    txtImplementation
         .setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-    btnClassSelect = new Button(root, SWT.NONE);
-    btnClassNew = new Button(root, SWT.NONE);
+    btnSelect = new Button(root, SWT.NONE);
+    btnCreate = new Button(root, SWT.NONE);
   }
 
   protected void initComponents() {
-    lblClassSelect.setText("Python Task Class:");
-    btnClassSelect.setText("Select class");
-    btnClassNew.setText("Create");
+    lblImplementation.setText("Python Task Class:");
+    btnSelect.setText("Select class");
+    btnCreate.setText("Create");
   }
 
   private void save() {
-    Shell shell = txtClassName.getShell();
+    Shell shell = txtImplementation.getShell();
     boolean parse = new UpdateFeature(dtp.getFeatureProvider())
-        .load(txtClassName.getText());
+        .load(txtImplementation.getText());
     if (parse) {
       ModelUtil.runModelChange(new Runnable() {
         public void run() {
@@ -87,7 +87,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection impl
             return;
           if (bo instanceof PythonTask) {
             PythonTask pythonTask = (PythonTask) bo;
-            pythonTask.setImplementation(txtClassName.getText());
+            pythonTask.setImplementation(txtImplementation.getText());
             UpdateContext context = new UpdateContext(pe);
             dtp.getFeatureProvider().updateIfPossible(context);
           }
@@ -99,14 +99,14 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection impl
   }
 
   protected void initActions() {
-    txtClassName.addTraverseListener(new TraverseListener() {
+    txtImplementation.addTraverseListener(new TraverseListener() {
       @Override
       public void keyTraversed(TraverseEvent event) {
         if (event.detail == SWT.TRAVERSE_RETURN)
           save();
       }
     });
-    btnClassSelect.addSelectionListener(new SelectionAdapter() {
+    btnSelect.addSelectionListener(new SelectionAdapter() {
       public void widgetSelected(SelectionEvent evt) {
         IProject p = ResourcesPlugin.getWorkspace().getRoot()
             .getProject(EclipseUtil.getProjectNameFromPe(pe));
@@ -124,7 +124,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection impl
               entry = additional.info;
             } else
               entry = (IInfo) obj;
-            txtClassName.setText(entry.getDeclaringModuleName());
+            txtImplementation.setText(entry.getDeclaringModuleName());
 
             ModelUtil.runModelChange(new Runnable() {
               public void run() {
@@ -132,7 +132,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection impl
                     .getBusinessObjectForLinkedPictogramElement(pe);
                 if (bo == null)
                   return;
-                String implementationName = txtClassName.getText();
+                String implementationName = txtImplementation.getText();
                 if (implementationName != null) {
                   if (bo instanceof PythonTask) {
                     PythonTask pythonTask = (PythonTask) bo;
@@ -147,7 +147,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection impl
         }
       }
     });
-    btnClassNew.addSelectionListener(new SelectionAdapter() {
+    btnCreate.addSelectionListener(new SelectionAdapter() {
       public void widgetSelected(SelectionEvent evt) {
         IWizardDescriptor descriptor = PlatformUI.getWorkbench()
             .getNewWizardRegistry().findWizard(CreatePythonTaskWizard.ID);
@@ -185,7 +185,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection impl
       if (bo == null)
         return;
       String className = ((PythonTask) bo).getImplementation();
-      txtClassName.setText(className);
+      txtImplementation.setText(className);
     }
   }
 

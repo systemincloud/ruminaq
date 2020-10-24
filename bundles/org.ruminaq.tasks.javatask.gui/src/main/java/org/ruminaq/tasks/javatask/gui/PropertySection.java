@@ -11,7 +11,6 @@ import java.util.Optional;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
@@ -43,7 +42,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
-import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.properties.AbstractUserDefinedTaskPropertySection;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
@@ -65,13 +63,6 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection
 
   private static final int FOUR_COLUMNS = 4;
 
-  private static Optional<JavaTask> selectedPictogramToJavaTask(
-      PictogramElement pe) {
-    return Optional.ofNullable(pe).filter(RuminaqShape.class::isInstance)
-        .map(RuminaqShape.class::cast).map(RuminaqShape::getModelObject)
-        .filter(JavaTask.class::isInstance).map(JavaTask.class::cast);
-  }
-
   @Override
   protected void initLayout(Composite parent) {
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
@@ -80,58 +71,50 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection
     Composite root = new Composite(parent, SWT.NULL);
     root.setLayout(new GridLayout(FOUR_COLUMNS, false));
 
-    lblClassSelect = new CLabel(root, SWT.NONE);
-    txtClassName = new Text(root, SWT.BORDER);
-    txtClassName
+    lblImplementation = new CLabel(root, SWT.NONE);
+    txtImplementation = new Text(root, SWT.BORDER);
+    txtImplementation
         .setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-    btnClassSelect = new Button(root, SWT.NONE);
-    btnClassNew = new Button(root, SWT.NONE);
-  }
-
-  @Override
-  protected void initComponents() {
-    lblClassSelect.setText("Java Task Class:");
-    btnClassSelect.setText("Select class");
-    btnClassNew.setText("Create");
+    btnSelect = new Button(root, SWT.NONE);
+    btnCreate = new Button(root, SWT.NONE);
   }
 
   private void save() {
     boolean parse = new UpdateFeature(
         getDiagramTypeProvider().getFeatureProvider())
-            .load(txtClassName.getText());
+            .load(txtImplementation.getText());
     if (parse) {
       ModelUtil.runModelChange(() -> {
-        selectedPictogramToJavaTask(getSelectedPictogramElement())
-            .ifPresent(javaTask -> javaTask
-                .setImplementationPath(txtClassName.getText()));
+        selectedModelObject(JavaTask.class).ifPresent(javaTask -> javaTask
+            .setImplementationPath(txtImplementation.getText()));
         getDiagramTypeProvider().getFeatureProvider()
             .updateIfPossible(new UpdateContext(getSelectedPictogramElement()));
       }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
           Messages.propertySectionSetCommand);
     } else {
-      MessageDialog.openError(txtClassName.getShell(), "Can't edit value",
+      MessageDialog.openError(txtImplementation.getShell(), "Can't edit value",
           "Class not found or incorrect.");
     }
   }
 
   @Override
   protected void initActions() {
-    txtClassName.addTraverseListener((TraverseEvent event) -> {
+    txtImplementation.addTraverseListener((TraverseEvent event) -> {
       if (event.detail == SWT.TRAVERSE_RETURN) {
         save();
       }
     });
-    btnClassSelect.addSelectionListener(
+    btnSelect.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
           IJavaProject project = JavaCore
               .create(ResourcesPlugin.getWorkspace().getRoot().getProject(
                   EclipseUtil.getProjectNameFromDiagram(getDiagram())));
           IJavaSearchScope scope = SearchEngine
               .createJavaSearchScope(new IJavaElement[] { project });
-          SelectionDialog dialog = Result
-              .attempt(() -> JavaUI.createTypeDialog(txtClassName.getShell(),
-                  null, scope, IJavaElementSearchConstants.CONSIDER_CLASSES,
-                  false, "", new TypeSelectionExtension() {
+          SelectionDialog dialog = Result.attempt(
+              () -> JavaUI.createTypeDialog(txtImplementation.getShell(), null,
+                  scope, IJavaElementSearchConstants.CONSIDER_CLASSES, false,
+                  "", new TypeSelectionExtension() {
                     @Override
                     public ITypeInfoFilterExtension getFilterExtension() {
                       return (ITypeInfoRequestor requestor) -> {
@@ -168,13 +151,12 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection
             String className = ((IType) result[0]).getFullyQualifiedName();
 
             if (className != null)
-              txtClassName.setText(className);
+              txtImplementation.setText(className);
 
-            Optional.ofNullable(txtClassName.getText()).ifPresent(
+            Optional.ofNullable(txtImplementation.getText()).ifPresent(
                 implementationName -> ModelUtil.runModelChange(() -> {
-                  selectedPictogramToJavaTask(getSelectedPictogramElement())
-                      .ifPresent(
-                          jt -> jt.setImplementationPath(implementationName));
+                  selectedModelObject(JavaTask.class).ifPresent(
+                      jt -> jt.setImplementationPath(implementationName));
                   getDiagramTypeProvider().getFeatureProvider()
                       .updateIfPossible(
                           new UpdateContext(getSelectedPictogramElement()));
@@ -182,7 +164,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection
                     .getEditingDomain(), Messages.propertySectionSetCommand));
           }
         });
-    btnClassNew.addSelectionListener(
+    btnCreate.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
           IWizardDescriptor descriptor = PlatformUI.getWorkbench()
               .getNewWizardRegistry().findWizard(CreateJavaTaskWizard.ID);
@@ -215,16 +197,15 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection
 
   @Override
   public void refresh() {
-    selectedPictogramToJavaTask(getSelectedPictogramElement()).ifPresent(
-        javaTask -> txtClassName.setText(javaTask.getImplementationPath()));
+    selectedModelObject(JavaTask.class).ifPresent(javaTask -> txtImplementation
+        .setText(javaTask.getImplementationPath()));
   }
 
   @Override
   public void created(IType type) {
     ModelUtil.runModelChange(() -> {
-      selectedPictogramToJavaTask(getSelectedPictogramElement())
-          .ifPresent(javaTask -> javaTask
-              .setImplementationPath(type.getFullyQualifiedName()));
+      selectedModelObject(JavaTask.class).ifPresent(javaTask -> javaTask
+          .setImplementationPath(type.getFullyQualifiedName()));
       getDiagramTypeProvider().getFeatureProvider()
           .updateIfPossible(new UpdateContext(getSelectedPictogramElement()));
     }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
