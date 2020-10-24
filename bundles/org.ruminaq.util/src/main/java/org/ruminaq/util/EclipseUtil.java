@@ -45,6 +45,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.FrameworkUtil;
 
@@ -61,6 +62,12 @@ public final class EclipseUtil {
         .map(r -> r.orElse(null)).filter(Objects::nonNull)
         .map(urlConn -> Result.attempt(urlConn::getInputStream))
         .map(r -> r.orElse(null)).filter(Objects::nonNull);
+  }
+  
+  public static void openFileInDefaultEditor(IFile file) {
+    Result.attempt(() -> IDE.openEditor(
+        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(),
+        file, true));
   }
 
   public static IProject getWorkspaceProjectFromEObject(EObject eobject) {

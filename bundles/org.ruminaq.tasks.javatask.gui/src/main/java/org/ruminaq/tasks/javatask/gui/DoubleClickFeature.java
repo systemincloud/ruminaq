@@ -28,8 +28,6 @@ import org.eclipse.jdt.core.search.SearchParticipant;
 import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.core.search.SearchRequestor;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
@@ -79,8 +77,7 @@ public class DoubleClickFeature extends AbstractCustomFeature {
   }
 
   /**
-   * Open Java Eclipse Editor if the implementation
-   * java class exists.
+   * Open Java Eclipse Editor if the implementation java class exists.
    */
   @Override
   public void execute(ICustomContext context) {
@@ -107,18 +104,8 @@ public class DoubleClickFeature extends AbstractCustomFeature {
               }, null);
           return type;
         }).orElse(null)).filter(Objects::nonNull).map(IType::getResource)
-        .filter(
-            IFile.class::isInstance)
-        .map(
-            IFile.class::cast)
-        .ifPresent(
-            f -> Display.getCurrent()
-                .asyncExec(
-                    () -> Result
-                        .attempt(
-                            () -> IDE.openEditor(
-                                PlatformUI.getWorkbench()
-                                    .getActiveWorkbenchWindow().getActivePage(),
-                                f, true))));
+        .filter(IFile.class::isInstance).map(IFile.class::cast)
+        .ifPresent(f -> Display.getCurrent()
+            .asyncExec(() -> EclipseUtil.openFileInDefaultEditor(f)));
   }
 }
