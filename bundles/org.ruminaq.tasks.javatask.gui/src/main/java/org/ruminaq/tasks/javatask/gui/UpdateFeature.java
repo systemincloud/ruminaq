@@ -57,8 +57,8 @@ import org.ruminaq.util.Result;
 /**
  * JavaTask UpdateFeature.
  *
- * <p>It provides extraction of UserDefinedTask parameters
- * from Java class.
+ * <p>
+ * It provides extraction of UserDefinedTask parameters from Java class.
  *
  * @author Marek Jagielski
  */
@@ -77,7 +77,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
   }
 
   /**
-   * Type representing Java class is loaded once .
+   * Type representing Java class is loaded once.
    */
   private NamedMember type;
 
@@ -167,8 +167,11 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
   /**
    * Try to retrieve attributes from InputPortInfo.
    *
-   * <p>For queue size replace any non-valid value with
-   * default size.
+   * <p>
+   * For queue size: replace any non-valid value with default size.
+   * 
+   * <p>
+   * For group: any negative integer will be replaced with default group.
    *
    * @param sm SearchMatch
    * @return helper object FileInternalInputPort
@@ -181,7 +184,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
         annotationValueCasted(sm, InputPortInfo.class, "asynchronous",
             Boolean.class).orElse(Boolean.FALSE).booleanValue(),
         annotationValueCasted(sm, InputPortInfo.class, "group", Integer.class)
-            .orElseGet(() -> DEFAULT_GROUP).intValue(),
+            .filter(i -> i >= 0).orElseGet(() -> DEFAULT_GROUP).intValue(),
         annotationValueCasted(sm, InputPortInfo.class, "hold", Boolean.class)
             .orElse(Boolean.FALSE).booleanValue(),
         OptionalInt
