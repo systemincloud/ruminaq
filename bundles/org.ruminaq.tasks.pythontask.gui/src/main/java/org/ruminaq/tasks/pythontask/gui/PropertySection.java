@@ -54,17 +54,6 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection impl
   private TransactionalEditingDomain ed;
   private IDiagramTypeProvider dtp;
 
-  public PropertySection(Composite parent, PictogramElement pe,
-      TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
-    this.pe = pe;
-    this.ed = ed;
-    this.dtp = dtp;
-
-    initLayout(parent);
-    initComponents();
-    initActions(pe, ed, dtp);
-  }
-
   protected void initLayout(Composite parent) {
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
@@ -109,8 +98,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection impl
           "Class not found or incorrect.");
   }
 
-  private void initActions(final PictogramElement pe,
-      final TransactionalEditingDomain ed, final IDiagramTypeProvider dtp) {
+  protected void initActions() {
     txtClassName.addTraverseListener(new TraverseListener() {
       @Override
       public void keyTraversed(TraverseEvent event) {
