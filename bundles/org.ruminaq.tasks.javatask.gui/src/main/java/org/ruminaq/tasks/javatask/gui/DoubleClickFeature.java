@@ -78,6 +78,10 @@ public class DoubleClickFeature extends AbstractCustomFeature {
     return false;
   }
 
+  /**
+   * Open Java Eclipse Editor if the implementation
+   * java class exists.
+   */
   @Override
   public void execute(ICustomContext context) {
     SearchParticipant[] participants = new SearchParticipant[] {
