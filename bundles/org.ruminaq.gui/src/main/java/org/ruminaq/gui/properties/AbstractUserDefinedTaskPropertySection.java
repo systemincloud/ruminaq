@@ -9,12 +9,16 @@ package org.ruminaq.gui.properties;
 import java.util.Optional;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.model.ruminaq.UserDefinedTask;
 
 /**
  * 
@@ -22,6 +26,8 @@ import org.ruminaq.gui.model.diagram.RuminaqShape;
  */
 public abstract class AbstractUserDefinedTaskPropertySection
     extends GFPropertySection {
+
+  protected static final int FOUR_COLUMNS = 4;
 
   protected CLabel lblImplementation;
   protected Text txtImplementation;
@@ -49,6 +55,21 @@ public abstract class AbstractUserDefinedTaskPropertySection
     initActions();
   }
 
+  protected void initLayout(Composite parent) {
+    ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
+    ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
+
+    Composite root = new Composite(parent, SWT.NULL);
+    root.setLayout(new GridLayout(FOUR_COLUMNS, false));
+
+    lblImplementation = new CLabel(root, SWT.NONE);
+    txtImplementation = new Text(root, SWT.BORDER);
+    txtImplementation
+        .setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+    btnSelect = new Button(root, SWT.NONE);
+    btnCreate = new Button(root, SWT.NONE);
+  }
+
   protected void initComponents() {
     lblImplementation.setText("Implementation:");
     btnSelect.setText("Select");
@@ -57,6 +78,9 @@ public abstract class AbstractUserDefinedTaskPropertySection
 
   protected abstract void initActions();
 
-  protected abstract void initLayout(Composite parent);
-
+  @Override
+  public void refresh() {
+    selectedModelObject(UserDefinedTask.class).ifPresent(
+        udt -> txtImplementation.setText(udt.getImplementationPath()));
+  }
 }

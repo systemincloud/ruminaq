@@ -79,8 +79,12 @@ public class AddTest extends GuiTest {
     bot.text().pressShortcut(SWT.CR, SWT.LF);
 
     bot.button("OK").click();
+    
+    bot.text().setText("test.Ports");
 
-    bot.button("Select class").click();
+    bot.text().pressShortcut(SWT.CR, SWT.LF);
+
+    bot.button("Select").click();
 
     Thread.sleep(1000);
 

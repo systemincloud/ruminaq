@@ -29,15 +29,9 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.wizards.IWizardDescriptor;
@@ -60,24 +54,6 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  */
 public class PropertySection extends AbstractUserDefinedTaskPropertySection
     implements CreateJavaTaskListener {
-
-  private static final int FOUR_COLUMNS = 4;
-
-  @Override
-  protected void initLayout(Composite parent) {
-    ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
-    ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
-
-    Composite root = new Composite(parent, SWT.NULL);
-    root.setLayout(new GridLayout(FOUR_COLUMNS, false));
-
-    lblImplementation = new CLabel(root, SWT.NONE);
-    txtImplementation = new Text(root, SWT.BORDER);
-    txtImplementation
-        .setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-    btnSelect = new Button(root, SWT.NONE);
-    btnCreate = new Button(root, SWT.NONE);
-  }
 
   private void save() {
     boolean parse = new UpdateFeature(
@@ -193,12 +169,6 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection
             e.printStackTrace();
           }
         });
-  }
-
-  @Override
-  public void refresh() {
-    selectedModelObject(JavaTask.class).ifPresent(javaTask -> txtImplementation
-        .setText(javaTask.getImplementationPath()));
   }
 
   @Override
