@@ -58,7 +58,7 @@ public class DoubleClickFeature
    */
   @Override
   public void execute(ICustomContext context) {
-    SearchParticipant[] participants = new SearchParticipant[] {
+    SearchParticipant[] parts = new SearchParticipant[] {
         SearchEngine.getDefaultSearchParticipant() };
     IJavaSearchScope scope = SearchEngine
         .createJavaSearchScope(new IJavaElement[] {
@@ -71,15 +71,14 @@ public class DoubleClickFeature
             SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE))
         .map(p -> Result.attempt(() -> {
           AtomicReference<IType> type = new AtomicReference<>();
-          new SearchEngine().search(p, participants, scope,
-              new SearchRequestor() {
-                @Override
-                public void acceptSearchMatch(SearchMatch sm) {
-                  type.set(Optional.of(sm).map(SearchMatch::getElement)
-                      .filter(IType.class::isInstance).map(IType.class::cast)
-                      .orElse(null));
-                }
-              }, null);
+          new SearchEngine().search(p, parts, scope, new SearchRequestor() {
+            @Override
+            public void acceptSearchMatch(SearchMatch sm) {
+              type.set(Optional.of(sm).map(SearchMatch::getElement)
+                  .filter(IType.class::isInstance).map(IType.class::cast)
+                  .orElse(null));
+            }
+          }, null);
           return type.get();
         }).orElse(null)).filter(Objects::nonNull).map(IType::getResource)
         .filter(IFile.class::isInstance).map(IFile.class::cast)
