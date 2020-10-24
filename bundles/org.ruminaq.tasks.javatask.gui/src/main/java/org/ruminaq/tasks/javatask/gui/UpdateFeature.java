@@ -57,8 +57,7 @@ import org.ruminaq.util.Result;
 /**
  * JavaTask UpdateFeature.
  *
- * <p>
- * It provides extraction of UserDefinedTask parameters from Java class.
+ * <p>It provides extraction of UserDefinedTask parameters from Java class.
  *
  * @author Marek Jagielski
  */
@@ -167,11 +166,9 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
   /**
    * Try to retrieve attributes from InputPortInfo.
    *
-   * <p>
-   * For queue size: replace any non-valid value with default size.
+   * <p>For queue size: replace any non-valid value with default size.
    * 
-   * <p>
-   * For group: any negative integer will be replaced with default group.
+   * <p>For group: any negative integer will be replaced with default group.
    *
    * @param sm SearchMatch
    * @return helper object FileInternalInputPort

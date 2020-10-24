@@ -12,7 +12,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
@@ -46,6 +45,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.gui.properties.AbstractUserDefinedTaskPropertySection;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskListener;
@@ -60,15 +60,10 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  *
  * @author Marek Jagielski
  */
-public class PropertySection extends GFPropertySection
+public class PropertySection extends AbstractUserDefinedTaskPropertySection
     implements CreateJavaTaskListener {
 
   private static final int FOUR_COLUMNS = 4;
-
-  private CLabel lblClassSelect;
-  private Text txtClassName;
-  private Button btnClassSelect;
-  private Button btnClassNew;
 
   private static Optional<JavaTask> selectedPictogramToJavaTask(
       PictogramElement pe) {
@@ -87,7 +82,8 @@ public class PropertySection extends GFPropertySection
     initActions();
   }
 
-  private void initLayout(Composite parent) {
+  @Override
+  protected void initLayout(Composite parent) {
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
@@ -102,7 +98,8 @@ public class PropertySection extends GFPropertySection
     btnClassNew = new Button(root, SWT.NONE);
   }
 
-  private void initComponents() {
+  @Override
+  protected void initComponents() {
     lblClassSelect.setText("Java Task Class:");
     btnClassSelect.setText("Select class");
     btnClassNew.setText("Create");
@@ -127,7 +124,8 @@ public class PropertySection extends GFPropertySection
     }
   }
 
-  private void initActions() {
+  @Override
+  protected void initActions() {
     txtClassName.addTraverseListener((TraverseEvent event) -> {
       if (event.detail == SWT.TRAVERSE_RETURN) {
         save();

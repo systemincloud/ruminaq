@@ -37,6 +37,7 @@ import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.python.pydev.core.IInfo;
 import org.python.pydev.shared_ui.EditorUtils;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
+import org.ruminaq.gui.properties.AbstractUserDefinedTaskPropertySection;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.pythontask.gui.util.FindPythonTask;
 import org.ruminaq.tasks.pythontask.gui.util.SicGlobalsTwoPanelElementSelector2;
@@ -47,13 +48,7 @@ import org.ruminaq.util.EclipseUtil;
 
 import com.python.pydev.analysis.additionalinfo.AdditionalInfoAndIInfo;
 
-public class PropertySection implements CreatePythonTaskListener {
-
-  private Composite root;
-  private CLabel lblClassSelect;
-  private Text txtClassName;
-  private Button btnClassSelect;
-  private Button btnClassNew;
+public class PropertySection extends AbstractUserDefinedTaskPropertySection implements CreatePythonTaskListener {
 
   private PictogramElement pe;
   private TransactionalEditingDomain ed;
@@ -68,13 +63,12 @@ public class PropertySection implements CreatePythonTaskListener {
     initLayout(parent);
     initComponents();
     initActions(pe, ed, dtp);
-    addStyles();
   }
 
-  private void initLayout(Composite parent) {
+  protected void initLayout(Composite parent) {
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
-    root = new Composite(parent, SWT.NULL);
+    Composite root = new Composite(parent, SWT.NULL);
     root.setLayout(new GridLayout(4, false));
 
     lblClassSelect = new CLabel(root, SWT.NONE);
@@ -85,7 +79,7 @@ public class PropertySection implements CreatePythonTaskListener {
     btnClassNew = new Button(root, SWT.NONE);
   }
 
-  private void initComponents() {
+  protected void initComponents() {
     lblClassSelect.setText("Python Task Class:");
     btnClassSelect.setText("Select class");
     btnClassNew.setText("Create");
@@ -194,14 +188,6 @@ public class PropertySection implements CreatePythonTaskListener {
         }
       }
     });
-  }
-
-  private void addStyles() {
-    root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    lblClassSelect
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    txtClassName
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
   public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {

@@ -30,6 +30,10 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 public abstract class AbstractParametersSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
