@@ -7,8 +7,10 @@
 package org.ruminaq.gui.properties;
 
 import java.util.Optional;
+import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.layout.GridData;
@@ -17,7 +19,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.ruminaq.gui.features.update.AbstractUpdateUserDefinedTaskFeature;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 
 /**
@@ -82,5 +86,25 @@ public abstract class AbstractUserDefinedTaskPropertySection
   public void refresh() {
     selectedModelObject(UserDefinedTask.class).ifPresent(
         udt -> txtImplementation.setText(udt.getImplementationPath()));
+  }
+
+  protected void save() {
+    UpdateContext context = new UpdateContext(getSelectedPictogramElement());
+    if (Optional
+        .ofNullable(getDiagramTypeProvider().getFeatureProvider()
+            .getUpdateFeature(context))
+        .filter(AbstractUpdateUserDefinedTaskFeature.class::isInstance)
+        .map(AbstractUpdateUserDefinedTaskFeature.class::cast)
+        .filter(uudt -> uudt.load(txtImplementation.getText())).isPresent()) {
+      ModelUtil.runModelChange(() -> {
+        selectedModelObject(UserDefinedTask.class).ifPresent(
+            udt -> udt.setImplementationPath(txtImplementation.getText()));
+        getDiagramTypeProvider().getFeatureProvider().updateIfPossible(context);
+      }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+          "Set Implementation");
+    } else {
+      MessageDialog.openError(txtImplementation.getShell(), "Can't edit value",
+          "Class not found or incorrect.");
+    }
   }
 }

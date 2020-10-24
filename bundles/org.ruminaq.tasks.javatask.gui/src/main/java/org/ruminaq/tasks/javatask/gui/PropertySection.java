@@ -22,7 +22,6 @@ import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jdt.ui.dialogs.ITypeInfoFilterExtension;
 import org.eclipse.jdt.ui.dialogs.ITypeInfoRequestor;
 import org.eclipse.jdt.ui.dialogs.TypeSelectionExtension;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
@@ -39,7 +38,6 @@ import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.gui.properties.AbstractUserDefinedTaskPropertySection;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
-import org.ruminaq.tasks.javatask.gui.features.UpdateFeature;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskListener;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
@@ -54,24 +52,6 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  */
 public class PropertySection extends AbstractUserDefinedTaskPropertySection
     implements CreateJavaTaskListener {
-
-  private void save() {
-    boolean parse = new UpdateFeature(
-        getDiagramTypeProvider().getFeatureProvider())
-            .load(txtImplementation.getText());
-    if (parse) {
-      ModelUtil.runModelChange(() -> {
-        selectedModelObject(JavaTask.class).ifPresent(javaTask -> javaTask
-            .setImplementationPath(txtImplementation.getText()));
-        getDiagramTypeProvider().getFeatureProvider()
-            .updateIfPossible(new UpdateContext(getSelectedPictogramElement()));
-      }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-          Messages.propertySectionSetCommand);
-    } else {
-      MessageDialog.openError(txtImplementation.getShell(), "Can't edit value",
-          "Class not found or incorrect.");
-    }
-  }
 
   @Override
   protected void initActions() {

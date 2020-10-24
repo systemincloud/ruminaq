@@ -176,9 +176,14 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   }
 
   @Override
+  public boolean canUpdate(IUpdateContext context) {
+    return toModel(context).map(this::getResource)
+        .filter(Predicate.not(""::equals)).map(this::load).orElse(false);
+  }
+
+  @Override
   public IReason updateNeeded(IUpdateContext context) {
     return toModel(context).map(this::getResource)
-        .filter(Predicate.not(""::equals)).filter(this::load)
         .filter(r -> iconDescriptionUpdateNeeded(context)
             || inputPortsUpdateNeeded(context)
             || outputPortsUpdateNeeded(context) || atomicUpdateNeeded(context)
@@ -210,35 +215,31 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 
   @Override
   public boolean update(IUpdateContext context) {
-    Optional<String> resource = toModel(context).map(this::getResource)
-        .filter(Predicate.not(""::equals)).filter(this::load);
-    if (resource.isPresent()) {
-      if (iconDescriptionUpdateNeeded(context)) {
-        iconDescriptionUpdate(context);
-      }
-
-      if (inputPortsUpdateNeeded(context)) {
-        inputsUpdate(context);
-      }
-
-      if (outputPortsUpdateNeeded(context)) {
-        outputsUpdate(context);
-      }
-
-      if (atomicUpdateNeeded(context)) {
-        atomicUpdate(context);
-      }
-
-      if (paramsUpdateNeeded(context)) {
-        paramsUpdate(context);
-      }
-
-      if (super.updateNeeded(context).toBoolean()) {
-        super.update(context);
-      }
-
-      getDiagramBehavior().refreshContent();
+    if (iconDescriptionUpdateNeeded(context)) {
+      iconDescriptionUpdate(context);
     }
+
+    if (inputPortsUpdateNeeded(context)) {
+      inputsUpdate(context);
+    }
+
+    if (outputPortsUpdateNeeded(context)) {
+      outputsUpdate(context);
+    }
+
+    if (atomicUpdateNeeded(context)) {
+      atomicUpdate(context);
+    }
+
+    if (paramsUpdateNeeded(context)) {
+      paramsUpdate(context);
+    }
+
+    if (super.updateNeeded(context).toBoolean()) {
+      super.update(context);
+    }
+
+    getDiagramBehavior().refreshContent();
 
     return true;
   }

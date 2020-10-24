@@ -14,24 +14,16 @@ import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.python.pydev.core.IInfo;
@@ -45,7 +37,6 @@ import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskListener;
 import org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskWizard;
 import org.ruminaq.util.EclipseUtil;
-
 import com.python.pydev.analysis.additionalinfo.AdditionalInfoAndIInfo;
 
 public class PropertySection extends AbstractUserDefinedTaskPropertySection implements CreatePythonTaskListener {
@@ -53,50 +44,6 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection impl
   private PictogramElement pe;
   private TransactionalEditingDomain ed;
   private IDiagramTypeProvider dtp;
-
-  protected void initLayout(Composite parent) {
-    ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
-    ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
-    Composite root = new Composite(parent, SWT.NULL);
-    root.setLayout(new GridLayout(4, false));
-
-    lblImplementation = new CLabel(root, SWT.NONE);
-    txtImplementation = new Text(root, SWT.BORDER);
-    txtImplementation
-        .setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-    btnSelect = new Button(root, SWT.NONE);
-    btnCreate = new Button(root, SWT.NONE);
-  }
-
-  protected void initComponents() {
-    lblImplementation.setText("Python Task Class:");
-    btnSelect.setText("Select class");
-    btnCreate.setText("Create");
-  }
-
-  private void save() {
-    Shell shell = txtImplementation.getShell();
-    boolean parse = new UpdateFeature(dtp.getFeatureProvider())
-        .load(txtImplementation.getText());
-    if (parse) {
-      ModelUtil.runModelChange(new Runnable() {
-        public void run() {
-          Object bo = Graphiti.getLinkService()
-              .getBusinessObjectForLinkedPictogramElement(pe);
-          if (bo == null)
-            return;
-          if (bo instanceof PythonTask) {
-            PythonTask pythonTask = (PythonTask) bo;
-            pythonTask.setImplementation(txtImplementation.getText());
-            UpdateContext context = new UpdateContext(pe);
-            dtp.getFeatureProvider().updateIfPossible(context);
-          }
-        }
-      }, ed, "Set Python Class");
-    } else
-      MessageDialog.openError(shell, "Can't edit value",
-          "Class not found or incorrect.");
-  }
 
   protected void initActions() {
     txtImplementation.addTraverseListener(new TraverseListener() {
@@ -176,17 +123,6 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection impl
         }
       }
     });
-  }
-
-  public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
-    if (pe != null) {
-      Object bo = Graphiti.getLinkService()
-          .getBusinessObjectForLinkedPictogramElement(pe);
-      if (bo == null)
-        return;
-      String className = ((PythonTask) bo).getImplementation();
-      txtImplementation.setText(className);
-    }
   }
 
   @Override
