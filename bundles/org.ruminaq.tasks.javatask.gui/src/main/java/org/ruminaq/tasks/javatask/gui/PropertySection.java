@@ -73,16 +73,6 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection
   }
 
   @Override
-  public void createControls(Composite parent,
-      TabbedPropertySheetPage tabbedPropertySheetPage) {
-    super.createControls(parent, tabbedPropertySheetPage);
-
-    initLayout(parent);
-    initComponents();
-    initActions();
-  }
-
-  @Override
   protected void initLayout(Composite parent) {
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;

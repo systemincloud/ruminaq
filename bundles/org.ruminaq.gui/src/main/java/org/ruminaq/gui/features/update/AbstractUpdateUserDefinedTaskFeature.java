@@ -345,7 +345,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
       shouldBe.entrySet().stream()
           .forEach(e -> udt.getParameter().stream()
               .filter(p -> p.getKey().equals(e.getKey())).findAny()
-              .ifPresent(p -> p.setValue(e.getValue())));
+              .ifPresent(p -> p.setDefaultValue(e.getValue())));
     });
 
     return true;
