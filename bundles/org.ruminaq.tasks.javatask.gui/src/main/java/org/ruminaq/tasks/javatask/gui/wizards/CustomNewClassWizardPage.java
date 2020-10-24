@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.javatask.gui.wizards;
 
 import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
@@ -16,7 +17,7 @@ import org.ruminaq.tasks.javatask.gui.Messages;
 
 /**
  * Reuse jdt class wizard page..
- * 
+ *
  * @author Marek Jagielski
  */
 public class CustomNewClassWizardPage extends NewClassWizardPage {

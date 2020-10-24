@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.javatask.gui.wizards;
 
 import java.lang.reflect.Field;
@@ -21,7 +22,7 @@ import org.slf4j.Logger;
 
 /**
  * Wizard for creating a Java Class that implements custom task.
- * 
+ *
  * @author Marek Jagielski
  */
 public class CreateJavaTaskWizard extends NewClassCreationWizard {
@@ -53,8 +54,7 @@ public class CreateJavaTaskWizard extends NewClassCreationWizard {
       fPageF.setAccessible(true);
       fPage = new CustomNewClassWizardPage();
       fPage.setWizard(this);
-      fPage
-          .init(Optional.ofNullable(selection).orElseGet(() -> getSelection()));
+      fPage.init(Optional.ofNullable(selection).orElseGet(this::getSelection));
       fPageF.set(this, fPage);
       addPage(fPage);
     } catch (IllegalArgumentException | IllegalAccessException
