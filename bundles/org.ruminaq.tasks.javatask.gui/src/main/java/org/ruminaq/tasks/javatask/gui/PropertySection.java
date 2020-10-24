@@ -38,7 +38,6 @@ import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.gui.properties.AbstractUserDefinedTaskPropertySection;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
-import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskListener;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.util.EclipseUtil;
@@ -50,8 +49,7 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  *
  * @author Marek Jagielski
  */
-public class PropertySection extends AbstractUserDefinedTaskPropertySection
-    implements CreateJavaTaskListener {
+public class PropertySection extends AbstractUserDefinedTaskPropertySection {
 
   @Override
   protected void initActions() {
@@ -149,16 +147,5 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection
             e.printStackTrace();
           }
         });
-  }
-
-  @Override
-  public void created(IType type) {
-    ModelUtil.runModelChange(() -> {
-      selectedModelObject(JavaTask.class).ifPresent(javaTask -> javaTask
-          .setImplementationPath(type.getFullyQualifiedName()));
-      getDiagramTypeProvider().getFeatureProvider()
-          .updateIfPossible(new UpdateContext(getSelectedPictogramElement()));
-    }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-        Messages.propertySectionSetCommand);
   }
 }

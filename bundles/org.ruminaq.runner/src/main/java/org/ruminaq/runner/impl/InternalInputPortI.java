@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.Condition;
-import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
+import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.cmd.Command;
@@ -105,7 +105,7 @@ public class InternalInputPortI extends Observable implements Observer,
     this.model = model;
     this.parent = parent;
     this.group = model.getGroup();
-    this.queueSize = model.getQueueSize().equals(AbstractCreateCustomTaskPage.INF) ? -1
+    this.queueSize = model.getQueueSize().equals(AbstractCreateUserDefinedTaskPage.INF) ? -1
         : Integer.parseInt(
             parent.getParent().replaceVariables(model.getQueueSize()));
     this.holdLast = model.isHoldLast() && !model.isAsynchronous();

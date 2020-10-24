@@ -49,7 +49,7 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  *
  * @author Marek Jagielski
  */
-public abstract class AbstractCreateCustomTaskPage extends WizardPage
+public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     implements ICreateUserDefinedTaskPage {
 
   static final int TWO_COLUMNS = 2;
@@ -518,7 +518,7 @@ public abstract class AbstractCreateCustomTaskPage extends WizardPage
 
   private Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
 
-  public AbstractCreateCustomTaskPage(String pageName) {
+  public AbstractCreateUserDefinedTaskPage(String pageName) {
     super(pageName);
     setDescription(Messages.createUserDefinedTaskPageDescription);
   }

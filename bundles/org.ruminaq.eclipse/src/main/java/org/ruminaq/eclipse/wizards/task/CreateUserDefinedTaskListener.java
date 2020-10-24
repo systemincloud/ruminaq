@@ -4,10 +4,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.javatask.gui.wizards;
+package org.ruminaq.eclipse.wizards.task;
 
-import org.eclipse.jdt.core.IType;
-
-public interface CreateJavaTaskListener {
-  void created(IType createdElement);
+/**
+ * 
+ * @author Marek Jagielski
+ */
+public interface CreateUserDefinedTaskListener {
+  void created(String resourcePath);
 }

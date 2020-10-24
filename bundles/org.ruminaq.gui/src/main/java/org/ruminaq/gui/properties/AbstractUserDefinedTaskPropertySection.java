@@ -19,6 +19,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskListener;
+import org.ruminaq.gui.Messages;
 import org.ruminaq.gui.features.update.AbstractUpdateUserDefinedTaskFeature;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
@@ -29,7 +31,7 @@ import org.ruminaq.model.ruminaq.UserDefinedTask;
  * @author Marek Jagielski
  */
 public abstract class AbstractUserDefinedTaskPropertySection
-    extends GFPropertySection {
+    extends GFPropertySection implements CreateUserDefinedTaskListener {
 
   protected static final int FOUR_COLUMNS = 4;
 
@@ -101,10 +103,20 @@ public abstract class AbstractUserDefinedTaskPropertySection
             udt -> udt.setImplementationPath(txtImplementation.getText()));
         getDiagramTypeProvider().getFeatureProvider().updateIfPossible(context);
       }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-          "Set Implementation");
+          Messages.userTaskDefinedPropertySectionSetCommand);
     } else {
       MessageDialog.openError(txtImplementation.getShell(), "Can't edit value",
           "Class not found or incorrect.");
     }
+  }
+
+  public void created(String resource) {
+    ModelUtil.runModelChange(() -> {
+      selectedModelObject(UserDefinedTask.class)
+          .ifPresent(udt -> udt.setImplementationPath(resource));
+      getDiagramTypeProvider().getFeatureProvider()
+          .updateIfPossible(new UpdateContext(getSelectedPictogramElement()));
+    }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+        Messages.userTaskDefinedPropertySectionSetCommand);
   }
 }

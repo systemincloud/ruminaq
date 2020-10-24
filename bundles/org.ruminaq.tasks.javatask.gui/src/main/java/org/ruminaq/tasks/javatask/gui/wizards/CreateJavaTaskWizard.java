@@ -16,6 +16,7 @@ import org.eclipse.jdt.internal.ui.wizards.NewClassCreationWizard;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
+import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskListener;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.tasks.javatask.gui.Messages;
 import org.slf4j.Logger;
@@ -36,13 +37,13 @@ public class CreateJavaTaskWizard extends NewClassCreationWizard {
       Messages.createJavaTaskWizardName);
 
   private IStructuredSelection selection;
-  private CreateJavaTaskListener listener;
+  private CreateUserDefinedTaskListener listener;
 
   public void setProject(IStructuredSelection selection) {
     this.selection = selection;
   }
 
-  public void setListener(CreateJavaTaskListener listener) {
+  public void setListener(CreateUserDefinedTaskListener listener) {
     this.listener = listener;
   }
 
@@ -76,8 +77,8 @@ public class CreateJavaTaskWizard extends NewClassCreationWizard {
   @Override
   public boolean performFinish() {
     boolean ret = super.performFinish();
-    Optional.ofNullable(listener)
-        .ifPresent(l -> l.created((IType) getCreatedElement()));
+    Optional.ofNullable(listener).ifPresent(
+        l -> l.created(((IType) getCreatedElement()).getFullyQualifiedName()));
     return ret;
   }
 }

@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 
 import org.javatuples.Pair;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
-import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
+import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
 import org.ruminaq.tasks.pythontask.gui.PythonData;
 import org.ruminaq.tasks.pythontask.gui.api.PythonTaskExtension;
 import org.ruminaq.tasks.pythontask.ui.wizards.ICreatePythonTaskPage;
 import org.ruminaq.util.ServiceUtil;
 
-public class CreatePythonTaskPage extends AbstractCreateCustomTaskPage
+public class CreatePythonTaskPage extends AbstractCreateUserDefinedTaskPage
     implements ICreatePythonTaskPage {
 
   public CreatePythonTaskPage(String pageName) {

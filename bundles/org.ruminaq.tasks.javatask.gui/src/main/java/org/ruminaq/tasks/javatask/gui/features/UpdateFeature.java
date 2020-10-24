@@ -38,7 +38,7 @@ import org.eclipse.jdt.core.search.SearchParticipant;
 import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.core.search.SearchRequestor;
 import org.eclipse.jdt.internal.core.NamedMember;
-import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
+import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
 import org.ruminaq.gui.features.update.AbstractUpdateUserDefinedTaskFeature;
@@ -193,7 +193,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
                     .filter(i -> i >= QUEUE_INFINITE)
                     .orElseGet(() -> QUEUE_DEFAULT_SIZE))
             .stream().boxed().findFirst().filter(q -> q != QUEUE_INFINITE)
-            .map(Object::toString).orElse(AbstractCreateCustomTaskPage.INF));
+            .map(Object::toString).orElse(AbstractCreateUserDefinedTaskPage.INF));
   }
 
   /**

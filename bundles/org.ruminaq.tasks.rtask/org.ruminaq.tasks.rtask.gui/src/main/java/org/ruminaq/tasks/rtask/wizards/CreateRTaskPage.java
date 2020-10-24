@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 
 import org.javatuples.Pair;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
-import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
+import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
 import org.ruminaq.tasks.rtask.RData;
 import org.ruminaq.tasks.rtask.api.RTaskExtension;
 import org.ruminaq.tasks.rtask.ui.wizards.ICreateRTaskPage;
 import org.ruminaq.util.ServiceUtil;
 
-public class CreateRTaskPage extends AbstractCreateCustomTaskPage
+public class CreateRTaskPage extends AbstractCreateUserDefinedTaskPage
     implements ICreateRTaskPage {
 
   public CreateRTaskPage(String pageName) {

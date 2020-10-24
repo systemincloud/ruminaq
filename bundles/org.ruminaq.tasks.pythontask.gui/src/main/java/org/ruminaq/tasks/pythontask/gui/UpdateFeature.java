@@ -34,7 +34,7 @@ import org.python.pydev.parser.jython.ast.stmtType;
 import org.python.pydev.parser.visitors.scope.ASTEntry;
 import org.python.pydev.parser.visitors.scope.EasyASTIteratorVisitor;
 import org.python.pydev.plugin.nature.PythonNature;
-import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
+import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
 import org.ruminaq.gui.features.update.AbstractUpdateUserDefinedTaskFeature;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.DataTypeManager;
@@ -165,7 +165,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
                       dts.add(tmp);
                   }
                   String queueSize = queue == -1
-                      ? AbstractCreateCustomTaskPage.INF
+                      ? AbstractCreateUserDefinedTaskPage.INF
                       : Integer.toString(queue);
                   inputs.add(new FileInternalInputPort(name, dts, asynchronous,
                       group, hold, queueSize));

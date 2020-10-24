@@ -34,7 +34,7 @@ class RunnerSection extends Group {
   }
 
   protected void initLayout() {
-    setLayout(new GridLayout(AbstractCreateCustomTaskPage.TWO_COLUMNS, false));
+    setLayout(new GridLayout(AbstractCreateUserDefinedTaskPage.TWO_COLUMNS, false));
     setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 
     btnRunnerStart = new Button(this, SWT.CHECK);

@@ -30,7 +30,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.ruminaq.eclipse.wizards.task.AbstractCreateCustomTaskPage;
+import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.InternalInputPort;
@@ -195,7 +195,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
             .isOneDimPositiveInteger(txtQueueSize.getText())
             && Integer.parseInt(txtQueueSize.getText()) != 0)
             || GlobalUtil.isGlobalVariable(txtQueueSize.getText())
-            || AbstractCreateCustomTaskPage.INF.equals(txtQueueSize.getText());
+            || AbstractCreateUserDefinedTaskPage.INF.equals(txtQueueSize.getText());
         PictogramElement pe = getSelectedPictogramElement();
         if (pe == null)
           return;
