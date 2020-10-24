@@ -34,12 +34,11 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.pythontask.gui.util.FindPythonTask;
 import org.ruminaq.tasks.pythontask.gui.util.SicGlobalsTwoPanelElementSelector2;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
-import org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskListener;
 import org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskWizard;
 import org.ruminaq.util.EclipseUtil;
 import com.python.pydev.analysis.additionalinfo.AdditionalInfoAndIInfo;
 
-public class PropertySection extends AbstractUserDefinedTaskPropertySection implements CreatePythonTaskListener {
+public class PropertySection extends AbstractUserDefinedTaskPropertySection {
 
   private PictogramElement pe;
   private TransactionalEditingDomain ed;
@@ -123,23 +122,5 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection impl
         }
       }
     });
-  }
-
-  @Override
-  public void created(final String path) {
-    ModelUtil.runModelChange(new Runnable() {
-      public void run() {
-        Object bo = Graphiti.getLinkService()
-            .getBusinessObjectForLinkedPictogramElement(pe);
-        if (bo == null)
-          return;
-        if (bo instanceof PythonTask) {
-          PythonTask pythonTask = (PythonTask) bo;
-          pythonTask.setImplementation(path);
-          UpdateContext context = new UpdateContext(pe);
-          dtp.getFeatureProvider().updateIfPossible(context);
-        }
-      }
-    }, ed, "Set Python Class");
   }
 }

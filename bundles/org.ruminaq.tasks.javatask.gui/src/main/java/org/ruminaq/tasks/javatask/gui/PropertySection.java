@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
@@ -27,19 +26,15 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.gui.properties.AbstractUserDefinedTaskPropertySection;
-import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard;
-import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.Result;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
@@ -53,11 +48,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
 
   @Override
   protected void initActions() {
-    txtImplementation.addTraverseListener((TraverseEvent event) -> {
-      if (event.detail == SWT.TRAVERSE_RETURN) {
-        save();
-      }
-    });
+    super.initActions();
     btnSelect.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
           IJavaProject project = JavaCore
@@ -106,16 +97,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
 
             if (className != null)
               txtImplementation.setText(className);
-
-            Optional.ofNullable(txtImplementation.getText()).ifPresent(
-                implementationName -> ModelUtil.runModelChange(() -> {
-                  selectedModelObject(JavaTask.class).ifPresent(
-                      jt -> jt.setImplementationPath(implementationName));
-                  getDiagramTypeProvider().getFeatureProvider()
-                      .updateIfPossible(
-                          new UpdateContext(getSelectedPictogramElement()));
-                }, getDiagramContainer().getDiagramBehavior()
-                    .getEditingDomain(), Messages.propertySectionSetCommand));
+            created(className);
           }
         });
     btnCreate.addSelectionListener(

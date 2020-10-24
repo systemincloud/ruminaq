@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.pythontask.ui.wizards;
 
 import java.io.ByteArrayInputStream;
@@ -25,6 +26,7 @@ import org.python.pydev.ui.wizards.files.AbstractPythonWizardPage;
 import org.python.pydev.ui.wizards.files.PythonModuleWizard;
 import org.python.pydev.ui.wizards.files.PythonPackageWizard;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
+import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskListener;
 import org.ruminaq.tasks.pythontask.ui.IPythonTaskUiApi;
 
 public class CreatePythonTaskWizard extends PythonModuleWizard {
@@ -34,9 +36,9 @@ public class CreatePythonTaskWizard extends PythonModuleWizard {
   private IPythonTaskUiApi ictua;
   private ICreatePythonTaskPage cptp;
 
-  private CreatePythonTaskListener listener = null;
+  private CreateUserDefinedTaskListener listener = null;
 
-  public void setListener(CreatePythonTaskListener listener) {
+  public void setListener(CreateUserDefinedTaskListener listener) {
     this.listener = listener;
   }
 
