@@ -21,6 +21,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.widgets.Display;
@@ -36,6 +37,7 @@ import org.ruminaq.tasks.pythontask.gui.util.SicGlobalsTwoPanelElementSelector2;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
 import org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskWizard;
 import org.ruminaq.util.EclipseUtil;
+import org.ruminaq.util.WidgetSelectedSelectionListener;
 import com.python.pydev.analysis.additionalinfo.AdditionalInfoAndIInfo;
 
 public class PropertySection extends AbstractUserDefinedTaskPropertySection {
@@ -93,34 +95,36 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
         }
       }
     });
-    btnCreate.addSelectionListener(new SelectionAdapter() {
-      public void widgetSelected(SelectionEvent evt) {
-        IWizardDescriptor descriptor = PlatformUI.getWorkbench()
-            .getNewWizardRegistry().findWizard(CreatePythonTaskWizard.ID);
-        try {
-          if (descriptor != null) {
-            IWizard wizard = descriptor.createWizard();
-            String folder = RuminaqDiagramUtil
-                .isTest(EclipseUtil.getModelPathFromEObject(pe))
-                    ? EclipseExtensionImpl.TEST_PYTHON
-                    : EclipseExtensionImpl.MAIN_PYTHON;
-            String projectName = EclipseUtil
-                .getProjectNameFromDiagram(dtp.getDiagram());
-            IStructuredSelection selection = new StructuredSelection(
-                ResourcesPlugin.getWorkspace().getRoot().getProject(projectName)
-                    .getFolder(folder));
-            ((CreatePythonTaskWizard) wizard).init(PlatformUI.getWorkbench(),
-                selection);
-            ((CreatePythonTaskWizard) wizard).setListener(PropertySection.this);
-            WizardDialog wd = new WizardDialog(
-                Display.getDefault().getActiveShell(), wizard);
-            wd.setTitle(wizard.getWindowTitle());
-            wd.open();
-          }
-        } catch (CoreException e) {
-          e.printStackTrace();
+  }
+
+  @Override
+  protected SelectionListener createSelectionListener() {
+    return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
+      IWizardDescriptor descriptor = PlatformUI.getWorkbench()
+          .getNewWizardRegistry().findWizard(CreatePythonTaskWizard.ID);
+      try {
+        if (descriptor != null) {
+          IWizard wizard = descriptor.createWizard();
+          String folder = RuminaqDiagramUtil
+              .isTest(EclipseUtil.getModelPathFromEObject(pe))
+                  ? EclipseExtensionImpl.TEST_PYTHON
+                  : EclipseExtensionImpl.MAIN_PYTHON;
+          String projectName = EclipseUtil
+              .getProjectNameFromDiagram(dtp.getDiagram());
+          IStructuredSelection selection = new StructuredSelection(
+              ResourcesPlugin.getWorkspace().getRoot().getProject(projectName)
+                  .getFolder(folder));
+          ((CreatePythonTaskWizard) wizard).init(PlatformUI.getWorkbench(),
+              selection);
+          ((CreatePythonTaskWizard) wizard).setListener(PropertySection.this);
+          WizardDialog wd = new WizardDialog(
+              Display.getDefault().getActiveShell(), wizard);
+          wd.setTitle(wizard.getWindowTitle());
+          wd.open();
         }
+      } catch (CoreException e) {
+        e.printStackTrace();
       }
-    });
+    };
   }
 }

@@ -13,6 +13,7 @@ import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -82,14 +83,17 @@ public abstract class AbstractUserDefinedTaskPropertySection
     btnSelect.setText("Select");
     btnCreate.setText("Create");
   }
-  
+
   protected void initActions() {
     txtImplementation.addTraverseListener((TraverseEvent event) -> {
       if (event.detail == SWT.TRAVERSE_RETURN) {
         save();
       }
     });
+    btnCreate.addSelectionListener(createSelectionListener());
   }
+
+  protected abstract SelectionListener createSelectionListener();
 
   @Override
   public void refresh() {

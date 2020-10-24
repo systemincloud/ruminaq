@@ -27,6 +27,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
@@ -100,34 +101,37 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
             created(className);
           }
         });
-    btnCreate.addSelectionListener(
-        (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
-          IWizardDescriptor descriptor = PlatformUI.getWorkbench()
-              .getNewWizardRegistry().findWizard(CreateJavaTaskWizard.ID);
-          try {
-            if (descriptor != null) {
-              IWizard wizard = descriptor.createWizard();
-              String folder = RuminaqDiagramUtil.isTest(EclipseUtil
-                  .getModelPathFromEObject(getSelectedPictogramElement()))
-                      ? EclipseExtensionImpl.TEST_JAVA
-                      : EclipseExtensionImpl.MAIN_JAVA;
-              String projectName = EclipseUtil.getProjectNameFromDiagram(
-                  getDiagramContainer().getDiagramTypeProvider().getDiagram());
-              IStructuredSelection selection = new StructuredSelection(
-                  JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
-                      .getProject(projectName).getFolder(folder)));
-              ((CreateJavaTaskWizard) wizard).init(PlatformUI.getWorkbench(),
-                  selection);
-              ((CreateJavaTaskWizard) wizard).setProject(selection);
-              ((CreateJavaTaskWizard) wizard).setListener(PropertySection.this);
-              WizardDialog wd = new WizardDialog(
-                  Display.getDefault().getActiveShell(), wizard);
-              wd.setTitle(wizard.getWindowTitle());
-              wd.open();
-            }
-          } catch (CoreException e) {
-            e.printStackTrace();
-          }
-        });
+  }
+
+  @Override
+  protected SelectionListener createSelectionListener() {
+    return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
+      IWizardDescriptor descriptor = PlatformUI.getWorkbench()
+          .getNewWizardRegistry().findWizard(CreateJavaTaskWizard.ID);
+      try {
+        if (descriptor != null) {
+          IWizard wizard = descriptor.createWizard();
+          String folder = RuminaqDiagramUtil.isTest(EclipseUtil
+              .getModelPathFromEObject(getSelectedPictogramElement()))
+                  ? EclipseExtensionImpl.TEST_JAVA
+                  : EclipseExtensionImpl.MAIN_JAVA;
+          String projectName = EclipseUtil.getProjectNameFromDiagram(
+              getDiagramContainer().getDiagramTypeProvider().getDiagram());
+          IStructuredSelection selection = new StructuredSelection(
+              JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
+                  .getProject(projectName).getFolder(folder)));
+          ((CreateJavaTaskWizard) wizard).init(PlatformUI.getWorkbench(),
+              selection);
+          ((CreateJavaTaskWizard) wizard).setProject(selection);
+          ((CreateJavaTaskWizard) wizard).setListener(PropertySection.this);
+          WizardDialog wd = new WizardDialog(
+              Display.getDefault().getActiveShell(), wizard);
+          wd.setTitle(wizard.getWindowTitle());
+          wd.open();
+        }
+      } catch (CoreException e) {
+        e.printStackTrace();
+      }
+    };
   }
 }
