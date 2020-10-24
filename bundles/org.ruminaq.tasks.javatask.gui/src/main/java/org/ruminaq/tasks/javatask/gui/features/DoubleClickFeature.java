@@ -8,6 +8,7 @@ package org.ruminaq.tasks.javatask.gui.features;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -38,9 +39,8 @@ import org.ruminaq.util.Result;
  * @author Marek Jagielski
  */
 @FeatureFilter(DoubleClickFeature.Filter.class)
-public class DoubleClickFeature extends AbstractUserDefinedTaskDoubleClickFeature {
-
-  private IType type;
+public class DoubleClickFeature
+    extends AbstractUserDefinedTaskDoubleClickFeature {
 
   public static class Filter implements FeaturePredicate<IContext> {
     @Override
@@ -70,16 +70,17 @@ public class DoubleClickFeature extends AbstractUserDefinedTaskDoubleClickFeatur
             IJavaSearchConstants.TYPE,
             SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE))
         .map(p -> Result.attempt(() -> {
+          AtomicReference<IType> type = new AtomicReference<>();
           new SearchEngine().search(p, participants, scope,
               new SearchRequestor() {
                 @Override
                 public void acceptSearchMatch(SearchMatch sm) {
-                  type = Optional.of(sm).map(SearchMatch::getElement)
+                  type.set(Optional.of(sm).map(SearchMatch::getElement)
                       .filter(IType.class::isInstance).map(IType.class::cast)
-                      .orElse(null);
+                      .orElse(null));
                 }
               }, null);
-          return type;
+          return type.get();
         }).orElse(null)).filter(Objects::nonNull).map(IType::getResource)
         .filter(IFile.class::isInstance).map(IFile.class::cast)
         .ifPresent(f -> Display.getCurrent()
