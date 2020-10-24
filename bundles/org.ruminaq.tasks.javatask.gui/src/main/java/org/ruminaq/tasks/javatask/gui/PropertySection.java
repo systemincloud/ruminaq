@@ -46,61 +46,59 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  * @author Marek Jagielski
  */
 public class PropertySection extends AbstractUserDefinedTaskPropertySection {
-
+  
   @Override
-  protected void initActions() {
-    super.initActions();
-    btnSelect.addSelectionListener(
-        (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
-          IJavaProject project = JavaCore
-              .create(ResourcesPlugin.getWorkspace().getRoot().getProject(
-                  EclipseUtil.getProjectNameFromDiagram(getDiagram())));
-          IJavaSearchScope scope = SearchEngine
-              .createJavaSearchScope(new IJavaElement[] { project });
-          SelectionDialog dialog = Result.attempt(
-              () -> JavaUI.createTypeDialog(txtImplementation.getShell(), null,
-                  scope, IJavaElementSearchConstants.CONSIDER_CLASSES, false,
-                  "", new TypeSelectionExtension() {
-                    @Override
-                    public ITypeInfoFilterExtension getFilterExtension() {
-                      return (ITypeInfoRequestor requestor) -> {
-                        String pag = requestor.getPackageName();
-                        String typeName = (pag.equals("") ? "" : pag + ".")
-                            + requestor.getTypeName();
-                        Optional<IType> type = Optional
-                            .ofNullable(Result
-                                .attempt(() -> project.findType(typeName)))
-                            .map(r -> r.orElse(null)).filter(Objects::nonNull)
-                            .filter(IType::exists);
+  protected SelectionListener selectSelectionListener() {
+    return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
+      IJavaProject project = JavaCore
+          .create(ResourcesPlugin.getWorkspace().getRoot().getProject(
+              EclipseUtil.getProjectNameFromDiagram(getDiagram())));
+      IJavaSearchScope scope = SearchEngine
+          .createJavaSearchScope(new IJavaElement[] { project });
+      SelectionDialog dialog = Result.attempt(
+          () -> JavaUI.createTypeDialog(txtImplementation.getShell(), null,
+              scope, IJavaElementSearchConstants.CONSIDER_CLASSES, false,
+              "", new TypeSelectionExtension() {
+                @Override
+                public ITypeInfoFilterExtension getFilterExtension() {
+                  return (ITypeInfoRequestor requestor) -> {
+                    String pag = requestor.getPackageName();
+                    String typeName = (pag.equals("") ? "" : pag + ".")
+                        + requestor.getTypeName();
+                    Optional<IType> type = Optional
+                        .ofNullable(Result
+                            .attempt(() -> project.findType(typeName)))
+                        .map(r -> r.orElse(null)).filter(Objects::nonNull)
+                        .filter(IType::exists);
 
-                        return type
-                            .map(t -> t.getAnnotation(
-                                JavaTaskInfo.class.getSimpleName()))
-                            .isPresent()
-                            && type
-                                .map(t -> Result
-                                    .attempt(() -> t.newSupertypeHierarchy(null)
-                                        .getSuperclass(t)))
-                                .map(r -> r.orElse(null))
-                                .filter(Objects::nonNull)
-                                .map(IType::getFullyQualifiedName)
-                                .filter(
-                                    org.ruminaq.tasks.javatask.client.JavaTask.class
-                                        .getCanonicalName()::equals)
-                                .isPresent();
-                      };
-                    }
-                  }))
-              .orElse(null);
-          if (dialog != null && dialog.open() == Window.OK) {
-            Object[] result = dialog.getResult();
-            String className = ((IType) result[0]).getFullyQualifiedName();
+                    return type
+                        .map(t -> t.getAnnotation(
+                            JavaTaskInfo.class.getSimpleName()))
+                        .isPresent()
+                        && type
+                            .map(t -> Result
+                                .attempt(() -> t.newSupertypeHierarchy(null)
+                                    .getSuperclass(t)))
+                            .map(r -> r.orElse(null))
+                            .filter(Objects::nonNull)
+                            .map(IType::getFullyQualifiedName)
+                            .filter(
+                                org.ruminaq.tasks.javatask.client.JavaTask.class
+                                    .getCanonicalName()::equals)
+                            .isPresent();
+                  };
+                }
+              }))
+          .orElse(null);
+      if (dialog != null && dialog.open() == Window.OK) {
+        Object[] result = dialog.getResult();
+        String className = ((IType) result[0]).getFullyQualifiedName();
 
-            if (className != null)
-              txtImplementation.setText(className);
-            created(className);
-          }
-        });
+        if (className != null)
+          txtImplementation.setText(className);
+        created(className);
+      }
+    };
   }
 
   @Override

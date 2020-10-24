@@ -90,8 +90,11 @@ public abstract class AbstractUserDefinedTaskPropertySection
         save();
       }
     });
+    btnSelect.addSelectionListener(selectSelectionListener());
     btnCreate.addSelectionListener(createSelectionListener());
   }
+
+  protected abstract SelectionListener selectSelectionListener();
 
   protected abstract SelectionListener createSelectionListener();
 
