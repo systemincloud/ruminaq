@@ -77,7 +77,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
   }
 
   /**
-   * Loaded once type representing Java class.
+   * Type representing Java class is loaded once .
    */
   private NamedMember type;
 
@@ -167,6 +167,9 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
   /**
    * Try to retrieve attributes from InputPortInfo.
    *
+   * <p>For queue size replace any non-valid value with
+   * default size.
+   *
    * @param sm SearchMatch
    * @return helper object FileInternalInputPort
    */
@@ -204,9 +207,12 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
         annotationValueArray(sm, OutputPortInfo.class, "dataType"));
   }
 
+  /**
+   * Resource is here a canonical java class name.
+   */
   @Override
-  public boolean load(String className) {
-    SearchPattern pattern = SearchPattern.createPattern(className,
+  public boolean load(String resource) {
+    SearchPattern pattern = SearchPattern.createPattern(resource,
         IJavaSearchConstants.TYPE, IJavaSearchConstants.TYPE,
         SearchPattern.R_FULL_MATCH | SearchPattern.R_CASE_SENSITIVE);
     SearchParticipant[] participants = new SearchParticipant[] {
