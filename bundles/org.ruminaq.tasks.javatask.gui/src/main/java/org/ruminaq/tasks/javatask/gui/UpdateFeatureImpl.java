@@ -11,6 +11,7 @@ import java.util.List;
 import org.eclipse.graphiti.features.IUpdateFeature;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.UpdateFeatureExtension;
+import org.ruminaq.tasks.javatask.gui.features.UpdateFeature;
 
 /**
  * Service UpdateFeatureExtension implementation.

@@ -47,6 +47,7 @@ import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.properties.AbstractUserDefinedTaskPropertySection;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
+import org.ruminaq.tasks.javatask.gui.features.UpdateFeature;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskListener;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;

@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.javatask.gui;
+package org.ruminaq.tasks.javatask.gui.features;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -49,6 +49,7 @@ import org.ruminaq.tasks.javatask.client.annotations.InputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.Parameter;
+import org.ruminaq.tasks.javatask.gui.AddFeatureImpl;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskPage;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.util.EclipseUtil;

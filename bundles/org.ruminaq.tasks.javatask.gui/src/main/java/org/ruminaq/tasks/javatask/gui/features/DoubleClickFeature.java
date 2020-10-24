@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.tasks.javatask.gui;
+package org.ruminaq.tasks.javatask.gui.features;
 
 import java.util.Objects;
 import java.util.Optional;

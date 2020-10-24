@@ -11,6 +11,7 @@ import java.util.List;
 import org.eclipse.graphiti.features.custom.ICustomFeature;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.DoubleClickFeatureExtension;
+import org.ruminaq.tasks.javatask.gui.features.DoubleClickFeature;
 
 /**
  * Service DoubleClickFeatureExtension implementation.
