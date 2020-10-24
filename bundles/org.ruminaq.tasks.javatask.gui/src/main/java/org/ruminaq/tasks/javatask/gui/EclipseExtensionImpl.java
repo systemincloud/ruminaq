@@ -43,6 +43,9 @@ public class EclipseExtensionImpl implements EclipseExtension {
         .orElse(Boolean.FALSE);
   }
 
+  /**
+   * Return javatask client.
+   */
   @Override
   public List<Dependency> getMavenDependencies() {
     var javaClient = new Dependency();
@@ -65,6 +68,6 @@ public class EclipseExtensionImpl implements EclipseExtension {
 
   @Override
   public void initEditor() {
-    JavataskPackage.eINSTANCE.getClass();
+    JavataskPackage.eINSTANCE.eClass();
   }
 }
