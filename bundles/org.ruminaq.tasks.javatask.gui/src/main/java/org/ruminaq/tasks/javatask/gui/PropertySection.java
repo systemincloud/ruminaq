@@ -9,6 +9,8 @@ package org.ruminaq.tasks.javatask.gui;
 import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.graphiti.mm.pictograms.Diagram;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
@@ -43,6 +45,18 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  * @author Marek Jagielski
  */
 public class PropertySection extends AbstractUserDefinedTaskPropertySection {
+
+  private static IStructuredSelection getSelection(Diagram diagram,
+      PictogramElement pe) {
+    return new StructuredSelection(
+        JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
+            .getProject(EclipseUtil.getProjectNameFromDiagram(diagram))
+            .getFolder(Optional.ofNullable(pe)
+                .map(EclipseUtil::getModelPathFromEObject)
+                .filter(RuminaqDiagramUtil::isTest)
+                .map(m -> EclipseExtensionImpl.TEST_JAVA)
+                .orElse(EclipseExtensionImpl.MAIN_JAVA))));
+  }
 
   @Override
   protected SelectionListener selectSelectionListener() {
@@ -99,15 +113,9 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
   @Override
   protected SelectionListener createSelectionListener() {
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
-      IStructuredSelection selection = new StructuredSelection(
-          JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
-              .getProject(EclipseUtil.getProjectNameFromDiagram(
-                  getDiagramContainer().getDiagramTypeProvider().getDiagram()))
-              .getFolder(Optional.ofNullable(getSelectedPictogramElement())
-                  .map(EclipseUtil::getModelPathFromEObject)
-                  .filter(RuminaqDiagramUtil::isTest)
-                  .map(m -> EclipseExtensionImpl.TEST_JAVA)
-                  .orElse(EclipseExtensionImpl.MAIN_JAVA))));
+      IStructuredSelection selection = getSelection(
+          getDiagramContainer().getDiagramTypeProvider().getDiagram(),
+          getSelectedPictogramElement());
       Optional<CreateJavaTaskWizard> optWizard = Optional
           .ofNullable(PlatformUI.getWorkbench().getNewWizardRegistry()
               .findWizard(CreateJavaTaskWizard.ID))
