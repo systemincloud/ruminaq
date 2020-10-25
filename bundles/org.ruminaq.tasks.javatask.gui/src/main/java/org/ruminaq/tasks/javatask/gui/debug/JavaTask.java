@@ -29,7 +29,8 @@ import ch.qos.logback.classic.Logger;
 public class JavaTask extends JavaTasksDebugElement
     implements IThread, IEventProcessor {
 
-  private final Logger logger = ModelerLoggerFactory.getLogger(JavaTask.class);
+  private static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(JavaTask.class);
 
   private String id;
   private String name;
@@ -54,8 +55,8 @@ public class JavaTask extends JavaTasksDebugElement
       String prefix = p.getLocation().removeLastSegments(1).toFile()
           .getAbsolutePath();
       if (parentPath.startsWith(prefix)) {
-        logger.trace("prefix : ", prefix);
-        logger.trace("parentPath : ", parentPath);
+        LOGGER.trace("prefix : ", prefix);
+        LOGGER.trace("parentPath : ", parentPath);
         this.file = ResourcesPlugin.getWorkspace().getRoot()
             .getFile(new Path(parentPath.replace(prefix, "")));
         break;
