@@ -69,7 +69,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     setTitle(Messages.createJavaTaskWizardName);
   }
 
-  private Stream<UserDefinedTaskExtension> javaTaskExtensions() {
+  private static Stream<UserDefinedTaskExtension> extensions() {
     return ServiceUtil.getServicesAtLatestVersion(CreateJavaTaskPage.class,
         UserDefinedTaskExtension.class,
         () -> Collections.singletonList(JavaTask.class)).stream();
@@ -77,12 +77,11 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
 
   @Override
   protected List<String> getDataTypes() {
-    return javaTaskExtensions().map(UserDefinedTaskExtension::getSupportedData)
+    return extensions().map(UserDefinedTaskExtension::getSupportedData)
         .flatMap(List::stream).collect(Collectors.toList());
   }
 
-  @SuppressWarnings({ "unchecked" })
-  public void decorateType(final IType type, final Module module) {
+  protected void decorateType(IType type, Module module) {
     try {
       final ICompilationUnit cu = type.getCompilationUnit();
 
@@ -539,7 +538,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         .concat(module.getInputs().stream().map(In::getDataType),
             module.getOutputs().stream().map(Out::getDataType))
         .distinct()
-        .map(dt -> javaTaskExtensions().map(s -> s.getCannonicalDataName(dt))
+        .map(dt -> extensions().map(s -> s.getCannonicalDataName(dt))
             .filter(Objects::nonNull).findFirst())
         .filter(Optional::isPresent).map(Optional::get)
         .forEach(clazz -> addImport(ast, lrw, clazz));
