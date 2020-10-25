@@ -98,28 +98,28 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
 
   @Override
   protected SelectionListener createSelectionListener() {
-    String folder = RuminaqDiagramUtil.isTest(
-        EclipseUtil.getModelPathFromEObject(getSelectedPictogramElement()))
-            ? EclipseExtensionImpl.TEST_JAVA
-            : EclipseExtensionImpl.MAIN_JAVA;
-    String projectName = EclipseUtil.getProjectNameFromDiagram(
-        getDiagramContainer().getDiagramTypeProvider().getDiagram());
-    IStructuredSelection selection = new StructuredSelection(
-        JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
-            .getProject(projectName).getFolder(folder)));
-    Optional<CreateJavaTaskWizard> optWizard = Optional
-        .ofNullable(PlatformUI.getWorkbench().getNewWizardRegistry()
-            .findWizard(CreateJavaTaskWizard.ID))
-        .map(wd -> Result.attempt(() -> wd.createWizard()))
-        .map(r -> r.orElse(null)).filter(Objects::nonNull)
-        .filter(CreateJavaTaskWizard.class::isInstance)
-        .map(CreateJavaTaskWizard.class::cast).map(w -> {
-          w.init(PlatformUI.getWorkbench(), selection);
-          w.setProject(selection);
-          w.setListener(PropertySection.this);
-          return w;
-        });
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
+      IStructuredSelection selection = new StructuredSelection(
+          JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
+              .getProject(EclipseUtil.getProjectNameFromDiagram(
+                  getDiagramContainer().getDiagramTypeProvider().getDiagram()))
+              .getFolder(Optional.ofNullable(getSelectedPictogramElement())
+                  .map(EclipseUtil::getModelPathFromEObject)
+                  .filter(RuminaqDiagramUtil::isTest)
+                  .map(m -> EclipseExtensionImpl.TEST_JAVA)
+                  .orElse(EclipseExtensionImpl.MAIN_JAVA))));
+      Optional<CreateJavaTaskWizard> optWizard = Optional
+          .ofNullable(PlatformUI.getWorkbench().getNewWizardRegistry()
+              .findWizard(CreateJavaTaskWizard.ID))
+          .map(wd -> Result.attempt(() -> wd.createWizard()))
+          .map(r -> r.orElse(null)).filter(Objects::nonNull)
+          .filter(CreateJavaTaskWizard.class::isInstance)
+          .map(CreateJavaTaskWizard.class::cast).map(w -> {
+            w.init(PlatformUI.getWorkbench(), selection);
+            w.setProject(selection);
+            w.setListener(PropertySection.this);
+            return w;
+          });
       optWizard.ifPresent((CreateJavaTaskWizard wizard) -> {
         WizardDialog wd = new WizardDialog(
             Display.getDefault().getActiveShell(), wizard);
