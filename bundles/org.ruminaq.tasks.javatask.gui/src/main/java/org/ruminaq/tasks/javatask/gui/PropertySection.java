@@ -9,7 +9,6 @@ package org.ruminaq.tasks.javatask.gui;
 import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
@@ -24,14 +23,12 @@ import org.eclipse.jdt.ui.dialogs.TypeSelectionExtension;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
-import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
-import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.gui.properties.AbstractUserDefinedTaskPropertySection;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
@@ -46,18 +43,18 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  * @author Marek Jagielski
  */
 public class PropertySection extends AbstractUserDefinedTaskPropertySection {
-  
+
   @Override
   protected SelectionListener selectSelectionListener() {
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
       IJavaProject project = JavaCore
-          .create(ResourcesPlugin.getWorkspace().getRoot().getProject(
-              EclipseUtil.getProjectNameFromDiagram(getDiagram())));
+          .create(ResourcesPlugin.getWorkspace().getRoot()
+              .getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram())));
       IJavaSearchScope scope = SearchEngine
           .createJavaSearchScope(new IJavaElement[] { project });
-      SelectionDialog dialog = Result.attempt(
-          () -> JavaUI.createTypeDialog(txtImplementation.getShell(), null,
-              scope, IJavaElementSearchConstants.CONSIDER_CLASSES, false,
+      SelectionDialog dialog = Result
+          .attempt(() -> JavaUI.createTypeDialog(txtImplementation.getShell(),
+              null, scope, IJavaElementSearchConstants.CONSIDER_CLASSES, false,
               "", new TypeSelectionExtension() {
                 @Override
                 public ITypeInfoFilterExtension getFilterExtension() {
@@ -66,21 +63,19 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
                     String typeName = (pag.equals("") ? "" : pag + ".")
                         + requestor.getTypeName();
                     Optional<IType> type = Optional
-                        .ofNullable(Result
-                            .attempt(() -> project.findType(typeName)))
+                        .ofNullable(
+                            Result.attempt(() -> project.findType(typeName)))
                         .map(r -> r.orElse(null)).filter(Objects::nonNull)
                         .filter(IType::exists);
 
                     return type
-                        .map(t -> t.getAnnotation(
-                            JavaTaskInfo.class.getSimpleName()))
+                        .map(t -> t
+                            .getAnnotation(JavaTaskInfo.class.getSimpleName()))
                         .isPresent()
                         && type
-                            .map(t -> Result
-                                .attempt(() -> t.newSupertypeHierarchy(null)
-                                    .getSuperclass(t)))
-                            .map(r -> r.orElse(null))
-                            .filter(Objects::nonNull)
+                            .map(t -> Result.attempt(() -> t
+                                .newSupertypeHierarchy(null).getSuperclass(t)))
+                            .map(r -> r.orElse(null)).filter(Objects::nonNull)
                             .map(IType::getFullyQualifiedName)
                             .filter(
                                 org.ruminaq.tasks.javatask.client.JavaTask.class
@@ -103,33 +98,34 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
 
   @Override
   protected SelectionListener createSelectionListener() {
+    String folder = RuminaqDiagramUtil.isTest(
+        EclipseUtil.getModelPathFromEObject(getSelectedPictogramElement()))
+            ? EclipseExtensionImpl.TEST_JAVA
+            : EclipseExtensionImpl.MAIN_JAVA;
+    String projectName = EclipseUtil.getProjectNameFromDiagram(
+        getDiagramContainer().getDiagramTypeProvider().getDiagram());
+    IStructuredSelection selection = new StructuredSelection(
+        JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
+            .getProject(projectName).getFolder(folder)));
+    Optional<CreateJavaTaskWizard> optWizard = Optional
+        .ofNullable(PlatformUI.getWorkbench().getNewWizardRegistry()
+            .findWizard(CreateJavaTaskWizard.ID))
+        .map(wd -> Result.attempt(() -> wd.createWizard()))
+        .map(r -> r.orElse(null)).filter(Objects::nonNull)
+        .filter(CreateJavaTaskWizard.class::isInstance)
+        .map(CreateJavaTaskWizard.class::cast).map(w -> {
+          w.init(PlatformUI.getWorkbench(), selection);
+          w.setProject(selection);
+          w.setListener(PropertySection.this);
+          return w;
+        });
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
-      IWizardDescriptor descriptor = PlatformUI.getWorkbench()
-          .getNewWizardRegistry().findWizard(CreateJavaTaskWizard.ID);
-      try {
-        if (descriptor != null) {
-          IWizard wizard = descriptor.createWizard();
-          String folder = RuminaqDiagramUtil.isTest(EclipseUtil
-              .getModelPathFromEObject(getSelectedPictogramElement()))
-                  ? EclipseExtensionImpl.TEST_JAVA
-                  : EclipseExtensionImpl.MAIN_JAVA;
-          String projectName = EclipseUtil.getProjectNameFromDiagram(
-              getDiagramContainer().getDiagramTypeProvider().getDiagram());
-          IStructuredSelection selection = new StructuredSelection(
-              JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
-                  .getProject(projectName).getFolder(folder)));
-          ((CreateJavaTaskWizard) wizard).init(PlatformUI.getWorkbench(),
-              selection);
-          ((CreateJavaTaskWizard) wizard).setProject(selection);
-          ((CreateJavaTaskWizard) wizard).setListener(PropertySection.this);
-          WizardDialog wd = new WizardDialog(
-              Display.getDefault().getActiveShell(), wizard);
-          wd.setTitle(wizard.getWindowTitle());
-          wd.open();
-        }
-      } catch (CoreException e) {
-        e.printStackTrace();
-      }
+      optWizard.ifPresent((CreateJavaTaskWizard wizard) -> {
+        WizardDialog wd = new WizardDialog(
+            Display.getDefault().getActiveShell(), wizard);
+        wd.setTitle(wizard.getWindowTitle());
+        wd.open();
+      });
     };
   }
 }
