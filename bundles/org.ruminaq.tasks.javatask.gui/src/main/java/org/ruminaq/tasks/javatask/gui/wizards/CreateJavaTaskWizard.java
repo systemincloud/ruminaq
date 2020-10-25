@@ -54,7 +54,7 @@ public class CreateJavaTaskWizard extends NewClassCreationWizard {
 
   /**
    * Field fPage of NewClassCreationWizard is private.
-   * 
+   *
    * @param fPage new value for field
    */
   private void replacefPage(NewClassWizardPage fPage) {
