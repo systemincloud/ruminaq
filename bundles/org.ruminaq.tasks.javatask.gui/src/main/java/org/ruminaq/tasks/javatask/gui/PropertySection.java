@@ -52,8 +52,8 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
    * Return java directory depending on diagram path. For diagrams in test
    * directory return test java source directory. For diagrams in main directory
    * return main java source directory.
-   * 
-   * @param diagram
+   *
+   * @param diagram Graphiti Diagram
    * @param pe      selected element
    * @return selected java directory
    */
