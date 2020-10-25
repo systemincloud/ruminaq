@@ -123,8 +123,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
   @Override
   protected SelectionListener createSelectionListener() {
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
-      IStructuredSelection selection = getSelection(
-          getDiagramContainer().getDiagramTypeProvider().getDiagram(),
+      IStructuredSelection selection = getSelection(getDiagram(),
           getSelectedPictogramElement());
       getWizard().ifPresent((CreateJavaTaskWizard wizard) -> {
         wizard.init(PlatformUI.getWorkbench(), selection);
