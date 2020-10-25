@@ -86,7 +86,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
     wd.open();
   }
 
-  private ITypeInfoFilterExtension filterJavaTaskClasses(IJavaProject project) {
+  private static ITypeInfoFilterExtension filterJavaTaskClasses(IJavaProject project) {
     return (ITypeInfoRequestor requestor) -> {
       Optional<IType> type = Optional.ofNullable(requestor)
           .map((ITypeInfoRequestor r) -> {
