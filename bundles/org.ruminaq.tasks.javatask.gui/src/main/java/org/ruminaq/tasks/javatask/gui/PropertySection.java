@@ -111,16 +111,14 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
       Optional<CreateJavaTaskWizard> optWizard = Optional
           .ofNullable(PlatformUI.getWorkbench().getNewWizardRegistry()
               .findWizard(CreateJavaTaskWizard.ID))
-          .map(wd -> Result.attempt(() -> wd.createWizard()))
-          .map(r -> r.orElse(null)).filter(Objects::nonNull)
+          .map(wd -> Result.attempt(wd::createWizard)).map(r -> r.orElse(null))
+          .filter(Objects::nonNull)
           .filter(CreateJavaTaskWizard.class::isInstance)
-          .map(CreateJavaTaskWizard.class::cast).map(w -> {
-            w.init(PlatformUI.getWorkbench(), selection);
-            w.setProject(selection);
-            w.setListener(PropertySection.this);
-            return w;
-          });
+          .map(CreateJavaTaskWizard.class::cast);
       optWizard.ifPresent((CreateJavaTaskWizard wizard) -> {
+        wizard.init(PlatformUI.getWorkbench(), selection);
+        wizard.setProject(selection);
+        wizard.setListener(this);
         WizardDialog wd = new WizardDialog(
             Display.getDefault().getActiveShell(), wizard);
         wd.setTitle(wizard.getWindowTitle());
