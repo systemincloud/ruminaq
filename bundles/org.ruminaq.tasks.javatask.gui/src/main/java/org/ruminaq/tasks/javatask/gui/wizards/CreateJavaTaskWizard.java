@@ -47,22 +47,34 @@ public class CreateJavaTaskWizard extends NewClassCreationWizard {
     this.listener = listener;
   }
 
-  @Override
-  public void addPages() {
-    NewClassWizardPage fPage;
+  private Optional<IType> createdType() {
+    return Optional.ofNullable(getCreatedElement())
+        .filter(IType.class::isInstance).map(IType.class::cast);
+  }
+
+  /**
+   * Field fPage of NewClassCreationWizard is private.
+   * 
+   * @param fPage new value for field
+   */
+  private void replacefPage(NewClassWizardPage fPage) {
     try {
       Field fPageF = NewClassCreationWizard.class.getDeclaredField("fPage");
       fPageF.setAccessible(true);
-      fPage = new CustomNewClassWizardPage();
-      fPage.setWizard(this);
-      fPage.init(Optional.ofNullable(selection).orElseGet(this::getSelection));
       fPageF.set(this, fPage);
-      addPage(fPage);
     } catch (IllegalArgumentException | IllegalAccessException
         | NoSuchFieldException | SecurityException e) {
       LOGGER.error("Error creating wizzard", e);
-      super.addPages();
     }
+  }
+
+  @Override
+  public void addPages() {
+    NewClassWizardPage fPage = new CustomNewClassWizardPage();
+    fPage.setWizard(this);
+    fPage.init(Optional.ofNullable(selection).orElseGet(this::getSelection));
+    replacefPage(fPage);
+    addPage(fPage);
     addPage(cjtp);
   }
 
@@ -70,15 +82,15 @@ public class CreateJavaTaskWizard extends NewClassCreationWizard {
   protected void finishPage(IProgressMonitor monitor)
       throws InterruptedException, CoreException {
     super.finishPage(monitor);
-    Display.getDefault().syncExec(
-        () -> cjtp.decorateType((IType) getCreatedElement(), cjtp.getModel()));
+    createdType().ifPresent(t -> Display.getDefault()
+        .syncExec(() -> cjtp.decorateType(t, cjtp.getModel())));
   }
 
   @Override
   public boolean performFinish() {
     boolean ret = super.performFinish();
-    Optional.ofNullable(listener).ifPresent(
-        l -> l.created(((IType) getCreatedElement()).getFullyQualifiedName()));
+    Optional.ofNullable(listener).ifPresent(l -> createdType()
+        .ifPresent(t -> l.created(t.getFullyQualifiedName())));
     return ret;
   }
 }
