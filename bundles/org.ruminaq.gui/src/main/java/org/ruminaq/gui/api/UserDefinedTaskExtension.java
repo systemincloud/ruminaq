@@ -16,7 +16,14 @@ import java.util.List;
 public interface UserDefinedTaskExtension {
 
   List<String> getSupportedData();
-  
+
+  /**
+   * Often implementation need to know the full name of data type. For example
+   * java uses canonical name in import section.
+   *
+   * @param dataName short name for data type.
+   * @return canonical name
+   */
   String getCannonicalDataName(String dataName);
 
 }
