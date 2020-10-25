@@ -34,6 +34,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.gui.properties.AbstractUserDefinedTaskPropertySection;
+import org.ruminaq.tasks.javatask.client.JavaTask;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard;
 import org.ruminaq.util.EclipseUtil;
@@ -48,12 +49,12 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
 public class PropertySection extends AbstractUserDefinedTaskPropertySection {
 
   /**
-   * Return java directory depending on diagram path.
-   * For diagrams in test directory return test java source directory.
-   * For diagrams in main directory return main java source directory.
+   * Return java directory depending on diagram path. For diagrams in test
+   * directory return test java source directory. For diagrams in main directory
+   * return main java source directory.
    * 
    * @param diagram
-   * @param pe selected element
+   * @param pe      selected element
    * @return selected java directory
    */
   private static IStructuredSelection getJavaDirectory(Diagram diagram,
@@ -83,31 +84,27 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
     wd.setTitle(wizard.getWindowTitle());
     wd.open();
   }
-  
+
   private ITypeInfoFilterExtension filterJavaTaskClasses(IJavaProject project) {
     return (ITypeInfoRequestor requestor) -> {
-      String pag = requestor.getPackageName();
-      String typeName = (pag.equals("") ? "" : pag + ".")
-          + requestor.getTypeName();
-      Optional<IType> type = Optional
-          .ofNullable(
-              Result.attempt(() -> project.findType(typeName)))
+      Optional<IType> type = Optional.ofNullable(requestor)
+          .map((ITypeInfoRequestor r) -> {
+            String pckg = requestor.getPackageName();
+            if (!"".equals(pckg)) {
+              pckg += ".";
+            }
+            return pckg + requestor.getTypeName();
+          }).map(t -> Result.attempt(() -> project.findType(t)))
           .map(r -> r.orElse(null)).filter(Objects::nonNull)
           .filter(IType::exists);
-
-      return type
-          .map(t -> t
-              .getAnnotation(JavaTaskInfo.class.getSimpleName()))
+      return type.map(t -> t.getAnnotation(JavaTaskInfo.class.getSimpleName()))
           .isPresent()
           && type
-              .map(t -> Result.attempt(() -> t
-                  .newSupertypeHierarchy(null).getSuperclass(t)))
+              .map(t -> Result.attempt(
+                  () -> t.newSupertypeHierarchy(null).getSuperclass(t)))
               .map(r -> r.orElse(null)).filter(Objects::nonNull)
               .map(IType::getFullyQualifiedName)
-              .filter(
-                  org.ruminaq.tasks.javatask.client.JavaTask.class
-                      .getCanonicalName()::equals)
-              .isPresent();
+              .filter(JavaTask.class.getCanonicalName()::equals).isPresent();
     };
   }
 
