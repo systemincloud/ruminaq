@@ -47,7 +47,16 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  */
 public class PropertySection extends AbstractUserDefinedTaskPropertySection {
 
-  private static IStructuredSelection getSelection(Diagram diagram,
+  /**
+   * Return java directory depending on diagram path.
+   * For diagrams in test directory return test java source directory.
+   * For diagrams in main directory return main java source directory.
+   * 
+   * @param diagram
+   * @param pe selected element
+   * @return
+   */
+  private static IStructuredSelection getJavaDirectory(Diagram diagram,
       PictogramElement pe) {
     return new StructuredSelection(
         JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
@@ -66,6 +75,13 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
         .map(wd -> Result.attempt(wd::createWizard)).map(r -> r.orElse(null))
         .filter(Objects::nonNull).filter(CreateJavaTaskWizard.class::isInstance)
         .map(CreateJavaTaskWizard.class::cast);
+  }
+
+  private static void wizardDialog(CreateJavaTaskWizard wizard) {
+    WizardDialog wd = new WizardDialog(Display.getDefault().getActiveShell(),
+        wizard);
+    wd.setTitle(wizard.getWindowTitle());
+    wd.open();
   }
 
   @Override
@@ -123,16 +139,13 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
   @Override
   protected SelectionListener createSelectionListener() {
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
-      IStructuredSelection selection = getSelection(getDiagram(),
+      IStructuredSelection selection = getJavaDirectory(getDiagram(),
           getSelectedPictogramElement());
       getWizard().ifPresent((CreateJavaTaskWizard wizard) -> {
         wizard.init(PlatformUI.getWorkbench(), selection);
         wizard.setProject(selection);
         wizard.setListener(this);
-        WizardDialog wd = new WizardDialog(
-            Display.getDefault().getActiveShell(), wizard);
-        wd.setTitle(wizard.getWindowTitle());
-        wd.open();
+        wizardDialog(wizard);
       });
     };
   }
