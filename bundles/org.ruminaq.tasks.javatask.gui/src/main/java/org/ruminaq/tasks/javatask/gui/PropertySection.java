@@ -58,6 +58,15 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
                 .orElse(EclipseExtensionImpl.MAIN_JAVA))));
   }
 
+  private static Optional<CreateJavaTaskWizard> getWizard() {
+    return Optional
+        .ofNullable(PlatformUI.getWorkbench().getNewWizardRegistry()
+            .findWizard(CreateJavaTaskWizard.ID))
+        .map(wd -> Result.attempt(wd::createWizard)).map(r -> r.orElse(null))
+        .filter(Objects::nonNull).filter(CreateJavaTaskWizard.class::isInstance)
+        .map(CreateJavaTaskWizard.class::cast);
+  }
+
   @Override
   protected SelectionListener selectSelectionListener() {
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
@@ -116,14 +125,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
       IStructuredSelection selection = getSelection(
           getDiagramContainer().getDiagramTypeProvider().getDiagram(),
           getSelectedPictogramElement());
-      Optional<CreateJavaTaskWizard> optWizard = Optional
-          .ofNullable(PlatformUI.getWorkbench().getNewWizardRegistry()
-              .findWizard(CreateJavaTaskWizard.ID))
-          .map(wd -> Result.attempt(wd::createWizard)).map(r -> r.orElse(null))
-          .filter(Objects::nonNull)
-          .filter(CreateJavaTaskWizard.class::isInstance)
-          .map(CreateJavaTaskWizard.class::cast);
-      optWizard.ifPresent((CreateJavaTaskWizard wizard) -> {
+      getWizard().ifPresent((CreateJavaTaskWizard wizard) -> {
         wizard.init(PlatformUI.getWorkbench(), selection);
         wizard.setProject(selection);
         wizard.setListener(this);
