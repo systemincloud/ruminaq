@@ -13,8 +13,19 @@ import java.lang.annotation.Target;
 
 import org.ruminaq.model.ruminaq.BaseElement;
 
+/**
+ * Annotation for feature class providers that specify filter if providers
+ * relates.
+ *
+ * @author Marek Jagielski
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface PasteFeatureFilter {
+public @interface ModelFeatureFilter {
+  /**
+   * Class that implements filter.
+   *
+   * @return class
+   */
   Class<? extends FeaturePredicate<BaseElement>> value();
 }

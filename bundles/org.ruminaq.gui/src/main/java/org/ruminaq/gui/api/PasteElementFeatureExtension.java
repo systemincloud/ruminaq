@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.ruminaq.gui.features.PasteFeatureFilter;
+import org.ruminaq.gui.features.ModelFeatureFilter;
 import org.ruminaq.gui.features.paste.RuminaqShapePasteFeature;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
@@ -80,8 +80,8 @@ public interface PasteElementFeatureExtension extends
   default Predicate<Class<? extends RuminaqShapePasteFeature<? extends RuminaqShape>>> filter(
       BaseElement oldBo, IFeatureProvider fp) {
     return clazz -> Optional
-        .ofNullable(clazz.getAnnotation(PasteFeatureFilter.class))
-        .map(PasteFeatureFilter::value)
+        .ofNullable(clazz.getAnnotation(ModelFeatureFilter.class))
+        .map(ModelFeatureFilter::value)
         .map(f -> Result.attempt(f::getConstructor))
         .flatMap(r -> Optional.ofNullable(r.orElse(null)))
         .map(f -> Result.attempt(f::newInstance))

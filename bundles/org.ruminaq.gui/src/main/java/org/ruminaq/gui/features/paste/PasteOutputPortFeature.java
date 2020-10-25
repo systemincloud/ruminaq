@@ -17,13 +17,13 @@ import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.features.FeaturePredicate;
-import org.ruminaq.gui.features.PasteFeatureFilter;
+import org.ruminaq.gui.features.ModelFeatureFilter;
 import org.ruminaq.gui.features.paste.PasteOutputPortFeature.Filter;
 import org.ruminaq.gui.model.diagram.OutputPortShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.OutputPort;
 
-@PasteFeatureFilter(Filter.class)
+@ModelFeatureFilter(Filter.class)
 public class PasteOutputPortFeature extends
     LabeledRuminaqPasteFeature<OutputPortShape> implements PasteAnchorTracker {
 
