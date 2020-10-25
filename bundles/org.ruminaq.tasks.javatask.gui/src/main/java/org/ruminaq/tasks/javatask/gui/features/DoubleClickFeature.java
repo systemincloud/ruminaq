@@ -54,7 +54,8 @@ public class DoubleClickFeature
   }
 
   /**
-   * Open Java Eclipse Editor if the implementation java class exists.
+   * Open Java Eclipse Editor if the implementation
+   * java class exists.
    */
   @Override
   public void execute(ICustomContext context) {
