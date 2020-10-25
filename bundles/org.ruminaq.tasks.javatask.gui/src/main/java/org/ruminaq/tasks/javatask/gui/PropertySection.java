@@ -54,7 +54,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
    * 
    * @param diagram
    * @param pe selected element
-   * @return
+   * @return selected java directory
    */
   private static IStructuredSelection getJavaDirectory(Diagram diagram,
       PictogramElement pe) {
@@ -83,6 +83,33 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
     wd.setTitle(wizard.getWindowTitle());
     wd.open();
   }
+  
+  private ITypeInfoFilterExtension filterJavaTaskClasses(IJavaProject project) {
+    return (ITypeInfoRequestor requestor) -> {
+      String pag = requestor.getPackageName();
+      String typeName = (pag.equals("") ? "" : pag + ".")
+          + requestor.getTypeName();
+      Optional<IType> type = Optional
+          .ofNullable(
+              Result.attempt(() -> project.findType(typeName)))
+          .map(r -> r.orElse(null)).filter(Objects::nonNull)
+          .filter(IType::exists);
+
+      return type
+          .map(t -> t
+              .getAnnotation(JavaTaskInfo.class.getSimpleName()))
+          .isPresent()
+          && type
+              .map(t -> Result.attempt(() -> t
+                  .newSupertypeHierarchy(null).getSuperclass(t)))
+              .map(r -> r.orElse(null)).filter(Objects::nonNull)
+              .map(IType::getFullyQualifiedName)
+              .filter(
+                  org.ruminaq.tasks.javatask.client.JavaTask.class
+                      .getCanonicalName()::equals)
+              .isPresent();
+    };
+  }
 
   @Override
   protected SelectionListener selectSelectionListener() {
@@ -98,30 +125,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
               "", new TypeSelectionExtension() {
                 @Override
                 public ITypeInfoFilterExtension getFilterExtension() {
-                  return (ITypeInfoRequestor requestor) -> {
-                    String pag = requestor.getPackageName();
-                    String typeName = (pag.equals("") ? "" : pag + ".")
-                        + requestor.getTypeName();
-                    Optional<IType> type = Optional
-                        .ofNullable(
-                            Result.attempt(() -> project.findType(typeName)))
-                        .map(r -> r.orElse(null)).filter(Objects::nonNull)
-                        .filter(IType::exists);
-
-                    return type
-                        .map(t -> t
-                            .getAnnotation(JavaTaskInfo.class.getSimpleName()))
-                        .isPresent()
-                        && type
-                            .map(t -> Result.attempt(() -> t
-                                .newSupertypeHierarchy(null).getSuperclass(t)))
-                            .map(r -> r.orElse(null)).filter(Objects::nonNull)
-                            .map(IType::getFullyQualifiedName)
-                            .filter(
-                                org.ruminaq.tasks.javatask.client.JavaTask.class
-                                    .getCanonicalName()::equals)
-                            .isPresent();
-                  };
+                  return filterJavaTaskClasses(project);
                 }
               }))
           .orElse(null);
