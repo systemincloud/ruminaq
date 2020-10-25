@@ -1,0 +1,17 @@
+package test;
+
+import org.ruminaq.tasks.javatask.client.JavaTask;
+import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
+import org.ruminaq.tasks.javatask.client.annotations.Parameter;
+
+@JavaTaskInfo
+@Parameter(name = Parameters.Y)
+@Parameter(name = Parameters.X, defaultValue = "0")
+public class Parameters extends JavaTask {
+
+	protected static final String X = "x";
+	protected static final String Y = "y";
+
+	
+
+}

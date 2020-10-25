@@ -211,6 +211,32 @@ public class CreatingJavaTaskTest {
         toString(this.getClass().getResourceAsStream("Ports.javatest")),
         toString(workspace.getRoot().getProject(projectName)
             .getFile("src/main/java/test/Ports.java").getContents()));
+    
+    new CreateJavaTask().openJavaTaskWizardFromProjectContextMenu(bot,
+        projectName);
+    
+    bot.textWithLabel("Package:").setText("test");
+    bot.textWithLabel("Name:").setText("Parameters");
+
+    bot.button("Next >").click();
+    
+    bot.textWithLabel("Name:", 2).setText("x");
+    bot.textWithLabel("Default value:", 0).setText("0");
+    
+    bot.button("Add", 2).click();
+    
+    bot.textWithLabel("Name:", 2).setText("y");
+    
+    bot.button("Add", 2).click();
+
+    bot.button("Finish").click();
+
+    Thread.sleep(3000);
+
+    Assert.assertEquals("Java class created",
+        toString(this.getClass().getResourceAsStream("Parameters.javatest")),
+        toString(workspace.getRoot().getProject(projectName)
+            .getFile("src/main/java/test/Parameters.java").getContents()));
   }
 
   private static String toString(InputStream stream) {

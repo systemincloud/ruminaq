@@ -83,11 +83,10 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
 
   protected void decorateType(IType type, Module module) {
     try {
-      final ICompilationUnit cu = type.getCompilationUnit();
-
-      final CompilationUnit acu = parse(cu);
-      final AST ast = acu.getAST();
-      final ASTRewrite rewriter = ASTRewrite.create(ast);
+      ICompilationUnit cu = type.getCompilationUnit();
+      CompilationUnit acu = parse(cu);
+      AST ast = acu.getAST();
+      ASTRewrite rewriter = ASTRewrite.create(ast);
 
       imports(ast,
           rewriter.getListRewrite(acu, CompilationUnit.IMPORTS_PROPERTY),
