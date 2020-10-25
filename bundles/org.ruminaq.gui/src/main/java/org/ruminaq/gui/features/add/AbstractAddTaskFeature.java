@@ -26,10 +26,6 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
 
   private static final int DEFAULT_TASK_HEIGHT = 70;
 
-  public enum InternalPortLabelPosition {
-    LEFT, RIGHT, TOP, BOTTOM;
-  }
-
   protected AbstractAddTaskFeature(IFeatureProvider fp) {
     super(fp);
   }
