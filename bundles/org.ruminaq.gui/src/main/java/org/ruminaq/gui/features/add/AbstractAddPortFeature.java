@@ -19,7 +19,7 @@ import org.ruminaq.model.ruminaq.BaseElement;
  */
 public abstract class AbstractAddPortFeature extends AbstractAddElementFeature {
 
-  public AbstractAddPortFeature(IFeatureProvider fp) {
+  protected AbstractAddPortFeature(IFeatureProvider fp) {
     super(fp);
   }
 

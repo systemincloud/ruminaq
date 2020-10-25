@@ -22,7 +22,7 @@ import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
 public abstract class AbstractAddElementFeature
     extends AbstractAddShapeFeature {
 
-  public AbstractAddElementFeature(IFeatureProvider fp) {
+  protected AbstractAddElementFeature(IFeatureProvider fp) {
     super(fp);
   }
 

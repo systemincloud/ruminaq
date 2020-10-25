@@ -30,7 +30,7 @@ public abstract class AbstractAddTaskFeature extends AbstractAddElementFeature {
     LEFT, RIGHT, TOP, BOTTOM;
   }
 
-  public AbstractAddTaskFeature(IFeatureProvider fp) {
+  protected AbstractAddTaskFeature(IFeatureProvider fp) {
     super(fp);
   }
 
