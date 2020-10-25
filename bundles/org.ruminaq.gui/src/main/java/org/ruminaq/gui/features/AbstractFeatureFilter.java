@@ -28,7 +28,7 @@ public abstract class AbstractFeatureFilter<T extends IContext>
 
   private GetPictogramElement getPictogramElement;
 
-  public AbstractFeatureFilter(Class<T> contextClass,
+  protected AbstractFeatureFilter(Class<T> contextClass,
       GetPictogramElement getPictogramElement) {
     this.contextClass = contextClass;
     this.getPictogramElement = getPictogramElement;
