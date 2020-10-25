@@ -8,6 +8,7 @@ package org.ruminaq.tasks.javatask.gui;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -108,14 +109,14 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
                 }
               }))
           .orElse(null);
-      if (dialog != null && dialog.open() == Window.OK) {
-        Object[] result = dialog.getResult();
-        String className = ((IType) result[0]).getFullyQualifiedName();
-
-        if (className != null)
-          txtImplementation.setText(className);
-        created(className);
-      }
+      Optional.ofNullable(dialog).filter(d -> d.open() == Window.OK)
+          .map(SelectionDialog::getResult).map(Stream::of)
+          .orElseGet(Stream::empty).findFirst().filter(IType.class::isInstance)
+          .map(IType.class::cast).map(IType::getFullyQualifiedName)
+          .ifPresent((String clazz) -> {
+            txtImplementation.setText(clazz);
+            created(clazz);
+          });
     };
   }
 
