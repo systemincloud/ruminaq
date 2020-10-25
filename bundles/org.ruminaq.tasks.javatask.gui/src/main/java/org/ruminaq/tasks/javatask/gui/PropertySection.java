@@ -26,6 +26,7 @@ import org.eclipse.jdt.ui.dialogs.TypeSelectionExtension;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -78,7 +79,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
         .map(CreateJavaTaskWizard.class::cast);
   }
 
-  private static void wizardDialog(CreateJavaTaskWizard wizard) {
+  private static void wizardDialog(IWizard wizard) {
     WizardDialog wd = new WizardDialog(Display.getDefault().getActiveShell(),
         wizard);
     wd.setTitle(wizard.getWindowTitle());
