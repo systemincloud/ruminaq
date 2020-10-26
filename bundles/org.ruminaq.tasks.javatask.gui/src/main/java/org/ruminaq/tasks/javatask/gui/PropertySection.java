@@ -100,17 +100,20 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
         .orElse(null));
   }
 
+  private static String getCanonicalName(ITypeInfoRequestor requestor) {
+    String pckg = requestor.getPackageName();
+    if (!"".equals(pckg)) {
+      pckg += ".";
+    }
+    return pckg + requestor.getTypeName();
+  }
+
   private static ITypeInfoFilterExtension filterJavaTaskClasses(
       IJavaProject project) {
     return (ITypeInfoRequestor requestor) -> {
       Optional<IType> type = Optional.ofNullable(requestor)
-          .map((ITypeInfoRequestor r) -> {
-            String pckg = requestor.getPackageName();
-            if (!"".equals(pckg)) {
-              pckg += ".";
-            }
-            return pckg + requestor.getTypeName();
-          }).map(t -> Result.attempt(() -> project.findType(t)))
+          .map(PropertySection::getCanonicalName)
+          .map(t -> Result.attempt(() -> project.findType(t)))
           .map(r -> r.orElse(null)).filter(Objects::nonNull)
           .filter(IType::exists);
       return type.map(t -> t.getAnnotation(JavaTaskInfo.class.getSimpleName()))
