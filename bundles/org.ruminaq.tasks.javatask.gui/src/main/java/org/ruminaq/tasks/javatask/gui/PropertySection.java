@@ -52,7 +52,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
   /**
    * Return java directory depending on diagram path. For diagrams in test
    * directory return test java source directory. For diagrams in main directory
-   * return main java source directory.
+   * return main java source directory.txtImplementation.getShell()
    *
    * @param diagram Graphiti Diagram
    * @param pe      selected element
@@ -86,7 +86,22 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
     wd.open();
   }
 
-  private static ITypeInfoFilterExtension filterJavaTaskClasses(IJavaProject project) {
+  private static Optional<SelectionDialog> selectionDialog(IJavaProject project,
+      IJavaSearchScope scope) {
+    return Optional.ofNullable(Result.attempt(
+        () -> JavaUI.createTypeDialog(Display.getDefault().getActiveShell(),
+            null, scope, IJavaElementSearchConstants.CONSIDER_CLASSES, false,
+            "", new TypeSelectionExtension() {
+              @Override
+              public ITypeInfoFilterExtension getFilterExtension() {
+                return filterJavaTaskClasses(project);
+              }
+            }))
+        .orElse(null));
+  }
+
+  private static ITypeInfoFilterExtension filterJavaTaskClasses(
+      IJavaProject project) {
     return (ITypeInfoRequestor requestor) -> {
       Optional<IType> type = Optional.ofNullable(requestor)
           .map((ITypeInfoRequestor r) -> {
@@ -113,21 +128,10 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
   protected SelectionListener selectSelectionListener() {
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
       IJavaProject project = JavaCore
-          .create(ResourcesPlugin.getWorkspace().getRoot()
-              .getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram())));
+          .create(EclipseUtil.getProject(getDiagram()));
       IJavaSearchScope scope = SearchEngine
           .createJavaSearchScope(new IJavaElement[] { project });
-      SelectionDialog dialog = Result
-          .attempt(() -> JavaUI.createTypeDialog(txtImplementation.getShell(),
-              null, scope, IJavaElementSearchConstants.CONSIDER_CLASSES, false,
-              "", new TypeSelectionExtension() {
-                @Override
-                public ITypeInfoFilterExtension getFilterExtension() {
-                  return filterJavaTaskClasses(project);
-                }
-              }))
-          .orElse(null);
-      Optional.ofNullable(dialog).filter(d -> d.open() == Window.OK)
+      selectionDialog(project, scope).filter(d -> d.open() == Window.OK)
           .map(SelectionDialog::getResult).map(Stream::of)
           .orElseGet(Stream::empty).findFirst().filter(IType.class::isInstance)
           .map(IType.class::cast).map(IType::getFullyQualifiedName)

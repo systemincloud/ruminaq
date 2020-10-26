@@ -63,7 +63,7 @@ public final class EclipseUtil {
         .map(urlConn -> Result.attempt(urlConn::getInputStream))
         .map(r -> r.orElse(null)).filter(Objects::nonNull);
   }
-  
+
   public static void openFileInDefaultEditor(IFile file) {
     Result.attempt(() -> IDE.openEditor(
         PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(),
@@ -250,5 +250,10 @@ public final class EclipseUtil {
     return Optional.ofNullable(projectName)
         .map(pn -> ResourcesPlugin.getWorkspace().getRoot().getProject(pn))
         .orElse(null);
+  }
+
+  public static IProject getProject(Diagram diagram) {
+    return ResourcesPlugin.getWorkspace().getRoot()
+        .getProject(getProjectNameFromDiagram(diagram));
   }
 }
