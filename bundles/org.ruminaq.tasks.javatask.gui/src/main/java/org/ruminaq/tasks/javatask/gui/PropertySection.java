@@ -108,14 +108,18 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
     return pckg + requestor.getTypeName();
   }
 
+  private static Optional<IType> typeInProject(ITypeInfoRequestor requestor,
+      IJavaProject project) {
+    return Optional.ofNullable(requestor).map(PropertySection::getCanonicalName)
+        .map(t -> Result.attempt(() -> project.findType(t)))
+        .map(r -> r.orElse(null)).filter(Objects::nonNull)
+        .filter(IType::exists);
+  }
+
   private static ITypeInfoFilterExtension filterJavaTaskClasses(
       IJavaProject project) {
     return (ITypeInfoRequestor requestor) -> {
-      Optional<IType> type = Optional.ofNullable(requestor)
-          .map(PropertySection::getCanonicalName)
-          .map(t -> Result.attempt(() -> project.findType(t)))
-          .map(r -> r.orElse(null)).filter(Objects::nonNull)
-          .filter(IType::exists);
+      Optional<IType> type = typeInProject(requestor, project);
       return type.map(t -> t.getAnnotation(JavaTaskInfo.class.getSimpleName()))
           .isPresent()
           && type
