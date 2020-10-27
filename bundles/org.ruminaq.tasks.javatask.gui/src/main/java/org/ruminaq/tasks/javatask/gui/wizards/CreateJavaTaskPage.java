@@ -324,23 +324,16 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
           List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
           field.modifiers().addAll(modifs);
 
-          final NormalAnnotation inputPortInfoA = ast.newNormalAnnotation();
-          inputPortInfoA.setTypeName(
-              ast.newSimpleName(InputPortInfo.class.getSimpleName()));
+          NormalAnnotation inputPortInfoA = createAnnotation(ast,
+              InputPortInfo.class);
 
-          MemberValuePair mvpName = ast.newMemberValuePair();
-          mvpName.setName(ast.newSimpleName("name"));
           StringLiteral vName = ast.newStringLiteral();
           vName.setLiteralValue(in.getName());
-          mvpName.setValue(vName);
-          inputPortInfoA.values().add(mvpName);
+          addMemberToAnnotation(ast, inputPortInfoA, "name", vName);
 
-          MemberValuePair mvpDt = ast.newMemberValuePair();
-          mvpDt.setName(ast.newSimpleName("dataType"));
           TypeLiteral vDt = ast.newTypeLiteral();
           vDt.setType(ast.newSimpleType(ast.newName(in.getDataType())));
-          mvpDt.setValue(vDt);
-          inputPortInfoA.values().add(mvpDt);
+          addMemberToAnnotation(ast, inputPortInfoA, "dataType", vDt);
 
           if (in.isAsynchronous()) {
             MemberValuePair mvpAsync = ast.newMemberValuePair();
