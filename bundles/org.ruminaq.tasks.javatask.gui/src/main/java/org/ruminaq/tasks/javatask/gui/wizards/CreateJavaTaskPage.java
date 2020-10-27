@@ -31,6 +31,7 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.StringLiteral;
@@ -156,8 +157,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     module.getParameters().stream().map((CustomParameter p) -> {
       NormalAnnotation parameter = createAnnotation(ast, Parameter.class);
       addMemberToAnnotation(ast, parameter, "name",
-          ast.newQualifiedName(ast.newName(type), ast.newSimpleName(
-              p.getName().replaceAll(" ", "_").toUpperCase(Locale.US))));
+          ast.newQualifiedName(ast.newName(type), parameterName(ast, p)));
       if (!"".equals(p.getDefaultValue())) {
         StringLiteral slValue = ast.newStringLiteral();
         slValue.setLiteralValue(p.getDefaultValue());
@@ -175,11 +175,11 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
 
     for (CustomParameter p : module.getParameters()) {
       acu.accept(new ASTVisitor() {
+        @Override
         public boolean visit(TypeDeclaration node) {
           VariableDeclarationFragment fragment = ast
               .newVariableDeclarationFragment();
-          String var = p.getName().replace(" ", "_").toUpperCase();
-          fragment.setName(ast.newSimpleName(var));
+          fragment.setName(parameterName(ast, p));
           StringLiteral init = ast.newStringLiteral();
           init.setLiteralValue(p.getName());
           fragment.setInitializer(init);
@@ -199,15 +199,28 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     }
     if (!module.getParameters().isEmpty()) {
       acu.accept(new ASTVisitor() {
+        @Override
         public boolean visit(TypeDeclaration node) {
-          ASTNode newLine = rewriter.createStringPlaceholder("",
-              ASTNode.EMPTY_STATEMENT);
           rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
-              .insertLast(newLine, null);
+              .insertLast(
+                  rewriter.createStringPlaceholder("", ASTNode.EMPTY_STATEMENT),
+                  null);
           return false;
         }
       });
     }
+  }
+
+  private static SimpleName parameterName(AST ast, CustomParameter p) {
+    return ast.newSimpleName(spacesToUnderscores(upperCase(p.getName())));
+  }
+
+  private static String upperCase(String string) {
+    return string.replaceAll(" ", "_");
+  }
+
+  private static String spacesToUnderscores(String string) {
+    return string.toUpperCase(Locale.US);
   }
 
   private static NormalAnnotation createAnnotation(AST ast,
