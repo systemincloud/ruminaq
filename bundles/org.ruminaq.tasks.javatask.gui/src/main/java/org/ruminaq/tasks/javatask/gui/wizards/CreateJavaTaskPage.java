@@ -335,18 +335,14 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
           addMemberToAnnotation(ast, inputPortInfoA, "dataType", vDt);
 
           if (in.isAsynchronous()) {
-            MemberValuePair mvpAsync = ast.newMemberValuePair();
-            mvpAsync.setName(ast.newSimpleName("asynchronous"));
-            mvpAsync.setValue(ast.newBooleanLiteral(true));
-            inputPortInfoA.values().add(mvpAsync);
+            addMemberToAnnotation(ast, inputPortInfoA, "asynchronous",
+                ast.newBooleanLiteral(true));
           }
 
           int grp = in.getGroup();
           if (grp != -1) {
-            MemberValuePair mvpAsync = ast.newMemberValuePair();
-            mvpAsync.setName(ast.newSimpleName("group"));
-            mvpAsync.setValue(ast.newNumberLiteral(Integer.toString(grp)));
-            inputPortInfoA.values().add(mvpAsync);
+            addMemberToAnnotation(ast, inputPortInfoA, "group",
+                ast.newNumberLiteral(Integer.toString(grp)));
           }
 
           if (in.isHold()) {
