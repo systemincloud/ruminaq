@@ -242,8 +242,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   }
 
   private static void addModifiers(AST ast, FieldDeclaration field, int flags) {
-    field.modifiers().addAll(ast
-        .newModifiers(Modifier.PROTECTED | Modifier.STATIC | Modifier.FINAL));
+    field.modifiers().addAll(ast.newModifiers(flags));
   }
 
   private static void javaTaskInfo(AST ast, CompilationUnit acu,
