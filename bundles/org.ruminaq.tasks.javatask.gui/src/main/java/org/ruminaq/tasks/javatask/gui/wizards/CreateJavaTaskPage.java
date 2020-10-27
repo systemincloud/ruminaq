@@ -270,7 +270,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       javaTaskInfoA
           .setTypeName(ast.newSimpleName(JavaTaskInfo.class.getSimpleName()));
       acu.accept(new ASTVisitor() {
-
+        @Override
         public boolean visit(TypeDeclaration node) {
           rewriter.getListRewrite(node, node.getModifiersProperty())
               .insertAt(javaTaskInfoA, 0, null);
@@ -278,40 +278,29 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         }
       });
     } else {
-      final NormalAnnotation javaTaskInfoA = ast.newNormalAnnotation();
-      javaTaskInfoA
-          .setTypeName(ast.newSimpleName(JavaTaskInfo.class.getSimpleName()));
-
+      NormalAnnotation javaTaskInfo = createAnnotation(ast, JavaTaskInfo.class);
       if (module.isConstant() != defaultConstant) {
-        MemberValuePair mvp = ast.newMemberValuePair();
-        mvp.setName(ast.newSimpleName("constant"));
-        mvp.setValue(ast.newBooleanLiteral(module.isConstant()));
-        javaTaskInfoA.values().add(mvp);
+        addMemberToAnnotation(ast, javaTaskInfo, "constant",
+            ast.newBooleanLiteral(module.isConstant()));
       }
       if (module.isAtomic() != defaultAtomic) {
-        MemberValuePair mvp = ast.newMemberValuePair();
-        mvp.setName(ast.newSimpleName("atomic"));
-        mvp.setValue(ast.newBooleanLiteral(module.isAtomic()));
-        javaTaskInfoA.values().add(mvp);
+        addMemberToAnnotation(ast, javaTaskInfo, "atomic",
+            ast.newBooleanLiteral(module.isAtomic()));
       }
       if (module.isGenerator() != defaultGenerator) {
-        MemberValuePair mvp = ast.newMemberValuePair();
-        mvp.setName(ast.newSimpleName("generator"));
-        mvp.setValue(ast.newBooleanLiteral(module.isGenerator()));
-        javaTaskInfoA.values().add(mvp);
+        addMemberToAnnotation(ast, javaTaskInfo, "generator",
+            ast.newBooleanLiteral(module.isGenerator()));
       }
       if (module.isExternalSource() != defaultExternalSource) {
-        MemberValuePair mvp = ast.newMemberValuePair();
-        mvp.setName(ast.newSimpleName("externalSource"));
-        mvp.setValue(ast.newBooleanLiteral(module.isExternalSource()));
-        javaTaskInfoA.values().add(mvp);
+        addMemberToAnnotation(ast, javaTaskInfo, "externalSource",
+            ast.newBooleanLiteral(module.isExternalSource()));
       }
 
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
           rewriter.getListRewrite(node, node.getModifiersProperty())
-              .insertAt(javaTaskInfoA, 0, null);
+              .insertAt(javaTaskInfo, 0, null);
           return false;
         }
       });
