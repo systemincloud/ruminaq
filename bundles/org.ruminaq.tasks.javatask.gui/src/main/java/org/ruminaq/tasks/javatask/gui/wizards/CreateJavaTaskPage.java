@@ -257,46 +257,32 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     boolean defaultConstant = getDefaultValueFromAnnotation(JavaTaskInfo.class,
         "constant", Boolean.class).orElse(false);
 
-    if (module.isAtomic() == defaultAtomic
-        && module.isGenerator() == defaultGenerator
-        && module.isExternalSource() == defaultExternalSource
-        && module.isConstant() == defaultConstant) {
-      acu.accept(new ASTVisitor() {
-        @Override
-        public boolean visit(TypeDeclaration node) {
-          rewriter.getListRewrite(node, node.getModifiersProperty())
-              .insertAt(createAnnotation(ast, JavaTaskInfo.class), 0, null);
-          return false;
-        }
-      });
-    } else {
-      NormalAnnotation javaTaskInfo = createAnnotation(ast, JavaTaskInfo.class);
-      if (module.isConstant() != defaultConstant) {
-        addMemberToAnnotation(ast, javaTaskInfo, "constant",
-            ast.newBooleanLiteral(module.isConstant()));
-      }
-      if (module.isAtomic() != defaultAtomic) {
-        addMemberToAnnotation(ast, javaTaskInfo, "atomic",
-            ast.newBooleanLiteral(module.isAtomic()));
-      }
-      if (module.isGenerator() != defaultGenerator) {
-        addMemberToAnnotation(ast, javaTaskInfo, "generator",
-            ast.newBooleanLiteral(module.isGenerator()));
-      }
-      if (module.isExternalSource() != defaultExternalSource) {
-        addMemberToAnnotation(ast, javaTaskInfo, "externalSource",
-            ast.newBooleanLiteral(module.isExternalSource()));
-      }
-
-      acu.accept(new ASTVisitor() {
-        @Override
-        public boolean visit(TypeDeclaration node) {
-          rewriter.getListRewrite(node, node.getModifiersProperty())
-              .insertAt(javaTaskInfo, 0, null);
-          return false;
-        }
-      });
+    NormalAnnotation javaTaskInfo = createAnnotation(ast, JavaTaskInfo.class);
+    if (module.isConstant() != defaultConstant) {
+      addMemberToAnnotation(ast, javaTaskInfo, "constant",
+          ast.newBooleanLiteral(module.isConstant()));
     }
+    if (module.isAtomic() != defaultAtomic) {
+      addMemberToAnnotation(ast, javaTaskInfo, "atomic",
+          ast.newBooleanLiteral(module.isAtomic()));
+    }
+    if (module.isGenerator() != defaultGenerator) {
+      addMemberToAnnotation(ast, javaTaskInfo, "generator",
+          ast.newBooleanLiteral(module.isGenerator()));
+    }
+    if (module.isExternalSource() != defaultExternalSource) {
+      addMemberToAnnotation(ast, javaTaskInfo, "externalSource",
+          ast.newBooleanLiteral(module.isExternalSource()));
+    }
+
+    acu.accept(new ASTVisitor() {
+      @Override
+      public boolean visit(TypeDeclaration node) {
+        rewriter.getListRewrite(node, node.getModifiersProperty())
+            .insertAt(javaTaskInfo, 0, null);
+        return false;
+      }
+    });
   }
 
   private static <T> Optional<T> getDefaultValueFromAnnotation(
@@ -578,7 +564,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
 
   /**
    * Get CompilationUnit from ICompilationUnit. s
-   * 
+   *
    * @param unit ICompilationUnit that can be retrieved from e.g. IType.
    * @return
    */
