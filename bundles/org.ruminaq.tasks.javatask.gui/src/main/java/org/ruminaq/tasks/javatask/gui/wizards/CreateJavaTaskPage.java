@@ -154,74 +154,72 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   private static void parameters(AST ast, CompilationUnit acu,
       ASTRewrite rewriter, Module module, String type) {
     List<CustomParameter> parameters = module.getParameters();
-    if (!parameters.isEmpty()) {
-      for (CustomParameter p : parameters) {
-        NormalAnnotation sicParameterA = ast.newNormalAnnotation();
-        sicParameterA
-            .setTypeName(ast.newSimpleName(Parameter.class.getSimpleName()));
+    for (CustomParameter p : parameters) {
+      NormalAnnotation sicParameterA = ast.newNormalAnnotation();
+      sicParameterA
+          .setTypeName(ast.newSimpleName(Parameter.class.getSimpleName()));
 
-        MemberValuePair mvpName = ast.newMemberValuePair();
-        mvpName.setName(ast.newSimpleName("name"));
-        mvpName.setValue(ast.newQualifiedName(ast.newName(type),
-            ast.newSimpleName(p.getName().replace(" ", "_").toUpperCase())));
+      MemberValuePair mvpName = ast.newMemberValuePair();
+      mvpName.setName(ast.newSimpleName("name"));
+      mvpName.setValue(ast.newQualifiedName(ast.newName(type),
+          ast.newSimpleName(p.getName().replace(" ", "_").toUpperCase())));
 
-        sicParameterA.values().add(mvpName);
+      sicParameterA.values().add(mvpName);
 
-        if (!p.getDefaultValue().equals("")) {
-          MemberValuePair mvpValue = ast.newMemberValuePair();
-          mvpValue.setName(ast.newSimpleName("defaultValue"));
-          StringLiteral slValue = ast.newStringLiteral();
-          slValue.setLiteralValue(p.getDefaultValue());
-          mvpValue.setValue(slValue);
+      if (!p.getDefaultValue().equals("")) {
+        MemberValuePair mvpValue = ast.newMemberValuePair();
+        mvpValue.setName(ast.newSimpleName("defaultValue"));
+        StringLiteral slValue = ast.newStringLiteral();
+        slValue.setLiteralValue(p.getDefaultValue());
+        mvpValue.setValue(slValue);
 
-          sicParameterA.values().add(mvpValue);
+        sicParameterA.values().add(mvpValue);
+      }
+
+      acu.accept(new ASTVisitor() {
+        @Override
+        public boolean visit(TypeDeclaration node) {
+          rewriter.getListRewrite(node, node.getModifiersProperty())
+              .insertAt(sicParameterA, 0, null);
+          return false;
         }
+      });
+    }
 
-        acu.accept(new ASTVisitor() {
-          @Override
-          public boolean visit(TypeDeclaration node) {
-            rewriter.getListRewrite(node, node.getModifiersProperty())
-                .insertAt(sicParameterA, 0, null);
-            return false;
-          }
-        });
-      }
+    for (CustomParameter p : module.getParameters()) {
+      acu.accept(new ASTVisitor() {
+        public boolean visit(TypeDeclaration node) {
+          VariableDeclarationFragment fragment = ast
+              .newVariableDeclarationFragment();
+          String var = p.getName().replace(" ", "_").toUpperCase();
+          fragment.setName(ast.newSimpleName(var));
+          StringLiteral init = ast.newStringLiteral();
+          init.setLiteralValue(p.getName());
+          fragment.setInitializer(init);
+          FieldDeclaration field = ast.newFieldDeclaration(fragment);
+          field.setType(
+              ast.newSimpleType(ast.newName(String.class.getSimpleName())));
 
-      for (CustomParameter p : module.getParameters()) {
-        acu.accept(new ASTVisitor() {
-          public boolean visit(TypeDeclaration node) {
-            VariableDeclarationFragment fragment = ast
-                .newVariableDeclarationFragment();
-            String var = p.getName().replace(" ", "_").toUpperCase();
-            fragment.setName(ast.newSimpleName(var));
-            StringLiteral init = ast.newStringLiteral();
-            init.setLiteralValue(p.getName());
-            fragment.setInitializer(init);
-            FieldDeclaration field = ast.newFieldDeclaration(fragment);
-            field.setType(
-                ast.newSimpleType(ast.newName(String.class.getSimpleName())));
+          List<Modifier> modifs = ast.newModifiers(
+              Modifier.PROTECTED | Modifier.STATIC | Modifier.FINAL);
+          field.modifiers().addAll(modifs);
 
-            List<Modifier> modifs = ast.newModifiers(
-                Modifier.PROTECTED | Modifier.STATIC | Modifier.FINAL);
-            field.modifiers().addAll(modifs);
-
-            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
-                .insertLast(field, null);
-            return false;
-          }
-        });
-      }
-      if (!module.getParameters().isEmpty()) {
-        acu.accept(new ASTVisitor() {
-          public boolean visit(TypeDeclaration node) {
-            ASTNode newLine = rewriter.createStringPlaceholder("",
-                ASTNode.EMPTY_STATEMENT);
-            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
-                .insertLast(newLine, null);
-            return false;
-          }
-        });
-      }
+          rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
+              .insertLast(field, null);
+          return false;
+        }
+      });
+    }
+    if (!module.getParameters().isEmpty()) {
+      acu.accept(new ASTVisitor() {
+        public boolean visit(TypeDeclaration node) {
+          ASTNode newLine = rewriter.createStringPlaceholder("",
+              ASTNode.EMPTY_STATEMENT);
+          rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
+              .insertLast(newLine, null);
+          return false;
+        }
+      });
     }
   }
 
@@ -299,8 +297,8 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     }
   }
 
-  private static void superClass(AST ast, CompilationUnit acu, ASTRewrite rewriter,
-      Module module) {
+  private static void superClass(AST ast, CompilationUnit acu,
+      ASTRewrite rewriter, Module module) {
     acu.accept(new ASTVisitor() {
       @Override
       public boolean visit(TypeDeclaration node) {
@@ -312,8 +310,8 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     });
   }
 
-  private static void inputPorts(AST ast, CompilationUnit acu, ASTRewrite rewriter,
-      Module module) {
+  private static void inputPorts(AST ast, CompilationUnit acu,
+      ASTRewrite rewriter, Module module) {
     for (final In in : module.getInputs()) {
       acu.accept(new ASTVisitor() {
         public boolean visit(TypeDeclaration node) {
@@ -387,21 +385,21 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       });
     }
   }
-  
-  private static void outputPorts(AST ast, CompilationUnit acu, ASTRewrite rewriter,
-      Module module) {
+
+  private static void outputPorts(AST ast, CompilationUnit acu,
+      ASTRewrite rewriter, Module module) {
     for (final Out out : module.getOutputs()) {
       acu.accept(new ASTVisitor() {
         public boolean visit(TypeDeclaration node) {
           VariableDeclarationFragment fragment = ast
               .newVariableDeclarationFragment();
-          String var = WordUtils.capitalizeFully(out.getName())
-              .replace(" ", "").trim();
+          String var = WordUtils.capitalizeFully(out.getName()).replace(" ", "")
+              .trim();
           var = Character.toLowerCase(var.charAt(0)) + var.substring(1);
           fragment.setName(ast.newSimpleName(var));
           FieldDeclaration field = ast.newFieldDeclaration(fragment);
-          field.setType(ast
-              .newSimpleType(ast.newName(OutputPort.class.getSimpleName())));
+          field.setType(
+              ast.newSimpleType(ast.newName(OutputPort.class.getSimpleName())));
 
           List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
           field.modifiers().addAll(modifs);
@@ -433,15 +431,16 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       });
     }
   }
-  
+
   private static void methods(AST ast, CompilationUnit acu, ASTRewrite rewriter,
       Module module) {
     if (module.isRunnerStart()) {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          addMethod(ast, rewriter.getListRewrite(node,
-              node.getBodyDeclarationsProperty()), "runnerStart");
+          addMethod(ast,
+              rewriter.getListRewrite(node, node.getBodyDeclarationsProperty()),
+              "runnerStart");
           return false;
         }
       });
@@ -463,8 +462,8 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
           md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
           md.setName(ast.newSimpleName("executeAsync"));
           SingleVariableDeclaration svd = ast.newSingleVariableDeclaration();
-          svd.setType(ast
-              .newSimpleType(ast.newName(InputPort.class.getSimpleName())));
+          svd.setType(
+              ast.newSimpleType(ast.newName(InputPort.class.getSimpleName())));
           svd.setName(ast.newSimpleName("asynchIn"));
           md.parameters().add(svd);
           md.setBody(ast.newBlock());
@@ -502,8 +501,9 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          addMethod(ast, rewriter.getListRewrite(node,
-              node.getBodyDeclarationsProperty()), "generate");
+          addMethod(ast,
+              rewriter.getListRewrite(node, node.getBodyDeclarationsProperty()),
+              "generate");
           return false;
         }
       });
@@ -540,8 +540,9 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          addMethod(ast, rewriter.getListRewrite(node,
-              node.getBodyDeclarationsProperty()), "runnerStop");
+          addMethod(ast,
+              rewriter.getListRewrite(node, node.getBodyDeclarationsProperty()),
+              "runnerStop");
           return false;
         }
       });

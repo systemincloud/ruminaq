@@ -68,7 +68,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
                 return;
               String implementationName = txtImplementation.getText();
               if (implementationName != null) {
-                created(implementationName);
+                setImplementation(implementationName);
               }
             }
           }, ed, "Set Python Class");

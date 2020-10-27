@@ -127,7 +127,7 @@ public class CreatePythonTaskWizard extends PythonModuleWizard {
     if (!"".equals(pack))
       pack += ".";
     if (listener != null)
-      listener.created(pack + filePage.getValidatedName());
+      listener.setImplementation(pack + filePage.getValidatedName());
     return ret;
   }
 }

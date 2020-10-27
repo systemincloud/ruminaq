@@ -90,7 +90,7 @@ public class CreateJavaTaskWizard extends NewClassCreationWizard {
   public boolean performFinish() {
     boolean ret = super.performFinish();
     Optional.ofNullable(listener).ifPresent(l -> createdType()
-        .ifPresent(t -> l.created(t.getFullyQualifiedName())));
+        .ifPresent(t -> l.setImplementation(t.getFullyQualifiedName())));
     return ret;
   }
 }

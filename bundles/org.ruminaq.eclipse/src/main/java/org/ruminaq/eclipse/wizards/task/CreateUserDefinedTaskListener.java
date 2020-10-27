@@ -11,5 +11,5 @@ package org.ruminaq.eclipse.wizards.task;
  * @author Marek Jagielski
  */
 public interface CreateUserDefinedTaskListener {
-  void created(String resourcePath);
+  void setImplementation(String resourcePath);
 }

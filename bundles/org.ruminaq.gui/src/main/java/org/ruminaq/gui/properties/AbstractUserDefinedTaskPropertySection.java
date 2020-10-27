@@ -124,7 +124,9 @@ public abstract class AbstractUserDefinedTaskPropertySection
     }
   }
 
-  public void created(String resource) {
+  @Override
+  public void setImplementation(String resource) {
+    txtImplementation.setText(resource);
     ModelUtil.runModelChange(() -> {
       selectedModelObject(UserDefinedTask.class)
           .ifPresent(udt -> udt.setImplementationPath(resource));
