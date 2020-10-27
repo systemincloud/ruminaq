@@ -21,6 +21,7 @@ import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.MarkerAnnotation;
@@ -117,23 +118,17 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     if (!module.getInputs().isEmpty()) {
       addImport(ast, lrw, InputPort.class.getCanonicalName());
     }
-
     addImport(ast, lrw, JavaTask.class.getCanonicalName());
-
     if (!module.getOutputs().isEmpty()) {
       addImport(ast, lrw, OutputPort.class.getCanonicalName());
     }
-
     if (!module.getInputs().isEmpty()) {
       addImport(ast, lrw, InputPortInfo.class.getCanonicalName());
     }
-
     addImport(ast, lrw, JavaTaskInfo.class.getCanonicalName());
-
     if (!module.getOutputs().isEmpty()) {
       addImport(ast, lrw, OutputPortInfo.class.getCanonicalName());
     }
-
     if (!module.getParameters().isEmpty()) {
       addImport(ast, lrw, Parameter.class.getCanonicalName());
     }
@@ -157,37 +152,25 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
 
   private static void parameters(AST ast, CompilationUnit acu,
       ASTRewrite rewriter, Module module, String type) {
-    for (CustomParameter p : module.getParameters()) {
-      NormalAnnotation sicParameterA = ast.newNormalAnnotation();
-      sicParameterA
-          .setTypeName(ast.newSimpleName(Parameter.class.getSimpleName()));
-
-      MemberValuePair mvpName = ast.newMemberValuePair();
-      mvpName.setName(ast.newSimpleName("name"));
-      mvpName.setValue(ast.newQualifiedName(ast.newName(type),
-          ast.newSimpleName(p.getName().replace(" ", "_").toUpperCase())));
-
-      sicParameterA.values().add(mvpName);
-
-      if (!p.getDefaultValue().equals("")) {
-        MemberValuePair mvpValue = ast.newMemberValuePair();
-        mvpValue.setName(ast.newSimpleName("defaultValue"));
+    module.getParameters().stream().map((CustomParameter p) -> {
+      NormalAnnotation parameter = createAnnotation(ast, Parameter.class);
+      addMemberToAnnotation(ast, parameter, "name",
+          ast.newQualifiedName(ast.newName(type),
+              ast.newSimpleName(p.getName().replace(" ", "_").toUpperCase())));
+      if (!"".equals(p.getDefaultValue())) {
         StringLiteral slValue = ast.newStringLiteral();
         slValue.setLiteralValue(p.getDefaultValue());
-        mvpValue.setValue(slValue);
-
-        sicParameterA.values().add(mvpValue);
+        addMemberToAnnotation(ast, parameter, "defaultValue", slValue);
       }
-
-      acu.accept(new ASTVisitor() {
-        @Override
-        public boolean visit(TypeDeclaration node) {
-          rewriter.getListRewrite(node, node.getModifiersProperty())
-              .insertAt(sicParameterA, 0, null);
-          return false;
-        }
-      });
-    }
+      return parameter;
+    }).forEach(a -> acu.accept(new ASTVisitor() {
+      @Override
+      public boolean visit(TypeDeclaration node) {
+        rewriter.getListRewrite(node, node.getModifiersProperty()).insertAt(a,
+            0, null);
+        return false;
+      }
+    }));
 
     for (CustomParameter p : module.getParameters()) {
       acu.accept(new ASTVisitor() {
@@ -224,6 +207,21 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         }
       });
     }
+  }
+
+  private static NormalAnnotation createAnnotation(AST ast,
+      Class<?> annotationClass) {
+    NormalAnnotation annotation = ast.newNormalAnnotation();
+    annotation.setTypeName(ast.newSimpleName(annotationClass.getSimpleName()));
+    return annotation;
+  }
+
+  private static void addMemberToAnnotation(AST ast,
+      NormalAnnotation annotation, String key, Expression expression) {
+    MemberValuePair mvpName = ast.newMemberValuePair();
+    mvpName.setName(ast.newSimpleName(key));
+    mvpName.setValue(expression);
+    annotation.values().add(mvpName);
   }
 
   private static void javaTaskInfo(AST ast, CompilationUnit acu,
