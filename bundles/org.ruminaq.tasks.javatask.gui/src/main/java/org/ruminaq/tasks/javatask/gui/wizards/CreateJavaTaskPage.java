@@ -40,13 +40,13 @@ import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.text.edits.MalformedTreeException;
-import org.eclipse.text.edits.TextEdit;
 import org.ruminaq.eclipse.usertask.model.userdefined.CustomParameter;
 import org.ruminaq.eclipse.usertask.model.userdefined.In;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.Out;
 import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
 import org.ruminaq.gui.api.UserDefinedTaskExtension;
+import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.tasks.javatask.client.InputPort;
 import org.ruminaq.tasks.javatask.client.JavaTask;
 import org.ruminaq.tasks.javatask.client.OutputPort;
@@ -56,6 +56,7 @@ import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.Parameter;
 import org.ruminaq.tasks.javatask.gui.Messages;
 import org.ruminaq.util.ServiceUtil;
+import org.slf4j.Logger;
 
 /**
  * JavaTask wizard page.
@@ -63,6 +64,9 @@ import org.ruminaq.util.ServiceUtil;
  * @author Marek Jagielski
  */
 public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
+
+  private static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(CreateJavaTaskPage.class);
 
   public CreateJavaTaskPage(String pageName) {
     super(pageName);
@@ -82,27 +86,27 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   }
 
   protected void decorateType(IType type, Module module) {
+    ICompilationUnit cu = type.getCompilationUnit();
+    CompilationUnit acu = parse(cu);
+    AST ast = acu.getAST();
+    ASTRewrite rewriter = ASTRewrite.create(ast);
+
+    imports(ast, acu, rewriter, module);
+    parameters(ast, acu, rewriter, module, type.getElementName());
+    javaTaskInfo(ast, acu, rewriter, module);
+    superClass(ast, acu, rewriter, module);
+    inputPorts(ast, acu, rewriter, module);
+    outputPorts(ast, acu, rewriter, module);
+    methods(ast, acu, rewriter, module);
+
     try {
-      ICompilationUnit cu = type.getCompilationUnit();
-      CompilationUnit acu = parse(cu);
-      AST ast = acu.getAST();
-      ASTRewrite rewriter = ASTRewrite.create(ast);
-
-      imports(ast, acu, rewriter, module);
-      parameters(ast, acu, rewriter, module, type.getElementName());
-      javaTaskInfo(ast, acu, rewriter, module);
-      superClass(ast, acu, rewriter, module);
-      inputPorts(ast, acu, rewriter, module);
-      outputPorts(ast, acu, rewriter, module);
-      methods(ast, acu, rewriter, module);
-
-      TextEdit edits = rewriter.rewriteAST();
       Document doc = new Document(cu.getSource());
-      edits.apply(doc);
+      rewriter.rewriteAST().apply(doc);
       cu.getBuffer().setContents(doc.get());
       cu.getBuffer().save(null, true);
     } catch (JavaModelException | MalformedTreeException
         | BadLocationException e) {
+      LOGGER.error("Could not create JavaTask class", e);
     }
   }
 
@@ -566,8 +570,8 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   }
 
   /**
-   * Get CompilationUnit from ICompilationUnit.
-   *s
+   * Get CompilationUnit from ICompilationUnit. s
+   * 
    * @param unit ICompilationUnit that can be retrieved from e.g. IType.
    * @return
    */
