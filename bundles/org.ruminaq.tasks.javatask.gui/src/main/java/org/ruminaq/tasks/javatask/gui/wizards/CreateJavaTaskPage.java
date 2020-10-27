@@ -8,6 +8,7 @@ package org.ruminaq.tasks.javatask.gui.wizards;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -155,8 +156,8 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     module.getParameters().stream().map((CustomParameter p) -> {
       NormalAnnotation parameter = createAnnotation(ast, Parameter.class);
       addMemberToAnnotation(ast, parameter, "name",
-          ast.newQualifiedName(ast.newName(type),
-              ast.newSimpleName(p.getName().replace(" ", "_").toUpperCase())));
+          ast.newQualifiedName(ast.newName(type), ast.newSimpleName(
+              p.getName().replaceAll(" ", "_").toUpperCase(Locale.US))));
       if (!"".equals(p.getDefaultValue())) {
         StringLiteral slValue = ast.newStringLiteral();
         slValue.setLiteralValue(p.getDefaultValue());
