@@ -35,6 +35,7 @@ import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.StringLiteral;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.TypeLiteral;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
@@ -184,13 +185,9 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
           init.setLiteralValue(p.getName());
           fragment.setInitializer(init);
           FieldDeclaration field = ast.newFieldDeclaration(fragment);
-          field.setType(
-              ast.newSimpleType(ast.newName(String.class.getSimpleName())));
-
-          List<Modifier> modifs = ast.newModifiers(
+          field.setType(stringType(ast));
+          addModifiers(ast, field,
               Modifier.PROTECTED | Modifier.STATIC | Modifier.FINAL);
-          field.modifiers().addAll(modifs);
-
           rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
               .insertLast(field, null);
           return false;
@@ -236,6 +233,15 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     mvpName.setName(ast.newSimpleName(key));
     mvpName.setValue(expression);
     annotation.values().add(mvpName);
+  }
+
+  private static Type stringType(AST ast) {
+    return ast.newSimpleType(ast.newName(String.class.getSimpleName()));
+  }
+
+  private static void addModifiers(AST ast, FieldDeclaration field, int flags) {
+    field.modifiers().addAll(ast
+        .newModifiers(Modifier.PROTECTED | Modifier.STATIC | Modifier.FINAL));
   }
 
   private static void javaTaskInfo(AST ast, CompilationUnit acu,
