@@ -94,7 +94,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     imports(ast, acu, rewriter, module);
     parameters(ast, acu, rewriter, module, type.getElementName());
     javaTaskInfo(ast, acu, rewriter, module);
-    superClass(ast, acu, rewriter, module);
+    superClass(ast, acu, rewriter);
     inputPorts(ast, acu, rewriter, module);
     outputPorts(ast, acu, rewriter, module);
     methods(ast, acu, rewriter, module);
@@ -301,7 +301,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   }
 
   private static void superClass(AST ast, CompilationUnit acu,
-      ASTRewrite rewriter, Module module) {
+      ASTRewrite rewriter) {
     acu.accept(new ASTVisitor() {
       @Override
       public boolean visit(TypeDeclaration node) {
