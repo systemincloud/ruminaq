@@ -6,6 +6,7 @@
 
 package org.ruminaq.tasks.javatask.gui.wizards;
 
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -59,6 +60,7 @@ import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.client.annotations.OutputPortInfo;
 import org.ruminaq.tasks.javatask.client.annotations.Parameter;
 import org.ruminaq.tasks.javatask.gui.Messages;
+import org.ruminaq.util.Result;
 import org.ruminaq.util.ServiceUtil;
 import org.slf4j.Logger;
 
@@ -246,34 +248,24 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
 
   private static void javaTaskInfo(AST ast, CompilationUnit acu,
       ASTRewrite rewriter, Module module) {
-    boolean defaultAtomic = false;
-    boolean defaultGenerator = false;
-    boolean defaultExternalSource = false;
-    boolean defaultConstant = false;
-    try {
-      defaultAtomic = (boolean) JavaTaskInfo.class.getMethod("atomic")
-          .getDefaultValue();
-      defaultGenerator = (boolean) JavaTaskInfo.class.getMethod("generator")
-          .getDefaultValue();
-      defaultExternalSource = (boolean) JavaTaskInfo.class
-          .getMethod("externalSource").getDefaultValue();
-      defaultConstant = (boolean) JavaTaskInfo.class.getMethod("constant")
-          .getDefaultValue();
-    } catch (NoSuchMethodException e) {
-    }
+    boolean defaultAtomic = getDefaultValueFromAnnotation(JavaTaskInfo.class,
+        "atomic", Boolean.class).orElse(false);
+    boolean defaultGenerator = getDefaultValueFromAnnotation(JavaTaskInfo.class,
+        "generator", Boolean.class).orElse(false);
+    boolean defaultExternalSource = getDefaultValueFromAnnotation(
+        JavaTaskInfo.class, "externalSource", Boolean.class).orElse(false);
+    boolean defaultConstant = getDefaultValueFromAnnotation(JavaTaskInfo.class,
+        "constant", Boolean.class).orElse(false);
 
     if (module.isAtomic() == defaultAtomic
         && module.isGenerator() == defaultGenerator
         && module.isExternalSource() == defaultExternalSource
         && module.isConstant() == defaultConstant) {
-      final MarkerAnnotation javaTaskInfoA = ast.newMarkerAnnotation();
-      javaTaskInfoA
-          .setTypeName(ast.newSimpleName(JavaTaskInfo.class.getSimpleName()));
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
           rewriter.getListRewrite(node, node.getModifiersProperty())
-              .insertAt(javaTaskInfoA, 0, null);
+              .insertAt(createAnnotation(ast, JavaTaskInfo.class), 0, null);
           return false;
         }
       });
@@ -305,6 +297,14 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         }
       });
     }
+  }
+
+  private static <T> Optional<T> getDefaultValueFromAnnotation(
+      Class<?> annotationClass, String name, Class<T> type) {
+    return Optional.of(annotationClass)
+        .map(c -> Result.attempt(() -> c.getMethod(name)))
+        .map(r -> r.orElse(null)).filter(Objects::nonNull)
+        .map(Method::getDefaultValue).filter(type::isInstance).map(type::cast);
   }
 
   private static void superClass(AST ast, CompilationUnit acu,
