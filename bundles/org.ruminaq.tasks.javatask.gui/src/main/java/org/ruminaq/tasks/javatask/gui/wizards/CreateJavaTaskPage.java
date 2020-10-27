@@ -88,415 +88,13 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       AST ast = acu.getAST();
       ASTRewrite rewriter = ASTRewrite.create(ast);
 
-      imports(ast,
-          rewriter.getListRewrite(acu, CompilationUnit.IMPORTS_PROPERTY),
-          module);
-
-      List<CustomParameter> parameters = module.getParameters();
-      if (!parameters.isEmpty()) {
-        for (CustomParameter p : parameters) {
-          NormalAnnotation sicParameterA = ast.newNormalAnnotation();
-          sicParameterA
-              .setTypeName(ast.newSimpleName(Parameter.class.getSimpleName()));
-
-          MemberValuePair mvpName = ast.newMemberValuePair();
-          mvpName.setName(ast.newSimpleName("name"));
-          mvpName.setValue(ast.newQualifiedName(
-              ast.newName(type.getElementName()),
-              ast.newSimpleName(p.getName().replace(" ", "_").toUpperCase())));
-
-          sicParameterA.values().add(mvpName);
-
-          if (!p.getDefaultValue().equals("")) {
-            MemberValuePair mvpValue = ast.newMemberValuePair();
-            mvpValue.setName(ast.newSimpleName("defaultValue"));
-            StringLiteral slValue = ast.newStringLiteral();
-            slValue.setLiteralValue(p.getDefaultValue());
-            mvpValue.setValue(slValue);
-
-            sicParameterA.values().add(mvpValue);
-          }
-
-          acu.accept(new ASTVisitor() {
-            @Override
-            public boolean visit(TypeDeclaration node) {
-              rewriter.getListRewrite(node, node.getModifiersProperty())
-                  .insertAt(sicParameterA, 0, null);
-              return false;
-            }
-          });
-        }
-      }
-      // ----------------------------------------------------------------
-
-      //
-      // @JavaTaskInfo
-      //
-      boolean defaultAtomic = false;
-      boolean defaultGenerator = false;
-      boolean defaultExternalSource = false;
-      boolean defaultConstant = false;
-      try {
-        defaultAtomic = (boolean) JavaTaskInfo.class.getMethod("atomic")
-            .getDefaultValue();
-        defaultGenerator = (boolean) JavaTaskInfo.class.getMethod("generator")
-            .getDefaultValue();
-        defaultExternalSource = (boolean) JavaTaskInfo.class
-            .getMethod("externalSource").getDefaultValue();
-        defaultConstant = (boolean) JavaTaskInfo.class.getMethod("constant")
-            .getDefaultValue();
-      } catch (NoSuchMethodException e) {
-      }
-
-      if (module.isAtomic() == defaultAtomic
-          && module.isGenerator() == defaultGenerator
-          && module.isExternalSource() == defaultExternalSource
-          && module.isConstant() == defaultConstant) {
-        final MarkerAnnotation javaTaskInfoA = ast.newMarkerAnnotation();
-        javaTaskInfoA
-            .setTypeName(ast.newSimpleName(JavaTaskInfo.class.getSimpleName()));
-        acu.accept(new ASTVisitor() {
-
-          public boolean visit(TypeDeclaration node) {
-            rewriter.getListRewrite(node, node.getModifiersProperty())
-                .insertAt(javaTaskInfoA, 0, null);
-            return false;
-          }
-        });
-      } else {
-        final NormalAnnotation javaTaskInfoA = ast.newNormalAnnotation();
-        javaTaskInfoA
-            .setTypeName(ast.newSimpleName(JavaTaskInfo.class.getSimpleName()));
-
-        if (module.isConstant() != defaultConstant) {
-          MemberValuePair mvp = ast.newMemberValuePair();
-          mvp.setName(ast.newSimpleName("constant"));
-          mvp.setValue(ast.newBooleanLiteral(module.isConstant()));
-          javaTaskInfoA.values().add(mvp);
-        }
-        if (module.isAtomic() != defaultAtomic) {
-          MemberValuePair mvp = ast.newMemberValuePair();
-          mvp.setName(ast.newSimpleName("atomic"));
-          mvp.setValue(ast.newBooleanLiteral(module.isAtomic()));
-          javaTaskInfoA.values().add(mvp);
-        }
-        if (module.isGenerator() != defaultGenerator) {
-          MemberValuePair mvp = ast.newMemberValuePair();
-          mvp.setName(ast.newSimpleName("generator"));
-          mvp.setValue(ast.newBooleanLiteral(module.isGenerator()));
-          javaTaskInfoA.values().add(mvp);
-        }
-        if (module.isExternalSource() != defaultExternalSource) {
-          MemberValuePair mvp = ast.newMemberValuePair();
-          mvp.setName(ast.newSimpleName("externalSource"));
-          mvp.setValue(ast.newBooleanLiteral(module.isExternalSource()));
-          javaTaskInfoA.values().add(mvp);
-        }
-
-        acu.accept(new ASTVisitor() {
-          @Override
-          public boolean visit(TypeDeclaration node) {
-            rewriter.getListRewrite(node, node.getModifiersProperty())
-                .insertAt(javaTaskInfoA, 0, null);
-            return false;
-          }
-        });
-      }
-      // ----------------------------------------------------------------
-
-      //
-      // extends JavaTask
-      //
-      acu.accept(new ASTVisitor() {
-
-        @Override
-        public boolean visit(TypeDeclaration node) {
-          SimpleType st = ast
-              .newSimpleType(ast.newSimpleName(JavaTask.class.getSimpleName()));
-          rewriter.set(node, TypeDeclaration.SUPERCLASS_TYPE_PROPERTY, st,
-              null);
-          return false;
-        }
-      });
-      // ----------------------------------------------------------------
-
-      //
-      // Parameters
-      //
-      for (CustomParameter p : module.getParameters()) {
-        acu.accept(new ASTVisitor() {
-          public boolean visit(TypeDeclaration node) {
-            VariableDeclarationFragment fragment = ast
-                .newVariableDeclarationFragment();
-            String var = p.getName().replace(" ", "_").toUpperCase();
-            fragment.setName(ast.newSimpleName(var));
-            StringLiteral init = ast.newStringLiteral();
-            init.setLiteralValue(p.getName());
-            fragment.setInitializer(init);
-            FieldDeclaration field = ast.newFieldDeclaration(fragment);
-            field.setType(
-                ast.newSimpleType(ast.newName(String.class.getSimpleName())));
-
-            List<Modifier> modifs = ast.newModifiers(
-                Modifier.PROTECTED | Modifier.STATIC | Modifier.FINAL);
-            field.modifiers().addAll(modifs);
-
-            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
-                .insertLast(field, null);
-            return false;
-          }
-        });
-      }
-      if (!module.getParameters().isEmpty()) {
-        acu.accept(new ASTVisitor() {
-          public boolean visit(TypeDeclaration node) {
-            ASTNode newLine = rewriter.createStringPlaceholder("",
-                ASTNode.EMPTY_STATEMENT);
-            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
-                .insertLast(newLine, null);
-            return false;
-          }
-        });
-      }
-
-      //
-      // InputPort
-      //
-      for (final In in : module.getInputs()) {
-        acu.accept(new ASTVisitor() {
-          public boolean visit(TypeDeclaration node) {
-            VariableDeclarationFragment fragment = ast
-                .newVariableDeclarationFragment();
-            String var = WordUtils.capitalizeFully(in.getName())
-                .replace(" ", "").trim();
-            var = Character.toLowerCase(var.charAt(0)) + var.substring(1);
-            fragment.setName(ast.newSimpleName(var));
-            FieldDeclaration field = ast.newFieldDeclaration(fragment);
-            field.setType(ast
-                .newSimpleType(ast.newName(InputPort.class.getSimpleName())));
-
-            List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
-            field.modifiers().addAll(modifs);
-
-            final NormalAnnotation inputPortInfoA = ast.newNormalAnnotation();
-            inputPortInfoA.setTypeName(
-                ast.newSimpleName(InputPortInfo.class.getSimpleName()));
-
-            MemberValuePair mvpName = ast.newMemberValuePair();
-            mvpName.setName(ast.newSimpleName("name"));
-            StringLiteral vName = ast.newStringLiteral();
-            vName.setLiteralValue(in.getName());
-            mvpName.setValue(vName);
-            inputPortInfoA.values().add(mvpName);
-
-            MemberValuePair mvpDt = ast.newMemberValuePair();
-            mvpDt.setName(ast.newSimpleName("dataType"));
-            TypeLiteral vDt = ast.newTypeLiteral();
-            vDt.setType(ast.newSimpleType(ast.newName(in.getDataType())));
-            mvpDt.setValue(vDt);
-            inputPortInfoA.values().add(mvpDt);
-
-            if (in.isAsynchronous()) {
-              MemberValuePair mvpAsync = ast.newMemberValuePair();
-              mvpAsync.setName(ast.newSimpleName("asynchronous"));
-              mvpAsync.setValue(ast.newBooleanLiteral(true));
-              inputPortInfoA.values().add(mvpAsync);
-            }
-
-            int grp = in.getGroup();
-            if (grp != -1) {
-              MemberValuePair mvpAsync = ast.newMemberValuePair();
-              mvpAsync.setName(ast.newSimpleName("group"));
-              mvpAsync.setValue(ast.newNumberLiteral(Integer.toString(grp)));
-              inputPortInfoA.values().add(mvpAsync);
-            }
-
-            if (in.isHold()) {
-              MemberValuePair mvpAsync = ast.newMemberValuePair();
-              mvpAsync.setName(ast.newSimpleName("hold"));
-              mvpAsync.setValue(ast.newBooleanLiteral(true));
-              inputPortInfoA.values().add(mvpAsync);
-            }
-
-            if (in.getQueue() != 1) {
-              MemberValuePair mvpAsync = ast.newMemberValuePair();
-              mvpAsync.setName(ast.newSimpleName("queue"));
-              mvpAsync.setValue(
-                  ast.newNumberLiteral(Integer.toString(in.getQueue())));
-              inputPortInfoA.values().add(mvpAsync);
-            }
-
-            field.modifiers().add(0, inputPortInfoA);
-
-            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
-                .insertLast(field, null);
-            return false;
-          }
-        });
-      }
-      // ----------------------------------------------------------------
-
-      //
-      // OutputPort
-      //
-      for (final Out out : module.getOutputs()) {
-        acu.accept(new ASTVisitor() {
-          public boolean visit(TypeDeclaration node) {
-            VariableDeclarationFragment fragment = ast
-                .newVariableDeclarationFragment();
-            String var = WordUtils.capitalizeFully(out.getName())
-                .replace(" ", "").trim();
-            var = Character.toLowerCase(var.charAt(0)) + var.substring(1);
-            fragment.setName(ast.newSimpleName(var));
-            FieldDeclaration field = ast.newFieldDeclaration(fragment);
-            field.setType(ast
-                .newSimpleType(ast.newName(OutputPort.class.getSimpleName())));
-
-            List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
-            field.modifiers().addAll(modifs);
-
-            final NormalAnnotation outputPortInfoA = ast.newNormalAnnotation();
-            outputPortInfoA.setTypeName(
-                ast.newSimpleName(OutputPortInfo.class.getSimpleName()));
-
-            MemberValuePair mvpName = ast.newMemberValuePair();
-            mvpName.setName(ast.newSimpleName("name"));
-            StringLiteral vName = ast.newStringLiteral();
-            vName.setLiteralValue(out.getName());
-            mvpName.setValue(vName);
-            outputPortInfoA.values().add(mvpName);
-
-            MemberValuePair mvpDt = ast.newMemberValuePair();
-            mvpDt.setName(ast.newSimpleName("dataType"));
-            TypeLiteral vDt = ast.newTypeLiteral();
-            vDt.setType(ast.newSimpleType(ast.newName(out.getDataType())));
-            mvpDt.setValue(vDt);
-            outputPortInfoA.values().add(mvpDt);
-
-            field.modifiers().add(0, outputPortInfoA);
-
-            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
-                .insertLast(field, null);
-            return false;
-          }
-        });
-      }
-      // ----------------------------------------------------------------
-
-      //
-      // Methods
-      //
-      if (module.isRunnerStart()) {
-        acu.accept(new ASTVisitor() {
-          @Override
-          public boolean visit(TypeDeclaration node) {
-            addMethod(ast, rewriter.getListRewrite(node,
-                node.getBodyDeclarationsProperty()), "runnerStart");
-            return false;
-          }
-        });
-      }
-
-      if (module.isExecuteAsync()) {
-        acu.accept(new ASTVisitor() {
-          @Override
-          public boolean visit(TypeDeclaration node) {
-            MethodDeclaration md = ast.newMethodDeclaration();
-            List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
-            md.modifiers().addAll(modifs);
-
-            MarkerAnnotation overrideA = ast.newMarkerAnnotation();
-            overrideA
-                .setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
-            md.modifiers().add(0, overrideA);
-
-            md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
-            md.setName(ast.newSimpleName("executeAsync"));
-            SingleVariableDeclaration svd = ast.newSingleVariableDeclaration();
-            svd.setType(ast
-                .newSimpleType(ast.newName(InputPort.class.getSimpleName())));
-            svd.setName(ast.newSimpleName("asynchIn"));
-            md.parameters().add(svd);
-            md.setBody(ast.newBlock());
-
-            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
-                .insertLast(md, null);
-            return false;
-          }
-        });
-      }
-      if (module.isExecuteExtSrc()) {
-        acu.accept(new ASTVisitor() {
-          @Override
-          public boolean visit(TypeDeclaration node) {
-            MethodDeclaration md = ast.newMethodDeclaration();
-            List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
-            md.modifiers().addAll(modifs);
-
-            MarkerAnnotation overrideA = ast.newMarkerAnnotation();
-            overrideA
-                .setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
-            md.modifiers().add(0, overrideA);
-
-            md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
-            md.setName(ast.newSimpleName("executeExtSrc"));
-            md.setBody(ast.newBlock());
-
-            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
-                .insertLast(md, null);
-            return false;
-          }
-        });
-      }
-      if (module.isGenerate()) {
-        acu.accept(new ASTVisitor() {
-          @Override
-          public boolean visit(TypeDeclaration node) {
-            addMethod(ast, rewriter.getListRewrite(node,
-                node.getBodyDeclarationsProperty()), "generate");
-            return false;
-          }
-        });
-      }
-      if (module.isExecute()) {
-        acu.accept(new ASTVisitor() {
-          @Override
-          public boolean visit(TypeDeclaration node) {
-            MethodDeclaration md = ast.newMethodDeclaration();
-            List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
-            md.modifiers().addAll(modifs);
-
-            MarkerAnnotation overrideA = ast.newMarkerAnnotation();
-            overrideA
-                .setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
-            md.modifiers().add(0, overrideA);
-
-            md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
-            md.setName(ast.newSimpleName("execute"));
-            SingleVariableDeclaration svd = ast.newSingleVariableDeclaration();
-            svd.setType(ast.newPrimitiveType(PrimitiveType.INT));
-            svd.setName(ast.newSimpleName("grp"));
-            md.parameters().add(svd);
-            md.setBody(ast.newBlock());
-
-            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
-                .insertLast(md, null);
-            return false;
-          }
-        });
-      }
-
-      if (module.isRunnerStop()) {
-        acu.accept(new ASTVisitor() {
-          @Override
-          public boolean visit(TypeDeclaration node) {
-            addMethod(ast, rewriter.getListRewrite(node,
-                node.getBodyDeclarationsProperty()), "runnerStop");
-            return false;
-          }
-        });
-      }
-      // ----------------------------------------------------------------
+      imports(ast, acu, rewriter, module);
+      parameters(ast, acu, rewriter, module, type.getElementName());
+      javaTaskInfo(ast, acu, rewriter, module);
+      superClass(ast, acu, rewriter, module);
+      inputPorts(ast, acu, rewriter, module);
+      outputPorts(ast, acu, rewriter, module);
+      methods(ast, acu, rewriter, module);
 
       TextEdit edits = rewriter.rewriteAST();
       Document doc = new Document(cu.getSource());
@@ -508,7 +106,10 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     }
   }
 
-  private void imports(AST ast, ListRewrite lrw, Module module) {
+  private static void imports(AST ast, CompilationUnit acu, ASTRewrite rewriter,
+      Module module) {
+    ListRewrite lrw = rewriter.getListRewrite(acu,
+        CompilationUnit.IMPORTS_PROPERTY);
     if (!module.getInputs().isEmpty()) {
       addImport(ast, lrw, InputPort.class.getCanonicalName());
     }
@@ -548,6 +149,404 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     ImportDeclaration id = ast.newImportDeclaration();
     id.setName(ast.newName(canonicalName));
     lrw.insertLast(id, null);
+  }
+
+  private static void parameters(AST ast, CompilationUnit acu,
+      ASTRewrite rewriter, Module module, String type) {
+    List<CustomParameter> parameters = module.getParameters();
+    if (!parameters.isEmpty()) {
+      for (CustomParameter p : parameters) {
+        NormalAnnotation sicParameterA = ast.newNormalAnnotation();
+        sicParameterA
+            .setTypeName(ast.newSimpleName(Parameter.class.getSimpleName()));
+
+        MemberValuePair mvpName = ast.newMemberValuePair();
+        mvpName.setName(ast.newSimpleName("name"));
+        mvpName.setValue(ast.newQualifiedName(ast.newName(type),
+            ast.newSimpleName(p.getName().replace(" ", "_").toUpperCase())));
+
+        sicParameterA.values().add(mvpName);
+
+        if (!p.getDefaultValue().equals("")) {
+          MemberValuePair mvpValue = ast.newMemberValuePair();
+          mvpValue.setName(ast.newSimpleName("defaultValue"));
+          StringLiteral slValue = ast.newStringLiteral();
+          slValue.setLiteralValue(p.getDefaultValue());
+          mvpValue.setValue(slValue);
+
+          sicParameterA.values().add(mvpValue);
+        }
+
+        acu.accept(new ASTVisitor() {
+          @Override
+          public boolean visit(TypeDeclaration node) {
+            rewriter.getListRewrite(node, node.getModifiersProperty())
+                .insertAt(sicParameterA, 0, null);
+            return false;
+          }
+        });
+      }
+
+      for (CustomParameter p : module.getParameters()) {
+        acu.accept(new ASTVisitor() {
+          public boolean visit(TypeDeclaration node) {
+            VariableDeclarationFragment fragment = ast
+                .newVariableDeclarationFragment();
+            String var = p.getName().replace(" ", "_").toUpperCase();
+            fragment.setName(ast.newSimpleName(var));
+            StringLiteral init = ast.newStringLiteral();
+            init.setLiteralValue(p.getName());
+            fragment.setInitializer(init);
+            FieldDeclaration field = ast.newFieldDeclaration(fragment);
+            field.setType(
+                ast.newSimpleType(ast.newName(String.class.getSimpleName())));
+
+            List<Modifier> modifs = ast.newModifiers(
+                Modifier.PROTECTED | Modifier.STATIC | Modifier.FINAL);
+            field.modifiers().addAll(modifs);
+
+            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
+                .insertLast(field, null);
+            return false;
+          }
+        });
+      }
+      if (!module.getParameters().isEmpty()) {
+        acu.accept(new ASTVisitor() {
+          public boolean visit(TypeDeclaration node) {
+            ASTNode newLine = rewriter.createStringPlaceholder("",
+                ASTNode.EMPTY_STATEMENT);
+            rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
+                .insertLast(newLine, null);
+            return false;
+          }
+        });
+      }
+    }
+  }
+
+  private static void javaTaskInfo(AST ast, CompilationUnit acu,
+      ASTRewrite rewriter, Module module) {
+    boolean defaultAtomic = false;
+    boolean defaultGenerator = false;
+    boolean defaultExternalSource = false;
+    boolean defaultConstant = false;
+    try {
+      defaultAtomic = (boolean) JavaTaskInfo.class.getMethod("atomic")
+          .getDefaultValue();
+      defaultGenerator = (boolean) JavaTaskInfo.class.getMethod("generator")
+          .getDefaultValue();
+      defaultExternalSource = (boolean) JavaTaskInfo.class
+          .getMethod("externalSource").getDefaultValue();
+      defaultConstant = (boolean) JavaTaskInfo.class.getMethod("constant")
+          .getDefaultValue();
+    } catch (NoSuchMethodException e) {
+    }
+
+    if (module.isAtomic() == defaultAtomic
+        && module.isGenerator() == defaultGenerator
+        && module.isExternalSource() == defaultExternalSource
+        && module.isConstant() == defaultConstant) {
+      final MarkerAnnotation javaTaskInfoA = ast.newMarkerAnnotation();
+      javaTaskInfoA
+          .setTypeName(ast.newSimpleName(JavaTaskInfo.class.getSimpleName()));
+      acu.accept(new ASTVisitor() {
+
+        public boolean visit(TypeDeclaration node) {
+          rewriter.getListRewrite(node, node.getModifiersProperty())
+              .insertAt(javaTaskInfoA, 0, null);
+          return false;
+        }
+      });
+    } else {
+      final NormalAnnotation javaTaskInfoA = ast.newNormalAnnotation();
+      javaTaskInfoA
+          .setTypeName(ast.newSimpleName(JavaTaskInfo.class.getSimpleName()));
+
+      if (module.isConstant() != defaultConstant) {
+        MemberValuePair mvp = ast.newMemberValuePair();
+        mvp.setName(ast.newSimpleName("constant"));
+        mvp.setValue(ast.newBooleanLiteral(module.isConstant()));
+        javaTaskInfoA.values().add(mvp);
+      }
+      if (module.isAtomic() != defaultAtomic) {
+        MemberValuePair mvp = ast.newMemberValuePair();
+        mvp.setName(ast.newSimpleName("atomic"));
+        mvp.setValue(ast.newBooleanLiteral(module.isAtomic()));
+        javaTaskInfoA.values().add(mvp);
+      }
+      if (module.isGenerator() != defaultGenerator) {
+        MemberValuePair mvp = ast.newMemberValuePair();
+        mvp.setName(ast.newSimpleName("generator"));
+        mvp.setValue(ast.newBooleanLiteral(module.isGenerator()));
+        javaTaskInfoA.values().add(mvp);
+      }
+      if (module.isExternalSource() != defaultExternalSource) {
+        MemberValuePair mvp = ast.newMemberValuePair();
+        mvp.setName(ast.newSimpleName("externalSource"));
+        mvp.setValue(ast.newBooleanLiteral(module.isExternalSource()));
+        javaTaskInfoA.values().add(mvp);
+      }
+
+      acu.accept(new ASTVisitor() {
+        @Override
+        public boolean visit(TypeDeclaration node) {
+          rewriter.getListRewrite(node, node.getModifiersProperty())
+              .insertAt(javaTaskInfoA, 0, null);
+          return false;
+        }
+      });
+    }
+  }
+
+  private static void superClass(AST ast, CompilationUnit acu, ASTRewrite rewriter,
+      Module module) {
+    acu.accept(new ASTVisitor() {
+      @Override
+      public boolean visit(TypeDeclaration node) {
+        SimpleType st = ast
+            .newSimpleType(ast.newSimpleName(JavaTask.class.getSimpleName()));
+        rewriter.set(node, TypeDeclaration.SUPERCLASS_TYPE_PROPERTY, st, null);
+        return false;
+      }
+    });
+  }
+
+  private static void inputPorts(AST ast, CompilationUnit acu, ASTRewrite rewriter,
+      Module module) {
+    for (final In in : module.getInputs()) {
+      acu.accept(new ASTVisitor() {
+        public boolean visit(TypeDeclaration node) {
+          VariableDeclarationFragment fragment = ast
+              .newVariableDeclarationFragment();
+          String var = WordUtils.capitalizeFully(in.getName()).replace(" ", "")
+              .trim();
+          var = Character.toLowerCase(var.charAt(0)) + var.substring(1);
+          fragment.setName(ast.newSimpleName(var));
+          FieldDeclaration field = ast.newFieldDeclaration(fragment);
+          field.setType(
+              ast.newSimpleType(ast.newName(InputPort.class.getSimpleName())));
+
+          List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
+          field.modifiers().addAll(modifs);
+
+          final NormalAnnotation inputPortInfoA = ast.newNormalAnnotation();
+          inputPortInfoA.setTypeName(
+              ast.newSimpleName(InputPortInfo.class.getSimpleName()));
+
+          MemberValuePair mvpName = ast.newMemberValuePair();
+          mvpName.setName(ast.newSimpleName("name"));
+          StringLiteral vName = ast.newStringLiteral();
+          vName.setLiteralValue(in.getName());
+          mvpName.setValue(vName);
+          inputPortInfoA.values().add(mvpName);
+
+          MemberValuePair mvpDt = ast.newMemberValuePair();
+          mvpDt.setName(ast.newSimpleName("dataType"));
+          TypeLiteral vDt = ast.newTypeLiteral();
+          vDt.setType(ast.newSimpleType(ast.newName(in.getDataType())));
+          mvpDt.setValue(vDt);
+          inputPortInfoA.values().add(mvpDt);
+
+          if (in.isAsynchronous()) {
+            MemberValuePair mvpAsync = ast.newMemberValuePair();
+            mvpAsync.setName(ast.newSimpleName("asynchronous"));
+            mvpAsync.setValue(ast.newBooleanLiteral(true));
+            inputPortInfoA.values().add(mvpAsync);
+          }
+
+          int grp = in.getGroup();
+          if (grp != -1) {
+            MemberValuePair mvpAsync = ast.newMemberValuePair();
+            mvpAsync.setName(ast.newSimpleName("group"));
+            mvpAsync.setValue(ast.newNumberLiteral(Integer.toString(grp)));
+            inputPortInfoA.values().add(mvpAsync);
+          }
+
+          if (in.isHold()) {
+            MemberValuePair mvpAsync = ast.newMemberValuePair();
+            mvpAsync.setName(ast.newSimpleName("hold"));
+            mvpAsync.setValue(ast.newBooleanLiteral(true));
+            inputPortInfoA.values().add(mvpAsync);
+          }
+
+          if (in.getQueue() != 1) {
+            MemberValuePair mvpAsync = ast.newMemberValuePair();
+            mvpAsync.setName(ast.newSimpleName("queue"));
+            mvpAsync.setValue(
+                ast.newNumberLiteral(Integer.toString(in.getQueue())));
+            inputPortInfoA.values().add(mvpAsync);
+          }
+
+          field.modifiers().add(0, inputPortInfoA);
+
+          rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
+              .insertLast(field, null);
+          return false;
+        }
+      });
+    }
+  }
+  
+  private static void outputPorts(AST ast, CompilationUnit acu, ASTRewrite rewriter,
+      Module module) {
+    for (final Out out : module.getOutputs()) {
+      acu.accept(new ASTVisitor() {
+        public boolean visit(TypeDeclaration node) {
+          VariableDeclarationFragment fragment = ast
+              .newVariableDeclarationFragment();
+          String var = WordUtils.capitalizeFully(out.getName())
+              .replace(" ", "").trim();
+          var = Character.toLowerCase(var.charAt(0)) + var.substring(1);
+          fragment.setName(ast.newSimpleName(var));
+          FieldDeclaration field = ast.newFieldDeclaration(fragment);
+          field.setType(ast
+              .newSimpleType(ast.newName(OutputPort.class.getSimpleName())));
+
+          List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
+          field.modifiers().addAll(modifs);
+
+          final NormalAnnotation outputPortInfoA = ast.newNormalAnnotation();
+          outputPortInfoA.setTypeName(
+              ast.newSimpleName(OutputPortInfo.class.getSimpleName()));
+
+          MemberValuePair mvpName = ast.newMemberValuePair();
+          mvpName.setName(ast.newSimpleName("name"));
+          StringLiteral vName = ast.newStringLiteral();
+          vName.setLiteralValue(out.getName());
+          mvpName.setValue(vName);
+          outputPortInfoA.values().add(mvpName);
+
+          MemberValuePair mvpDt = ast.newMemberValuePair();
+          mvpDt.setName(ast.newSimpleName("dataType"));
+          TypeLiteral vDt = ast.newTypeLiteral();
+          vDt.setType(ast.newSimpleType(ast.newName(out.getDataType())));
+          mvpDt.setValue(vDt);
+          outputPortInfoA.values().add(mvpDt);
+
+          field.modifiers().add(0, outputPortInfoA);
+
+          rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
+              .insertLast(field, null);
+          return false;
+        }
+      });
+    }
+  }
+  
+  private static void methods(AST ast, CompilationUnit acu, ASTRewrite rewriter,
+      Module module) {
+    if (module.isRunnerStart()) {
+      acu.accept(new ASTVisitor() {
+        @Override
+        public boolean visit(TypeDeclaration node) {
+          addMethod(ast, rewriter.getListRewrite(node,
+              node.getBodyDeclarationsProperty()), "runnerStart");
+          return false;
+        }
+      });
+    }
+
+    if (module.isExecuteAsync()) {
+      acu.accept(new ASTVisitor() {
+        @Override
+        public boolean visit(TypeDeclaration node) {
+          MethodDeclaration md = ast.newMethodDeclaration();
+          List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
+          md.modifiers().addAll(modifs);
+
+          MarkerAnnotation overrideA = ast.newMarkerAnnotation();
+          overrideA
+              .setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
+          md.modifiers().add(0, overrideA);
+
+          md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
+          md.setName(ast.newSimpleName("executeAsync"));
+          SingleVariableDeclaration svd = ast.newSingleVariableDeclaration();
+          svd.setType(ast
+              .newSimpleType(ast.newName(InputPort.class.getSimpleName())));
+          svd.setName(ast.newSimpleName("asynchIn"));
+          md.parameters().add(svd);
+          md.setBody(ast.newBlock());
+
+          rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
+              .insertLast(md, null);
+          return false;
+        }
+      });
+    }
+    if (module.isExecuteExtSrc()) {
+      acu.accept(new ASTVisitor() {
+        @Override
+        public boolean visit(TypeDeclaration node) {
+          MethodDeclaration md = ast.newMethodDeclaration();
+          List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
+          md.modifiers().addAll(modifs);
+
+          MarkerAnnotation overrideA = ast.newMarkerAnnotation();
+          overrideA
+              .setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
+          md.modifiers().add(0, overrideA);
+
+          md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
+          md.setName(ast.newSimpleName("executeExtSrc"));
+          md.setBody(ast.newBlock());
+
+          rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
+              .insertLast(md, null);
+          return false;
+        }
+      });
+    }
+    if (module.isGenerate()) {
+      acu.accept(new ASTVisitor() {
+        @Override
+        public boolean visit(TypeDeclaration node) {
+          addMethod(ast, rewriter.getListRewrite(node,
+              node.getBodyDeclarationsProperty()), "generate");
+          return false;
+        }
+      });
+    }
+    if (module.isExecute()) {
+      acu.accept(new ASTVisitor() {
+        @Override
+        public boolean visit(TypeDeclaration node) {
+          MethodDeclaration md = ast.newMethodDeclaration();
+          List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
+          md.modifiers().addAll(modifs);
+
+          MarkerAnnotation overrideA = ast.newMarkerAnnotation();
+          overrideA
+              .setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
+          md.modifiers().add(0, overrideA);
+
+          md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
+          md.setName(ast.newSimpleName("execute"));
+          SingleVariableDeclaration svd = ast.newSingleVariableDeclaration();
+          svd.setType(ast.newPrimitiveType(PrimitiveType.INT));
+          svd.setName(ast.newSimpleName("grp"));
+          md.parameters().add(svd);
+          md.setBody(ast.newBlock());
+
+          rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
+              .insertLast(md, null);
+          return false;
+        }
+      });
+    }
+
+    if (module.isRunnerStop()) {
+      acu.accept(new ASTVisitor() {
+        @Override
+        public boolean visit(TypeDeclaration node) {
+          addMethod(ast, rewriter.getListRewrite(node,
+              node.getBodyDeclarationsProperty()), "runnerStop");
+          return false;
+        }
+      });
+    }
+
   }
 
   private static void addMethod(AST ast, ListRewrite lrw, String name) {
