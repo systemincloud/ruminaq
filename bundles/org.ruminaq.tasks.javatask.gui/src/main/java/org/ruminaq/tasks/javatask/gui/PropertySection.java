@@ -142,7 +142,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
           .map(SelectionDialog::getResult).map(Stream::of)
           .orElseGet(Stream::empty).findFirst().filter(IType.class::isInstance)
           .map(IType.class::cast).map(IType::getFullyQualifiedName)
-          .ifPresent(clazz -> setImplementation(clazz));
+          .ifPresent(this::setImplementation);
     };
   }
 
