@@ -153,8 +153,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
 
   private static void parameters(AST ast, CompilationUnit acu,
       ASTRewrite rewriter, Module module, String type) {
-    List<CustomParameter> parameters = module.getParameters();
-    for (CustomParameter p : parameters) {
+    for (CustomParameter p : module.getParameters()) {
       NormalAnnotation sicParameterA = ast.newNormalAnnotation();
       sicParameterA
           .setTypeName(ast.newSimpleName(Parameter.class.getSimpleName()));
@@ -566,6 +565,12 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     lrw.insertLast(md, null);
   }
 
+  /**
+   * Get CompilationUnit from ICompilationUnit.
+   *s
+   * @param unit ICompilationUnit that can be retrieved from e.g. IType.
+   * @return
+   */
   public static CompilationUnit parse(ICompilationUnit unit) {
     ASTParser parser = ASTParser.newParser(AST.JLS14);
     parser.setKind(ASTParser.K_COMPILATION_UNIT);
