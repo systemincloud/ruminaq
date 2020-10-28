@@ -41,7 +41,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 
   protected static final class FileInternalInputPort {
     private String name;
-    private List<DataType> dataType = null;
+    private List<DataType> dataType;
     private boolean asynchronous;
     private int group = -1;
     private boolean hold;
@@ -338,7 +338,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   private boolean paramsUpdate(IUpdateContext context) {
     toModel(context).ifPresent((UserDefinedTask udt) -> {
       Map<String, String> shouldBe = getParameters();
-      udt.getParameter().removeIf(p -> !shouldBe.keySet().contains(p.getKey()));
+      udt.getParameter().removeIf(p -> !shouldBe.containsKey(p.getKey()));
       shouldBe
           .keySet().stream().filter(p -> udt.getParameter().stream()
               .map(Parameter::getKey).noneMatch(p::equals))
@@ -352,7 +352,8 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     return true;
   }
 
-  private void createParameter(UserDefinedTask task, String parameterKey) {
+  private static void createParameter(UserDefinedTask task,
+      String parameterKey) {
     Parameter parameter = RuminaqFactory.eINSTANCE.createParameter();
     parameter.setKey(parameterKey);
     task.getParameter().add(parameter);
