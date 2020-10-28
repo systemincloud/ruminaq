@@ -74,13 +74,13 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(CreateJavaTaskPage.class);
 
-  private static boolean DEFAULT_ATOMIC = getDefaultFromJavaTaskInfo("atomic",
-      Boolean.class).orElse(Boolean.FALSE);
-  private static boolean DEFAULT_GENERATOR = getDefaultFromJavaTaskInfo(
+  private static final boolean DEFAULT_ATOMIC = getDefaultFromJavaTaskInfo(
+      "atomic", Boolean.class).orElse(Boolean.FALSE);
+  private static final boolean DEFAULT_GENERATOR = getDefaultFromJavaTaskInfo(
       "generator", Boolean.class).orElse(Boolean.FALSE);
-  private static boolean DEFAULT_EXTERNAL_SOURCE = getDefaultFromJavaTaskInfo(
+  private static final boolean DEFAULT_EXTERNAL_SOURCE = getDefaultFromJavaTaskInfo(
       "externalSource", Boolean.class).orElse(Boolean.FALSE);
-  private static boolean DEFAULT_CONSTANT = getDefaultFromJavaTaskInfo(
+  private static final boolean DEFAULT_CONSTANT = getDefaultFromJavaTaskInfo(
       "constant", Boolean.class).orElse(Boolean.FALSE);
 
   public CreateJavaTaskPage(String pageName) {
@@ -262,7 +262,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   }
 
   private static void javaTaskInfo(AST ast, CompilationUnit acu,
-      ASTRewrite rewriter, Module module) {  
+      ASTRewrite rewriter, Module module) {
     if (module.isAtomic() == DEFAULT_ATOMIC
         && module.isGenerator() == DEFAULT_GENERATOR
         && module.isExternalSource() == DEFAULT_EXTERNAL_SOURCE
