@@ -104,6 +104,11 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     return Pattern.compile("\\b(.)(.*?)\\b").matcher(text)
         .replaceAll(matche -> matche.group(1).toUpperCase() + matche.group(2));
   }
+  
+  private static String fieldName(String name) {
+    String camelCase = toTitleCase(name).replace(" ", "").trim();
+    return Character.toLowerCase(camelCase.charAt(0)) + camelCase.substring(1);
+  }
 
   protected void decorateType(IType type, Module module) {
     ICompilationUnit cu = type.getCompilationUnit();
@@ -343,15 +348,12 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         public boolean visit(TypeDeclaration node) {
           VariableDeclarationFragment fragment = ast
               .newVariableDeclarationFragment();
-          String var = toTitleCase(in.getName()).replace(" ", "").trim();
-          var = Character.toLowerCase(var.charAt(0)) + var.substring(1);
-          fragment.setName(ast.newSimpleName(var));
+          fragment.setName(ast.newSimpleName(fieldName(in.getName())));
           FieldDeclaration field = ast.newFieldDeclaration(fragment);
           field.setType(
               ast.newSimpleType(ast.newName(InputPort.class.getSimpleName())));
 
-          List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
-          field.modifiers().addAll(modifs);
+          field.modifiers().addAll(ast.newModifiers(Modifier.PUBLIC));
 
           NormalAnnotation inputPortInfoA = createAnnotation(ast,
               InputPortInfo.class);
@@ -403,15 +405,12 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         public boolean visit(TypeDeclaration node) {
           VariableDeclarationFragment fragment = ast
               .newVariableDeclarationFragment();
-          String var = toTitleCase(out.getName()).replace(" ", "").trim();
-          var = Character.toLowerCase(var.charAt(0)) + var.substring(1);
-          fragment.setName(ast.newSimpleName(var));
+          fragment.setName(ast.newSimpleName(fieldName(out.getName())));
           FieldDeclaration field = ast.newFieldDeclaration(fragment);
           field.setType(
               ast.newSimpleType(ast.newName(OutputPort.class.getSimpleName())));
 
-          List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
-          field.modifiers().addAll(modifs);
+          field.modifiers().addAll(ast.newModifiers(Modifier.PUBLIC));
 
           final NormalAnnotation outputPortInfoA = ast.newNormalAnnotation();
           outputPortInfoA.setTypeName(
