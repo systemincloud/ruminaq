@@ -74,6 +74,15 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(CreateJavaTaskPage.class);
 
+  private static boolean DEFAULT_ATOMIC = getDefaultFromJavaTaskInfo("atomic",
+      Boolean.class).orElse(Boolean.FALSE);
+  private static boolean DEFAULT_GENERATOR = getDefaultFromJavaTaskInfo(
+      "generator", Boolean.class).orElse(Boolean.FALSE);
+  private static boolean DEFAULT_EXTERNAL_SOURCE = getDefaultFromJavaTaskInfo(
+      "externalSource", Boolean.class).orElse(Boolean.FALSE);
+  private static boolean DEFAULT_CONSTANT = getDefaultFromJavaTaskInfo(
+      "constant", Boolean.class).orElse(Boolean.FALSE);
+
   public CreateJavaTaskPage(String pageName) {
     super(pageName);
     setTitle(Messages.createJavaTaskWizardName);
@@ -215,7 +224,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   }
 
   private static String upperCase(String string) {
-    return string.replaceAll(" ", "_");
+    return string.replace(' ', '_');
   }
 
   private static String spacesToUnderscores(String string) {
@@ -254,19 +263,10 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
 
   private static void javaTaskInfo(AST ast, CompilationUnit acu,
       ASTRewrite rewriter, Module module) {
-    boolean defaultAtomic = getDefaultValueFromAnnotation(JavaTaskInfo.class,
-        "atomic", Boolean.class).orElse(false);
-    boolean defaultGenerator = getDefaultValueFromAnnotation(JavaTaskInfo.class,
-        "generator", Boolean.class).orElse(false);
-    boolean defaultExternalSource = getDefaultValueFromAnnotation(
-        JavaTaskInfo.class, "externalSource", Boolean.class).orElse(false);
-    boolean defaultConstant = getDefaultValueFromAnnotation(JavaTaskInfo.class,
-        "constant", Boolean.class).orElse(false);
-
-    if (module.isAtomic() == defaultAtomic
-        && module.isGenerator() == defaultGenerator
-        && module.isExternalSource() == defaultExternalSource
-        && module.isConstant() == defaultConstant) {
+    if (module.isAtomic() == DEFAULT_ATOMIC
+        && module.isGenerator() == DEFAULT_GENERATOR
+        && module.isExternalSource() == DEFAULT_EXTERNAL_SOURCE
+        && module.isConstant() == DEFAULT_CONSTANT) {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
@@ -277,19 +277,19 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       });
     } else {
       NormalAnnotation javaTaskInfo = createAnnotation(ast, JavaTaskInfo.class);
-      if (module.isConstant() != defaultConstant) {
+      if (module.isConstant() != DEFAULT_CONSTANT) {
         addMemberToAnnotation(ast, javaTaskInfo, "constant",
             ast.newBooleanLiteral(module.isConstant()));
       }
-      if (module.isAtomic() != defaultAtomic) {
+      if (module.isAtomic() != DEFAULT_ATOMIC) {
         addMemberToAnnotation(ast, javaTaskInfo, "atomic",
             ast.newBooleanLiteral(module.isAtomic()));
       }
-      if (module.isGenerator() != defaultGenerator) {
+      if (module.isGenerator() != DEFAULT_GENERATOR) {
         addMemberToAnnotation(ast, javaTaskInfo, "generator",
             ast.newBooleanLiteral(module.isGenerator()));
       }
-      if (module.isExternalSource() != defaultExternalSource) {
+      if (module.isExternalSource() != DEFAULT_EXTERNAL_SOURCE) {
         addMemberToAnnotation(ast, javaTaskInfo, "externalSource",
             ast.newBooleanLiteral(module.isExternalSource()));
       }
@@ -310,6 +310,11 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         .map(c -> Result.attempt(() -> c.getMethod(name)))
         .map(r -> r.orElse(null)).filter(Objects::nonNull)
         .map(Method::getDefaultValue).filter(type::isInstance).map(type::cast);
+  }
+
+  private static <T> Optional<T> getDefaultFromJavaTaskInfo(String name,
+      Class<T> type) {
+    return getDefaultValueFromAnnotation(JavaTaskInfo.class, "atomic", type);
   }
 
   private static void superClass(AST ast, CompilationUnit acu,
