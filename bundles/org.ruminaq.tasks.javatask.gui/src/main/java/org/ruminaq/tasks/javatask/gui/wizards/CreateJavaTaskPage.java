@@ -414,19 +414,13 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
           outputPortInfoA.setTypeName(
               ast.newSimpleName(OutputPortInfo.class.getSimpleName()));
 
-          MemberValuePair mvpName = ast.newMemberValuePair();
-          mvpName.setName(ast.newSimpleName("name"));
           StringLiteral vName = ast.newStringLiteral();
           vName.setLiteralValue(out.getName());
-          mvpName.setValue(vName);
-          outputPortInfoA.values().add(mvpName);
+          addMemberToAnnotation(ast, outputPortInfoA, "name", vName);
 
-          MemberValuePair mvpDt = ast.newMemberValuePair();
-          mvpDt.setName(ast.newSimpleName("dataType"));
           TypeLiteral vDt = ast.newTypeLiteral();
           vDt.setType(ast.newSimpleType(ast.newName(out.getDataType())));
-          mvpDt.setValue(vDt);
-          outputPortInfoA.values().add(mvpDt);
+          addMemberToAnnotation(ast, outputPortInfoA, "dataType", vDt);
 
           field.modifiers().add(0, outputPortInfoA);
 
