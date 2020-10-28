@@ -453,11 +453,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
           MethodDeclaration md = ast.newMethodDeclaration();
           List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
           md.modifiers().addAll(modifs);
-
-          MarkerAnnotation overrideA = ast.newMarkerAnnotation();
-          overrideA
-              .setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
-          md.modifiers().add(0, overrideA);
+          md.modifiers().add(0, override(ast));
 
           md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
           md.setName(ast.newSimpleName("executeAsync"));
@@ -481,11 +477,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
           MethodDeclaration md = ast.newMethodDeclaration();
           List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
           md.modifiers().addAll(modifs);
-
-          MarkerAnnotation overrideA = ast.newMarkerAnnotation();
-          overrideA
-              .setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
-          md.modifiers().add(0, overrideA);
+          md.modifiers().add(0, override(ast));
 
           md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
           md.setName(ast.newSimpleName("executeExtSrc"));
@@ -515,11 +507,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
           MethodDeclaration md = ast.newMethodDeclaration();
           List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
           md.modifiers().addAll(modifs);
-
-          MarkerAnnotation overrideA = ast.newMarkerAnnotation();
-          overrideA
-              .setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
-          md.modifiers().add(0, overrideA);
+          md.modifiers().add(0, override(ast));
 
           md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
           md.setName(ast.newSimpleName("execute"));
@@ -554,16 +542,19 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     MethodDeclaration md = ast.newMethodDeclaration();
     List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
     md.modifiers().addAll(modifs);
-
-    MarkerAnnotation overrideA = ast.newMarkerAnnotation();
-    overrideA.setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
-    md.modifiers().add(0, overrideA);
+    md.modifiers().add(0, override(ast));
 
     md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
     md.setName(ast.newSimpleName(name));
     md.setBody(ast.newBlock());
 
     lrw.insertLast(md, null);
+  }
+
+  private static MarkerAnnotation override(AST ast) {
+    MarkerAnnotation annotation = ast.newMarkerAnnotation();
+    annotation.setTypeName(ast.newSimpleName(Override.class.getSimpleName()));
+    return annotation;
   }
 
   /**
