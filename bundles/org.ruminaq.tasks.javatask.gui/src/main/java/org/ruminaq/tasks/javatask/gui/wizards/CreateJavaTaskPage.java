@@ -262,7 +262,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   }
 
   private static void javaTaskInfo(AST ast, CompilationUnit acu,
-      ASTRewrite rewriter, Module module) {
+      ASTRewrite rewriter, Module module) {  
     if (module.isAtomic() == DEFAULT_ATOMIC
         && module.isGenerator() == DEFAULT_GENERATOR
         && module.isExternalSource() == DEFAULT_EXTERNAL_SOURCE
@@ -314,7 +314,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
 
   private static <T> Optional<T> getDefaultFromJavaTaskInfo(String name,
       Class<T> type) {
-    return getDefaultValueFromAnnotation(JavaTaskInfo.class, "atomic", type);
+    return getDefaultValueFromAnnotation(JavaTaskInfo.class, name, type);
   }
 
   private static void superClass(AST ast, CompilationUnit acu,
