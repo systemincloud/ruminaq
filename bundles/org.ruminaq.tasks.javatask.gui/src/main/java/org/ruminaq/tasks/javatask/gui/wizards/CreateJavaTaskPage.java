@@ -332,8 +332,9 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
 
   private static void inputPorts(AST ast, CompilationUnit acu,
       ASTRewrite rewriter, Module module) {
-    for (final In in : module.getInputs()) {
+    for (In in : module.getInputs()) {
       acu.accept(new ASTVisitor() {
+        @Override
         public boolean visit(TypeDeclaration node) {
           VariableDeclarationFragment fragment = ast
               .newVariableDeclarationFragment();
@@ -371,18 +372,13 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
           }
 
           if (in.isHold()) {
-            MemberValuePair mvpAsync = ast.newMemberValuePair();
-            mvpAsync.setName(ast.newSimpleName("hold"));
-            mvpAsync.setValue(ast.newBooleanLiteral(true));
-            inputPortInfoA.values().add(mvpAsync);
+            addMemberToAnnotation(ast, inputPortInfoA, "hold",
+                ast.newBooleanLiteral(true));
           }
 
           if (in.getQueue() != 1) {
-            MemberValuePair mvpAsync = ast.newMemberValuePair();
-            mvpAsync.setName(ast.newSimpleName("queue"));
-            mvpAsync.setValue(
+            addMemberToAnnotation(ast, inputPortInfoA, "queue",
                 ast.newNumberLiteral(Integer.toString(in.getQueue())));
-            inputPortInfoA.values().add(mvpAsync);
           }
 
           field.modifiers().add(0, inputPortInfoA);
@@ -397,8 +393,9 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
 
   private static void outputPorts(AST ast, CompilationUnit acu,
       ASTRewrite rewriter, Module module) {
-    for (final Out out : module.getOutputs()) {
+    for (Out out : module.getOutputs()) {
       acu.accept(new ASTVisitor() {
+        @Override
         public boolean visit(TypeDeclaration node) {
           VariableDeclarationFragment fragment = ast
               .newVariableDeclarationFragment();
