@@ -7,7 +7,8 @@
 package org.ruminaq.model.ruminaq;
 
 import java.util.Collection;
-import org.apache.commons.lang3.StringUtils;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -45,7 +46,7 @@ public class ModelUtil {
         System.arraycopy(names, 1, tmp, 0, names.length - 1);
         names = tmp;
       }
-      name = StringUtils.join(names, ' ');
+      name = Stream.of(names).collect(Collectors.joining(" "));
     }
     return name;
   }

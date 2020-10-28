@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.apache.commons.lang3.text.WordUtils;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -98,6 +98,11 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   protected List<String> getDataTypes() {
     return extensions().map(UserDefinedTaskExtension::getSupportedData)
         .flatMap(List::stream).collect(Collectors.toList());
+  }
+
+  private static String toTitleCase(String text) {
+    return Pattern.compile("\\b(.)(.*?)\\b").matcher(text)
+        .replaceAll(matche -> matche.group(1).toUpperCase() + matche.group(2));
   }
 
   protected void decorateType(IType type, Module module) {
@@ -338,8 +343,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         public boolean visit(TypeDeclaration node) {
           VariableDeclarationFragment fragment = ast
               .newVariableDeclarationFragment();
-          String var = WordUtils.capitalizeFully(in.getName()).replace(" ", "")
-              .trim();
+          String var = toTitleCase(in.getName()).replace(" ", "").trim();
           var = Character.toLowerCase(var.charAt(0)) + var.substring(1);
           fragment.setName(ast.newSimpleName(var));
           FieldDeclaration field = ast.newFieldDeclaration(fragment);
@@ -399,8 +403,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         public boolean visit(TypeDeclaration node) {
           VariableDeclarationFragment fragment = ast
               .newVariableDeclarationFragment();
-          String var = WordUtils.capitalizeFully(out.getName()).replace(" ", "")
-              .trim();
+          String var = toTitleCase(out.getName()).replace(" ", "").trim();
           var = Character.toLowerCase(var.charAt(0)) + var.substring(1);
           fragment.setName(ast.newSimpleName(var));
           FieldDeclaration field = ast.newFieldDeclaration(fragment);
