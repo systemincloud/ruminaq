@@ -198,9 +198,8 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       addMemberToAnnotation(ast, parameter, "name",
           ast.newQualifiedName(ast.newName(type), parameterName(ast, p)));
       if (!"".equals(p.getDefaultValue())) {
-        StringLiteral slValue = ast.newStringLiteral();
-        slValue.setLiteralValue(p.getDefaultValue());
-        addMemberToAnnotation(ast, parameter, "defaultValue", slValue);
+        addMemberToAnnotation(ast, parameter, "defaultValue",
+            stringLiteral(ast, p.getDefaultValue()));
       }
       return parameter;
     }).forEach(a -> acu.accept(new ASTVisitor() {
@@ -284,6 +283,12 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     return ast.newSimpleType(ast.newName(String.class.getSimpleName()));
   }
 
+  private static StringLiteral stringLiteral(AST ast, String value) {
+    StringLiteral literal = ast.newStringLiteral();
+    literal.setLiteralValue(value);
+    return literal;
+  }
+
   private static void addModifiers(AST ast, FieldDeclaration field, int flags) {
     field.modifiers().addAll(ast.newModifiers(flags));
   }
@@ -365,13 +370,11 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         public boolean visit(TypeDeclaration node) {
           FieldDeclaration field = createPublicField(ast, in.getName(),
               InputPort.class);
-
           NormalAnnotation annotation = createAnnotation(ast,
               InputPortInfo.class);
 
-          StringLiteral vName = ast.newStringLiteral();
-          vName.setLiteralValue(in.getName());
-          addMemberToAnnotation(ast, annotation, "name", vName);
+          addMemberToAnnotation(ast, annotation, "name",
+              stringLiteral(ast, in.getName()));
 
           TypeLiteral vDt = ast.newTypeLiteral();
           vDt.setType(ast.newSimpleType(ast.newName(in.getDataType())));
@@ -416,13 +419,11 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         public boolean visit(TypeDeclaration node) {
           FieldDeclaration field = createPublicField(ast, out.getName(),
               OutputPort.class);
-
           NormalAnnotation annotation = createAnnotation(ast,
               OutputPortInfo.class);
 
-          StringLiteral vName = ast.newStringLiteral();
-          vName.setLiteralValue(out.getName());
-          addMemberToAnnotation(ast, annotation, "name", vName);
+          addMemberToAnnotation(ast, annotation, "name",
+              stringLiteral(ast, out.getName()));
 
           TypeLiteral vDt = ast.newTypeLiteral();
           vDt.setType(ast.newSimpleType(ast.newName(out.getDataType())));
