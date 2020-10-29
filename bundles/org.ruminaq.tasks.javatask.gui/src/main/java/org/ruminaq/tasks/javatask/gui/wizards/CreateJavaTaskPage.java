@@ -451,7 +451,6 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         }
       });
     }
-
     if (module.isExecuteAsync()) {
       acu.accept(new ASTVisitor() {
         @Override
@@ -508,7 +507,6 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         }
       });
     }
-
     if (module.isRunnerStop()) {
       acu.accept(new ASTVisitor() {
         @Override
@@ -519,7 +517,6 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         }
       });
     }
-
   }
 
   private static MethodDeclaration createPublicVoidMethod(AST ast,
