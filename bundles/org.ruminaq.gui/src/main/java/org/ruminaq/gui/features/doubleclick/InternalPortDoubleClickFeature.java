@@ -18,6 +18,13 @@ import org.ruminaq.gui.features.custom.InternalPortToggleBreakpointFeature;
 import org.ruminaq.gui.features.doubleclick.InternalPortDoubleClickFeature.Filter;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
 
+/**
+ * InternalPort DoubleClick feature.
+ *
+ * <p>Toggle Breakpoint.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class InternalPortDoubleClickFeature
     extends DoubleClickBaseElementFeature {
@@ -29,8 +36,7 @@ public class InternalPortDoubleClickFeature
           .map(IDoubleClickContext.class::cast)
           .map(IDoubleClickContext::getPictogramElements).map(Stream::of)
           .orElseGet(Stream::empty).findFirst().map(Object::getClass)
-          .filter(InternalPortShape.class::isAssignableFrom)
-          .isPresent();
+          .filter(InternalPortShape.class::isAssignableFrom).isPresent();
     }
   }
 
