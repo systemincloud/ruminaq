@@ -215,7 +215,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .map(InternalInputPortShape.class::cast)
         .filter(ips -> Optional.ofNullable(ips.getModelObject()).isEmpty())
         .collect(Collectors.toList());
-    portsToAdd.stream().forEach(p -> addInputPort(p, fromModel, taskShape));
+    portsToAdd.stream().forEach(p -> addInputPort(p, taskShape));
     portsToRemove.stream().forEach(p -> removePort(p, taskShape));
     return !portsToAdd.isEmpty() || !portsToRemove.isEmpty();
   }
@@ -232,7 +232,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .map(InternalOutputPortShape.class::cast)
         .filter(ips -> Optional.ofNullable(ips.getModelObject()).isEmpty())
         .collect(Collectors.toList());
-    portsToAdd.stream().forEach(p -> addOutputPort(p, fromModel, taskShape));
+    portsToAdd.stream().forEach(p -> addOutputPort(p, taskShape));
     portsToRemove.stream().forEach(p -> removePort(p, taskShape));
     return !portsToAdd.isEmpty() || !portsToRemove.isEmpty();
   }
@@ -261,8 +261,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     task.getOutputPort().remove(task.getOutputPort(id));
   }
 
-  private void addInputPort(InternalInputPort p,
-      List<InternalInputPort> fromModel, TaskShape taskShape) {
+  private void addInputPort(InternalInputPort p, TaskShape taskShape) {
     Class<? extends PortsDescr> pd = getPortsDescription();
 
     Optional<PortDiagram> portDiagram = getPortDiagram(p.getId(), pd,
@@ -280,8 +279,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     redistributePorts(taskShape, position);
   }
 
-  private void addOutputPort(InternalOutputPort p,
-      List<InternalOutputPort> fromModel, TaskShape taskShape) {
+  private void addOutputPort(InternalOutputPort p, TaskShape taskShape) {
     Class<? extends PortsDescr> pd = getPortsDescription();
 
     Optional<PortDiagram> portDiagram = getPortDiagram(p.getId(), pd,
