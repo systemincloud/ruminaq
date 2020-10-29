@@ -81,7 +81,6 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
     if (ips.getX() < EPSILON) {
       ips.setX(0);
     }
-
     if (ips.getY() < EPSILON) {
       ips.setY(0);
     }
@@ -93,7 +92,6 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
         EPSILON)) {
       ips.setX(taskWidth - ips.getWidth());
     }
-
     if (GuiUtil.almostEqualRight(taskHeigth - ips.getHeight(), ips.getY(),
         EPSILON)) {
       ips.setY(taskHeigth - ips.getHeight());
