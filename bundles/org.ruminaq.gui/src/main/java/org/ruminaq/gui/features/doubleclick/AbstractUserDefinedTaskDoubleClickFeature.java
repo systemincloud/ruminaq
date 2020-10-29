@@ -23,7 +23,7 @@ import org.ruminaq.gui.model.diagram.RuminaqShape;
 public abstract class AbstractUserDefinedTaskDoubleClickFeature
     extends AbstractCustomFeature {
 
-  public AbstractUserDefinedTaskDoubleClickFeature(IFeatureProvider fp) {
+  protected AbstractUserDefinedTaskDoubleClickFeature(IFeatureProvider fp) {
     super(fp);
   }
 
