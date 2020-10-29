@@ -74,20 +74,15 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .filter(TaskShape.class::isInstance).map(TaskShape.class::cast);
   }
 
-  protected static Optional<Task> modelFromShape(
-      Optional<TaskShape> taskShape) {
-    return taskShape.map(TaskShape::getModelObject)
+  protected static Optional<Task> modelFromContext(IUpdateContext context) {
+    return shapeFromContext(context).map(TaskShape::getModelObject)
         .filter(Task.class::isInstance).map(Task.class::cast);
-  }
-
-  protected static <T> Optional<T> modelFromShape(Optional<TaskShape> taskShape,
-      Class<T> type) {
-    return modelFromShape(taskShape).filter(type::isInstance).map(type::cast);
   }
 
   protected static <T> Optional<T> modelFromContext(IUpdateContext context,
       Class<T> type) {
-    return modelFromShape(UpdateTaskFeature.shapeFromContext(context), type);
+    return modelFromContext(context, type).filter(type::isInstance)
+        .map(type::cast);
   }
 
   private static <T extends InternalPortShape, K extends InternalPort> List<K> internalPortFromShape(
@@ -173,7 +168,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   private static boolean updatePortNeeded(IUpdateContext context) {
     Optional<TaskShape> taskShape = shapeFromContext(context);
-    Optional<Task> task = modelFromShape(taskShape);
+    Optional<Task> task = modelFromContext(context);
     if (taskShape.isPresent() && task.isPresent()) {
       return updateInternalPortNeeded(taskShape.get().getInternalPort(),
           task.get().getInputPort(), InternalInputPort.class)
@@ -194,7 +189,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   private boolean updatePort(IUpdateContext context) {
     Optional<TaskShape> taskShape = shapeFromContext(context);
-    Optional<Task> task = modelFromShape(taskShape);
+    Optional<Task> task = modelFromContext(context);
     if (taskShape.isPresent() && task.isPresent()) {
       if (updateInternalPortNeeded(taskShape.get().getInternalPort(),
           task.get().getInputPort(), InternalInputPort.class)) {

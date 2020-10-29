@@ -89,9 +89,8 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
     @Override
     public boolean update(IUpdateContext context) {
-      Console console = modelFromShape(
-          UpdateTaskFeature.shapeFromContext(context), Console.class)
-              .orElseThrow(() -> new RuntimeException());
+      Console console = modelFromContext(context, Console.class)
+          .orElseThrow(() -> new RuntimeException());
 
       boolean updated = false;
 
