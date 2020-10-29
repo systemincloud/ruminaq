@@ -287,6 +287,12 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     return literal;
   }
 
+  private static TypeLiteral simpleTypeLiteral(AST ast, String value) {
+    TypeLiteral literal = ast.newTypeLiteral();
+    literal.setType(ast.newSimpleType(ast.newName(value)));
+    return literal;
+  }
+
   private static void addModifiers(AST ast, FieldDeclaration field, int flags) {
     field.modifiers().addAll(ast.newModifiers(flags));
   }
@@ -370,37 +376,28 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
               InputPort.class);
           NormalAnnotation annotation = createAnnotation(ast,
               InputPortInfo.class);
-
           addMemberToAnnotation(ast, annotation, "name",
               stringLiteral(ast, in.getName()));
-
-          TypeLiteral vDt = ast.newTypeLiteral();
-          vDt.setType(ast.newSimpleType(ast.newName(in.getDataType())));
-          addMemberToAnnotation(ast, annotation, "dataType", vDt);
+          addMemberToAnnotation(ast, annotation, "dataType",
+              simpleTypeLiteral(ast, in.getDataType()));
 
           if (in.isAsynchronous()) {
             addMemberToAnnotation(ast, annotation, "asynchronous",
                 ast.newBooleanLiteral(true));
           }
-
-          int grp = in.getGroup();
-          if (grp != -1) {
+          if (in.getGroup() != -1) {
             addMemberToAnnotation(ast, annotation, "group",
-                ast.newNumberLiteral(Integer.toString(grp)));
+                ast.newNumberLiteral(Integer.toString(in.getGroup())));
           }
-
           if (in.isHold()) {
             addMemberToAnnotation(ast, annotation, "hold",
                 ast.newBooleanLiteral(true));
           }
-
           if (in.getQueue() != 1) {
             addMemberToAnnotation(ast, annotation, "queue",
                 ast.newNumberLiteral(Integer.toString(in.getQueue())));
           }
-
           field.modifiers().add(0, annotation);
-
           rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
               .insertLast(field, null);
           return false;
@@ -419,16 +416,11 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
               OutputPort.class);
           NormalAnnotation annotation = createAnnotation(ast,
               OutputPortInfo.class);
-
           addMemberToAnnotation(ast, annotation, "name",
               stringLiteral(ast, out.getName()));
-
-          TypeLiteral vDt = ast.newTypeLiteral();
-          vDt.setType(ast.newSimpleType(ast.newName(out.getDataType())));
-          addMemberToAnnotation(ast, annotation, "dataType", vDt);
-
+          addMemberToAnnotation(ast, annotation, "dataType",
+              simpleTypeLiteral(ast, out.getDataType()));
           field.modifiers().add(0, annotation);
-
           rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
               .insertLast(field, null);
           return false;
