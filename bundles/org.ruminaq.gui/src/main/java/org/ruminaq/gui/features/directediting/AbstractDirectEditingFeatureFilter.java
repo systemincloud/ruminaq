@@ -21,7 +21,7 @@ public abstract class AbstractDirectEditingFeatureFilter
   public static final GetPictogramElement getPictogramElement = ctx -> ((IDirectEditingContext) ctx)
       .getPictogramElement();
 
-  public AbstractDirectEditingFeatureFilter() {
+  protected AbstractDirectEditingFeatureFilter() {
     super(IDirectEditingContext.class, getPictogramElement);
   }
 
