@@ -445,9 +445,8 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          createPublicVoidMethod(ast,
-              rewriter.getListRewrite(node, node.getBodyDeclarationsProperty()),
-              "runnerStart");
+          rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
+              .insertLast(createPublicVoidMethod(ast, "runnerStart"), null);
           return false;
         }
       });
