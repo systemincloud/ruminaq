@@ -22,7 +22,6 @@ import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo;
 import org.eclipse.graphiti.features.impl.Reason;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature.Filter;
 import org.ruminaq.gui.model.PortDiagram;
