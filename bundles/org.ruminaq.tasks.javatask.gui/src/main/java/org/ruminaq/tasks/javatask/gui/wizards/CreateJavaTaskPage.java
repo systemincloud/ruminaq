@@ -83,6 +83,10 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   private static final boolean DEFAULT_CONSTANT = getDefaultFromJavaTaskInfo(
       "constant", Boolean.class).orElse(Boolean.FALSE);
 
+  private static final Pattern wordPattern = Pattern.compile("\\b(.)(.*?)\\b");
+  private static final int FIRST_GROUP = 1;
+  private static final int SECOND_GROUP = 2;
+
   public CreateJavaTaskPage(String pageName) {
     super(pageName);
     setTitle(Messages.createJavaTaskWizardName);
@@ -101,10 +105,11 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   }
 
   private static String toTitleCase(String text) {
-    return Pattern.compile("\\b(.)(.*?)\\b").matcher(text)
-        .replaceAll(matche -> matche.group(1).toUpperCase() + matche.group(2));
+    return wordPattern.matcher(text)
+        .replaceAll(m -> m.group(FIRST_GROUP).toUpperCase(Locale.US)
+            + m.group(SECOND_GROUP));
   }
-  
+
   private static String fieldName(String name) {
     String camelCase = toTitleCase(name).replace(" ", "").trim();
     return Character.toLowerCase(camelCase.charAt(0)) + camelCase.substring(1);
@@ -440,7 +445,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          addMethod(ast,
+          createPublicVoidMethod(ast,
               rewriter.getListRewrite(node, node.getBodyDeclarationsProperty()),
               "runnerStart");
           return false;
@@ -495,9 +500,8 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          addMethod(ast,
-              rewriter.getListRewrite(node, node.getBodyDeclarationsProperty()),
-              "generate");
+          rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
+              .insertLast(createPublicVoidMethod(ast, "generate"), null);
           return false;
         }
       });
@@ -506,18 +510,12 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          MethodDeclaration md = ast.newMethodDeclaration();
-          List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
-          md.modifiers().addAll(modifs);
-          md.modifiers().add(0, override(ast));
+          MethodDeclaration md = createPublicVoidMethod(ast, "execute");
 
-          md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
-          md.setName(ast.newSimpleName("execute"));
           SingleVariableDeclaration svd = ast.newSingleVariableDeclaration();
           svd.setType(ast.newPrimitiveType(PrimitiveType.INT));
           svd.setName(ast.newSimpleName("grp"));
           md.parameters().add(svd);
-          md.setBody(ast.newBlock());
 
           rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
               .insertLast(md, null);
@@ -530,9 +528,8 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          addMethod(ast,
-              rewriter.getListRewrite(node, node.getBodyDeclarationsProperty()),
-              "runnerStop");
+          rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
+              .insertLast(createPublicVoidMethod(ast, "runnerStop"), null);
           return false;
         }
       });
@@ -540,7 +537,8 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
 
   }
 
-  private static void addMethod(AST ast, ListRewrite lrw, String name) {
+  private static MethodDeclaration createPublicVoidMethod(AST ast,
+      String name) {
     MethodDeclaration md = ast.newMethodDeclaration();
     List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
     md.modifiers().addAll(modifs);
@@ -550,7 +548,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     md.setName(ast.newSimpleName(name));
     md.setBody(ast.newBlock());
 
-    lrw.insertLast(md, null);
+    return md;
   }
 
   private static MarkerAnnotation override(AST ast) {
