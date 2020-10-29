@@ -30,6 +30,7 @@ import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.InternalInputPortShape;
 import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.gui.model.diagram.impl.TasksUtil;
 import org.ruminaq.gui.model.diagram.impl.task.InternalPortShapeGA;
@@ -135,13 +136,14 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     }
   }
 
-  public static Position getPosition(TaskShape taskShape, InternalPortShape p) {
-    int x = p.getX();
-    int y = p.getY();
-    int W = taskShape.getWidth();
-    int H = taskShape.getHeight();
-    int w = p.getWidth();
-    int h = p.getHeight();
+  public static Position getPosition(RuminaqShape parentShape,
+      RuminaqShape shape) {
+    int x = shape.getX();
+    int y = shape.getY();
+    int W = parentShape.getWidth();
+    int H = parentShape.getHeight();
+    int w = shape.getWidth();
+    int h = shape.getHeight();
 
     if (x == 0) {
       return Position.LEFT;
