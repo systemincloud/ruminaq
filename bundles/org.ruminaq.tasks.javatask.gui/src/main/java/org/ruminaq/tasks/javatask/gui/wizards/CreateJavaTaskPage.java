@@ -218,9 +218,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
           VariableDeclarationFragment fragment = ast
               .newVariableDeclarationFragment();
           fragment.setName(parameterName(ast, p));
-          StringLiteral init = ast.newStringLiteral();
-          init.setLiteralValue(p.getName());
-          fragment.setInitializer(init);
+          fragment.setInitializer(stringLiteral(ast, p.getName()));
           FieldDeclaration field = ast.newFieldDeclaration(fragment);
           field.setType(stringType(ast));
           addModifiers(ast, field,
