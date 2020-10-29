@@ -81,7 +81,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   protected static <T> Optional<T> modelFromContext(IUpdateContext context,
       Class<T> type) {
-    return modelFromContext(context, type).filter(type::isInstance)
+    return modelFromContext(context).filter(type::isInstance)
         .map(type::cast);
   }
 
