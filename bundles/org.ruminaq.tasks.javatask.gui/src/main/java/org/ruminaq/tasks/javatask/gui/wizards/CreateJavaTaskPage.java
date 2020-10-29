@@ -363,10 +363,8 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          FieldDeclaration field = createField(ast, in.getName(),
+          FieldDeclaration field = createPublicField(ast, in.getName(),
               InputPort.class);
-
-          field.modifiers().addAll(ast.newModifiers(Modifier.PUBLIC));
 
           NormalAnnotation annotation = createAnnotation(ast,
               InputPortInfo.class);
@@ -416,10 +414,8 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          FieldDeclaration field = createField(ast, out.getName(),
+          FieldDeclaration field = createPublicField(ast, out.getName(),
               OutputPort.class);
-
-          field.modifiers().addAll(ast.newModifiers(Modifier.PUBLIC));
 
           NormalAnnotation annotation = createAnnotation(ast,
               OutputPortInfo.class);
@@ -442,12 +438,13 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     }
   }
 
-  private static FieldDeclaration createField(AST ast, String name,
+  private static FieldDeclaration createPublicField(AST ast, String name,
       Class<?> type) {
     VariableDeclarationFragment fragment = ast.newVariableDeclarationFragment();
     fragment.setName(ast.newSimpleName(fieldName(name)));
     FieldDeclaration field = ast.newFieldDeclaration(fragment);
     field.setType(ast.newSimpleType(ast.newName(type.getSimpleName())));
+    field.modifiers().addAll(ast.newModifiers(Modifier.PUBLIC));
     return field;
   }
 
