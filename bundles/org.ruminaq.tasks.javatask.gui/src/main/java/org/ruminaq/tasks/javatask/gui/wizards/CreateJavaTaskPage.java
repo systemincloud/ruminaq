@@ -116,6 +116,12 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
             + m.group(SECOND_GROUP));
   }
 
+  /**
+   * Fields are camel case starting from small letter.
+   *
+   * @param name name to sanitize
+   * @return
+   */
   private static String fieldName(String name) {
     String camelCase = toTitleCase(name).replace(" ", "").trim();
     return Character.toLowerCase(camelCase.charAt(0)) + camelCase.substring(1);
