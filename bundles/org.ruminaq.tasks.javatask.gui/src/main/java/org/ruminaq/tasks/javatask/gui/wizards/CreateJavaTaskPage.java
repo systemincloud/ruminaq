@@ -104,6 +104,12 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         .flatMap(List::stream).collect(Collectors.toList());
   }
 
+  /**
+   * Make capital first character of each word.
+   *
+   * @param text can have spaces
+   * @return
+   */
   private static String toTitleCase(String text) {
     return wordPattern.matcher(text)
         .replaceAll(m -> m.group(FIRST_GROUP).toUpperCase(Locale.US)
