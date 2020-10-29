@@ -33,7 +33,7 @@ public abstract class AbstractCreateTaskFeature
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(AbstractCreateTaskFeature.class);
 
-  public AbstractCreateTaskFeature(IFeatureProvider fp,
+  protected AbstractCreateTaskFeature(IFeatureProvider fp,
       Class<? extends Task> clazz) {
     super(fp, clazz);
   }
