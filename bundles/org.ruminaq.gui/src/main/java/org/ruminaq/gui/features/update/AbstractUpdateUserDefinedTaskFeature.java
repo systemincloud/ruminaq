@@ -20,7 +20,6 @@ import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.ruminaq.gui.model.Position;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.InternalInputPort;
@@ -325,8 +324,8 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
       for (InternalOutputPort iop : toModel(context).get().getOutputPort())
         if (fip.getName().equals(iop.getId()))
           continue loop;
-      createOutputPort(toModel(context).get(), toTaskShape(context).get(),
-          fip.getName(), true, fip.getDataTypeClasses(), Position.RIGHT);
+      createOutputPort(toModel(context).get(),
+          fip.getName(), fip.getDataTypeClasses());
     }
     return true;
   }

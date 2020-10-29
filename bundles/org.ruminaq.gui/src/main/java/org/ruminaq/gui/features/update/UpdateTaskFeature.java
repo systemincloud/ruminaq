@@ -319,9 +319,8 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     task.getInputPort().add(in);
   }
 
-  protected void createOutputPort(Task task, ContainerShape parent, String name,
-      boolean showLabel, Collection<Class<? extends DataType>> datatypes,
-      Position pos) {
+  protected void createOutputPort(Task task, String name,
+      Collection<Class<? extends DataType>> datatypes) {
     InternalOutputPort out = RuminaqFactory.eINSTANCE
         .createInternalOutputPort();
     out.setId(name);
