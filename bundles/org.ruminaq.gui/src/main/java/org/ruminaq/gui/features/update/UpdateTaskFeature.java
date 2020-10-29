@@ -300,9 +300,9 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     redistributePorts(taskShape, position);
   }
 
-  protected void createInputPort(Task task, ContainerShape parent, String name,
-      boolean showLabel, Collection<Class<? extends DataType>> datatypes,
-      boolean asyn, int grp, boolean hold, String queue, Position pos) {
+  protected void createInputPort(Task task, String name,
+      Collection<Class<? extends DataType>> datatypes, boolean asyn, int grp,
+      boolean hold, String queue) {
     InternalInputPort in = RuminaqFactory.eINSTANCE.createInternalInputPort();
     in.setId(name);
     for (Class<? extends DataType> cdt : datatypes) {

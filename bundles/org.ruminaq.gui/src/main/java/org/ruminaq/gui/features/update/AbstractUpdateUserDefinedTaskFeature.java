@@ -296,9 +296,9 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
       for (InternalInputPort iip : toModel(context).get().getInputPort())
         if (fip.getName().equals(iip.getId()))
           continue loop;
-      createInputPort(toModel(context).get(), toTaskShape(context).get(),
-          fip.getName(), true, fip.getDataTypeClasses(), fip.isAsynchronus(),
-          fip.getGroup(), fip.isHold(), fip.getQueue(), Position.LEFT);
+      createInputPort(toModel(context).get(), fip.getName(),
+          fip.getDataTypeClasses(), fip.isAsynchronus(), fip.getGroup(),
+          fip.isHold(), fip.getQueue());
     }
     return true;
   }
