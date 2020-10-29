@@ -351,48 +351,44 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          VariableDeclarationFragment fragment = ast
-              .newVariableDeclarationFragment();
-          fragment.setName(ast.newSimpleName(fieldName(in.getName())));
-          FieldDeclaration field = ast.newFieldDeclaration(fragment);
-          field.setType(
-              ast.newSimpleType(ast.newName(InputPort.class.getSimpleName())));
+          FieldDeclaration field = createField(ast, in.getName(),
+              InputPort.class);
 
           field.modifiers().addAll(ast.newModifiers(Modifier.PUBLIC));
 
-          NormalAnnotation inputPortInfoA = createAnnotation(ast,
+          NormalAnnotation annotation = createAnnotation(ast,
               InputPortInfo.class);
 
           StringLiteral vName = ast.newStringLiteral();
           vName.setLiteralValue(in.getName());
-          addMemberToAnnotation(ast, inputPortInfoA, "name", vName);
+          addMemberToAnnotation(ast, annotation, "name", vName);
 
           TypeLiteral vDt = ast.newTypeLiteral();
           vDt.setType(ast.newSimpleType(ast.newName(in.getDataType())));
-          addMemberToAnnotation(ast, inputPortInfoA, "dataType", vDt);
+          addMemberToAnnotation(ast, annotation, "dataType", vDt);
 
           if (in.isAsynchronous()) {
-            addMemberToAnnotation(ast, inputPortInfoA, "asynchronous",
+            addMemberToAnnotation(ast, annotation, "asynchronous",
                 ast.newBooleanLiteral(true));
           }
 
           int grp = in.getGroup();
           if (grp != -1) {
-            addMemberToAnnotation(ast, inputPortInfoA, "group",
+            addMemberToAnnotation(ast, annotation, "group",
                 ast.newNumberLiteral(Integer.toString(grp)));
           }
 
           if (in.isHold()) {
-            addMemberToAnnotation(ast, inputPortInfoA, "hold",
+            addMemberToAnnotation(ast, annotation, "hold",
                 ast.newBooleanLiteral(true));
           }
 
           if (in.getQueue() != 1) {
-            addMemberToAnnotation(ast, inputPortInfoA, "queue",
+            addMemberToAnnotation(ast, annotation, "queue",
                 ast.newNumberLiteral(Integer.toString(in.getQueue())));
           }
 
-          field.modifiers().add(0, inputPortInfoA);
+          field.modifiers().add(0, annotation);
 
           rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
               .insertLast(field, null);
@@ -408,28 +404,23 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          VariableDeclarationFragment fragment = ast
-              .newVariableDeclarationFragment();
-          fragment.setName(ast.newSimpleName(fieldName(out.getName())));
-          FieldDeclaration field = ast.newFieldDeclaration(fragment);
-          field.setType(
-              ast.newSimpleType(ast.newName(OutputPort.class.getSimpleName())));
+          FieldDeclaration field = createField(ast, out.getName(),
+              OutputPort.class);
 
           field.modifiers().addAll(ast.newModifiers(Modifier.PUBLIC));
 
-          final NormalAnnotation outputPortInfoA = ast.newNormalAnnotation();
-          outputPortInfoA.setTypeName(
-              ast.newSimpleName(OutputPortInfo.class.getSimpleName()));
+          NormalAnnotation annotation = createAnnotation(ast,
+              OutputPortInfo.class);
 
           StringLiteral vName = ast.newStringLiteral();
           vName.setLiteralValue(out.getName());
-          addMemberToAnnotation(ast, outputPortInfoA, "name", vName);
+          addMemberToAnnotation(ast, annotation, "name", vName);
 
           TypeLiteral vDt = ast.newTypeLiteral();
           vDt.setType(ast.newSimpleType(ast.newName(out.getDataType())));
-          addMemberToAnnotation(ast, outputPortInfoA, "dataType", vDt);
+          addMemberToAnnotation(ast, annotation, "dataType", vDt);
 
-          field.modifiers().add(0, outputPortInfoA);
+          field.modifiers().add(0, annotation);
 
           rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
               .insertLast(field, null);
@@ -437,6 +428,15 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
         }
       });
     }
+  }
+
+  private static FieldDeclaration createField(AST ast, String name,
+      Class<?> type) {
+    VariableDeclarationFragment fragment = ast.newVariableDeclarationFragment();
+    fragment.setName(ast.newSimpleName(fieldName(name)));
+    FieldDeclaration field = ast.newFieldDeclaration(fragment);
+    field.setType(ast.newSimpleType(ast.newName(type.getSimpleName())));
+    return field;
   }
 
   private static void methods(AST ast, CompilationUnit acu, ASTRewrite rewriter,
