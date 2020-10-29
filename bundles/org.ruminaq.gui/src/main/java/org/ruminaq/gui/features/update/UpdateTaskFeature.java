@@ -24,13 +24,13 @@ import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature.Filter;
+import org.ruminaq.gui.model.GuiUtil;
 import org.ruminaq.gui.model.PortDiagram;
 import org.ruminaq.gui.model.Position;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.InternalInputPortShape;
 import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
-import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.gui.model.diagram.impl.TasksUtil;
 import org.ruminaq.gui.model.diagram.impl.task.InternalPortShapeGA;
@@ -134,28 +134,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     } else {
       return taskShape.getWidth() - InternalPortShapeGA.SIZE;
     }
-  }
-
-  public static Position getPosition(RuminaqShape parentShape,
-      RuminaqShape shape) {
-    int x = shape.getX();
-    int y = shape.getY();
-    int W = parentShape.getWidth();
-    int H = parentShape.getHeight();
-    int w = shape.getWidth();
-    int h = shape.getHeight();
-
-    if (x == 0) {
-      return Position.LEFT;
-    } else if (x == W - w) {
-      return Position.RIGHT;
-    } else if (y == 0) {
-      return Position.TOP;
-    } else if (y == H - h) {
-      return Position.BOTTOM;
-    }
-
-    return null;
   }
 
   @Override
@@ -334,7 +312,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   private void removePort(InternalPortShape p, TaskShape taskShape) {
     Optional<Position> optPosition = Optional
-        .ofNullable(getPosition(taskShape, p));
+        .ofNullable(GuiUtil.getPosition(taskShape, p));
 //Graphiti.getPeService().setPropertyValue(toRemove, Constants.CAN_DELETE,
 //  "true");
     DeleteContext deleteContext = new DeleteContext(p);
@@ -353,12 +331,12 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     switch (pos) {
       case LEFT, RIGHT:
         distributePortsVertically(taskShape,
-            ports.get().filter(p -> pos == getPosition(taskShape, p))
+            ports.get().filter(p -> pos == GuiUtil.getPosition(taskShape, p))
                 .collect(Collectors.toList()));
         break;
       case TOP, BOTTOM:
         distributePortsHorizontally(taskShape,
-            ports.get().filter(p -> pos == getPosition(taskShape, p))
+            ports.get().filter(p -> pos == GuiUtil.getPosition(taskShape, p))
                 .collect(Collectors.toList()));
         break;
       default:

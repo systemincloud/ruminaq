@@ -177,6 +177,36 @@ public final class GuiUtil {
   private static boolean whenAisLowerThenB(int a, int b, int p) {
     return a > b || (p <= b && p >= a);
   }
+  
+  /**
+   * If the inner shape is on the border of outer shape
+   * returns the border position.
+   *
+   * @param parentShape outer shape
+   * @param shape inner shape
+   * @return
+   */
+  public static Position getPosition(RuminaqShape parentShape,
+      RuminaqShape shape) {
+    int x = shape.getX();
+    int y = shape.getY();
+    int W = parentShape.getWidth();
+    int H = parentShape.getHeight();
+    int w = shape.getWidth();
+    int h = shape.getHeight();
+
+    if (x == 0) {
+      return Position.LEFT;
+    } else if (x == W - w) {
+      return Position.RIGHT;
+    } else if (y == 0) {
+      return Position.TOP;
+    } else if (y == H - h) {
+      return Position.BOTTOM;
+    }
+
+    return null;
+  }
 
   // TODO: Think about line break in the ui...
   public static int getLabelHeight(AbstractText text) {
