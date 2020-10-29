@@ -456,19 +456,13 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          MethodDeclaration md = ast.newMethodDeclaration();
-          List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
-          md.modifiers().addAll(modifs);
-          md.modifiers().add(0, override(ast));
+          MethodDeclaration md = createPublicVoidMethod(ast, "executeAsync");
 
-          md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
-          md.setName(ast.newSimpleName("executeAsync"));
           SingleVariableDeclaration svd = ast.newSingleVariableDeclaration();
           svd.setType(
               ast.newSimpleType(ast.newName(InputPort.class.getSimpleName())));
           svd.setName(ast.newSimpleName("asynchIn"));
           md.parameters().add(svd);
-          md.setBody(ast.newBlock());
 
           rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
               .insertLast(md, null);
@@ -480,15 +474,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          MethodDeclaration md = ast.newMethodDeclaration();
-          List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
-          md.modifiers().addAll(modifs);
-          md.modifiers().add(0, override(ast));
-
-          md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
-          md.setName(ast.newSimpleName("executeExtSrc"));
-          md.setBody(ast.newBlock());
-
+          MethodDeclaration md = createPublicVoidMethod(ast, "executeExtSrc");
           rewriter.getListRewrite(node, node.getBodyDeclarationsProperty())
               .insertLast(md, null);
           return false;
