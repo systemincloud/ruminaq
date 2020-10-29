@@ -21,7 +21,7 @@ public abstract class AbstractMoveFeatureFilter
   public static final GetPictogramElement getPictogramElement = ctx -> ((IMoveShapeContext) ctx)
       .getShape();
 
-  public AbstractMoveFeatureFilter() {
+  protected AbstractMoveFeatureFilter() {
     super(IMoveShapeContext.class, getPictogramElement);
   }
 
