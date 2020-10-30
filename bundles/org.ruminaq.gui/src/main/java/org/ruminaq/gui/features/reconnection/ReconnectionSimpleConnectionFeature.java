@@ -24,6 +24,11 @@ import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.model.ruminaq.FlowTarget;
 
+/**
+ * IReconnectionFeature for SimpleConnection.
+ *
+ * @author Marek Jagielski
+ */
 @FeatureFilter(Filter.class)
 public class ReconnectionSimpleConnectionFeature
     extends DefaultReconnectionFeature {
