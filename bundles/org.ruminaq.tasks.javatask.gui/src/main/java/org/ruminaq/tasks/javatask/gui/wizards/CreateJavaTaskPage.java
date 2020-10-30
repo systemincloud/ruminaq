@@ -253,6 +253,13 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     return string.toUpperCase(Locale.US);
   }
 
+  /**
+   * This annotation ends with parenthesis and can have values.
+   *
+   * @param ast             code tree
+   * @param annotationClass annotation name
+   * @return
+   */
   private static NormalAnnotation createAnnotation(AST ast,
       Class<?> annotationClass) {
     NormalAnnotation annotation = ast.newNormalAnnotation();
@@ -263,7 +270,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   /**
    * This annotation doesn't end with parenthesis.
    *
-   * @param ast code tree
+   * @param ast             code tree
    * @param annotationClass annotation name
    * @return
    */
