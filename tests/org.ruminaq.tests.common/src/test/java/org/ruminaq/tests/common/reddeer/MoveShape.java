@@ -62,9 +62,10 @@ public class MoveShape {
   }
 
   public void execute() {
-    feature.canExecute(context);
-    ModelUtil.runModelChange(() -> {
-      feature.execute(context);
-    }, editDomain, "Move shape");
+    if (feature.canExecute(context)) {
+      ModelUtil.runModelChange(() -> {
+        feature.execute(context);
+      }, editDomain, "Move shape");
+    }
   }
 }

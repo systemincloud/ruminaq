@@ -404,35 +404,35 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
           body(rewriter, node).insertLast(field, null);
           return false;
         }
-
-        private void asynchronous(AST ast, NormalAnnotation annotation, In in) {
-          if (in.isAsynchronous()) {
-            addMemberToAnnotation(ast, annotation, "asynchronous",
-                ast.newBooleanLiteral(true));
-          }
-        }
-
-        private void group(AST ast, NormalAnnotation annotation, In in) {
-          if (in.getGroup() != -1) {
-            addMemberToAnnotation(ast, annotation, "group",
-                ast.newNumberLiteral(Integer.toString(in.getGroup())));
-          }
-        }
-
-        private void hold(AST ast, NormalAnnotation annotation, In in) {
-          if (in.isHold()) {
-            addMemberToAnnotation(ast, annotation, "hold",
-                ast.newBooleanLiteral(true));
-          }
-        }
-
-        private void queue(AST ast, NormalAnnotation annotation, In in) {
-          if (in.getQueue() != 1) {
-            addMemberToAnnotation(ast, annotation, "queue",
-                ast.newNumberLiteral(Integer.toString(in.getQueue())));
-          }
-        }
       });
+    }
+  }
+  
+  private static void asynchronous(AST ast, NormalAnnotation annotation, In in) {
+    if (in.isAsynchronous()) {
+      addMemberToAnnotation(ast, annotation, "asynchronous",
+          ast.newBooleanLiteral(true));
+    }
+  }
+
+  private static void group(AST ast, NormalAnnotation annotation, In in) {
+    if (in.getGroup() != -1) {
+      addMemberToAnnotation(ast, annotation, "group",
+          ast.newNumberLiteral(Integer.toString(in.getGroup())));
+    }
+  }
+
+  private static void hold(AST ast, NormalAnnotation annotation, In in) {
+    if (in.isHold()) {
+      addMemberToAnnotation(ast, annotation, "hold",
+          ast.newBooleanLiteral(true));
+    }
+  }
+
+  private static void queue(AST ast, NormalAnnotation annotation, In in) {
+    if (in.getQueue() != 1) {
+      addMemberToAnnotation(ast, annotation, "queue",
+          ast.newNumberLiteral(Integer.toString(in.getQueue())));
     }
   }
 
