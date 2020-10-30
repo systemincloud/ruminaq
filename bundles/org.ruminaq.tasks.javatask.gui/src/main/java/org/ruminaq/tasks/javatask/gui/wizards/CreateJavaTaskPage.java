@@ -260,6 +260,13 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     return annotation;
   }
 
+  /**
+   * This annotation doesn't end with parenthesis.
+   *
+   * @param ast code tree
+   * @param annotationClass annotation name
+   * @return
+   */
   private static MarkerAnnotation createMarkerAnnotation(AST ast,
       Class<?> annotationClass) {
     MarkerAnnotation annotation = ast.newMarkerAnnotation();
@@ -428,14 +435,14 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          FieldDeclaration field = createPublicField(ast, out.getName(),
-              OutputPort.class);
           NormalAnnotation annotation = createAnnotation(ast,
               OutputPortInfo.class);
           addMemberToAnnotation(ast, annotation, "name",
               stringLiteral(ast, out.getName()));
           addMemberToAnnotation(ast, annotation, "dataType",
               simpleTypeLiteral(ast, out.getDataType()));
+          FieldDeclaration field = createPublicField(ast, out.getName(),
+              OutputPort.class);
           field.modifiers().add(0, annotation);
           body(rewriter, node).insertLast(field, null);
           return false;
