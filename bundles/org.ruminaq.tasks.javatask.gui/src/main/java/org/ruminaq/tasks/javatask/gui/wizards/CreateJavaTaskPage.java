@@ -374,34 +374,49 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       acu.accept(new ASTVisitor() {
         @Override
         public boolean visit(TypeDeclaration node) {
-          FieldDeclaration field = createPublicField(ast, in.getName(),
-              InputPort.class);
           NormalAnnotation annotation = createAnnotation(ast,
               InputPortInfo.class);
           addMemberToAnnotation(ast, annotation, "name",
               stringLiteral(ast, in.getName()));
           addMemberToAnnotation(ast, annotation, "dataType",
               simpleTypeLiteral(ast, in.getDataType()));
+          asynchronous(ast, annotation, in);
+          group(ast, annotation, in);
+          hold(ast, annotation, in);
+          queue(ast, annotation, in);
+          FieldDeclaration field = createPublicField(ast, in.getName(),
+              InputPort.class);
+          field.modifiers().add(0, annotation);
+          body(rewriter, node).insertLast(field, null);
+          return false;
+        }
 
+        private void asynchronous(AST ast, NormalAnnotation annotation, In in) {
           if (in.isAsynchronous()) {
             addMemberToAnnotation(ast, annotation, "asynchronous",
                 ast.newBooleanLiteral(true));
           }
+        }
+
+        private void group(AST ast, NormalAnnotation annotation, In in) {
           if (in.getGroup() != -1) {
             addMemberToAnnotation(ast, annotation, "group",
                 ast.newNumberLiteral(Integer.toString(in.getGroup())));
           }
+        }
+
+        private void hold(AST ast, NormalAnnotation annotation, In in) {
           if (in.isHold()) {
             addMemberToAnnotation(ast, annotation, "hold",
                 ast.newBooleanLiteral(true));
           }
+        }
+
+        private void queue(AST ast, NormalAnnotation annotation, In in) {
           if (in.getQueue() != 1) {
             addMemberToAnnotation(ast, annotation, "queue",
                 ast.newNumberLiteral(Integer.toString(in.getQueue())));
           }
-          field.modifiers().add(0, annotation);
-          body(rewriter, node).insertLast(field, null);
-          return false;
         }
       });
     }
