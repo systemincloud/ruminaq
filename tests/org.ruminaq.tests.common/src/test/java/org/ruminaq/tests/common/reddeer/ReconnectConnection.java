@@ -11,6 +11,7 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReconnectionFeature;
 import org.eclipse.graphiti.features.context.impl.ReconnectionContext;
+import org.eclipse.graphiti.internal.datatypes.impl.LocationImpl;
 import org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.graphiti.api.GraphitiEditPart;
@@ -46,7 +47,8 @@ public class ReconnectConnection {
 
     this.context = new ReconnectionContext(
         shape1.getAnchors().get(0).getIncomingConnections().get(0),
-        shape1.getAnchors().get(0), shape2.getAnchors().get(0), null);
+        shape1.getAnchors().get(0), shape2.getAnchors().get(0),
+        new LocationImpl(shape2.getX(), shape2.getY()));
 
     this.feature = featureProvider.getReconnectionFeature(context);
   }

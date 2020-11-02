@@ -6,9 +6,11 @@
 
 package org.ruminaq.gui.features.reconnection;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
-
+import java.util.stream.Stream;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IReconnectionContext;
@@ -23,6 +25,7 @@ import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.model.ruminaq.FlowTarget;
+import org.ruminaq.model.ruminaq.SimpleConnection;
 
 /**
  * IReconnectionFeature for SimpleConnection.
@@ -43,16 +46,20 @@ public class ReconnectionSimpleConnectionFeature
     super(fp);
   }
 
+  private static Optional<BaseElement> modelFromContext(
+      IReconnectionContext context,
+      Function<IReconnectionContext, Anchor> anchorSelector) {
+    return Optional.of(context).map(anchorSelector).map(Anchor::getParent)
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+        .map(RuminaqShape::getModelObject);
+  }
+
   @Override
   public boolean canReconnect(IReconnectionContext context) {
-    Optional<BaseElement> oldMo = Optional.of(context)
-        .map(IReconnectionContext::getOldAnchor).map(Anchor::getParent)
-        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
-        .map(RuminaqShape::getModelObject);
-    Optional<BaseElement> newMo = Optional.of(context)
-        .map(IReconnectionContext::getNewAnchor).map(Anchor::getParent)
-        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
-        .map(RuminaqShape::getModelObject);
+    Optional<BaseElement> oldMo = modelFromContext(context,
+        IReconnectionContext::getOldAnchor);
+    Optional<BaseElement> newMo = modelFromContext(context,
+        IReconnectionContext::getNewAnchor);
     Optional<Anchor> targetShape = Optional.of(context)
         .map(IReconnectionContext::getNewAnchor);
     return targetShape.map(Anchor::getIncomingConnections)
@@ -68,6 +75,21 @@ public class ReconnectionSimpleConnectionFeature
     return Optional.of(context).map(IReconnectionContext::getOldAnchor)
         .map(Anchor::getParent)
         .filter(SimpleConnectionPointShape.class::isInstance).isEmpty();
+  }
+
+  @Override
+  public void preReconnect(IReconnectionContext context) {
+    modelFromContext(context, IReconnectionContext::getNewAnchor)
+        .filter(FlowTarget.class::isInstance).map(FlowTarget.class::cast)
+        .ifPresent(
+            m -> Optional.of(context).map(IReconnectionContext::getConnection)
+                .filter(SimpleConnectionShape.class::isInstance)
+                .map(SimpleConnectionShape.class::cast)
+                .map(SimpleConnectionShape::getModelObject).map(List::stream)
+                .orElseGet(Stream::empty).findFirst()
+                .filter(SimpleConnection.class::isInstance)
+                .map(SimpleConnection.class::cast)
+                .ifPresent(sc -> sc.setTargetRef(m)));
   }
 
 }

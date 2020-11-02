@@ -6,9 +6,9 @@
 
 package org.ruminaq.gui.model.diagram.impl;
 
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.BasicInternalEList;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.eclipse.graphiti.mm.pictograms.impl.ChopboxAnchorImpl;
@@ -44,7 +44,8 @@ public class FlowTargetAnchor extends ChopboxAnchorImpl {
 
   @Override
   public EList<Connection> getIncomingConnections() {
-    return new BasicEList<>(shape.getIncomingConnections());
+    return new BasicInternalEList<Connection>(Connection.class,
+        shape.getIncomingConnections());
   }
 
 }

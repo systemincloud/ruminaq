@@ -75,7 +75,14 @@
           body="return ConnectionDecoratorsFactory.INSTANCE.getConnectionDecorators(this);"/>
       <genOperations ecoreOperation="model.ecore#//SimpleConnectionShape/getStart"
           body="return getSource().getAnchors().stream().findFirst().get();"/>
+      <genOperations ecoreOperation="model.ecore#//SimpleConnectionShape/setStart"
+          body="java.util.Optional.of(source).filter(FlowSourceAnchor.class::isInstance)         .map(FlowSourceAnchor.class::cast).map(FlowSourceAnchor::getParent)         .filter(FlowSourceShape.class::isInstance)         .map(FlowSourceShape.class::cast).ifPresent(s -> setSource(s));">
+        <genParameters ecoreParameter="model.ecore#//SimpleConnectionShape/setStart/source"/>
+      </genOperations>
       <genOperations ecoreOperation="model.ecore#//SimpleConnectionShape/getEnd" body="return getTarget().getAnchors().stream().findFirst().get();"/>
+      <genOperations ecoreOperation="model.ecore#//SimpleConnectionShape/setEnd" body="java.util.Optional.of(target).filter(FlowTargetAnchor.class::isInstance)         .map(FlowTargetAnchor.class::cast).map(FlowTargetAnchor::getParent)         .filter(FlowTargetShape.class::isInstance)         .map(FlowTargetShape.class::cast).ifPresent(t -> setTarget(t));">
+        <genParameters ecoreParameter="model.ecore#//SimpleConnectionShape/setEnd/target"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//RuminaqConnection">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//RuminaqConnection/modelObject"/>
@@ -113,12 +120,14 @@
     <genClasses ecoreClass="model.ecore#//InternalInputPortShape">
       <genOperations ecoreOperation="model.ecore#//InternalInputPortShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
-      <genOperations ecoreOperation="model.ecore#//InternalInputPortShape/getAnchors" body="return AnchorsFactory.INSTANCE.getAnchors(this);"/>
+      <genOperations ecoreOperation="model.ecore#//InternalInputPortShape/getAnchors"
+          body="return AnchorsFactory.INSTANCE.getAnchors(this);"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//InternalOutputPortShape">
       <genOperations ecoreOperation="model.ecore#//InternalOutputPortShape/getGraphicsAlgorithm"
           body="return GraphicsAlgorithmFactory.INSTANCE.getGraphicsAlgorithm(this);"/>
-      <genOperations ecoreOperation="model.ecore#//InternalOutputPortShape/getAnchors" body="return AnchorsFactory.INSTANCE.getAnchors(this);"/>
+      <genOperations ecoreOperation="model.ecore#//InternalOutputPortShape/getAnchors"
+          body="return AnchorsFactory.INSTANCE.getAnchors(this);"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//InternalPortLabelShape">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference model.ecore#//InternalPortLabelShape/internalPort"/>
