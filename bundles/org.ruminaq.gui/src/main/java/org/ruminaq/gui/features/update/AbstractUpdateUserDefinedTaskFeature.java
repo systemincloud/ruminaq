@@ -8,6 +8,7 @@ package org.ruminaq.gui.features.update;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -49,7 +50,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     public FileInternalInputPort(String name, List<DataType> dataType,
         boolean asynchronous, int group, boolean hold, String queue) {
       this.name = name;
-      this.dataType = dataType;
+      this.dataType = Collections.unmodifiableList(dataType);
       this.asynchronous = asynchronous;
       this.group = group;
       this.hold = hold;
@@ -88,11 +89,11 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 
   protected static final class FileInternalOutputPort {
     private String name;
-    private List<DataType> dataType = null;
+    private List<DataType> dataType;
 
     public FileInternalOutputPort(String name, List<DataType> dataType) {
       this.name = name;
-      this.dataType = dataType;
+      this.dataType = Collections.unmodifiableList(dataType);
     }
 
     String getName() {
@@ -324,8 +325,8 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
       for (InternalOutputPort iop : toModel(context).get().getOutputPort())
         if (fip.getName().equals(iop.getId()))
           continue loop;
-      createOutputPort(toModel(context).get(),
-          fip.getName(), fip.getDataTypeClasses());
+      createOutputPort(toModel(context).get(), fip.getName(),
+          fip.getDataTypeClasses());
     }
     return true;
   }
