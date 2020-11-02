@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagram="http://ruminaq.org/diagram" xmlns:ruminaq="http://ruminaq.org">
+  <diagram:RuminaqDiagram mainTask="/1">
+    <children xsi:type="diagram:InputPortShape" x="200" y="100" modelObject="/1/@inputPort.0" label="/0/@children.1" outgoingConnections="/0/@connections.0"/>
+    <children xsi:type="diagram:LabelShape" x="181" y="117" labeledShape="/0/@children.0"/>
+    <children xsi:type="diagram:InputPortShape" x="200" y="200" modelObject="/1/@inputPort.1" label="/0/@children.3"/>
+    <children xsi:type="diagram:LabelShape" x="176" y="217" labeledShape="/0/@children.2"/>
+    <children xsi:type="diagram:OutputPortShape" x="400" y="100" modelObject="/1/@outputPort.0" label="/0/@children.5"/>
+    <children xsi:type="diagram:LabelShape" x="377" y="117" labeledShape="/0/@children.4"/>
+    <children xsi:type="diagram:OutputPortShape" x="400" y="200" modelObject="/1/@outputPort.1" label="/0/@children.7" incomingConnections="/0/@connections.0"/>
+    <children xsi:type="diagram:LabelShape" x="372" y="217" labeledShape="/0/@children.6"/>
+    <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.0" source="/0/@children.0" target="/0/@children.6"/>
+  </diagram:RuminaqDiagram>
+  <ruminaq:MainTask version="1.0.0">
+    <inputPort id="My Input Port"/>
+    <inputPort id="My Input Port 1"/>
+    <outputPort id="My Output Port"/>
+    <outputPort id="My Output Port 1"/>
+    <connection xsi:type="ruminaq:SimpleConnection" sourceRef="/1/@inputPort.0" targetRef="/1/@outputPort.1"/>
+  </ruminaq:MainTask>
+</xmi:XMI>

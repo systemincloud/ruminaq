@@ -7,11 +7,14 @@
 package org.ruminaq.tests.common.reddeer;
 
 import java.util.Optional;
+import java.util.stream.Stream;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReconnectionFeature;
 import org.eclipse.graphiti.features.context.impl.ReconnectionContext;
 import org.eclipse.graphiti.internal.datatypes.impl.LocationImpl;
+import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.ui.internal.parts.ContainerShapeEditPart;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.graphiti.api.GraphitiEditPart;
@@ -46,7 +49,14 @@ public class ReconnectConnection {
     RuminaqShape shape2 = shape(ep2);
 
     this.context = new ReconnectionContext(
-        shape1.getAnchors().get(0).getIncomingConnections().get(0),
+        Optional.of(shape1).map(RuminaqShape::getAnchors).map(EList::stream)
+            .orElseGet(Stream::empty).findFirst()
+            .map(Anchor::getIncomingConnections).map(EList::stream)
+            .orElseGet(Stream::empty).findFirst()
+            .orElse(Optional.of(shape1).map(RuminaqShape::getAnchors)
+                .map(EList::stream).orElseGet(Stream::empty).findFirst()
+                .map(Anchor::getOutgoingConnections).map(EList::stream)
+                .orElseGet(Stream::empty).findFirst().orElse(null)),
         shape1.getAnchors().get(0), shape2.getAnchors().get(0),
         new LocationImpl(shape2.getX(), shape2.getY()));
 

@@ -54,6 +54,34 @@ public class ReconnectionSimpleConnectionFeature
         .map(RuminaqShape::getModelObject);
   }
 
+  private static Optional<SimpleConnection> modelFromContext(
+      IReconnectionContext context) {
+    return Optional.of(context).map(IReconnectionContext::getConnection)
+        .filter(SimpleConnectionShape.class::isInstance)
+        .map(SimpleConnectionShape.class::cast)
+        .map(SimpleConnectionShape::getModelObject).map(List::stream)
+        .orElseGet(Stream::empty).findFirst()
+        .filter(SimpleConnection.class::isInstance)
+        .map(SimpleConnection.class::cast);
+  }
+
+  private static void changeSource(IReconnectionContext context) {
+    modelFromContext(context, IReconnectionContext::getNewAnchor)
+        .filter(FlowSource.class::isInstance).map(FlowSource.class::cast)
+        .ifPresent(
+            m -> modelFromContext(context).ifPresent(sc -> sc.setSourceRef(m)));
+  }
+
+  private static void changeTarget(IReconnectionContext context) {
+    modelFromContext(context, IReconnectionContext::getNewAnchor)
+        .filter(FlowTarget.class::isInstance).map(FlowTarget.class::cast)
+        .ifPresent(
+            m -> modelFromContext(context).ifPresent(sc -> sc.setTargetRef(m)));
+  }
+
+  /**
+   * Source can be changed to source, target to target.
+   */
   @Override
   public boolean canReconnect(IReconnectionContext context) {
     Optional<BaseElement> oldMo = modelFromContext(context,
@@ -79,17 +107,8 @@ public class ReconnectionSimpleConnectionFeature
 
   @Override
   public void preReconnect(IReconnectionContext context) {
-    modelFromContext(context, IReconnectionContext::getNewAnchor)
-        .filter(FlowTarget.class::isInstance).map(FlowTarget.class::cast)
-        .ifPresent(
-            m -> Optional.of(context).map(IReconnectionContext::getConnection)
-                .filter(SimpleConnectionShape.class::isInstance)
-                .map(SimpleConnectionShape.class::cast)
-                .map(SimpleConnectionShape::getModelObject).map(List::stream)
-                .orElseGet(Stream::empty).findFirst()
-                .filter(SimpleConnection.class::isInstance)
-                .map(SimpleConnection.class::cast)
-                .ifPresent(sc -> sc.setTargetRef(m)));
-  }
+    changeSource(context);
+    changeTarget(context);
 
+  }
 }

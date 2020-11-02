@@ -30,11 +30,12 @@ public class ReconnectionTest extends GuiTest {
     GEFEditor gefEditor = new GEFEditor(diagramName);
 
     gefEditor.addToolFromPalette("Input Port", 200, 100);
+    gefEditor.addToolFromPalette("Input Port", 200, 200);
     gefEditor.addToolFromPalette("Output Port", 400, 100);
     gefEditor.addToolFromPalette("Output Port", 400, 200);
 
     new CreateSimpleConnection(gefEditor,
-        new WithBoGraphitiEditPart(InputPort.class),
+        new WithBoGraphitiEditPart(InputPort.class, 0),
         new WithBoGraphitiEditPart(OutputPort.class, 0)).execute();
 
     new ReconnectConnection(gefEditor,
@@ -42,7 +43,14 @@ public class ReconnectionTest extends GuiTest {
         new WithBoGraphitiEditPart(OutputPort.class, 1)).execute();
 
     assertDiagram(gefEditor,
-        "ReconnectionTest.testReconnectionSimpleConnection.xml");
+        "ReconnectionTest.testReconnectionSimpleConnection.1.xml");
+    
+    new ReconnectConnection(gefEditor,
+        new WithBoGraphitiEditPart(InputPort.class, 0),
+        new WithBoGraphitiEditPart(InputPort.class, 1)).execute();
+    
+    assertDiagram(gefEditor,
+        "ReconnectionTest.testReconnectionSimpleConnection.2.xml");
   }
 
 }
