@@ -178,7 +178,8 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   @Override
   public boolean canUpdate(IUpdateContext context) {
     return toModel(context).map(this::getResource)
-        .filter(Predicate.not(""::equals)).map(this::load).orElse(false);
+        .filter(Predicate.not(""::equals)).map(this::load)
+        .orElse(Boolean.FALSE);
   }
 
   @Override
@@ -292,14 +293,12 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 //    for (InternalInputPort iip : inputsToRemove)
 //      removePortShape(task, parent, iip);
 
-    loop: for (FileInternalInputPort fip : inputPorts()) {
-      for (InternalInputPort iip : toModel(context).get().getInputPort())
-        if (fip.getName().equals(iip.getId()))
-          continue loop;
-      createInputPort(toModel(context).get(), fip.getName(),
-          fip.getDataTypeClasses(), fip.isAsynchronus(), fip.getGroup(),
-          fip.isHold(), fip.getQueue());
-    }
+    inputPorts().stream()
+        .filter(fip -> toModel(context).get().getInputPort().stream()
+            .map(InternalInputPort::getId).noneMatch(fip.getName()::equals))
+        .forEach(fip -> createInputPort(toModel(context).get(), fip.getName(),
+            fip.getDataTypeClasses(), fip.isAsynchronus(), fip.getGroup(),
+            fip.isHold(), fip.getQueue()));
     return true;
   }
 
@@ -321,13 +320,11 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 //    for (InternalOutputPort iop : outputsToRemove)
 //      removePortShape(task, parent, iop);
 
-    loop: for (FileInternalOutputPort fip : outputPorts()) {
-      for (InternalOutputPort iop : toModel(context).get().getOutputPort())
-        if (fip.getName().equals(iop.getId()))
-          continue loop;
-      createOutputPort(toModel(context).get(), fip.getName(),
-          fip.getDataTypeClasses());
-    }
+    outputPorts().stream()
+        .filter(fip -> toModel(context).get().getOutputPort().stream()
+            .map(InternalOutputPort::getId).noneMatch(fip.getName()::equals))
+        .forEach(fip -> createOutputPort(toModel(context).get(), fip.getName(),
+            fip.getDataTypeClasses()));
     return true;
   }
 
