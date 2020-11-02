@@ -127,6 +127,13 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     return Character.toLowerCase(camelCase.charAt(0)) + camelCase.substring(1);
   }
 
+  /**
+   * Main method take meta Model defined in wizard page and decorate a jdt IType
+   * class that is later saved to file.
+   *
+   * @param type   to decorate and marshal to file
+   * @param module meta model defined in wizard
+   */
   protected void decorateType(IType type, Module module) {
     ICompilationUnit cu = type.getCompilationUnit();
     CompilationUnit acu = parse(cu);
@@ -407,8 +414,9 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
       });
     }
   }
-  
-  private static void asynchronous(AST ast, NormalAnnotation annotation, In in) {
+
+  private static void asynchronous(AST ast, NormalAnnotation annotation,
+      In in) {
     if (in.isAsynchronous()) {
       addMemberToAnnotation(ast, annotation, "asynchronous",
           ast.newBooleanLiteral(true));
