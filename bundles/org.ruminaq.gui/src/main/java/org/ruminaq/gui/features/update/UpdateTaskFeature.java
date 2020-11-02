@@ -230,6 +230,10 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   protected void deleteInputPort(Task task, String id) {
     task.getInputPort().remove(task.getInputPort(id));
   }
+  
+  protected void deleteInputPort(InternalInputPort iip) {
+    deleteInputPort(iip.getTask(), iip.getId());
+  }
 
   protected void createOutputPort(Task task, PortsDescr pd) {
     Stream.of(getPortsDescription().getDeclaredFields())
@@ -239,6 +243,10 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   protected void deleteOutputPort(Task task, String id) {
     task.getOutputPort().remove(task.getOutputPort(id));
+  }
+  
+  protected void deleteOutputPort(InternalOutputPort iop) {
+    deleteOutputPort(iop.getTask(), iop.getId());
   }
 
   private void addInputPort(InternalInputPort p, TaskShape taskShape) {

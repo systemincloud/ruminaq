@@ -6,7 +6,6 @@
 
 package org.ruminaq.gui.features.update;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -62,7 +61,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     }
 
     List<DataType> getDataType() {
-      return dataType;
+      return Collections.unmodifiableList(dataType);
     }
 
     boolean isAsynchronus() {
@@ -101,7 +100,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     }
 
     List<DataType> getDataType() {
-      return dataType;
+      return Collections.unmodifiableList(dataType);
     }
 
     Collection<Class<? extends DataType>> getDataTypeClasses() {
@@ -250,7 +249,13 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   }
 
   private boolean inputsUpdate(IUpdateContext context) {
-    List<InternalInputPort> inputsToRemove = new ArrayList<>();
+    toModel(context).map(UserDefinedTask::getInputPort).map(List::stream)
+    .orElseGet(Stream::empty)
+    .filter(
+        iop -> inputPorts().stream().map(FileInternalInputPort::getName)
+            .noneMatch(iop.getId()::equals))
+    .forEach(this::deleteInputPort);
+    
     loop: for (InternalInputPort iip : toModel(context).get().getInputPort()) {
       for (FileInternalInputPort fip : inputPorts())
         if (fip.getName().equals(iip.getId())) {
@@ -288,10 +293,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
           }
           continue loop;
         }
-      inputsToRemove.add(iip);
     }
-//    for (InternalInputPort iip : inputsToRemove)
-//      removePortShape(task, parent, iip);
 
     inputPorts().stream()
         .filter(fip -> toModel(context).map(UserDefinedTask::getInputPort)
@@ -304,22 +306,20 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   }
 
   private boolean outputsUpdate(IUpdateContext context) {
-    List<InternalOutputPort> outputsToRemove = new ArrayList<>();
-    loop: for (InternalOutputPort iop : toModel(context).get()
-        .getOutputPort()) {
-      for (FileInternalOutputPort fip : outputPorts())
-        if (fip.getName().equals(iop.getId())) {
-          if (!ModelUtil.areEquals(fip.getDataType(), iop.getDataType())) {
-            while (iop.getDataType().size() > 0)
-              iop.getDataType().remove(0);
-            iop.getDataType().addAll(fip.getDataType());
-          }
-          continue loop;
-        }
-      outputsToRemove.add(iop);
-    }
-//    for (InternalOutputPort iop : outputsToRemove)
-//      removePortShape(task, parent, iop);
+    toModel(context).map(UserDefinedTask::getOutputPort).map(List::stream)
+        .orElseGet(Stream::empty)
+        .filter(
+            iop -> outputPorts().stream().map(FileInternalOutputPort::getName)
+                .noneMatch(iop.getId()::equals))
+        .forEach(this::deleteOutputPort);
+
+//  if (!ModelUtil.areEquals(fip.getDataType(), iop.getDataType())) {
+//  while (iop.getDataType().size() > 0)
+//    iop.getDataType().remove(0);
+//  iop.getDataType().addAll(fip.getDataType());
+//}
+//continue loop;
+//}
 
     outputPorts().stream()
         .filter(fip -> toModel(context).map(UserDefinedTask::getOutputPort)
