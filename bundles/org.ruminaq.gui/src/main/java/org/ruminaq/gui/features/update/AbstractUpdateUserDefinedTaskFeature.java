@@ -294,7 +294,8 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 //      removePortShape(task, parent, iip);
 
     inputPorts().stream()
-        .filter(fip -> toModel(context).get().getInputPort().stream()
+        .filter(fip -> toModel(context).map(UserDefinedTask::getInputPort)
+            .map(List::stream).orElseGet(Stream::empty)
             .map(InternalInputPort::getId).noneMatch(fip.getName()::equals))
         .forEach(fip -> createInputPort(toModel(context).get(), fip.getName(),
             fip.getDataTypeClasses(), fip.isAsynchronus(), fip.getGroup(),
@@ -321,7 +322,8 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 //      removePortShape(task, parent, iop);
 
     outputPorts().stream()
-        .filter(fip -> toModel(context).get().getOutputPort().stream()
+        .filter(fip -> toModel(context).map(UserDefinedTask::getOutputPort)
+            .map(List::stream).orElseGet(Stream::empty)
             .map(InternalOutputPort::getId).noneMatch(fip.getName()::equals))
         .forEach(fip -> createOutputPort(toModel(context).get(), fip.getName(),
             fip.getDataTypeClasses()));
