@@ -80,7 +80,8 @@ public class ReconnectionSimpleConnectionFeature
   }
 
   /**
-   * Source can be changed to source, target to target.
+   * FlowSource can be changed to FlowSource, FlowTarget can be changed to
+   * FlowTarget.
    */
   @Override
   public boolean canReconnect(IReconnectionContext context) {
@@ -98,6 +99,9 @@ public class ReconnectionSimpleConnectionFeature
                 && newMo.filter(FlowTarget.class::isInstance).isPresent()));
   }
 
+  /**
+   * Can't drag connection on ConnectionPoint.
+   */
   @Override
   public boolean canStartReconnect(IReconnectionContext context) {
     return Optional.of(context).map(IReconnectionContext::getOldAnchor)
