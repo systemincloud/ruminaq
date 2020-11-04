@@ -132,6 +132,12 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     return toModel(context.getPictogramElement());
   }
 
+  private static Stream<InternalOutputPort> modelOutputPorts(
+      IUpdateContext context) {
+    return toModel(context).map(UserDefinedTask::getOutputPort)
+        .map(List::stream).orElseGet(Stream::empty);
+  }
+
   private boolean iconDescriptionUpdateNeeded(IUpdateContext context) {
     return toTaskShape(context).map(TaskShape::getDescription)
         .filter(iconDesc()::equals).isEmpty();
@@ -250,16 +256,13 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 
   private boolean inputsUpdate(IUpdateContext context) {
     toModel(context).map(UserDefinedTask::getInputPort).map(List::stream)
-    .orElseGet(Stream::empty)
-    .filter(
-        iop -> inputPorts().stream().map(FileInternalInputPort::getName)
-            .noneMatch(iop.getId()::equals))
-    .forEach(this::deleteInputPort);
-    
-    loop: for (InternalInputPort iip : toModel(context).get().getInputPort()) {
+        .orElseGet(Stream::empty).filter(iop -> inputPorts().stream()
+            .map(FileInternalInputPort::getName).noneMatch(iop.getId()::equals))
+        .forEach(this::deleteInputPort);
+
+    for (InternalInputPort iip : toModel(context).get().getInputPort()) {
       for (FileInternalInputPort fip : inputPorts())
         if (fip.getName().equals(iip.getId())) {
-
           if (!ModelUtil.areEquals(fip.getDataType(), iip.getDataType())) {
             while (iip.getDataType().size() > 0)
               iip.getDataType().remove(0);
@@ -291,7 +294,6 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
               iip.setQueueSize(fip.getQueue());
             iip.setDefaultQueueSize(fip.getQueue());
           }
-          continue loop;
         }
     }
 
@@ -306,25 +308,24 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   }
 
   private boolean outputsUpdate(IUpdateContext context) {
-    toModel(context).map(UserDefinedTask::getOutputPort).map(List::stream)
-        .orElseGet(Stream::empty)
+    modelOutputPorts(context)
         .filter(
             iop -> outputPorts().stream().map(FileInternalOutputPort::getName)
                 .noneMatch(iop.getId()::equals))
         .forEach(this::deleteOutputPort);
-
-//  if (!ModelUtil.areEquals(fip.getDataType(), iop.getDataType())) {
-//  while (iop.getDataType().size() > 0)
-//    iop.getDataType().remove(0);
-//  iop.getDataType().addAll(fip.getDataType());
-//}
-//continue loop;
-//}
-
+    modelOutputPorts(context).forEach(iop -> {
+      outputPorts().stream().filter(fip -> fip.getName().equals(iop.getId()))
+          .findFirst()
+          .filter(
+              fip -> !ModelUtil.areEquals(fip.getDataType(), iop.getDataType()))
+          .ifPresent(fip -> {
+            iop.getDataType().clear();
+            iop.getDataType().addAll(fip.getDataType());
+          });
+    });
     outputPorts().stream()
-        .filter(fip -> toModel(context).map(UserDefinedTask::getOutputPort)
-            .map(List::stream).orElseGet(Stream::empty)
-            .map(InternalOutputPort::getId).noneMatch(fip.getName()::equals))
+        .filter(fip -> modelOutputPorts(context).map(InternalOutputPort::getId)
+            .noneMatch(fip.getName()::equals))
         .forEach(fip -> createOutputPort(toModel(context).get(), fip.getName(),
             fip.getDataTypeClasses()));
     return true;
