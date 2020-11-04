@@ -51,8 +51,8 @@ public class ModelUtil {
     return name;
   }
 
-  public static boolean areEquals(Collection<DataType> left,
-      Collection<DataType> right) {
+  public static boolean areEquals(Collection<?> left,
+      Collection<?> right) {
     if (left.size() != right.size()) {
       return false;
     }

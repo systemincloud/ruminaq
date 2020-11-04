@@ -558,11 +558,9 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
     md.modifiers().addAll(modifs);
     md.modifiers().add(0, override(ast));
-
     md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
     md.setName(ast.newSimpleName(name));
     md.setBody(ast.newBlock());
-
     return md;
   }
 
