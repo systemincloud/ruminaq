@@ -132,6 +132,12 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     return toModel(context.getPictogramElement());
   }
 
+  private static Stream<InternalInputPort> modelInputPorts(
+      IUpdateContext context) {
+    return toModel(context).map(UserDefinedTask::getInputPort).map(List::stream)
+        .orElseGet(Stream::empty);
+  }
+
   private static Stream<InternalOutputPort> modelOutputPorts(
       IUpdateContext context) {
     return toModel(context).map(UserDefinedTask::getOutputPort)
@@ -144,11 +150,11 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   }
 
   private boolean inputPortsUpdateNeeded(IUpdateContext context) {
-    if (inputPorts().size() != toModel(context).get().getInputPort().size()) {
+    if (inputPorts().size() != modelInputPorts(context).count()) {
       return true;
     }
     return inputPorts().stream()
-        .anyMatch(fip -> toModel(context).get().getInputPort().stream()
+        .anyMatch(fip -> modelInputPorts(context)
             .noneMatch(iip -> fip.getName().equals(iip.getId())
                 && ModelUtil.areEquals(fip.getDataType(), iip.getDataType())
                 && fip.isAsynchronus() == iip.isAsynchronous()
@@ -158,11 +164,11 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   }
 
   private boolean outputPortsUpdateNeeded(IUpdateContext context) {
-    if (outputPorts().size() != toModel(context).get().getOutputPort().size()) {
+    if (outputPorts().size() != modelOutputPorts(context).count()) {
       return true;
     }
     return outputPorts().stream()
-        .anyMatch(fip -> toModel(context).get().getOutputPort().stream()
+        .anyMatch(fip -> modelOutputPorts(context)
             .noneMatch(iop -> fip.getName().equals(iop.getId())
                 && ModelUtil.areEquals(fip.getDataType(), iop.getDataType())));
   }
