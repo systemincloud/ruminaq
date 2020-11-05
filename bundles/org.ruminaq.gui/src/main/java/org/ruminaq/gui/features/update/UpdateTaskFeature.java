@@ -81,18 +81,17 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   protected static <T> Optional<T> modelFromContext(IUpdateContext context,
       Class<T> type) {
-    return modelFromContext(context).filter(type::isInstance)
-        .map(type::cast);
+    return modelFromContext(context).filter(type::isInstance).map(type::cast);
   }
 
   private static <T extends InternalPortShape, K extends InternalPort> List<K> internalPortFromShape(
-      List<T> portShapes, Class<K> type) {
+      Collection<T> portShapes, Class<K> type) {
     return portShapes.stream().map(InternalPortShape::getModelObject)
         .filter(type::isInstance).map(type::cast).collect(Collectors.toList());
   }
 
   private static <T extends InternalPortShape, K extends InternalPort> boolean updateInternalPortNeeded(
-      List<T> portShapes, List<K> fromModel, Class<K> type) {
+      Collection<T> portShapes, Collection<K> fromModel, Class<K> type) {
     List<K> fromShape = internalPortFromShape(portShapes, type);
     return !(fromModel.stream().allMatch(fromShape::contains)
         && portShapes.stream().map(InternalPortShape::getModelObject)
@@ -230,7 +229,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   protected void deleteInputPort(Task task, String id) {
     task.getInputPort().remove(task.getInputPort(id));
   }
-  
+
   protected void deleteInputPort(InternalInputPort iip) {
     deleteInputPort(iip.getTask(), iip.getId());
   }
@@ -244,7 +243,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   protected void deleteOutputPort(Task task, String id) {
     task.getOutputPort().remove(task.getOutputPort(id));
   }
-  
+
   protected void deleteOutputPort(InternalOutputPort iop) {
     deleteOutputPort(iop.getTask(), iop.getId());
   }
