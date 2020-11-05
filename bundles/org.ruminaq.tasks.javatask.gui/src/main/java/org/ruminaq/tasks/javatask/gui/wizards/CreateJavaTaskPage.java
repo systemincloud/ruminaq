@@ -69,6 +69,11 @@ import org.slf4j.Logger;
  * 
  * <p>Extends UI part from AbstractCreateUserDefinedTaskPage. Implements java
  * class generation.
+ * <pre>
+ * @JavaTaskInfo
+ * public class MyTask extends JavaTask {
+ * }
+ * </pre>
  *
  * @author Marek Jagielski
  */
@@ -558,9 +563,11 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
     List<Modifier> modifs = ast.newModifiers(Modifier.PUBLIC);
     md.modifiers().addAll(modifs);
     md.modifiers().add(0, override(ast));
+
     md.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
     md.setName(ast.newSimpleName(name));
     md.setBody(ast.newBlock());
+
     return md;
   }
 

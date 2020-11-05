@@ -261,11 +261,10 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   }
 
   private boolean inputsUpdate(IUpdateContext context) {
-    toModel(context).map(UserDefinedTask::getInputPort).map(List::stream)
-        .orElseGet(Stream::empty).filter(iop -> inputPorts().stream()
-            .map(FileInternalInputPort::getName).noneMatch(iop.getId()::equals))
+    modelInputPorts(context).filter(iop -> inputPorts().stream()
+        .map(FileInternalInputPort::getName).noneMatch(iop.getId()::equals))
         .forEach(this::deleteInputPort);
-
+    modelInputPorts(context);
     for (InternalInputPort iip : toModel(context).get().getInputPort()) {
       for (FileInternalInputPort fip : inputPorts())
         if (fip.getName().equals(iip.getId())) {
@@ -304,9 +303,8 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     }
 
     inputPorts().stream()
-        .filter(fip -> toModel(context).map(UserDefinedTask::getInputPort)
-            .map(List::stream).orElseGet(Stream::empty)
-            .map(InternalInputPort::getId).noneMatch(fip.getName()::equals))
+        .filter(fip -> modelInputPorts(context).map(InternalInputPort::getId)
+            .noneMatch(fip.getName()::equals))
         .forEach(fip -> createInputPort(toModel(context).get(), fip.getName(),
             fip.getDataTypeClasses(), fip.isAsynchronus(), fip.getGroup(),
             fip.isHold(), fip.getQueue()));
