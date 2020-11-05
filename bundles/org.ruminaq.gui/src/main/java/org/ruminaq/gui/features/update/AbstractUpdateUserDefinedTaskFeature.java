@@ -6,6 +6,7 @@
 
 package org.ruminaq.gui.features.update;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -64,7 +65,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
       return Collections.unmodifiableList(dataType);
     }
 
-    boolean isAsynchronus() {
+    boolean isAsynchronous() {
       return asynchronous;
     }
 
@@ -144,6 +145,26 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
         .map(List::stream).orElseGet(Stream::empty);
   }
 
+  private Stream<SimpleEntry<InternalInputPort, FileInternalInputPort>> modelFileInputPorts(
+      IUpdateContext context) {
+    return modelInputPorts(context)
+        .map(iop -> new SimpleEntry<>(iop,
+            inputPorts().stream()
+                .filter(fip -> fip.getName().equals(iop.getId())).findFirst()))
+        .filter(e -> e.getValue().isPresent())
+        .map(e -> new SimpleEntry<>(e.getKey(), e.getValue().get()));
+  }
+
+  private Stream<SimpleEntry<InternalOutputPort, FileInternalOutputPort>> modelFileOutputPorts(
+      IUpdateContext context) {
+    return modelOutputPorts(context)
+        .map(iop -> new SimpleEntry<>(iop,
+            outputPorts().stream()
+                .filter(fip -> fip.getName().equals(iop.getId())).findFirst()))
+        .filter(e -> e.getValue().isPresent())
+        .map(e -> new SimpleEntry<>(e.getKey(), e.getValue().get()));
+  }
+
   private boolean iconDescriptionUpdateNeeded(IUpdateContext context) {
     return toTaskShape(context).map(TaskShape::getDescription)
         .filter(iconDesc()::equals).isEmpty();
@@ -157,7 +178,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
         .anyMatch(fip -> modelInputPorts(context)
             .noneMatch(iip -> fip.getName().equals(iip.getId())
                 && ModelUtil.areEquals(fip.getDataType(), iip.getDataType())
-                && fip.isAsynchronus() == iip.isAsynchronous()
+                && fip.isAsynchronous() == iip.isAsynchronous()
                 && fip.getGroup() == iip.getGroup()
                 && fip.isHold() == iip.isDefaultHoldLast()
                 && fip.getQueue().equals(iip.getDefaultQueueSize())));
@@ -264,49 +285,39 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     modelInputPorts(context).filter(iop -> inputPorts().stream()
         .map(FileInternalInputPort::getName).noneMatch(iop.getId()::equals))
         .forEach(this::deleteInputPort);
-    modelInputPorts(context);
-    for (InternalInputPort iip : toModel(context).get().getInputPort()) {
-      for (FileInternalInputPort fip : inputPorts())
-        if (fip.getName().equals(iip.getId())) {
-          if (!ModelUtil.areEquals(fip.getDataType(), iip.getDataType())) {
-            while (iip.getDataType().size() > 0)
-              iip.getDataType().remove(0);
-            iip.getDataType().addAll(fip.getDataType());
-          }
-          if (fip.isAsynchronus() != iip.isAsynchronous()) {
-//            iip.setAsynchronous(fip.isAsynchronus());
-//            if (iip.isAsynchronous())
-//              AbstractAddTaskFeature
-//                  .getPictogramElementOfInternalPort(getDiagram(), iip)
-//                  .getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
-//                  .setLineStyle(LineStyle.DOT);
-//            else
-//              AbstractAddTaskFeature
-//                  .getPictogramElementOfInternalPort(getDiagram(), iip)
-//                  .getGraphicsAlgorithm().getGraphicsAlgorithmChildren().get(0)
-//                  .setLineStyle(LineStyle.SOLID);
-          }
-          if (fip.getGroup() != iip.getGroup()) {
-            iip.setGroup(fip.getGroup());
-          }
-          if (fip.isHold() != iip.isDefaultHoldLast()) {
-            if (iip.isDefaultHoldLast() == iip.isHoldLast())
-              iip.setHoldLast(fip.isHold());
-            iip.setDefaultHoldLast(fip.isHold());
-          }
-          if (fip.getQueue() != iip.getDefaultQueueSize()) {
-            if (iip.getDefaultQueueSize().equals(iip.getQueueSize()))
-              iip.setQueueSize(fip.getQueue());
-            iip.setDefaultQueueSize(fip.getQueue());
-          }
-        }
-    }
+    modelFileInputPorts(context).filter(e -> !ModelUtil
+        .areEquals(e.getKey().getDataType(), e.getValue().getDataType()))
+        .forEach(e -> {
+          e.getKey().getDataType().clear();
+          e.getKey().getDataType().addAll(e.getValue().getDataType());
+        });
+    modelFileInputPorts(context)
+        .filter(
+            e -> e.getKey().isAsynchronous() != e.getValue().isAsynchronous())
+        .forEach(e -> {
+          e.getKey().setAsynchronous(e.getValue().isAsynchronous());
+        });
+    modelFileInputPorts(context)
+        .filter(e -> e.getKey().getGroup() != e.getValue().getGroup())
+        .forEach(e -> {
+          e.getKey().setGroup(e.getValue().getGroup());
+        });
+//    if (fip.isHold() != iip.isDefaultHoldLast()) {
+//      if (iip.isDefaultHoldLast() == iip.isHoldLast())
+//        iip.setHoldLast(fip.isHold());
+//      iip.setDefaultHoldLast(fip.isHold());
+//    }
+//    if (fip.getQueue() != iip.getDefaultQueueSize()) {
+//      if (iip.getDefaultQueueSize().equals(iip.getQueueSize()))
+//        iip.setQueueSize(fip.getQueue());
+//      iip.setDefaultQueueSize(fip.getQueue());
+//    }
 
     inputPorts().stream()
         .filter(fip -> modelInputPorts(context).map(InternalInputPort::getId)
             .noneMatch(fip.getName()::equals))
         .forEach(fip -> createInputPort(toModel(context).get(), fip.getName(),
-            fip.getDataTypeClasses(), fip.isAsynchronus(), fip.getGroup(),
+            fip.getDataTypeClasses(), fip.isAsynchronous(), fip.getGroup(),
             fip.isHold(), fip.getQueue()));
     return true;
   }
@@ -317,16 +328,12 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
             iop -> outputPorts().stream().map(FileInternalOutputPort::getName)
                 .noneMatch(iop.getId()::equals))
         .forEach(this::deleteOutputPort);
-    modelOutputPorts(context).forEach(iop -> {
-      outputPorts().stream().filter(fip -> fip.getName().equals(iop.getId()))
-          .findFirst()
-          .filter(
-              fip -> !ModelUtil.areEquals(fip.getDataType(), iop.getDataType()))
-          .ifPresent(fip -> {
-            iop.getDataType().clear();
-            iop.getDataType().addAll(fip.getDataType());
-          });
-    });
+    modelFileOutputPorts(context).filter(e -> !ModelUtil
+        .areEquals(e.getKey().getDataType(), e.getValue().getDataType()))
+        .forEach(e -> {
+          e.getKey().getDataType().clear();
+          e.getKey().getDataType().addAll(e.getValue().getDataType());
+        });
     outputPorts().stream()
         .filter(fip -> modelOutputPorts(context).map(InternalOutputPort::getId)
             .noneMatch(fip.getName()::equals))
