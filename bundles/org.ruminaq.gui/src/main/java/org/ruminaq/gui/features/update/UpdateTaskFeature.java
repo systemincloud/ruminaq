@@ -254,7 +254,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     Optional<PortDiagram> portDiagram = getPortDiagram(p.getId(), pd,
         PortType.IN);
     Position position = portDiagram.map(PortDiagram::pos).orElse(Position.LEFT);
-    boolean label = portDiagram.map(PortDiagram::label).orElse(false);
+    boolean label = portDiagram.map(PortDiagram::label).orElse(Boolean.FALSE);
     InternalInputPortShape portShape = DiagramFactory.eINSTANCE
         .createInternalInputPortShape();
     taskShape.getInternalPort().add(portShape);
