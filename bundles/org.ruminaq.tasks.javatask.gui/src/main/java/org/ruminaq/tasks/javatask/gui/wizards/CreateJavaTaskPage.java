@@ -68,7 +68,8 @@ import org.slf4j.Logger;
  * JavaTask wizard page.
  * 
  * <p>Extends UI part from AbstractCreateUserDefinedTaskPage. Implements java
- * class generation.
+ * class generation.</p>
+ *
  * <pre>
  * @JavaTaskInfo
  * public class MyTask extends JavaTask {
