@@ -295,25 +295,18 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     modelFileInputPorts(context)
         .filter(
             e -> e.getKey().isAsynchronous() != e.getValue().isAsynchronous())
-        .forEach(e -> {
-          e.getKey().setAsynchronous(e.getValue().isAsynchronous());
-        });
+        .forEach(
+            e -> e.getKey().setAsynchronous(e.getValue().isAsynchronous()));
     modelFileInputPorts(context)
         .filter(e -> e.getKey().getGroup() != e.getValue().getGroup())
-        .forEach(e -> {
-          e.getKey().setGroup(e.getValue().getGroup());
-        });
-//    if (fip.isHold() != iip.isDefaultHoldLast()) {
-//      if (iip.isDefaultHoldLast() == iip.isHoldLast())
-//        iip.setHoldLast(fip.isHold());
-//      iip.setDefaultHoldLast(fip.isHold());
-//    }
-//    if (fip.getQueue() != iip.getDefaultQueueSize()) {
-//      if (iip.getDefaultQueueSize().equals(iip.getQueueSize()))
-//        iip.setQueueSize(fip.getQueue());
-//      iip.setDefaultQueueSize(fip.getQueue());
-//    }
-
+        .forEach(e -> e.getKey().setGroup(e.getValue().getGroup()));
+    modelFileInputPorts(context)
+        .filter(e -> e.getKey().isDefaultHoldLast() != e.getValue().isHold())
+        .forEach(e -> e.getKey().setDefaultHoldLast(e.getValue().isHold()));
+    modelFileInputPorts(context)
+        .filter(
+            e -> e.getKey().getDefaultQueueSize() != e.getValue().getQueue())
+        .forEach(e -> e.getKey().setDefaultQueueSize(e.getValue().getQueue()));
     inputPorts().stream()
         .filter(fip -> modelInputPorts(context).map(InternalInputPort::getId)
             .noneMatch(fip.getName()::equals))
