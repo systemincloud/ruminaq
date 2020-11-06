@@ -19,4 +19,6 @@
              files=".*"/>
   <suppress checks="NeedBracesCheck"
              files=".*"/>
+  <suppress checks="JavadocParagraphCheck"
+             files=".*"/>             
 </suppressions>
