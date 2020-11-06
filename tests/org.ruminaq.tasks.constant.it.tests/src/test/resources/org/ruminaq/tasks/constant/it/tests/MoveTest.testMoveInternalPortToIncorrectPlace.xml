@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:constant="http://ruminaq.org/tasks/constant" xmlns:constantshape="http://ruminaq.org/tasks/constantshape" xmlns:diagram="http://ruminaq.org/diagram" xmlns:dt="http://ruminaq.org/dt" xmlns:ruminaq="http://ruminaq.org">
+  <diagram:RuminaqDiagram mainTask="/1">
+    <children xsi:type="constantshape:ConstantShape" x="200" y="100" width="50" height="50" modelObject="/1/@task.0" label="/0/@children.1">
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="40" y="20" modelObject="/1/@task.0/@outputPort.0"/>
+    </children>
+    <children xsi:type="diagram:LabelShape" x="193" y="152" labeledShape="/0/@children.0"/>
+  </diagram:RuminaqDiagram>
+  <ruminaq:MainTask version="1.0.0">
+    <task xsi:type="constant:Constant" id="My Constant" value="0">
+      <outputPort id="Out">
+        <dataType xsi:type="dt:Int32"/>
+      </outputPort>
+    </task>
+  </ruminaq:MainTask>
+</xmi:XMI>

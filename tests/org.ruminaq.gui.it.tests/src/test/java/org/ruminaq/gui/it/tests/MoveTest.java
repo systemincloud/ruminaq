@@ -130,10 +130,5 @@ public class MoveTest extends GuiTest {
     assertEquals("X should change", 306, shape.getX());
     assertEquals("Y should change", 123, shape.getY());
   }
-  
-  @Test
-  public void testMoveInternalPorts() {
-    
-  }
 
 }

@@ -49,5 +49,19 @@ public class MoveTest extends GuiTest {
 
     assertDiagram(gefEditor, "MoveTest.testMoveInternalPortAlmostOnBoard.xml");
   }
+  
+  @Test
+  public void testMoveInternalPortToIncorrectPlace() throws InterruptedException {
+    GEFEditor gefEditor = new GEFEditor(diagramName);
+    gefEditor.addToolFromPalette("Constant", 200, 100);
+
+    WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InternalOutputPort.class);
+    ip.select();
+    new MoveShape(gefEditor, ip, -10, 0).execute();
+
+    Thread.sleep(1000);
+
+    assertDiagram(gefEditor, "MoveTest.testMoveInternalPortToIncorrectPlace.xml");
+  }
 
 }
