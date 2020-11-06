@@ -115,7 +115,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
    * Make capital first character of each word.
    *
    * @param text can have spaces
-   * @return
+   * @return transformed text
    */
   private static String toTitleCase(String text) {
     return wordPattern.matcher(text)
@@ -127,7 +127,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
    * Fields are camel case starting from small letter.
    *
    * @param name name to sanitize
-   * @return
+   * @return field name
    */
   private static String fieldName(String name) {
     String camelCase = toTitleCase(name).replace(" ", "").trim();
