@@ -20,7 +20,9 @@ import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InternalPort;
 
 /**
- * IMoveShapeFeature for Task's internalport.
+ * IMoveShapeFeature for Task's InternalPort.
+ *
+ * <p>InternalPort is sticked to borders.
  *
  * @author Marek Jagielski
  */
@@ -72,7 +74,7 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
   }
 
   /**
-   * Adjust to border.
+   * Adjust to border. 
    */
   @Override
   public void postMoveShape(IMoveShapeContext context) {
