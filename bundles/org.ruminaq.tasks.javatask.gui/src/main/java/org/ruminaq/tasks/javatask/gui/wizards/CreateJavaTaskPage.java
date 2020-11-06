@@ -70,9 +70,7 @@ import org.slf4j.Logger;
  * <p>Extends UI part from AbstractCreateUserDefinedTaskPage. Implements java
  * class generation.
  *
- * @JavaTaskInfo
- * public class MyTask extends JavaTask {
- * }
+ * @JavaTaskInfo public class MyTask extends JavaTask { }
  *
  * @author Marek Jagielski
  */
@@ -272,7 +270,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
    *
    * @param ast             code tree
    * @param annotationClass annotation name
-   * @return
+   * @return annotation
    */
   private static NormalAnnotation createAnnotation(AST ast,
       Class<?> annotationClass) {
@@ -286,7 +284,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
    *
    * @param ast             code tree
    * @param annotationClass annotation name
-   * @return
+   * @return annotation
    */
   private static MarkerAnnotation createMarkerAnnotation(AST ast,
       Class<?> annotationClass) {
@@ -580,7 +578,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
    * Get CompilationUnit from ICompilationUnit. s
    *
    * @param unit ICompilationUnit that can be retrieved from e.g. IType.
-   * @return
+   * @return parsed CompilationUnit
    */
   public static CompilationUnit parse(ICompilationUnit unit) {
     ASTParser parser = ASTParser.newParser(AST.JLS14);
