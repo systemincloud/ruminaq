@@ -285,9 +285,10 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     modelInputPorts(context).filter(iop -> inputPorts().stream()
         .map(FileInternalInputPort::getName).noneMatch(iop.getId()::equals))
         .forEach(this::deleteInputPort);
-    modelFileInputPorts(context).filter(e -> !ModelUtil
-        .areEquals(e.getKey().getDataType(), e.getValue().getDataType()))
-        .forEach(e -> {
+    modelFileInputPorts(context)
+        .filter(e -> !ModelUtil.areEquals(e.getKey().getDataType(),
+            e.getValue().getDataType()))
+        .forEach((SimpleEntry<InternalInputPort, FileInternalInputPort> e) -> {
           e.getKey().getDataType().clear();
           e.getKey().getDataType().addAll(e.getValue().getDataType());
         });
@@ -330,10 +331,11 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
         .forEach(this::deleteOutputPort);
     modelFileOutputPorts(context).filter(e -> !ModelUtil
         .areEquals(e.getKey().getDataType(), e.getValue().getDataType()))
-        .forEach(e -> {
-          e.getKey().getDataType().clear();
-          e.getKey().getDataType().addAll(e.getValue().getDataType());
-        });
+        .forEach(
+            (SimpleEntry<InternalOutputPort, FileInternalOutputPort> e) -> {
+              e.getKey().getDataType().clear();
+              e.getKey().getDataType().addAll(e.getValue().getDataType());
+            });
     outputPorts().stream()
         .filter(fip -> modelOutputPorts(context).map(InternalOutputPort::getId)
             .noneMatch(fip.getName()::equals))
