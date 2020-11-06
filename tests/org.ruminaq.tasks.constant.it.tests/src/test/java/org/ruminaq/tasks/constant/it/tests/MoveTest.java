@@ -52,6 +52,10 @@ public class MoveTest extends GuiTest {
     new MoveShape(gefEditor, ip, 10, -18).execute();
 
     assertDiagram(gefEditor, "MoveTest.testMoveInternalPortAlmostOnBoard.2.xml");
+    
+    new MoveShape(gefEditor, ip, 0, -32).execute();
+
+    assertDiagram(gefEditor, "MoveTest.testMoveInternalPortAlmostOnBoard.3.xml");
   }
   
   @Test

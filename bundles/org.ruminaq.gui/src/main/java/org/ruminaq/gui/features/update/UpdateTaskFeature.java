@@ -84,15 +84,15 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     return modelFromContext(context).filter(type::isInstance).map(type::cast);
   }
 
-  private static <T extends InternalPortShape, K extends InternalPort> List<K> internalPortFromShape(
+  private static <T extends InternalPortShape, K extends InternalPort> List<K> internalPortFrom(
       Collection<T> portShapes, Class<K> type) {
     return portShapes.stream().map(InternalPortShape::getModelObject)
         .filter(type::isInstance).map(type::cast).collect(Collectors.toList());
   }
 
-  private static <T extends InternalPortShape, K extends InternalPort> boolean updateInternalPortNeeded(
+  private static <T extends InternalPortShape, K extends InternalPort> boolean updatePortNeeded(
       Collection<T> portShapes, Collection<K> fromModel, Class<K> type) {
-    List<K> fromShape = internalPortFromShape(portShapes, type);
+    List<K> fromShape = internalPortFrom(portShapes, type);
     return !(fromModel.stream().allMatch(fromShape::contains)
         && portShapes.stream().map(InternalPortShape::getModelObject)
             .allMatch(Objects::nonNull));
@@ -148,9 +148,9 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     Optional<TaskShape> taskShape = shapeFromContext(context);
     Optional<Task> task = modelFromContext(context);
     if (taskShape.isPresent() && task.isPresent()) {
-      return updateInternalPortNeeded(taskShape.get().getInternalPort(),
+      return updatePortNeeded(taskShape.get().getInternalPort(),
           task.get().getInputPort(), InternalInputPort.class)
-          || updateInternalPortNeeded(taskShape.get().getInternalPort(),
+          || updatePortNeeded(taskShape.get().getInternalPort(),
               task.get().getOutputPort(), InternalOutputPort.class);
     }
     return false;
@@ -169,11 +169,11 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     Optional<TaskShape> taskShape = shapeFromContext(context);
     Optional<Task> task = modelFromContext(context);
     if (taskShape.isPresent() && task.isPresent()) {
-      if (updateInternalPortNeeded(taskShape.get().getInternalPort(),
+      if (updatePortNeeded(taskShape.get().getInternalPort(),
           task.get().getInputPort(), InternalInputPort.class)) {
         updateInputPort(taskShape.get(), task.get());
       }
-      if (updateInternalPortNeeded(taskShape.get().getInternalPort(),
+      if (updatePortNeeded(taskShape.get().getInternalPort(),
           task.get().getOutputPort(), InternalOutputPort.class)) {
         updateOutputPort(taskShape.get(), task.get());
       }
@@ -184,7 +184,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   private boolean updateInputPort(TaskShape taskShape, Task task) {
     List<InternalInputPort> fromModel = task.getInputPort();
-    List<InternalInputPort> fromShape = internalPortFromShape(
+    List<InternalInputPort> fromShape = internalPortFrom(
         taskShape.getInternalPort(), InternalInputPort.class);
     List<InternalInputPort> portsToAdd = fromModel.stream()
         .filter(Predicate.not(fromShape::contains))
@@ -201,7 +201,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
   private boolean updateOutputPort(TaskShape taskShape, Task task) {
     List<InternalOutputPort> fromModel = task.getOutputPort();
-    List<InternalOutputPort> fromShape = internalPortFromShape(
+    List<InternalOutputPort> fromShape = internalPortFrom(
         taskShape.getInternalPort(), InternalOutputPort.class);
     List<InternalOutputPort> portsToAdd = fromModel.stream()
         .filter(Predicate.not(fromShape::contains))
