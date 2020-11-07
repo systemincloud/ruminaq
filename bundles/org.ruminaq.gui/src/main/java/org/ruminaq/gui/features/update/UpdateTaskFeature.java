@@ -215,6 +215,22 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .filter(f -> f.getName().equals(pd.name())).findFirst()
         .ifPresent(f -> TasksUtil.createInputPort(task, f));
   }
+  
+  protected void createInputPort(Task task, String name,
+      Collection<Class<? extends DataType>> datatypes, boolean asyn, int grp,
+      boolean hold, String queue) {
+    InternalInputPort in = RuminaqFactory.eINSTANCE.createInternalInputPort();
+    in.setId(name);
+    datatypes.stream().map(ModelUtil::getName)
+        .map(DataTypeManager.INSTANCE::getDataTypeFromName)
+        .filter(Objects::nonNull).forEach(in.getDataType()::add);
+    in.setAsynchronous(asyn);
+    in.setGroup(grp);
+    in.setDefaultHoldLast(hold);
+    in.setHoldLast(hold);
+    in.setDefaultQueueSize(queue);
+    task.getInputPort().add(in);
+  }
 
   protected void deleteInputPort(Task task, String id) {
     task.getInputPort().remove(task.getInputPort(id));
@@ -228,6 +244,17 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     Stream.of(getPortsDescription().getDeclaredFields())
         .filter(f -> f.getName().equals(pd.name())).findFirst()
         .ifPresent(f -> TasksUtil.createOutputPort(task, f));
+  }
+
+  protected void createOutputPort(Task task, String name,
+      Collection<Class<? extends DataType>> datatypes) {
+    InternalOutputPort out = RuminaqFactory.eINSTANCE
+        .createInternalOutputPort();
+    out.setId(name);
+    datatypes.stream().map(ModelUtil::getName)
+        .map(DataTypeManager.INSTANCE::getDataTypeFromName)
+        .filter(Objects::nonNull).forEach(out.getDataType()::add);
+    task.getOutputPort().add(out);
   }
 
   protected void deleteOutputPort(Task task, String id) {
@@ -272,33 +299,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     portShape.setX(xOfPostion(taskShape, position));
     portShape.setY(yOfPostion(taskShape, position));
     redistributePorts(taskShape, position);
-  }
-
-  protected void createInputPort(Task task, String name,
-      Collection<Class<? extends DataType>> datatypes, boolean asyn, int grp,
-      boolean hold, String queue) {
-    InternalInputPort in = RuminaqFactory.eINSTANCE.createInternalInputPort();
-    in.setId(name);
-    datatypes.stream().map(ModelUtil::getName)
-        .map(DataTypeManager.INSTANCE::getDataTypeFromName)
-        .filter(Objects::nonNull).forEach(in.getDataType()::add);
-    in.setAsynchronous(asyn);
-    in.setGroup(grp);
-    in.setDefaultHoldLast(hold);
-    in.setHoldLast(hold);
-    in.setDefaultQueueSize(queue);
-    task.getInputPort().add(in);
-  }
-
-  protected void createOutputPort(Task task, String name,
-      Collection<Class<? extends DataType>> datatypes) {
-    InternalOutputPort out = RuminaqFactory.eINSTANCE
-        .createInternalOutputPort();
-    out.setId(name);
-    datatypes.stream().map(ModelUtil::getName)
-        .map(DataTypeManager.INSTANCE::getDataTypeFromName)
-        .filter(Objects::nonNull).forEach(out.getDataType()::add);
-    task.getOutputPort().add(out);
   }
 
   private void removePort(InternalPort p, TaskShape taskShape) {
