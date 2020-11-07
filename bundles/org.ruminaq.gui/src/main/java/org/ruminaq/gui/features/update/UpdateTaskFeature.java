@@ -263,7 +263,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         PortType.OUT);
     Position position = portDiagram.map(PortDiagram::pos)
         .orElse(Position.RIGHT);
-    boolean label = portDiagram.map(PortDiagram::label).orElse(false);
+    boolean label = portDiagram.map(PortDiagram::label).orElse(Boolean.FALSE);
     InternalOutputPortShape portShape = DiagramFactory.eINSTANCE
         .createInternalOutputPortShape();
     taskShape.getInternalPort().add(portShape);
