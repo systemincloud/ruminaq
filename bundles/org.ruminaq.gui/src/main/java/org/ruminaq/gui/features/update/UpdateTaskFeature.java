@@ -243,13 +243,13 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
     Optional<PortDiagram> portDiagram = getPortDiagram(p.getId(), pd,
         PortType.IN);
-    Position position = portDiagram.map(PortDiagram::pos).orElse(Position.LEFT);
-    boolean label = portDiagram.map(PortDiagram::label).orElse(Boolean.FALSE);
     InternalInputPortShape portShape = DiagramFactory.eINSTANCE
         .createInternalInputPortShape();
     taskShape.getInternalPort().add(portShape);
     portShape.setModelObject(p);
-    portShape.setShowLabel(label);
+    portShape.setShowLabel(
+        portDiagram.map(PortDiagram::label).orElse(Boolean.FALSE));
+    Position position = portDiagram.map(PortDiagram::pos).orElse(Position.LEFT);
     portShape.setX(xOfPostion(taskShape, position));
     portShape.setY(yOfPostion(taskShape, position));
 
@@ -261,14 +261,14 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
     Optional<PortDiagram> portDiagram = getPortDiagram(p.getId(), pd,
         PortType.OUT);
-    Position position = portDiagram.map(PortDiagram::pos)
-        .orElse(Position.RIGHT);
-    boolean label = portDiagram.map(PortDiagram::label).orElse(Boolean.FALSE);
     InternalOutputPortShape portShape = DiagramFactory.eINSTANCE
         .createInternalOutputPortShape();
     taskShape.getInternalPort().add(portShape);
     portShape.setModelObject(p);
-    portShape.setShowLabel(label);
+    portShape.setShowLabel(
+        portDiagram.map(PortDiagram::label).orElse(Boolean.FALSE));
+    Position position = portDiagram.map(PortDiagram::pos)
+        .orElse(Position.RIGHT);
     portShape.setX(xOfPostion(taskShape, position));
     portShape.setY(yOfPostion(taskShape, position));
     redistributePorts(taskShape, position);
