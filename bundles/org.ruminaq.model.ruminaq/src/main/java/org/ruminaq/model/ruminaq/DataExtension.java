@@ -8,7 +8,6 @@ package org.ruminaq.model.ruminaq;
 
 import java.util.List;
 import java.util.Optional;
-import org.ruminaq.model.ruminaq.DataType;
 
 /**
  * Service api providing DataTypes.

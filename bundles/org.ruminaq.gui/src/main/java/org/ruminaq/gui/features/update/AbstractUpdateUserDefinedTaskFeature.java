@@ -39,6 +39,10 @@ import org.ruminaq.model.ruminaq.UserDefinedTask;
 public abstract class AbstractUpdateUserDefinedTaskFeature
     extends UpdateTaskFeature {
 
+  /**
+   * Meta information about InternalInputPort retrieved from implementation
+   * file.
+   */
   protected static final class FileInternalInputPort {
     private String name;
     private List<DataType> dataType;
@@ -87,6 +91,10 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     }
   }
 
+  /**
+   * Meta information about InternalOutputPort retrieved from implementation
+   * file.
+   */
   protected static final class FileInternalOutputPort {
     private String name;
     private List<DataType> dataType;
@@ -188,10 +196,9 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     if (outputPorts().size() != modelOutputPorts(context).count()) {
       return true;
     }
-    return outputPorts().stream()
-        .anyMatch(fip -> modelOutputPorts(context)
-            .noneMatch(iop -> fip.getName().equals(iop.getId())
-                && ModelUtil.areEquals(fip.getDataType(), iop.getDataType())));
+    return outputPorts().stream().anyMatch(fip -> modelOutputPorts(context)
+        .filter(iop -> fip.getName().equals(iop.getId())).noneMatch(
+            iop -> ModelUtil.areEquals(fip.getDataType(), iop.getDataType())));
   }
 
   private boolean atomicUpdateNeeded(IUpdateContext context) {
@@ -216,14 +223,15 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 
   @Override
   public IReason updateNeeded(IUpdateContext context) {
-    return toModel(context).map(this::getResource)
-        .filter(r -> iconDescriptionUpdateNeeded(context)
-            || inputPortsUpdateNeeded(context)
-            || outputPortsUpdateNeeded(context) || atomicUpdateNeeded(context)
-            || paramsUpdateNeeded(context)
-            || super.updateNeeded(context).toBoolean())
-        .map(r -> Reason.createTrueReason())
-        .orElseGet(Reason::createFalseReason);
+    return Optional.of(context)
+        .filter(Predicate.not(this::iconDescriptionUpdateNeeded))
+        .filter(Predicate.not(this::inputPortsUpdateNeeded))
+        .filter(Predicate.not(this::outputPortsUpdateNeeded))
+        .filter(Predicate.not(this::atomicUpdateNeeded))
+        .filter(Predicate.not(this::paramsUpdateNeeded))
+        .filter(Predicate.not(c -> super.updateNeeded(c).toBoolean()))
+        .map(r -> Reason.createFalseReason())
+        .orElseGet(Reason::createTrueReason);
   }
 
   protected String getResource(Task task) {

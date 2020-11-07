@@ -279,12 +279,9 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
       boolean hold, String queue) {
     InternalInputPort in = RuminaqFactory.eINSTANCE.createInternalInputPort();
     in.setId(name);
-    for (Class<? extends DataType> cdt : datatypes) {
-      DataType dt = DataTypeManager.INSTANCE
-          .getDataTypeFromName(ModelUtil.getName(cdt));
-      if (dt != null)
-        in.getDataType().add(dt);
-    }
+    datatypes.stream().map(ModelUtil::getName)
+        .map(DataTypeManager.INSTANCE::getDataTypeFromName)
+        .filter(Objects::nonNull).forEach(in.getDataType()::add);
     in.setAsynchronous(asyn);
     in.setGroup(grp);
     in.setDefaultHoldLast(hold);
@@ -298,12 +295,9 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     InternalOutputPort out = RuminaqFactory.eINSTANCE
         .createInternalOutputPort();
     out.setId(name);
-    for (Class<? extends DataType> cdt : datatypes) {
-      DataType dt = DataTypeManager.INSTANCE
-          .getDataTypeFromName(ModelUtil.getName(cdt));
-      if (dt != null)
-        out.getDataType().add(dt);
-    }
+    datatypes.stream().map(ModelUtil::getName)
+        .map(DataTypeManager.INSTANCE::getDataTypeFromName)
+        .filter(Objects::nonNull).forEach(out.getDataType()::add);
     task.getOutputPort().add(out);
   }
 

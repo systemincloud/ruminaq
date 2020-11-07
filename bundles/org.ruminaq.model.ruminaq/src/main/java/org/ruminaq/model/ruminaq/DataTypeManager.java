@@ -6,11 +6,6 @@
 
 package org.ruminaq.model.ruminaq;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.dt.Bool;
 import org.ruminaq.model.ruminaq.dt.Complex32;
 import org.ruminaq.model.ruminaq.dt.Complex64;
