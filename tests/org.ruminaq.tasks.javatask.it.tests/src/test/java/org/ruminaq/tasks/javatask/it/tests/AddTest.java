@@ -79,7 +79,7 @@ public class AddTest extends GuiTest {
     bot.text().pressShortcut(SWT.CR, SWT.LF);
 
     bot.button("OK").click();
-    
+
     bot.text().setText("test.Ports");
 
     bot.text().pressShortcut(SWT.CR, SWT.LF);
@@ -128,16 +128,15 @@ public class AddTest extends GuiTest {
     textEditor.insertText(3, 0,
         "import org.ruminaq.tasks.javatask.client.data.Complex64;\n");
     Thread.sleep(2000);
-    
-    textEditor.insertText(4, 0,
-        "@Parameter(name = \"x\")\n");
+
+    textEditor.insertText(4, 0, "@Parameter(name = \"x\")\n");
 
     textEditor.insertText(8, 0,
         "\t@InputPortInfo(name = \"a\", dataType = { Complex32.class, Complex64.class })\n");
     textEditor.insertText(9, 0, "\tpublic InputPort a;\n");
 
     textEditor.insertText(10, 0, "\n");
-    
+
     textEditor.insertText(11, 0,
         "\t@InputPortInfo(name = \"b\", queue = -1)\n");
     textEditor.insertText(12, 0, "\tpublic InputPort b;\n");
@@ -150,9 +149,9 @@ public class AddTest extends GuiTest {
 
     textEditor.insertText(16, 0, "\n");
 
-    textEditor.insertText(14, 0, "\t@Override\n");
-    textEditor.insertText(15, 0, "\tpublic void execute(int grp) {\n");
-    textEditor.insertText(16, 0, "\t}\n");
+    textEditor.insertText(17, 0, "\t@Override\n");
+    textEditor.insertText(18, 0, "\tpublic void execute(int grp) {\n");
+    textEditor.insertText(19, 0, "\t}\n");
 
     textEditor.save();
 
@@ -168,6 +167,32 @@ public class AddTest extends GuiTest {
     Thread.sleep(1000);
 
     assertDiagram(gefEditor, "AddTest.testAddJavaTask.2.xml");
+
+    textEditor.show();
+
+    textEditor.selectRange(8, 1, textEditor.getTextOnLine(8).length());
+    textEditor
+        .typeText("@InputPortInfo(name = \"a\", dataType = Complex64.class, queue = 3)\n");
+    textEditor.selectRange(11, 1, textEditor.getTextOnLine(11).length());
+    textEditor.typeText("@InputPortInfo(name = \"c\")\n");
+    textEditor.selectRange(14, 1, textEditor.getTextOnLine(14).length());
+    textEditor
+        .typeText("@OutputPortInfo(name = \"x\", dataType = Complex32.class)\n");
+
+    textEditor.save();
+
+    gefEditor.activate();
+
+    new WithBoGraphitiEditPart(JavaTask.class).select();
+
+    Thread.sleep(1000);
+
+    new WithBoGraphitiEditPart(JavaTask.class).getContextButton("Update")
+        .click();
+
+    Thread.sleep(1000);
+
+    assertDiagram(gefEditor, "AddTest.testAddJavaTask.3.xml");
   }
 
 }

@@ -174,14 +174,14 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     if (inputPorts().size() != modelInputPorts(context).count()) {
       return true;
     }
-    return inputPorts().stream()
-        .anyMatch(fip -> modelInputPorts(context)
-            .noneMatch(iip -> fip.getName().equals(iip.getId())
-                && ModelUtil.areEquals(fip.getDataType(), iip.getDataType())
-                && fip.isAsynchronous() == iip.isAsynchronous()
-                && fip.getGroup() == iip.getGroup()
-                && fip.isHold() == iip.isDefaultHoldLast()
-                && fip.getQueue().equals(iip.getDefaultQueueSize())));
+    return inputPorts().stream().anyMatch(fip -> modelInputPorts(context)
+        .filter(iip -> fip.getName().equals(iip.getId()))
+        .filter(
+            iip -> ModelUtil.areEquals(fip.getDataType(), iip.getDataType()))
+        .filter(iip -> fip.isAsynchronous() == iip.isAsynchronous())
+        .filter(iip -> fip.getGroup() == iip.getGroup())
+        .filter(iip -> fip.isHold() == iip.isDefaultHoldLast())
+        .noneMatch(iip -> fip.getQueue().equals(iip.getDefaultQueueSize())));
   }
 
   private boolean outputPortsUpdateNeeded(IUpdateContext context) {
@@ -282,9 +282,10 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
   }
 
   private boolean inputsUpdate(IUpdateContext context) {
-    modelInputPorts(context).filter(iop -> inputPorts().stream()
-        .map(FileInternalInputPort::getName).noneMatch(iop.getId()::equals))
-        .forEach(this::deleteInputPort);
+    modelInputPorts(context)
+        .filter(iop -> inputPorts().stream().map(FileInternalInputPort::getName)
+            .noneMatch(iop.getId()::equals))
+        .collect(Collectors.toList()).stream().forEach(this::deleteInputPort);
     modelFileInputPorts(context)
         .filter(e -> !ModelUtil.areEquals(e.getKey().getDataType(),
             e.getValue().getDataType()))
@@ -303,9 +304,8 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
     modelFileInputPorts(context)
         .filter(e -> e.getKey().isDefaultHoldLast() != e.getValue().isHold())
         .forEach(e -> e.getKey().setDefaultHoldLast(e.getValue().isHold()));
-    modelFileInputPorts(context)
-        .filter(
-            e -> e.getKey().getDefaultQueueSize() != e.getValue().getQueue())
+    modelFileInputPorts(context).filter(
+        e -> !e.getKey().getDefaultQueueSize().equals(e.getValue().getQueue()))
         .forEach(e -> e.getKey().setDefaultQueueSize(e.getValue().getQueue()));
     inputPorts().stream()
         .filter(fip -> modelInputPorts(context).map(InternalInputPort::getId)
@@ -321,7 +321,7 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
         .filter(
             iop -> outputPorts().stream().map(FileInternalOutputPort::getName)
                 .noneMatch(iop.getId()::equals))
-        .forEach(this::deleteOutputPort);
+        .collect(Collectors.toList()).stream().forEach(this::deleteOutputPort);
     modelFileOutputPorts(context).filter(e -> !ModelUtil
         .areEquals(e.getKey().getDataType(), e.getValue().getDataType()))
         .forEach(

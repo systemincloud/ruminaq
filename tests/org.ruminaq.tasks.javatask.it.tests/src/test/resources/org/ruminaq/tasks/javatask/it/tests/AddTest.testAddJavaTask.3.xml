@@ -10,14 +10,13 @@
   </diagram:RuminaqDiagram>
   <ruminaq:MainTask version="1.0.0">
     <task xsi:type="javatask:JavaTask" id="My Java Task" atomic="false" implementationPath="test.Ports">
-      <outputPort id="z">
-        <dataType xsi:type="dt:Complex64"/>
-      </outputPort>
-      <inputPort id="a">
+      <outputPort id="x">
         <dataType xsi:type="dt:Complex32"/>
+      </outputPort>
+      <inputPort id="a" defaultQueueSize="3">
         <dataType xsi:type="dt:Complex64"/>
       </inputPort>
-      <inputPort id="b" defaultQueueSize="inf"/>
+      <inputPort id="c"/>
       <parameter key="x" defaultValue=""/>
     </task>
   </ruminaq:MainTask>

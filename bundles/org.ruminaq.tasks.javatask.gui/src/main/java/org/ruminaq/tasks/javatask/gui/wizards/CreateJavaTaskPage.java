@@ -70,7 +70,7 @@ import org.slf4j.Logger;
  * <p>Extends UI part from AbstractCreateUserDefinedTaskPage. Implements java
  * class generation.
  *
- * example: @JavaTaskInfo public class MyTask extends JavaTask { }
+ * <p>example: @JavaTaskInfo public class MyTask extends JavaTask { }
  *
  * @author Marek Jagielski
  */

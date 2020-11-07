@@ -182,38 +182,28 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     return false;
   }
 
-  private boolean updateInputPort(TaskShape taskShape, Task task) {
+  private void updateInputPort(TaskShape taskShape, Task task) {
     List<InternalInputPort> fromModel = task.getInputPort();
     List<InternalInputPort> fromShape = internalPortFrom(
         taskShape.getInternalPort(), InternalInputPort.class);
-    List<InternalInputPort> portsToAdd = fromModel.stream()
-        .filter(Predicate.not(fromShape::contains))
-        .collect(Collectors.toList());
-    List<InternalInputPortShape> portsToRemove = taskShape.getInternalPort()
-        .stream().filter(InternalInputPortShape.class::isInstance)
-        .map(InternalInputPortShape.class::cast)
-        .filter(ips -> Optional.ofNullable(ips.getModelObject()).isEmpty())
-        .collect(Collectors.toList());
-    portsToAdd.stream().forEach(p -> addInputPort(p, taskShape));
-    portsToRemove.stream().forEach(p -> removePort(p, taskShape));
-    return !portsToAdd.isEmpty() || !portsToRemove.isEmpty();
+    fromModel.stream().filter(Predicate.not(fromShape::contains))
+        .collect(Collectors.toList()).stream()
+        .forEach(p -> addInputPort(p, taskShape));
+    fromShape.stream().filter(Predicate.not(fromModel::contains))
+        .collect(Collectors.toList()).stream()
+        .forEach(p -> removePort(p, taskShape));
   }
 
-  private boolean updateOutputPort(TaskShape taskShape, Task task) {
+  private void updateOutputPort(TaskShape taskShape, Task task) {
     List<InternalOutputPort> fromModel = task.getOutputPort();
     List<InternalOutputPort> fromShape = internalPortFrom(
         taskShape.getInternalPort(), InternalOutputPort.class);
-    List<InternalOutputPort> portsToAdd = fromModel.stream()
-        .filter(Predicate.not(fromShape::contains))
-        .collect(Collectors.toList());
-    List<InternalOutputPortShape> portsToRemove = taskShape.getInternalPort()
-        .stream().filter(InternalOutputPortShape.class::isInstance)
-        .map(InternalOutputPortShape.class::cast)
-        .filter(ips -> Optional.ofNullable(ips.getModelObject()).isEmpty())
-        .collect(Collectors.toList());
-    portsToAdd.stream().forEach(p -> addOutputPort(p, taskShape));
-    portsToRemove.stream().forEach(p -> removePort(p, taskShape));
-    return !portsToAdd.isEmpty() || !portsToRemove.isEmpty();
+    fromModel.stream().filter(Predicate.not(fromShape::contains))
+        .collect(Collectors.toList()).stream()
+        .forEach(p -> addOutputPort(p, taskShape));
+    fromShape.stream().filter(Predicate.not(fromModel::contains))
+        .collect(Collectors.toList()).stream()
+        .forEach(p -> removePort(p, taskShape));
   }
 
   protected Class<? extends PortsDescr> getPortsDescription() {
@@ -299,7 +289,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     in.setGroup(grp);
     in.setDefaultHoldLast(hold);
     in.setHoldLast(hold);
-    in.setQueueSize(queue);
+    in.setDefaultQueueSize(queue);
     task.getInputPort().add(in);
   }
 
@@ -317,19 +307,21 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     task.getOutputPort().add(out);
   }
 
-  private void removePort(InternalPortShape p, TaskShape taskShape) {
-    Optional<Position> optPosition = Optional
-        .ofNullable(GuiUtil.getPosition(taskShape, p));
-//Graphiti.getPeService().setPropertyValue(toRemove, Constants.CAN_DELETE,
-//  "true");
-    DeleteContext deleteContext = new DeleteContext(p);
-    deleteContext.setMultiDeleteInfo(new MultiDeleteInfo(false, false, 1));
-    IDeleteFeature deleteFeature = getFeatureProvider()
-        .getDeleteFeature(deleteContext);
-    if (deleteFeature.canDelete(deleteContext)) {
-      deleteFeature.delete(deleteContext);
+  private void removePort(InternalPort p, TaskShape taskShape) {
+    Optional<InternalPortShape> ips = taskShape.getInternalPort().stream()
+        .filter(ip -> ip.getModelObject().equals(p)).findAny();
+    if (ips.isPresent()) {
+      Optional<Position> optPosition = Optional
+          .ofNullable(GuiUtil.getPosition(taskShape, ips.get()));
+      DeleteContext deleteContext = new DeleteContext(ips.get());
+      deleteContext.setMultiDeleteInfo(new MultiDeleteInfo(false, false, 1));
+      IDeleteFeature deleteFeature = getFeatureProvider()
+          .getDeleteFeature(deleteContext);
+      if (deleteFeature.canDelete(deleteContext)) {
+        deleteFeature.delete(deleteContext);
+      }
+      optPosition.ifPresent(pos -> redistributePorts(taskShape, pos));
     }
-    optPosition.ifPresent(pos -> redistributePorts(taskShape, pos));
   }
 
   private static void redistributePorts(TaskShape taskShape, Position pos) {
