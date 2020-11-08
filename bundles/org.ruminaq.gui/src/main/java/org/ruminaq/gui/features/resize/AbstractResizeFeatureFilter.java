@@ -21,7 +21,7 @@ public abstract class AbstractResizeFeatureFilter
   public static final GetPictogramElement getPictogramElement = ctx -> ((IResizeShapeContext) ctx)
       .getPictogramElement();
 
-  public AbstractResizeFeatureFilter() {
+  protected AbstractResizeFeatureFilter() {
     super(IResizeShapeContext.class, getPictogramElement);
   }
 

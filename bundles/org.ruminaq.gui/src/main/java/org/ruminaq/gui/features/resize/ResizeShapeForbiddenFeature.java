@@ -12,7 +12,7 @@ import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
 
 /**
  * Shape should not have possibility to resize.
- * 
+ *
  * @author Marek Jagielski
  */
 public class ResizeShapeForbiddenFeature extends DefaultResizeShapeFeature {

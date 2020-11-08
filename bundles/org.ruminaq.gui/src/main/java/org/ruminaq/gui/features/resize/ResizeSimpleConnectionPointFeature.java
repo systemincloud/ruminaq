@@ -15,13 +15,13 @@ import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.NoElement;
 
 /**
+ * SimpleConnectionPoint can't be resize.
  *
  * @author Marek Jagielski
  */
 @FeatureFilter(Filter.class)
 public class ResizeSimpleConnectionPointFeature
     extends ResizeShapeForbiddenFeature {
-
 
   public static class Filter extends AbstractResizeFeatureFilter {
     @Override
