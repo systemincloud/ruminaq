@@ -143,6 +143,7 @@ public class AddTest extends GuiTest {
 
     WithShapeGraphitiEditPart connectionPoint = new WithShapeGraphitiEditPart(
         SimpleConnectionPointShape.class);
+    connectionPoint.select();
     assertEquals("Connection point should have 2 buttons.", 2,
         connectionPoint.getContextButtons().size());
 
