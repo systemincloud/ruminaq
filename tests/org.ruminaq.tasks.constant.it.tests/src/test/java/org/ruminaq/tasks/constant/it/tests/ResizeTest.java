@@ -6,11 +6,15 @@
 
 package org.ruminaq.tasks.constant.it.tests;
 
+import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.tasks.constant.model.constant.Constant;
 import org.ruminaq.tests.common.reddeer.GuiTest;
+import org.ruminaq.tests.common.reddeer.ResizeShape;
+import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 
 /**
  * Test adding basic elements to diagram.
@@ -18,16 +22,22 @@ import org.ruminaq.tests.common.reddeer.GuiTest;
  * @author Marek Jagielski
  */
 @RunWith(RedDeerSuite.class)
-public class AddTest extends GuiTest {
+public class ResizeTest extends GuiTest {
 
   @Test
-  public void testAddConstant() throws InterruptedException {
+  public void testResizeConstant() throws InterruptedException {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Constant", 200, 100);
 
     Thread.sleep(1000);
 
-    assertDiagram(gefEditor, "AddTest.testAddConstant.xml");
+    WithBoGraphitiEditPart constant = new WithBoGraphitiEditPart(
+        Constant.class);
+
+    new ResizeShape(gefEditor, constant,
+        ResizeShapeContext.DIRECTION_SOUTH_EAST, 40, 40).execute();
+
+    assertDiagram(gefEditor, "AddTest.testResizeConstant.xml");
   }
 
 }
