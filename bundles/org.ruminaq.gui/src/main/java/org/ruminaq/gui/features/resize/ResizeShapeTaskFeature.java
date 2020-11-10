@@ -22,6 +22,7 @@ import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.Task;
 
 /**
+ * IResizeShapeFeature for Task.
  *
  * @author Marek Jagielski
  */
@@ -35,14 +36,14 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
     }
   }
 
+  public ResizeShapeTaskFeature(IFeatureProvider fp) {
+    super(fp);
+  }
+
   protected static TaskShape shapeFromContext(IResizeShapeContext context) {
     return Optional.of(context).map(IResizeShapeContext::getShape)
         .filter(TaskShape.class::isInstance).map(TaskShape.class::cast)
         .orElseThrow();
-  }
-
-  public ResizeShapeTaskFeature(IFeatureProvider fp) {
-    super(fp);
   }
 
   @Override
@@ -53,25 +54,18 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
   @Override
   public void resizeShape(IResizeShapeContext context) {
     TaskShape shape = shapeFromContext(context);
-    boolean labelInDefaultPostion = LabelUtil
-        .isInDefaultPosition(shape.getLabel());
-
-    int widthBefore = shape.getWidth();
-    int heightBefore = shape.getHeight();
-
-    int x = context.getX();
-    int y = context.getY();
     int width = context.getWidth();
     int height = context.getHeight();
-
-    shape.setX(x);
-    shape.setY(y);
+    shape.setX(context.getX());
+    shape.setY(context.getY());
     shape.setWidth(width);
     shape.setHeight(height);
 
-    alignInternalPorts(shape, widthBefore, heightBefore, width, height);
+    alignInternalPorts(shape, shape.getWidth(), shape.getHeight(), width,
+        height);
 
-    if (labelInDefaultPostion || GuiUtil.intersects(shape.getLabel(), shape)) {
+    if (LabelUtil.isInDefaultPosition(shape.getLabel())
+        || GuiUtil.intersects(shape.getLabel(), shape)) {
       LabelUtil.placeInDefaultPosition(shape.getLabel());
     }
 
@@ -81,8 +75,8 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
   private void alignInternalPorts(TaskShape shape, int widthBefore,
       int heightBefore, int w, int h) {
 
-    float w_ratio = (float) w / (float) widthBefore;
-    float h_ratio = (float) h / (float) heightBefore;
+    float wRatio = (float) w / (float) widthBefore;
+    float hRatio = (float) h / (float) heightBefore;
 
     for (InternalPortShape child : shape.getInternalPort()) {
       int dx = 0;
@@ -91,18 +85,22 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
       int yPort = child.getY();
       if (xPort == 0 || xPort == (widthBefore - child.getWidth()) || yPort == 0
           || yPort == (heightBefore - child.getHeight())) {
-        dy = Math.round(yPort * h_ratio) - yPort;
-        if (yPort + dy + child.getHeight() > h)
+        dy = Math.round(yPort * hRatio) - yPort;
+        if (yPort + dy + child.getHeight() > h) {
           dy = h - yPort - child.getHeight();
+        }
         if (yPort + dy + child.getHeight() < h - MoveInternalPortFeature.EPSILON
-            && yPort == (heightBefore - child.getHeight()))
+            && yPort == (heightBefore - child.getHeight())) {
           dy = h - yPort - child.getHeight();
-        dx = Math.round(xPort * w_ratio) - xPort;
-        if (xPort + dx + child.getWidth() > w)
+        }
+        dx = Math.round(xPort * wRatio) - xPort;
+        if (xPort + dx + child.getWidth() > w) {
           dx = w - xPort - child.getWidth();
+        }
         if (xPort + dx + child.getWidth() < w - MoveInternalPortFeature.EPSILON
-            && xPort == (widthBefore - child.getWidth()))
+            && xPort == (widthBefore - child.getWidth())) {
           dx = w - xPort - child.getWidth();
+        }
       }
 
       MoveShapeContext moveShapeContext = new MoveShapeContext(child);
