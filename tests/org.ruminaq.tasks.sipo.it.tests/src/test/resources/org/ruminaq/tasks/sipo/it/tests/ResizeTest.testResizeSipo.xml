@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagram="http://ruminaq.org/diagram" xmlns:ruminaq="http://ruminaq.org" xmlns:sipo="http://ruminaq.org/tasks/sipo">
+  <diagram:RuminaqDiagram mainTask="/1">
+    <children xsi:type="diagram:TaskShape" x="200" y="100" width="240" height="90" modelObject="/1/@task.0" label="/0/@children.1" iconId="/icons/diagram.sipo.png">
+      <internalPort xsi:type="diagram:InternalInputPortShape" y="36" modelObject="/1/@task.0/@inputPort.0"/>
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="204" y="80" modelObject="/1/@task.0/@outputPort.0" showLabel="true"/>
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="144" y="80" modelObject="/1/@task.0/@outputPort.1" showLabel="true"/>
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="84" y="80" modelObject="/1/@task.0/@outputPort.2" showLabel="true"/>
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="24" y="80" modelObject="/1/@task.0/@outputPort.3" showLabel="true"/>
+    </children>
+    <children xsi:type="diagram:LabelShape" x="299" y="192" labeledShape="/0/@children.0"/>
+  </diagram:RuminaqDiagram>
+  <ruminaq:MainTask version="1.0.0">
+    <task xsi:type="sipo:Sipo" id="My Sipo">
+      <outputPort id="Out 1"/>
+      <outputPort id="Out 2"/>
+      <outputPort id="Out 3"/>
+      <outputPort id="Out 4"/>
+      <inputPort id="In" group="0"/>
+    </task>
+  </ruminaq:MainTask>
+</xmi:XMI>

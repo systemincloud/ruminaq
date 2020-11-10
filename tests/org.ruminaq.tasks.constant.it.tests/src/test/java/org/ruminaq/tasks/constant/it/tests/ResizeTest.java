@@ -37,7 +37,7 @@ public class ResizeTest extends GuiTest {
     new ResizeShape(gefEditor, constant,
         ResizeShapeContext.DIRECTION_SOUTH_EAST, 40, 40).execute();
 
-    assertDiagram(gefEditor, "AddTest.testResizeConstant.xml");
+    assertDiagram(gefEditor, "ResizeTest.testResizeConstant.xml");
   }
 
 }
