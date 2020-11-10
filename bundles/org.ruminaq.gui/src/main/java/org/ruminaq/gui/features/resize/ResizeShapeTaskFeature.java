@@ -83,8 +83,7 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
       int dy = 0;
       int xPort = child.getX();
       int yPort = child.getY();
-      if (xPort == 0 || xPort == (widthBefore - child.getWidth()) || yPort == 0
-          || yPort == (heightBefore - child.getHeight())) {
+      if (GuiUtil.isOnBorder(shape, child)) {
         dy = Math.round(yPort * hRatio) - yPort;
         if (yPort + dy + child.getHeight() > h) {
           dy = h - yPort - child.getHeight();

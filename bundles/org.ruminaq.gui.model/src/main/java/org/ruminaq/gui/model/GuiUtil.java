@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model;
 
 import java.util.ArrayList;
@@ -177,14 +178,14 @@ public final class GuiUtil {
   private static boolean whenAisLowerThenB(int a, int b, int p) {
     return a > b || (p <= b && p >= a);
   }
-  
+
   /**
-   * If the inner shape is on the border of outer shape
-   * returns the border position.
+   * If the inner shape is on the border of outer shape returns the border
+   * position.
    *
    * @param parentShape outer shape
-   * @param shape inner shape
-   * @return
+   * @param shape       inner shape
+   * @return postion
    */
   public static Position getPosition(RuminaqShape parentShape,
       RuminaqShape shape) {
@@ -206,6 +207,20 @@ public final class GuiUtil {
     }
 
     return null;
+  }
+
+  /**
+   * If the inner shape is on the border of outer shape.
+   * 
+   * @param shape parent shape
+   * @param child tested shape
+   * @return status
+   */
+  public static boolean isOnBorder(RuminaqShape shape, RuminaqShape child) {
+    return child.getX() == 0
+        || child.getX() == (shape.getWidth() - child.getWidth())
+        || child.getY() == 0
+        || child.getY() == (shape.getHeight() - child.getHeight());
   }
 
   // TODO: Think about line break in the ui...
@@ -430,5 +445,4 @@ public final class GuiUtil {
     }
     return dim;
   }
-
 }
