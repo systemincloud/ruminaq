@@ -216,11 +216,11 @@ public final class GuiUtil {
    * @param child tested shape
    * @return status
    */
-  public static boolean isOnBorder(RuminaqShape shape, RuminaqShape child) {
-    return child.getX() == 0
-        || child.getX() == (shape.getWidth() - child.getWidth())
+  public static boolean isOnBorder(RuminaqShape child, int parentWidth,
+      int parentHeight) {
+    return child.getX() == 0 || child.getX() == (parentWidth - child.getWidth())
         || child.getY() == 0
-        || child.getY() == (shape.getHeight() - child.getHeight());
+        || child.getY() == (parentHeight - child.getHeight());
   }
 
   // TODO: Think about line break in the ui...

@@ -90,20 +90,23 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
       int dy = 0;
       int xPort = child.getX();
       int yPort = child.getY();
-      if (xPort == 0 || xPort == (widthBefore - child.getWidth()) || yPort == 0
-          || yPort == (heightBefore - child.getHeight())) {
+      if (GuiUtil.isOnBorder(child, widthBefore, heightBefore)) {
         dy = Math.round(yPort * hRatio) - yPort;
-        if (yPort + dy + child.getHeight() > h)
+        if (yPort + dy + child.getHeight() > h) {
           dy = h - yPort - child.getHeight();
+        }
         if (yPort + dy + child.getHeight() < h - MoveInternalPortFeature.EPSILON
-            && yPort == (heightBefore - child.getHeight()))
+            && yPort == (heightBefore - child.getHeight())) {
           dy = h - yPort - child.getHeight();
+        }
         dx = Math.round(xPort * wRatio) - xPort;
-        if (xPort + dx + child.getWidth() > w)
+        if (xPort + dx + child.getWidth() > w) {
           dx = w - xPort - child.getWidth();
+        }
         if (xPort + dx + child.getWidth() < w - MoveInternalPortFeature.EPSILON
-            && xPort == (widthBefore - child.getWidth()))
+            && xPort == (widthBefore - child.getWidth())) {
           dx = w - xPort - child.getWidth();
+        }
       }
 
       MoveShapeContext moveShapeContext = new MoveShapeContext(child);
