@@ -98,6 +98,18 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
             .allMatch(Objects::nonNull));
   }
 
+  private static boolean updatePortNeeded(IUpdateContext context) {
+    Optional<TaskShape> taskShape = shapeFromContext(context);
+    Optional<Task> task = modelFromContext(context);
+    if (taskShape.isPresent() && task.isPresent()) {
+      return updatePortNeeded(taskShape.get().getInternalPort(),
+          task.get().getInputPort(), InternalInputPort.class)
+          || updatePortNeeded(taskShape.get().getInternalPort(),
+              task.get().getOutputPort(), InternalOutputPort.class);
+    }
+    return false;
+  }
+
   private static Optional<PortDiagram> getPortDiagram(String id,
       Class<? extends PortsDescr> pd, PortType portType) {
     return Optional.of(pd).map(Class::getFields).map(Stream::of)
@@ -142,18 +154,6 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     } else {
       return Reason.createFalseReason();
     }
-  }
-
-  private static boolean updatePortNeeded(IUpdateContext context) {
-    Optional<TaskShape> taskShape = shapeFromContext(context);
-    Optional<Task> task = modelFromContext(context);
-    if (taskShape.isPresent() && task.isPresent()) {
-      return updatePortNeeded(taskShape.get().getInternalPort(),
-          task.get().getInputPort(), InternalInputPort.class)
-          || updatePortNeeded(taskShape.get().getInternalPort(),
-              task.get().getOutputPort(), InternalOutputPort.class);
-    }
-    return false;
   }
 
   @Override
@@ -215,7 +215,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .filter(f -> f.getName().equals(pd.name())).findFirst()
         .ifPresent(f -> TasksUtil.createInputPort(task, f));
   }
-  
+
   protected void createInputPort(Task task, String name,
       Collection<Class<? extends DataType>> datatypes, boolean asyn, int grp,
       boolean hold, String queue) {
