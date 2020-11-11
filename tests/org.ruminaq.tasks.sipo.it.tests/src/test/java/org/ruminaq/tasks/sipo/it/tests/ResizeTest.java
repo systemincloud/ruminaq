@@ -29,10 +29,7 @@ public class ResizeTest extends GuiTest {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Sipo", 200, 100);
 
-    Thread.sleep(1000);
-
-    WithBoGraphitiEditPart constant = new WithBoGraphitiEditPart(
-        Sipo.class);
+    WithBoGraphitiEditPart constant = new WithBoGraphitiEditPart(Sipo.class);
 
     new ResizeShape(gefEditor, constant,
         ResizeShapeContext.DIRECTION_SOUTH_EAST, 40, 40).execute();
