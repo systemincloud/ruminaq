@@ -80,6 +80,18 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
     layoutPictogramElement(shape);
   }
 
+  private int outOfBorder(int delta, int xy, int shapeSize, int sizeAfter) {
+    return OptionalInt.of(delta).stream()
+        .filter(i -> xy + i + shapeSize > sizeAfter)
+        .map(i -> sizeAfter - xy - shapeSize).findAny().orElse(delta);
+  }
+
+  private int almostOnBorder(int delta, int xy, int shapeSize, int sizeAfter) {
+    return OptionalInt.of(delta).stream().filter(
+        i -> xy + i + shapeSize < sizeAfter - MoveInternalPortFeature.EPSILON)
+        .map(i -> sizeAfter - xy - shapeSize).findAny().orElse(delta);
+  }
+
   private void alignInternalPorts(TaskShape shape, int widthBefore,
       int heightBefore, int widthAfter, int heightAfter) {
 
@@ -91,28 +103,12 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
       int yPort = child.getY();
       int dx = Math.round(xPort * wRatio) - xPort;
       int dy = Math.round(yPort * hRatio) - yPort;
-      dx = OptionalInt.of(dx).stream()
-          .filter(i -> GuiUtil.isOnBorder(child, widthBefore, heightBefore))
-          .filter(i -> xPort + i + child.getWidth() > widthAfter)
-          .map(i -> widthAfter - xPort - child.getWidth()).findAny().orElse(dx);
-      dx = OptionalInt.of(dx).stream()
-          .filter(i -> GuiUtil.isOnBorder(child, widthBefore, heightBefore))
-          .filter(i -> xPort + i + child.getWidth() < widthAfter
-              - MoveInternalPortFeature.EPSILON)
-          .filter(i -> xPort == widthBefore - child.getWidth())
-          .map(i -> widthAfter - xPort - child.getWidth()).findAny().orElse(dx);
-      dy = OptionalInt.of(dy).stream()
-          .filter(i -> GuiUtil.isOnBorder(child, widthBefore, heightBefore))
-          .filter(i -> yPort + i + child.getHeight() > heightAfter)
-          .map(i -> heightAfter - yPort - child.getHeight()).findAny()
-          .orElse(dy);
-      dy = OptionalInt.of(dy).stream()
-          .filter(i -> GuiUtil.isOnBorder(child, widthBefore, heightBefore))
-          .filter(i -> yPort + i + child.getHeight() < heightAfter
-              - MoveInternalPortFeature.EPSILON)
-          .filter(i -> yPort == heightAfter - child.getHeight())
-          .map(i -> heightAfter - yPort - child.getHeight()).findAny()
-          .orElse(dy);
+      if (GuiUtil.isOnBorder(shape, widthBefore, heightBefore)) {
+        dx = outOfBorder(dx, xPort, shape.getWidth(), widthAfter);
+        dx = almostOnBorder(dx, xPort, shape.getWidth(), widthAfter);
+        dy = outOfBorder(dy, yPort, child.getHeight(), heightAfter);
+        dy = almostOnBorder(dy, yPort, child.getHeight(), heightAfter);
+      }
       MoveShapeContext moveShapeContext = new MoveShapeContext(child);
       moveShapeContext.setX(xPort + dx);
       moveShapeContext.setY(yPort + dy);
