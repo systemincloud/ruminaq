@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tests.common;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
@@ -27,9 +28,9 @@ public class CreateRuminaqDiagram {
    * Create new Ruminaq daigram.
    *
    * @param bot         SWTWorkbenchBot
-   * @param name        name of project
-   * @param diagramName
-   * @param path
+   * @param projectName name of project
+   * @param path        destination file path
+   * @param diagramName diagram name
    */
   public void execute(SWTWorkbenchBot bot, String projectName, String path,
       String diagramName) {
@@ -44,6 +45,13 @@ public class CreateRuminaqDiagram {
     bot.button("Finish").click();
   }
 
+  /**
+   * Open wizard.
+   *
+   * @param bot         SWTWorkbenchBot
+   * @param projectName
+   * @param dirs        selection file path
+   */
   public void openDiagramWizardFromProjectContextMenu(SWTWorkbenchBot bot,
       String projectName, String... dirs) {
     SWTBotTree selector = SelectView.selectInProjectExplorer(bot, projectName,
@@ -58,6 +66,12 @@ public class CreateRuminaqDiagram {
     bot.button("Next >").click();
   }
 
+  /**
+   * Wait.
+   *
+   * @param bot         SWTWorkbenchBot
+   * @param diagramName diagram name
+   */
   public void waitUntilDiagramOpens(SWTWorkbenchBot bot, String diagramName) {
     Matcher<IEditorReference> withPartName = WidgetMatcherFactory
         .withPartName(diagramName);
