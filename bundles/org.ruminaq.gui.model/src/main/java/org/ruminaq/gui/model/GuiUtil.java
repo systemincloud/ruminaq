@@ -209,20 +209,6 @@ public final class GuiUtil {
     return null;
   }
 
-  /**
-   * If the inner shape is on the border of outer shape.
-   * 
-   * @param shape parent shape
-   * @param child tested shape
-   * @return status
-   */
-  public static boolean isOnBorder(RuminaqShape child, int parentWidth,
-      int parentHeight) {
-    return child.getX() == 0 || child.getX() == (parentWidth - child.getWidth())
-        || child.getY() == 0
-        || child.getY() == (parentHeight - child.getHeight());
-  }
-
   // TODO: Think about line break in the ui...
   public static int getLabelHeight(AbstractText text) {
     if (text.getValue() != null && !text.getValue().isEmpty()) {

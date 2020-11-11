@@ -80,35 +80,25 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
     layoutPictogramElement(shape);
   }
 
-  private int outOfBorder(int delta, int xy, int shapeSize, int sizeAfter) {
-    return OptionalInt.of(delta).stream()
-        .filter(i -> xy + i + shapeSize > sizeAfter)
-        .map(i -> sizeAfter - xy - shapeSize).findAny().orElse(delta);
-  }
-
-  private int almostOnBorder(int delta, int xy, int shapeSize, int sizeAfter) {
-    return OptionalInt.of(delta).stream().filter(
-        i -> xy + i + shapeSize < sizeAfter - MoveInternalPortFeature.EPSILON)
-        .map(i -> sizeAfter - xy - shapeSize).findAny().orElse(delta);
-  }
-
   private void alignInternalPorts(TaskShape shape, int widthBefore,
       int heightBefore, int widthAfter, int heightAfter) {
 
-    float wRatio = (float) widthAfter / (float) widthBefore;
-    float hRatio = (float) heightAfter / (float) heightBefore;
+    double wRatio = (double) widthAfter / (double) widthBefore;
+    double hRatio = (double) heightAfter / (double) heightBefore;
 
     for (InternalPortShape child : shape.getInternalPort()) {
       int xPort = child.getX();
       int yPort = child.getY();
-      int dx = Math.round(xPort * wRatio) - xPort;
-      int dy = Math.round(yPort * hRatio) - yPort;
-      if (GuiUtil.isOnBorder(shape, widthBefore, heightBefore)) {
-        dx = outOfBorder(dx, xPort, shape.getWidth(), widthAfter);
-        dx = almostOnBorder(dx, xPort, shape.getWidth(), widthAfter);
-        dy = outOfBorder(dy, yPort, child.getHeight(), heightAfter);
-        dy = almostOnBorder(dy, yPort, child.getHeight(), heightAfter);
-      }
+      int widthPort = child.getWidth();
+      int heightPort = child.getHeight();
+      int dx = OptionalInt.of(xPort).stream()
+          .filter(x -> x == widthBefore - widthPort)
+          .map(x -> widthAfter - widthPort - x).findAny()
+          .orElseGet(() -> (int) (Math.round(xPort * wRatio) - xPort));
+      int dy = OptionalInt.of(yPort).stream()
+          .filter(y -> y == heightBefore - heightPort)
+          .map(y -> heightAfter - heightPort - y).findAny()
+          .orElseGet(() -> (int) (Math.round(yPort * hRatio) - yPort));
       MoveShapeContext moveShapeContext = new MoveShapeContext(child);
       moveShapeContext.setX(xPort + dx);
       moveShapeContext.setY(yPort + dy);
