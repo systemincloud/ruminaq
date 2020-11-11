@@ -7,7 +7,7 @@
 package org.ruminaq.eclipse.it.tests;
 
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
-
+import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -47,7 +47,7 @@ public class CreateRuminaqDiagramFailedTest {
    */
   @BeforeClass
   public static void initBot() {
-    new File(LOG_DIR).mkdirs();
+    assertTrue("Create directory for logs.", new File(LOG_DIR).mkdirs());
     bot = new SWTWorkbenchBot();
     SelectView.closeWelcomeViewIfExists(bot);
   }
@@ -63,8 +63,8 @@ public class CreateRuminaqDiagramFailedTest {
   public final void testCreateDiagramFailed()
       throws IOException, InterruptedException {
 
-    String logFilePath = "target/logs/"
-        + FilenameUtils.getName(RandomStringUtils.randomAlphabetic(SUFFIX_LENGTH) + ".log");
+    String logFilePath = LOG_DIR + FilenameUtils
+        .getName(RandomStringUtils.randomAlphabetic(SUFFIX_LENGTH) + ".log");
 
     File logFile = new File(logFilePath);
     logFile.createNewFile();
