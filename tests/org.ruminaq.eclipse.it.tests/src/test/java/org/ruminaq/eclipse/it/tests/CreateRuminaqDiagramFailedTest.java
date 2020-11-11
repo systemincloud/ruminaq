@@ -75,8 +75,6 @@ public class CreateRuminaqDiagramFailedTest {
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
-    Thread.sleep(5000);
-
     String path = SourceFolders.DIAGRAM_FOLDER;
 
     String diagramName = "Diagram_"
