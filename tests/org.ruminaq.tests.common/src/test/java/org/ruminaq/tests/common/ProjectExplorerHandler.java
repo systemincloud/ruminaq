@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tests.common;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
@@ -15,7 +16,6 @@ import org.eclipse.ui.navigator.resources.ProjectExplorer;
  * Project Explorer actions.
  *
  * @author Marek Jagielski
- *
  */
 public class ProjectExplorerHandler {
 
@@ -25,7 +25,6 @@ public class ProjectExplorerHandler {
    * @param bot         SWTWorkbenchBot
    * @param projectName name of project
    * @param dirs        following nodes
-   * @return
    */
   public void select(SWTWorkbenchBot bot, String projectName, String... dirs) {
     SelectView.selectInProjectExplorer(bot, projectName, dirs).setFocus();
@@ -35,7 +34,6 @@ public class ProjectExplorerHandler {
    * Show in Project Explorer.
    *
    * @param bot SWTWorkbenchBot
-   * @return
    */
   public void show(SWTWorkbenchBot bot) {
     SWTBotView modelExplorerView = bot
@@ -50,7 +48,7 @@ public class ProjectExplorerHandler {
     }
   }
 
-  private class LinkWithEditorStateCondition extends DefaultCondition {
+  private static class LinkWithEditorStateCondition extends DefaultCondition {
 
     private SWTBotView modelExplorerView;
 
