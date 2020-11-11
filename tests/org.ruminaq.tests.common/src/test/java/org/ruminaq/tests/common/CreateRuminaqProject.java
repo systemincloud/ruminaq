@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tests.common;
 
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
@@ -24,7 +25,6 @@ public class CreateRuminaqProject {
    *
    * @param bot  SWTWorkbenchBot
    * @param name name of project
-   * @return
    */
   public void execute(SWTWorkbenchBot bot, String name) {
     openProjectWizardFromMainMenu(bot);
@@ -39,8 +39,7 @@ public class CreateRuminaqProject {
   /**
    * Open new project wizard File => New.
    *
-   * @param bot  SWTWorkbenchBot
-   * @param name name of project
+   * @param bot SWTWorkbenchBot
    */
   public void openProjectWizardFromMainMenu(SWTWorkbenchBot bot) {
     bot.menu("File").menu("New").menu("Project...").click();
