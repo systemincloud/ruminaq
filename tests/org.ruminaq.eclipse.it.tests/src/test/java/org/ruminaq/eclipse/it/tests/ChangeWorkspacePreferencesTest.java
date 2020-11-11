@@ -50,7 +50,7 @@ public class ChangeWorkspacePreferencesTest {
     bot.comboBoxWithLabel("Modeler log level:").setSelection("WARN");
     bot.button("Apply and Close").click();
 
-    Assert.assertEquals("WARN",
+    Assert.assertEquals("WARN preference should be set", "WARN",
         InstanceScope.INSTANCE.getNode(Prefs.QUALIFIER)
             .get(ModelerLoggerFactory.MODELER_LOG_LEVEL_PREF, ""));
 
@@ -59,8 +59,8 @@ public class ChangeWorkspacePreferencesTest {
     bot.comboBoxWithLabel("Modeler log level:").setSelection("ERROR");
     bot.button("Apply and Close").click();
 
-    Assert.assertEquals("ERROR",
+    Assert.assertEquals("ERROR preference should be set", "ERROR",
         InstanceScope.INSTANCE.getNode(Prefs.QUALIFIER)
-        .get(ModelerLoggerFactory.MODELER_LOG_LEVEL_PREF, ""));
+            .get(ModelerLoggerFactory.MODELER_LOG_LEVEL_PREF, ""));
   }
 }
