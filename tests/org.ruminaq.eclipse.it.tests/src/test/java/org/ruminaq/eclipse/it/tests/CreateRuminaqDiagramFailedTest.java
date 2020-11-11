@@ -47,7 +47,7 @@ public class CreateRuminaqDiagramFailedTest {
    */
   @BeforeClass
   public static void initBot() {
-    assertTrue("Create directory for logs.", new File(LOG_DIR).mkdirs());
+    new File(LOG_DIR).mkdirs();
     bot = new SWTWorkbenchBot();
     SelectView.closeWelcomeViewIfExists(bot);
   }
