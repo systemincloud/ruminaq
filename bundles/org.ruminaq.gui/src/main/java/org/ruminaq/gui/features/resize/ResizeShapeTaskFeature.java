@@ -7,6 +7,7 @@
 package org.ruminaq.gui.features.resize;
 
 import java.util.Optional;
+import java.util.OptionalInt;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IResizeShapeContext;
 import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
@@ -80,35 +81,38 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
   }
 
   private void alignInternalPorts(TaskShape shape, int widthBefore,
-      int heightBefore, int w, int h) {
+      int heightBefore, int widthAfter, int heightAfter) {
 
-    float wRatio = (float) w / (float) widthBefore;
-    float hRatio = (float) h / (float) heightBefore;
+    float wRatio = (float) widthAfter / (float) widthBefore;
+    float hRatio = (float) heightAfter / (float) heightBefore;
 
     for (InternalPortShape child : shape.getInternalPort()) {
-      int dx = 0;
-      int dy = 0;
       int xPort = child.getX();
       int yPort = child.getY();
-      if (GuiUtil.isOnBorder(child, widthBefore, heightBefore)) {
-        dy = Math.round(yPort * hRatio) - yPort;
-        if (yPort + dy + child.getHeight() > h) {
-          dy = h - yPort - child.getHeight();
-        }
-        if (yPort + dy + child.getHeight() < h - MoveInternalPortFeature.EPSILON
-            && yPort == (heightBefore - child.getHeight())) {
-          dy = h - yPort - child.getHeight();
-        }
-        dx = Math.round(xPort * wRatio) - xPort;
-        if (xPort + dx + child.getWidth() > w) {
-          dx = w - xPort - child.getWidth();
-        }
-        if (xPort + dx + child.getWidth() < w - MoveInternalPortFeature.EPSILON
-            && xPort == (widthBefore - child.getWidth())) {
-          dx = w - xPort - child.getWidth();
-        }
-      }
-
+      int dx = Math.round(xPort * wRatio) - xPort;
+      int dy = Math.round(yPort * hRatio) - yPort;
+      dx = OptionalInt.of(dx).stream()
+          .filter(i -> GuiUtil.isOnBorder(child, widthBefore, heightBefore))
+          .filter(i -> xPort + i + child.getWidth() > widthAfter)
+          .map(i -> widthAfter - xPort - child.getWidth()).findAny().orElse(dx);
+      dx = OptionalInt.of(dx).stream()
+          .filter(i -> GuiUtil.isOnBorder(child, widthBefore, heightBefore))
+          .filter(i -> xPort + i + child.getWidth() < widthAfter
+              - MoveInternalPortFeature.EPSILON)
+          .filter(i -> xPort == widthBefore - child.getWidth())
+          .map(i -> widthAfter - xPort - child.getWidth()).findAny().orElse(dx);
+      dy = OptionalInt.of(dy).stream()
+          .filter(i -> GuiUtil.isOnBorder(child, widthBefore, heightBefore))
+          .filter(i -> yPort + i + child.getHeight() > heightAfter)
+          .map(i -> heightAfter - yPort - child.getHeight()).findAny()
+          .orElse(dy);
+      dy = OptionalInt.of(dy).stream()
+          .filter(i -> GuiUtil.isOnBorder(child, widthBefore, heightBefore))
+          .filter(i -> yPort + i + child.getHeight() < heightAfter
+              - MoveInternalPortFeature.EPSILON)
+          .filter(i -> yPort == heightAfter - child.getHeight())
+          .map(i -> heightAfter - yPort - child.getHeight()).findAny()
+          .orElse(dy);
       MoveShapeContext moveShapeContext = new MoveShapeContext(child);
       moveShapeContext.setX(xPort + dx);
       moveShapeContext.setY(yPort + dy);
