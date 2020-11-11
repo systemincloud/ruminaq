@@ -7,12 +7,10 @@
 package org.ruminaq.eclipse.it.tests;
 
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
-import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.maven.shared.utils.io.IOUtil;
