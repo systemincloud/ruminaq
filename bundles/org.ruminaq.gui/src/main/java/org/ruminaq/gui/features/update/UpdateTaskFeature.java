@@ -166,20 +166,14 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   private void updatePort(IUpdateContext context) {
-    shapeFromContext(context)
-        .ifPresent(taskShape -> modelFromContext(context).ifPresent(task -> {
-          if (updatePortNeeded(taskShape.getInternalPort(), task.getInputPort(),
-              InternalInputPort.class)) {
-            updateInputPort(taskShape, task);
-          }
-        }));
-    shapeFromContext(context)
-        .ifPresent(taskShape -> modelFromContext(context).ifPresent(task -> {
-          if (updatePortNeeded(taskShape.getInternalPort(),
-              task.getOutputPort(), InternalOutputPort.class)) {
-            updateOutputPort(taskShape, task);
-          }
-        }));
+    shapeFromContext(context).ifPresent(taskShape -> modelFromContext(context)
+        .filter(task -> updatePortNeeded(taskShape.getInternalPort(),
+            task.getInputPort(), InternalInputPort.class))
+        .ifPresent(task -> updateInputPort(taskShape, task)));
+    shapeFromContext(context).ifPresent(taskShape -> modelFromContext(context)
+        .filter(task -> updatePortNeeded(taskShape.getInternalPort(),
+            task.getOutputPort(), InternalOutputPort.class))
+        .ifPresent(task -> updateOutputPort(taskShape, task)));
   }
 
   private void updateInputPort(TaskShape taskShape, Task task) {
