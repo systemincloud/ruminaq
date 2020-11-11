@@ -54,11 +54,11 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
   @Override
   public void resizeShape(IResizeShapeContext context) {
     TaskShape shape = shapeFromContext(context);
-    boolean labelInDefaultPostion = LabelUtil
+    final boolean labelInDefaultPostion = LabelUtil
         .isInDefaultPosition(shape.getLabel());
 
-    int widthBefore = shape.getWidth();
-    int heightBefore = shape.getHeight();
+    final int widthBefore = shape.getWidth();
+    final int heightBefore = shape.getHeight();
 
     int x = context.getX();
     int y = context.getY();
