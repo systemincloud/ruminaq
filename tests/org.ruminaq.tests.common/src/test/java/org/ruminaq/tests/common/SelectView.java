@@ -24,6 +24,14 @@ public class SelectView {
     return bot.viewByTitle("Project Explorer");
   }
 
+  /**
+   * Select and return resource in Project Explorer view.
+   *
+   * @param bot         bot instance
+   * @param projectName eclipse project
+   * @param dirs        path to resource
+   * @return selected resource
+   */
   public static SWTBotTree selectInProjectExplorer(SWTWorkbenchBot bot,
       String projectName, String[] dirs) {
     SWTBotView pe = SelectView.getProjectExplorer(bot);
