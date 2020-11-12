@@ -91,13 +91,14 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   /**
-   * 
-   * @param <T>
-   * @param <K>
-   * @param portShapes
-   * @param fromModel
-   * @param type
-   * @return
+   * Check if need to update ports shapes basing on ports models.
+   *
+   * @param <T>        type of ports shape
+   * @param <K>        type of ports model
+   * @param portShapes collection of ports shapes
+   * @param fromModel  collection of ports models
+   * @param type       which type of port is being checked
+   * @return update needed
    */
   private static <T extends InternalPortShape, K extends InternalPort> boolean updatePortNeeded(
       Collection<T> portShapes, Collection<K> fromModel, Class<K> type) {
@@ -108,9 +109,10 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
   }
 
   /**
-   * 
-   * @param context
-   * @return
+   * Check if need to update ports shapes.
+   *
+   * @param context IUpdateContext
+   * @return update needed
    */
   private static boolean updatePortNeeded(IUpdateContext context) {
     Optional<TaskShape> taskShape = shapeFromContext(context);
