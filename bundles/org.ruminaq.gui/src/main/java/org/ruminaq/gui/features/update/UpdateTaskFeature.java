@@ -90,6 +90,15 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .filter(type::isInstance).map(type::cast).collect(Collectors.toList());
   }
 
+  /**
+   * 
+   * @param <T>
+   * @param <K>
+   * @param portShapes
+   * @param fromModel
+   * @param type
+   * @return
+   */
   private static <T extends InternalPortShape, K extends InternalPort> boolean updatePortNeeded(
       Collection<T> portShapes, Collection<K> fromModel, Class<K> type) {
     List<K> fromShape = internalPortFrom(portShapes, type);
@@ -98,6 +107,11 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
             .allMatch(Objects::nonNull));
   }
 
+  /**
+   * 
+   * @param context
+   * @return
+   */
   private static boolean updatePortNeeded(IUpdateContext context) {
     Optional<TaskShape> taskShape = shapeFromContext(context);
     Optional<Task> task = modelFromContext(context);

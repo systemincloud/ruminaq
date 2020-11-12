@@ -80,6 +80,15 @@ public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
     layoutPictogramElement(shape);
   }
 
+  /**
+   * Redistribute proportionally internal ports that are on borders of Task.
+   *
+   * @param shape        Task PictogramElement
+   * @param widthBefore  Task width before resize
+   * @param heightBefore Task height before resize
+   * @param widthAfter   Task width after resize
+   * @param heightAfter  Task height after resize
+   */
   private void alignInternalPorts(TaskShape shape, int widthBefore,
       int heightBefore, int widthAfter, int heightAfter) {
 
