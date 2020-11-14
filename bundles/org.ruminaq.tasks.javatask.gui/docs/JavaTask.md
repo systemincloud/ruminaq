@@ -17,7 +17,7 @@ With Java Task you can define your own task with Java programming language.
 
 <div align="center"><img src="imgs/properties.png" /></div>
 
-* **Java Task Class:** <em>&lt;fully qualified name&gt;</em><br>
+* **Implementation:** <em>&lt;fully qualified name&gt;</em><br>
 You can use search window to find the class. You can also open a wizard
 to create a new Java Task Class either by clicking here or on right clicking
 in Package Explorer (New -&gt; Other... -&gt; System in Cloud -&gt; Commons -&gt; Java Task Class).

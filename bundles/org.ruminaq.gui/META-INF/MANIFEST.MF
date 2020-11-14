@@ -135,4 +135,5 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextBut
  OSGI-INF/org.ruminaq.gui.features.decorators.DecorateTaskFeature.xml,
  OSGI-INF/org.ruminaq.gui.features.decorators.DecorateInternalPortFeature.xml,
  OSGI-INF/org.ruminaq.gui.features.reconnection.ReconnectionFeatureImpl.xml,
- OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadUserDefinedTaskTool.xml
+ OSGI-INF/org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadUserDefinedTaskTool.xml,
+ OSGI-INF/org.ruminaq.gui.EmbeddedTaskDescription.xml
