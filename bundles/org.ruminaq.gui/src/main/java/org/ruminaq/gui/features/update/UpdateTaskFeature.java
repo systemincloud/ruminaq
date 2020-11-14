@@ -285,7 +285,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     taskShape.getInternalPort().add(portShape);
     portShape.setModelObject(p);
     portShape.setShowLabel(
-        portDiagram.map(PortDiagram::label).orElse(Boolean.FALSE));
+        portDiagram.map(PortDiagram::label).orElse(Boolean.TRUE));
     Position position = portDiagram.map(PortDiagram::pos).orElse(Position.LEFT);
     portShape.setX(xOfPostion(taskShape, position));
     portShape.setY(yOfPostion(taskShape, position));
@@ -303,7 +303,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
     taskShape.getInternalPort().add(portShape);
     portShape.setModelObject(p);
     portShape.setShowLabel(
-        portDiagram.map(PortDiagram::label).orElse(Boolean.FALSE));
+        portDiagram.map(PortDiagram::label).orElse(Boolean.TRUE));
     Position position = portDiagram.map(PortDiagram::pos)
         .orElse(Position.RIGHT);
     portShape.setX(xOfPostion(taskShape, position));

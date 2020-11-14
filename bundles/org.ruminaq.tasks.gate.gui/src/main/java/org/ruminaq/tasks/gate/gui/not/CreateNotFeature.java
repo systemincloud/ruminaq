@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.gate.gui.not;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -16,6 +17,10 @@ import org.ruminaq.tasks.gate.model.gate.GateFactory;
 import org.ruminaq.tasks.gate.model.gate.Not;
 import org.ruminaq.tasks.gate.not.impl.Port;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 public class CreateNotFeature extends AbstractCreateTaskFeature
     implements PaletteCreateFeature {
 

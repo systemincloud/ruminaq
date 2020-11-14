@@ -3,12 +3,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.gate.gui;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.IUpdateFeature;
@@ -22,6 +22,7 @@ import org.ruminaq.gui.features.update.UpdateTaskFeature;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.PortsDescr;
 import org.ruminaq.tasks.gate.gui.UpdateFeatureImpl.UpdateFeature.Filter;
+import org.ruminaq.tasks.gate.gui.not.UpdateNotFeature;
 import org.ruminaq.tasks.gate.model.gate.Gate;
 
 /**
@@ -34,7 +35,7 @@ public class UpdateFeatureImpl implements UpdateFeatureExtension {
 
   @Override
   public List<Class<? extends IUpdateFeature>> getFeatures() {
-    return Collections.singletonList(UpdateFeature.class);
+    return Arrays.asList(UpdateNotFeature.class, UpdateFeature.class);
   }
 
   /**

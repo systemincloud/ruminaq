@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.tasks.embeddedtask.ui.cmd;
+package org.ruminaq.eclipse.cmd;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -32,7 +32,6 @@ import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.prefs.ProjectProps;
-import org.ruminaq.tasks.embeddedtask.ui.IEmbeddedTaskUiApi;
 import org.ruminaq.util.EclipseUtil;
 
 public class TestDiagramGenerator {

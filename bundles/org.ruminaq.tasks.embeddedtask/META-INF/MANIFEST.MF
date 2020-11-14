@@ -67,11 +67,9 @@ Import-Package: ch.qos.logback.classic,
  org.ruminaq.runner.service,
  org.ruminaq.tasks,
  org.ruminaq.tasks.api,
- org.ruminaq.tasks.embeddedtask.ui,
  org.ruminaq.util,
  org.slf4j
-Export-Package: org.ruminaq.tasks.embeddedtask,
- org.ruminaq.tasks.embeddedtask.features
+Export-Package: org.ruminaq.tasks.embeddedtask
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-14
 Bundle-ActivationPolicy: lazy

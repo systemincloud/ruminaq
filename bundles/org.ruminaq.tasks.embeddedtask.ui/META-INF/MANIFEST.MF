@@ -31,9 +31,6 @@ Import-Package: org.apache.commons.io,
  org.ruminaq.tasks,
  org.ruminaq.tasks.api,
  org.ruminaq.util
-Export-Package: com.systemincloud.modeler.tasks.embeddedtask.ui.cmd,
- org.ruminaq.tasks.embeddedtask.ui,
- org.ruminaq.tasks.embeddedtask.ui.cmd,
- org.ruminaq.tasks.embeddedtask.ui.properties
+Export-Package: com.systemincloud.modeler.tasks.embeddedtask.ui.cmd
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-14
