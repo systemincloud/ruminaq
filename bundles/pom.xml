@@ -42,8 +42,6 @@
     <module>org.ruminaq.tasks.constant.ui</module>
 
     <module>org.ruminaq.tasks.demux</module>
-    <module>org.ruminaq.tasks.embeddedtask</module>
-    <module>org.ruminaq.tasks.embeddedtask.ui</module>
 
     <module>org.ruminaq.tasks.gate</module>
     <module>org.ruminaq.tasks.gate.gui</module>
