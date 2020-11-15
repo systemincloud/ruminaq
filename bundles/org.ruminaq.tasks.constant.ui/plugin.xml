@@ -8,7 +8,7 @@
 
    <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
       <propertyTabs contributorId="Ruminaq.PropertyContributor">
-         <propertyTab label="Constant" id="org.ruminaq.tasks.constantTab" afterTab="org.ruminaq.common.mainTab" category="Graphiti" />
+         <propertyTab label="Constant" id="org.ruminaq.tasks.constantTab" afterTab="org.ruminaq.gui.generalTab" category="Graphiti" />
       </propertyTabs>
    </extension>
    <!--extension point="org.eclipse.ui.views.properties.tabbed.propertySections">

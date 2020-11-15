@@ -8,7 +8,7 @@
 
    <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
       <propertyTabs contributorId="Ruminaq.PropertyContributor">
-         <propertyTab label="Python Task" id="org.ruminaq.tasks.pythonTaskTab" afterTab="org.ruminaq.common.mainTab" category="Graphiti" />
+         <propertyTab label="Python Task" id="org.ruminaq.tasks.pythonTaskTab" afterTab="org.ruminaq.gui.generalTab" category="Graphiti" />
          <propertyTab label="Parameters" id="org.ruminaq.tasks.pythonTaskParametersTab" afterTab="org.ruminaq.tasks.pythonTaskTab" category="Graphiti" />
       </propertyTabs>
    </extension>

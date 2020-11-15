@@ -5,8 +5,8 @@
    <!-- ******* PROPERTIES ******* -->
    <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
       <propertyTabs contributorId="Ruminaq.PropertyContributor">
-         <!--propertyTab label="Debug"                id="org.ruminaq.gui.internalInputPortDebugTab"  category="Graphiti" afterTab="org.ruminaq.common.mainTab" />
-         <propertyTab label="Debug"                id="org.ruminaq.gui.internalOutputPortDebugTab" category="Graphiti" afterTab="org.ruminaq.common.mainTab" /-->
+         <!--propertyTab label="Debug"                id="org.ruminaq.gui.internalInputPortDebugTab"  category="Graphiti" afterTab="org.ruminaq.gui.generalTab" />
+         <propertyTab label="Debug"                id="org.ruminaq.gui.internalOutputPortDebugTab" category="Graphiti" afterTab="org.ruminaq.gui.generalTab" /-->
       </propertyTabs>
    </extension>
    <!--extension point="org.eclipse.ui.views.properties.tabbed.propertySections">

@@ -5,7 +5,7 @@
       <propertyTab
           label="Gate"
           id="org.ruminaq.tasks.gateOrTab"
-          afterTab="org.ruminaq.common.mainTab"
+          afterTab="org.ruminaq.gui.generalTab"
           category="Graphiti" />
     </propertyTabs>
   </extension>

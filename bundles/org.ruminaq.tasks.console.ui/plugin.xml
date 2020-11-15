@@ -7,7 +7,7 @@
       <propertyTab
           label="Console"
           id="org.ruminaq.tasks.consoleTab"
-          afterTab="org.ruminaq.common.mainTab"
+          afterTab="org.ruminaq.gui.generalTab"
           category="Graphiti" />
     </propertyTabs>
   </extension>

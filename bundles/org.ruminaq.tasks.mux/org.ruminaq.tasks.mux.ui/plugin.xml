@@ -8,7 +8,7 @@
 
    <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
       <propertyTabs contributorId="Ruminaq.PropertyContributor">
-         <propertyTab label="Mux" id="org.ruminaq.tasks.muxTab" afterTab="org.ruminaq.common.mainTab" category="Graphiti" />
+         <propertyTab label="Mux" id="org.ruminaq.tasks.muxTab" afterTab="org.ruminaq.gui.generalTab" category="Graphiti" />
       </propertyTabs>
    </extension>
    <!--extension point="org.eclipse.ui.views.properties.tabbed.propertySections">

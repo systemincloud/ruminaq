@@ -43,7 +43,7 @@
       <propertyTab
           label="Parameters"
           id="org.ruminaq.gui.parameters"
-          afterTab="org.ruminaq.common.mainTab"
+          afterTab="org.ruminaq.gui.generalTab"
           category="Graphiti" />
       <propertyTab
           label="Description"
@@ -51,13 +51,13 @@
           category="Graphiti" />
       <propertyTab
           label="General"
-          id="org.ruminaq.common.mainTab"
+          id="org.ruminaq.gui.generalTab"
           afterTab="org.ruminaq.common.descriptionTab"
           category="Graphiti" />
       <propertyTab
           label="Input Port"
           id="org.ruminaq.common.inputPortTab"
-          afterTab="org.ruminaq.common.mainTab"
+          afterTab="org.ruminaq.gui.generalTab"
           category="Graphiti" />
       <propertyTab
           label="Internal Input Port"
@@ -71,7 +71,12 @@
           label="Synchronization"
           id="org.ruminaq.gui.synchronizationTab"
           category="Graphiti"
-          afterTab="org.ruminaq.common.mainTab" />
+          afterTab="org.ruminaq.gui.generalTab" />
+      <propertyTab
+          label="Embedded Task"
+          id="org.ruminaq.gui.embeddedTaskTab"
+          afterTab="org.ruminaq.gui.generalTab"
+          category="Graphiti" />
     </propertyTabs>
   </extension>
   <extension
@@ -94,9 +99,9 @@
           id="org.ruminaq.gui.descriptionTab.DescriptionSection"
           filter="org.ruminaq.gui.properties.PropertyRuminaqShapeFilter" />
       <propertySection
-          tab="org.ruminaq.common.mainTab"
+          tab="org.ruminaq.gui.generalTab"
           class="org.ruminaq.gui.properties.PropertyElementSection"
-          id="org.ruminaq.common.mainTab.BaseElementSection"
+          id="org.ruminaq.gui.generalTab.BaseElementSection"
           filter="org.ruminaq.gui.properties.PropertyRuminaqShapeFilter" />
       <propertySection
           tab="org.ruminaq.common.inputPortTab"
@@ -118,6 +123,11 @@
           class="org.ruminaq.gui.properties.PropertySynchronizationSection"
           id="org.ruminaq.gui.synchronizationTab.PortSection"
           filter="org.ruminaq.gui.properties.PropertyTaskFilter" />
+      <propertySection
+          tab="org.ruminaq.gui.embeddedTaskTab"
+          class="org.ruminaq.gui.properties.PropertyEmbeddedTaskSection"
+          id="org.ruminaq.tasks.javaTaskTab.Section"
+          filter="org.ruminaq.gui.properties.PropertyEmbeddedTaskFilter" />
     </propertySections>
   </extension>
   <extension point="org.eclipse.ui.newWizards">

@@ -19,7 +19,7 @@
          <propertyTab
                label="Java Task"
                id="org.ruminaq.tasks.javaTaskTab"
-               afterTab="org.ruminaq.common.mainTab"
+               afterTab="org.ruminaq.gui.generalTab"
                category="Graphiti" />
          <!--propertyTab
                label="Parameters"
