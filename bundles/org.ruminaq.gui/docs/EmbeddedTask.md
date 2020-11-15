@@ -1,7 +1,7 @@
-### JavaTask
+### EmbeddedTask
 ***
 
-<div align="center"><img src="imgs/diagram.png"/></div>
+<div align="center"><img src="imgs/diagram-embedded.png"/></div>
 
 You can reduce a complexity of your solution by breaking it into several diagrams and nesting them.
 
@@ -21,7 +21,7 @@ In Test Diagram you use Embedded Task either to:
 
 **Properties**
 
-<div align="center"><img src="imgs/properties.png" /></div>
+<div align="center"><img src="imgs/properties-embedded.png" /></div>
 
 * **Implementation:** <em>&lt;path from tasks directory with indication 'main:' or 'test:' for Test Diagrams&gt;</em><br>
 You can use select dialog to find your diagram. You can also launch diagram creation wizard.
