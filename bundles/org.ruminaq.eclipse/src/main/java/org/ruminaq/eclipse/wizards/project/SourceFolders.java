@@ -7,13 +7,12 @@
 package org.ruminaq.eclipse.wizards.project;
 
 import java.util.Arrays;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
-import org.ruminaq.eclipse.RuminaqRuntimeException;
 import org.ruminaq.util.EclipseUtil;
+import org.ruminaq.util.Result;
 
 /**
  * Creates directories for eclipse sources.
@@ -43,21 +42,16 @@ public final class SourceFolders {
    * Creates directories for eclipse sources.
    *
    * @param project Eclipse IProject reference
-   * @throws RuminaqException smth went wrong
    */
-  static void createSourceFolders(IProject project) throws RuminaqException {
-    try {
-      Arrays.asList(MAIN_RESOURCES, TEST_RESOURCES, DIAGRAM_FOLDER,
-          TEST_DIAGRAM_FOLDER).stream().forEach((String f) -> {
-            try {
-              EclipseUtil.createFolderWithParents(project, f);
-            } catch (CoreException e) {
-              throw new RuminaqRuntimeException(e);
-            }
-          });
-    } catch (RuminaqRuntimeException e) {
-      throw new RuminaqException(
-          Messages.createProjectWizardFailedSourceFolders, e);
-    }
+  static void createSourceFolders(IProject project) {
+    Arrays
+        .asList(MAIN_RESOURCES, TEST_RESOURCES, DIAGRAM_FOLDER,
+            TEST_DIAGRAM_FOLDER)
+        .stream().map(f -> EclipseUtil.createFolderWithParents(project, f))
+        .filter(r -> r.isFailed()).findAny()
+        .ifPresent((Result<String, CoreException> r) -> {
+          throw new RuminaqException(
+              Messages.createProjectWizardFailedSourceFolders);
+        });
   }
 }

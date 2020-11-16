@@ -38,15 +38,9 @@ public final class Builders {
    * Configure builders of eclipse project.
    *
    * @param project Eclipse IProject reference
-   * @throws RuminaqException something went wrong
    */
-  static void configureBuilders(IProject project) throws RuminaqException {
-    try {
-      EclipseUtil.createFolderWithParents(project, EXTERNALTOOLBUILDERS);
-    } catch (CoreException e) {
-      throw new RuminaqException(
-          Messages.createProjectWizardFailedConfigureBuilders, e);
-    }
+  static void configureBuilders(IProject project) {
+    EclipseUtil.createFolderWithParents(project, EXTERNALTOOLBUILDERS);
 
     try (InputStream confFile = Builders.class
         .getResourceAsStream(BUILDER_CONFIG_MVN)) {

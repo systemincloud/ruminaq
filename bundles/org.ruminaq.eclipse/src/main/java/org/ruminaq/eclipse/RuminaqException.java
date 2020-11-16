@@ -11,9 +11,13 @@ package org.ruminaq.eclipse;
  *
  * @author Marek Jagielski
  */
-public class RuminaqException extends Exception {
+public class RuminaqException extends RuntimeException {
 
   public RuminaqException(String msg, Throwable e) {
     super(msg, e);
+  }
+
+  public RuminaqException(String msg) {
+    super(msg);
   }
 }

@@ -8,12 +8,12 @@ package org.ruminaq.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Arrays;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -204,16 +204,38 @@ public final class EclipseUtil {
     return null;
   }
 
-  public static void createFolderWithParents(IProject project, String path)
-      throws CoreException {
-    List<String> tree = Arrays.asList(path.split("/"));
-    for (int i = 1; i <= tree.size(); i++) {
-      IFolder tmpFolder = project.getFolder(String.join("/",
-          tree.stream().limit(i).collect(Collectors.toList())));
-      if (!tmpFolder.exists()) {
-        tmpFolder.create(true, true, new NullProgressMonitor());
-      }
-    }
+  /**
+   * 
+   * @param project
+   * @param path
+   * @return
+   */
+  public static Result<String, CoreException> createFolderWithParents(
+      IProject project, String path) {
+    return Optional.ofNullable(path).map(p -> p.split("/")).map(Stream::of)
+        .orElseGet(Stream::empty)
+        .reduce(
+            new SimpleEntry<>(Result.<String, CoreException>success(""), ""),
+            (parentPath, segment) -> {
+              String currentPath = parentPath.getValue() + "/" + segment;
+              return Optional.of(parentPath).filter(p -> !p.getKey().isFailed())
+                  .map(p -> {
+                    Result<String, CoreException> r = Optional.of(currentPath)
+                        .map(project::getFolder)
+                        .filter(Predicate.not(IFolder::exists))
+                        .map(f -> Result.attempt(() -> {
+                          f.create(true, true, new NullProgressMonitor());
+                          return currentPath;
+                        })).orElse(Result.success(""));
+                    return new SimpleEntry<Result<String, CoreException>, String>(
+                        r, currentPath);
+                  }).orElseGet(() -> {
+                    parentPath.setValue(currentPath);
+                    return parentPath;
+                  });
+            }, (a, b) -> Optional.of(a).filter(r -> r.getKey().isFailed())
+                .orElse(b))
+        .getKey();
   }
 
   public static void createFileInFolder(IProject project, String path,

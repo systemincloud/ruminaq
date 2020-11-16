@@ -3,12 +3,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.eclipse.cmd;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.List;
-
+import java.util.Optional;
+import java.util.function.Predicate;
 import org.apache.commons.io.IOUtils;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -28,60 +29,69 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.service.component.annotations.Reference;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.SourceFolders;
 import org.ruminaq.prefs.ProjectProps;
 import org.ruminaq.util.EclipseUtil;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 public class TestDiagramGenerator {
 
-  public void generateTestDiagram(IResource file) throws Exception {
+  public void generateTestDiagram(IResource file) {
     IProject project = file.getProject();
-    IFolder sourceFolder = project.getFolder(SourceFolders.TEST_DIAGRAM_FOLDER);
-    if (!sourceFolder.exists())
-      EclipseUtil.createFolderWithParents(project,
-          SourceFolders.TEST_DIAGRAM_FOLDER);
-
+    Optional.of(project)
+        .map(p -> p.getFolder(SourceFolders.TEST_DIAGRAM_FOLDER))
+        .filter(Predicate.not(IFolder::exists))
+        .ifPresent(f -> EclipseUtil.createFolderWithParents(project,
+            SourceFolders.TEST_DIAGRAM_FOLDER));
+    
     IPath p = file.getFullPath();
-    String path = getTestPath(p, project);
+    try {
+      String path = getTestPath(p, project);
 
-    String modelFileNameExt = p.segment(p.segmentCount() - 1);
-    String modelFileName = modelFileNameExt.substring(0,
-        modelFileNameExt.lastIndexOf(CreateDiagramWizard.DIAGRAM_EXTENSION_DOT));
-    String modelTestName = modelFileName + "Test";
-    String modelTestNameExt = modelTestName + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT;
+      String modelFileNameExt = p.segment(p.segmentCount() - 1);
+      String modelFileName = modelFileNameExt.substring(0, modelFileNameExt
+          .lastIndexOf(CreateDiagramWizard.DIAGRAM_EXTENSION_DOT));
+      String modelTestName = modelFileName + "Test";
+      String modelTestNameExt = modelTestName
+          + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT;
 
-    String modelFilePath = p.removeFirstSegments(1).toString();
+      String modelFilePath = p.removeFirstSegments(1).toString();
 
-    IContainer container = project.getFolder(path);
-    Diagram diagram = Graphiti.getPeCreateService().createDiagram("Ruminaq",
-        modelTestNameExt, -1, false);
+      IContainer container = project.getFolder(path);
+      Diagram diagram = Graphiti.getPeCreateService().createDiagram("Ruminaq",
+          modelTestNameExt, -1, false);
 
-    PictogramLink pl = PictogramsFactory.eINSTANCE.createPictogramLink();
-    pl.setPictogramElement(diagram);
-    diagram.getPictogramLinks().add(pl);
+      PictogramLink pl = PictogramsFactory.eINSTANCE.createPictogramLink();
+      pl.setPictogramElement(diagram);
+      diagram.getPictogramLinks().add(pl);
 
-    IFolder diagramFolder = container.getFolder(null);
-    IFile fileTmp = diagramFolder.getFile(modelTestNameExt);
-    if (fileTmp.exists()) {
-      int i = 1;
-      do {
-        modelTestName = modelFileNameExt.substring(0,
-            modelFileNameExt.lastIndexOf(CreateDiagramWizard.DIAGRAM_EXTENSION_DOT))
-            + "Test_" + i;
-        modelTestNameExt = modelTestName + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT;
-        fileTmp = diagramFolder.getFile(modelTestNameExt);
-        i++;
-      } while (fileTmp.exists());
-    }
-    final IFile diagramFile = fileTmp;
+      IFolder diagramFolder = container.getFolder(null);
+      IFile fileTmp = diagramFolder.getFile(modelTestNameExt);
+      if (fileTmp.exists()) {
+        int i = 1;
+        do {
+          modelTestName = modelFileNameExt.substring(0,
+              modelFileNameExt
+                  .lastIndexOf(CreateDiagramWizard.DIAGRAM_EXTENSION_DOT))
+              + "Test_" + i;
+          modelTestNameExt = modelTestName
+              + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT;
+          fileTmp = diagramFolder.getFile(modelTestNameExt);
+          i++;
+        } while (fileTmp.exists());
+      }
+      final IFile diagramFile = fileTmp;
 
-    String symbolicName = FrameworkUtil.getBundle(getClass()).getSymbolicName();
-    String modelerVersion = ProjectProps.getInstance(project)
-        .get(ProjectProps.RUMINAQ_VERSION);
-    String versionToFill = "";
-    String maxModelerVer = "0.0.0";
+      String symbolicName = FrameworkUtil.getBundle(getClass())
+          .getSymbolicName();
+      String modelerVersion = ProjectProps.getInstance(project)
+          .get(ProjectProps.RUMINAQ_VERSION);
+      String versionToFill = "";
+      String maxModelerVer = "0.0.0";
 //    for (ITaskUiApi t : ts) {
 //      String tmp = ((IEmbeddedTaskUiApi) t).getModelerVersion();
 //      if (versionCompare(tmp, maxModelerVer) > 0)
@@ -95,29 +105,31 @@ public class TestDiagramGenerator {
 
 //    }
 
-    InputStream is = this.getClass().getResourceAsStream("TestTask.template");
-    String diagramContent = IOUtils.toString(is, "UTF-8")
-        .replaceAll("nameTestTaskToFill", modelTestName)
-        .replaceAll("nameTestedTaskToFill", modelFileName + ".sic")
-        .replaceAll("idTestedTaskToFill", modelFileName)
-        .replaceAll("pathTestedTaskToFill", modelFilePath)
-        .replaceAll("modelerVersionFill", modelerVersion)
-        .replaceAll("versionToFill", versionToFill);
-    diagramFile.create(new ByteArrayInputStream(diagramContent.getBytes()),
-        IResource.FORCE, new NullProgressMonitor());
+      InputStream is = this.getClass().getResourceAsStream("TestTask.template");
+      String diagramContent = IOUtils.toString(is, "UTF-8")
+          .replaceAll("nameTestTaskToFill", modelTestName)
+          .replaceAll("nameTestedTaskToFill", modelFileName + ".sic")
+          .replaceAll("idTestedTaskToFill", modelFileName)
+          .replaceAll("pathTestedTaskToFill", modelFilePath)
+          .replaceAll("modelerVersionFill", modelerVersion)
+          .replaceAll("versionToFill", versionToFill);
+      diagramFile.create(new ByteArrayInputStream(diagramContent.getBytes()),
+          IResource.FORCE, new NullProgressMonitor());
 
-    Display.getCurrent().asyncExec(new Runnable() {
-      @Override
-      public void run() {
-        IWorkbenchPage page = PlatformUI.getWorkbench()
-            .getActiveWorkbenchWindow().getActivePage();
-        try {
-          IDE.openEditor(page, diagramFile, true);
-        } catch (PartInitException e) {
+      Display.getCurrent().asyncExec(new Runnable() {
+        @Override
+        public void run() {
+          IWorkbenchPage page = PlatformUI.getWorkbench()
+              .getActiveWorkbenchWindow().getActivePage();
+          try {
+            IDE.openEditor(page, diagramFile, true);
+          } catch (PartInitException e) {
+          }
         }
-      }
-    });
+      });
+    } catch (Exception e) {
 
+    }
   }
 
   private String getTestPath(IPath p, IProject project) throws CoreException {

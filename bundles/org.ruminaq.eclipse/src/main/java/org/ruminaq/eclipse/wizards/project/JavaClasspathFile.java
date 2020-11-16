@@ -44,10 +44,8 @@ public final class JavaClasspathFile {
    * Writes to .classpath file when new project is created.
    *
    * @param javaProject Eclipse IJavaProject reference
-   * @throws RuminaqException something went wrong
    */
-  public void setClasspathEntries(IJavaProject javaProject)
-      throws RuminaqException {
+  public void setClasspathEntries(IJavaProject javaProject) {
     List<IClasspathEntry> entries = new LinkedList<>();
     IPath[] javaPath = new IPath[] { new Path(JAVA_PATH) };
     IPath testOutputLocation = javaProject.getPath().append(TARGET_PATH);

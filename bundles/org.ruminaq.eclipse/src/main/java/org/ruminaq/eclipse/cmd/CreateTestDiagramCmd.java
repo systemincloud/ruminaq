@@ -6,28 +6,27 @@
 
 package org.ruminaq.eclipse.cmd;
 
+import java.util.Optional;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 public class CreateTestDiagramCmd extends AbstractHandler {
 
   @Override
-  public Object execute(ExecutionEvent event) throws ExecutionException {
-    ISelection selection = HandlerUtil.getCurrentSelection(event);
-    if (selection != null & selection instanceof IStructuredSelection) {
-      IStructuredSelection strucSelection = (IStructuredSelection) selection;
-      IResource file = (IResource) strucSelection.getFirstElement();
-      try {
-        new TestDiagramGenerator().generateTestDiagram(file);
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
+  public Object execute(ExecutionEvent event) {
+    Optional.ofNullable(event).map(HandlerUtil::getCurrentSelection)
+        .filter(IStructuredSelection.class::isInstance)
+        .map(IStructuredSelection.class::cast)
+        .map(IStructuredSelection::getFirstElement)
+        .filter(IResource.class::isInstance).map(IResource.class::cast)
+        .ifPresent(new TestDiagramGenerator()::generateTestDiagram);
     return null;
   }
 

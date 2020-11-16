@@ -66,4 +66,8 @@ public class Result<V, E extends Throwable> {
     return Optional.ofNullable(value).orElseThrow(() -> error);
   }
 
+  public boolean isFailed() {
+    return Optional.ofNullable(error).isPresent();
+  }
+
 }

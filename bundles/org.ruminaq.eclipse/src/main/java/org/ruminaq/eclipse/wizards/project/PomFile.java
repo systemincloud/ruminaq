@@ -51,9 +51,8 @@ public final class PomFile {
    * Creates maven pom file.
    *
    * @param project Eclipse IProject reference
-   * @throws RuminaqException smth went wrong
    */
-  public void createPomFile(IProject project) throws RuminaqException {
+  public void createPomFile(IProject project) {
     var reader = new MavenXpp3Reader();
     Model model;
     try (var pom = PomFile.class.getResourceAsStream(POM_TEMPLATE)) {
