@@ -540,7 +540,6 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     grpGeneral.initLayout();
 
     grpRunner = new RunnerSection(root, SWT.NONE);
-    grpRunner.initLayout();
 
     lblInputPorts = new Label(root, SWT.NONE);
     lblInputPorts.setLayoutData(
@@ -566,7 +565,6 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
 
   private void initComponents() {
     grpGeneral.initComponents();
-    grpRunner.initComponents();
     lblInputPorts.setText("Input Ports:");
     grpInputs.initComponents();
     lblOutputPorts.setText("Output Ports:");

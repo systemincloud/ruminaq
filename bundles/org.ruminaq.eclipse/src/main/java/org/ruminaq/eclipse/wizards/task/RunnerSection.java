@@ -6,11 +6,6 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
-/**
- * Runner intercept methods.
- *
- * @author Marek Jagielski
- */
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -19,6 +14,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 
+/**
+ * Runner intercept methods.
+ *
+ * @author Marek Jagielski
+ */
 class RunnerSection extends Group {
 
   private Button btnRunnerStart;
@@ -26,6 +26,8 @@ class RunnerSection extends Group {
 
   public RunnerSection(Composite parent, int style) {
     super(parent, style);
+    initLayout();
+    initComponents();
   }
 
   @Override
@@ -50,5 +52,4 @@ class RunnerSection extends Group {
     module.setRunnerStart(btnRunnerStart.getSelection());
     module.setRunnerStop(btnRunnerStop.getSelection());
   }
-
 }
