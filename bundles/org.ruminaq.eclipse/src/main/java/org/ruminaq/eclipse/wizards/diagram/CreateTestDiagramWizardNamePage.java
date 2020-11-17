@@ -8,7 +8,7 @@ package org.ruminaq.eclipse.wizards.diagram;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.ruminaq.eclipse.Messages;
-import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 
 /**
  * Create new Test Diagram page.
@@ -32,12 +32,12 @@ public class CreateTestDiagramWizardNamePage
 
   @Override
   protected String getResourceFolder() {
-    return SourceFolders.TEST_RESOURCES;
+    return CreateSourceFolders.TEST_RESOURCES;
   }
 
   @Override
   protected String getDiagramFolder() {
-    return SourceFolders.TEST_DIAGRAM_FOLDER;
+    return CreateSourceFolders.TEST_DIAGRAM_FOLDER;
   }
 
   @Override

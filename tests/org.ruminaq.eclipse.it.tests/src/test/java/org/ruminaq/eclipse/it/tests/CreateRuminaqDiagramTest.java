@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.editor.EditorLinkHelper;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
-import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.tests.common.CreateRuminaqDiagram;
 import org.ruminaq.tests.common.CreateRuminaqProject;
 import org.ruminaq.tests.common.ProjectExplorerHandler;
@@ -71,7 +71,7 @@ public class CreateRuminaqDiagramTest {
 
     Thread.sleep(5000);
 
-    String path = SourceFolders.DIAGRAM_FOLDER;
+    String path = CreateSourceFolders.DIAGRAM_FOLDER;
 
     String diagramName1 = "Diagram_"
         + RandomStringUtils.randomAlphabetic(DIAGRAM_SUFFIX_LENGTH);
@@ -109,7 +109,7 @@ public class CreateRuminaqDiagramTest {
         s.getFullPath().toString());
 
     new ProjectExplorerHandler().select(bot, projectName,
-        new String[] { SourceFolders.MAIN_RESOURCES, SourceFolders.TASK_FOLDER,
+        new String[] { CreateSourceFolders.MAIN_RESOURCES, CreateSourceFolders.TASK_FOLDER,
             diagramName1 + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT });
 
     Thread.sleep(5000);

@@ -30,7 +30,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.FrameworkUtil;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
-import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.prefs.ProjectProps;
 import org.ruminaq.util.EclipseUtil;
 
@@ -43,10 +43,10 @@ public class TestDiagramGenerator {
   public void generateTestDiagram(IResource file) {
     IProject project = file.getProject();
     Optional.of(project)
-        .map(p -> p.getFolder(SourceFolders.TEST_DIAGRAM_FOLDER))
+        .map(p -> p.getFolder(CreateSourceFolders.TEST_DIAGRAM_FOLDER))
         .filter(Predicate.not(IFolder::exists))
         .ifPresent(f -> EclipseUtil.createFolderWithParents(project,
-            SourceFolders.TEST_DIAGRAM_FOLDER));
+            CreateSourceFolders.TEST_DIAGRAM_FOLDER));
     
     IPath p = file.getFullPath();
     try {
@@ -133,12 +133,12 @@ public class TestDiagramGenerator {
   }
 
   private String getTestPath(IPath p, IProject project) throws CoreException {
-    String path = SourceFolders.TEST_DIAGRAM_FOLDER;
+    String path = CreateSourceFolders.TEST_DIAGRAM_FOLDER;
     for (int i = 0; i < p.segmentCount() - 1; i++) {
       if (i < 5)
         continue;
       int j = 4;
-      path = SourceFolders.TEST_DIAGRAM_FOLDER;
+      path = CreateSourceFolders.TEST_DIAGRAM_FOLDER;
       while (j++ < i) {
         path += "/" + p.segment(j);
         if (!project.getFolder(path).exists())

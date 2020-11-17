@@ -55,9 +55,9 @@ public final class JavaClasspathFile {
         .<IClasspathEntry>flatMap(List::stream).collect(Collectors.toList()));
 
     entries.add(JavaCore.newSourceEntry(
-        javaProject.getPath().append(SourceFolders.MAIN_RESOURCES), javaPath));
+        javaProject.getPath().append(CreateSourceFolders.MAIN_RESOURCES), javaPath));
     entries.add(JavaCore.newSourceEntry(
-        javaProject.getPath().append(SourceFolders.TEST_RESOURCES), javaPath,
+        javaProject.getPath().append(CreateSourceFolders.TEST_RESOURCES), javaPath,
         testOutputLocation));
 
     entries.add(JavaRuntime.getDefaultJREContainerEntry());

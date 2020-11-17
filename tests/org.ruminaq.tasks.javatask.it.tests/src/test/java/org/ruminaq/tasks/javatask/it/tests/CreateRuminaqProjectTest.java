@@ -25,7 +25,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.eclipse.wizards.project.PomFile;
+import org.ruminaq.eclipse.wizards.project.CreatePomFile;
 import org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl;
 import org.ruminaq.tests.common.CreateRuminaqProject;
 import org.ruminaq.tests.common.SelectView;
@@ -71,7 +71,7 @@ public class CreateRuminaqProjectTest {
 
     IProject project = workspace.getRoot().getProject(projectName);
 
-    var pom = new Path(PomFile.POM_FILE_PATH);
+    var pom = new Path(CreatePomFile.POM_FILE_PATH);
 
     var reader = new MavenXpp3Reader();
     Model model = reader.read(project.getFile(pom).getContents());

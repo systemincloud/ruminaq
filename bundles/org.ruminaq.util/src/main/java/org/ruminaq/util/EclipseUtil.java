@@ -210,8 +210,8 @@ public final class EclipseUtil {
    * @param path
    * @return
    */
-  public static Result<String, CoreException> createFolderWithParents(
-      IProject project, String path) {
+  public static Try<CoreException> createFolderWithParents(IProject project,
+      String path) {
     return Optional.ofNullable(path).map(p -> p.split("/")).map(Stream::of)
         .orElseGet(Stream::empty)
         .reduce(
@@ -247,12 +247,12 @@ public final class EclipseUtil {
     }
   }
 
-  public static void deleteProjectDirectoryIfExists(IProject project,
-      String directoryPath) throws CoreException {
-    IFolder directory = project.getFolder(directoryPath);
-    if (directory.exists()) {
-      directory.delete(true, new NullProgressMonitor());
-    }
+  public static Try<CoreException> deleteProjectDirectoryIfExists(
+      IProject project, String directoryPath) {
+    return Optional.of(project.getFolder(directoryPath))
+        .filter(Predicate.not(IFolder::exists))
+        .map(f -> Try.check(() -> f.delete(true, new NullProgressMonitor())))
+        .orElseGet(Try::success);
   }
 
   public static IProject getProjectFromSelection(Object obj) {

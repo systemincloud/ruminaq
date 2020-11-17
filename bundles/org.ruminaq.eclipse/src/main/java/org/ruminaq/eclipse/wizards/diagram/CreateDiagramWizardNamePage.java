@@ -41,7 +41,7 @@ import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.ruminaq.eclipse.Image;
 import org.ruminaq.eclipse.Messages;
-import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.ImageUtil;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
@@ -223,11 +223,11 @@ public class CreateDiagramWizardNamePage extends WizardPage {
   }
 
   protected String getResourceFolder() {
-    return SourceFolders.MAIN_RESOURCES;
+    return CreateSourceFolders.MAIN_RESOURCES;
   }
 
   protected String getDiagramFolder() {
-    return SourceFolders.DIAGRAM_FOLDER;
+    return CreateSourceFolders.DIAGRAM_FOLDER;
   }
 
   protected String getDefaultName() {

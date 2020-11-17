@@ -12,7 +12,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.model.ruminaq.dt.DatatypePackage;
 import org.ruminaq.runner.dirmi.DirmiClient;
 import org.ruminaq.runner.impl.debug.DebugI;
@@ -67,7 +67,7 @@ public class Runner {
     RunnerServiceManager.INSTANCE.initModelPackages();
 
     this.basePath = testFile.substring(0,
-        testFile.indexOf(SourceFolders.TEST_RESOURCES));
+        testFile.indexOf(CreateSourceFolders.TEST_RESOURCES));
     try {
       engine = new Engine(new AdapterTask(basePath, testFile, onlyLocal, line));
     } catch (Exception e) {

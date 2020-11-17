@@ -17,7 +17,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.tests.common.CreateRuminaqProject;
 import org.ruminaq.tests.common.CreateRuminaqTestDiagram;
 import org.ruminaq.tests.common.SelectView;
@@ -62,12 +62,12 @@ public class CreatingRuminaqTestDiagramTest {
     String folder = "modules";
 
     bot.tree().getTreeItem(projectName).expand();
-    bot.tree().getTreeItem(projectName).getNode(SourceFolders.TEST_RESOURCES)
+    bot.tree().getTreeItem(projectName).getNode(CreateSourceFolders.TEST_RESOURCES)
         .select();
-    bot.tree().getTreeItem(projectName).getNode(SourceFolders.TEST_RESOURCES)
+    bot.tree().getTreeItem(projectName).getNode(CreateSourceFolders.TEST_RESOURCES)
         .expand();
-    bot.tree().getTreeItem(projectName).getNode(SourceFolders.TEST_RESOURCES)
-        .getNode(SourceFolders.TASK_FOLDER).select();
+    bot.tree().getTreeItem(projectName).getNode(CreateSourceFolders.TEST_RESOURCES)
+        .getNode(CreateSourceFolders.TASK_FOLDER).select();
     SWTBotMenu menu = bot.tree().contextMenu("New");
     bot.waitUntil(new DefaultCondition() {
 
@@ -92,7 +92,7 @@ public class CreatingRuminaqTestDiagramTest {
     Thread.sleep(3000);
 
     new CreateRuminaqTestDiagram().openDiagramWizardFromProjectContextMenu(bot,
-        projectName, SourceFolders.TEST_RESOURCES, SourceFolders.TASK_FOLDER,
+        projectName, CreateSourceFolders.TEST_RESOURCES, CreateSourceFolders.TASK_FOLDER,
         folder);
 
     Assert.assertEquals("Window of title should be set", "New Test Diagram",
@@ -128,9 +128,9 @@ public class CreatingRuminaqTestDiagramTest {
 
     bot.button("Browse...", 1).click();
 
-    bot.tree().getTreeItem(SourceFolders.TASK_FOLDER).select();
-    bot.tree().getTreeItem(SourceFolders.TASK_FOLDER).expand();
-    bot.tree().getTreeItem(SourceFolders.TASK_FOLDER).getNode(folder).select();
+    bot.tree().getTreeItem(CreateSourceFolders.TASK_FOLDER).select();
+    bot.tree().getTreeItem(CreateSourceFolders.TASK_FOLDER).expand();
+    bot.tree().getTreeItem(CreateSourceFolders.TASK_FOLDER).getNode(folder).select();
 
     bot.button("OK").click();
 

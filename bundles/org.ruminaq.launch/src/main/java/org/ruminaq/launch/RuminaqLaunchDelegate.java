@@ -54,7 +54,7 @@ import org.ruminaq.debug.DebuggerService;
 import org.ruminaq.debug.api.DebugExtensionHandler;
 import org.ruminaq.debug.api.EventDispatchJob;
 import org.ruminaq.debug.model.RuminaqDebugTarget;
-import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.launch.api.LaunchExtension;
 import org.ruminaq.launch.api.LaunchExtensionHandler;
 import org.ruminaq.logs.ModelerLoggerFactory;
@@ -158,7 +158,7 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate
       }
 
       IFile file = project
-          .getFile(File.pathSeparator + SourceFolders.TEST_RESOURCES
+          .getFile(File.pathSeparator + CreateSourceFolders.TEST_RESOURCES
               + File.pathSeparator + configuration.getAttribute(
                   RuminaqLaunchConfigurationConstants.ATTR_TEST_TASK, ""));
       logger.trace("path: {}", file.getFullPath().toString());
@@ -286,7 +286,7 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate
 
     cmdline.append("-" + Runner.ATTR_DIAGRAM + " ")
         .append((project.getLocation().toOSString() + "/"
-            + SourceFolders.TEST_RESOURCES + "/"
+            + CreateSourceFolders.TEST_RESOURCES + "/"
             + configuration.getAttribute(
                 RuminaqLaunchConfigurationConstants.ATTR_TEST_TASK, ""))
                     .replace(" ", "+")

@@ -10,10 +10,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Repository;
@@ -28,13 +26,14 @@ import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
 import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.util.ServiceUtil;
+import org.ruminaq.util.Try;
 
 /**
  * Creates maven pom file.
  *
  * @author Marek Jagielski
  */
-public final class PomFile {
+public final class CreatePomFile {
 
   public static final String POM_FILE_PATH = "pom.xml"; //$NON-NLS-1$
 
@@ -44,27 +43,29 @@ public final class PomFile {
 
   private static final String M2_REPO_URL = "https://s3.amazonaws.com/org-ruminaq-s3-m2/releases"; //$NON-NLS-1$
 
-  private Collection<EclipseExtension> extensions = ServiceUtil
-      .getServicesAtLatestVersion(PomFile.class, EclipseExtension.class);
+  private CreatePomFile() {
+    // only statics
+  }
 
   /**
    * Creates maven pom file.
    *
    * @param project Eclipse IProject reference
    */
-  public void createPomFile(IProject project) {
+  public static Try<RuminaqException> execute(IProject project) {
     var reader = new MavenXpp3Reader();
     Model model;
-    try (var pom = PomFile.class.getResourceAsStream(POM_TEMPLATE)) {
+    try (var pom = CreatePomFile.class.getResourceAsStream(POM_TEMPLATE)) {
       model = reader.read(pom);
     } catch (IOException | XmlPullParserException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailedPom, e);
+      return Try.crash(
+          new RuminaqException(Messages.createProjectWizardFailedPom, e));
     }
 
-    model.getDependencies()
-        .addAll(extensions.stream()
-            .<List<Dependency>>map(EclipseExtension::getMavenDependencies)
-            .<Dependency>flatMap(List::stream).collect(Collectors.toList()));
+    model.getDependencies().addAll(ServiceUtil
+        .getServicesAtLatestVersion(CreatePomFile.class, EclipseExtension.class)
+        .stream().<List<Dependency>>map(EclipseExtension::getMavenDependencies)
+        .<Dependency>flatMap(List::stream).collect(Collectors.toList()));
 
     var repository = new Repository();
     repository.setId(M2_REPO_ID);
@@ -76,7 +77,8 @@ public final class PomFile {
     try {
       writer.write(contentWriter, model);
     } catch (IOException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailedPom, e);
+      return Try.crash(
+          new RuminaqException(Messages.createProjectWizardFailedPom, e));
     }
 
     var content = contentWriter.toString();
@@ -86,7 +88,9 @@ public final class PomFile {
         content.getBytes(StandardCharsets.UTF_8))) {
       pomFile.create(is, true, new NullProgressMonitor());
     } catch (CoreException | IOException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailedPom, e);
+      return Try.crash(
+          new RuminaqException(Messages.createProjectWizardFailedPom, e));
     }
+    return Try.success();
   }
 }

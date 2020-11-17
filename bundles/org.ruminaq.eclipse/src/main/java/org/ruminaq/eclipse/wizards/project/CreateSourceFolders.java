@@ -8,18 +8,22 @@ package org.ruminaq.eclipse.wizards.project;
 
 import java.util.Arrays;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
+import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.util.EclipseUtil;
-import org.ruminaq.util.Result;
+import org.ruminaq.util.Try;
+import org.slf4j.Logger;
 
 /**
  * Creates directories for eclipse sources.
  *
  * @author Marek Jagielski
  */
-public final class SourceFolders {
+public final class CreateSourceFolders {
+
+  private static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(CreateSourceFolders.class);
 
   public static final String SRC = "src";
   public static final String MAIN = "main";
@@ -35,23 +39,26 @@ public final class SourceFolders {
   public static final String TEST_DIAGRAM_FOLDER = TEST_RESOURCES + "/"
       + TASK_FOLDER;
 
-  private SourceFolders() {
+  private CreateSourceFolders() {
   }
 
   /**
    * Creates directories for eclipse sources.
    *
    * @param project Eclipse IProject reference
+   * @return
    */
-  static void createSourceFolders(IProject project) {
-    Arrays
+  public static Try<RuminaqException> execute(IProject project) {
+    return Arrays
         .asList(MAIN_RESOURCES, TEST_RESOURCES, DIAGRAM_FOLDER,
             TEST_DIAGRAM_FOLDER)
         .stream().map(f -> EclipseUtil.createFolderWithParents(project, f))
-        .filter(r -> r.isFailed()).findAny()
-        .ifPresent((Result<String, CoreException> r) -> {
-          throw new RuminaqException(
-              Messages.createProjectWizardFailedSourceFolders);
-        });
+        .filter(Try::isFailed)
+        .peek(r -> LOGGER.error(
+            Messages.createProjectWizardFailedSourceFolders, r.getError()))
+        .findAny()
+        .map(r -> r.wrapError(e -> new RuminaqException(
+            Messages.createProjectWizardFailedSourceFolders, e)))
+        .orElse(Try.success());
   }
 }

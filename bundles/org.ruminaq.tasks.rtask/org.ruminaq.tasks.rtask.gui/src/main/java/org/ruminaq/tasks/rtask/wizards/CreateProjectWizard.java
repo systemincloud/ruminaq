@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.rtask.wizards;
 
 import java.util.LinkedList;
@@ -21,10 +22,10 @@ import org.ruminaq.util.EclipseUtil;
 
 public class CreateProjectWizard {
 
-  public boolean performFinish(IJavaProject newProject) throws CoreException {
-    setNatureIds(newProject.getProject());
-    addRBuilder(newProject.getProject());
-    createSourceFolders(newProject.getProject());
+  public boolean performFinish(IProject newProject) throws CoreException {
+    setNatureIds(newProject);
+    addRBuilder(newProject);
+    createSourceFolders(newProject);
     return true;
   }
 

@@ -23,7 +23,7 @@ import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Image;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.gui.features.add.AddEmbeddedTaskFeature;
 import org.ruminaq.gui.image.Images;
 import org.ruminaq.model.ruminaq.Connection;
@@ -85,10 +85,10 @@ public class UpdateEmbeddedTaskFeature
       }
 
     boolean ret = true;
-    if (et.getImplementationTask().startsWith(SourceFolders.TEST_RESOURCES)
+    if (et.getImplementationTask().startsWith(CreateSourceFolders.TEST_RESOURCES)
         && Images.IMG_EMBEDDEDTASK_DIAGRAM_MAIN.equals(id))
       return false;
-    if (et.getImplementationTask().startsWith(SourceFolders.MAIN_RESOURCES)
+    if (et.getImplementationTask().startsWith(CreateSourceFolders.MAIN_RESOURCES)
         && Images.IMG_EMBEDDEDTASK_DIAGRAM_TEST.equals(id))
       return false;
 
@@ -116,9 +116,9 @@ public class UpdateEmbeddedTaskFeature
     for (GraphicsAlgorithm ga : pe.getGraphicsAlgorithm()
         .getGraphicsAlgorithmChildren())
       if (ga instanceof Image) {
-        if (et.getImplementationTask().startsWith(SourceFolders.MAIN_RESOURCES))
+        if (et.getImplementationTask().startsWith(CreateSourceFolders.MAIN_RESOURCES))
           ((Image) ga).setId(Images.IMG_EMBEDDEDTASK_DIAGRAM_MAIN);
-        if (et.getImplementationTask().startsWith(SourceFolders.TEST_RESOURCES))
+        if (et.getImplementationTask().startsWith(CreateSourceFolders.TEST_RESOURCES))
           ((Image) ga).setId(Images.IMG_EMBEDDEDTASK_DIAGRAM_TEST);
         return true;
       }
@@ -133,8 +133,8 @@ public class UpdateEmbeddedTaskFeature
 
   @Override
   public boolean load(String path) {
-    if ("".equals(path) || (!path.startsWith(SourceFolders.MAIN_RESOURCES)
-        && !path.startsWith(SourceFolders.TEST_RESOURCES)))
+    if ("".equals(path) || (!path.startsWith(CreateSourceFolders.MAIN_RESOURCES)
+        && !path.startsWith(CreateSourceFolders.TEST_RESOURCES)))
       return false;
 
     this.desc = new Path(path).lastSegment();

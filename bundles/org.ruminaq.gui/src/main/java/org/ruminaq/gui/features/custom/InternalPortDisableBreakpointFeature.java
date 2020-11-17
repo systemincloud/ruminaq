@@ -14,6 +14,7 @@ import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
 import org.ruminaq.util.Result;
+import org.ruminaq.util.Try;
 
 /**
  * InternalPortDisableBreakpoint toggle.
@@ -66,9 +67,6 @@ public class InternalPortDisableBreakpointFeature
   public void execute(ICustomContext context) {
     InternalPortToggleBreakpointFeature
         .breakpointFromContext(context, getFeatureProvider())
-        .ifPresent((IBreakpoint b) -> Result.attempt(() -> {
-          b.setEnabled(false);
-          return Boolean.TRUE;
-        }));
+        .ifPresent(b -> Try.check(() -> b.setEnabled(false)));
   }
 }

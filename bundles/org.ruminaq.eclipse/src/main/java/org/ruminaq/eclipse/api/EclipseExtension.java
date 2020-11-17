@@ -8,8 +8,8 @@ package org.ruminaq.eclipse.api;
 
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.maven.model.Dependency;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 
@@ -27,7 +27,7 @@ public interface EclipseExtension {
    *
    * @return Return false if something went wrong.
    */
-  default boolean createProjectWizardPerformFinish(IJavaProject javaProject) {
+  default boolean createProjectWizardPerformFinish(IProject javaProject) {
     return true;
   }
 

@@ -10,8 +10,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
-
+import java.util.function.Function;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -19,7 +21,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.m2e.core.MavenPlugin;
 import org.eclipse.m2e.core.project.IProjectConfigurationManager;
@@ -40,6 +41,7 @@ import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.ImageUtil;
 import org.ruminaq.util.PlatformUtil;
 import org.ruminaq.util.ServiceUtil;
+import org.ruminaq.util.Try;
 import org.slf4j.Logger;
 
 /**
@@ -56,7 +58,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
   private static final String BASIC_NEW_PROJECT_PAGE_NAME = "basicNewProjectPage";
 
-  public static final String PROPERTIES_FILE = SourceFolders.MAIN_RESOURCES
+  public static final String PROPERTIES_FILE = CreateSourceFolders.MAIN_RESOURCES
       + "/ruminaq.properties";
 
   private static final String OUTPUT_CLASSES = "target/classes";
@@ -64,6 +66,13 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
   public static final String MAIN_MODULE = "MAIN_MODULE";
 
   public static final String BIN_DIRECTORY = "bin";
+
+  private final List<Function<IProject, Try<RuminaqException>>> EXECUTORS = Arrays
+      .asList(SetNature::execute, CreateSourceFolders::execute,
+          CreateProjectWizard::createOutputLocation, CreatePomFile::execute,
+          AddBuilders::execute, CreateProjectWizard::createPropertiesFile,
+          this::setProjectProps, CreateProjectWizard::deleteBinDirectory,
+          CreateProjectWizard::extensions, CreateProjectWizard::updateProject);
 
   /**
    * Sets the window title.
@@ -103,43 +112,15 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
     if (super.performFinish()) {
       IProject newProject = getNewProject();
 
-      try {
-        Nature.setNatureIds(newProject);
-        SourceFolders.createSourceFolders(newProject);
-
-        IJavaProject javaProject = JavaCore.create(newProject);
-        new JavaClasspathFile().setClasspathEntries(javaProject);
-        createOutputLocation(javaProject);
-
-        new PomFile().createPomFile(newProject);
-        Builders.configureBuilders(newProject);
-        createPropertiesFile(newProject);
-
-        Version version = PlatformUtil.getBundleVersion(this.getClass());
-        ProjectProps.getInstance(newProject).put(ProjectProps.RUMINAQ_VERSION,
-            new Version(version.getMajor(), version.getMinor(),
-                version.getMicro()).toString());
-
-        deleteBinDirectory(newProject);
-
-        ServiceUtil
-            .getServicesAtLatestVersion(CreateProjectWizard.class,
-                EclipseExtension.class)
-            .stream()
-            .forEach(e -> e.createProjectWizardPerformFinish(javaProject));
-
-        updateProject(newProject);
-
-        return true;
-
-      } catch (RuminaqException e) {
-        LOGGER.error(Messages.createProjectWizardFailed, e);
-        MessageDialog.openError(getShell(), Messages.ruminaqFailed,
-            e.getMessage());
-      }
+      EXECUTORS.stream().map(r -> r.apply(newProject)).filter(Try::isFailed)
+          .findFirst().ifPresent(r -> {
+            LOGGER.error(Messages.createProjectWizardFailed, r.getError());
+            MessageDialog.openError(getShell(), Messages.ruminaqFailed,
+                r.getError().getMessage());
+          });
     }
 
-    return false;
+    return true;
   }
 
   /**
@@ -148,40 +129,37 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
    *
    * @param projet eclipse project reference
    */
-  private static void deleteBinDirectory(IProject projet) {
-    try {
-      EclipseUtil.deleteProjectDirectoryIfExists(projet, BIN_DIRECTORY);
-    } catch (CoreException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailed, e);
-    }
+  private static Try<RuminaqException> deleteBinDirectory(IProject projet) {
+    return EclipseUtil.deleteProjectDirectoryIfExists(projet, BIN_DIRECTORY)
+        .wrapError(
+            e -> new RuminaqException(Messages.createProjectWizardFailed, e));
   }
 
-  private static void updateProject(IProject project) {
+  private static Try<RuminaqException> updateProject(IProject project) {
     IProjectConfigurationManager configurationManager = MavenPlugin
         .getProjectConfigurationManager();
     MavenUpdateRequest request = new MavenUpdateRequest(project, true, true);
-    try {
-      configurationManager.updateProjectConfiguration(request,
-          new NullProgressMonitor());
-    } catch (CoreException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailed, e);
-    }
+    return Try
+        .check(() -> configurationManager.updateProjectConfiguration(request,
+            new NullProgressMonitor()))
+        .wrapError(
+            e -> new RuminaqException(Messages.createProjectWizardFailed, e));
   }
 
-  private static void createOutputLocation(IJavaProject javaProject) {
+  private static Try<RuminaqException> createOutputLocation(IProject project) {
+    IJavaProject javaProject = JavaCore.create(project);
+    new JavaClasspathFile().setClasspathEntries(javaProject);
     IPath targetPath = javaProject.getPath().append(OUTPUT_CLASSES);
-    try {
-      javaProject.setOutputLocation(targetPath, null);
-    } catch (JavaModelException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailed, e);
-    }
+    return Try.check(() -> javaProject.setOutputLocation(targetPath, null))
+        .<RuminaqException>wrapError(
+            e -> new RuminaqException(Messages.createProjectWizardFailed, e));
   }
 
-  private static void createPropertiesFile(IProject project) {
+  private static Try<RuminaqException> createPropertiesFile(IProject project) {
     Properties prop = new Properties();
     try (OutputStream output = new ByteArrayOutputStream()) {
       prop.setProperty(MAIN_MODULE,
-          SourceFolders.TASK_FOLDER + "/"
+          CreateSourceFolders.TASK_FOLDER + "/"
               + CreateDiagramWizardNamePage.DEFAULT_DIAGRAM_NAME
               + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT);
       prop.store(output, null);
@@ -191,8 +169,25 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
               ((ByteArrayOutputStream) output).toByteArray()),
           true, new NullProgressMonitor());
     } catch (IOException | CoreException e) {
-      throw new RuminaqException(
-          Messages.createProjectWizardFailedPropertiesFile, e);
+      return Try.crash(new RuminaqException(
+          Messages.createProjectWizardFailedPropertiesFile, e));
     }
+    return Try.success();
+  }
+
+  private Try<RuminaqException> setProjectProps(IProject project) {
+    Version version = PlatformUtil.getBundleVersion(this.getClass());
+    ProjectProps.getInstance(project).put(ProjectProps.RUMINAQ_VERSION,
+        new Version(version.getMajor(), version.getMinor(), version.getMicro())
+            .toString());
+    return Try.success();
+  }
+
+  private static Try<RuminaqException> extensions(IProject project) {
+    ServiceUtil
+        .getServicesAtLatestVersion(CreateProjectWizard.class,
+            EclipseExtension.class)
+        .stream().forEach(e -> e.createProjectWizardPerformFinish(project));
+    return Try.success();
   }
 }

@@ -14,7 +14,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.osgi.framework.util.FilePath;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
-import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 
 /**
  * Diagram helper functions.
@@ -43,7 +43,7 @@ public final class RuminaqDiagramUtil {
 
   private static boolean isInTestDirectory(String... segments) {
     return Stream.of(segments).collect(Collectors.joining("/"))
-        .startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
+        .startsWith(CreateSourceFolders.TEST_DIAGRAM_FOLDER);
   }
 
   private static boolean isInTestDirectory(URI uri, String basePath) {
@@ -55,7 +55,7 @@ public final class RuminaqDiagramUtil {
       folder = folder.substring(folder.indexOf(':') + 1);
     }
     folder = folder.replace(File.separator, "/");
-    return folder.startsWith(SourceFolders.TEST_DIAGRAM_FOLDER);
+    return folder.startsWith(CreateSourceFolders.TEST_DIAGRAM_FOLDER);
   }
 
   public static boolean isTest(URI uri) {

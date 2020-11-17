@@ -18,7 +18,7 @@ import java.util.function.Function;
  * @param <V>
  * @param <E>
  */
-public class Result<V, E extends Throwable> {
+public class Result<V, E extends Throwable> extends Try<E> {
 
   @FunctionalInterface
   public interface CheckedSupplier<V, E extends Throwable> {
@@ -27,11 +27,9 @@ public class Result<V, E extends Throwable> {
 
   private final V value;
 
-  private final E error;
-
   private Result(V value, E error) {
+    super(error);
     this.value = value;
-    this.error = error;
   }
 
   public static <V, E extends Throwable> Result<V, E> failure(E error) {
@@ -70,4 +68,15 @@ public class Result<V, E extends Throwable> {
     return Optional.ofNullable(error).isPresent();
   }
 
+  public E getError() {
+    return error;
+  }
+
+  public <W extends Throwable> Result<V, W> wrapError(
+      Function<E, W> errorWrap) {
+    if (isFailed()) {
+      return Result.failure(errorWrap.apply(error));
+    }
+    return Result.success(value);
+  }
 }

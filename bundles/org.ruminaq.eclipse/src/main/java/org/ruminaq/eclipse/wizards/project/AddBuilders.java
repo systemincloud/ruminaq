@@ -18,20 +18,21 @@ import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
 import org.ruminaq.util.EclipseUtil;
+import org.ruminaq.util.Try;
 
 /**
  * Add eclipse project builders.
  *
  * @author Marek Jagielski
  */
-public final class Builders {
+public final class AddBuilders {
 
   private static final String EXTERNALTOOLBUILDERS = ".externalToolBuilders";
 
   private static final String BUILDER_CONFIG_MVN = IMavenConstants.BUILDER_ID
       + ".launch";
 
-  private Builders() {
+  private AddBuilders() {
   }
 
   /**
@@ -39,10 +40,10 @@ public final class Builders {
    *
    * @param project Eclipse IProject reference
    */
-  static void configureBuilders(IProject project) {
+  static Try<RuminaqException> execute(IProject project) {
     EclipseUtil.createFolderWithParents(project, EXTERNALTOOLBUILDERS);
 
-    try (InputStream confFile = Builders.class
+    try (InputStream confFile = AddBuilders.class
         .getResourceAsStream(BUILDER_CONFIG_MVN)) {
       IFile outputFile = project.getFolder(EXTERNALTOOLBUILDERS)
           .getFile(BUILDER_CONFIG_MVN);
@@ -56,8 +57,9 @@ public final class Builders {
       command.getArguments().put("LaunchConfigHandle",
           "<project>/.externalToolBuilders/org.eclipse.m2e.core.maven2Builder.launch");
     } catch (CoreException | IOException e) {
-      throw new RuminaqException(
-          Messages.createProjectWizardFailedConfigureBuilders, e);
+      return Try.crash(new RuminaqException(
+          Messages.createProjectWizardFailedConfigureBuilders, e));
     }
+    return Try.success();
   }
 }

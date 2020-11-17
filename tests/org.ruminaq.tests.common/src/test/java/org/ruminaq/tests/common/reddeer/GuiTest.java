@@ -20,7 +20,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
-import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.ComparisonResult;
@@ -52,7 +52,7 @@ public class GuiTest {
     new ProjectExplorer().open();
     new WaitUntil(new ProjectExists(projectName), TimePeriod.MEDIUM, false);
     new ProjectExplorer().getProject(projectName).select();
-    new RuminaqDiagramWizard().create(projectName, SourceFolders.DIAGRAM_FOLDER,
+    new RuminaqDiagramWizard().create(projectName, CreateSourceFolders.DIAGRAM_FOLDER,
         diagramName + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT);
   }
 

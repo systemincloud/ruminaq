@@ -8,7 +8,6 @@ package org.ruminaq.tasks.javatask.gui.wizards;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.IJavaProject;
 import org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl;
 import org.ruminaq.util.EclipseUtil;
 
@@ -19,12 +18,13 @@ import org.ruminaq.util.EclipseUtil;
  */
 public class CreateProjectWizard {
 
-  public boolean performFinish(IJavaProject newProject) throws CoreException {
-    createSourceFolders(newProject.getProject());
+  public boolean performFinish(IProject newProject) throws CoreException {
+    createSourceFolders(newProject);
     return true;
   }
 
-  private static void createSourceFolders(IProject project) throws CoreException {
+  private static void createSourceFolders(IProject project)
+      throws CoreException {
     EclipseUtil.createFolderWithParents(project,
         EclipseExtensionImpl.MAIN_JAVA);
     EclipseUtil.createFileInFolder(project, EclipseExtensionImpl.MAIN_JAVA,

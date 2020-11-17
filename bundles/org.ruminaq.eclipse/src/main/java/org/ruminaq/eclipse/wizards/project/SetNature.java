@@ -14,15 +14,17 @@ import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
 import org.ruminaq.eclipse.RuminaqProjectNature;
+import org.ruminaq.util.Try;
 
 /**
  * Add eclipse project natures.
  *
  * @author Marek Jagielski
  */
-public final class Nature {
+public final class SetNature {
 
-  private Nature() {
+  private SetNature() {
+    // just statics
   }
 
   /**
@@ -30,19 +32,22 @@ public final class Nature {
    *
    * @param project Eclipse IProject reference
    */
-  static void setNatureIds(IProject project) {
+  public static Try<RuminaqException> execute(IProject project) {
     IProjectDescription description;
     try {
       description = project.getDescription();
     } catch (CoreException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailedNature, e);
+      return Try.crash(
+          new RuminaqException(Messages.createProjectWizardFailedNature, e));
     }
     description.setNatureIds(new String[] { JavaCore.NATURE_ID,
         RuminaqProjectNature.ID, IMavenConstants.NATURE_ID });
     try {
       project.setDescription(description, null);
     } catch (CoreException e) {
-      throw new RuminaqException(Messages.createProjectWizardFailedNature, e);
+      return Try.crash(
+          new RuminaqException(Messages.createProjectWizardFailedNature, e));
     }
+    return Try.success();
   }
 }

@@ -10,7 +10,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.model.IBreakpoint;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
-import org.ruminaq.util.Result;
+import org.ruminaq.util.Try;
 
 /**
  * InternalPortEnableBreakpoint toggle.
@@ -40,9 +40,6 @@ public class InternalPortEnableBreakpointFeature
   public void execute(ICustomContext context) {
     InternalPortToggleBreakpointFeature
         .breakpointFromContext(context, getFeatureProvider())
-        .ifPresent((IBreakpoint b) -> Result.attempt(() -> {
-          b.setEnabled(true);
-          return Boolean.TRUE;
-        }));
+        .ifPresent(b -> Try.check(() -> b.setEnabled(true)));
   }
 }

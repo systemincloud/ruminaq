@@ -13,7 +13,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.tests.common.CreateRuminaqProject;
 import org.ruminaq.tests.common.CreateRuminaqTestDiagram;
 import org.ruminaq.tests.common.SelectView;
@@ -61,7 +61,7 @@ public class CreateRuminaqTestDiagramTest {
 
     Thread.sleep(5000);
 
-    String path = SourceFolders.TEST_DIAGRAM_FOLDER;
+    String path = CreateSourceFolders.TEST_DIAGRAM_FOLDER;
 
     String diagramName = "Diagram_"
         + RandomStringUtils.randomAlphabetic(DIAGRAM_SUFFIX_LENGTH);

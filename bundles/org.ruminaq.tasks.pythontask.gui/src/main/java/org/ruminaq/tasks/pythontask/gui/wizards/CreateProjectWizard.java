@@ -8,7 +8,6 @@ package org.ruminaq.tasks.pythontask.gui.wizards;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.eclipse.core.resources.ICommand;
@@ -31,10 +30,10 @@ public class CreateProjectWizard {
 
   private static final String PYDEVPROJECT = ".pydevproject";
 
-  public boolean performFinish(IJavaProject newProject) throws CoreException {
-    setNatureIds(newProject.getProject());
-    addPyBuilder(newProject.getProject());
-    createSourceFolders(newProject.getProject());
+  public boolean performFinish(IProject newProject) throws CoreException {
+    setNatureIds(newProject);
+    addPyBuilder(newProject);
+    createSourceFolders(newProject);
     // createPyDevProjectFile(newProject.getProject());
     return true;
   }

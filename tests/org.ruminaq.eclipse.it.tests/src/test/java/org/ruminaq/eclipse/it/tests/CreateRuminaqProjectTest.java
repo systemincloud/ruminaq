@@ -38,8 +38,8 @@ import org.ruminaq.eclipse.RuminaqProjectNature;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizardNamePage;
 import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
-import org.ruminaq.eclipse.wizards.project.PomFile;
-import org.ruminaq.eclipse.wizards.project.SourceFolders;
+import org.ruminaq.eclipse.wizards.project.CreatePomFile;
+import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.tests.common.CreateRuminaqProject;
 import org.ruminaq.tests.common.SelectView;
 
@@ -98,8 +98,8 @@ public class CreateRuminaqProjectTest {
     project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 
     Arrays
-        .asList(SourceFolders.MAIN_RESOURCES, SourceFolders.TEST_RESOURCES,
-            SourceFolders.DIAGRAM_FOLDER)
+        .asList(CreateSourceFolders.MAIN_RESOURCES, CreateSourceFolders.TEST_RESOURCES,
+            CreateSourceFolders.DIAGRAM_FOLDER)
         .stream()
         .forEach(f -> Assert.assertTrue(
             "Source directory " + f + "should be created",
@@ -114,14 +114,14 @@ public class CreateRuminaqProjectTest {
     Properties prop = new Properties();
     prop.load(propertyFile.getContents());
     Assert.assertEquals("Main module specified",
-        SourceFolders.TASK_FOLDER + "/"
+        CreateSourceFolders.TASK_FOLDER + "/"
             + CreateDiagramWizardNamePage.DEFAULT_DIAGRAM_NAME
             + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT,
         prop.get(CreateProjectWizard.MAIN_MODULE));
 
     Assert.assertTrue("Property file created", propertyFile.exists());
 
-    Path pom = new Path(PomFile.POM_FILE_PATH);
+    Path pom = new Path(CreatePomFile.POM_FILE_PATH);
     Assert.assertTrue("Pom file created", project.exists(pom));
 
     var reader = new MavenXpp3Reader();

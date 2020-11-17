@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.apache.maven.model.Dependency;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
@@ -37,9 +38,9 @@ public class EclipseExtensionImpl implements EclipseExtension {
   public static final String VERSION = "1.0.0-SNAPSHOT";
 
   @Override
-  public boolean createProjectWizardPerformFinish(IJavaProject javaProject) {
+  public boolean createProjectWizardPerformFinish(IProject project) {
     return Result
-        .attempt(() -> new CreateProjectWizard().performFinish(javaProject))
+        .attempt(() -> new CreateProjectWizard().performFinish(project))
         .orElse(Boolean.FALSE);
   }
 

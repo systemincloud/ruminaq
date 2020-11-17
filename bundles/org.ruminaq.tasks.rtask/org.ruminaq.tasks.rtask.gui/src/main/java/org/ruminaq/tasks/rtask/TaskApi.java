@@ -41,7 +41,7 @@ public class TaskApi implements EclipseExtension {
   }
 
   @Override
-  public boolean createProjectWizardPerformFinish(IJavaProject newProject) {
+  public boolean createProjectWizardPerformFinish(IProject newProject) {
     try {
       return new CreateProjectWizard().performFinish(newProject);
     } catch (CoreException e) {
