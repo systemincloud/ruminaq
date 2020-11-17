@@ -62,6 +62,8 @@ public class CreateSourceFoldersFailedTest {
 
     File logFile = new File(logFilePath);
     String path = logFile.getAbsolutePath();
+    System.out.print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx");
+    System.out.print(path);
     logFile.createNewFile();
 
     System.setProperty(LoggerAspect.FILE_PATH, logFilePath);
