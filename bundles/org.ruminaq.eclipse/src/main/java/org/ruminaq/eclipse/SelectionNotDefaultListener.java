@@ -9,6 +9,11 @@ package org.ruminaq.eclipse;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 
+/**
+ * SelectionListener with default selected do nothing.
+ *
+ * @author Marek Jagielski
+ */
 public interface SelectionNotDefaultListener extends SelectionListener {
 
   default void widgetDefaultSelected(SelectionEvent e) {
