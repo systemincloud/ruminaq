@@ -7,11 +7,9 @@
 package org.ruminaq.eclipse.wizards.diagram;
 
 import static java.text.MessageFormat.format;
-
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
 import org.eclipse.core.internal.resources.Folder;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
@@ -29,8 +27,6 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -241,7 +237,6 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   /**
    * Set listeners.
-   *
    */
   private void initActions() {
     txtProject.addModifyListener(e -> dialogChanged());
@@ -256,7 +251,6 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   /**
    * Choose project in workspace.
-   *
    */
   private void handleBrowseProject() {
     ElementTreeSelectionDialog dialog = new ElementTreeSelectionDialog(
@@ -276,7 +270,6 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   /**
    * Choose folder.
-   *
    */
   private void handleBrowse(IProject project) {
     ElementTreeSelectionDialog fileDialog = new ElementTreeSelectionDialog(
@@ -298,7 +291,6 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   /**
    * Validate fields.
-   *
    */
   private void dialogChanged() {
     Optional<IProject> project = Stream
@@ -354,7 +346,6 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   /**
    * Getter for project.
-   *
    */
   public String getProjectName() {
     return txtProject.getText();
@@ -362,7 +353,6 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   /**
    * Getter for directory.
-   *
    */
   public String getContainerName() {
     return txtContainer.getText();
@@ -370,7 +360,6 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   /**
    * Getter for diagram filename.
-   *
    */
   public String getFileName() {
     return txtFile.getText();
