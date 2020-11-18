@@ -54,34 +54,26 @@ public final class CreatePomFile {
    */
   public static Try<RuminaqException> execute(IProject project) {
     var reader = new MavenXpp3Reader();
-    Model model;
+    String content;
     try (var pom = CreatePomFile.class.getResourceAsStream(POM_TEMPLATE)) {
-      model = reader.read(pom);
+      Model model = reader.read(pom);
+      model.getDependencies().addAll(ServiceUtil
+          .getServicesAtLatestVersion(CreatePomFile.class, EclipseExtension.class)
+          .stream().<List<Dependency>>map(EclipseExtension::getMavenDependencies)
+          .<Dependency>flatMap(List::stream).collect(Collectors.toList()));
+
+      var repository = new Repository();
+      repository.setId(M2_REPO_ID);
+      repository.setUrl(M2_REPO_URL);
+      model.addRepository(repository);
+      var writer = new MavenXpp3Writer();
+      var contentWriter = new StringWriter();
+      writer.write(contentWriter, model);
+      content = contentWriter.toString();
     } catch (IOException | XmlPullParserException e) {
       return Try.crash(
           new RuminaqException(Messages.createProjectWizardFailedPom, e));
     }
-
-    model.getDependencies().addAll(ServiceUtil
-        .getServicesAtLatestVersion(CreatePomFile.class, EclipseExtension.class)
-        .stream().<List<Dependency>>map(EclipseExtension::getMavenDependencies)
-        .<Dependency>flatMap(List::stream).collect(Collectors.toList()));
-
-    var repository = new Repository();
-    repository.setId(M2_REPO_ID);
-    repository.setUrl(M2_REPO_URL);
-    model.addRepository(repository);
-
-    var writer = new MavenXpp3Writer();
-    var contentWriter = new StringWriter();
-    try {
-      writer.write(contentWriter, model);
-    } catch (IOException e) {
-      return Try.crash(
-          new RuminaqException(Messages.createProjectWizardFailedPom, e));
-    }
-
-    var content = contentWriter.toString();
 
     IFile pomFile = project.getFile(POM_FILE_PATH);
     try (var is = new ByteArrayInputStream(
