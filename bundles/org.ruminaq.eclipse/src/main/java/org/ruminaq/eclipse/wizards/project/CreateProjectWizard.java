@@ -67,7 +67,7 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
 
   public static final String BIN_DIRECTORY = "bin";
 
-  private final List<Function<IProject, Try<RuminaqException>>> EXECUTORS = Arrays
+  private final List<Function<IProject, Try<RuminaqException>>> executors = Arrays
       .asList(SetNature::execute, CreateSourceFolders::execute,
           CreateProjectWizard::createOutputLocation, CreatePomFile::execute,
           AddBuilders::execute, CreateProjectWizard::createPropertiesFile,
@@ -111,9 +111,8 @@ public class CreateProjectWizard extends BasicNewProjectResourceWizard {
   public boolean performFinish() {
     if (super.performFinish()) {
       IProject newProject = getNewProject();
-
-      EXECUTORS.stream().map(r -> r.apply(newProject)).filter(Try::isFailed)
-          .findFirst().ifPresent(r -> {
+      executors.stream().map(r -> r.apply(newProject)).filter(Try::isFailed)
+          .findFirst().ifPresent((Try<RuminaqException> r) -> {
             LOGGER.error(Messages.createProjectWizardFailed, r.getError());
             MessageDialog.openError(getShell(), Messages.ruminaqFailed,
                 r.getError().getMessage());
