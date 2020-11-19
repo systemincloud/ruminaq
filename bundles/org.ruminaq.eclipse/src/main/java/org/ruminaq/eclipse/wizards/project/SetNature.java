@@ -6,14 +6,16 @@
 
 package org.ruminaq.eclipse.wizards.project;
 
+import java.util.Objects;
+import java.util.Optional;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.m2e.core.internal.IMavenConstants;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
 import org.ruminaq.eclipse.RuminaqProjectNature;
+import org.ruminaq.util.Result;
 import org.ruminaq.util.Try;
 
 /**
@@ -33,21 +35,15 @@ public final class SetNature {
    * @param project Eclipse IProject reference
    */
   public static Try<RuminaqException> execute(IProject project) {
-    IProjectDescription description;
-    try {
-      description = project.getDescription();
-    } catch (CoreException e) {
-      return Try.crash(
-          new RuminaqException(Messages.createProjectWizardFailedNature, e));
-    }
-    description.setNatureIds(new String[] { JavaCore.NATURE_ID,
-        RuminaqProjectNature.ID, IMavenConstants.NATURE_ID });
-    try {
-      project.setDescription(description, null);
-    } catch (CoreException e) {
-      return Try.crash(
-          new RuminaqException(Messages.createProjectWizardFailedNature, e));
-    }
-    return Try.success();
+    Optional<IProjectDescription> description = Optional.of(project)
+        .map(p -> Result.attempt(() -> p.getDescription()))
+        .map(r -> r.orElse(null)).filter(Objects::nonNull);
+    description.ifPresent(d -> d.setNatureIds(new String[] { JavaCore.NATURE_ID,
+        RuminaqProjectNature.ID, IMavenConstants.NATURE_ID }));
+    return description
+        .map(d -> Try.check(() -> project.setDescription(d, null))
+            .<RuminaqException>wrapError(e -> new RuminaqException(
+                Messages.createProjectWizardFailedNature, e)))
+        .orElseGet(Try::success);
   }
 }
