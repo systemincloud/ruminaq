@@ -10,19 +10,18 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.m2e.jdt.IClasspathManager;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
 import org.ruminaq.eclipse.api.EclipseExtension;
 import org.ruminaq.util.ServiceUtil;
+import org.ruminaq.util.Try;
 
 /**
  * Writes to .classpath file when new project is created. This configuration can
@@ -44,8 +43,9 @@ public final class JavaClasspathFile {
    * Writes to .classpath file when new project is created.
    *
    * @param javaProject Eclipse IJavaProject reference
+   * @return
    */
-  public void setClasspathEntries(IJavaProject javaProject) {
+  public Try<RuminaqException> setClasspathEntries(IJavaProject javaProject) {
     List<IClasspathEntry> entries = new LinkedList<>();
     IPath[] javaPath = new IPath[] { new Path(JAVA_PATH) };
     IPath testOutputLocation = javaProject.getPath().append(TARGET_PATH);
@@ -55,21 +55,20 @@ public final class JavaClasspathFile {
         .<IClasspathEntry>flatMap(List::stream).collect(Collectors.toList()));
 
     entries.add(JavaCore.newSourceEntry(
-        javaProject.getPath().append(CreateSourceFolders.MAIN_RESOURCES), javaPath));
+        javaProject.getPath().append(CreateSourceFolders.MAIN_RESOURCES),
+        javaPath));
     entries.add(JavaCore.newSourceEntry(
-        javaProject.getPath().append(CreateSourceFolders.TEST_RESOURCES), javaPath,
-        testOutputLocation));
+        javaProject.getPath().append(CreateSourceFolders.TEST_RESOURCES),
+        javaPath, testOutputLocation));
 
     entries.add(JavaRuntime.getDefaultJREContainerEntry());
     entries.add(
         JavaCore.newContainerEntry(new Path(IClasspathManager.CONTAINER_ID)));
 
-    try {
-      javaProject.setRawClasspath(
-          entries.toArray(new IClasspathEntry[entries.size()]), null);
-    } catch (JavaModelException e) {
-      throw new RuminaqException(
-          Messages.createProjectWizardFailedClasspathFile, e);
-    }
+    return Try
+        .check(() -> javaProject.setRawClasspath(
+            entries.toArray(new IClasspathEntry[entries.size()]), null))
+        .<RuminaqException>wrapError(e -> new RuminaqException(
+            Messages.createProjectWizardFailedClasspathFile, e));
   }
 }

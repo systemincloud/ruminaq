@@ -46,7 +46,7 @@ public final class CreateSourceFolders {
    * Creates directories for eclipse sources.
    *
    * @param project Eclipse IProject reference
-   * @return
+   * @return Try optionally with RuminaqException 
    */
   public static Try<RuminaqException> execute(IProject project) {
     return Arrays
@@ -59,6 +59,6 @@ public final class CreateSourceFolders {
         .findAny()
         .map(r -> r.wrapError(e -> new RuminaqException(
             Messages.createProjectWizardFailedSourceFolders, e)))
-        .orElse(Try.success());
+        .orElseGet(Try::success);
   }
 }
