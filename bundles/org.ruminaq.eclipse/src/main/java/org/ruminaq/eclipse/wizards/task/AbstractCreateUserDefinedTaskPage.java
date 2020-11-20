@@ -50,7 +50,7 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  * @author Marek Jagielski
  */
 public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
-    implements ICreateUserDefinedTaskPage {
+    implements CreateUserDefinedTaskPage {
 
   static final int TWO_COLUMNS = 2;
 

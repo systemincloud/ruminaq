@@ -14,6 +14,6 @@ import org.ruminaq.eclipse.usertask.model.userdefined.Module;
  *
  * @author Marek Jagielski
  */
-public interface ICreateUserDefinedTaskPage extends IWizardPage {
+public interface CreateUserDefinedTaskPage extends IWizardPage {
   Module getModel();
 }

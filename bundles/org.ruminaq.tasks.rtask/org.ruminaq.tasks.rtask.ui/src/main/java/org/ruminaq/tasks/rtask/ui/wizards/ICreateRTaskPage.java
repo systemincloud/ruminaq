@@ -6,8 +6,8 @@
 package org.ruminaq.tasks.rtask.ui.wizards;
 
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
-import org.ruminaq.eclipse.wizards.task.ICreateUserDefinedTaskPage;
+import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskPage;
 
-public interface ICreateRTaskPage extends ICreateUserDefinedTaskPage {
+public interface ICreateRTaskPage extends CreateUserDefinedTaskPage {
   String generate(Module module);
 }
