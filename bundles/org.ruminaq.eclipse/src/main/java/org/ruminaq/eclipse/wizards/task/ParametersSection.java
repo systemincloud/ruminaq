@@ -61,6 +61,10 @@ class ParametersSection extends Group {
     // allow subclass
   }
 
+  /**
+   * Table with two columns on the left. Two input fields on the right. At the
+   * far right button.
+   */
   private void initLayout() {
     setLayout(new GridLayout(TWO_COLUMNS, false));
     setLayoutData(
