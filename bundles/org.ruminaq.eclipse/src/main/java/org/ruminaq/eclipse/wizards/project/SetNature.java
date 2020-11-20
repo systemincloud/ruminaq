@@ -33,12 +33,11 @@ public final class SetNature {
    * Add eclipse project natures.
    *
    * @param project Eclipse IProject reference
-   * @return Try optionally with RuminaqException 
    */
   public static Try<RuminaqException> execute(IProject project) {
     Optional<IProjectDescription> description = Optional.of(project)
-        .map(p -> Result.attempt(() -> p.getDescription()))
-        .map(r -> r.orElse(null)).filter(Objects::nonNull);
+        .map(p -> Result.attempt(p::getDescription)).map(r -> r.orElse(null))
+        .filter(Objects::nonNull);
     description.ifPresent(d -> d.setNatureIds(new String[] { JavaCore.NATURE_ID,
         RuminaqProjectNature.ID, IMavenConstants.NATURE_ID }));
     return description
