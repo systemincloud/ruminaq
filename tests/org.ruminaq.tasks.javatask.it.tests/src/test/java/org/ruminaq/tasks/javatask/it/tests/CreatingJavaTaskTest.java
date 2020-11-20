@@ -220,14 +220,18 @@ public class CreatingJavaTaskTest {
 
     bot.button("Next >").click();
     
+    bot.textWithLabel("Name:", 2).setText("toRemove");    
+    bot.button("Add", 2).click();
+    
     bot.textWithLabel("Name:", 2).setText("x");
     bot.textWithLabel("Default value:", 0).setText("0");
-    
     bot.button("Add", 2).click();
     
     bot.textWithLabel("Name:", 2).setText("y");
-    
     bot.button("Add", 2).click();
+    
+    bot.table(2).select(0);
+    bot.button("Remove", 2).click();    
 
     bot.button("Finish").click();
 
