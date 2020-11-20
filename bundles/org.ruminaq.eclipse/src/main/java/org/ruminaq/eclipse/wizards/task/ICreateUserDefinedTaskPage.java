@@ -9,6 +9,11 @@ package org.ruminaq.eclipse.wizards.task;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 
+/**
+ * Model of a newly created Task.
+ *
+ * @author Marek Jagielski
+ */
 public interface ICreateUserDefinedTaskPage extends IWizardPage {
   Module getModel();
 }
