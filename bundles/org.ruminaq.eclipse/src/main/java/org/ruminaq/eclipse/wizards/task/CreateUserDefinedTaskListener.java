@@ -7,7 +7,8 @@
 package org.ruminaq.eclipse.wizards.task;
 
 /**
- * 
+ * Use to notify when creation of task is finished.
+ *
  * @author Marek Jagielski
  */
 public interface CreateUserDefinedTaskListener {
