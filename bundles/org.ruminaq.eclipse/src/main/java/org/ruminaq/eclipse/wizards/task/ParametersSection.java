@@ -121,8 +121,7 @@ class ParametersSection extends Group {
           TableItem item = new TableItem(tblParameters, SWT.NONE);
           item.setText(new String[] { txtParametersAddName.getText(),
               txtParametersAddValue.getText() });
-          for (TableColumn tc : tblParameters.getColumns())
-            tc.pack();
+          Stream.of(tblParameters.getColumns()).forEach(TableColumn::pack);
           sortParameters();
           tblParameters.layout();
           txtParametersAddName.setText("");
