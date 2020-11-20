@@ -6,6 +6,7 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -65,8 +66,8 @@ class ParametersSection extends Group {
 
     tblParameters = new Table(this,
         SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
-    tblParameters
-        .setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
+    tblParameters.setLayoutData(
+        new GridData(SWT.FILL, SWT.FILL, true, true, 1, TWO_COLUMNS));
 
     tblclParametersName = new TableColumn(tblParameters, SWT.NONE);
     tblclParametersValue = new TableColumn(tblParameters, SWT.NONE);
@@ -126,10 +127,10 @@ class ParametersSection extends Group {
     btnParametersRemove.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
           int[] selectionIds = tblParameters.getSelectionIndices();
-          if (selectionIds.length != 0)
+          if (selectionIds.length != 0) {
             btnParametersRemove.setEnabled(false);
-          for (int i = 0, n = selectionIds.length; i < n; i++)
-            tblParameters.remove(selectionIds[i]);
+          }
+          IntStream.of(selectionIds).forEach(tblParameters::remove);
         });
   }
 
