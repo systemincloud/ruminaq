@@ -569,7 +569,6 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     lblOutputPorts.setText("Output Ports:");
     grpOutputs.initComponents();
     lblParameters.setText("Parameters:");
-    grpParameters.initComponents();
   }
 
   protected abstract List<String> getDataTypes();

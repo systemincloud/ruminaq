@@ -49,6 +49,7 @@ class ParametersSection extends Group {
   public ParametersSection(Composite parent, int style) {
     super(parent, style);
     initLayout();
+    initComponents();
   }
 
   @Override
@@ -56,7 +57,7 @@ class ParametersSection extends Group {
     // allow subclass
   }
 
-  private final void initLayout() {
+  private void initLayout() {
     setLayout(new GridLayout(2, false));
     setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 
@@ -84,7 +85,7 @@ class ParametersSection extends Group {
     btnParametersAdd = new Button(grpParametersAdd, SWT.PUSH);
   }
 
-  void initComponents() {
+  private void initComponents() {
     tblParameters.setHeaderVisible(true);
     tblParameters.setLinesVisible(true);
 
