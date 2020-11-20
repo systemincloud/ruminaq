@@ -113,10 +113,8 @@ class ParametersSection extends Group {
       for (TableItem it : tblParameters.getItems())
         if (it.getText(0).equals(txtParametersAddName.getText()))
           exist = true;
-      if ("".equals(txtParametersAddName.getText()) || exist)
-        btnParametersAdd.setEnabled(false);
-      else
-        btnParametersAdd.setEnabled(true);
+      btnParametersAdd
+          .setEnabled(!("".equals(txtParametersAddName.getText()) || exist));
     });
     btnParametersAdd.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
