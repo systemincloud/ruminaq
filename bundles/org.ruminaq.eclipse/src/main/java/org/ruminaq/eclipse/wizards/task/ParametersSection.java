@@ -6,6 +6,7 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
+import java.util.Collections;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
@@ -127,11 +128,11 @@ class ParametersSection extends Group {
         });
     btnParametersRemove.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
-          int[] selectionIds = tblParameters.getSelectionIndices();
-          if (selectionIds.length != 0) {
-            btnParametersRemove.setEnabled(false);
-          }
-          IntStream.of(selectionIds).forEach(tblParameters::remove);
+          IntStream.of(tblParameters.getSelectionIndices()).boxed()
+              .sorted(Collections.reverseOrder())
+              .forEach(tblParameters::remove);
+          tblParameters.deselectAll();
+          btnParametersRemove.setEnabled(false);
         });
   }
 
