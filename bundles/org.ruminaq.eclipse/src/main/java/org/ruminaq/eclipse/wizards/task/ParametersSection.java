@@ -108,14 +108,11 @@ class ParametersSection extends Group {
     tblParameters.addSelectionListener(
         (WidgetSelectedSelectionListener) event -> btnParametersRemove
             .setEnabled(true));
-    txtParametersAddName.addModifyListener((ModifyEvent event) -> {
-      boolean exist = false;
-      for (TableItem it : tblParameters.getItems())
-        if (it.getText(0).equals(txtParametersAddName.getText()))
-          exist = true;
-      btnParametersAdd
-          .setEnabled(!("".equals(txtParametersAddName.getText()) || exist));
-    });
+    txtParametersAddName
+        .addModifyListener((ModifyEvent event) -> btnParametersAdd
+            .setEnabled(!"".equals(txtParametersAddName.getText())
+                && Stream.of(tblParameters.getItems()).map(i -> i.getText(0))
+                    .noneMatch(txtParametersAddName.getText()::equals)));
     btnParametersAdd.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
           TableItem item = new TableItem(tblParameters, SWT.NONE);
