@@ -34,6 +34,8 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  */
 class ParametersSection extends Group {
 
+  private static final int TWO_COLUMNS = 2;
+
   private Table tblParameters;
   private TableColumn tblclParametersName;
   private TableColumn tblclParametersValue;
@@ -58,8 +60,9 @@ class ParametersSection extends Group {
   }
 
   private void initLayout() {
-    setLayout(new GridLayout(2, false));
-    setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+    setLayout(new GridLayout(TWO_COLUMNS, false));
+    setLayoutData(
+        new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
     tblParameters = new Table(this,
         SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
