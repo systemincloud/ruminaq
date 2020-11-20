@@ -36,8 +36,10 @@ class RunnerSection extends Group {
   }
 
   private final void initLayout() {
-    setLayout(new GridLayout(AbstractCreateUserDefinedTaskPage.TWO_COLUMNS, false));
-    setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+    setLayout(
+        new GridLayout(AbstractCreateUserDefinedTaskPage.TWO_COLUMNS, false));
+    setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false,
+        AbstractCreateUserDefinedTaskPage.TWO_COLUMNS, 1));
 
     btnRunnerStart = new Button(this, SWT.CHECK);
     btnRunnerStop = new Button(this, SWT.CHECK);
