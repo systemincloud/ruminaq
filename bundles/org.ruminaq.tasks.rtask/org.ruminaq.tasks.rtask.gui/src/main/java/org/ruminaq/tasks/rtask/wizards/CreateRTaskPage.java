@@ -28,7 +28,7 @@ public class CreateRTaskPage extends AbstractCreateUserDefinedTaskPage
   }
 
   @Override
-  protected List<String> getDataTypes() {
+  public List<String> getDataTypes() {
     return ServiceUtil
         .getServicesAtLatestVersion(CreateRTaskPage.class,
             RTaskExtension.class)

@@ -26,7 +26,7 @@ public class CreatePythonTaskPage extends AbstractCreateUserDefinedTaskPage {
   }
 
   @Override
-  protected List<String> getDataTypes() {
+  public List<String> getDataTypes() {
     return ServiceUtil
         .getServicesAtLatestVersion(CreatePythonTaskPage.class,
             PythonTaskExtension.class)
