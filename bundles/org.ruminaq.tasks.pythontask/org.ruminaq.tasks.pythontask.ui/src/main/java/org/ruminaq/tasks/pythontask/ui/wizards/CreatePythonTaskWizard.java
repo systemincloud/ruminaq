@@ -7,14 +7,10 @@
 package org.ruminaq.tasks.pythontask.ui.wizards;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import org.apache.commons.io.IOUtils;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
@@ -24,18 +20,10 @@ import org.python.pydev.editor.PyEdit;
 import org.python.pydev.ui.wizards.files.AbstractPythonWizardPage;
 import org.python.pydev.ui.wizards.files.PythonModuleWizard;
 import org.python.pydev.ui.wizards.files.PythonPackageWizard;
-import org.ruminaq.eclipse.usertask.model.userdefined.Module;
-import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskListener;
 
 public class CreatePythonTaskWizard extends PythonModuleWizard {
 
   public static final String ID = "org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskWizard";
-
-  private CreateUserDefinedTaskListener listener = null;
-
-  public void setListener(CreateUserDefinedTaskListener listener) {
-    this.listener = listener;
-  }
 
   @Override
   public void addPages() {
@@ -119,8 +107,8 @@ public class CreatePythonTaskWizard extends PythonModuleWizard {
     pack = pack.replace("/", ".");
     if (!"".equals(pack))
       pack += ".";
-    if (listener != null)
-      listener.setImplementation(pack + filePage.getValidatedName());
+//    if (listener != null)
+//      listener.setImplementation(pack + filePage.getValidatedName());
     return ret;
   }
 }
