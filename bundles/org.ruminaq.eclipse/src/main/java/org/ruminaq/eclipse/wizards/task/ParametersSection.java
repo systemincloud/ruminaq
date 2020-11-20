@@ -34,6 +34,7 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
 class ParametersSection extends Group {
 
   private static final int TWO_COLUMNS = 2;
+  private static final int FIVE_COLUMNS = 5;
 
   private Table tblParameters;
   private TableColumn tblclParametersName;
@@ -73,7 +74,7 @@ class ParametersSection extends Group {
     tblclParametersValue = new TableColumn(tblParameters, SWT.NONE);
 
     Group grpParametersAdd = new Group(this, SWT.NONE);
-    grpParametersAdd.setLayout(new GridLayout(5, false));
+    grpParametersAdd.setLayout(new GridLayout(FIVE_COLUMNS, false));
 
     btnParametersRemove = new Button(this, SWT.PUSH);
 
