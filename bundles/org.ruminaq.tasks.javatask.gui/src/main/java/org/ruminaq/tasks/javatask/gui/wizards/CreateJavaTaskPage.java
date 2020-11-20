@@ -104,7 +104,7 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   }
 
   @Override
-  protected List<String> getDataTypes() {
+  public List<String> getDataTypes() {
     return extensions().map(UserDefinedTaskExtension::getSupportedData)
         .flatMap(List::stream).collect(Collectors.toList());
   }

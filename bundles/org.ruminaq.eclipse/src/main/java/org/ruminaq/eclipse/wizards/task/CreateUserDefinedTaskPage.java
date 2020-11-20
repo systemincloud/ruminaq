@@ -6,6 +6,7 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
+import java.util.List;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 
@@ -16,4 +17,6 @@ import org.ruminaq.eclipse.usertask.model.userdefined.Module;
  */
 public interface CreateUserDefinedTaskPage extends IWizardPage {
   Module getModel();
+
+  List<String> getDataTypes();
 }

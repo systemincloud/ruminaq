@@ -6,9 +6,7 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
-import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -32,7 +30,6 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -42,7 +39,6 @@ import org.ruminaq.eclipse.usertask.model.userdefined.In;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.Out;
 import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
-import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**
  * Common wizard page for all custom tasks.
@@ -55,252 +51,6 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
   private static final int TWO_COLUMNS = 2;
 
   public static final String INF = "inf";
-
-  private class InputsSection extends Group {
-
-    private Table tblInputs;
-    private TableColumn tblclInputsName;
-    private TableColumn tblclInputsData;
-    private TableColumn tblclInputsAsync;
-    private TableColumn tblclInputsGroup;
-    private TableColumn tblclInputsHold;
-    private TableColumn tblclInputsQueue;
-    private DragSource tblInputsDragSrc;
-    private DropTarget tblInputsDropTrg;
-
-    private Label lblInputsAddName;
-    private Text txtInputsAddName;
-    private Combo cmbInputsAddData;
-    private Button btnInputsAddAsync;
-    private Button btnInputsAddHold;
-    private Label lblInputsAddGroup;
-    private Spinner spnInputsAddGroup;
-    private Label lblInputsAddQueue;
-    private Button btnInputsAddQueueInf;
-    private Spinner spnInputsAddQueue;
-    private Button btnInputsAdd;
-
-    private Button btnInputsRemove;
-
-    public InputsSection(Composite parent, int style) {
-      super(parent, style);
-    }
-
-    @Override
-    protected void checkSubclass() {
-      // allow subclass
-    }
-
-    private void initLayout() {
-      setLayout(new GridLayout(2, false));
-      setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
-
-      tblInputs = new Table(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
-      tblInputs
-          .setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
-
-      tblclInputsName = new TableColumn(tblInputs, SWT.NONE);
-      tblclInputsData = new TableColumn(tblInputs, SWT.NONE);
-      tblclInputsAsync = new TableColumn(tblInputs, SWT.NONE);
-      tblclInputsGroup = new TableColumn(tblInputs, SWT.NONE);
-      tblclInputsHold = new TableColumn(tblInputs, SWT.NONE);
-      tblclInputsQueue = new TableColumn(tblInputs, SWT.NONE);
-
-      tblInputsDragSrc = new DragSource(tblInputs, DND.DROP_MOVE);
-      tblInputsDropTrg = new DropTarget(tblInputs,
-          DND.DROP_MOVE | DND.DROP_DEFAULT);
-
-      Group grpInputsAdd = new Group(this, SWT.NONE);
-      grpInputsAdd.setLayout(new GridLayout(5, false));
-
-      lblInputsAddName = new Label(grpInputsAdd, SWT.NONE);
-      lblInputsAddName.setLayoutData(
-          new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-      txtInputsAddName = new Text(grpInputsAdd, SWT.BORDER);
-      cmbInputsAddData = new Combo(grpInputsAdd, SWT.NONE | SWT.READ_ONLY);
-      Composite cmpInputsAddOptions = new Composite(grpInputsAdd, SWT.NULL);
-      cmpInputsAddOptions.setLayout(new GridLayout(1, false));
-      btnInputsAddAsync = new Button(cmpInputsAddOptions, SWT.CHECK);
-      btnInputsAddHold = new Button(cmpInputsAddOptions, SWT.CHECK);
-      Composite cmpInputsAddGroup = new Composite(cmpInputsAddOptions,
-          SWT.NULL);
-      cmpInputsAddGroup.setLayout(new GridLayout(2, false));
-      lblInputsAddGroup = new Label(cmpInputsAddGroup, SWT.NONE);
-      spnInputsAddGroup = new Spinner(cmpInputsAddGroup, SWT.BORDER);
-      Composite cmpInputsAddQueue = new Composite(cmpInputsAddOptions,
-          SWT.NULL);
-      cmpInputsAddQueue.setLayout(new GridLayout(3, false));
-      lblInputsAddQueue = new Label(cmpInputsAddQueue, SWT.NONE);
-      btnInputsAddQueueInf = new Button(cmpInputsAddQueue, SWT.CHECK);
-      spnInputsAddQueue = new Spinner(cmpInputsAddQueue, SWT.BORDER);
-      btnInputsAdd = new Button(grpInputsAdd, SWT.PUSH);
-
-      btnInputsRemove = new Button(this, SWT.PUSH);
-    }
-
-    private void initComponents() {
-      tblInputs.setHeaderVisible(true);
-      tblInputs.setLinesVisible(true);
-
-      tblclInputsName.setText("Name");
-      tblclInputsData.setText("Data type");
-      tblclInputsAsync.setText("Async");
-      tblclInputsGroup.setText("Grp");
-      tblclInputsHold.setText("Hold");
-      tblclInputsQueue.setText("Queue");
-      tblInputsDragSrc.setTransfer(types);
-      tblInputsDropTrg.setTransfer(types);
-      Stream.of(tblInputs.getColumns()).forEach(TableColumn::pack);
-
-      lblInputsAddName.setText("Name:");
-      getDataTypes().stream().forEach(cmbInputsAddData::add);
-      cmbInputsAddData.select(0);
-      btnInputsAddAsync.setText("asynchronous");
-      btnInputsAddHold.setText("hold last data");
-      lblInputsAddGroup.setText("group");
-      spnInputsAddGroup.setMinimum(-1);
-      spnInputsAddGroup.setMaximum(Integer.MAX_VALUE);
-      spnInputsAddGroup.setSelection(-1);
-      btnInputsAddQueueInf.setText("inf");
-      lblInputsAddQueue.setText("queue size:");
-      spnInputsAddQueue.setMinimum(1);
-      spnInputsAddQueue.setMaximum(Integer.MAX_VALUE);
-      spnInputsAddQueue.setSelection(1);
-      btnInputsAdd.setText("Add");
-      btnInputsAdd.setEnabled(false);
-
-      btnInputsRemove.setText("Remove");
-      btnInputsRemove.setEnabled(false);
-    }
-
-    public void initActions() {
-      tblInputs.addSelectionListener(
-          (WidgetSelectedSelectionListener) event -> btnInputsRemove
-              .setEnabled(true));
-      tblInputsDragSrc.addDragListener(new DragSourceAdapter() {
-        @Override
-        public void dragStart(DragSourceEvent event) {
-          int[] is = tblInputs.getSelectionIndices();
-          for (int i = 0; i < is.length; i++)
-            if (i > 0 && (is[i] - is[i - 1]) != 1) {
-              event.doit = false;
-              return;
-            }
-          event.doit = true;
-        }
-      });
-      tblInputsDropTrg.addDropListener(new DropTargetAdapter() {
-        @Override
-        public void dragOver(DropTargetEvent event) {
-          event.feedback = DND.FEEDBACK_SELECT | DND.FEEDBACK_SCROLL;
-        }
-
-        @Override
-        public void drop(DropTargetEvent event) {
-          DropTarget target = (DropTarget) event.widget;
-          Table table = (Table) target.getControl();
-          if (table != tblInputs)
-            return;
-
-          TableItem[] items = tblInputs.getSelection();
-
-          TableItem ti = (TableItem) event.item;
-          int idx = -1;
-          int i = 0;
-          for (TableItem it : tblInputs.getItems()) {
-            if (it == ti) {
-              idx = i;
-              break;
-            }
-            i++;
-          }
-          if (i == -1 || i >= tblInputs.getItems().length)
-            return;
-
-          final int idx2 = idx;
-          IntStream.range(0, items.length).forEach(
-              j -> new TableItem(tblInputs, SWT.NONE, idx2 + 1 + j).setText(
-                  new String[] { items[j].getText(0), items[j].getText(1),
-                      items[j].getText(2), items[j].getText(3),
-                      items[j].getText(4), items[j].getText(5) }));
-          Stream.of(items).forEach(TableItem::dispose);
-          tblInputs.redraw();
-        }
-      });
-      txtInputsAddName.addModifyListener((ModifyEvent event) -> {
-        boolean exist = false;
-        for (TableItem it : tblInputs.getItems())
-          if (it.getText(0).equals(txtInputsAddName.getText()))
-            exist = true;
-        if ("".equals(txtInputsAddName.getText()) || exist)
-          btnInputsAdd.setEnabled(false);
-        else
-          btnInputsAdd.setEnabled(true);
-      });
-      btnInputsAddAsync.addSelectionListener(new SelectionAdapter() {
-        @Override
-        public void widgetSelected(SelectionEvent event) {
-          btnInputsAddHold.setEnabled(!btnInputsAddAsync.getSelection());
-          spnInputsAddGroup.setEnabled(!btnInputsAddAsync.getSelection());
-        }
-      });
-      btnInputsAddQueueInf.addSelectionListener(
-          (WidgetSelectedSelectionListener) event -> spnInputsAddQueue
-              .setEnabled(!btnInputsAddQueueInf.getSelection()));
-      spnInputsAddQueue.addSelectionListener(new SelectionAdapter() {
-        @Override
-        public void widgetSelected(SelectionEvent event) {
-          root.layout();
-        }
-      });
-      btnInputsAdd.addSelectionListener(new SelectionAdapter() {
-        @Override
-        public void widgetSelected(SelectionEvent event) {
-          TableItem item = new TableItem(tblInputs, SWT.NONE);
-          boolean async = btnInputsAddAsync.getSelection();
-          String grp = Integer.toString(spnInputsAddGroup.getSelection());
-          boolean inf = btnInputsAddQueueInf.getSelection();
-          item.setText(new String[] { txtInputsAddName.getText(),
-              cmbInputsAddData.getText(), Boolean.toString(async),
-              async ? "-1" : grp,
-              async ? Boolean.toString(false)
-                  : Boolean.toString(btnInputsAddHold.getSelection()),
-              inf ? INF : Integer.toString(spnInputsAddQueue.getSelection()) });
-          for (TableColumn tc : tblInputs.getColumns())
-            tc.pack();
-          tblInputs.layout();
-          txtInputsAddName.setText("");
-        }
-      });
-      btnInputsRemove.addSelectionListener(new SelectionAdapter() {
-        @Override
-        public void widgetSelected(SelectionEvent event) {
-          int[] selectionIds = tblInputs.getSelectionIndices();
-          if (selectionIds.length != 0)
-            btnInputsRemove.setEnabled(false);
-          for (int i = 0, n = selectionIds.length; i < n; i++)
-            tblInputs.remove(selectionIds[i]);
-        }
-      });
-    }
-
-    public void decorate(Module module) {
-      for (TableItem it : tblInputs.getItems()) {
-        In in = UserdefinedFactory.eINSTANCE.createIn();
-
-        in.setName(it.getText(0));
-        in.setDataType(it.getText(1));
-        in.setAsynchronous(Boolean.parseBoolean(it.getText(2)));
-        String sGrp = it.getText(3);
-        in.setGroup(Integer.parseInt(sGrp));
-        in.setHold(Boolean.parseBoolean(it.getText(4)));
-        in.setQueue(
-            it.getText(5).equals(INF) ? -1 : Integer.parseInt(it.getText(5)));
-
-        module.getInputs().add(in);
-      }
-    }
-  }
 
   private class OutputsSection extends Group {
 
@@ -477,7 +227,7 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     }
   }
 
-  private Composite root;
+  Composite root;
   private GeneralSection grpGeneral;
   private RunnerSection grpRunner;
   private Label lblInputPorts;
@@ -516,7 +266,7 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     }
   }
 
-  private Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
+  Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
 
   public AbstractCreateUserDefinedTaskPage(String pageName) {
     super(pageName);
@@ -537,16 +287,13 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     root.setLayout(new GridLayout(TWO_COLUMNS, false));
 
     grpGeneral = new GeneralSection(root, SWT.NONE);
-    grpGeneral.initLayout();
-
     grpRunner = new RunnerSection(root, SWT.NONE);
 
     lblInputPorts = new Label(root, SWT.NONE);
     lblInputPorts.setLayoutData(
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
-    grpInputs = new InputsSection(root, SWT.NONE);
-    grpInputs.initLayout();
+    grpInputs = new InputsSection(this, root, SWT.NONE);
 
     lblOutputPorts = new Label(root, SWT.NONE);
     lblOutputPorts.setLayoutData(
@@ -563,18 +310,13 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
   }
 
   private void initComponents() {
-    grpGeneral.initComponents();
     lblInputPorts.setText("Input Ports:");
-    grpInputs.initComponents();
     lblOutputPorts.setText("Output Ports:");
     grpOutputs.initComponents();
     lblParameters.setText("Parameters:");
   }
 
-  protected abstract List<String> getDataTypes();
-
   private void initActions() {
-    grpGeneral.initActions();
     grpInputs.initActions();
     grpOutputs.initActions();
   }

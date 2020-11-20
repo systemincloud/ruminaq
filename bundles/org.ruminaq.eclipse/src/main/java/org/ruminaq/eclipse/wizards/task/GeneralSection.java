@@ -33,6 +33,9 @@ class GeneralSection extends Group {
 
   public GeneralSection(Composite parent, int style) {
     super(parent, style);
+    initLayout();
+    initComponents();
+    initActions();
   }
 
   @Override
@@ -40,7 +43,7 @@ class GeneralSection extends Group {
     // allow subclass
   }
 
-  void initLayout() {
+  private void initLayout() {
     setLayout(new GridLayout(NB_OF_COLUMNS, false));
     setLayoutData(
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
@@ -50,7 +53,7 @@ class GeneralSection extends Group {
     btnConstant = new Button(this, SWT.CHECK);
   }
 
-  void initComponents() {
+  private void initComponents() {
     btnAtomic.setText("atomic");
     btnAtomic.setSelection(true);
     btnGenerator.setText("generator");
@@ -58,7 +61,7 @@ class GeneralSection extends Group {
     btnConstant.setText("constant");
   }
 
-  void initActions() {
+  private void initActions() {
     btnAtomic.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
           if (!btnAtomic.getSelection()) {
