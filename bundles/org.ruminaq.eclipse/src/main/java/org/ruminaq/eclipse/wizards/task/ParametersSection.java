@@ -160,12 +160,12 @@ class ParametersSection extends Group {
   }
 
   void decorate(Module module) {
-    for (TableItem it : tblParameters.getItems()) {
+    Stream.of(tblParameters.getItems()).map((TableItem ti) -> {
       CustomParameter parameter = UserdefinedFactory.eINSTANCE
           .createCustomParameter();
-      parameter.setName(it.getText(0));
-      parameter.setDefaultValue(it.getText(1));
-      module.getParameters().add(parameter);
-    }
+      parameter.setName(ti.getText(0));
+      parameter.setDefaultValue(ti.getText(1));
+      return parameter;
+    }).forEach(module.getParameters()::add);
   }
 }

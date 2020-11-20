@@ -96,7 +96,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
                   .getFolder(folder));
           ((CreatePythonTaskWizard) wizard).init(PlatformUI.getWorkbench(),
               selection);
-          ((CreatePythonTaskWizard) wizard).setListener(PropertySection.this);
+//          ((CreatePythonTaskWizard) wizard).setListener(PropertySection.this);
           WizardDialog wd = new WizardDialog(
               Display.getDefault().getActiveShell(), wizard);
           wd.setTitle(wizard.getWindowTitle());
