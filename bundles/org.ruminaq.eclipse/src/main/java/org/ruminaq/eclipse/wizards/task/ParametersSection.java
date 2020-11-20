@@ -48,8 +48,7 @@ class ParametersSection extends Group {
 
   public ParametersSection(Composite parent, int style) {
     super(parent, style);
-    setLayout(new GridLayout(2, false));
-    setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+    initLayout();
   }
 
   @Override
@@ -57,7 +56,10 @@ class ParametersSection extends Group {
     // allow subclass
   }
 
-  void initLayout() {
+  private final void initLayout() {
+    setLayout(new GridLayout(2, false));
+    setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+
     tblParameters = new Table(this,
         SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
     tblParameters

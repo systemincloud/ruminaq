@@ -560,7 +560,6 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
     grpParameters = new ParametersSection(root, SWT.NONE);
-    grpParameters.initLayout();
   }
 
   private void initComponents() {
