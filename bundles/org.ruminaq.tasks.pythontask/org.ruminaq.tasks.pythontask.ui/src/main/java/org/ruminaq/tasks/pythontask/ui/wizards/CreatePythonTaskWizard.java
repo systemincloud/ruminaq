@@ -8,7 +8,6 @@ package org.ruminaq.tasks.pythontask.ui.wizards;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-
 import org.apache.commons.io.IOUtils;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -27,14 +26,10 @@ import org.python.pydev.ui.wizards.files.PythonModuleWizard;
 import org.python.pydev.ui.wizards.files.PythonPackageWizard;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskListener;
-import org.ruminaq.tasks.pythontask.ui.IPythonTaskUiApi;
 
 public class CreatePythonTaskWizard extends PythonModuleWizard {
 
   public static final String ID = "org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskWizard";
-
-  private IPythonTaskUiApi ictua;
-  private ICreatePythonTaskPage cptp;
 
   private CreateUserDefinedTaskListener listener = null;
 
@@ -45,9 +40,7 @@ public class CreatePythonTaskWizard extends PythonModuleWizard {
   @Override
   public void addPages() {
     filePage = createPathPage();
-    cptp = ictua.getCreatePythonTaskPage();
     addPage(filePage);
-    addPage(cptp);
   }
 
   @Override
@@ -102,14 +95,14 @@ public class CreatePythonTaskWizard extends PythonModuleWizard {
         PyEdit pyEdit = (PyEdit) openEditor;
         if (pyEdit.isDisposed())
           return;
-        Module module = cptp.getModel();
-        module.setName(filePage.getValidatedName());
-        String code = cptp.generate(module);
-        try {
-          pyEdit.getIFile().setContents(IOUtils.toInputStream(code, "UTF-8"),
-              IResource.FORCE, new NullProgressMonitor());
-        } catch (CoreException | IOException e) {
-        }
+//        Module module = cptp.getModel();
+//        module.setName(filePage.getValidatedName());
+//        String code = cptp.generate(module);
+//        try {
+//          pyEdit.getIFile().setContents(IOUtils.toInputStream(code, "UTF-8"),
+//              IResource.FORCE, new NullProgressMonitor());
+//        } catch (CoreException | IOException e) {
+//        }
       }
     });
   }

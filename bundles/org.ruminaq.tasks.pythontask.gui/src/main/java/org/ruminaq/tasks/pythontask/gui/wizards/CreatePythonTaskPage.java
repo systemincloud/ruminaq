@@ -15,11 +15,9 @@ import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
 import org.ruminaq.tasks.pythontask.gui.PythonData;
 import org.ruminaq.tasks.pythontask.gui.api.PythonTaskExtension;
-import org.ruminaq.tasks.pythontask.ui.wizards.ICreatePythonTaskPage;
 import org.ruminaq.util.ServiceUtil;
 
-public class CreatePythonTaskPage extends AbstractCreateUserDefinedTaskPage
-    implements ICreatePythonTaskPage {
+public class CreatePythonTaskPage extends AbstractCreateUserDefinedTaskPage {
 
   public CreatePythonTaskPage(String pageName) {
     super(pageName);
@@ -44,7 +42,6 @@ public class CreatePythonTaskPage extends AbstractCreateUserDefinedTaskPage
     return m;
   }
 
-  @Override
   public String generate(Module module) {
     return CodeGenerator.generate(module);
   }
