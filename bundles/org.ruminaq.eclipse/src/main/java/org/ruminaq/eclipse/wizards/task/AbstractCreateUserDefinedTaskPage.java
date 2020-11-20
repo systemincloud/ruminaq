@@ -577,7 +577,6 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     grpGeneral.initActions();
     grpInputs.initActions();
     grpOutputs.initActions();
-    grpParameters.initActions();
   }
 
   @Override

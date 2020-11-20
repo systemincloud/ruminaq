@@ -50,6 +50,7 @@ class ParametersSection extends Group {
     super(parent, style);
     initLayout();
     initComponents();
+    initActions();
   }
 
   @Override
@@ -103,7 +104,7 @@ class ParametersSection extends Group {
     btnParametersRemove.setEnabled(false);
   }
 
-  void initActions() {
+  private void initActions() {
     tblParameters.addSelectionListener(
         (WidgetSelectedSelectionListener) event -> btnParametersRemove
             .setEnabled(true));
