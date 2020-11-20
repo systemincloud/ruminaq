@@ -52,7 +52,7 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
 public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     implements CreateUserDefinedTaskPage {
 
-  static final int TWO_COLUMNS = 2;
+  private static final int TWO_COLUMNS = 2;
 
   public static final String INF = "inf";
 
