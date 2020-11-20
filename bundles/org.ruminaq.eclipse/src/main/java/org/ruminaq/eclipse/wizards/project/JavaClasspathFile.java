@@ -43,7 +43,7 @@ public final class JavaClasspathFile {
    * Writes to .classpath file when new project is created.
    *
    * @param javaProject Eclipse IJavaProject reference
-   * @return
+   * @return Try optionally with RuminaqException 
    */
   public Try<RuminaqException> setClasspathEntries(IJavaProject javaProject) {
     List<IClasspathEntry> entries = new LinkedList<>();

@@ -33,6 +33,7 @@ public final class SetNature {
    * Add eclipse project natures.
    *
    * @param project Eclipse IProject reference
+   * @return Try optionally with RuminaqException 
    */
   public static Try<RuminaqException> execute(IProject project) {
     Optional<IProjectDescription> description = Optional.of(project)
