@@ -6,6 +6,7 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
+import java.util.Collections;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
@@ -45,6 +46,9 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  */
 class InputsSection extends Group {
 
+  private static final int NAME_COLUMN = 0;
+  private static final int DATATYPE_COLUMN = 1;
+
   private Table tblInputs;
   private TableColumn tblclInputsName;
   private TableColumn tblclInputsData;
@@ -72,7 +76,8 @@ class InputsSection extends Group {
   private Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
   private CreateUserDefinedTaskPage userDefinedTaskPage;
 
-  public InputsSection(CreateUserDefinedTaskPage page, Composite parent, int style) {
+  public InputsSection(CreateUserDefinedTaskPage page, Composite parent,
+      int style) {
     super(parent, style);
     this.userDefinedTaskPage = page;
     initLayout();
@@ -260,33 +265,28 @@ class InputsSection extends Group {
         txtInputsAddName.setText("");
       }
     });
-    btnInputsRemove.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        int[] selectionIds = tblInputs.getSelectionIndices();
-        if (selectionIds.length != 0)
+    btnInputsRemove.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
+          IntStream.of(tblInputs.getSelectionIndices()).boxed()
+              .sorted(Collections.reverseOrder()).forEach(tblInputs::remove);
+          tblInputs.deselectAll();
           btnInputsRemove.setEnabled(false);
-        for (int i = 0, n = selectionIds.length; i < n; i++)
-          tblInputs.remove(selectionIds[i]);
-      }
-    });
+        });
   }
 
   public void decorate(Module module) {
-    for (TableItem it : tblInputs.getItems()) {
+    Stream.of(tblInputs.getItems()).map((TableItem ti) -> {
       In in = UserdefinedFactory.eINSTANCE.createIn();
-
-      in.setName(it.getText(0));
-      in.setDataType(it.getText(1));
-      in.setAsynchronous(Boolean.parseBoolean(it.getText(2)));
-      String sGrp = it.getText(3);
+      in.setName(ti.getText(NAME_COLUMN));
+      in.setDataType(ti.getText(DATATYPE_COLUMN));
+      in.setAsynchronous(Boolean.parseBoolean(ti.getText(2)));
+      String sGrp = ti.getText(3);
       in.setGroup(Integer.parseInt(sGrp));
-      in.setHold(Boolean.parseBoolean(it.getText(4)));
+      in.setHold(Boolean.parseBoolean(ti.getText(4)));
       in.setQueue(
-          it.getText(5).equals(AbstractCreateUserDefinedTaskPage.INF) ? -1
-              : Integer.parseInt(it.getText(5)));
-
-      module.getInputs().add(in);
-    }
+          ti.getText(5).equals(AbstractCreateUserDefinedTaskPage.INF) ? -1
+              : Integer.parseInt(ti.getText(5)));
+      return in;
+    }).forEach(module.getInputs()::add);
   }
 }
