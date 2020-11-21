@@ -10,7 +10,6 @@ import java.util.function.Predicate;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.ByteArrayTransfer;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -33,7 +32,6 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
 
   public static final String INF = "inf";
 
-  Composite root;
   private GeneralSection grpGeneral;
   private RunnerSection grpRunner;
   private Label lblInputPorts;
@@ -72,8 +70,6 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     }
   }
 
-  Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
-
   public AbstractCreateUserDefinedTaskPage(String pageName) {
     super(pageName);
     setDescription(Messages.createUserDefinedTaskPageDescription);
@@ -85,11 +81,10 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     initComponents();
     initActions();
 
-    setControl(root);
   }
 
   private void initLayout(Composite parent) {
-    root = new Composite(parent, SWT.NULL);
+    Composite root = new Composite(parent, SWT.NULL);
     root.setLayout(new GridLayout(TWO_COLUMNS, false));
 
     grpGeneral = new GeneralSection(root, SWT.NONE);
@@ -113,6 +108,7 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
     grpParameters = new ParametersSection(root, SWT.NONE);
+    setControl(root);
   }
 
   private void initComponents() {
