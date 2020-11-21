@@ -9,8 +9,6 @@ package org.ruminaq.eclipse.wizards.task;
 import java.util.function.Predicate;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.ByteArrayTransfer;
-import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -41,35 +39,6 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
   private Label lblParameters;
   private ParametersSection grpParameters;
 
-  static class RowTransfer extends ByteArrayTransfer {
-    private static final String ROWTYPENAME = "RowType";
-    private static final int ROWTYPEID = registerType(ROWTYPENAME);
-    private static RowTransfer instance = new RowTransfer();
-
-    public static RowTransfer getInstance() {
-      return instance;
-    }
-
-    @Override
-    protected String[] getTypeNames() {
-      return new String[] { ROWTYPENAME };
-    }
-
-    @Override
-    protected int[] getTypeIds() {
-      return new int[] { ROWTYPEID };
-    }
-
-    @Override
-    public void javaToNative(Object object, TransferData transferData) {
-    }
-
-    @Override
-    public Object nativeToJava(TransferData transferData) {
-      return null;
-    }
-  }
-
   public AbstractCreateUserDefinedTaskPage(String pageName) {
     super(pageName);
     setDescription(Messages.createUserDefinedTaskPageDescription);
@@ -79,8 +48,6 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
   public void createControl(Composite parent) {
     initLayout(parent);
     initComponents();
-    initActions();
-
   }
 
   private void initLayout(Composite parent) {
@@ -101,7 +68,6 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
     grpOutputs = new OutputsSection(this, root, SWT.NONE);
-    grpOutputs.initLayout();
 
     lblParameters = new Label(root, SWT.NONE);
     lblParameters.setLayoutData(
@@ -114,13 +80,7 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
   private void initComponents() {
     lblInputPorts.setText("Input Ports:");
     lblOutputPorts.setText("Output Ports:");
-    grpOutputs.initComponents();
     lblParameters.setText("Parameters:");
-  }
-
-  private void initActions() {
-    grpInputs.initActions();
-    grpOutputs.initActions();
   }
 
   @Override

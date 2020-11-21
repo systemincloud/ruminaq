@@ -33,7 +33,6 @@ import org.eclipse.swt.widgets.Text;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.Out;
 import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
-import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage.RowTransfer;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
@@ -65,6 +64,9 @@ class OutputsSection extends Group {
       int style) {
     super(parent, style);
     this.userDefinedTaskPage = page;
+    initLayout();
+    initComponents();
+    initActions();
   }
 
   @Override
@@ -72,7 +74,7 @@ class OutputsSection extends Group {
     // allow subclass
   }
 
-  void initLayout() {
+  private void initLayout() {
     setLayout(new GridLayout(2, false));
     setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 
@@ -100,7 +102,7 @@ class OutputsSection extends Group {
     btnOutputsAdd = new Button(grpOutputsAdd, SWT.PUSH);
   }
 
-  void initComponents() {
+  private void initComponents() {
     tblOutputs.setHeaderVisible(true);
     tblOutputs.setLinesVisible(true);
 
@@ -121,7 +123,7 @@ class OutputsSection extends Group {
     btnOutputsRemove.setEnabled(false);
   }
 
-  void initActions() {
+  private void initActions() {
     tblOutputs.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent event) {

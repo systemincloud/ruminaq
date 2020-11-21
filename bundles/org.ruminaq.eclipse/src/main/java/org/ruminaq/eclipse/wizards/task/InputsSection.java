@@ -35,7 +35,6 @@ import org.eclipse.swt.widgets.Text;
 import org.ruminaq.eclipse.usertask.model.userdefined.In;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
-import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage.RowTransfer;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
@@ -87,6 +86,7 @@ class InputsSection extends Group {
     this.userDefinedTaskPage = page;
     initLayout();
     initComponents();
+    initActions();
   }
 
   @Override
@@ -174,7 +174,7 @@ class InputsSection extends Group {
     btnInputsRemove.setEnabled(false);
   }
 
-  public void initActions() {
+  private void initActions() {
     tblInputs.addSelectionListener(
         (WidgetSelectedSelectionListener) event -> btnInputsRemove
             .setEnabled(true));
