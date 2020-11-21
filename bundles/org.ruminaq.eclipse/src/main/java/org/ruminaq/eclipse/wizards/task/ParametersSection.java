@@ -6,8 +6,6 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
-import java.util.Collections;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -25,6 +23,7 @@ import org.eclipse.swt.widgets.Text;
 import org.ruminaq.eclipse.usertask.model.userdefined.CustomParameter;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
+import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**
@@ -132,9 +131,7 @@ class ParametersSection extends Group {
         });
     btnParametersRemove.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
-          IntStream.of(tblParameters.getSelectionIndices()).boxed()
-              .sorted(Collections.reverseOrder())
-              .forEach(tblParameters::remove);
+          EclipseUtil.removeSelectedRows(tblParameters);
           tblParameters.deselectAll();
           btnParametersRemove.setEnabled(false);
         });

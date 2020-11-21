@@ -10,11 +10,13 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.text.Collator;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -300,5 +302,15 @@ public final class EclipseUtil {
         }
       }
     }
+  }
+
+  /**
+   * Remove selected rows from given swt Table.
+   *
+   * @param table swt Table
+   */
+  public static void removeSelectedRows(Table table) {
+    IntStream.of(table.getSelectionIndices()).boxed()
+        .sorted(Collections.reverseOrder()).forEach(table::remove);
   }
 }
