@@ -48,6 +48,10 @@ class InputsSection extends Group {
 
   private static final int NAME_COLUMN = 0;
   private static final int DATATYPE_COLUMN = 1;
+  private static final int ASYNCHRONOUS_COLUMN = 2;
+  private static final int GROUP_COLUMN = 3;
+  private static final int HOLD_COLUMN = 4;
+  private static final int QUEUE_COLUMN = 5;
 
   private Table tblInputs;
   private TableColumn tblclInputsName;
@@ -279,13 +283,13 @@ class InputsSection extends Group {
       In in = UserdefinedFactory.eINSTANCE.createIn();
       in.setName(ti.getText(NAME_COLUMN));
       in.setDataType(ti.getText(DATATYPE_COLUMN));
-      in.setAsynchronous(Boolean.parseBoolean(ti.getText(2)));
-      String sGrp = ti.getText(3);
-      in.setGroup(Integer.parseInt(sGrp));
-      in.setHold(Boolean.parseBoolean(ti.getText(4)));
+      in.setAsynchronous(Boolean.parseBoolean(ti.getText(ASYNCHRONOUS_COLUMN)));
+      in.setGroup(Integer.parseInt(ti.getText(GROUP_COLUMN)));
+      in.setHold(Boolean.parseBoolean(ti.getText(HOLD_COLUMN)));
       in.setQueue(
-          ti.getText(5).equals(AbstractCreateUserDefinedTaskPage.INF) ? -1
-              : Integer.parseInt(ti.getText(5)));
+          ti.getText(QUEUE_COLUMN).equals(AbstractCreateUserDefinedTaskPage.INF)
+              ? -1
+              : Integer.parseInt(ti.getText(QUEUE_COLUMN)));
       return in;
     }).forEach(module.getInputs()::add);
   }
