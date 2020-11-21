@@ -39,13 +39,13 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
   private Label lblParameters;
   private ParametersSection grpParameters;
 
-  public AbstractCreateUserDefinedTaskPage(String pageName) {
+  protected AbstractCreateUserDefinedTaskPage(String pageName) {
     super(pageName);
-    setDescription(Messages.createUserDefinedTaskPageDescription);
   }
 
   @Override
   public void createControl(Composite parent) {
+    setDescription(Messages.createUserDefinedTaskPageDescription);
     initLayout(parent);
     initComponents();
   }
