@@ -6,7 +6,6 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
-import java.util.Collections;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
@@ -37,6 +36,7 @@ import org.ruminaq.eclipse.usertask.model.userdefined.In;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
 import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage.RowTransfer;
+import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**
@@ -271,8 +271,7 @@ class InputsSection extends Group {
     });
     btnInputsRemove.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
-          IntStream.of(tblInputs.getSelectionIndices()).boxed()
-              .sorted(Collections.reverseOrder()).forEach(tblInputs::remove);
+          EclipseUtil.removeSelectedRows(tblInputs);
           tblInputs.deselectAll();
           btnInputsRemove.setEnabled(false);
         });
