@@ -188,18 +188,16 @@ class OutputsSection extends Group {
       else
         btnOutputsAdd.setEnabled(true);
     });
-    btnOutputsAdd.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        TableItem item = new TableItem(tblOutputs, SWT.NONE);
-        item.setText(new String[] { txtOutputsAddName.getText(),
-            cmbOutputsAddData.getText() });
-        for (TableColumn tc : tblOutputs.getColumns())
-          tc.pack();
-        tblOutputs.layout();
-        txtOutputsAddName.setText("");
-      }
-    });
+    btnOutputsAdd.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
+          TableItem item = new TableItem(tblOutputs, SWT.NONE);
+          item.setText(new String[] { txtOutputsAddName.getText(),
+              cmbOutputsAddData.getText() });
+          for (TableColumn tc : tblOutputs.getColumns())
+            tc.pack();
+          tblOutputs.layout();
+          txtOutputsAddName.setText("");
+        });
     btnOutputsRemove.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
           EclipseUtil.removeSelectedRows(tblOutputs);

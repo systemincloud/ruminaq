@@ -250,26 +250,24 @@ class InputsSection extends Group {
             .setEnabled(!btnInputsAddQueueInf.getSelection()));
     spnInputsAddQueue.addSelectionListener(
         (WidgetSelectedSelectionListener) event -> getParent().layout());
-    btnInputsAdd.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        TableItem item = new TableItem(tblInputs, SWT.NONE);
-        boolean async = btnInputsAddAsync.getSelection();
-        String grp = Integer.toString(spnInputsAddGroup.getSelection());
-        boolean inf = btnInputsAddQueueInf.getSelection();
-        item.setText(new String[] { txtInputsAddName.getText(),
-            cmbInputsAddData.getText(), Boolean.toString(async),
-            async ? "-1" : grp,
-            async ? Boolean.toString(false)
-                : Boolean.toString(btnInputsAddHold.getSelection()),
-            inf ? AbstractCreateUserDefinedTaskPage.INF
-                : Integer.toString(spnInputsAddQueue.getSelection()) });
-        for (TableColumn tc : tblInputs.getColumns())
-          tc.pack();
-        tblInputs.layout();
-        txtInputsAddName.setText("");
-      }
-    });
+    btnInputsAdd.addSelectionListener(
+        (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
+          TableItem item = new TableItem(tblInputs, SWT.NONE);
+          boolean async = btnInputsAddAsync.getSelection();
+          String grp = Integer.toString(spnInputsAddGroup.getSelection());
+          boolean inf = btnInputsAddQueueInf.getSelection();
+          item.setText(new String[] { txtInputsAddName.getText(),
+              cmbInputsAddData.getText(), Boolean.toString(async),
+              async ? "-1" : grp,
+              async ? Boolean.toString(false)
+                  : Boolean.toString(btnInputsAddHold.getSelection()),
+              inf ? AbstractCreateUserDefinedTaskPage.INF
+                  : Integer.toString(spnInputsAddQueue.getSelection()) });
+          for (TableColumn tc : tblInputs.getColumns())
+            tc.pack();
+          tblInputs.layout();
+          txtInputsAddName.setText("");
+        });
     btnInputsRemove.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
           EclipseUtil.removeSelectedRows(tblInputs);
