@@ -65,8 +65,6 @@ class OutputsSection extends Group {
       int style) {
     super(parent, style);
     this.userDefinedTaskPage = page;
-    setLayout(new GridLayout(2, false));
-    setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
   }
 
   @Override
@@ -75,6 +73,9 @@ class OutputsSection extends Group {
   }
 
   void initLayout() {
+    setLayout(new GridLayout(2, false));
+    setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+
     tblOutputs = new Table(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
     tblOutputs
         .setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
