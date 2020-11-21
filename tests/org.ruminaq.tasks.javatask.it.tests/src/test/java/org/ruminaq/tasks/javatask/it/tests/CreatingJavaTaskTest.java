@@ -227,6 +227,7 @@ public class CreatingJavaTaskTest {
     bot.textWithLabel("Default value:", 0).setText("0");
     bot.button("Add", 2).click();
     
+    bot.textWithLabel("Name:", 2).setText("x");
     bot.textWithLabel("Name:", 2).setText("y");
     bot.button("Add", 2).click();
     
