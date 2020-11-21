@@ -77,8 +77,9 @@ class InputsSection extends Group {
 
   private Button btnInputsRemove;
 
-  private Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
   private CreateUserDefinedTaskPage userDefinedTaskPage;
+
+  private Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
 
   public InputsSection(CreateUserDefinedTaskPage page, Composite parent,
       int style) {
