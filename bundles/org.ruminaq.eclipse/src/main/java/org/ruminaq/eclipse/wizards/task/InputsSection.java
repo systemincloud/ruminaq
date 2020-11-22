@@ -62,7 +62,7 @@ class InputsSection extends AbstractSection {
     tableSection.initLayout();
 
     Group grpInputsAdd = new Group(this, SWT.NONE);
-    grpInputsAdd.setLayout(new GridLayout(5, false));
+    grpInputsAdd.setLayout(new GridLayout(FIVE_COLUMNS, false));
 
     lblInputsAddName = new Label(grpInputsAdd, SWT.NONE);
     lblInputsAddName

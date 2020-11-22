@@ -77,7 +77,7 @@ class OutputsSection extends AbstractSection {
         DND.DROP_MOVE | DND.DROP_DEFAULT);
 
     Group grpOutputsAdd = new Group(this, SWT.NONE);
-    grpOutputsAdd.setLayout(new GridLayout(5, false));
+    grpOutputsAdd.setLayout(new GridLayout(FIVE_COLUMNS, false));
 
     btnOutputsRemove = new Button(this, SWT.PUSH);
 
