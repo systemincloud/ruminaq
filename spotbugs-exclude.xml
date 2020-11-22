@@ -1,5 +1,8 @@
 <FindBugsFilter>
   <Match>
+    <Bug pattern="ACEM_ABSTRACT_CLASS_EMPTY_METHODS" />
+  </Match>
+  <Match>
     <Bug pattern="AI_ANNOTATION_ISSUES_NEEDS_NULLABLE" />
   </Match>
   <Match>
