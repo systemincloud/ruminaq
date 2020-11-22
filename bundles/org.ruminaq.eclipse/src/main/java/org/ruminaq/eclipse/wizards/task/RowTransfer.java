@@ -36,6 +36,7 @@ class RowTransfer extends ByteArrayTransfer {
 
   @Override
   public void javaToNative(Object object, TransferData transferData) {
+    // no need to transform
   }
 
   @Override
