@@ -209,11 +209,14 @@ class InputsSection extends AbstractSection {
           return;
 
         final int idx2 = idx;
-        IntStream.range(0, items.length).forEach(
-            j -> new TableItem(tblInputs, SWT.NONE, idx2 + 1 + j).setText(
-                new String[] { items[j].getText(0), items[j].getText(1),
-                    items[j].getText(2), items[j].getText(3),
-                    items[j].getText(4), items[j].getText(5) }));
+        IntStream.range(0, items.length)
+            .forEach(j -> new TableItem(tblInputs, SWT.NONE, idx2 + 1 + j)
+                .setText(new String[] { items[j].getText(NAME_COLUMN),
+                    items[j].getText(DATATYPE_COLUMN),
+                    items[j].getText(ASYNCHRONOUS_COLUMN),
+                    items[j].getText(GROUP_COLUMN),
+                    items[j].getText(HOLD_COLUMN),
+                    items[j].getText(QUEUE_COLUMN) }));
         Stream.of(items).forEach(TableItem::dispose);
         tblInputs.redraw();
       }
