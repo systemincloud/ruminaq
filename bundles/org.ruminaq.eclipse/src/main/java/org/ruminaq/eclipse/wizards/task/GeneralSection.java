@@ -22,9 +22,6 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  */
 class GeneralSection extends AbstractSection {
 
-  private static final int NB_OF_COLUMNS = 5;
-  private static final int TWO_COLUMNS = 2;
-
   private Button btnAtomic;
   private Button btnGenerator;
   private Button btnExternalSource;
@@ -36,7 +33,7 @@ class GeneralSection extends AbstractSection {
 
   @Override
   protected void initLayout() {
-    setLayout(new GridLayout(NB_OF_COLUMNS, false));
+    setLayout(new GridLayout(FIVE_COLUMNS, false));
     setLayoutData(
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
     btnAtomic = new Button(this, SWT.CHECK);
