@@ -54,8 +54,6 @@ class OutputsSection extends AbstractSection {
 
   private Button btnOutputsRemove;
 
-  private CreateUserDefinedTaskPage userDefinedTaskPage;
-
   public OutputsSection(CreateUserDefinedTaskPage page, Composite parent,
       int style) {
     super(page, parent, style);
