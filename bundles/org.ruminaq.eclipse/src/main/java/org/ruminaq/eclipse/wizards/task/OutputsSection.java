@@ -41,7 +41,7 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  *
  * @author Marek Jagielski
  */
-class OutputsSection extends Group {
+class OutputsSection extends AbstractSection {
 
   private Table tblOutputs;
   private TableColumn tblclOutputsName;
@@ -62,19 +62,11 @@ class OutputsSection extends Group {
 
   public OutputsSection(CreateUserDefinedTaskPage page, Composite parent,
       int style) {
-    super(parent, style);
-    this.userDefinedTaskPage = page;
-    initLayout();
-    initComponents();
-    initActions();
+    super(page, parent, style);
   }
 
   @Override
-  protected void checkSubclass() {
-    // allow subclass
-  }
-
-  private void initLayout() {
+  protected void initLayout() {
     setLayout(new GridLayout(2, false));
     setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 
@@ -102,7 +94,8 @@ class OutputsSection extends Group {
     btnOutputsAdd = new Button(grpOutputsAdd, SWT.PUSH);
   }
 
-  private void initComponents() {
+  @Override
+  protected void initComponents() {
     tblOutputs.setHeaderVisible(true);
     tblOutputs.setLinesVisible(true);
 
@@ -123,7 +116,8 @@ class OutputsSection extends Group {
     btnOutputsRemove.setEnabled(false);
   }
 
-  private void initActions() {
+  @Override
+  protected void initActions() {
     tblOutputs.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent event) {

@@ -73,7 +73,7 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     lblParameters.setLayoutData(
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
-    grpParameters = new ParametersSection(root, SWT.NONE);
+    grpParameters = new ParametersSection(this, root, SWT.NONE);
     setControl(root);
   }
 

@@ -31,7 +31,7 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  *
  * @author Marek Jagielski
  */
-class ParametersSection extends Group {
+class ParametersSection extends AbstractSection {
 
   private static final int TWO_COLUMNS = 2;
   private static final int FIVE_COLUMNS = 5;
@@ -48,23 +48,17 @@ class ParametersSection extends Group {
 
   private Button btnParametersRemove;
 
-  public ParametersSection(Composite parent, int style) {
-    super(parent, style);
-    initLayout();
-    initComponents();
-    initActions();
-  }
-
-  @Override
-  protected void checkSubclass() {
-    // allow subclass
+  public ParametersSection(CreateUserDefinedTaskPage page, Composite parent,
+      int style) {
+    super(page, parent, style);
   }
 
   /**
    * Table with two columns on the left. Two input fields on the right. At the
    * far right button.
    */
-  private void initLayout() {
+  @Override
+  protected void initLayout() {
     setLayout(new GridLayout(TWO_COLUMNS, false));
     setLayoutData(
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
@@ -93,7 +87,8 @@ class ParametersSection extends Group {
     btnParametersAdd = new Button(grpParametersAdd, SWT.PUSH);
   }
 
-  private void initComponents() {
+  @Override
+  protected void initComponents() {
     tblParameters.setHeaderVisible(true);
     tblParameters.setLinesVisible(true);
 
@@ -110,7 +105,8 @@ class ParametersSection extends Group {
     btnParametersRemove.setEnabled(false);
   }
 
-  private void initActions() {
+  @Override
+  protected void initActions() {
     tblParameters.addSelectionListener(
         (WidgetSelectedSelectionListener) event -> btnParametersRemove
             .setEnabled(true));

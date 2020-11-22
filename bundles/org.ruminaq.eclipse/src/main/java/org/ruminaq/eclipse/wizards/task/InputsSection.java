@@ -43,7 +43,7 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  *
  * @author Marek Jagielski
  */
-class InputsSection extends Group {
+class InputsSection extends AbstractSection {
 
   private static final int NAME_COLUMN = 0;
   private static final int DATATYPE_COLUMN = 1;
@@ -76,25 +76,15 @@ class InputsSection extends Group {
 
   private Button btnInputsRemove;
 
-  private CreateUserDefinedTaskPage userDefinedTaskPage;
-
   private Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
 
   public InputsSection(CreateUserDefinedTaskPage page, Composite parent,
       int style) {
-    super(parent, style);
-    this.userDefinedTaskPage = page;
-    initLayout();
-    initComponents();
-    initActions();
+    super(page, parent, style);
   }
 
   @Override
-  protected void checkSubclass() {
-    // allow subclass
-  }
-
-  private void initLayout() {
+  protected void initLayout() {
     setLayout(new GridLayout(2, false));
     setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 
@@ -138,7 +128,8 @@ class InputsSection extends Group {
     btnInputsRemove = new Button(this, SWT.PUSH);
   }
 
-  private void initComponents() {
+  @Override
+  protected void initComponents() {
     tblInputs.setHeaderVisible(true);
     tblInputs.setLinesVisible(true);
 
@@ -174,7 +165,8 @@ class InputsSection extends Group {
     btnInputsRemove.setEnabled(false);
   }
 
-  private void initActions() {
+  @Override
+  protected void initActions() {
     tblInputs.addSelectionListener(
         (WidgetSelectedSelectionListener) event -> btnInputsRemove
             .setEnabled(true));
