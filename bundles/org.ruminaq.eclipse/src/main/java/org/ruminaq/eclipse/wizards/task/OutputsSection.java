@@ -176,16 +176,9 @@ class OutputsSection extends AbstractSection {
         tblOutputs.redraw();
       }
     });
-    txtOutputsAddName.addModifyListener((ModifyEvent event) -> {
-      boolean exist = false;
-      for (TableItem it : tblOutputs.getItems())
-        if (it.getText(0).equals(txtOutputsAddName.getText()))
-          exist = true;
-      if ("".equals(txtOutputsAddName.getText()) || exist)
-        btnOutputsAdd.setEnabled(false);
-      else
-        btnOutputsAdd.setEnabled(true);
-    });
+    txtOutputsAddName.addModifyListener((ModifyEvent event) -> btnOutputsAdd
+        .setEnabled(EclipseUtil.hasNonEmptyValueInTable(tblOutputs, 0,
+            txtOutputsAddName.getText())));
     btnOutputsAdd.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
           TableItem item = new TableItem(tblOutputs, SWT.NONE);
