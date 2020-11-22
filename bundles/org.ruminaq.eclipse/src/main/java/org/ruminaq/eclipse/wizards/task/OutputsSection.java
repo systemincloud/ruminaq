@@ -191,8 +191,7 @@ class OutputsSection extends AbstractSection {
           TableItem item = new TableItem(tblOutputs, SWT.NONE);
           item.setText(new String[] { txtOutputsAddName.getText(),
               cmbOutputsAddData.getText() });
-          for (TableColumn tc : tblOutputs.getColumns())
-            tc.pack();
+          Stream.of(tblOutputs.getColumns()).forEach(TableColumn::pack);
           tblOutputs.layout();
           txtOutputsAddName.setText("");
         });
