@@ -34,6 +34,9 @@ class GeneralSection extends AbstractSection {
     super(page, parent, style);
   }
 
+  /**
+   * Four check boxes. Some of them are exclusive.
+   */
   @Override
   protected void initLayout() {
     setLayout(new GridLayout(FIVE_COLUMNS, false));
