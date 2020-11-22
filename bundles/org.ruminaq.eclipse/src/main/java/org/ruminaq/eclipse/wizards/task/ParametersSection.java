@@ -102,6 +102,9 @@ class ParametersSection extends AbstractSection {
     btnParametersRemove.setEnabled(false);
   }
 
+  /**
+   * When parameter is added disable 'Add' button.
+   */
   @Override
   protected void initActions() {
     tblParameters.addSelectionListener(
