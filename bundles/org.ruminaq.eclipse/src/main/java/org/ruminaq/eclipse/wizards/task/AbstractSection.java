@@ -20,7 +20,7 @@ public abstract class AbstractSection extends Group {
 
   protected static final int TWO_COLUMNS = 2;
   protected static final int FIVE_COLUMNS = 5;
-
+  
   protected Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
 
   protected CreateUserDefinedTaskPage userDefinedTaskPage;
