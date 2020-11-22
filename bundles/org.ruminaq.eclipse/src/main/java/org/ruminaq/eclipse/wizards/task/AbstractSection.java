@@ -16,6 +16,8 @@ import org.eclipse.swt.widgets.Group;
  */
 public abstract class AbstractSection extends Group {
 
+  protected static final int TWO_COLUMNS = 2;
+
   protected CreateUserDefinedTaskPage userDefinedTaskPage;
 
   protected AbstractSection(CreateUserDefinedTaskPage page, Composite parent,

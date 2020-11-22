@@ -12,7 +12,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
@@ -21,7 +20,7 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  *
  * @author Marek Jagielski
  */
-class GeneralSection extends Group {
+class GeneralSection extends AbstractSection {
 
   private static final int NB_OF_COLUMNS = 5;
   private static final int TWO_COLUMNS = 2;
@@ -31,19 +30,12 @@ class GeneralSection extends Group {
   private Button btnExternalSource;
   private Button btnConstant;
 
-  public GeneralSection(Composite parent, int style) {
-    super(parent, style);
-    initLayout();
-    initComponents();
-    initActions();
+  public GeneralSection(CreateUserDefinedTaskPage page, Composite parent, int style) {
+    super(page, parent, style);
   }
 
   @Override
-  protected void checkSubclass() {
-    // allow subclass
-  }
-
-  private void initLayout() {
+  protected void initLayout() {
     setLayout(new GridLayout(NB_OF_COLUMNS, false));
     setLayoutData(
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
@@ -53,7 +45,8 @@ class GeneralSection extends Group {
     btnConstant = new Button(this, SWT.CHECK);
   }
 
-  private void initComponents() {
+  @Override
+  protected void initComponents() {
     btnAtomic.setText("atomic");
     btnAtomic.setSelection(true);
     btnGenerator.setText("generator");
@@ -61,7 +54,8 @@ class GeneralSection extends Group {
     btnConstant.setText("constant");
   }
 
-  private void initActions() {
+  @Override
+  protected void initActions() {
     btnAtomic.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
           if (!btnAtomic.getSelection()) {

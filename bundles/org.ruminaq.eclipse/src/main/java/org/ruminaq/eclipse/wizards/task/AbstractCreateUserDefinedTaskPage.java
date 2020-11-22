@@ -54,7 +54,7 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     Composite root = new Composite(parent, SWT.NULL);
     root.setLayout(new GridLayout(TWO_COLUMNS, false));
 
-    grpGeneral = new GeneralSection(root, SWT.NONE);
+    grpGeneral = new GeneralSection(this, root, SWT.NONE);
     grpRunner = new RunnerSection(root, SWT.NONE);
 
     lblInputPorts = new Label(root, SWT.NONE);
