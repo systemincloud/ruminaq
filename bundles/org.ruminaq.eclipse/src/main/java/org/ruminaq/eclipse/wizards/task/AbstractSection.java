@@ -31,6 +31,9 @@ public abstract class AbstractSection extends Group {
     this.userDefinedTaskPage = page;
   }
 
+  /**
+   * Init Section UI.
+   */
   public void init() {
     initLayout();
     initComponents();

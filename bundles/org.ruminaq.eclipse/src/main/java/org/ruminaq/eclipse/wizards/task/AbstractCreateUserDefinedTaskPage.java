@@ -21,6 +21,7 @@ import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
 
 /**
  * Common wizard page for all custom tasks. Build from sections:
+ *
  * <p><ul>
  * <li>General
  * <li>Runner
@@ -57,7 +58,7 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     initLayout(parent);
     initComponents();
     Arrays.asList(grpGeneral, grpRunner, grpInputs, grpOutputs, grpParameters)
-        .stream().forEach(s -> s.init());
+        .stream().forEach(AbstractSection::init);
   }
 
   private void initLayout(Composite parent) {
