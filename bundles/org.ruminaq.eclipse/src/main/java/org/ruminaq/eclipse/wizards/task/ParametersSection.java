@@ -116,9 +116,8 @@ class ParametersSection extends Group {
             .setEnabled(true));
     txtParametersAddName
         .addModifyListener((ModifyEvent event) -> btnParametersAdd
-            .setEnabled(!"".equals(txtParametersAddName.getText())
-                && Stream.of(tblParameters.getItems()).map(i -> i.getText(0))
-                    .noneMatch(txtParametersAddName.getText()::equals)));
+            .setEnabled(EclipseUtil.hasNonEmptyValueInTable(tblParameters, 0,
+                txtParametersAddName.getText())));
     btnParametersAdd.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
           TableItem item = new TableItem(tblParameters, SWT.NONE);

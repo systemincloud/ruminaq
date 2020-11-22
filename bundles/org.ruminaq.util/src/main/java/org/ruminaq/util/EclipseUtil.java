@@ -313,4 +313,18 @@ public final class EclipseUtil {
     IntStream.of(table.getSelectionIndices()).boxed()
         .sorted(Collections.reverseOrder()).forEach(table::remove);
   }
+
+  /**
+   * Check if non-empty value is present in column table.
+   *
+   * @param table  table to check
+   * @param column column index
+   * @param value
+   * @return nonempty value in column
+   */
+  public static boolean hasNonEmptyValueInTable(Table table, int column,
+      String value) {
+    return !"".equals(value) && Stream.of(table.getItems())
+        .map(i -> i.getText(column)).noneMatch(value::equals);
+  }
 }
