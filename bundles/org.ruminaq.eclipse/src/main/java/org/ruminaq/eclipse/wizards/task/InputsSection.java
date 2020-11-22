@@ -86,7 +86,8 @@ class InputsSection extends AbstractSection {
   @Override
   protected void initLayout() {
     setLayout(new GridLayout(TWO_COLUMNS, false));
-    setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
+    setLayoutData(
+        new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
     tblInputs = new Table(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
     tblInputs.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
@@ -220,16 +221,9 @@ class InputsSection extends AbstractSection {
         tblInputs.redraw();
       }
     });
-    txtInputsAddName.addModifyListener((ModifyEvent event) -> {
-      boolean exist = false;
-      for (TableItem it : tblInputs.getItems())
-        if (it.getText(0).equals(txtInputsAddName.getText()))
-          exist = true;
-      if ("".equals(txtInputsAddName.getText()) || exist)
-        btnInputsAdd.setEnabled(false);
-      else
-        btnInputsAdd.setEnabled(true);
-    });
+    txtInputsAddName.addModifyListener((ModifyEvent event) -> btnInputsAdd
+        .setEnabled(EclipseUtil.hasNonEmptyValueInTable(tblInputs, 0,
+            txtInputsAddName.getText())));
     btnInputsAddAsync.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent event) {
