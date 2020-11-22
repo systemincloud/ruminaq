@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.javatask.it.tests;
 
 import java.io.BufferedReader;
@@ -170,8 +171,8 @@ public class CreatingJavaTaskTest {
     bot.textWithLabel("Name:", 0).setText("a");
     bot.button("Add", 0).click();
     bot.table(0).select(0);
-    bot.button("Remove", 0).click();  
-    
+    bot.button("Remove", 0).click();
+
     bot.textWithLabel("Name:", 0).setText("a");
     bot.button("Add", 0).click();
 
@@ -193,7 +194,7 @@ public class CreatingJavaTaskTest {
     bot.spinner(0).setSelection(1);
     bot.button("Add", 0).click();
     bot.spinner(0).setSelection(-1);
-    
+
     bot.textWithLabel("Name:", 0).setText("f");
     bot.spinner(1).setSelection(3);
     bot.button("Add", 0).click();
@@ -202,11 +203,13 @@ public class CreatingJavaTaskTest {
     bot.checkBox("inf").click();
     bot.button("Add", 0).click();
 
+    bot.table(0).getTableItem(5).dragAndDrop(bot.table(0).getTableItem(6));
+
     bot.textWithLabel("Name:", 1).setText("h");
-    bot.button("Add", 1).click();    
+    bot.button("Add", 1).click();
     bot.table(1).select(0);
-    bot.button("Remove", 1).click();  
-    
+    bot.button("Remove", 1).click();
+
     bot.textWithLabel("Name:", 1).setText("h");
     bot.comboBox(1).setSelection("Complex32");
     bot.button("Add", 1).click();
@@ -221,28 +224,28 @@ public class CreatingJavaTaskTest {
         toString(this.getClass().getResourceAsStream("Ports.javatest")),
         toString(workspace.getRoot().getProject(projectName)
             .getFile("src/main/java/test/Ports.java").getContents()));
-    
+
     new CreateJavaTask().openJavaTaskWizardFromProjectContextMenu(bot,
         projectName);
-    
+
     bot.textWithLabel("Package:").setText("test");
     bot.textWithLabel("Name:").setText("Parameters");
 
     bot.button("Next >").click();
-    
-    bot.textWithLabel("Name:", 2).setText("toRemove");    
+
+    bot.textWithLabel("Name:", 2).setText("toRemove");
     bot.button("Add", 2).click();
-    
+
     bot.textWithLabel("Name:", 2).setText("x");
     bot.textWithLabel("Default value:", 0).setText("0");
     bot.button("Add", 2).click();
-    
+
     bot.textWithLabel("Name:", 2).setText("x");
     bot.textWithLabel("Name:", 2).setText("y");
     bot.button("Add", 2).click();
-    
+
     bot.table(2).select(0);
-    bot.button("Remove", 2).click();    
+    bot.button("Remove", 2).click();
 
     bot.button("Finish").click();
 

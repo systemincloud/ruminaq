@@ -22,10 +22,10 @@ public class Ports extends JavaTask {
 	public InputPort d;
 	@InputPortInfo(name = "e", dataType = Complex32.class, group = 1, hold = true)
 	public InputPort e;
-	@InputPortInfo(name = "f", dataType = Complex32.class, hold = true, queue = 3)
-	public InputPort f;
 	@InputPortInfo(name = "g", dataType = Complex32.class, hold = true, queue = -1)
 	public InputPort g;
+	@InputPortInfo(name = "f", dataType = Complex32.class, hold = true, queue = 3)
+	public InputPort f;
 	@OutputPortInfo(name = "h", dataType = Complex32.class)
 	public OutputPort h;
 
