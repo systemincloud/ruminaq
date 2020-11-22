@@ -20,7 +20,14 @@ import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
 
 /**
- * Common wizard page for all custom tasks.
+ * Common wizard page for all custom tasks. Build from sections:
+ * <p><ul>
+ * <li>General
+ * <li>Runner
+ * <li>Inputs
+ * <li>Outputs
+ * <li>Parameters
+ * </ul>
  *
  * @author Marek Jagielski
  */
