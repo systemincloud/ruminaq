@@ -204,6 +204,7 @@ class OutputsSection extends AbstractSection {
         });
   }
 
+  @Override
   public void decorate(Module module) {
     Stream.of(tblOutputs.getItems()).map((TableItem ti) -> {
       Out out = UserdefinedFactory.eINSTANCE.createOut();
