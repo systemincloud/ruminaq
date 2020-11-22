@@ -29,7 +29,7 @@ class RunnerSection extends AbstractSection {
   }
 
   @Override
-  public void initLayout() {
+  protected void initLayout() {
     setLayout(new GridLayout(TWO_COLUMNS, false));
     setLayoutData(
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
@@ -39,19 +39,19 @@ class RunnerSection extends AbstractSection {
   }
 
   @Override
-  public void initComponents() {
+  protected void initComponents() {
     btnRunnerStart.setText("runnerStart");
     btnRunnerStop.setText("runnerStop");
+  }
+  
+  @Override
+  protected void initActions() {
+    // no action needed
   }
 
   @Override
   public void decorate(Module module) {
     module.setRunnerStart(btnRunnerStart.getSelection());
     module.setRunnerStop(btnRunnerStop.getSelection());
-  }
-
-  @Override
-  protected void initActions() {
-    // no action needed
   }
 }
