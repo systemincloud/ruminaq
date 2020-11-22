@@ -27,7 +27,8 @@ class GeneralSection extends AbstractSection {
   private Button btnExternalSource;
   private Button btnConstant;
 
-  public GeneralSection(CreateUserDefinedTaskPage page, Composite parent, int style) {
+  public GeneralSection(CreateUserDefinedTaskPage page, Composite parent,
+      int style) {
     super(page, parent, style);
   }
 
@@ -81,12 +82,8 @@ class GeneralSection extends AbstractSection {
         });
   }
 
-  /**
-   * Contribute to custom task definition.
-   *
-   * @param module custom task definition.
-   */
-  void decorate(Module module) {
+  @Override
+  public void decorate(Module module) {
     module.setAtomic(btnAtomic.getSelection());
     module.setConstant(btnConstant.getSelection());
     module.setExternalSource(btnExternalSource.getSelection());

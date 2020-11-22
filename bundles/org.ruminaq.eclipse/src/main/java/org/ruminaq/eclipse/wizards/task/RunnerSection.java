@@ -11,7 +11,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 
 /**
@@ -19,25 +18,18 @@ import org.ruminaq.eclipse.usertask.model.userdefined.Module;
  *
  * @author Marek Jagielski
  */
-class RunnerSection extends Group {
-
-  private static final int TWO_COLUMNS = 2;
+class RunnerSection extends AbstractSection {
 
   private Button btnRunnerStart;
   private Button btnRunnerStop;
 
-  public RunnerSection(Composite parent, int style) {
-    super(parent, style);
-    initLayout();
-    initComponents();
+  public RunnerSection(CreateUserDefinedTaskPage page, Composite parent,
+      int style) {
+    super(page, parent, style);
   }
 
   @Override
-  protected void checkSubclass() {
-    // allow subclass
-  }
-
-  private void initLayout() {
+  public void initLayout() {
     setLayout(new GridLayout(TWO_COLUMNS, false));
     setLayoutData(
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
@@ -46,13 +38,20 @@ class RunnerSection extends Group {
     btnRunnerStop = new Button(this, SWT.CHECK);
   }
 
-  private void initComponents() {
+  @Override
+  public void initComponents() {
     btnRunnerStart.setText("runnerStart");
     btnRunnerStop.setText("runnerStop");
   }
 
-  protected void decorate(Module module) {
+  @Override
+  public void decorate(Module module) {
     module.setRunnerStart(btnRunnerStart.getSelection());
     module.setRunnerStop(btnRunnerStop.getSelection());
+  }
+
+  @Override
+  protected void initActions() {
+    // no action needed
   }
 }

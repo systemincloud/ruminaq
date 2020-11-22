@@ -8,6 +8,7 @@ package org.ruminaq.eclipse.wizards.task;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 
 /**
  * Common class for componenets in UserDefinedTask creation psage.
@@ -40,4 +41,11 @@ public abstract class AbstractSection extends Group {
   protected abstract void initComponents();
 
   protected abstract void initActions();
+
+  /**
+   * Contribute to custom task definition.
+   *
+   * @param module custom task definition.
+   */
+  public abstract void decorate(Module module);
 }

@@ -6,6 +6,7 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
+import java.util.Arrays;
 import java.util.function.Predicate;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -55,7 +56,7 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     root.setLayout(new GridLayout(TWO_COLUMNS, false));
 
     grpGeneral = new GeneralSection(this, root, SWT.NONE);
-    grpRunner = new RunnerSection(root, SWT.NONE);
+    grpRunner = new RunnerSection(this, root, SWT.NONE);
 
     lblInputPorts = new Label(root, SWT.NONE);
     lblInputPorts.setLayoutData(
@@ -86,11 +87,8 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
   @Override
   public Module getModel() {
     Module module = UserdefinedFactory.eINSTANCE.createModule();
-    grpGeneral.decorate(module);
-    grpRunner.decorate(module);
-    grpInputs.decorate(module);
-    grpOutputs.decorate(module);
-    grpParameters.decorate(module);
+    Arrays.asList(grpGeneral, grpRunner, grpInputs, grpOutputs, grpParameters)
+        .stream().forEach(s -> s.decorate(module));
 
     boolean hasAsync = module.getInputs().stream().anyMatch(In::isAsynchronous);
     boolean hasNonAsync = module.getInputs().stream()

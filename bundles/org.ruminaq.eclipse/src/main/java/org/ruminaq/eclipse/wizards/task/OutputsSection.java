@@ -67,8 +67,9 @@ class OutputsSection extends AbstractSection {
 
   @Override
   protected void initLayout() {
-    setLayout(new GridLayout(2, false));
-    setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+    setLayout(new GridLayout(TWO_COLUMNS, false));
+    setLayoutData(
+        new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
     tblOutputs = new Table(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
     tblOutputs
@@ -204,13 +205,11 @@ class OutputsSection extends AbstractSection {
   }
 
   public void decorate(Module module) {
-    for (TableItem it : tblOutputs.getItems()) {
+    Stream.of(tblOutputs.getItems()).map((TableItem ti) -> {
       Out out = UserdefinedFactory.eINSTANCE.createOut();
-
-      out.setName(it.getText(0));
-      out.setDataType(it.getText(1));
-
-      module.getOutputs().add(out);
-    }
+      out.setName(ti.getText(0));
+      out.setDataType(ti.getText(1));
+      return out;
+    }).forEach(module.getOutputs()::add);
   }
 }

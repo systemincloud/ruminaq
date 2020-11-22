@@ -268,6 +268,7 @@ class InputsSection extends AbstractSection {
         });
   }
 
+  @Override
   public void decorate(Module module) {
     Stream.of(tblInputs.getItems()).map((TableItem ti) -> {
       In in = UserdefinedFactory.eINSTANCE.createIn();

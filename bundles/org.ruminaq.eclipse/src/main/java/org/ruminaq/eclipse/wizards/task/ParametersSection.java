@@ -33,9 +33,6 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  */
 class ParametersSection extends AbstractSection {
 
-  private static final int TWO_COLUMNS = 2;
-  private static final int FIVE_COLUMNS = 5;
-
   private Table tblParameters;
   private TableColumn tblclParametersName;
   private TableColumn tblclParametersValue;
@@ -132,7 +129,8 @@ class ParametersSection extends AbstractSection {
         });
   }
 
-  void decorate(Module module) {
+  @Override
+  public void decorate(Module module) {
     Stream.of(tblParameters.getItems()).map((TableItem ti) -> {
       CustomParameter parameter = UserdefinedFactory.eINSTANCE
           .createCustomParameter();
