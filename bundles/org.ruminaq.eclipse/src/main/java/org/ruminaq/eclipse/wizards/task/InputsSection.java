@@ -16,7 +16,6 @@ import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -75,8 +74,6 @@ class InputsSection extends AbstractSection {
   private Button btnInputsAdd;
 
   private Button btnInputsRemove;
-
-  private Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
 
   public InputsSection(CreateUserDefinedTaskPage page, Composite parent,
       int style) {

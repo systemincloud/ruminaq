@@ -15,7 +15,6 @@ import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -56,8 +55,6 @@ class OutputsSection extends AbstractSection {
   private Button btnOutputsRemove;
 
   private CreateUserDefinedTaskPage userDefinedTaskPage;
-
-  private Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
 
   public OutputsSection(CreateUserDefinedTaskPage page, Composite parent,
       int style) {
