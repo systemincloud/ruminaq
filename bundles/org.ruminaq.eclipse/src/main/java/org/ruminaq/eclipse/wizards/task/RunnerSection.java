@@ -26,6 +26,8 @@ class RunnerSection extends AbstractSection {
   public RunnerSection(CreateUserDefinedTaskPage page, Composite parent,
       int style) {
     super(page, parent, style);
+    btnRunnerStart = new Button(this, SWT.CHECK);
+    btnRunnerStop = new Button(this, SWT.CHECK);
   }
 
   @Override
@@ -33,9 +35,6 @@ class RunnerSection extends AbstractSection {
     setLayout(new GridLayout(TWO_COLUMNS, false));
     setLayoutData(
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
-
-    btnRunnerStart = new Button(this, SWT.CHECK);
-    btnRunnerStop = new Button(this, SWT.CHECK);
   }
 
   @Override
