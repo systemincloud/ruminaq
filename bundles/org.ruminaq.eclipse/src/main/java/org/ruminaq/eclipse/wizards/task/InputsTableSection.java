@@ -7,6 +7,8 @@
 package org.ruminaq.eclipse.wizards.task;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
@@ -178,10 +180,9 @@ class InputsTableSection {
       in.setAsynchronous(Boolean.parseBoolean(ti.getText(ASYNCHRONOUS_COLUMN)));
       in.setGroup(Integer.parseInt(ti.getText(GROUP_COLUMN)));
       in.setHold(Boolean.parseBoolean(ti.getText(HOLD_COLUMN)));
-      in.setQueue(
-          ti.getText(QUEUE_COLUMN).equals(AbstractCreateUserDefinedTaskPage.INF)
-              ? -1
-              : Integer.parseInt(ti.getText(QUEUE_COLUMN)));
+      in.setQueue(Optional.of(ti.getText(QUEUE_COLUMN))
+          .filter(Predicate.not(AbstractCreateUserDefinedTaskPage.INF::equals))
+          .map(Integer::parseInt).orElse(-1));
       return in;
     }).forEach(module.getInputs()::add);
   }
