@@ -51,8 +51,8 @@ class ParametersSection extends AbstractSection {
   }
 
   /**
-   * Table with two columns on the left. Two input fields on the right. At the
-   * far right button.
+   * Table with two columns on the left.
+   * Two text input fields on the right. At the far right button.
    */
   @Override
   protected void initLayout() {
@@ -103,7 +103,8 @@ class ParametersSection extends AbstractSection {
   }
 
   /**
-   * When parameter is added disable 'Add' button.
+   * When parameter is added clean text fields.
+   * When parameter is removed disable 'Remove' button.
    */
   @Override
   protected void initActions() {
