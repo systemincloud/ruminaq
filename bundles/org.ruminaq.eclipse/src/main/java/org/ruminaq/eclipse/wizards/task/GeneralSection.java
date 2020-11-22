@@ -6,6 +6,8 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
+import java.util.Optional;
+import java.util.function.Predicate;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -55,11 +57,9 @@ class GeneralSection extends AbstractSection {
   @Override
   protected void initActions() {
     btnAtomic.addSelectionListener(
-        (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
-          if (!btnAtomic.getSelection()) {
-            btnConstant.setSelection(false);
-          }
-        });
+        (WidgetSelectedSelectionListener) (SelectionEvent event) -> Optional
+            .of(btnAtomic).filter(Predicate.not(Button::getSelection))
+            .ifPresent(b -> btnConstant.setSelection(false)));
     btnConstant.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
           if (btnConstant.getSelection()) {
@@ -69,17 +69,13 @@ class GeneralSection extends AbstractSection {
           }
         });
     btnGenerator.addSelectionListener(
-        (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
-          if (btnGenerator.getSelection()) {
-            btnConstant.setSelection(false);
-          }
-        });
+        (WidgetSelectedSelectionListener) (SelectionEvent event) -> Optional
+            .of(btnGenerator).filter(Button::getSelection)
+            .ifPresent(b -> btnConstant.setSelection(false)));
     btnExternalSource.addSelectionListener(
-        (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
-          if (btnExternalSource.getSelection()) {
-            btnConstant.setSelection(false);
-          }
-        });
+        (WidgetSelectedSelectionListener) (SelectionEvent event) -> Optional
+            .of(btnExternalSource).filter(Button::getSelection)
+            .ifPresent(b -> btnConstant.setSelection(false)));
   }
 
   @Override
