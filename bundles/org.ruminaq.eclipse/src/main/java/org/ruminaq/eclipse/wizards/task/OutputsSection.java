@@ -119,12 +119,8 @@ class OutputsSection extends AbstractSection {
 
   @Override
   protected void initActions() {
-    tblOutputs.addSelectionListener(new SelectionAdapter() {
-      @Override
-      public void widgetSelected(SelectionEvent event) {
-        btnOutputsRemove.setEnabled(true);
-      }
-    });
+    tblOutputs.addSelectionListener((WidgetSelectedSelectionListener) (
+        SelectionEvent event) -> btnOutputsRemove.setEnabled(true));
     tblOutputsDragSrc.addDragListener(new DragSourceAdapter() {
       @Override
       public void dragStart(DragSourceEvent event) {
