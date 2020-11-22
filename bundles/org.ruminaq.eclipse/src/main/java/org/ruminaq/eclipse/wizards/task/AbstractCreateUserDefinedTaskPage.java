@@ -49,6 +49,8 @@ public abstract class AbstractCreateUserDefinedTaskPage extends WizardPage
     setDescription(Messages.createUserDefinedTaskPageDescription);
     initLayout(parent);
     initComponents();
+    Arrays.asList(grpGeneral, grpRunner, grpInputs, grpOutputs, grpParameters)
+        .stream().forEach(s -> s.init());
   }
 
   private void initLayout(Composite parent) {
