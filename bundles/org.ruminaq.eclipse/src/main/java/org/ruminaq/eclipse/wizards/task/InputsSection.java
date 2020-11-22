@@ -249,8 +249,7 @@ class InputsSection extends AbstractSection {
                   : Boolean.toString(btnInputsAddHold.getSelection()),
               inf ? AbstractCreateUserDefinedTaskPage.INF
                   : Integer.toString(spnInputsAddQueue.getSelection()) });
-          for (TableColumn tc : tblInputs.getColumns())
-            tc.pack();
+          Stream.of(tblInputs.getColumns()).forEach(TableColumn::pack);
           tblInputs.layout();
           txtInputsAddName.setText("");
         });
