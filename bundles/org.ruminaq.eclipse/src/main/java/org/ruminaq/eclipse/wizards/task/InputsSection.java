@@ -6,7 +6,8 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
-import java.util.stream.Stream;
+import java.util.Arrays;
+import java.util.Optional;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -19,8 +20,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.util.EclipseUtil;
@@ -134,26 +133,21 @@ class InputsSection extends AbstractSection {
         (WidgetSelectedSelectionListener) event -> getParent().layout());
     btnInputsAdd.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
-          TableItem item = new TableItem(tableSection.getTable(), SWT.NONE);
           boolean async = btnInputsAddAsync.getSelection();
-          String grp = Integer.toString(spnInputsAddGroup.getSelection());
-          boolean inf = btnInputsAddQueueInf.getSelection();
-          item.setText(new String[] { txtInputsAddName.getText(),
+          tableSection.createItem(Arrays.asList(txtInputsAddName.getText(),
               cmbInputsAddData.getText(), Boolean.toString(async),
-              async ? "-1" : grp,
-              async ? Boolean.toString(false)
-                  : Boolean.toString(btnInputsAddHold.getSelection()),
-              inf ? AbstractCreateUserDefinedTaskPage.INF
-                  : Integer.toString(spnInputsAddQueue.getSelection()) });
-          Stream.of(tableSection.getTable().getColumns())
-              .forEach(TableColumn::pack);
-          tableSection.getTable().layout();
+              Optional.of(Integer.toString(spnInputsAddGroup.getSelection()))
+                  .filter(v -> !async).orElse("-1"),
+              Optional.of(Boolean.toString(btnInputsAddHold.getSelection()))
+                  .filter(v -> !async).orElse(Boolean.FALSE.toString()),
+              Optional.of(Integer.toString(spnInputsAddQueue.getSelection()))
+                  .filter(v -> !btnInputsAddQueueInf.getSelection())
+                  .orElse(AbstractCreateUserDefinedTaskPage.INF)));
           txtInputsAddName.setText("");
         });
     btnInputsRemove.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
-          EclipseUtil.removeSelectedRows(tableSection.getTable());
-          tableSection.getTable().deselectAll();
+          tableSection.removeSelectedItems();
           btnInputsRemove.setEnabled(false);
         });
   }

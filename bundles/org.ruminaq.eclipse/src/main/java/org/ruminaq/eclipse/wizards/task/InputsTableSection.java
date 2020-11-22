@@ -6,6 +6,7 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
+import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
@@ -25,6 +26,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.ruminaq.eclipse.usertask.model.userdefined.In;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
 import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
+import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**
@@ -154,6 +156,18 @@ class InputsTableSection {
         tblInputs.redraw();
       }
     });
+  }
+
+  public void createItem(List<String> values) {
+    TableItem item = new TableItem(tblInputs, SWT.NONE);
+    item.setText(values.stream().toArray(String[]::new));
+    Stream.of(tblInputs.getColumns()).forEach(TableColumn::pack);
+    tblInputs.layout();
+  }
+
+  public void removeSelectedItems() {
+    EclipseUtil.removeSelectedRows(tblInputs);
+    tblInputs.deselectAll();
   }
 
   public void decorate(Module module) {
