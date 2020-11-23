@@ -50,7 +50,7 @@ class InputsSection extends AbstractSection {
   public InputsSection(CreateUserDefinedTaskPage page, Composite parent,
       int style) {
     super(page, parent, style);
-    tableSection = new InputsTableSection(this, parent, style);
+    tableSection = new InputsTableSection(this);
   }
 
   @Override

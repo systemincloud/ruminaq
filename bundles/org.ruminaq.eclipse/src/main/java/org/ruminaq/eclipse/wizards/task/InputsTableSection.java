@@ -21,7 +21,6 @@ import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -60,8 +59,7 @@ class InputsTableSection {
   private final Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
   private final InputsSection inputsSection;
 
-  protected InputsTableSection(InputsSection inputsSection, Composite parent,
-      int style) {
+  protected InputsTableSection(InputsSection inputsSection) {
     this.inputsSection = inputsSection;
   }
 
