@@ -70,15 +70,15 @@ class InputsSection extends AbstractSection {
     txtInputsAddName = new Text(grpInputsAdd, SWT.BORDER);
     cmbInputsAddData = new Combo(grpInputsAdd, SWT.NONE | SWT.READ_ONLY);
     Composite cmpInputsAddOptions = new Composite(grpInputsAdd, SWT.NULL);
-    cmpInputsAddOptions.setLayout(new GridLayout(1, false));
+    cmpInputsAddOptions.setLayout(new GridLayout(FIRST_COLUMN, false));
     btnInputsAddAsync = new Button(cmpInputsAddOptions, SWT.CHECK);
     btnInputsAddHold = new Button(cmpInputsAddOptions, SWT.CHECK);
     Composite cmpInputsAddGroup = new Composite(cmpInputsAddOptions, SWT.NULL);
-    cmpInputsAddGroup.setLayout(new GridLayout(2, false));
+    cmpInputsAddGroup.setLayout(new GridLayout(SECOND_COLUMN, false));
     lblInputsAddGroup = new Label(cmpInputsAddGroup, SWT.NONE);
     spnInputsAddGroup = new Spinner(cmpInputsAddGroup, SWT.BORDER);
     Composite cmpInputsAddQueue = new Composite(cmpInputsAddOptions, SWT.NULL);
-    cmpInputsAddQueue.setLayout(new GridLayout(3, false));
+    cmpInputsAddQueue.setLayout(new GridLayout(THIRD_COLUMN, false));
     lblInputsAddQueue = new Label(cmpInputsAddQueue, SWT.NONE);
     btnInputsAddQueueInf = new Button(cmpInputsAddQueue, SWT.CHECK);
     spnInputsAddQueue = new Spinner(cmpInputsAddQueue, SWT.BORDER);
