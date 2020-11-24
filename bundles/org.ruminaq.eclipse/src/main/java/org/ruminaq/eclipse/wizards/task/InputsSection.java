@@ -53,6 +53,19 @@ class InputsSection extends AbstractSection {
     tableSection = new InputsTableSection(this);
   }
 
+  /**
+   * _______________
+   * |___|__|___|__|                              x asynchronous
+   * |             |                              x holdlast data
+   * |             |       _________  ___________       _________    _____
+   * | inputsTable | Name: |       |  |>dataType| group | -1|+|-|    |Add|
+   * |             |       ~~~~~~~~~  ~~~~~~~~~~~       ~~~~~~~~~    ~~~~~
+   * |             |                                                 _________
+   * |             |                         queue size  x inf group | -1|+|-|
+   * |             |  ________                                       ~~~~~~~~~
+   * |             |  |Remove|
+   * ~~~~~~~~~~~~~~~  ~~~~~~~~
+   */
   @Override
   protected void initLayout() {
     setLayout(new GridLayout(TWO_COLUMNS, false));
