@@ -26,6 +26,8 @@ public class Ports extends JavaTask {
 	public InputPort g;
 	@InputPortInfo(name = "f", dataType = Complex32.class, hold = true, queue = 3)
 	public InputPort f;
+	@OutputPortInfo(name = "i", dataType = Complex32.class)
+	public OutputPort i;
 	@OutputPortInfo(name = "h", dataType = Complex32.class)
 	public OutputPort h;
 
