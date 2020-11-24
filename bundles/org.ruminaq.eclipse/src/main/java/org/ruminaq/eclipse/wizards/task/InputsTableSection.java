@@ -167,7 +167,7 @@ class InputsTableSection {
       in.setHold(Boolean.parseBoolean(ti.getText(HOLD_COLUMN)));
       in.setQueue(Optional.of(ti.getText(QUEUE_COLUMN))
           .filter(Predicate.not(AbstractCreateUserDefinedTaskPage.INF::equals))
-          .map(Integer::parseInt).orElse(DEFAULT_QUEUE));
+          .map(Integer::parseInt).orElseGet(() -> DEFAULT_QUEUE));
       return in;
     }).forEach(module.getInputs()::add);
   }
