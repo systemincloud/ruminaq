@@ -17,7 +17,6 @@ import org.eclipse.swt.dnd.DragSource;
 import org.eclipse.swt.dnd.DragSourceAdapter;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DropTarget;
-import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.layout.GridData;
@@ -111,19 +110,7 @@ class InputsTableSection {
         event.doit = EclipseUtil.tableSelectionsConsecutive(tblInputs);
       }
     });
-    tblInputsDropTrg.addDropListener(new DropTargetAdapter() {
-      @Override
-      public void dragEnter(DropTargetEvent event) {
-        if (Optional.ofNullable(event.item).isEmpty()) {
-          event.detail = DND.DROP_NONE;
-        }
-      }
-
-      @Override
-      public void dragOver(DropTargetEvent event) {
-        event.feedback = DND.FEEDBACK_INSERT_BEFORE | DND.FEEDBACK_SCROLL;
-      }
-
+    tblInputsDropTrg.addDropListener(new DropTargetInWizard() {
       @Override
       public void drop(DropTargetEvent event) {
         TableItem[] items = tblInputs.getItems();

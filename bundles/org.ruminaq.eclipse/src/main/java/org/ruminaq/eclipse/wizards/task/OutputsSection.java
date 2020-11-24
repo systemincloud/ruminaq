@@ -6,7 +6,6 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
-import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
@@ -15,7 +14,6 @@ import org.eclipse.swt.dnd.DragSource;
 import org.eclipse.swt.dnd.DragSourceAdapter;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DropTarget;
-import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.SelectionEvent;
@@ -126,19 +124,7 @@ class OutputsSection extends AbstractSection {
         event.doit = EclipseUtil.tableSelectionsConsecutive(tblOutputs);
       }
     });
-    tblOutputsDropTrg.addDropListener(new DropTargetAdapter() {
-      @Override
-      public void dragEnter(DropTargetEvent event) {
-        if (Optional.ofNullable(event.item).isEmpty()) {
-          event.detail = DND.DROP_NONE;
-        }
-      }
-
-      @Override
-      public void dragOver(DropTargetEvent event) {
-        event.feedback = DND.FEEDBACK_INSERT_BEFORE | DND.FEEDBACK_SCROLL;
-      }
-
+    tblOutputsDropTrg.addDropListener(new DropTargetInWizard() {
       @Override
       public void drop(DropTargetEvent event) {
         TableItem[] items = tblOutputs.getItems();
