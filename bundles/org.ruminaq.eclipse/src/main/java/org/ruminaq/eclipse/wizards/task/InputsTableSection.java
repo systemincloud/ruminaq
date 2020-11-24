@@ -46,6 +46,8 @@ class InputsTableSection {
   private static final int HOLD_COLUMN = 4;
   private static final int QUEUE_COLUMN = 5;
 
+  private static final int DEFAULT_QUEUE = -1;
+
   private Table tblInputs;
   private TableColumn tblclInputsName;
   private TableColumn tblclInputsData;
@@ -180,7 +182,7 @@ class InputsTableSection {
       in.setHold(Boolean.parseBoolean(ti.getText(HOLD_COLUMN)));
       in.setQueue(Optional.of(ti.getText(QUEUE_COLUMN))
           .filter(Predicate.not(AbstractCreateUserDefinedTaskPage.INF::equals))
-          .map(Integer::parseInt).orElse(-1));
+          .map(Integer::parseInt).orElse(DEFAULT_QUEUE));
       return in;
     }).forEach(module.getInputs()::add);
   }
