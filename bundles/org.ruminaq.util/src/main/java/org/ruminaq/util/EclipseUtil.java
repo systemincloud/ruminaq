@@ -334,12 +334,9 @@ public final class EclipseUtil {
    * @param table table to check
    * @return selections in one block
    */
-  public static boolean tableSelectionsConsecutive(Table tblInputs) {
-    int[] is = tblInputs.getSelectionIndices();
-    for (int i = 0; i < is.length; i++)
-      if (i > 0 && (is[i] - is[i - 1]) != 1) {
-        return false;
-      }
-    return true;
+  public static boolean tableSelectionsConsecutive(Table table) {
+    int[] s = table.getSelectionIndices();
+    return IntStream.range(0, s.length - 1)
+        .noneMatch(i -> Math.abs(s[i] - s[i + 1]) > 1);
   }
 }
