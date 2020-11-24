@@ -6,7 +6,7 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
@@ -158,7 +158,7 @@ class InputsTableSection {
     });
   }
 
-  public void createItem(List<String> values) {
+  public void createItem(Collection<String> values) {
     TableItem item = new TableItem(tblInputs, SWT.NONE);
     item.setText(values.stream().toArray(String[]::new));
     Stream.of(tblInputs.getColumns()).forEach(TableColumn::pack);

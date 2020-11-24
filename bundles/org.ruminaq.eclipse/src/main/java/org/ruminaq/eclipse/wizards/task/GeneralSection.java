@@ -35,7 +35,7 @@ class GeneralSection extends AbstractSection {
   }
 
   /**
-   * Four check boxes. Some of them are exclusive.
+   * Four check boxes.
    */
   @Override
   protected void initLayout() {
@@ -57,6 +57,9 @@ class GeneralSection extends AbstractSection {
     btnConstant.setText("constant");
   }
 
+  /**
+   * Some of them are exclusive.
+   */
   @Override
   protected void initActions() {
     btnAtomic.addSelectionListener(
@@ -64,13 +67,13 @@ class GeneralSection extends AbstractSection {
             .of(btnAtomic).filter(Predicate.not(Button::getSelection))
             .ifPresent(b -> btnConstant.setSelection(false)));
     btnConstant.addSelectionListener(
-        (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
-          if (btnConstant.getSelection()) {
-            btnAtomic.setSelection(true);
-            btnGenerator.setSelection(false);
-            btnExternalSource.setSelection(false);
-          }
-        });
+        (WidgetSelectedSelectionListener) (SelectionEvent event) -> Optional
+            .of(btnConstant).filter(Button::getSelection)
+            .ifPresent((Button b) -> {
+              btnAtomic.setSelection(true);
+              btnGenerator.setSelection(false);
+              btnExternalSource.setSelection(false);
+            }));
     btnGenerator.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> Optional
             .of(btnGenerator).filter(Button::getSelection)
