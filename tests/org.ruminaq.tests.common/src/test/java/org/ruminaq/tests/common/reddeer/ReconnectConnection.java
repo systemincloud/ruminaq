@@ -53,7 +53,7 @@ public class ReconnectConnection {
             .orElseGet(Stream::empty).findFirst()
             .map(Anchor::getIncomingConnections).map(EList::stream)
             .orElseGet(Stream::empty).findFirst()
-            .orElse(Optional.of(shape1).map(RuminaqShape::getAnchors)
+            .orElseGet(() -> Optional.of(shape1).map(RuminaqShape::getAnchors)
                 .map(EList::stream).orElseGet(Stream::empty).findFirst()
                 .map(Anchor::getOutgoingConnections).map(EList::stream)
                 .orElseGet(Stream::empty).findFirst().orElse(null)),
