@@ -139,7 +139,7 @@ class InputsSection extends AbstractSection {
               Optional.of(Integer.toString(spnInputsAddGroup.getSelection()))
                   .filter(v -> !async).orElse("-1"),
               Optional.of(Boolean.toString(btnInputsAddHold.getSelection()))
-                  .filter(v -> !async).orElse(Boolean.FALSE.toString()),
+                  .filter(v -> !async).orElseGet(Boolean.FALSE::toString),
               Optional.of(Integer.toString(spnInputsAddQueue.getSelection()))
                   .filter(v -> !btnInputsAddQueueInf.getSelection())
                   .orElse(AbstractCreateUserDefinedTaskPage.INF)));
