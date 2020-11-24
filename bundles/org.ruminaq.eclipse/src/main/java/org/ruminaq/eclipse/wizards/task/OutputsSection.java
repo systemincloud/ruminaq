@@ -129,10 +129,12 @@ class OutputsSection extends AbstractSection {
           event.detail = DND.DROP_NONE;
         }
       }
+
       @Override
       public void dragOver(DropTargetEvent event) {
         event.feedback = DND.FEEDBACK_INSERT_BEFORE | DND.FEEDBACK_SCROLL;
       }
+
       @Override
       public void drop(DropTargetEvent event) {
         DropTarget target = (DropTarget) event.widget;

@@ -54,6 +54,9 @@ class InputsSection extends AbstractSection {
   }
 
   /**
+   * Layout as on drawing.
+   *
+   * <pre>
    * _______________
    * |___|__|___|__|                              x asynchronous
    * |             |                              x holdlast data
@@ -65,6 +68,7 @@ class InputsSection extends AbstractSection {
    * |             |  ________                                       ~~~~~~~~~
    * |             |  |Remove|
    * ~~~~~~~~~~~~~~~  ~~~~~~~~
+   * </pre>
    */
   @Override
   protected void initLayout() {
