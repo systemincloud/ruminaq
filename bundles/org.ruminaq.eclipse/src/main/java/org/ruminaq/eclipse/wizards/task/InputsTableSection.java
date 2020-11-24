@@ -108,13 +108,7 @@ class InputsTableSection {
     tblInputsDragSrc.addDragListener(new DragSourceAdapter() {
       @Override
       public void dragStart(DragSourceEvent event) {
-        int[] is = tblInputs.getSelectionIndices();
-        for (int i = 0; i < is.length; i++)
-          if (i > 0 && (is[i] - is[i - 1]) != 1) {
-            event.doit = false;
-            return;
-          }
-        event.doit = true;
+        event.doit = EclipseUtil.tableSelectionsConsecutive(tblInputs);
       }
     });
     tblInputsDropTrg.addDropListener(new DropTargetAdapter() {

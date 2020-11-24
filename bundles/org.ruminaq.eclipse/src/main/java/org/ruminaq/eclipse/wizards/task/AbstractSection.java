@@ -18,6 +18,8 @@ import org.ruminaq.eclipse.usertask.model.userdefined.Module;
  */
 public abstract class AbstractSection extends Group {
 
+  protected static final int TWO_ROWS = 2;
+
   protected static final int TWO_COLUMNS = 2;
   protected static final int FIVE_COLUMNS = 5;
 

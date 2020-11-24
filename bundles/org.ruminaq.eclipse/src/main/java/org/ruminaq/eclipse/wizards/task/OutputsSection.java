@@ -66,8 +66,8 @@ class OutputsSection extends AbstractSection {
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
     tblOutputs = new Table(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
-    tblOutputs
-        .setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 2));
+    tblOutputs.setLayoutData(
+        new GridData(SWT.FILL, SWT.FILL, true, true, 1, TWO_ROWS));
 
     tblclOutputsName = new TableColumn(tblOutputs, SWT.NONE);
     tblclOutputsData = new TableColumn(tblOutputs, SWT.NONE);
@@ -118,13 +118,7 @@ class OutputsSection extends AbstractSection {
     tblOutputsDragSrc.addDragListener(new DragSourceAdapter() {
       @Override
       public void dragStart(DragSourceEvent event) {
-        int[] is = tblOutputs.getSelectionIndices();
-        for (int i = 0; i < is.length; i++)
-          if (i > 0 && (is[i] - is[i - 1]) != 1) {
-            event.doit = false;
-            return;
-          }
-        event.doit = true;
+        event.doit = EclipseUtil.tableSelectionsConsecutive(tblOutputs);
       }
     });
     tblOutputsDropTrg.addDropListener(new DropTargetAdapter() {

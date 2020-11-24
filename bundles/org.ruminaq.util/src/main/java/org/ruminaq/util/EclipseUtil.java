@@ -327,4 +327,19 @@ public final class EclipseUtil {
     return !"".equals(value) && Stream.of(table.getItems())
         .map(i -> i.getText(column)).noneMatch(value::equals);
   }
+
+  /**
+   * Check if selected elements in table are one block.
+   *
+   * @param table table to check
+   * @return selections in one block
+   */
+  public static boolean tableSelectionsConsecutive(Table tblInputs) {
+    int[] is = tblInputs.getSelectionIndices();
+    for (int i = 0; i < is.length; i++)
+      if (i > 0 && (is[i] - is[i - 1]) != 1) {
+        return false;
+      }
+    return true;
+  }
 }
