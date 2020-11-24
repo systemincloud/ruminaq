@@ -113,17 +113,19 @@ class InputsTableSection {
     });
     tblInputsDropTrg.addDropListener(new DropTargetAdapter() {
       @Override
+      public void dragEnter(DropTargetEvent event) {
+        if (Optional.ofNullable(event.item).isEmpty()) {
+          event.detail = DND.DROP_NONE;
+        }
+      }
+
+      @Override
       public void dragOver(DropTargetEvent event) {
-        event.feedback = DND.FEEDBACK_SELECT | DND.FEEDBACK_SCROLL;
+        event.feedback = DND.FEEDBACK_INSERT_BEFORE | DND.FEEDBACK_SCROLL;
       }
 
       @Override
       public void drop(DropTargetEvent event) {
-        DropTarget target = (DropTarget) event.widget;
-        Table table = (Table) target.getControl();
-        if (table != tblInputs)
-          return;
-
         TableItem[] items = tblInputs.getSelection();
 
         TableItem ti = (TableItem) event.item;

@@ -6,6 +6,7 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -123,10 +124,15 @@ class OutputsSection extends AbstractSection {
     });
     tblOutputsDropTrg.addDropListener(new DropTargetAdapter() {
       @Override
-      public void dragOver(DropTargetEvent event) {
-        event.feedback = DND.FEEDBACK_SELECT | DND.FEEDBACK_SCROLL;
+      public void dragEnter(DropTargetEvent event) {
+        if (Optional.ofNullable(event.item).isEmpty()) {
+          event.detail = DND.DROP_NONE;
+        }
       }
-
+      @Override
+      public void dragOver(DropTargetEvent event) {
+        event.feedback = DND.FEEDBACK_INSERT_BEFORE | DND.FEEDBACK_SCROLL;
+      }
       @Override
       public void drop(DropTargetEvent event) {
         DropTarget target = (DropTarget) event.widget;
