@@ -121,7 +121,7 @@ class InputsTableSection {
 
       @Override
       public void dragOver(DropTargetEvent event) {
-        event.feedback = DND.FEEDBACK_INSERT_AFTER | DND.FEEDBACK_SCROLL;
+        event.feedback = DND.FEEDBACK_INSERT_BEFORE | DND.FEEDBACK_SCROLL;
       }
 
       @Override
@@ -130,9 +130,9 @@ class InputsTableSection {
         TableItem[] selectedItems = tblInputs.getSelection();
         TableItem ti = (TableItem) event.item;
         int idx = IntStream.range(0, items.length)
-            .filter(i -> ti.equals(items[i])).findFirst().orElse(-1);
+            .filter(i -> items[i].equals(ti)).findFirst().orElse(items.length);
         IntStream.range(0, selectedItems.length)
-            .forEach(j -> new TableItem(tblInputs, SWT.NONE, idx + 1 + j)
+            .forEach(j -> new TableItem(tblInputs, SWT.NONE, idx + j)
                 .setText(new String[] { selectedItems[j].getText(NAME_COLUMN),
                     selectedItems[j].getText(DATATYPE_COLUMN),
                     selectedItems[j].getText(ASYNCHRONOUS_COLUMN),

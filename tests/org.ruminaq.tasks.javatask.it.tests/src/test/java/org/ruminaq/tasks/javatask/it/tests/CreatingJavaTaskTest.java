@@ -203,7 +203,7 @@ public class CreatingJavaTaskTest {
     bot.checkBox("inf").click();
     bot.button("Add", 0).click();
 
-    bot.table(0).getTableItem(5).dragAndDrop(bot.table(0).getTableItem(6));
+    bot.table(0).getTableItem(6).dragAndDrop(bot.table(0).getTableItem(5));
 
     bot.textWithLabel("Name:", 1).setText("h");
     bot.button("Add", 1).click();
@@ -218,7 +218,7 @@ public class CreatingJavaTaskTest {
     bot.comboBox(1).setSelection("Complex32");
     bot.button("Add", 1).click();
 
-    bot.table(1).getTableItem(0).dragAndDrop(bot.table(1).getTableItem(1));
+    bot.table(1).getTableItem(1).dragAndDrop(bot.table(1).getTableItem(0));
 
     Thread.sleep(1000);
 

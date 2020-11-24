@@ -7,6 +7,7 @@
 package org.ruminaq.eclipse.wizards.task;
 
 import java.util.Optional;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -41,6 +42,9 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  * @author Marek Jagielski
  */
 class OutputsSection extends AbstractSection {
+
+  private static final int NAME_COLUMN = 0;
+  private static final int DATATYPE_COLUMN = 1;
 
   private Table tblOutputs;
   private TableColumn tblclOutputsName;
@@ -137,34 +141,16 @@ class OutputsSection extends AbstractSection {
 
       @Override
       public void drop(DropTargetEvent event) {
-        DropTarget target = (DropTarget) event.widget;
-        Table table = (Table) target.getControl();
-        if (table != tblOutputs)
-          return;
-
-        TableItem[] items = tblOutputs.getSelection();
-
+        TableItem[] items = tblOutputs.getItems();
+        TableItem[] selectedItems = tblOutputs.getSelection();
         TableItem ti = (TableItem) event.item;
-        int idx = -1;
-        int i = 0;
-        for (TableItem it : tblOutputs.getItems()) {
-          if (it == ti) {
-            idx = i;
-            break;
-          }
-          i++;
-        }
-        if (i == -1 || i >= tblOutputs.getItems().length)
-          return;
-
-        i = idx + 1;
-        for (TableItem it : items) {
-          new TableItem(tblOutputs, SWT.NONE, i).setText(
-              new String[] { it.getText(0), it.getText(1), it.getText(2) });
-          i++;
-        }
-        for (TableItem it : items)
-          it.dispose();
+        int idx = IntStream.range(0, items.length)
+            .filter(i -> items[i].equals(ti)).findFirst().orElse(items.length);
+        IntStream.range(0, selectedItems.length)
+            .forEach(j -> new TableItem(tblOutputs, SWT.NONE, idx + j)
+                .setText(new String[] { selectedItems[j].getText(NAME_COLUMN),
+                    selectedItems[j].getText(DATATYPE_COLUMN) }));
+        Stream.of(selectedItems).forEach(TableItem::dispose);
         tblOutputs.redraw();
       }
     });
