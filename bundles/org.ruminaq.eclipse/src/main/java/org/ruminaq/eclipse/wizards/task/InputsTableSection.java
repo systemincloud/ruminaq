@@ -121,36 +121,25 @@ class InputsTableSection {
 
       @Override
       public void dragOver(DropTargetEvent event) {
-        event.feedback = DND.FEEDBACK_INSERT_BEFORE | DND.FEEDBACK_SCROLL;
+        event.feedback = DND.FEEDBACK_INSERT_AFTER | DND.FEEDBACK_SCROLL;
       }
 
       @Override
       public void drop(DropTargetEvent event) {
-        TableItem[] items = tblInputs.getSelection();
-
+        TableItem[] items = tblInputs.getItems();
+        TableItem[] selectedItems = tblInputs.getSelection();
         TableItem ti = (TableItem) event.item;
-        int idx = -1;
-        int i = 0;
-        for (TableItem it : tblInputs.getItems()) {
-          if (it == ti) {
-            idx = i;
-            break;
-          }
-          i++;
-        }
-        if (i == -1 || i >= tblInputs.getItems().length)
-          return;
-
-        final int idx2 = idx;
-        IntStream.range(0, items.length)
-            .forEach(j -> new TableItem(tblInputs, SWT.NONE, idx2 + 1 + j)
-                .setText(new String[] { items[j].getText(NAME_COLUMN),
-                    items[j].getText(DATATYPE_COLUMN),
-                    items[j].getText(ASYNCHRONOUS_COLUMN),
-                    items[j].getText(GROUP_COLUMN),
-                    items[j].getText(HOLD_COLUMN),
-                    items[j].getText(QUEUE_COLUMN) }));
-        Stream.of(items).forEach(TableItem::dispose);
+        int idx = IntStream.range(0, items.length)
+            .filter(i -> ti.equals(items[i])).findFirst().orElse(-1);
+        IntStream.range(0, selectedItems.length)
+            .forEach(j -> new TableItem(tblInputs, SWT.NONE, idx + 1 + j)
+                .setText(new String[] { selectedItems[j].getText(NAME_COLUMN),
+                    selectedItems[j].getText(DATATYPE_COLUMN),
+                    selectedItems[j].getText(ASYNCHRONOUS_COLUMN),
+                    selectedItems[j].getText(GROUP_COLUMN),
+                    selectedItems[j].getText(HOLD_COLUMN),
+                    selectedItems[j].getText(QUEUE_COLUMN) }));
+        Stream.of(selectedItems).forEach(TableItem::dispose);
         tblInputs.redraw();
       }
     });
