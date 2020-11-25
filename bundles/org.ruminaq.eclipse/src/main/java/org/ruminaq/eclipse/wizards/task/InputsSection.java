@@ -30,7 +30,7 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  *
  * @author Marek Jagielski
  */
-class InputsSection extends AbstractSection {
+class InputsSection extends AbstractSection implements DeleteTableItemListener {
 
   private InputsTableSection tableSection;
   private Label lblInputsAddName;
@@ -76,7 +76,7 @@ class InputsSection extends AbstractSection {
     setLayoutData(
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
-    tableSection.initLayout();
+    tableSection.initLayout(this);
 
     Group grpInputsAdd = new Group(this, SWT.NONE);
     grpInputsAdd.setLayout(new GridLayout(FIVE_COLUMNS, false));

@@ -6,15 +6,8 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.Arrays;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.dnd.DND;
-import org.eclipse.swt.dnd.DragSource;
-import org.eclipse.swt.dnd.DragSourceAdapter;
-import org.eclipse.swt.dnd.DragSourceEvent;
-import org.eclipse.swt.dnd.DropTarget;
-import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -24,13 +17,8 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
-import org.ruminaq.eclipse.usertask.model.userdefined.Out;
-import org.ruminaq.eclipse.usertask.model.userdefined.UserdefinedFactory;
 import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
@@ -39,17 +27,10 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  *
  * @author Marek Jagielski
  */
-class OutputsSection extends AbstractSection {
+class OutputsSection extends AbstractSection
+    implements DeleteTableItemListener {
 
-  private static final int NAME_COLUMN = 0;
-  private static final int DATATYPE_COLUMN = 1;
-
-  private Table tblOutputs;
-  private TableColumn tblclOutputsName;
-  private TableColumn tblclOutputsData;
-  private DragSource tblOutputsDragSrc;
-  private DropTarget tblOutputsDropTrg;
-
+  private OutputsTableSection tableSection;
   private Label lblOutputsAddName;
   private Text txtOutputsAddName;
   private Combo cmbOutputsAddData;
@@ -60,6 +41,7 @@ class OutputsSection extends AbstractSection {
   public OutputsSection(CreateUserDefinedTaskPage page, Composite parent,
       int style) {
     super(page, parent, style);
+    tableSection = new OutputsTableSection(this);
   }
 
   @Override
@@ -68,16 +50,7 @@ class OutputsSection extends AbstractSection {
     setLayoutData(
         new GridData(SWT.LEFT, SWT.CENTER, false, false, TWO_COLUMNS, 1));
 
-    tblOutputs = new Table(this, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
-    tblOutputs.setLayoutData(
-        new GridData(SWT.FILL, SWT.FILL, true, true, 1, TWO_ROWS));
-
-    tblclOutputsName = new TableColumn(tblOutputs, SWT.NONE);
-    tblclOutputsData = new TableColumn(tblOutputs, SWT.NONE);
-
-    tblOutputsDragSrc = new DragSource(tblOutputs, DND.DROP_MOVE);
-    tblOutputsDropTrg = new DropTarget(tblOutputs,
-        DND.DROP_MOVE | DND.DROP_DEFAULT);
+    tableSection.initLayout(this);
 
     Group grpOutputsAdd = new Group(this, SWT.NONE);
     grpOutputsAdd.setLayout(new GridLayout(FIVE_COLUMNS, false));
@@ -94,14 +67,7 @@ class OutputsSection extends AbstractSection {
 
   @Override
   protected void initComponents() {
-    tblOutputs.setHeaderVisible(true);
-    tblOutputs.setLinesVisible(true);
-
-    tblclOutputsName.setText("Name");
-    tblclOutputsData.setText("Data type");
-    tblOutputsDragSrc.setTransfer(types);
-    tblOutputsDropTrg.setTransfer(types);
-    Stream.of(tblOutputs.getColumns()).forEach(TableColumn::pack);
+    tableSection.initComponents();
 
     lblOutputsAddName.setText("Name:");
     this.userDefinedTaskPage.getDataTypes().stream()
@@ -116,57 +82,29 @@ class OutputsSection extends AbstractSection {
 
   @Override
   protected void initActions() {
-    tblOutputs.addSelectionListener((WidgetSelectedSelectionListener) (
-        SelectionEvent event) -> btnOutputsRemove.setEnabled(true));
-    tblOutputsDragSrc.addDragListener(new DragSourceAdapter() {
-      @Override
-      public void dragStart(DragSourceEvent event) {
-        event.doit = EclipseUtil.tableSelectionsConsecutive(tblOutputs);
-      }
-    });
-    tblOutputsDropTrg.addDropListener(new DropTargetInWizard() {
-      @Override
-      public void drop(DropTargetEvent event) {
-        TableItem[] items = tblOutputs.getItems();
-        TableItem[] selectedItems = tblOutputs.getSelection();
-        TableItem ti = (TableItem) event.item;
-        int idx = IntStream.range(0, items.length)
-            .filter(i -> items[i].equals(ti)).findFirst().orElse(items.length);
-        IntStream.range(0, selectedItems.length)
-            .forEach(j -> new TableItem(tblOutputs, SWT.NONE, idx + j)
-                .setText(new String[] { selectedItems[j].getText(NAME_COLUMN),
-                    selectedItems[j].getText(DATATYPE_COLUMN) }));
-        Stream.of(selectedItems).forEach(TableItem::dispose);
-        tblOutputs.redraw();
-      }
-    });
+    tableSection.initActions();
     txtOutputsAddName.addModifyListener((ModifyEvent event) -> btnOutputsAdd
-        .setEnabled(EclipseUtil.hasNonEmptyValueInTable(tblOutputs, 0,
-            txtOutputsAddName.getText())));
+        .setEnabled(EclipseUtil.hasNonEmptyValueInTable(tableSection.getTable(),
+            0, txtOutputsAddName.getText())));
     btnOutputsAdd.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
-          TableItem item = new TableItem(tblOutputs, SWT.NONE);
-          item.setText(new String[] { txtOutputsAddName.getText(),
-              cmbOutputsAddData.getText() });
-          Stream.of(tblOutputs.getColumns()).forEach(TableColumn::pack);
-          tblOutputs.layout();
+          tableSection.createItem(Arrays.asList(txtOutputsAddName.getText(),
+              cmbOutputsAddData.getText()));
           txtOutputsAddName.setText("");
         });
     btnOutputsRemove.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent event) -> {
-          EclipseUtil.removeSelectedRows(tblOutputs);
-          tblOutputs.deselectAll();
+          tableSection.removeSelectedItems();
           btnOutputsRemove.setEnabled(false);
         });
   }
 
+  public void canDelete() {
+    btnOutputsRemove.setEnabled(true);
+  }
+
   @Override
   public void decorate(Module module) {
-    Stream.of(tblOutputs.getItems()).map((TableItem ti) -> {
-      Out out = UserdefinedFactory.eINSTANCE.createOut();
-      out.setName(ti.getText(0));
-      out.setDataType(ti.getText(1));
-      return out;
-    }).forEach(module.getOutputs()::add);
+    tableSection.decorate(module);
   }
 }

@@ -6,7 +6,6 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
-import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
@@ -18,8 +17,8 @@ import org.eclipse.swt.dnd.DragSourceAdapter;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.DropTargetEvent;
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -34,9 +33,7 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  *
  * @author Marek Jagielski
  */
-class InputsTableSection {
-
-  protected static final int TWO_ROWS = 2;
+class InputsTableSection extends TableSection {
 
   private static final int NAME_COLUMN = 0;
   private static final int DATATYPE_COLUMN = 1;
@@ -47,7 +44,6 @@ class InputsTableSection {
 
   private static final int DEFAULT_QUEUE = -1;
 
-  private Table tblInputs;
   private TableColumn tblclInputsName;
   private TableColumn tblclInputsData;
   private TableColumn tblclInputsAsync;
@@ -57,38 +53,29 @@ class InputsTableSection {
   private DragSource tblInputsDragSrc;
   private DropTarget tblInputsDropTrg;
 
-  private final Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
-  private final InputsSection inputsSection;
-
-  protected InputsTableSection(InputsSection inputsSection) {
-    this.inputsSection = inputsSection;
+  protected InputsTableSection(DeleteTableItemListener canDelete) {
+    super(canDelete);
   }
 
-  public Table getTable() {
-    return tblInputs;
-  }
-
-  protected void initLayout() {
-    tblInputs = new Table(inputsSection,
-        SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
-    tblInputs.setLayoutData(
+  protected void initLayout(Composite parent) {
+    table = new Table(parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+    table.setLayoutData(
         new GridData(SWT.FILL, SWT.FILL, true, true, 1, TWO_ROWS));
 
-    tblclInputsName = new TableColumn(tblInputs, SWT.NONE);
-    tblclInputsData = new TableColumn(tblInputs, SWT.NONE);
-    tblclInputsAsync = new TableColumn(tblInputs, SWT.NONE);
-    tblclInputsGroup = new TableColumn(tblInputs, SWT.NONE);
-    tblclInputsHold = new TableColumn(tblInputs, SWT.NONE);
-    tblclInputsQueue = new TableColumn(tblInputs, SWT.NONE);
+    tblclInputsName = new TableColumn(table, SWT.NONE);
+    tblclInputsData = new TableColumn(table, SWT.NONE);
+    tblclInputsAsync = new TableColumn(table, SWT.NONE);
+    tblclInputsGroup = new TableColumn(table, SWT.NONE);
+    tblclInputsHold = new TableColumn(table, SWT.NONE);
+    tblclInputsQueue = new TableColumn(table, SWT.NONE);
 
-    tblInputsDragSrc = new DragSource(tblInputs, DND.DROP_MOVE);
-    tblInputsDropTrg = new DropTarget(tblInputs,
-        DND.DROP_MOVE | DND.DROP_DEFAULT);
+    tblInputsDragSrc = new DragSource(table, DND.DROP_MOVE);
+    tblInputsDropTrg = new DropTarget(table, DND.DROP_MOVE | DND.DROP_DEFAULT);
   }
 
   protected void initComponents() {
-    tblInputs.setHeaderVisible(true);
-    tblInputs.setLinesVisible(true);
+    table.setHeaderVisible(true);
+    table.setLinesVisible(true);
 
     tblclInputsName.setText("Name");
     tblclInputsData.setText("Data type");
@@ -98,28 +85,28 @@ class InputsTableSection {
     tblclInputsQueue.setText("Queue");
     tblInputsDragSrc.setTransfer(types);
     tblInputsDropTrg.setTransfer(types);
-    Stream.of(tblInputs.getColumns()).forEach(TableColumn::pack);
+    Stream.of(table.getColumns()).forEach(TableColumn::pack);
   }
 
   protected void initActions() {
-    tblInputs.addSelectionListener(
-        (WidgetSelectedSelectionListener) event -> inputsSection.canDelete());
+    table.addSelectionListener(
+        (WidgetSelectedSelectionListener) event -> deleteListener.canDelete());
     tblInputsDragSrc.addDragListener(new DragSourceAdapter() {
       @Override
       public void dragStart(DragSourceEvent event) {
-        event.doit = EclipseUtil.tableSelectionsConsecutive(tblInputs);
+        event.doit = EclipseUtil.tableSelectionsConsecutive(table);
       }
     });
     tblInputsDropTrg.addDropListener(new DropTargetInWizard() {
       @Override
       public void drop(DropTargetEvent event) {
-        TableItem[] items = tblInputs.getItems();
-        TableItem[] selectedItems = tblInputs.getSelection();
+        TableItem[] items = table.getItems();
+        TableItem[] selectedItems = table.getSelection();
         TableItem ti = (TableItem) event.item;
         int idx = IntStream.range(0, items.length)
             .filter(i -> items[i].equals(ti)).findFirst().orElse(items.length);
         IntStream.range(0, selectedItems.length)
-            .forEach(j -> new TableItem(tblInputs, SWT.NONE, idx + j)
+            .forEach(j -> new TableItem(table, SWT.NONE, idx + j)
                 .setText(new String[] { selectedItems[j].getText(NAME_COLUMN),
                     selectedItems[j].getText(DATATYPE_COLUMN),
                     selectedItems[j].getText(ASYNCHRONOUS_COLUMN),
@@ -127,25 +114,13 @@ class InputsTableSection {
                     selectedItems[j].getText(HOLD_COLUMN),
                     selectedItems[j].getText(QUEUE_COLUMN) }));
         Stream.of(selectedItems).forEach(TableItem::dispose);
-        tblInputs.redraw();
+        table.redraw();
       }
     });
   }
 
-  public void createItem(Collection<String> values) {
-    TableItem item = new TableItem(tblInputs, SWT.NONE);
-    item.setText(values.stream().toArray(String[]::new));
-    Stream.of(tblInputs.getColumns()).forEach(TableColumn::pack);
-    tblInputs.layout();
-  }
-
-  public void removeSelectedItems() {
-    EclipseUtil.removeSelectedRows(tblInputs);
-    tblInputs.deselectAll();
-  }
-
   public void decorate(Module module) {
-    Stream.of(tblInputs.getItems()).map((TableItem ti) -> {
+    Stream.of(table.getItems()).map((TableItem ti) -> {
       In in = UserdefinedFactory.eINSTANCE.createIn();
       in.setName(ti.getText(NAME_COLUMN));
       in.setDataType(ti.getText(DATATYPE_COLUMN));
