@@ -27,6 +27,7 @@ Import-Package: ch.qos.logback.core.spi,
  org.eclipse.core.runtime.jobs,
  org.eclipse.graphiti.examples.common.navigator,
  org.eclipse.jdt.internal.compiler.util,
+ org.eclipse.reddeer.gef.editor,
  org.eclipse.swt,
  org.eclipse.ui,
  org.eclipse.ui.ide,
@@ -34,7 +35,8 @@ Import-Package: ch.qos.logback.core.spi,
  org.eclipse.ui.navigator.resources,
  org.osgi.service.prefs,
  org.ruminaq.tests.common,
+ org.ruminaq.tests.common.reddeer,
  org.ruminaq.util,
- org.slf4j.spi,
- org.slf4j.impl
+ org.slf4j.impl,
+ org.slf4j.spi
 Export-Package: org.ruminaq.eclipse.it.tests
