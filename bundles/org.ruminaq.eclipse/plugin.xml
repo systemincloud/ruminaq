@@ -134,34 +134,7 @@
          </enabledWhen>
       </page>
    </extension>
-   
-   <extension
-       point="org.eclipse.ui.commands">
-     <command
-         defaultHandler="org.ruminaq.tasks.userdefined.cmd.UpdateDiagramCmd"
-         id="org.ruminaq.tasks.userdefined.cmd.UpdateDiagramCmd"
-         name="Create Test Diagram">
-      </command>
-   </extension>
-   <extension point="org.eclipse.ui.menus">
-      <menuContribution locationURI="popup:org.ruminaq.eclipse.popup.ProjectExplorer?after=additions">
-         <command commandId="org.ruminaq.tasks.userdefined.cmd.UpdateDiagramCmd" label="Update User Defined Tasks">
-            <visibleWhen checkEnabled="true">
-              <and>
-                <with variable="activeMenuSelection"><count value="1"/>
-                  <iterate operator="and">
-                    <test property="org.eclipse.core.resources.projectNature" value="org.ruminaq.eclipse.nature.SicProjectNature"/>
-                    <or>
-                      <test property="org.eclipse.core.resources.extension" value="sic"/>
-                    </or>
-                  </iterate>
-                </with>
-              </and>
-            </visibleWhen>
-         </command>
-      </menuContribution>
-   </extension>
-   
+
    <extension
       point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
     <propertyTabs
@@ -194,18 +167,24 @@
           filter="org.ruminaq.tasks.embeddedtask.ui.properties.PropertyFilter" />
     </propertySections>
   </extension-->
+
   <extension
       point="org.eclipse.ui.commands">
     <command
-        defaultHandler="org.ruminaq.tasks.embeddedtask.ui.cmd.CreateTestDiagramCmd"
-        id="org.ruminaq.tasks.embeddedtask.ui.cmd.CreateTestDiagramCmd"
+        defaultHandler="org.ruminaq.eclipse.cmd.CreateTestDiagramCmd"
+        id="org.ruminaq.eclipse.cmd.CreateTestDiagramCmd"
+        name="Create Test Diagram">
+    </command>
+    <command
+        defaultHandler="org.ruminaq.eclipse.cmd.UpdateDiagramCmd"
+        id="org.ruminaq.eclipse.cmd.UpdateDiagramCmd"
         name="Create Test Diagram">
     </command>
   </extension>
   <extension
       point="org.eclipse.ui.commandImages">
     <image
-        commandId="org.ruminaq.tasks.embeddedtask.ui.cmd.CreateTestDiagramCmd"
+        commandId="org.ruminaq.eclipse.cmd.CreateTestDiagramCmd"
         icon="icons/test.png"/>
   </extension>
   <extension
@@ -213,23 +192,32 @@
     <menuContribution
         locationURI="popup:org.ruminaq.eclipse.popup.ProjectExplorer?after=additions">
       <command
-          commandId="org.ruminaq.tasks.embeddedtask.ui.cmd.CreateTestDiagramCmd"
+          commandId="org.ruminaq.eclipse.cmd.CreateTestDiagramCmd"
           label="New Test Diagram">
-        <visibleWhen
-            checkEnabled="true">
+        <visibleWhen checkEnabled="true">
           <and>
-            <with
-                variable="activeMenuSelection">
-              <count
-                  value="1"/>
-              <iterate
-                  operator="and">
-                <test
-                    property="org.eclipse.core.resources.projectNature"
-                    value="org.ruminaq.eclipse.nature.SicProjectNature"/>
-                <test
-                    property="org.eclipse.core.resources.extension"
-                    value="sic"/>
+            <with variable="activeMenuSelection">
+              <count value="1"/>
+              <iterate operator="and">
+                <test property="org.eclipse.core.resources.projectNature" value=" org.ruminaq.eclipse.RuminaqProjectNature"/>
+                <test property="org.eclipse.core.resources.extension" value="rumi"/>
+              </iterate>
+            </with>
+          </and>
+        </visibleWhen>
+      </command>
+    </menuContribution>
+    <menuContribution locationURI="popup:org.ruminaq.eclipse.popup.ProjectExplorer?after=additions">
+      <command commandId="org.ruminaq.eclipse.cmd.UpdateDiagramCmd" label="Update User Defined Tasks">
+        <visibleWhen checkEnabled="true">
+          <and>
+            <with variable="activeMenuSelection">
+              <count value="1"/>
+              <iterate operator="and">
+                <test property="org.eclipse.core.resources.projectNature" value="org.ruminaq.eclipse.RuminaqProjectNature"/>
+                <or>
+                  <test property="org.eclipse.core.resources.extension" value="rumi"/>
+                </or>
               </iterate>
             </with>
           </and>

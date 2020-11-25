@@ -32,7 +32,6 @@ public class UpdateDiagramCmd extends AbstractHandler {
           }
         });
     return event;
-
   }
 
 }
