@@ -232,7 +232,7 @@ public final class EclipseUtil {
                         .map(f -> Result.attempt(() -> {
                           f.create(true, true, new NullProgressMonitor());
                           return currentPath;
-                        })).orElse(Result.success(""));
+                        })).orElseGet(() -> Result.success(""));
                     return new SimpleEntry<Result<String, CoreException>, String>(
                         r, currentPath);
                   }).orElseGet(() -> {
