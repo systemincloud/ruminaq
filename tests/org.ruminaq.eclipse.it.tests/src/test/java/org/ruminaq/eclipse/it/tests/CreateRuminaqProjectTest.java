@@ -9,7 +9,6 @@ package org.ruminaq.eclipse.it.tests;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
@@ -37,8 +36,8 @@ import org.ruminaq.eclipse.RuminaqPerspective;
 import org.ruminaq.eclipse.RuminaqProjectNature;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizardNamePage;
-import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 import org.ruminaq.eclipse.wizards.project.CreatePomFile;
+import org.ruminaq.eclipse.wizards.project.CreateProjectWizard;
 import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.tests.common.CreateRuminaqProject;
 import org.ruminaq.tests.common.SelectView;
@@ -85,23 +84,17 @@ public class CreateRuminaqProjectTest {
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
     Thread.sleep(2000);
-    
-    Display.getDefault().syncExec(new Runnable() {
-      @Override
-      public void run() {
-        perspective = workbench.getActiveWorkbenchWindow().getActivePage()
-            .getPerspective();
-      }
-    });
+
+    Display.getDefault().syncExec(() -> perspective = workbench
+        .getActiveWorkbenchWindow().getActivePage().getPerspective());
     Assert.assertEquals("Perspective should be changed",
         RuminaqPerspective.class.getCanonicalName(), perspective.getId());
 
     IProject project = workspace.getRoot().getProject(projectName);
     project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 
-    Arrays
-        .asList(CreateSourceFolders.MAIN_RESOURCES, CreateSourceFolders.TEST_RESOURCES,
-            CreateSourceFolders.DIAGRAM_FOLDER)
+    Arrays.asList(CreateSourceFolders.MAIN_RESOURCES,
+        CreateSourceFolders.TEST_RESOURCES, CreateSourceFolders.DIAGRAM_FOLDER)
         .stream()
         .forEach(f -> Assert.assertTrue(
             "Source directory " + f + "should be created",
