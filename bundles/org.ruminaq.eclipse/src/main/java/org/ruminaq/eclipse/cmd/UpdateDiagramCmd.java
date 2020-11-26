@@ -24,13 +24,7 @@ public class UpdateDiagramCmd extends AbstractHandler {
         .map(IStructuredSelection.class::cast)
         .map(IStructuredSelection::getFirstElement)
         .filter(IResource.class::isInstance).map(IResource.class::cast)
-        .ifPresent((IResource file) -> {
-          try {
-            new UpdateDiagram().updateDiagram(file);
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        });
+        .ifPresent(file -> new UpdateDiagram().updateDiagram(file));
     return event;
   }
 

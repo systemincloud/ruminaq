@@ -27,7 +27,7 @@ public class CreateTestDiagramCmd extends AbstractHandler {
         .map(IStructuredSelection::getFirstElement)
         .filter(IResource.class::isInstance).map(IResource.class::cast)
         .ifPresent(new TestDiagramGenerator()::generateTestDiagram);
-    return null;
+    return event;
   }
 
 }
