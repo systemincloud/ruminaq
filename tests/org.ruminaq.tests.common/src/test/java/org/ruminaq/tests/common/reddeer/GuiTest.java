@@ -7,7 +7,10 @@
 package org.ruminaq.tests.common.reddeer;
 
 import static org.junit.Assert.assertFalse;
-
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.reddeer.common.wait.TimePeriod;
 import org.eclipse.reddeer.common.wait.WaitUntil;
@@ -52,7 +55,8 @@ public class GuiTest {
     new ProjectExplorer().open();
     new WaitUntil(new ProjectExists(projectName), TimePeriod.MEDIUM, false);
     new ProjectExplorer().getProject(projectName).select();
-    new RuminaqDiagramWizard().create(projectName, CreateSourceFolders.DIAGRAM_FOLDER,
+    new RuminaqDiagramWizard().create(projectName,
+        CreateSourceFolders.DIAGRAM_FOLDER,
         diagramName + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT);
   }
 
