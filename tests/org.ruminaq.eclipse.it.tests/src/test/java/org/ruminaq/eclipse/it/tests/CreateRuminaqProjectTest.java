@@ -23,10 +23,15 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swtbot.eclipse.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.ui.IPerspectiveDescriptor;
+import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.navigator.resources.ProjectExplorer;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -83,7 +88,22 @@ public class CreateRuminaqProjectTest {
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
-    Thread.sleep(2000);
+    bot.waitUntil(Conditions.waitForView(new BaseMatcher<IViewReference>() {
+      @Override
+      public boolean matches(Object item) {
+        if (item instanceof IViewReference) {
+          return ProjectExplorer.VIEW_ID
+              .equals(((IViewReference) item).getId());
+        }
+        return false;
+      }
+
+      @Override
+      public void describeTo(Description arg0) {
+        // no needed
+      }
+
+    }));
 
     Display.getDefault().syncExec(() -> perspective = workbench
         .getActiveWorkbenchWindow().getActivePage().getPerspective());
