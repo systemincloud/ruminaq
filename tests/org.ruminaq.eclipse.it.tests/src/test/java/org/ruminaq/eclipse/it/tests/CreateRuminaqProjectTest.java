@@ -8,6 +8,8 @@ package org.ruminaq.eclipse.it.tests;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Properties;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.maven.model.Model;
@@ -28,6 +30,8 @@ import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.waits.ICondition;
 import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -89,7 +93,12 @@ public class CreateRuminaqProjectTest {
 
       @Override
       public boolean test() {
-        return workbench.getActiveWorkbenchWindow() == null;
+        return Optional.of(workbench).map(IWorkbench::getActiveWorkbenchWindow)
+            .filter(Objects::nonNull).map(IWorkbenchWindow::getActivePage)
+            .map(IWorkbenchPage::getPerspective)
+            .map(IPerspectiveDescriptor::getId)
+            .filter(RuminaqPerspective.class.getCanonicalName()::equals)
+            .isEmpty();
       }
 
       @Override
