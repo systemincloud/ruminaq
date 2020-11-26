@@ -84,6 +84,8 @@ public class CreateRuminaqProjectTest {
     new CreateRuminaqProject().execute(bot, projectName);
     new CreateRuminaqProject().acceptPerspectiveChangeIfPopUps(bot);
 
+    Thread.sleep(2000);
+    
     Display.getDefault().syncExec(new Runnable() {
       @Override
       public void run() {
