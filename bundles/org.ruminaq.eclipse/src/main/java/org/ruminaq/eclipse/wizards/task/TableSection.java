@@ -13,7 +13,7 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.ruminaq.util.EclipseUtil;
+import org.ruminaq.eclipse.EclipseUtil;
 
 /**
  * Outputs Table.
