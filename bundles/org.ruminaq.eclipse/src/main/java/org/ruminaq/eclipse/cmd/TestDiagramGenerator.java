@@ -65,10 +65,6 @@ public class TestDiagramGenerator {
       Diagram diagram = Graphiti.getPeCreateService().createDiagram("Ruminaq",
           modelTestNameExt, -1, false);
 
-      PictogramLink pl = PictogramsFactory.eINSTANCE.createPictogramLink();
-      pl.setPictogramElement(diagram);
-      diagram.getPictogramLinks().add(pl);
-
       IFolder diagramFolder = container.getFolder(null);
       IFile fileTmp = diagramFolder.getFile(modelTestNameExt);
       if (fileTmp.exists()) {
