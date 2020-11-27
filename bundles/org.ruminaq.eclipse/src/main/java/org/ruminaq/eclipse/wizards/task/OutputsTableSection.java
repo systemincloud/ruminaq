@@ -58,7 +58,7 @@ public class OutputsTableSection extends TableSection {
     tblOutputsDropTrg = new DropTarget(table, DND.DROP_MOVE | DND.DROP_DEFAULT);
   }
 
-  public void initComponents() {
+  protected void initComponents() {
     table.setHeaderVisible(true);
     table.setLinesVisible(true);
 
@@ -69,7 +69,7 @@ public class OutputsTableSection extends TableSection {
     Stream.of(table.getColumns()).forEach(TableColumn::pack);
   }
 
-  public void initActions() {
+  protected void initActions() {
     table.addSelectionListener((WidgetSelectedSelectionListener) (
         SelectionEvent event) -> deleteListener.canDelete());
     tblOutputsDragSrc.addDragListener(new DragSourceAdapter() {
@@ -96,7 +96,7 @@ public class OutputsTableSection extends TableSection {
     });
   }
 
-  public void decorate(Module module) {
+  protected void decorate(Module module) {
     Stream.of(table.getItems()).map((TableItem ti) -> {
       Out out = UserdefinedFactory.eINSTANCE.createOut();
       out.setName(ti.getText(NAME_COLUMN));

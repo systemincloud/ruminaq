@@ -23,7 +23,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
@@ -56,6 +55,8 @@ import org.ruminaq.tests.common.SelectView;
 @RunWith(SWTBotJunit4ClassRunner.class)
 public class CreateRuminaqProjectTest {
 
+  private static final int PROJECT_SUFFIX_LENGTH = 5;
+
   private static SWTWorkbenchBot bot;
   private static IWorkbench workbench;
   private static IWorkspace workspace;
@@ -76,10 +77,6 @@ public class CreateRuminaqProjectTest {
   public static void after() {
     bot.resetWorkbench();
   }
-
-  private static final int PROJECT_SUFFIX_LENGTH = 5;
-
-  private IPerspectiveDescriptor perspective;
 
   @Test
   public final void testCreateProject() throws CoreException, IOException,
@@ -111,11 +108,6 @@ public class CreateRuminaqProjectTest {
         return null;
       }
     });
-
-    Display.getDefault().syncExec(() -> perspective = workbench
-        .getActiveWorkbenchWindow().getActivePage().getPerspective());
-//    Assert.assertEquals("Perspective should be changed",
-//        RuminaqPerspective.class.getCanonicalName(), perspective.getId());
 
     IProject project = workspace.getRoot().getProject(projectName);
     project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
