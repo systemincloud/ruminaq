@@ -28,9 +28,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.FrameworkUtil;
 import org.ruminaq.eclipse.EclipseUtil;
+import org.ruminaq.eclipse.prefs.ProjectProps;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
-import org.ruminaq.prefs.ProjectProps;
 
 /**
  * 

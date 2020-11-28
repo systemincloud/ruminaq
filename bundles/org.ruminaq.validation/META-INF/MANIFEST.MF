@@ -28,7 +28,6 @@ Import-Package: org.eclipse.core.resources,
  org.eclipse.ui.views.properties.tabbed,
  org.eclipse.wst.validation,
  org.ruminaq.model.ruminaq,
- org.ruminaq.prefs,
  org.ruminaq.util
 Export-Package: org.ruminaq.validation,
  org.ruminaq.validation.constraints

@@ -3,15 +3,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.logs;
 
 import java.io.File;
-
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.ruminaq.prefs.Prefs;
 import org.slf4j.LoggerFactory;
-
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
@@ -20,6 +18,8 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.FileAppender;
 
 public final class ModelerLoggerFactory {
+
+  public static final String QUALIFIER = "org.ruminaq.prefs";
 
   public static final String MODELER_LOG_LEVEL_PREF = "modeler.log.level";
 
@@ -71,9 +71,8 @@ public final class ModelerLoggerFactory {
     Logger logger = lambda.operation();
     if (logger.getAppender(FILE_APPENDER_NAME) == null) {
       logger.addAppender(fileAppender);
-      logger.setLevel(
-          Level.toLevel(InstanceScope.INSTANCE.getNode(Prefs.QUALIFIER)
-              .get(MODELER_LOG_LEVEL_PREF, Level.ERROR.levelStr)));
+      logger.setLevel(Level.toLevel(InstanceScope.INSTANCE.getNode(QUALIFIER)
+          .get(MODELER_LOG_LEVEL_PREF, Level.ERROR.levelStr)));
       logger.setAdditive(false);
     }
     return logger;

@@ -21,8 +21,6 @@ import org.eclipse.ui.dialogs.PropertyPage;
 import org.osgi.framework.Version;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.prefs.ProjectProps;
-import org.ruminaq.prefs.Props;
 import org.ruminaq.upgrade.Upgrade;
 import org.ruminaq.util.PlatformUtil;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
@@ -45,7 +43,7 @@ public class ProjectPropsPage extends PropertyPage {
   private Label lblVersion;
   private Button btnUpgrade;
 
-  private Props projectProps;
+  private AbstractProps projectProps;
 
   public ProjectPropsPage() {
     // default constructor

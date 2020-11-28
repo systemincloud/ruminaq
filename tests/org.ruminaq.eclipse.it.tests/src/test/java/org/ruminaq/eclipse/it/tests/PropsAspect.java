@@ -10,8 +10,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.ruminaq.prefs.ProjectProps;
-import org.ruminaq.prefs.Props;
+import org.ruminaq.eclipse.prefs.ProjectProps;
+import org.ruminaq.eclipse.prefs.AbstractProps;
 
 /**
  * Intercept Props.
@@ -37,7 +37,7 @@ public class PropsAspect {
       throws Throwable {
     String versionProjectName = System
         .getProperty(VERSION_PROJECT_NAME);
-    if (ProjectProps.RUMINAQ_VERSION.equals(arg0) && ((Props) point.getTarget())
+    if (ProjectProps.RUMINAQ_VERSION.equals(arg0) && ((AbstractProps) point.getTarget())
         .getProject().getName().equals(versionProjectName)) {
       String versionProject = System
           .getProperty(VERSION_PROJECT);

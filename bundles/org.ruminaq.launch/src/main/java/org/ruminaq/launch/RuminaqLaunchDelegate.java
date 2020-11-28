@@ -54,11 +54,11 @@ import org.ruminaq.debug.DebuggerService;
 import org.ruminaq.debug.api.DebugExtensionHandler;
 import org.ruminaq.debug.api.EventDispatchJob;
 import org.ruminaq.debug.model.RuminaqDebugTarget;
+import org.ruminaq.eclipse.prefs.WorkspacePrefsPage;
 import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.launch.api.LaunchExtension;
 import org.ruminaq.launch.api.LaunchExtensionHandler;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.prefs.Prefs;
 import org.ruminaq.runner.Runner;
 import org.ruminaq.runner.dirmi.DirmiServer;
 import org.ruminaq.runner.dirmi.RegistrationDoneListener;
@@ -279,7 +279,7 @@ public class RuminaqLaunchDelegate extends JavaLaunchDelegate
         .getProject(configuration.getAttribute(
             RuminaqLaunchConfigurationConstants.ATTR_PROJECT_NAME, ""));
 
-    String logLevel = InstanceScope.INSTANCE.getNode(Prefs.QUALIFIER)
+    String logLevel = InstanceScope.INSTANCE.getNode(WorkspacePrefsPage.QUALIFIER)
         .get(LaunchExtension.RUNNER_LOG_LEVEL_PREF, Level.ERROR.levelStr);
     boolean onlyLocal = configuration.getAttribute(
         RuminaqLaunchConfigurationConstants.ATTR_ONLY_LOCAL_TASKS, true);

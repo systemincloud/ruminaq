@@ -14,8 +14,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.eclipse.prefs.WorkspacePrefsPage;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.prefs.Prefs;
 import org.ruminaq.tests.common.SelectView;
 
 /**
@@ -51,7 +51,7 @@ public class ChangeWorkspacePreferencesTest {
     bot.button("Apply and Close").click();
 
     Assert.assertEquals("WARN preference should be set", "WARN",
-        InstanceScope.INSTANCE.getNode(Prefs.QUALIFIER)
+        InstanceScope.INSTANCE.getNode(WorkspacePrefsPage.QUALIFIER)
             .get(ModelerLoggerFactory.MODELER_LOG_LEVEL_PREF, ""));
 
     bot.menu("Window").menu("Preferences").click();
@@ -60,7 +60,7 @@ public class ChangeWorkspacePreferencesTest {
     bot.button("Apply and Close").click();
 
     Assert.assertEquals("ERROR preference should be set", "ERROR",
-        InstanceScope.INSTANCE.getNode(Prefs.QUALIFIER)
+        InstanceScope.INSTANCE.getNode(WorkspacePrefsPage.QUALIFIER)
             .get(ModelerLoggerFactory.MODELER_LOG_LEVEL_PREF, ""));
   }
 }

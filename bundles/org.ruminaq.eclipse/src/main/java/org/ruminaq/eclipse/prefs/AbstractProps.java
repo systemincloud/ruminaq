@@ -3,7 +3,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.prefs;
+
+package org.ruminaq.eclipse.prefs;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,7 +28,11 @@ import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
 import org.eclipse.equinox.security.storage.StorageException;
 import org.osgi.service.prefs.BackingStoreException;
 
-public abstract class Props implements IPreferenceChangeListener {
+/**
+ * 
+ * @author Marek Jagielski
+ */
+public abstract class AbstractProps implements IPreferenceChangeListener {
 
   private static final String PROPS_DIR = ".settings";
 
@@ -37,7 +42,7 @@ public abstract class Props implements IPreferenceChangeListener {
 
   private boolean secure;
 
-  protected Props(IProject project, String name, boolean secure) {
+  protected AbstractProps(IProject project, String name, boolean secure) {
     this.project = project;
     ProjectScope ps = new ProjectScope(project);
     this.secure = secure;

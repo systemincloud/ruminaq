@@ -17,7 +17,6 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.launch.api.LaunchExtension;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.prefs.Prefs;
 
 import ch.qos.logback.classic.Level;
 
@@ -28,6 +27,8 @@ import ch.qos.logback.classic.Level;
  */
 public class WorkspacePrefsPage extends FieldEditorPreferencePage
     implements IWorkbenchPreferencePage {
+
+  public static final String QUALIFIER = "org.ruminaq.prefs";
 
   private static final String[][] LOG_LEVELS = Stream
       .of(Level.ERROR, Level.WARN, Level.INFO, Level.DEBUG, Level.TRACE)
@@ -41,7 +42,7 @@ public class WorkspacePrefsPage extends FieldEditorPreferencePage
   @Override
   public void init(IWorkbench workbench) {
     setPreferenceStore(
-        new ScopedPreferenceStore(InstanceScope.INSTANCE, Prefs.QUALIFIER));
+        new ScopedPreferenceStore(InstanceScope.INSTANCE, QUALIFIER));
     setDescription(Messages.workspacePrefsDescription);
   }
 

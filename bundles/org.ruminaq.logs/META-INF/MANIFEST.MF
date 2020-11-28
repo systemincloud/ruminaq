@@ -15,7 +15,6 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.core.runtime,
  org.eclipse.core.runtime.preferences,
  org.osgi.service.prefs,
- org.ruminaq.prefs,
  org.slf4j,
  org.slf4j.impl,
  org.slf4j.spi

@@ -3,21 +3,27 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
-package org.ruminaq.prefs;
+
+package org.ruminaq.eclipse.prefs;
 
 import java.util.Hashtable;
 
 import org.eclipse.core.resources.IProject;
 
-public class ProjectProps extends Props {
+/**
+ * Project properties.
+ *
+ * @author Marek Jagielski
+ */
+public class ProjectProps extends AbstractProps {
 
   public static final String PROJECT_PROPS = "org.ruminaq.project";
 
   public static final String RUMINAQ_VERSION = "ruminaq.version";
 
-  private static Hashtable<IProject, Props> instances = new Hashtable<>();
+  private static Hashtable<IProject, AbstractProps> instances = new Hashtable<>();
 
-  public static Props getInstance(IProject project) {
+  public static AbstractProps getInstance(IProject project) {
     if (!instances.containsKey(project)) {
       instances.put(project, new ProjectProps(project));
     }
