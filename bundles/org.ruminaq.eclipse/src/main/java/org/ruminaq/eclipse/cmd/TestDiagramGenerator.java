@@ -20,8 +20,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.PictogramLink;
-import org.eclipse.graphiti.mm.pictograms.PictogramsFactory;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
@@ -87,19 +85,6 @@ public class TestDiagramGenerator {
       String modelerVersion = ProjectProps.getInstance(project)
           .get(ProjectProps.RUMINAQ_VERSION);
       String versionToFill = "";
-      String maxModelerVer = "0.0.0";
-//    for (ITaskUiApi t : ts) {
-//      String tmp = ((IEmbeddedTaskUiApi) t).getModelerVersion();
-//      if (versionCompare(tmp, maxModelerVer) > 0)
-//        maxModelerVer = tmp;
-//    }
-//    for (ITaskUiApi t : ts) {
-//      if (maxModelerVer.equals(((IEmbeddedTaskUiApi) t).getModelerVersion())) {
-//        versionToFill = t.getVersion().getMajor() + "."
-//            + t.getVersion().getMinor() + "." + t.getVersion().getMicro();
-//      }
-
-//    }
 
       InputStream is = this.getClass().getResourceAsStream("TestTask.template");
       String diagramContent = IOUtils.toString(is, "UTF-8")
