@@ -31,7 +31,7 @@ public class EclipseUtilAspect {
    * Pointcut on createFolderWithParents.
    *
    */
-  @Pointcut("call(* org.ruminaq.util.EclipseUtil.createFolderWithParents(..)) && args(project, path)")
+  @Pointcut("call(* org.ruminaq.eclipse.EclipseUtil.createFolderWithParents(..)) && args(project, path)")
   public void createFolderWithParents(IProject project, String path) {
   }
 
