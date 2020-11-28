@@ -8,8 +8,8 @@ package org.ruminaq.tasks.javatask.gui.wizards;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl;
-import org.ruminaq.util.EclipseUtil;
 
 /**
  * Project wizard extension.

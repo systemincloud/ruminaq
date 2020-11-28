@@ -17,8 +17,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.tasks.rtask.EclipseExtensionImpl;
-import org.ruminaq.util.EclipseUtil;
 
 public class CreateProjectWizard {
 

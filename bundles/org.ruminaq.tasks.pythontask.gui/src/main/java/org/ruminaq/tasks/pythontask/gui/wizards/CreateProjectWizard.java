@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.pythontask.gui.wizards;
 
 import java.io.IOException;
@@ -22,9 +23,9 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.python.pydev.ast.interpreter_managers.InterpreterManagersAPI;
 import org.python.pydev.plugin.nature.PythonNature;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.tasks.pythontask.gui.EclipseExtensionImpl;
 import org.ruminaq.tasks.pythontask.impl.PythonTaskI;
-import org.ruminaq.util.EclipseUtil;
 
 public class CreateProjectWizard {
 

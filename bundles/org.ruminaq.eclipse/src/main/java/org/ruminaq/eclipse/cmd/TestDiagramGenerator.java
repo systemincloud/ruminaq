@@ -29,10 +29,10 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.FrameworkUtil;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.prefs.ProjectProps;
-import org.ruminaq.util.EclipseUtil;
 
 /**
  * 
@@ -47,7 +47,7 @@ public class TestDiagramGenerator {
         .filter(Predicate.not(IFolder::exists))
         .ifPresent(f -> EclipseUtil.createFolderWithParents(project,
             CreateSourceFolders.TEST_DIAGRAM_FOLDER));
-    
+
     IPath p = file.getFullPath();
     try {
       String path = getTestPath(p, project);

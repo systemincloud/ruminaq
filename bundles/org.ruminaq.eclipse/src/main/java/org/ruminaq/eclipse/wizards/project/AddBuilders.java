@@ -15,9 +15,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.m2e.core.internal.IMavenConstants;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
-import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.Try;
 
 /**

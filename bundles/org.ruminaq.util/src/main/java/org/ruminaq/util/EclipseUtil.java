@@ -208,49 +208,6 @@ public final class EclipseUtil {
     return null;
   }
 
-  /**
-   * 
-   * @param project
-   * @param path
-   * @return
-   */
-  public static Try<CoreException> createFolderWithParents(IProject project,
-      String path) {
-    return Optional.ofNullable(path).map(p -> p.split("/")).map(Stream::of)
-        .orElseGet(Stream::empty)
-        .reduce(
-            new SimpleEntry<>(Result.<String, CoreException>success(""), ""),
-            (parentPath, segment) -> {
-              String currentPath = parentPath.getValue() + "/" + segment;
-              return Optional.of(parentPath).filter(p -> !p.getKey().isFailed())
-                  .map(p -> {
-                    Result<String, CoreException> r = Optional.of(currentPath)
-                        .map(project::getFolder)
-                        .filter(Predicate.not(IFolder::exists))
-                        .map(f -> Result.attempt(() -> {
-                          f.create(true, true, new NullProgressMonitor());
-                          return currentPath;
-                        })).orElseGet(() -> Result.success(""));
-                    return new SimpleEntry<Result<String, CoreException>, String>(
-                        r, currentPath);
-                  }).orElseGet(() -> {
-                    parentPath.setValue(currentPath);
-                    return parentPath;
-                  });
-            }, (a, b) -> Optional.of(a).filter(r -> r.getKey().isFailed())
-                .orElse(b))
-        .getKey();
-  }
-
-  public static void createFileInFolder(IProject project, String path,
-      String name) throws CoreException {
-    IFile file = project.getFile(path + "/" + name);
-    if (!file.exists()) {
-      file.create(new ByteArrayInputStream(new byte[0]), true,
-          new NullProgressMonitor());
-    }
-  }
-
   public static Try<CoreException> deleteProjectDirectoryIfExists(
       IProject project, String directoryPath) {
     return Optional.of(project.getFolder(directoryPath))

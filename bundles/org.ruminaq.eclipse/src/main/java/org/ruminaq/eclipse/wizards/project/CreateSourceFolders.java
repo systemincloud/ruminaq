@@ -8,10 +8,10 @@ package org.ruminaq.eclipse.wizards.project;
 
 import java.util.Arrays;
 import org.eclipse.core.resources.IProject;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.RuminaqException;
 import org.ruminaq.logs.ModelerLoggerFactory;
-import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.Try;
 import org.slf4j.Logger;
 
