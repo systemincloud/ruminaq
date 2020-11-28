@@ -37,7 +37,7 @@ public final class EclipseUtil {
    *
    * @param table  table to check
    * @param column column index
-   * @param value
+   * @param value value to look for
    * @return nonempty value in column
    */
   public static boolean hasNonEmptyValueInTable(Table table, int column,
