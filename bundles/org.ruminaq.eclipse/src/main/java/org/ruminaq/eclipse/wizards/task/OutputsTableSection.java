@@ -42,7 +42,7 @@ class OutputsTableSection extends TableSection {
   private DragSource tblOutputsDragSrc;
   private DropTarget tblOutputsDropTrg;
 
-  public OutputsTableSection(DeleteTableItemListener canDelete) {
+  protected OutputsTableSection(DeleteTableItemListener canDelete) {
     super(canDelete);
   }
 
