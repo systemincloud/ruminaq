@@ -6,7 +6,6 @@
 
 package org.ruminaq.eclipse.wizards.task;
 
-import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.ruminaq.eclipse.usertask.model.userdefined.Module;
@@ -26,8 +25,6 @@ public abstract class AbstractSection extends Group {
   protected static final int FIRST_COLUMN = 1;
   protected static final int SECOND_COLUMN = 2;
   protected static final int THIRD_COLUMN = 3;
-
-  protected Transfer[] types = new Transfer[] { RowTransfer.getInstance() };
 
   protected CreateUserDefinedTaskPage userDefinedTaskPage;
 

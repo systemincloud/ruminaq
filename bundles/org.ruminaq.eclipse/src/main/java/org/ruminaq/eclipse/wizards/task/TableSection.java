@@ -39,7 +39,7 @@ public class TableSection {
     return table;
   }
   
-  public void createItem(Collection<String> values) {
+  protected void createItem(Collection<String> values) {
     TableItem item = new TableItem(table, SWT.NONE);
     item.setText(values.stream().toArray(String[]::new));
     Stream.of(table.getColumns()).forEach(TableColumn::pack);

@@ -32,7 +32,7 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
  *
  * @author Marek Jagielski
  */
-public class OutputsTableSection extends TableSection {
+class OutputsTableSection extends TableSection {
 
   private static final int NAME_COLUMN = 0;
   private static final int DATATYPE_COLUMN = 1;
@@ -46,6 +46,16 @@ public class OutputsTableSection extends TableSection {
     super(canDelete);
   }
 
+  /**
+   * Layout.
+   *
+   * <pre>
+   * ____________________
+   * |_Name_|_Data type_|
+   * |      |           |
+   * ~~~~~~~~~~~~~~~~~~~~
+   * </pre>
+   */
   protected void initLayout(Composite parent) {
     table = new Table(parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
     table.setLayoutData(

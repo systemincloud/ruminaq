@@ -44,6 +44,21 @@ class OutputsSection extends AbstractSection
     tableSection = new OutputsTableSection(this);
   }
 
+  /**
+   * Layout as on drawing.
+   *
+   * <pre>
+   * ________________
+   * |______|_______|
+   * |              |
+   * |              |       _________  ___________  _____
+   * | outputsTable | Name: |       |  |>dataType|  |Add|
+   * |              |       ~~~~~~~~~  ~~~~~~~~~~~  ~~~~~
+   * |              |  ________
+   * |              |  |Remove|
+   * ~~~~~~~~~~~~~~~~  ~~~~~~~~
+   * </pre>
+   */
   @Override
   protected void initLayout() {
     setLayout(new GridLayout(TWO_COLUMNS, false));

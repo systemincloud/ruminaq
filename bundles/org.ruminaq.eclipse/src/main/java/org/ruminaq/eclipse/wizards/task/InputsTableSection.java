@@ -57,6 +57,16 @@ class InputsTableSection extends TableSection {
     super(canDelete);
   }
 
+  /**
+   * Layout.
+   *
+   * <pre>
+   * _________________________________________________
+   * |_Name_|_Data type_|_Async_|_Grp_|_Hold_|_Queue_|
+   * |      |           |       |     |      |       |
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * </pre>
+   */
   protected void initLayout(Composite parent) {
     table = new Table(parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
     table.setLayoutData(
@@ -119,7 +129,7 @@ class InputsTableSection extends TableSection {
     });
   }
 
-  public void decorate(Module module) {
+  protected void decorate(Module module) {
     Stream.of(table.getItems()).map((TableItem ti) -> {
       In in = UserdefinedFactory.eINSTANCE.createIn();
       in.setName(ti.getText(NAME_COLUMN));
