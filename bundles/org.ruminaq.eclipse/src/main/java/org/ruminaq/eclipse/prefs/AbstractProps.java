@@ -7,27 +7,25 @@
 package org.ruminaq.eclipse.prefs;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ProjectScope;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
 import org.eclipse.equinox.security.storage.ISecurePreferences;
 import org.eclipse.equinox.security.storage.SecurePreferencesFactory;
-import org.eclipse.equinox.security.storage.StorageException;
-import org.osgi.service.prefs.BackingStoreException;
+import org.ruminaq.util.Result;
+import org.ruminaq.util.Try;
 
 /**
  * 
@@ -37,58 +35,122 @@ public abstract class AbstractProps implements IPreferenceChangeListener {
 
   private static final String PROPS_DIR = ".settings";
 
-  private IProject project;
-  private ISecurePreferences secureNode;
-  private IEclipsePreferences propsNode;
+  private interface Strategy {
 
-  private boolean secure;
+    void put(String key, String value);
+
+    String get(String key, String defaultValue);
+
+    List<String> getStartingBy(String prefix);
+
+    void remove(String key);
+
+    void saveProps();
+
+  }
+
+  private class Secured implements Strategy {
+
+    private ISecurePreferences node;
+
+    protected Secured(IFile props) {
+      node = Result.attempt(() -> SecurePreferencesFactory.open(
+          new URL("file:///" + props.getRawLocation().toFile().getPath()),
+          new HashMap<>())).orElse(null);
+    }
+
+    @Override
+    public void put(String key, String value) {
+      Try.check(() -> node.put(key, value, true));
+    }
+
+    @Override
+    public String get(String key, String defaultValue) {
+      return Result.attempt(() -> node.get(key, defaultValue)).orElse(null);
+    }
+
+    @Override
+    public List<String> getStartingBy(String prefix) {
+      return Stream.of(node.childrenNames()).filter(n -> n.startsWith(prefix))
+          .collect(Collectors.toList());
+    }
+
+    @Override
+    public void remove(String key) {
+      node.remove(key);
+    }
+
+    @Override
+    public void saveProps() {
+      Try.check(() -> node.flush());
+    }
+  }
+
+  private class Unsecured implements Strategy {
+
+    private IEclipsePreferences node;
+
+    protected Unsecured(ProjectScope ps, String name) {
+      node = ps.getNode(name);
+      node.addPreferenceChangeListener(AbstractProps.this);
+      Try.check(() -> node.sync());
+    }
+
+    @Override
+    public void put(String key, String value) {
+      node.put(key, value);
+    }
+
+    @Override
+    public String get(String key, String defaultValue) {
+      return node.get(key, defaultValue);
+    }
+
+    @Override
+    public List<String> getStartingBy(String prefix) {
+      return Result.attempt(() -> Stream.of(node.childrenNames()))
+          .orElseGet(Stream::empty).filter(n -> n.startsWith(prefix))
+          .collect(Collectors.toList());
+    }
+
+    @Override
+    public void remove(String key) {
+      node.remove(key);
+    }
+
+    @Override
+    public void saveProps() {
+      Try.check(() -> node.flush());
+    }
+  }
+
+  private IProject project;
+
+  private Strategy strategy;
 
   protected AbstractProps(IProject project, String name, boolean secure) {
     this.project = project;
-    ProjectScope ps = new ProjectScope(project);
-    this.secure = secure;
-
     IFolder setF = project.getFolder(PROPS_DIR);
-    if (!setF.exists())
-      try {
-        setF.create(true, true, new NullProgressMonitor());
-      } catch (CoreException e2) {
-      }
+    if (!setF.exists()) {
+      Try.check(() -> setF.create(true, true, new NullProgressMonitor()));
+    }
 
     IFile props = setF.getFile(name + ".prefs");
-    if (!props.exists())
-      try {
-        props.create(
-            new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)),
-            IResource.FORCE, new NullProgressMonitor());
-      } catch (CoreException e1) {
-      }
+    if (!props.exists()) {
+      Try.check(() -> props.create(
+          new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)),
+          IResource.FORCE, new NullProgressMonitor()));
+    }
 
     if (secure) {
-      try {
-        secureNode = SecurePreferencesFactory.open(
-            new URL("file:///" + props.getRawLocation().toFile().getPath()),
-            new HashMap<>());
-      } catch (IOException e1) {
-      }
+      this.strategy = new Secured(props);
     } else {
-      propsNode = ps.getNode(name);
-      propsNode.addPreferenceChangeListener(this);
-      try {
-        propsNode.sync();
-      } catch (Exception e) {
-      }
+      this.strategy = new Unsecured(new ProjectScope(project), name);
     }
   }
 
   public void put(String key, String value) {
-    if (secure) {
-      try {
-        secureNode.put(key, value, true);
-      } catch (StorageException e) {
-      }
-    } else
-      propsNode.put(key, value);
+    strategy.put(key, value);
     saveProps();
   }
 
@@ -97,59 +159,19 @@ public abstract class AbstractProps implements IPreferenceChangeListener {
   }
 
   public String get(String key, String defaultValue) {
-    if (secure) {
-      try {
-        return secureNode.get(key, defaultValue);
-      } catch (StorageException e) {
-        e.printStackTrace();
-      }
-    } else {
-      return propsNode.get(key, defaultValue);
-    }
-    return null;
+    return strategy.get(key, defaultValue);
   }
 
   public List<String> getStartingBy(String prefix) {
-    List<String> ret = new LinkedList<>();
-    if (secure) {
-      for (String s : secureNode.childrenNames()) {
-        if (s.startsWith(prefix)) {
-          ret.add(s);
-        }
-      }
-    } else {
-      try {
-        for (String s : propsNode.childrenNames()) {
-          if (s.startsWith(prefix)) {
-            ret.add(s);
-          }
-        }
-      } catch (BackingStoreException e) {
-      }
-    }
-
-    return ret;
+    return strategy.getStartingBy(prefix);
   }
 
   public void remove(String key) {
-    if (secure) {
-      secureNode.remove(key);
-    } else {
-      propsNode.remove(key);
-    }
+    strategy.remove(key);
   }
 
   public synchronized void saveProps() {
-    if (secure)
-      try {
-        secureNode.flush();
-      } catch (IOException e) {
-      }
-    else
-      try {
-        propsNode.flush();
-      } catch (BackingStoreException e) {
-      }
+    strategy.saveProps();
   }
 
   @Override

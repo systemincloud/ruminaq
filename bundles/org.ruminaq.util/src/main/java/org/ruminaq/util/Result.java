@@ -9,6 +9,7 @@ package org.ruminaq.util;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Helper class to wrap Errors in streams.
@@ -58,6 +59,10 @@ public class Result<V, E extends Throwable> extends Try<E> {
 
   public V orElse(V orValue) {
     return Optional.ofNullable(value).orElse(orValue);
+  }
+
+  public V orElseGet(Supplier<V> orValue) {
+    return Optional.ofNullable(value).orElseGet(orValue);
   }
 
   public V orElseThrow() throws E {
