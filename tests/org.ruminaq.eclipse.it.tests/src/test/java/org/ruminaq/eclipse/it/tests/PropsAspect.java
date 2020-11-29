@@ -28,7 +28,7 @@ public class PropsAspect {
    * Pointcut on error.
    *
    */
-  @Pointcut("call(* org.ruminaq.prefs.Props.get(..)) " + "&& args(arg0)")
+  @Pointcut("call(* org.ruminaq.eclipse.prefs.AbstractProps.get(..)) " + "&& args(arg0)")
   public void getProperty(String arg0) {
   }
 
