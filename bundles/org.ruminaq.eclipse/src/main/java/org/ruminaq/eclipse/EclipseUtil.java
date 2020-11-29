@@ -117,5 +117,4 @@ public final class EclipseUtil {
     return IntStream.range(0, s.length - 1)
         .noneMatch(i -> Math.abs(s[i] - s[i + 1]) > 1);
   }
-
 }
