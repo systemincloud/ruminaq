@@ -12,6 +12,7 @@ Require-Bundle: org.eclipse.graphiti,
 Import-Package: 
  ch.qos.logback.classic,
  ch.qos.logback.core,
+ org.apache.commons.io;version="2.6.0",
  org.apache.thrift,
  org.eclipse.core.commands,
  org.eclipse.core.commands.operations,
