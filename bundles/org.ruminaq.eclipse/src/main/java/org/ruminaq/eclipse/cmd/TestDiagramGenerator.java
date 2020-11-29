@@ -36,7 +36,10 @@ import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.util.Try;
 
 /**
- * 
+ * Create diagram with EmbeddedTask in it. InternalInput and InternalOutput
+ * ports of EmbeddedTask corresponds to Input and Output ports of original
+ * diagram.
+ *
  * @author Marek Jagielski
  */
 public class TestDiagramGenerator {
