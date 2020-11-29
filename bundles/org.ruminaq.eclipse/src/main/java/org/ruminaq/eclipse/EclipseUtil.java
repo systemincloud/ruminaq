@@ -7,17 +7,22 @@
 package org.ruminaq.eclipse;
 
 import java.io.ByteArrayInputStream;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.swt.widgets.Table;
 import org.ruminaq.util.Try;
 
@@ -30,6 +35,31 @@ public final class EclipseUtil {
 
   private EclipseUtil() {
     // util class
+  }
+
+  /**
+   * Return project of eclipse resource.
+   *
+   * @param obj eclipse resource
+   * @return eclipse project
+   */
+  public static IProject getProjectFromSelection(Object obj) {
+    String projectName = null;
+    if (obj instanceof IProject) {
+      projectName = ((IProject) obj).getName();
+    } else if (obj instanceof IJavaProject) {
+      projectName = ((IJavaProject) obj).getElementName();
+    } else if (obj instanceof IResource) {
+      projectName = ((IResource) obj).getProject().getName();
+    } else if (obj instanceof IPackageFragment) {
+      projectName = ((IPackageFragment) obj).getJavaProject().getElementName();
+    } else if (obj instanceof IPackageFragmentRoot) {
+      projectName = ((IPackageFragmentRoot) obj).getJavaProject()
+          .getElementName();
+    }
+    return Optional.ofNullable(projectName)
+        .map(pn -> ResourcesPlugin.getWorkspace().getRoot().getProject(pn))
+        .orElse(null);
   }
 
   /**
