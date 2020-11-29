@@ -6,13 +6,14 @@
 
 package org.ruminaq.eclipse.prefs;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -57,8 +58,9 @@ public abstract class AbstractProps implements IPreferenceChangeListener {
     IFile props = setF.getFile(name + ".prefs");
     if (!props.exists())
       try {
-        props.create(IOUtils.toInputStream(""), IResource.FORCE,
-            new NullProgressMonitor());
+        props.create(
+            new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)),
+            IResource.FORCE, new NullProgressMonitor());
       } catch (CoreException e1) {
       }
 
