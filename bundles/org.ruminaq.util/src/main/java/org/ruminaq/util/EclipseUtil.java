@@ -6,16 +6,13 @@
 
 package org.ruminaq.util;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.text.Collator;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
