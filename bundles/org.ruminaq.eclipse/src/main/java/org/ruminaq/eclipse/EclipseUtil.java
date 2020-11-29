@@ -48,16 +48,14 @@ public final class EclipseUtil {
                 String segment) -> {
               String currentPath = parentPath.getValue() + "/" + segment;
               return Optional.of(parentPath).filter(p -> !p.getKey().isFailed())
-                  .map(p -> {
-                    Try<CoreException> r = Optional.of(currentPath)
-                        .map(project::getFolder)
-                        .filter(Predicate.not(IFolder::exists))
-                        .map(f -> Try.check(() -> f.create(true, true,
-                            new NullProgressMonitor())))
-                        .orElseGet(() -> Try.success());
-                    return new SimpleEntry<Try<CoreException>, String>(r,
-                        currentPath);
-                  }).orElseGet(() -> {
+                  .map(p -> new SimpleEntry<>(
+                      Optional.of(currentPath).map(project::getFolder)
+                          .filter(Predicate.not(IFolder::exists))
+                          .map(f -> Try.check(() -> f.create(true, true,
+                              new NullProgressMonitor())))
+                          .orElseGet(() -> Try.success()),
+                      currentPath))
+                  .orElseGet(() -> {
                     parentPath.setValue(currentPath);
                     return parentPath;
                   });
