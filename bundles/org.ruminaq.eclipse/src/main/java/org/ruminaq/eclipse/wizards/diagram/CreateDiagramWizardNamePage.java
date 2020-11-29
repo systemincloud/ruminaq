@@ -35,10 +35,10 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.Image;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
-import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.ImageUtil;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
