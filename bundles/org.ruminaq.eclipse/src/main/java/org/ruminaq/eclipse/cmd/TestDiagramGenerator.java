@@ -6,11 +6,14 @@
 
 package org.ruminaq.eclipse.cmd;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.function.Predicate;
-import org.apache.commons.io.IOUtils;
+import java.util.stream.Collectors;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -87,13 +90,15 @@ public class TestDiagramGenerator {
       String versionToFill = "";
 
       InputStream is = this.getClass().getResourceAsStream("TestTask.template");
-      String diagramContent = IOUtils.toString(is, "UTF-8")
-          .replaceAll("nameTestTaskToFill", modelTestName)
-          .replaceAll("nameTestedTaskToFill", modelFileName + ".sic")
-          .replaceAll("idTestedTaskToFill", modelFileName)
-          .replaceAll("pathTestedTaskToFill", modelFilePath)
-          .replaceAll("modelerVersionFill", modelerVersion)
-          .replaceAll("versionToFill", versionToFill);
+      String diagramContent = new BufferedReader(
+          new InputStreamReader(is, StandardCharsets.UTF_8)).lines()
+              .collect(Collectors.joining("\n"))
+              .replaceAll("nameTestTaskToFill", modelTestName)
+              .replaceAll("nameTestedTaskToFill", modelFileName + ".sic")
+              .replaceAll("idTestedTaskToFill", modelFileName)
+              .replaceAll("pathTestedTaskToFill", modelFilePath)
+              .replaceAll("modelerVersionFill", modelerVersion)
+              .replaceAll("versionToFill", versionToFill);
       diagramFile.create(new ByteArrayInputStream(diagramContent.getBytes()),
           IResource.FORCE, new NullProgressMonitor());
 
