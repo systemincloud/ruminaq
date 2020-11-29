@@ -15,7 +15,7 @@ import org.eclipse.core.resources.IProject;
  *
  * @author Marek Jagielski
  */
-public class ProjectProps extends AbstractProps {
+public final class ProjectProps extends AbstractProps {
 
   public static final String PROJECT_PROPS = "org.ruminaq.project";
 
@@ -23,14 +23,14 @@ public class ProjectProps extends AbstractProps {
 
   private static Hashtable<IProject, AbstractProps> instances = new Hashtable<>();
 
+  private ProjectProps(IProject project) {
+    super(project, PROJECT_PROPS, false);
+  }
+
   public static AbstractProps getInstance(IProject project) {
     if (!instances.containsKey(project)) {
       instances.put(project, new ProjectProps(project));
     }
     return instances.get(project);
-  }
-
-  private ProjectProps(IProject project) {
-    super(project, PROJECT_PROPS, false);
   }
 }
