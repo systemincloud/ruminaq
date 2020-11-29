@@ -14,7 +14,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
- * 
+ * Create test diagram command handler.
+ *
  * @author Marek Jagielski
  */
 public class CreateTestDiagramCmd extends AbstractHandler {
