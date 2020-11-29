@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.ruminaq.util.PlatformUtil;
-import org.ruminaq.util.Result;
+import org.ruminaq.util.Try;
 
 /**
  * Intercept EclipseUtil.
@@ -40,17 +40,16 @@ public class EclipseUtilAspect {
    *
    */
   @Around("createFolderWithParents(project, path)")
-  public Result<String, CoreException> around(ProceedingJoinPoint point,
-      IProject project, String path) throws Throwable {
+  public Try<CoreException> around(ProceedingJoinPoint point, IProject project,
+      String path) throws Throwable {
     String failingProjectName = System
         .getProperty(FAIL_CREATE_SOURCE_FOLDERS_PROJECT_NAME);
 
     if (project.getName().equals(failingProjectName)) {
-      return Result.failure(new CoreException(new Status(IStatus.ERROR,
+      return Try.crash(new CoreException(new Status(IStatus.ERROR,
           PlatformUtil.getBundleSymbolicName(getClass()), "Failed")));
     } else {
-      return (Result<String, CoreException>) point
-          .proceed(new Object[] { project, path });
+      return (Try<CoreException>) point.proceed(new Object[] { project, path });
     }
   }
 }

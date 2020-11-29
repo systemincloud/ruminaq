@@ -26,7 +26,6 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.osgi.framework.FrameworkUtil;
@@ -34,6 +33,7 @@ import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.prefs.ProjectProps;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
+import org.ruminaq.util.Try;
 
 /**
  * 
@@ -102,16 +102,10 @@ public class TestDiagramGenerator {
       diagramFile.create(new ByteArrayInputStream(diagramContent.getBytes()),
           IResource.FORCE, new NullProgressMonitor());
 
-      Display.getCurrent().asyncExec(new Runnable() {
-        @Override
-        public void run() {
-          IWorkbenchPage page = PlatformUI.getWorkbench()
-              .getActiveWorkbenchWindow().getActivePage();
-          try {
-            IDE.openEditor(page, diagramFile, true);
-          } catch (PartInitException e) {
-          }
-        }
+      Display.getCurrent().asyncExec(() -> {
+        IWorkbenchPage page = PlatformUI.getWorkbench()
+            .getActiveWorkbenchWindow().getActivePage();
+        Try.check(() -> IDE.openEditor(page, diagramFile, true));
       });
     } catch (Exception e) {
 
