@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -28,15 +27,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
-import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.layout.PixelConverter;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
@@ -128,24 +119,6 @@ public final class EclipseUtil {
     return URI.decode(pe.eResource().getURI().segment(1));
   }
 
-  public static void setButtonDimensionHint(Button button) {
-    Assert.isNotNull(button);
-    Object gd = button.getLayoutData();
-    if (gd instanceof GridData) {
-      ((GridData) gd).widthHint = getButtonWidthHint(button);
-      ((GridData) gd).horizontalAlignment = GridData.FILL;
-    }
-  }
-
-  public static int getButtonWidthHint(Button button) {
-    button.setFont(JFaceResources.getDialogFont());
-    PixelConverter converter = new PixelConverter(button);
-    int widthHint = converter
-        .convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
-    return Math.max(widthHint,
-        button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true).x);
-  }
-
   public static void setEnabledRecursive(final Composite composite,
       final boolean enabled, List<Control> notChanged) {
     if (composite == null)
@@ -211,25 +184,6 @@ public final class EclipseUtil {
         .filter(Predicate.not(IFolder::exists))
         .map(f -> Try.check(() -> f.delete(true, new NullProgressMonitor())))
         .orElseGet(Try::success);
-  }
-
-  public static IProject getProjectFromSelection(Object obj) {
-    String projectName = null;
-    if (obj instanceof IProject) {
-      projectName = ((IProject) obj).getName();
-    } else if (obj instanceof IJavaProject) {
-      projectName = ((IJavaProject) obj).getElementName();
-    } else if (obj instanceof IResource) {
-      projectName = ((IResource) obj).getProject().getName();
-    } else if (obj instanceof IPackageFragment) {
-      projectName = ((IPackageFragment) obj).getJavaProject().getElementName();
-    } else if (obj instanceof IPackageFragmentRoot) {
-      projectName = ((IPackageFragmentRoot) obj).getJavaProject()
-          .getElementName();
-    }
-    return Optional.ofNullable(projectName)
-        .map(pn -> ResourcesPlugin.getWorkspace().getRoot().getProject(pn))
-        .orElse(null);
   }
 
   public static IProject getProject(Diagram diagram) {
