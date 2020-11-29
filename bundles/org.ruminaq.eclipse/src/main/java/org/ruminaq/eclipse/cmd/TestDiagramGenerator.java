@@ -96,12 +96,12 @@ public class TestDiagramGenerator {
       String diagramContent = new BufferedReader(
           new InputStreamReader(is, StandardCharsets.UTF_8)).lines()
               .collect(Collectors.joining("\n"))
-              .replaceAll("nameTestTaskToFill", modelTestName)
-              .replaceAll("nameTestedTaskToFill", modelFileName + ".sic")
-              .replaceAll("idTestedTaskToFill", modelFileName)
-              .replaceAll("pathTestedTaskToFill", modelFilePath)
-              .replaceAll("modelerVersionFill", modelerVersion)
-              .replaceAll("versionToFill", versionToFill);
+              .replace("nameTestTaskToFill", modelTestName)
+              .replace("nameTestedTaskToFill", modelFileName + ".sic")
+              .replace("idTestedTaskToFill", modelFileName)
+              .replace("pathTestedTaskToFill", modelFilePath)
+              .replace("modelerVersionFill", modelerVersion)
+              .replace("versionToFill", versionToFill);
       diagramFile.create(new ByteArrayInputStream(diagramContent.getBytes()),
           IResource.FORCE, new NullProgressMonitor());
 
