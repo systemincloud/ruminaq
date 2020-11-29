@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.widgets.Table;
-import org.ruminaq.util.Result;
 import org.ruminaq.util.Try;
 
 /**
@@ -44,21 +43,20 @@ public final class EclipseUtil {
       String path) {
     return Optional.ofNullable(path).map(p -> p.split("/")).map(Stream::of)
         .orElseGet(Stream::empty)
-        .reduce(
-            new SimpleEntry<>(Result.<String, CoreException>success(""), ""),
-            (parentPath, segment) -> {
+        .reduce(new SimpleEntry<>(Try.<CoreException>success(), ""),
+            (SimpleEntry<Try<CoreException>, String> parentPath,
+                String segment) -> {
               String currentPath = parentPath.getValue() + "/" + segment;
               return Optional.of(parentPath).filter(p -> !p.getKey().isFailed())
                   .map(p -> {
-                    Result<String, CoreException> r = Optional.of(currentPath)
+                    Try<CoreException> r = Optional.of(currentPath)
                         .map(project::getFolder)
                         .filter(Predicate.not(IFolder::exists))
-                        .map(f -> Result.attempt(() -> {
-                          f.create(true, true, new NullProgressMonitor());
-                          return currentPath;
-                        })).orElseGet(() -> Result.success(""));
-                    return new SimpleEntry<Result<String, CoreException>, String>(
-                        r, currentPath);
+                        .map(f -> Try.check(() -> f.create(true, true,
+                            new NullProgressMonitor())))
+                        .orElseGet(() -> Try.success());
+                    return new SimpleEntry<Try<CoreException>, String>(r,
+                        currentPath);
                   }).orElseGet(() -> {
                     parentPath.setValue(currentPath);
                     return parentPath;
