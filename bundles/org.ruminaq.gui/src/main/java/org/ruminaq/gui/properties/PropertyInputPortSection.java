@@ -6,6 +6,7 @@
 
 package org.ruminaq.gui.properties;
 
+import java.util.Optional;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
@@ -32,6 +33,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.eclipse.SelectionNotDefaultListener;
 import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
+import org.ruminaq.gui.model.diagram.InputPortShape;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.util.GlobalUtil;
@@ -119,17 +121,12 @@ public class PropertyInputPortSection extends GFPropertySection
     btnHoldLast.addSelectionListener(
         (SelectionNotDefaultListener) (SelectionEvent se) -> {
           ModelUtil.runModelChange(() -> {
-            PictogramElement pe = getSelectedPictogramElement();
-            if (pe == null)
-              return;
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            if (bo == null)
-              return;
-            if (bo instanceof InputPort) {
-              InputPort p = (InputPort) bo;
-              p.setHoldLast(btnHoldLast.getSelection());
-            }
+            Optional.ofNullable(getSelectedPictogramElement())
+                .filter(InputPortShape.class::isInstance)
+                .map(InputPortShape.class::cast)
+                .map(InputPortShape::getModelObject)
+                .filter(InputPort.class::isInstance).map(InputPort.class::cast)
+                .ifPresent(p -> p.setHoldLast(btnHoldLast.getSelection()));
           }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
               "Model Update");
         });
@@ -141,7 +138,8 @@ public class PropertyInputPortSection extends GFPropertySection
             .isOneDimPositiveInteger(txtQueueSize.getText())
             && Integer.parseInt(txtQueueSize.getText()) != 0)
             || GlobalUtil.isGlobalVariable(txtQueueSize.getText())
-            || AbstractCreateUserDefinedTaskPage.INF.equals(txtQueueSize.getText());
+            || AbstractCreateUserDefinedTaskPage.INF
+                .equals(txtQueueSize.getText());
         PictogramElement pe = getSelectedPictogramElement();
         if (pe == null)
           return;
