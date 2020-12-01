@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -76,7 +77,8 @@ public final class EclipseUtil {
         .reduce(new SimpleEntry<>(Try.<CoreException>success(), ""),
             (SimpleEntry<Try<CoreException>, String> parentPath,
                 String segment) -> {
-              String currentPath = parentPath.getValue() + "/" + segment;
+              String currentPath = new Path(parentPath.getValue())
+                  .append(segment).toString();
               return Optional.of(parentPath).filter(p -> !p.getKey().isFailed())
                   .map(p -> new SimpleEntry<>(
                       Optional.of(currentPath).map(project::getFolder)
