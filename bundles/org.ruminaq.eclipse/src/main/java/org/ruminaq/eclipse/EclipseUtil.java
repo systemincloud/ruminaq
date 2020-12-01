@@ -8,9 +8,11 @@ package org.ruminaq.eclipse;
 
 import java.io.ByteArrayInputStream;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.core.resources.IFile;
@@ -45,22 +47,28 @@ public final class EclipseUtil {
    * @return eclipse project
    */
   public static IProject getProjectFromSelection(Object obj) {
-    String projectName = null;
-    if (obj instanceof IProject) {
-      projectName = ((IProject) obj).getName();
-    } else if (obj instanceof IJavaProject) {
-      projectName = ((IJavaProject) obj).getElementName();
-    } else if (obj instanceof IResource) {
-      projectName = ((IResource) obj).getProject().getName();
-    } else if (obj instanceof IPackageFragment) {
-      projectName = ((IPackageFragment) obj).getJavaProject().getElementName();
-    } else if (obj instanceof IPackageFragmentRoot) {
-      projectName = ((IPackageFragmentRoot) obj).getJavaProject()
-          .getElementName();
-    }
-    return Optional.ofNullable(projectName)
-        .map(pn -> ResourcesPlugin.getWorkspace().getRoot().getProject(pn))
-        .orElse(null);
+    return Arrays
+        .<Supplier<Optional<IProject>>>asList(
+            () -> Optional.of(obj).filter(IProject.class::isInstance)
+                .map(IProject.class::cast),
+            () -> Optional.of(obj).filter(IJavaProject.class::isInstance)
+                .map(IJavaProject.class::cast).map(IJavaProject::getProject),
+            () -> Optional.of(obj).filter(IResource.class::isInstance)
+                .map(IResource.class::cast).map(IResource::getProject),
+            () -> Optional.of(obj).filter(IPackageFragment.class::isInstance)
+                .map(IPackageFragment.class::cast)
+                .map(IPackageFragment::getJavaProject)
+                .map(IJavaProject::getProject),
+            () -> Optional.of(obj)
+                .filter(IPackageFragmentRoot.class::isInstance)
+                .map(IPackageFragmentRoot.class::cast)
+                .map(IPackageFragmentRoot::getJavaProject)
+                .map(IJavaProject::getProject))
+        .stream()
+        .reduce((a,
+            b) -> () -> Optional.of(a).map(Supplier::get)
+                .filter(Optional::isPresent).orElseGet(b::get))
+        .orElseGet(() -> Optional::empty).get().orElse(null);
   }
 
   /**
