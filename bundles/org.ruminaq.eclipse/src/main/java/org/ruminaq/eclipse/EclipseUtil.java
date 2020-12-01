@@ -80,13 +80,12 @@ public final class EclipseUtil {
               String currentPath = new Path(parentPath.getValue())
                   .append(segment).toString();
               return Optional.of(parentPath).filter(p -> !p.getKey().isFailed())
-                  .map(p -> new SimpleEntry<>(
-                      Optional.of(currentPath).map(project::getFolder)
-                          .filter(Predicate.not(IFolder::exists))
-                          .map(f -> Try.check(() -> f.create(true, true,
-                              new NullProgressMonitor())))
-                          .orElseGet(() -> Try.success()),
-                      currentPath))
+                  .map(p -> new SimpleEntry<>(Optional.of(currentPath)
+                      .map(project::getFolder)
+                      .filter(Predicate.not(IFolder::exists))
+                      .map(f -> Try.check(() -> f.create(true, true,
+                          new NullProgressMonitor())))
+                      .orElseGet(Try::success), currentPath))
                   .orElseGet(() -> {
                     parentPath.setValue(currentPath);
                     return parentPath;
