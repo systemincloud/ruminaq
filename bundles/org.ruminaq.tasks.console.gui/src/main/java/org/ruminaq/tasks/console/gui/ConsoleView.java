@@ -32,6 +32,7 @@ import org.ruminaq.tasks.console.impl.ConsoleIService;
 import org.ruminaq.tasks.console.impl.ConsoleViewService;
 import org.ruminaq.tasks.console.model.console.Console;
 import org.ruminaq.tasks.console.model.console.ConsoleType;
+import org.ruminaq.util.Try;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 import swing2swt.layout.BorderLayout;
 
@@ -168,11 +169,7 @@ public class ConsoleView implements IView, LaunchListener {
         String cmd = lastLine.substring(1);
         ConsoleIService api = DirmiServer.INSTANCE
             .getRemote(Util.getUniqueId(console), ConsoleIService.class);
-        if (api != null)
-          try {
-            api.newCommand(cmd);
-          } catch (RemoteException e) {
-          }
+        Try.check(() -> api.newCommand(cmd));
       }
     });
     btnClear.addSelectionListener(
