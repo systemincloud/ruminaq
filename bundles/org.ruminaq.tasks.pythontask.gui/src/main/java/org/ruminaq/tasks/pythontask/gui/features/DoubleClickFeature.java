@@ -3,13 +3,12 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.pythontask.gui.features;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.ICustomContext;
 import org.eclipse.graphiti.features.custom.AbstractCustomFeature;
@@ -23,10 +22,9 @@ import org.python.pydev.core.IPythonNature;
 import org.python.pydev.editor.actions.PyOpenAction;
 import org.python.pydev.plugin.nature.PythonNature;
 import org.python.pydev.plugin.nature.SystemPythonNature;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.tasks.pythontask.gui.util.FindPythonTask;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
-import org.ruminaq.util.EclipseUtil;
-
 import com.python.pydev.analysis.AnalysisPlugin;
 import com.python.pydev.analysis.additionalinfo.AdditionalInfoAndIInfo;
 import com.python.pydev.analysis.additionalinfo.AdditionalProjectInterpreterInfo;
@@ -64,8 +62,7 @@ public class DoubleClickFeature extends AbstractCustomFeature {
     if (pclass.equals(""))
       return;
 
-    IProject p = ResourcesPlugin.getWorkspace().getRoot()
-        .getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram()));
+    IProject p = EclipseUtil.getProjectOf(getDiagram());
     PythonNature pNature = PythonNature.getPythonNature(p);
     IInterpreterManager manager = pNature.getRelatedInterpreterManager();
     List<IPythonNature> natures = PythonNature

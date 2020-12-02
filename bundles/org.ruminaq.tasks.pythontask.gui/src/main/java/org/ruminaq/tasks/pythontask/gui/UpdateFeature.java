@@ -11,9 +11,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.python.pydev.ast.codecompletion.revisited.modules.SourceModule;
@@ -34,12 +32,12 @@ import org.python.pydev.parser.jython.ast.stmtType;
 import org.python.pydev.parser.visitors.scope.ASTEntry;
 import org.python.pydev.parser.visitors.scope.EasyASTIteratorVisitor;
 import org.python.pydev.plugin.nature.PythonNature;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
 import org.ruminaq.gui.features.update.AbstractUpdateUserDefinedTaskFeature;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.DataTypeManager;
 import org.ruminaq.tasks.pythontask.model.pythontask.PythonTask;
-import org.ruminaq.util.EclipseUtil;
 
 public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
 
@@ -59,8 +57,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
 
   @Override
   public boolean load(String className) {
-    IProject p = ResourcesPlugin.getWorkspace().getRoot()
-        .getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram()));
+    IProject p = EclipseUtil.getProjectOf(getDiagram());
     PythonNature nature = PythonNature.getPythonNature(p);
     if (nature != null) {
       IModulesManager modulesManager = nature.getAstManager()

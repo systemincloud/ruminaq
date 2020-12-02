@@ -17,8 +17,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.tasks.rtask.model.rtask.RTask;
-import org.ruminaq.util.EclipseUtil;
 
 public class DoubleClickFeature extends AbstractCustomFeature {
 
@@ -68,7 +68,7 @@ public class DoubleClickFeature extends AbstractCustomFeature {
   }
 
   public String getTaskPath(RTask bo) {
-    return EclipseUtil.getModelPathFromEObject(bo).segment(0).toString() + "/"
+    return EclipseUtil.getUriOfEObject(bo).segment(0).toString() + "/"
         + bo.getImplementation();
   }
 }

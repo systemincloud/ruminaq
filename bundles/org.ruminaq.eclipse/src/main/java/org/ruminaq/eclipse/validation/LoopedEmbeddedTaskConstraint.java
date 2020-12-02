@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.validation.constraints;
+package org.ruminaq.eclipse.validation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +18,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.validation.AbstractModelConstraint;
 import org.eclipse.emf.validation.EMFEventType;
 import org.eclipse.emf.validation.IValidationContext;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.util.EclipseUtil;
 
 public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
 
@@ -37,7 +37,7 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
     String path = task.getImplementationTask();
     if (path == null || path.equals(""))
       return ctx.createSuccessStatus();
-    URI modelPath = EclipseUtil.getModelPathFromEObject(task);
+    URI modelPath = EclipseUtil.getUriOfEObject(task);
     String prefix = "/" + modelPath.segment(0) + "/";
     MainTask embeddedTask = loadTask(modelPath);
 

@@ -177,7 +177,7 @@ public class CreateDiagramWizardNamePage extends WizardPage {
     lblFile.setText(Messages.createDiagramWizardFilename);
 
     Optional<IProject> project = Optional.ofNullable(selectedObject)
-        .map(EclipseUtil::getProjectFromSelection);
+        .map(EclipseUtil::getProjectOf);
     String projectName = project.map(IProject::getName).orElse("");
 
     txtProject.setText(projectName);

@@ -13,20 +13,14 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -37,7 +31,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.ViewPart;
 import org.osgi.framework.FrameworkUtil;
 
@@ -54,69 +47,6 @@ public final class EclipseUtil {
         .map(r -> r.orElse(null)).filter(Objects::nonNull)
         .map(urlConn -> Result.attempt(urlConn::getInputStream))
         .map(r -> r.orElse(null)).filter(Objects::nonNull);
-  }
-
-  public static void openFileInDefaultEditor(IFile file) {
-    Result.attempt(() -> IDE.openEditor(
-        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(),
-        file, true));
-  }
-
-  public static IProject getWorkspaceProjectFromEObject(EObject eobject) {
-    URI uri = getModelPathFromEObject(eobject);
-
-    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-    IProject project = null;
-
-    // try to get project from whole uri resource
-    IResource resource = workspaceRoot.findMember(uri.toString());
-    if (resource != null) {
-      project = resource.getProject();
-    }
-
-    // another try,by first segment with project name
-    if (project == null && uri.segmentCount() > 0) {
-      String projectName = uri.segment(0);
-      IResource projectResource = workspaceRoot.findMember(projectName);
-      if (projectResource != null) {
-        project = projectResource.getProject();
-      }
-    }
-
-    return project;
-  }
-
-  public static URI getModelPathFromEObject(EObject eobject) {
-    URI uri = EcoreUtil.getURI(eobject);
-    uri = uri.trimFragment();
-    if (uri.isPlatform()) {
-      uri = URI.createURI(uri.toPlatformString(true));
-    }
-    return uri;
-  }
-
-  public static URI removeFristSegments(URI uri, int nb) {
-    nb++;
-    String[] segs = uri.segments();
-    String tmp = "";
-    int i = 0;
-    for (String s : segs) {
-      i++;
-      if (i < nb)
-        continue;
-      if (i > nb)
-        tmp += "/";
-      tmp += s;
-    }
-    return URI.createURI(tmp);
-  }
-
-  public static String getProjectNameFromDiagram(Diagram diagram) {
-    return URI.decode(diagram.eResource().getURI().segment(1));
-  }
-
-  public static String getProjectNameFromPe(PictogramElement pe) {
-    return URI.decode(pe.eResource().getURI().segment(1));
   }
 
   public static void setEnabledRecursive(final Composite composite,
@@ -184,11 +114,6 @@ public final class EclipseUtil {
         .filter(Predicate.not(IFolder::exists))
         .map(f -> Try.check(() -> f.delete(true, new NullProgressMonitor())))
         .orElseGet(Try::success);
-  }
-
-  public static IProject getProject(Diagram diagram) {
-    return ResourcesPlugin.getWorkspace().getRoot()
-        .getProject(getProjectNameFromDiagram(diagram));
   }
 
   public void sortTable(Table table, int sortIndex) {

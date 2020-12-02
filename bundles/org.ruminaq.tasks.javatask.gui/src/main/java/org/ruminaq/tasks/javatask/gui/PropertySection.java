@@ -9,7 +9,6 @@ package org.ruminaq.tasks.javatask.gui;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.jdt.core.IJavaElement;
@@ -33,12 +32,12 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.gui.properties.AbstractUserDefinedTaskPropertySection;
 import org.ruminaq.tasks.javatask.client.JavaTask;
 import org.ruminaq.tasks.javatask.client.annotations.JavaTaskInfo;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskWizard;
-import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.Result;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
@@ -61,10 +60,8 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
   private static IStructuredSelection getJavaDirectory(Diagram diagram,
       PictogramElement pe) {
     return new StructuredSelection(
-        JavaCore.create(ResourcesPlugin.getWorkspace().getRoot()
-            .getProject(EclipseUtil.getProjectNameFromDiagram(diagram))
-            .getFolder(Optional.ofNullable(pe)
-                .map(EclipseUtil::getModelPathFromEObject)
+        JavaCore.create(EclipseUtil.getProjectOf(diagram)
+            .getFolder(Optional.ofNullable(pe).map(EclipseUtil::getUriOfEObject)
                 .filter(RuminaqDiagramUtil::isTest)
                 .map(m -> EclipseExtensionImpl.TEST_JAVA)
                 .orElse(EclipseExtensionImpl.MAIN_JAVA))));
@@ -135,7 +132,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
   protected SelectionListener selectSelectionListener() {
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
       IJavaProject project = JavaCore
-          .create(EclipseUtil.getProject(getDiagram()));
+          .create(EclipseUtil.getProjectOf(getDiagram()));
       IJavaSearchScope scope = SearchEngine
           .createJavaSearchScope(new IJavaElement[] { project });
       selectionDialog(project, scope).filter(d -> d.open() == Window.OK)

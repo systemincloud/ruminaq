@@ -26,11 +26,11 @@ import org.eclipse.statet.r.core.model.IRModelInfo;
 import org.eclipse.statet.r.core.model.IRModelManager;
 import org.eclipse.statet.r.core.model.IRWorkspaceSourceUnit;
 import org.eclipse.statet.r.core.model.RModel;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.gui.features.update.AbstractUpdateUserDefinedTaskFeature;
 import org.ruminaq.tasks.rtask.AddFeatureImpl;
 import org.ruminaq.tasks.rtask.EclipseExtensionImpl;
 import org.ruminaq.tasks.rtask.model.rtask.RTask;
-import org.ruminaq.util.EclipseUtil;
 
 //import de.walware.ecommons.ltk.ISourceUnitManager;
 //import de.walware.ecommons.ltk.LTK;
@@ -72,8 +72,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
     if ("".equals(path) || (!path.startsWith(EclipseExtensionImpl.MAIN_R)
         && !path.startsWith(EclipseExtensionImpl.TEST_R)))
       return false;
-    IProject p = ResourcesPlugin.getWorkspace().getRoot()
-        .getProject(EclipseUtil.getProjectNameFromDiagram(getDiagram()));
+    IProject p = EclipseUtil.getProjectOf(getDiagram());
 
     this.desc = new Path(path).lastSegment();
 

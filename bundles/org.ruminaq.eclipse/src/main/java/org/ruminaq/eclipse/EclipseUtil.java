@@ -19,13 +19,22 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
+import org.ruminaq.util.Result;
 import org.ruminaq.util.Try;
 
 /**
@@ -45,7 +54,7 @@ public final class EclipseUtil {
    * @param obj eclipse resource
    * @return eclipse project
    */
-  public static IProject getProjectFromSelection(Object obj) {
+  public static IProject getProjectOf(Object obj) {
     return Arrays
         .<Supplier<Optional<IProject>>>asList(
             () -> Optional.of(obj).filter(IProject.class::isInstance)
@@ -62,12 +71,45 @@ public final class EclipseUtil {
                 .filter(IPackageFragmentRoot.class::isInstance)
                 .map(IPackageFragmentRoot.class::cast)
                 .map(IPackageFragmentRoot::getJavaProject)
-                .map(IJavaProject::getProject))
+                .map(IJavaProject::getProject),
+            () -> Optional.of(obj).filter(PictogramElement.class::isInstance)
+                .map(PictogramElement.class::cast)
+                .map(PictogramElement::eResource)
+                .map(r -> r.getURI().segment(1)).map(s -> URI.decode(s))
+                .map(u -> ResourcesPlugin.getWorkspace().getRoot()
+                    .getProject(u)),
+            () -> Optional.of(obj).filter(EObject.class::isInstance)
+                .map(EObject.class::cast)
+                .map(EclipseUtil::getProjectFromEObject))
         .stream()
         .reduce((a,
             b) -> () -> Optional.of(a).map(Supplier::get)
                 .filter(Optional::isPresent).orElseGet(b::get))
         .orElseGet(() -> Optional::empty).get().orElse(null);
+  }
+
+  public static IProject getProjectFromEObject(EObject eobject) {
+    URI uri = getUriOfEObject(eobject);
+
+    IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+    IProject project = null;
+
+    // try to get project from whole uri resource
+    IResource resource = workspaceRoot.findMember(uri.toString());
+    if (resource != null) {
+      project = resource.getProject();
+    }
+
+    // another try,by first segment with project name
+    if (project == null && uri.segmentCount() > 0) {
+      String projectName = uri.segment(0);
+      IResource projectResource = workspaceRoot.findMember(projectName);
+      if (projectResource != null) {
+        project = projectResource.getProject();
+      }
+    }
+
+    return project;
   }
 
   /**
@@ -118,6 +160,46 @@ public final class EclipseUtil {
         .orElseGet(() -> Try
             .check(() -> file.create(new ByteArrayInputStream(new byte[0]),
                 true, new NullProgressMonitor())));
+  }
+
+  /**
+   * Open file.
+   *
+   * @param file eclipse file
+   */
+  public static void openFileInDefaultEditor(IFile file) {
+    Result.attempt(() -> IDE.openEditor(
+        PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(),
+        file, true));
+  }
+
+  /**
+   * 
+   * @param eObject
+   * @return
+   */
+  public static URI getUriOfEObject(EObject eObject) {
+    URI uri = EcoreUtil.getURI(eObject).trimFragment();
+    if (uri.isPlatform()) {
+      uri = URI.createURI(uri.toPlatformString(true));
+    }
+    return uri;
+  }
+  
+  public static URI removeFristSegments(URI uri, int nb) {
+    nb++;
+    String[] segs = uri.segments();
+    String tmp = "";
+    int i = 0;
+    for (String s : segs) {
+      i++;
+      if (i < nb)
+        continue;
+      if (i > nb)
+        tmp += "/";
+      tmp += s;
+    }
+    return URI.createURI(tmp);
   }
 
   /**

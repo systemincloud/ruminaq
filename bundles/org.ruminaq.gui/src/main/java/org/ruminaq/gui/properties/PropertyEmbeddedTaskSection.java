@@ -20,8 +20,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
-import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.Result;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
@@ -121,9 +121,9 @@ public class PropertyEmbeddedTaskSection
   @Override
   protected SelectionListener selectSelectionListener() {
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
-    ElementTreeSelectionDialog fileDialog = new ElementTreeSelectionDialog(
-        Display.getDefault().getActiveShell(), new WorkbenchLabelProvider(),
-        new BaseWorkbenchContentProvider());
+      ElementTreeSelectionDialog fileDialog = new ElementTreeSelectionDialog(
+          Display.getDefault().getActiveShell(), new WorkbenchLabelProvider(),
+          new BaseWorkbenchContentProvider());
 ////    if (test)
 ////      fileDialog.setInput(ResourcesPlugin.getWorkspace().getRoot()
 ////          .getProject(
@@ -229,8 +229,7 @@ public class PropertyEmbeddedTaskSection
   protected SelectionListener createSelectionListener() {
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
       IStructuredSelection selection = new StructuredSelection(
-          JavaCore.create(ResourcesPlugin.getWorkspace().getRoot().getProject(
-              EclipseUtil.getProjectNameFromDiagram(getDiagram()))));
+          JavaCore.create(EclipseUtil.getProjectOf(getDiagram())));
       Optional
           .ofNullable(PlatformUI.getWorkbench().getNewWizardRegistry()
               .findWizard(CreateDiagramWizard.ID))

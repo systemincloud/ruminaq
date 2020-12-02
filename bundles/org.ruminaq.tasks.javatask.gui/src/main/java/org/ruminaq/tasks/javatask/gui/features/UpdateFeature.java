@@ -17,7 +17,6 @@ import java.util.OptionalInt;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IJavaElement;
@@ -38,6 +37,7 @@ import org.eclipse.jdt.core.search.SearchParticipant;
 import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.core.search.SearchRequestor;
 import org.eclipse.jdt.internal.core.NamedMember;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.update.AbstractUpdateFeatureFilter;
@@ -52,7 +52,6 @@ import org.ruminaq.tasks.javatask.client.annotations.Parameter;
 import org.ruminaq.tasks.javatask.gui.AddFeatureImpl;
 import org.ruminaq.tasks.javatask.gui.wizards.CreateJavaTaskPage;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
-import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.Result;
 
 /**
@@ -193,7 +192,8 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
                     .filter(i -> i >= QUEUE_INFINITE)
                     .orElseGet(() -> QUEUE_DEFAULT_SIZE))
             .stream().boxed().findFirst().filter(q -> q != QUEUE_INFINITE)
-            .map(Object::toString).orElse(AbstractCreateUserDefinedTaskPage.INF));
+            .map(Object::toString)
+            .orElse(AbstractCreateUserDefinedTaskPage.INF));
   }
 
   /**
@@ -221,9 +221,8 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
     SearchParticipant[] participants = new SearchParticipant[] {
         SearchEngine.getDefaultSearchParticipant() };
     IJavaSearchScope scope = SearchEngine
-        .createJavaSearchScope(new IJavaElement[] {
-            JavaCore.create(ResourcesPlugin.getWorkspace().getRoot().getProject(
-                EclipseUtil.getProjectNameFromDiagram(getDiagram()))) });
+        .createJavaSearchScope(new IJavaElement[] { JavaCore
+            .create(EclipseUtil.getProjectOf(getDiagram())) });
     SearchRequestor searchRequestor = new SearchRequestor() {
       @Override
       public void acceptSearchMatch(SearchMatch sm) {

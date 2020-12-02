@@ -36,6 +36,7 @@ Import-Package:
  org.eclipse.emf.edit.domain,
  org.eclipse.emf.transaction,
  org.eclipse.emf.transaction.impl,
+ org.eclipse.emf.validation,
  org.eclipse.emf.workspace,
  org.eclipse.equinox.security.storage,
  org.eclipse.gef,

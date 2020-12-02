@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
@@ -26,11 +25,11 @@ import org.eclipse.jdt.core.search.SearchParticipant;
 import org.eclipse.jdt.core.search.SearchPattern;
 import org.eclipse.jdt.core.search.SearchRequestor;
 import org.eclipse.swt.widgets.Display;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.doubleclick.AbstractUserDefinedTaskDoubleClickFeature;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
-import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.Result;
 
 /**
@@ -62,9 +61,8 @@ public class DoubleClickFeature
     SearchParticipant[] parts = new SearchParticipant[] {
         SearchEngine.getDefaultSearchParticipant() };
     IJavaSearchScope scope = SearchEngine
-        .createJavaSearchScope(new IJavaElement[] {
-            JavaCore.create(ResourcesPlugin.getWorkspace().getRoot().getProject(
-                EclipseUtil.getProjectNameFromDiagram(getDiagram()))) });
+        .createJavaSearchScope(new IJavaElement[] { JavaCore
+            .create(EclipseUtil.getProjectOf(getDiagram())) });
     toModel(context, JavaTask.class).map(JavaTask::getImplementationPath)
         .filter(Predicate.not(""::equals))
         .map(c -> SearchPattern.createPattern(c, IJavaSearchConstants.TYPE,

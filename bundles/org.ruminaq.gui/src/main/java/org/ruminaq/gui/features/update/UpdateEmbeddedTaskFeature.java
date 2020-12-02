@@ -23,6 +23,7 @@ import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Image;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.gui.features.add.AddEmbeddedTaskFeature;
 import org.ruminaq.gui.image.Images;
@@ -35,7 +36,6 @@ import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.model.ruminaq.Task;
-import org.ruminaq.util.EclipseUtil;
 
 public class UpdateEmbeddedTaskFeature
     extends AbstractUpdateUserDefinedTaskFeature {
@@ -142,7 +142,7 @@ public class UpdateEmbeddedTaskFeature
     ResourceSet resSet = new ResourceSetImpl();
 
     Resource resource = null;
-    String tmp = EclipseUtil.getModelPathFromEObject(getDiagram()).segment(0);
+    String tmp = EclipseUtil.getUriOfEObject(getDiagram()).segment(0);
     try {
       resource = resSet.getResource(URI.createURI("/" + tmp + "/" + path),
           true);

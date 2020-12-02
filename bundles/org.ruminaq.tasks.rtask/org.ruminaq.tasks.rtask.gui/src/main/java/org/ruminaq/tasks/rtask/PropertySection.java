@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.rtask;
 
 import org.eclipse.core.resources.IFile;
@@ -64,13 +65,13 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.wizards.IWizardDescriptor;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.rtask.features.UpdateFeature;
 import org.ruminaq.tasks.rtask.model.rtask.RTask;
 import org.ruminaq.tasks.rtask.ui.wizards.CreateRTaskListener;
 import org.ruminaq.tasks.rtask.ui.wizards.CreateRTaskWizard;
-import org.ruminaq.util.EclipseUtil;
 
 public class PropertySection implements CreateRTaskListener {
 
@@ -89,9 +90,9 @@ public class PropertySection implements CreateRTaskListener {
 
   public PropertySection(Composite parent, PictogramElement pe,
       TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
-    String path = EclipseUtil.getModelPathFromEObject(pe).toString();
+    String path = EclipseUtil.getUriOfEObject(pe).toString();
     boolean test = RuminaqDiagramUtil
-        .isTest(EclipseUtil.getModelPathFromEObject(pe));
+        .isTest(EclipseUtil.getUriOfEObject(pe));
 
     this.pe = pe;
     this.ed = ed;
@@ -169,14 +170,10 @@ public class PropertySection implements CreateRTaskListener {
             new BaseWorkbenchContentProvider());
 
         if (test)
-          fileDialog.setInput(ResourcesPlugin.getWorkspace().getRoot()
-              .getProject(
-                  EclipseUtil.getProjectNameFromDiagram(dtp.getDiagram()))
-              .getFolder("src"));
+          fileDialog.setInput(
+              EclipseUtil.getProjectOf(dtp.getDiagram()).getFolder("src"));
         else
-          fileDialog.setInput(ResourcesPlugin.getWorkspace().getRoot()
-              .getProject(
-                  EclipseUtil.getProjectNameFromDiagram(dtp.getDiagram()))
+          fileDialog.setInput(EclipseUtil.getProjectOf(dtp.getDiagram())
               .getFolder(EclipseExtensionImpl.MAIN_R));
 
         fileDialog.setTitle("Select R File");
@@ -323,14 +320,12 @@ public class PropertySection implements CreateRTaskListener {
         try {
           if (descriptor != null) {
             IWizard wizard = descriptor.createWizard();
-            String folder = RuminaqDiagramUtil.isTest(
-                EclipseUtil.getModelPathFromEObject(pe)) ? EclipseExtensionImpl.TEST_R
+            String folder = RuminaqDiagramUtil
+                .isTest(EclipseUtil.getUriOfEObject(pe))
+                    ? EclipseExtensionImpl.TEST_R
                     : EclipseExtensionImpl.MAIN_R;
-            String projectName = EclipseUtil
-                .getProjectNameFromDiagram(dtp.getDiagram());
             IStructuredSelection selection = new StructuredSelection(
-                ResourcesPlugin.getWorkspace().getRoot().getProject(projectName)
-                    .getFolder(folder));
+                EclipseUtil.getProjectOf(dtp.getDiagram()).getFolder(folder));
 //                    ((CreateRTaskWizard) wizard).init(PlatformUI.getWorkbench(), selection);
             ((CreateRTaskWizard) wizard).setListener(PropertySection.this);
             WizardDialog wd = new WizardDialog(
@@ -361,11 +356,11 @@ public class PropertySection implements CreateRTaskListener {
         return;
       String className = ((RTask) bo).getImplementation();
       if (className.startsWith(EclipseExtensionImpl.MAIN_R))
-        txtClassName
-            .setText(className.replace(EclipseExtensionImpl.MAIN_R + "/", MAIN_PREFIX));
+        txtClassName.setText(
+            className.replace(EclipseExtensionImpl.MAIN_R + "/", MAIN_PREFIX));
       else if (className.startsWith(EclipseExtensionImpl.TEST_R))
-        txtClassName
-            .setText(className.replace(EclipseExtensionImpl.TEST_R + "/", TEST_PREFIX));
+        txtClassName.setText(
+            className.replace(EclipseExtensionImpl.TEST_R + "/", TEST_PREFIX));
     }
   }
 

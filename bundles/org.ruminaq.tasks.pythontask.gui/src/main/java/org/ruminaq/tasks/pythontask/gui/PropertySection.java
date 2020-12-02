@@ -23,13 +23,13 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 import org.python.pydev.core.IInfo;
 import org.python.pydev.shared_ui.EditorUtils;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
 import org.ruminaq.gui.properties.AbstractUserDefinedTaskPropertySection;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.pythontask.gui.util.FindPythonTask;
 import org.ruminaq.tasks.pythontask.gui.util.SicGlobalsTwoPanelElementSelector2;
 import org.ruminaq.tasks.pythontask.ui.wizards.CreatePythonTaskWizard;
-import org.ruminaq.util.EclipseUtil;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 import com.python.pydev.analysis.additionalinfo.AdditionalInfoAndIInfo;
 
@@ -41,8 +41,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
   @Override
   protected SelectionListener selectSelectionListener() {
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
-      IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(
-          EclipseUtil.getProjectNameFromPe(getSelectedPictogramElement()));
+      IProject p = EclipseUtil.getProjectOf(getSelectedPictogramElement());
       SicGlobalsTwoPanelElementSelector2 dialog = new SicGlobalsTwoPanelElementSelector2(
           EditorUtils.getShell(), true, "", p);
       dialog.setElements(FindPythonTask.INSTANCE.getInfos(p));
@@ -85,15 +84,12 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
       try {
         if (descriptor != null) {
           IWizard wizard = descriptor.createWizard();
-          String folder = RuminaqDiagramUtil.isTest(EclipseUtil
-              .getModelPathFromEObject(getSelectedPictogramElement()))
+          String folder = RuminaqDiagramUtil.isTest(
+              EclipseUtil.getUriOfEObject(getSelectedPictogramElement()))
                   ? EclipseExtensionImpl.TEST_PYTHON
                   : EclipseExtensionImpl.MAIN_PYTHON;
-          String projectName = EclipseUtil
-              .getProjectNameFromDiagram(dtp.getDiagram());
           IStructuredSelection selection = new StructuredSelection(
-              ResourcesPlugin.getWorkspace().getRoot().getProject(projectName)
-                  .getFolder(folder));
+              EclipseUtil.getProjectOf(dtp.getDiagram()).getFolder(folder));
           ((CreatePythonTaskWizard) wizard).init(PlatformUI.getWorkbench(),
               selection);
 //          ((CreatePythonTaskWizard) wizard).setListener(PropertySection.this);
