@@ -15,7 +15,6 @@ import org.eclipse.swt.dnd.DragSourceAdapter;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.DropTargetEvent;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
@@ -80,8 +79,8 @@ class OutputsTableSection extends TableSection {
   }
 
   protected void initActions() {
-    table.addSelectionListener((WidgetSelectedSelectionListener) (
-        SelectionEvent event) -> deleteListener.canDelete());
+    table.addSelectionListener(
+        (WidgetSelectedSelectionListener) event -> deleteListener.canDelete());
     tblOutputsDragSrc.addDragListener(new DragSourceAdapter() {
       @Override
       public void dragStart(DragSourceEvent event) {
