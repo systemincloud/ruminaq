@@ -49,7 +49,7 @@ public abstract class AbstractProps implements IPreferenceChangeListener {
 
   }
 
-  private class Secured implements Strategy {
+  private static class Secured implements Strategy {
 
     private ISecurePreferences node;
 
@@ -86,13 +86,14 @@ public abstract class AbstractProps implements IPreferenceChangeListener {
     }
   }
 
-  private class Unsecured implements Strategy {
+  private static class Unsecured implements Strategy {
 
     private IEclipsePreferences node;
 
-    protected Unsecured(ProjectScope ps, String name) {
+    protected Unsecured(ProjectScope ps, String name,
+        IPreferenceChangeListener changeListener) {
       node = ps.getNode(name);
-      node.addPreferenceChangeListener(AbstractProps.this);
+      node.addPreferenceChangeListener(changeListener);
       Try.check(() -> node.sync());
     }
 
@@ -145,7 +146,7 @@ public abstract class AbstractProps implements IPreferenceChangeListener {
     if (secure) {
       this.strategy = new Secured(props);
     } else {
-      this.strategy = new Unsecured(new ProjectScope(project), name);
+      this.strategy = new Unsecured(new ProjectScope(project), name, this);
     }
   }
 
