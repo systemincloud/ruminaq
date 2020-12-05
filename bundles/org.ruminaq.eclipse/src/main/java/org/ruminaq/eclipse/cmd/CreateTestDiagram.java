@@ -47,16 +47,12 @@ public class CreateTestDiagram {
 
   public void generateTestDiagram(IResource file) {
     IProject project = file.getProject();
-    Optional.of(project)
-        .map(p -> p.getFolder(CreateSourceFolders.TEST_DIAGRAM_FOLDER))
-        .filter(Predicate.not(IFolder::exists))
-        .ifPresent(f -> EclipseUtil.createFolderWithParents(project,
-            CreateSourceFolders.TEST_DIAGRAM_FOLDER));
 
     IPath p = file.getFullPath();
     try {
       String path = CreateSourceFolders.TEST_DIAGRAM_FOLDER + "/"
           + Stream.of(p.segments()).skip(4).collect(Collectors.joining("/"));
+      EclipseUtil.createFolderWithParents(project, path);
 
       String modelFileNameExt = p.segment(p.segmentCount() - 1);
       String modelFileName = modelFileNameExt.substring(0, modelFileNameExt
@@ -115,23 +111,6 @@ public class CreateTestDiagram {
     } catch (Exception e) {
 
     }
-  }
-
-  private String getTestPath(IPath p, IProject project) throws CoreException {
-    Stream.of(p.segments()).skip(4).collect(Collectors.joining("/"));
-    String path = CreateSourceFolders.TEST_DIAGRAM_FOLDER;
-    for (int i = 0; i < p.segmentCount() - 1; i++) {
-      if (i < 5)
-        continue;
-      int j = 4;
-      path = CreateSourceFolders.TEST_DIAGRAM_FOLDER;
-      while (j++ < i) {
-        path += "/" + p.segment(j);
-        if (!project.getFolder(path).exists())
-          project.getFolder(path).create(true, true, new NullProgressMonitor());
-      }
-    }
-    return path;
   }
 
   public Integer versionCompare(String str1, String str2) {
