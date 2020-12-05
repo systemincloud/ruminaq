@@ -8,11 +8,11 @@ package org.ruminaq.eclipse.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -24,14 +24,19 @@ import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.Task;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
 
   @Override
   public IStatus validate(IValidationContext ctx) {
-    EObject eObj = ctx.getTarget();
-    if (ctx.getEventType() == EMFEventType.NULL && eObj instanceof EmbeddedTask)
-      return validate(ctx, (EmbeddedTask) eObj);
-    return ctx.createSuccessStatus();
+    return Optional.ofNullable(ctx)
+        .filter(c -> c.getEventType() == EMFEventType.NULL)
+        .map(IValidationContext::getTarget)
+        .filter(EmbeddedTask.class::isInstance).map(EmbeddedTask.class::cast)
+        .map(et -> validate(ctx, et)).orElseGet(ctx::createSuccessStatus);
   }
 
   private IStatus validate(IValidationContext ctx, EmbeddedTask task) {
