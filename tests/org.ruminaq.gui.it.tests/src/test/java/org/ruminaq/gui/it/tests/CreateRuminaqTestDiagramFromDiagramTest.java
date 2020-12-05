@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.eclipse.it.tests;
+package org.ruminaq.gui.it.tests;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
