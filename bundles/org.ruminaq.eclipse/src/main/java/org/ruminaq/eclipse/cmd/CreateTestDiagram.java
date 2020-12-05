@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -54,7 +55,8 @@ public class CreateTestDiagram {
 
     IPath p = file.getFullPath();
     try {
-      String path = getTestPath(p, project);
+      String path = CreateSourceFolders.TEST_DIAGRAM_FOLDER + "/"
+          + Stream.of(p.segments()).skip(4).collect(Collectors.joining("/"));
 
       String modelFileNameExt = p.segment(p.segmentCount() - 1);
       String modelFileName = modelFileNameExt.substring(0, modelFileNameExt
@@ -116,6 +118,7 @@ public class CreateTestDiagram {
   }
 
   private String getTestPath(IPath p, IProject project) throws CoreException {
+    Stream.of(p.segments()).skip(4).collect(Collectors.joining("/"));
     String path = CreateSourceFolders.TEST_DIAGRAM_FOLDER;
     for (int i = 0; i < p.segmentCount() - 1; i++) {
       if (i < 5)

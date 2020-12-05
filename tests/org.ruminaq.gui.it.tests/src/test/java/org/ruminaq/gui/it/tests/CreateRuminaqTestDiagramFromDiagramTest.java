@@ -62,6 +62,7 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     menu.click();
 
     GEFEditor gefEditorTest = new GEFEditor(diagramName + "Test");
+    gefEditorTest.activate();
     assertDiagram(gefEditorTest, "CreateRuminaqTestDiagramFromDiagramTest.xml");
   }
 
