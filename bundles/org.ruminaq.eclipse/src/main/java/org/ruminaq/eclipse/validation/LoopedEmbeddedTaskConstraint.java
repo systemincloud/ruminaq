@@ -8,7 +8,8 @@ package org.ruminaq.eclipse.validation;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -42,7 +43,8 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
     MainTask embeddedTask = loadTask(modelPath);
 
     List<String> deph = new ArrayList<>();
-    deph.add(EclipseUtil.removeFristSegments(modelPath, 1).toString());
+    deph.add(URI.createURI(Stream.of(modelPath.segments()).skip(1)
+        .collect(Collectors.joining("/"))).toString());
     boolean loop = detectLoop(prefix, embeddedTask, deph);
 
     if (loop)

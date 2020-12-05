@@ -173,22 +173,6 @@ public final class EclipseUtil {
     return uri;
   }
 
-  public static URI removeFristSegments(URI uri, int nb) {
-    nb++;
-    String[] segs = uri.segments();
-    String tmp = "";
-    int i = 0;
-    for (String s : segs) {
-      i++;
-      if (i < nb)
-        continue;
-      if (i > nb)
-        tmp += "/";
-      tmp += s;
-    }
-    return URI.createURI(tmp);
-  }
-
   /**
    * Remove selected rows from given swt Table.
    *
