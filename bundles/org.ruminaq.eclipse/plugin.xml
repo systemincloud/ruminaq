@@ -225,4 +225,25 @@
       </command>
     </menuContribution>
   </extension>
+  
+  <extension point="org.eclipse.emf.validation.constraintProviders">
+    <category name="Ruminaq" id="org.ruminaq.validation.category"/>
+    <constraintProvider cache="true">
+      <package namespaceUri="http://ruminaq.org"/>
+      <constraints categories="org.ruminaq.validation.category">
+        <constraint 
+            name="Looped Embedded Tasks" 
+            lang="Java" 
+            severity="ERROR" 
+            mode="Batch" 
+            statusCode="1"
+            class="org.ruminaq.eclipse.validation.LoopedEmbeddedTaskConstraint"
+            id="org.ruminaq.validation.constraints.LoopedEmbeddedTaskConstraint">
+          <description>Embedded Tasks can't embedding parent tasks.</description>
+            <message>Loop in embedding tasks detected.</message>
+            <target class="EmbeddedTask"/>
+        </constraint>
+      </constraints>
+    </constraintProvider>
+  </extension>
 </plugin>

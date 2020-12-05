@@ -9,7 +9,7 @@
                 markerId="org.ruminaq.validation.marker">
         <include>
            <rules>
-              <fileext ext="sic" caseSensitive="true"/>
+              <fileext ext="rumi" caseSensitive="true"/>
            </rules>
         </include>
      </validator>
@@ -42,13 +42,6 @@
                <description>Data lossy cast.</description>
                <message>Possible lost of data by casting data from {0} to {1}.</message>
                <target class="Connection"/>
-            </constraint>
-            <constraint name="Looped Embedded Tasks" lang="Java" severity="ERROR" mode="Batch" statusCode="1"
-                        class="org.ruminaq.validation.constraints.LoopedEmbeddedTaskConstraint"
-                        id="org.ruminaq.validation.constraints.LoopedEmbeddedTaskConstraint">
-               <description>Embedded Tasks can't embedding parent tasks.</description>
-               <message>Loop in embedding tasks detected.</message>
-               <target class="EmbeddedTask"/>
             </constraint>
          </constraints>
       </constraintProvider>
