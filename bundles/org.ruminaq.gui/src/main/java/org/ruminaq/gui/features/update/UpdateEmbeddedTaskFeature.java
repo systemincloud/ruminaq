@@ -142,7 +142,7 @@ public class UpdateEmbeddedTaskFeature
     ResourceSet resSet = new ResourceSetImpl();
 
     Resource resource = null;
-    String tmp = EclipseUtil.getUriOfEObject(getDiagram()).segment(0);
+    String tmp = EclipseUtil.getUriOf(getDiagram()).segment(0);
     try {
       resource = resSet.getResource(URI.createURI("/" + tmp + "/" + path),
           true);

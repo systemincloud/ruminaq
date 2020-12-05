@@ -61,7 +61,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
       PictogramElement pe) {
     return new StructuredSelection(
         JavaCore.create(EclipseUtil.getProjectOf(diagram)
-            .getFolder(Optional.ofNullable(pe).map(EclipseUtil::getUriOfEObject)
+            .getFolder(Optional.ofNullable(pe).map(EclipseUtil::getUriOf)
                 .filter(RuminaqDiagramUtil::isTest)
                 .map(m -> EclipseExtensionImpl.TEST_JAVA)
                 .orElse(EclipseExtensionImpl.MAIN_JAVA))));

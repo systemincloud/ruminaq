@@ -75,7 +75,7 @@ public final class EclipseUtil {
             () -> Optional.of(obj).filter(PictogramElement.class::isInstance)
                 .map(PictogramElement.class::cast)
                 .map(PictogramElement::eResource)
-                .map(r -> r.getURI().segment(1)).map(s -> URI.decode(s))
+                .map(r -> r.getURI().segment(1)).map(URI::decode)
                 .map(u -> ResourcesPlugin.getWorkspace().getRoot()
                     .getProject(u)),
             () -> Optional.of(obj).filter(EObject.class::isInstance)
@@ -88,28 +88,14 @@ public final class EclipseUtil {
         .orElseGet(() -> Optional::empty).get().orElse(null);
   }
 
-  public static IProject getProjectFromEObject(EObject eobject) {
-    URI uri = getUriOfEObject(eobject);
-
+  private static IProject getProjectFromEObject(EObject eobject) {
+    Optional<URI> uri = Optional.of(getUriOf(eobject));
     IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-    IProject project = null;
-
-    // try to get project from whole uri resource
-    IResource resource = workspaceRoot.findMember(uri.toString());
-    if (resource != null) {
-      project = resource.getProject();
-    }
-
-    // another try,by first segment with project name
-    if (project == null && uri.segmentCount() > 0) {
-      String projectName = uri.segment(0);
-      IResource projectResource = workspaceRoot.findMember(projectName);
-      if (projectResource != null) {
-        project = projectResource.getProject();
-      }
-    }
-
-    return project;
+    return uri.map(URI::toString).map(workspaceRoot::findMember)
+        .map(IResource::getProject)
+        .orElseGet(() -> uri.filter(u -> u.segmentCount() > 0)
+            .map(u -> u.segment(0)).map(workspaceRoot::findMember)
+            .map(IResource::getProject).orElse(null));
   }
 
   /**
@@ -174,18 +160,19 @@ public final class EclipseUtil {
   }
 
   /**
-   * 
-   * @param eObject
-   * @return
+   * Uri of EObject.
+   *
+   * @param eObject object to check
+   * @return uri
    */
-  public static URI getUriOfEObject(EObject eObject) {
+  public static URI getUriOf(EObject eObject) {
     URI uri = EcoreUtil.getURI(eObject).trimFragment();
     if (uri.isPlatform()) {
       uri = URI.createURI(uri.toPlatformString(true));
     }
     return uri;
   }
-  
+
   public static URI removeFristSegments(URI uri, int nb) {
     nb++;
     String[] segs = uri.segments();

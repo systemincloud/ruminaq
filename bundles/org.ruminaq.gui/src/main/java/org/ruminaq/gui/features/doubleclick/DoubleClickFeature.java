@@ -68,7 +68,7 @@ public class DoubleClickFeature extends AbstractCustomFeature {
   }
 
   public String getEmbeddedTaskPath(EmbeddedTask bo) {
-    return EclipseUtil.getUriOfEObject(bo).segment(0).toString() + "/"
+    return EclipseUtil.getUriOf(bo).segment(0).toString() + "/"
         + bo.getImplementationTask();
   }
 }

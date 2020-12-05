@@ -21,7 +21,7 @@ public class TestParametersFilter extends AbstractPropertySectionFilter {
     EObject eObject = Graphiti.getLinkService()
         .getBusinessObjectForLinkedPictogramElement(pe);
     if (eObject instanceof MainTask
-        && RuminaqDiagramUtil.isTest(EclipseUtil.getUriOfEObject(pe)))
+        && RuminaqDiagramUtil.isTest(EclipseUtil.getUriOf(pe)))
       return true;
     else
       return false;

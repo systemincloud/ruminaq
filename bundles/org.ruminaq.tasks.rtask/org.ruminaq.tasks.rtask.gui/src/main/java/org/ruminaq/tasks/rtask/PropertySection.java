@@ -90,9 +90,9 @@ public class PropertySection implements CreateRTaskListener {
 
   public PropertySection(Composite parent, PictogramElement pe,
       TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
-    String path = EclipseUtil.getUriOfEObject(pe).toString();
+    String path = EclipseUtil.getUriOf(pe).toString();
     boolean test = RuminaqDiagramUtil
-        .isTest(EclipseUtil.getUriOfEObject(pe));
+        .isTest(EclipseUtil.getUriOf(pe));
 
     this.pe = pe;
     this.ed = ed;
@@ -321,7 +321,7 @@ public class PropertySection implements CreateRTaskListener {
           if (descriptor != null) {
             IWizard wizard = descriptor.createWizard();
             String folder = RuminaqDiagramUtil
-                .isTest(EclipseUtil.getUriOfEObject(pe))
+                .isTest(EclipseUtil.getUriOf(pe))
                     ? EclipseExtensionImpl.TEST_R
                     : EclipseExtensionImpl.MAIN_R;
             IStructuredSelection selection = new StructuredSelection(

@@ -37,7 +37,7 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
     String path = task.getImplementationTask();
     if (path == null || path.equals(""))
       return ctx.createSuccessStatus();
-    URI modelPath = EclipseUtil.getUriOfEObject(task);
+    URI modelPath = EclipseUtil.getUriOf(task);
     String prefix = "/" + modelPath.segment(0) + "/";
     MainTask embeddedTask = loadTask(modelPath);
 

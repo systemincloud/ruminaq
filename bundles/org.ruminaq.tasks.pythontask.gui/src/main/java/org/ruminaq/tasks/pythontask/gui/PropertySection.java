@@ -85,7 +85,7 @@ public class PropertySection extends AbstractUserDefinedTaskPropertySection {
         if (descriptor != null) {
           IWizard wizard = descriptor.createWizard();
           String folder = RuminaqDiagramUtil.isTest(
-              EclipseUtil.getUriOfEObject(getSelectedPictogramElement()))
+              EclipseUtil.getUriOf(getSelectedPictogramElement()))
                   ? EclipseExtensionImpl.TEST_PYTHON
                   : EclipseExtensionImpl.MAIN_PYTHON;
           IStructuredSelection selection = new StructuredSelection(
