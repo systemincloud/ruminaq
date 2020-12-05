@@ -45,7 +45,7 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
   }
 
   @Test
-  public void testAddJavaTask() throws InterruptedException, CoreException {
+  public void testCreateTestDiagram() throws InterruptedException, CoreException {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Input Port", 200, 100);
     gefEditor.addToolFromPalette("Input Port", 200, 200);
