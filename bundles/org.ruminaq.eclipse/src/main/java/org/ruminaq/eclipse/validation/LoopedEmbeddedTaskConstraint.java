@@ -46,16 +46,12 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
     URI modelPath = EclipseUtil.getUriOf(task);
     String prefix = "/" + modelPath.segment(0) + "/";
     MainTask embeddedTask = loadTask(modelPath);
-
     List<String> deph = new ArrayList<>();
     deph.add(URI.createURI(Stream.of(modelPath.segments()).skip(1)
         .collect(Collectors.joining("/"))).toString());
-    boolean loop = detectLoop(prefix, embeddedTask, deph);
-
-    if (loop)
-      return ctx.createFailureStatus();
-    else
-      return ctx.createSuccessStatus();
+    return Optional.of(ctx).filter(c -> detectLoop(prefix, embeddedTask, deph))
+        .map(IValidationContext::createFailureStatus)
+        .orElseGet(ctx::createSuccessStatus);
   }
 
   private boolean detectLoop(String prefix, MainTask mainTask,
