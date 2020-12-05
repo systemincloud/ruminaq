@@ -20,8 +20,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
+import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.tests.common.SelectView;
 import org.ruminaq.tests.common.reddeer.GuiTest;
+import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 
 /**
  * Test adding basic elements to diagram.
@@ -70,6 +72,9 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     gefEditor.addToolFromPalette("Output Port", 400, 300);
 
     gefEditorTest.activate();
+    
+    WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(EmbeddedTask.class);
+    ip.select();
   }
 
 }
