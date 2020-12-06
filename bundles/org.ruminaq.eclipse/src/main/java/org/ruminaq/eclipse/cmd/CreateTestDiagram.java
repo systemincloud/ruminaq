@@ -11,8 +11,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.core.resources.IContainer;
@@ -20,16 +18,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
-import org.osgi.framework.FrameworkUtil;
 import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.prefs.ProjectProps;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
@@ -64,8 +58,6 @@ public class CreateTestDiagram {
       String modelFilePath = p.removeFirstSegments(1).toString();
 
       IContainer container = project.getFolder(path);
-      Diagram diagram = Graphiti.getPeCreateService().createDiagram("Ruminaq",
-          modelTestNameExt, -1, false);
 
       IFolder diagramFolder = container.getFolder(null);
       IFile fileTmp = diagramFolder.getFile(modelTestNameExt);
@@ -84,22 +76,16 @@ public class CreateTestDiagram {
       }
       final IFile diagramFile = fileTmp;
 
-      String symbolicName = FrameworkUtil.getBundle(getClass())
-          .getSymbolicName();
       String modelerVersion = ProjectProps.getInstance(project)
           .get(ProjectProps.RUMINAQ_VERSION);
-      String versionToFill = "";
 
       InputStream is = this.getClass().getResourceAsStream("TestTask.template");
       String diagramContent = new BufferedReader(
           new InputStreamReader(is, StandardCharsets.UTF_8)).lines()
               .collect(Collectors.joining("\n"))
-              .replace("nameTestTaskToFill", modelTestName)
-              .replace("nameTestedTaskToFill", modelFileName + ".sic")
               .replace("idTestedTaskToFill", modelFileName)
-              .replace("pathTestedTaskToFill", modelFilePath)
-              .replace("modelerVersionFill", modelerVersion)
-              .replace("versionToFill", versionToFill);
+              .replace("implementationPathFill", modelFilePath)
+              .replace("versionToFill", modelerVersion);
       diagramFile.create(new ByteArrayInputStream(diagramContent.getBytes()),
           IResource.FORCE, new NullProgressMonitor());
 

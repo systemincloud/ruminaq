@@ -2,9 +2,9 @@
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagram="http://ruminaq.org/diagram" xmlns:ruminaq="http://ruminaq.org">
   <diagram:RuminaqDiagram mainTask="/1">
     <children xsi:type="diagram:TaskShape" x="476" y="217" width="120" height="70" modelObject="/1/@task.0" label="/0/@children.1" iconId="/icons/diagram.embeddedtask_main.png" description="???"/>
-    <children xsi:type="diagram:LabelShape" x="487" y="289" labeledShape="/0/@children.0"/>
+    <children xsi:type="diagram:LabelShape" x="495" y="289" labeledShape="/0/@children.0"/>
   </diagram:RuminaqDiagram>
   <ruminaq:MainTask version="1.0.0">
-    <task xsi:type="ruminaq:EmbeddedTask" id="My Embedded Task"/>
+    <task xsi:type="ruminaq:EmbeddedTask" id="Diagram_nKlwE" implementationPath="src/main/resources/tasks/Diagram_nKlwE.rumi"/>
   </ruminaq:MainTask>
 </xmi:XMI>

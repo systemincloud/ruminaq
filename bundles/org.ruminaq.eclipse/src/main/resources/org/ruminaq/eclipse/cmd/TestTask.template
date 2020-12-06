@@ -4,7 +4,7 @@
     <children xsi:type="diagram:TaskShape" x="476" y="217" width="120" height="70" modelObject="/1/@task.0" label="/0/@children.1" iconId="/icons/diagram.embeddedtask_main.png" description="???"/>
     <children xsi:type="diagram:LabelShape" x="487" y="289" labeledShape="/0/@children.0"/>
   </diagram:RuminaqDiagram>
-  <ruminaq:MainTask version="1.0.0">
-    <task xsi:type="ruminaq:EmbeddedTask" id="My Embedded Task"/>
+  <ruminaq:MainTask version="versionToFill">
+    <task xsi:type="ruminaq:EmbeddedTask" id="idTestedTaskToFill" implementationPath="implementationPathFill"/>
   </ruminaq:MainTask>
 </xmi:XMI>
