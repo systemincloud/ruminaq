@@ -37,7 +37,7 @@ import org.ruminaq.util.Try;
  *
  * @author Marek Jagielski
  */
-public class CreateTestDiagram {
+public final class CreateTestDiagram {
 
   public void generateTestDiagram(IResource file) {
     IProject project = file.getProject();
