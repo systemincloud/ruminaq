@@ -80,7 +80,7 @@ public final class EclipseUtil {
                     .getProject(u)),
             () -> Optional.of(obj).filter(EObject.class::isInstance)
                 .map(EObject.class::cast)
-                .map(EclipseUtil::getProjectFromEObject))
+                .map(EclipseUtil::getProjectFromEobject))
         .stream()
         .reduce((a,
             b) -> () -> Optional.of(a).map(Supplier::get)
@@ -88,7 +88,7 @@ public final class EclipseUtil {
         .orElseGet(() -> Optional::empty).get().orElse(null);
   }
 
-  private static IProject getProjectFromEObject(EObject eobject) {
+  private static IProject getProjectFromEobject(EObject eobject) {
     Optional<URI> uri = Optional.of(getUriOf(eobject));
     IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
     return uri.map(URI::toString).map(workspaceRoot::findMember)
