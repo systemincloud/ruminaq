@@ -5,6 +5,6 @@
     <children xsi:type="diagram:LabelShape" x="495" y="289" labeledShape="/0/@children.0"/>
   </diagram:RuminaqDiagram>
   <ruminaq:MainTask version="1.0.0">
-    <task xsi:type="ruminaq:EmbeddedTask" id="Diagram_nKlwE" implementationPath="src/main/resources/tasks/Diagram_nKlwE.rumi"/>
+    <task xsi:type="ruminaq:EmbeddedTask" id="Diagram_" implementationPath="src/main/resources/tasks/Diagram_.rumi"/>
   </ruminaq:MainTask>
 </xmi:XMI>

@@ -7,10 +7,7 @@
 package org.ruminaq.tests.common.reddeer;
 
 import static org.junit.Assert.assertFalse;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.stream.Collectors;
+import java.util.Arrays;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.reddeer.common.wait.TimePeriod;
 import org.eclipse.reddeer.common.wait.WaitUntil;
@@ -38,6 +35,34 @@ public class GuiTest {
   protected String projectName;
 
   protected String diagramName;
+
+  private static int levenshteinDistanceate(String x, String y) {
+    int[][] dp = new int[x.length() + 1][y.length() + 1];
+
+    for (int i = 0; i <= x.length(); i++) {
+      for (int j = 0; j <= y.length(); j++) {
+        if (i == 0) {
+          dp[i][j] = j;
+        } else if (j == 0) {
+          dp[i][j] = i;
+        } else {
+          dp[i][j] = min(
+              dp[i - 1][j - 1]
+                  + costOfSubstitution(x.charAt(i - 1), y.charAt(j - 1)),
+              dp[i - 1][j] + 1, dp[i][j - 1] + 1);
+        }
+      }
+    }
+    return dp[x.length()][y.length()];
+  }
+
+  private static int costOfSubstitution(char a, char b) {
+    return a == b ? 0 : 1;
+  }
+
+  private static int min(int... numbers) {
+    return Arrays.stream(numbers).min().orElse(Integer.MAX_VALUE);
+  }
 
   @BeforeClass
   public static void maximizeWorkbenchShell() {
@@ -83,6 +108,28 @@ public class GuiTest {
                 .parseInt((String) comparison.getControlDetails().getValue())
                 - Integer.parseInt(
                     (String) comparison.getTestDetails().getValue())) < 4) {
+              return ComparisonResult.EQUAL;
+            }
+          }
+
+          if (outcome == ComparisonResult.DIFFERENT
+              && comparison.getType() == ComparisonType.ATTR_VALUE
+              && comparison.getControlDetails().getXPath()
+                  .endsWith("@implementationPath")) {
+            if (levenshteinDistanceate(
+                (String) comparison.getControlDetails().getValue(),
+                (String) comparison.getTestDetails().getValue()) <= DIAGRAM_SUFFIX_LENGTH) {
+              return ComparisonResult.EQUAL;
+            }
+          }
+          
+          if (outcome == ComparisonResult.DIFFERENT
+              && comparison.getType() == ComparisonType.ATTR_VALUE
+              && comparison.getControlDetails().getXPath()
+                  .endsWith("@id")) {
+            if (levenshteinDistanceate(
+                (String) comparison.getControlDetails().getValue(),
+                (String) comparison.getTestDetails().getValue()) <= DIAGRAM_SUFFIX_LENGTH) {
               return ComparisonResult.EQUAL;
             }
           }
