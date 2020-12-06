@@ -47,7 +47,8 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
   }
 
   @Test
-  public void testCreateTestDiagram() throws InterruptedException, CoreException {
+  public void testCreateTestDiagram()
+      throws InterruptedException, CoreException {
     GEFEditor gefEditor = new GEFEditor(diagramName);
     gefEditor.addToolFromPalette("Input Port", 200, 100);
     gefEditor.addToolFromPalette("Input Port", 200, 200);
@@ -55,24 +56,35 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     gefEditor.addToolFromPalette("Output Port", 400, 100);
     gefEditor.addToolFromPalette("Output Port", 400, 200);
 
-    SWTBotTree selector = SelectView.selectInProjectExplorer(bot, projectName,
-        new String[] { CreateSourceFolders.SRC, CreateSourceFolders.MAIN,
-            CreateSourceFolders.RESOURCES, CreateSourceFolders.TASK_FOLDER,
-            diagramName + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT });
-    SWTBotMenu menu = new SWTBotMenu(ContextMenuHelper.contextMenu(selector,
+    String[] diagramPath = new String[] { CreateSourceFolders.SRC,
+        CreateSourceFolders.MAIN, CreateSourceFolders.RESOURCES,
+        CreateSourceFolders.TASK_FOLDER,
+        diagramName + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT };
+
+    SWTBotMenu menu = new SWTBotMenu(ContextMenuHelper.contextMenu(
+        SelectView.selectInProjectExplorer(bot, projectName, diagramPath),
         new String[] { "Ruminaq", "New Test Diagram" }));
     menu.click();
 
     GEFEditor gefEditorTest = new GEFEditor(diagramName + "Test");
     gefEditorTest.activate();
-    assertDiagram(gefEditorTest, "CreateRuminaqTestDiagramFromDiagramTest.xml");
-    
+    assertDiagram(gefEditorTest,
+        "CreateRuminaqTestDiagramFromDiagramTest1.xml");
+
     gefEditor.activate();
     gefEditor.addToolFromPalette("Input Port", 200, 400);
     gefEditor.addToolFromPalette("Output Port", 400, 300);
 
+    new SWTBotMenu(ContextMenuHelper.contextMenu(
+        SelectView.selectInProjectExplorer(bot, projectName, diagramPath),
+        new String[] { "Ruminaq", "New Test Diagram" })).click();
+
+    GEFEditor gefEditorTest1 = new GEFEditor(diagramName + "Test_1");
+    assertDiagram(gefEditorTest1,
+        "CreateRuminaqTestDiagramFromDiagramTest2.xml");
+
     gefEditorTest.activate();
-    
+
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(EmbeddedTask.class);
     ip.select();
   }
