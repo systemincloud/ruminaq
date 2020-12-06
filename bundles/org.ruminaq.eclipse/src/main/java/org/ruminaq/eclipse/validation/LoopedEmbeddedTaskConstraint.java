@@ -8,13 +8,14 @@ package org.ruminaq.eclipse.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.validation.AbstractModelConstraint;
 import org.eclipse.emf.validation.EMFEventType;
@@ -23,6 +24,7 @@ import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.Task;
+import org.ruminaq.util.Result;
 
 /**
  * 
@@ -77,19 +79,13 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
   }
 
   private MainTask loadTask(URI uri) {
-    MainTask mt = null;
-    ResourceSet resSet = new ResourceSetImpl();
-    Resource resource = null;
-    try {
-      resource = resSet.getResource(uri, true);
-    } catch (Exception e) {
-    }
-    if (resource == null)
-      return null;
-
-    if (resource.getContents().size() > 0)
-      mt = (MainTask) resource.getContents().get(1);
-    return mt;
+    return Optional.of(uri)
+        .map(u -> Result
+            .attempt(() -> new ResourceSetImpl().getResource(u, true)))
+        .map(r -> r.orElse(null)).filter(Objects::nonNull)
+        .map(Resource::getContents).map(EList::stream).orElseGet(Stream::empty)
+        .filter(MainTask.class::isInstance).map(MainTask.class::cast)
+        .findFirst().orElse(null);
   }
 
 }
