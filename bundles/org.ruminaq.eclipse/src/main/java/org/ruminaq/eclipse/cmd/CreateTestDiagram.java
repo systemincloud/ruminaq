@@ -47,7 +47,7 @@ public final class CreateTestDiagram {
     IPath p = file.getFullPath();
     String dirctoryPath = CreateSourceFolders.TEST_DIAGRAM_FOLDER + "/"
         + Stream.of(p.segments()).skip(SEGMENTS_TO_DIAGRAMS)
-            .takeWhile(s -> !s.endsWith(".rumi"))
+            .takeWhile(s -> !s.endsWith(CreateDiagramWizard.DIAGRAM_EXTENSION_DOT))
             .collect(Collectors.joining("/"));
     EclipseUtil.createFolderWithParents(project, dirctoryPath);
     String modelFileNameExt = p.segment(p.segmentCount() - 1);
