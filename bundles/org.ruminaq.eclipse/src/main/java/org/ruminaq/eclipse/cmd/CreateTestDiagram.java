@@ -38,23 +38,27 @@ import org.ruminaq.util.Try;
  */
 public final class CreateTestDiagram {
 
+  private static final int SEGMENTS_TO_DIAGRAMS = 1
+      + CreateSourceFolders.DIAGRAM_FOLDER.split("/").length;
+
   public void generateTestDiagram(IResource file) {
     IProject project = file.getProject();
 
     IPath p = file.getFullPath();
-    String path = CreateSourceFolders.TEST_DIAGRAM_FOLDER + "/"
-        + Stream.of(p.segments()).skip(4).collect(Collectors.joining("/"));
-    EclipseUtil.createFolderWithParents(project, path);
+    String dirctoryPath = CreateSourceFolders.TEST_DIAGRAM_FOLDER + "/"
+        + Stream.of(p.segments()).skip(SEGMENTS_TO_DIAGRAMS)
+            .takeWhile(s -> !s.endsWith(".rumi"))
+            .collect(Collectors.joining("/"));
+    EclipseUtil.createFolderWithParents(project, dirctoryPath);
     String modelFileNameExt = p.segment(p.segmentCount() - 1);
     String modelFileName = modelFileNameExt.substring(0, modelFileNameExt
         .lastIndexOf(CreateDiagramWizard.DIAGRAM_EXTENSION_DOT));
     String modelTestName = modelFileName + "Test";
     String modelTestNameExt = modelTestName
         + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT;
-
     String modelFilePath = p.removeFirstSegments(1).toString();
 
-    IContainer container = project.getFolder(path);
+    IContainer container = project.getFolder(dirctoryPath);
 
     IFolder diagramFolder = container.getFolder(null);
     IFile fileTmp = diagramFolder.getFile(modelTestNameExt);

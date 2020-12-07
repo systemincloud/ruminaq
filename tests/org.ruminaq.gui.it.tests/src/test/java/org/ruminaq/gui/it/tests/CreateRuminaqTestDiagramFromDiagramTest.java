@@ -13,7 +13,6 @@ import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.finders.ContextMenuHelper;
 import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -56,13 +55,13 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     gefEditor.addToolFromPalette("Output Port", 400, 100);
     gefEditor.addToolFromPalette("Output Port", 400, 200);
 
-    String[] diagramPath = new String[] { CreateSourceFolders.SRC,
+    String[] path = new String[] { CreateSourceFolders.SRC,
         CreateSourceFolders.MAIN, CreateSourceFolders.RESOURCES,
         CreateSourceFolders.TASK_FOLDER,
         diagramName + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT };
 
     SWTBotMenu menu = new SWTBotMenu(ContextMenuHelper.contextMenu(
-        SelectView.selectInProjectExplorer(bot, projectName, diagramPath),
+        SelectView.selectInProjectExplorer(bot, projectName, path),
         new String[] { "Ruminaq", "New Test Diagram" }));
     menu.click();
 
@@ -76,7 +75,7 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     gefEditor.addToolFromPalette("Output Port", 400, 300);
 
     new SWTBotMenu(ContextMenuHelper.contextMenu(
-        SelectView.selectInProjectExplorer(bot, projectName, diagramPath),
+        SelectView.selectInProjectExplorer(bot, projectName, path),
         new String[] { "Ruminaq", "New Test Diagram" })).click();
 
     GEFEditor gefEditorTest1 = new GEFEditor(diagramName + "Test_1");
