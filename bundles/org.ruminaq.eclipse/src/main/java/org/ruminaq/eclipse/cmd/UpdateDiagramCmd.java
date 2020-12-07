@@ -15,6 +15,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+/**
+ * Update whole diagram command handler.
+ *
+ * @author Marek Jagielski
+ */
 public class UpdateDiagramCmd extends AbstractHandler {
 
   @Override
