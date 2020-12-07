@@ -25,8 +25,10 @@ import org.eclipse.graphiti.mm.algorithms.Image;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
+import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AddEmbeddedTaskFeature;
 import org.ruminaq.gui.image.Images;
+import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.Connection;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
@@ -37,8 +39,23 @@ import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.model.ruminaq.Task;
 
+/**
+ * EmbeddedTask UpdateFeature.
+ *
+ * <p>It provides extraction of UserDefinedTask parameters from other diagram.
+ *
+ * @author Marek Jagielski
+ */
+@FeatureFilter(UpdateEmbeddedTaskFeature.Filter.class)
 public class UpdateEmbeddedTaskFeature
     extends AbstractUpdateUserDefinedTaskFeature {
+
+  public static class Filter extends AbstractUpdateFeatureFilter {
+    @Override
+    public Class<? extends BaseElement> forBusinessObject() {
+      return EmbeddedTask.class;
+    }
+  }
 
   private boolean updateNeededChecked = false;
 
