@@ -17,9 +17,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
-import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
 import org.eclipse.graphiti.mm.algorithms.Image;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
@@ -68,26 +66,34 @@ public class UpdateEmbeddedTaskFeature
   public UpdateEmbeddedTaskFeature(IFeatureProvider fp) {
     super(fp);
   }
-
+  
   @Override
-  public boolean canUpdate(IUpdateContext context) {
-    Object bo = getBusinessObjectForPictogramElement(
-        context.getPictogramElement());
-    return (bo instanceof EmbeddedTask);
+  protected String iconDesc() {
+    return desc;
   }
-
+  
   @Override
-  public IReason updateNeeded(IUpdateContext context) {
-    this.updateNeededChecked = true;
-    superUpdateNeeded = super.updateNeeded(context).toBoolean();
+  protected List<FileInternalInputPort> inputPorts() {
+    List<FileInternalInputPort> inputs = new LinkedList<>();
+    for (InputPort ip : embeddedTask.getInputPort()) {
+      List<DataType> dt = new LinkedList<>();
+      for (Connection c : embeddedTask.getConnection()) {
+        if (c.getSourceRef() == ip) {
+          if (c.getTargetRef() instanceof InternalInputPort)
+            loop: for (DataType dt2 : ((InternalInputPort) c.getTargetRef())
+                .getDataType()) {
+              for (DataType d : dt)
+                if (EcoreUtil.equals(d, dt2))
+                  continue loop;
+              dt.add(EcoreUtil.copy(dt2));
+            }
+        }
+      }
 
-    this.iconUpdateNeeded = !compareIcons(context.getPictogramElement());
-
-    boolean updateNeeded = this.superUpdateNeeded || this.iconUpdateNeeded;
-    if (updateNeeded)
-      return Reason.createTrueReason();
-    else
-      return Reason.createFalseReason();
+      inputs.add(new FileInternalInputPort(ip.getId(), dt, ip.isAsynchronous(),
+          ip.getGroup(), ip.isHoldLast(), ip.getQueueSize()));
+    }
+    return inputs;
   }
 
   private boolean compareIcons(PictogramElement pe) {
@@ -110,20 +116,6 @@ public class UpdateEmbeddedTaskFeature
       return false;
 
     return ret;
-  }
-
-  @Override
-  public boolean update(IUpdateContext context) {
-    if (!updateNeededChecked)
-      if (!this.updateNeeded(context).toBoolean())
-        return false;
-
-    boolean updated = false;
-    if (superUpdateNeeded)
-      updated = updated | super.update(context);
-    if (iconUpdateNeeded)
-      updated = updated | updateIcon(context);
-    return updated;
   }
 
   private boolean updateIcon(IUpdateContext context) {
@@ -174,35 +166,6 @@ public class UpdateEmbeddedTaskFeature
       return true;
     else
       return false;
-  }
-
-  @Override
-  protected String iconDesc() {
-    return desc;
-  }
-
-  @Override
-  protected List<FileInternalInputPort> inputPorts() {
-    List<FileInternalInputPort> inputs = new LinkedList<>();
-    for (InputPort ip : embeddedTask.getInputPort()) {
-      List<DataType> dt = new LinkedList<>();
-      for (Connection c : embeddedTask.getConnection()) {
-        if (c.getSourceRef() == ip) {
-          if (c.getTargetRef() instanceof InternalInputPort)
-            loop: for (DataType dt2 : ((InternalInputPort) c.getTargetRef())
-                .getDataType()) {
-              for (DataType d : dt)
-                if (EcoreUtil.equals(d, dt2))
-                  continue loop;
-              dt.add(EcoreUtil.copy(dt2));
-            }
-        }
-      }
-
-      inputs.add(new FileInternalInputPort(ip.getId(), dt, ip.isAsynchronous(),
-          ip.getGroup(), ip.isHoldLast(), ip.getQueueSize()));
-    }
-    return inputs;
   }
 
   @Override
