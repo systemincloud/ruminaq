@@ -8,6 +8,7 @@ package org.ruminaq.eclipse.cmd;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
@@ -27,7 +28,9 @@ import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.prefs.ProjectProps;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
+import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.util.Try;
+import org.slf4j.Logger;
 
 /**
  * Create diagram with EmbeddedTask in it. InternalInput and InternalOutput
@@ -38,6 +41,9 @@ import org.ruminaq.util.Try;
  */
 public final class CreateTestDiagram {
 
+  private static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(CreateTestDiagram.class);
+
   private static final int SEGMENTS_TO_DIAGRAMS = 1
       + CreateSourceFolders.DIAGRAM_FOLDER.split("/").length;
 
@@ -47,7 +53,8 @@ public final class CreateTestDiagram {
     IPath p = file.getFullPath();
     String dirctoryPath = CreateSourceFolders.TEST_DIAGRAM_FOLDER + "/"
         + Stream.of(p.segments()).skip(SEGMENTS_TO_DIAGRAMS)
-            .takeWhile(s -> !s.endsWith(CreateDiagramWizard.DIAGRAM_EXTENSION_DOT))
+            .takeWhile(
+                s -> !s.endsWith(CreateDiagramWizard.DIAGRAM_EXTENSION_DOT))
             .collect(Collectors.joining("/"));
     EclipseUtil.createFolderWithParents(project, dirctoryPath);
     String modelFileNameExt = p.segment(p.segmentCount() - 1);
@@ -80,15 +87,21 @@ public final class CreateTestDiagram {
     String modelerVersion = ProjectProps.getInstance(project)
         .get(ProjectProps.RUMINAQ_VERSION);
 
-    String diagramContent = new BufferedReader(new InputStreamReader(
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(
         this.getClass().getResourceAsStream("TestTask.template"),
-        StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"))
-            .replace("idTestedTaskToFill", modelFileName)
-            .replace("implementationPathFill", modelFilePath)
-            .replace("versionToFill", modelerVersion);
-    Try.check(() -> diagramFile.create(
-        new ByteArrayInputStream(diagramContent.getBytes()), IResource.FORCE,
-        new NullProgressMonitor()));
+        StandardCharsets.UTF_8))) {
+      String diagramContent = br.lines().collect(Collectors.joining("\n"))
+              .replace("idTestedTaskToFill", modelFileName)
+              .replace("implementationPathFill", modelFilePath)
+              .replace("versionToFill", modelerVersion);
+      Try.check(() -> diagramFile.create(
+          new ByteArrayInputStream(
+              diagramContent.getBytes(StandardCharsets.UTF_8)),
+          IResource.FORCE, new NullProgressMonitor()));
+    } catch (IOException e) {
+      LOGGER.error("Can't create test diagram", e);
+    }
+
     Display.getCurrent().asyncExec(() -> {
       IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
           .getActivePage();
