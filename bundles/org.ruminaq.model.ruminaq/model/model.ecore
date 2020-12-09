@@ -129,8 +129,6 @@
         defaultValueLiteral="-1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="EmbeddedTask" eSuperTypes="#//UserDefinedTask">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="implementationTask" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        defaultValueLiteral=""/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UserDefinedTask" abstract="true" eSuperTypes="#//Task">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="implementationPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"

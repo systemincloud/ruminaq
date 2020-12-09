@@ -42,7 +42,7 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
   }
 
   private IStatus validate(IValidationContext ctx, EmbeddedTask task) {
-    String path = task.getImplementationTask();
+    String path = task.getImplementationPath();
     if (path == null || path.equals(""))
       return ctx.createSuccessStatus();
     URI modelPath = EclipseUtil.getUriOf(task);
@@ -60,7 +60,7 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
       List<String> deph) {
     for (Task t : mainTask.getTask()) {
       if (t instanceof EmbeddedTask) {
-        String path = ((EmbeddedTask) t).getImplementationTask();
+        String path = ((EmbeddedTask) t).getImplementationPath();
         if (deph.contains(path))
           return true;
         else {

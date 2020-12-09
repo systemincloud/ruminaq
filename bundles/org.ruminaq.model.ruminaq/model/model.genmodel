@@ -91,7 +91,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//InputPort/group"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//EmbeddedTask">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//EmbeddedTask/implementationTask"/>
     </genClasses>
     <genClasses image="false" ecoreClass="model.ecore#//UserDefinedTask">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//UserDefinedTask/implementationPath"/>
