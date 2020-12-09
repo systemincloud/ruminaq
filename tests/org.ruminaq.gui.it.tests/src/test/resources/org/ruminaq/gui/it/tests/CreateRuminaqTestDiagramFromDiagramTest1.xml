@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagram="http://ruminaq.org/diagram" xmlns:ruminaq="http://ruminaq.org">
   <diagram:RuminaqDiagram mainTask="/1">
-    <children xsi:type="diagram:TaskShape" x="476" y="217" width="120" height="70" modelObject="/1/@task.0" label="/0/@children.1" iconId="/icons/diagram.embeddedtask_main.png" description="???"/>
-    <children xsi:type="diagram:LabelShape" x="495" y="289" labeledShape="/0/@children.0"/>
+    <children xsi:type="diagram:TaskShape" x="476" y="217" width="120" height="70" modelObject="/1/@task.0" label="/0/@children.1" iconId="/icons/diagram.embeddedtask_main.png" description="Diagram_fpVRz.rumi">
+      <internalPort xsi:type="diagram:InternalInputPortShape" y="52" modelObject="/1/@task.0/@inputPort.0"/>
+      <internalPort xsi:type="diagram:InternalInputPortShape" y="29" modelObject="/1/@task.0/@inputPort.1"/>
+      <internalPort xsi:type="diagram:InternalInputPortShape" y="6" modelObject="/1/@task.0/@inputPort.2"/>
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="110" y="47" modelObject="/1/@task.0/@outputPort.0"/>
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="110" y="12" modelObject="/1/@task.0/@outputPort.1"/>
+    </children>
+    <children xsi:type="diagram:LabelShape" x="496" y="289" labeledShape="/0/@children.0"/>
   </diagram:RuminaqDiagram>
   <ruminaq:MainTask version="1.0.0">
-    <task xsi:type="ruminaq:EmbeddedTask" id="Diagram_" implementationPath="src/main/resources/tasks/Diagram_.rumi"/>
+    <task xsi:type="ruminaq:EmbeddedTask" id="Diagram_fpVRz" implementationPath="src/main/resources/tasks/Diagram_fpVRz.rumi">
+      <outputPort id="My Output Port"/>
+      <outputPort id="My Output Port 1"/>
+      <inputPort id="My Input Port"/>
+      <inputPort id="My Input Port 1"/>
+      <inputPort id="My Input Port 2"/>
+    </task>
   </ruminaq:MainTask>
 </xmi:XMI>

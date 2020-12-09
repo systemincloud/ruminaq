@@ -6,42 +6,28 @@
 
 package org.ruminaq.gui.features.update;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.IUpdateContext;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.Image;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.eclipse.EclipseUtil;
-import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AddEmbeddedTaskFeature;
-import org.ruminaq.gui.image.Images;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.Connection;
-import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
-import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.InternalInputPort;
-import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.MainTask;
-import org.ruminaq.model.ruminaq.OutputPort;
-import org.ruminaq.model.ruminaq.Task;
 
 /**
  * EmbeddedTask UpdateFeature.
@@ -88,49 +74,34 @@ public class UpdateEmbeddedTaskFeature
 
   @Override
   protected List<FileInternalInputPort> inputPorts() {
-    List<FileInternalInputPort> inputs = new LinkedList<>();
-//    for (InputPort ip : embeddedTask.getInputPort()) {
-//      List<DataType> dt = new LinkedList<>();
-//      for (Connection c : embeddedTask.getConnection()) {
-//        if (c.getSourceRef() == ip) {
-//          if (c.getTargetRef() instanceof InternalInputPort)
-//            loop: for (DataType dt2 : ((InternalInputPort) c.getTargetRef())
-//                .getDataType()) {
-//              for (DataType d : dt)
-//                if (EcoreUtil.equals(d, dt2))
-//                  continue loop;
-//              dt.add(EcoreUtil.copy(dt2));
-//            }
-//        }
-//      }
-//
-//      inputs.add(new FileInternalInputPort(ip.getId(), dt, ip.isAsynchronous(),
-//          ip.getGroup(), ip.isHoldLast(), ip.getQueueSize()));
-//    }
-    return inputs;
+    return Optional.ofNullable(embeddedTask).map(MainTask::getInputPort)
+        .map(List::stream).orElseGet(Stream::empty)
+        .map(ip -> new FileInternalInputPort(ip.getId(),
+            embeddedTask.getConnection().stream()
+                .filter(c -> c.getSourceRef() == ip)
+                .map(Connection::getTargetRef)
+                .filter(InternalInputPort.class::isInstance)
+                .map(InternalInputPort.class::cast)
+                .map(InternalInputPort::getDataType).flatMap(Collection::stream)
+                .distinct().collect(Collectors.toList()),
+            ip.isAsynchronous(), ip.getGroup(), ip.isHoldLast(),
+            ip.getQueueSize()))
+        .collect(Collectors.toList());
   }
 
   @Override
   protected List<FileInternalOutputPort> outputPorts() {
-    List<FileInternalOutputPort> outputs = new LinkedList<>();
-//    for (OutputPort op : embeddedTask.getOutputPort()) {
-//      List<DataType> dt = new LinkedList<>();
-//      for (Connection c : embeddedTask.getConnection()) {
-//        if (c.getTargetRef() == op) {
-//          if (c.getSourceRef() instanceof InternalOutputPort)
-//            loop: for (DataType dt2 : ((InternalOutputPort) c.getSourceRef())
-//                .getDataType()) {
-//              for (DataType d : dt)
-//                if (EcoreUtil.equals(d, dt2))
-//                  continue loop;
-//              dt.add(EcoreUtil.copy(dt2));
-//            }
-//        }
-//      }
-//
-//      outputs.add(new FileInternalOutputPort(op.getId(), dt));
-//    }
-    return outputs;
+    return Optional.ofNullable(embeddedTask).map(MainTask::getOutputPort)
+        .map(List::stream).orElseGet(Stream::empty)
+        .map(ip -> new FileInternalOutputPort(ip.getId(),
+            embeddedTask.getConnection().stream()
+                .filter(c -> c.getSourceRef() == ip)
+                .map(Connection::getTargetRef)
+                .filter(InternalInputPort.class::isInstance)
+                .map(InternalInputPort.class::cast)
+                .map(InternalInputPort::getDataType).flatMap(Collection::stream)
+                .distinct().collect(Collectors.toList())))
+        .collect(Collectors.toList());
   }
 
   @Override
