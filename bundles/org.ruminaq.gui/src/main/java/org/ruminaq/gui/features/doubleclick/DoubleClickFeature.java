@@ -49,7 +49,7 @@ public class DoubleClickFeature extends AbstractCustomFeature {
       }
     if (bo == null)
       return;
-    if (bo.getImplementationTask().equals(""))
+    if (bo.getImplementationPath().equals(""))
       return;
 
     final IFile ifile = ResourcesPlugin.getWorkspace().getRoot()
@@ -69,6 +69,6 @@ public class DoubleClickFeature extends AbstractCustomFeature {
 
   public String getEmbeddedTaskPath(EmbeddedTask bo) {
     return EclipseUtil.getUriOf(bo).segment(0).toString() + "/"
-        + bo.getImplementationTask();
+        + bo.getImplementationPath();
   }
 }
