@@ -113,7 +113,7 @@ public class EmbeddedTaskI extends TaskI {
     MainTask mainTask = loadTask(path);
     if (mainTask == null) {
       throw new ImplementationException(
-          "Can't load " + ((EmbeddedTask) task).getImplementationTask());
+          "Can't load " + ((EmbeddedTask) task).getImplementationPath());
     }
     parameters = Optional.ofNullable(params).map(List::stream)
         .orElseGet(Stream::empty)

@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.runner.impl;
 
 import org.ruminaq.model.ruminaq.EmbeddedTask;
@@ -26,7 +27,7 @@ public enum TaskImplementationFactory {
       return taskI;
     else if (task instanceof EmbeddedTask)
       return new EmbeddedTaskI(parent, task,
-          basePath + ((EmbeddedTask) task).getImplementationTask(),
+          basePath + ((EmbeddedTask) task).getImplementationPath(),
           ((EmbeddedTask) task).getParameter());
     else {
 
