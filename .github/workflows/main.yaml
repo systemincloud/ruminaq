@@ -88,7 +88,7 @@ jobs:
         Xvfb :99 &
         export DISPLAY=:99
         metacity --sm-disable --replace 2> metacity.err &
-        ./mvnw install --toolchains=.github/toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=systemincloud -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        ./mvnw deploy --toolchains=.github/toolchains.xml spotbugs:spotbugs pmd:pmd checkstyle:checkstyle sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=systemincloud -Dsonar.login=${{ secrets.SONAR_TOKEN }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
