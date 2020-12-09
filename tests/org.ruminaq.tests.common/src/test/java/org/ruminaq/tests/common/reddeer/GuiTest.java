@@ -133,6 +133,17 @@ public class GuiTest {
               return ComparisonResult.EQUAL;
             }
           }
+          
+          if (outcome == ComparisonResult.DIFFERENT
+              && comparison.getType() == ComparisonType.ATTR_VALUE
+              && comparison.getControlDetails().getXPath()
+                  .endsWith("@description")) {
+            if (levenshteinDistanceate(
+                (String) comparison.getControlDetails().getValue(),
+                (String) comparison.getTestDetails().getValue()) <= DIAGRAM_SUFFIX_LENGTH) {
+              return ComparisonResult.EQUAL;
+            }
+          }
 
           return outcome;
         })).build();
