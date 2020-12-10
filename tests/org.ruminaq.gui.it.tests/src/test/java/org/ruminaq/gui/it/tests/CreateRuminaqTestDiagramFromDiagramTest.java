@@ -86,8 +86,12 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
 
     gefEditorTest.activate();
 
-    WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(EmbeddedTask.class);
-    ip.select();
+    WithBoGraphitiEditPart et = new WithBoGraphitiEditPart(EmbeddedTask.class);
+    et.select();
+    
+    et.getContextButton("Update").click();
+    
+    
   }
 
 }
