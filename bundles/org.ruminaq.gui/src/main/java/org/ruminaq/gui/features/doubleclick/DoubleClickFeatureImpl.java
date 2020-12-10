@@ -23,6 +23,7 @@ public class DoubleClickFeatureImpl implements DoubleClickFeatureExtension {
   @Override
   public List<Class<? extends ICustomFeature>> getFeatures() {
     return Arrays.asList(InternalPortDoubleClickFeature.class,
+        DoubleClickEmbeddedTaskFeature.class,
         DoubleClickBaseElementFeature.class);
   }
 }

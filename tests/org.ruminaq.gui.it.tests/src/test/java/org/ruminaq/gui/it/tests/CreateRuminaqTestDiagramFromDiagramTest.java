@@ -70,7 +70,9 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     assertDiagram(gefEditorTest,
         "CreateRuminaqTestDiagramFromDiagramTest1.xml");
 
-    gefEditor.activate();
+    new WithBoGraphitiEditPart(EmbeddedTask.class).select();
+    new WithBoGraphitiEditPart(EmbeddedTask.class).doubleClick();
+
     gefEditor.addToolFromPalette("Input Port", 200, 400);
     gefEditor.addToolFromPalette("Output Port", 400, 300);
 

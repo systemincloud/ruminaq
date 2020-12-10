@@ -6,6 +6,7 @@
 
 package org.ruminaq.gui.features.doubleclick;
 
+import java.util.function.Predicate;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -46,8 +47,10 @@ public class DoubleClickEmbeddedTaskFeature
     IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
         .getActivePage();
     toModel(context, EmbeddedTask.class)
-        .map(UserDefinedTask::getImplementationPath).filter(""::equals)
-        .map(p -> new Path(EclipseUtil.getProjectOf(getDiagram()) + "/" + p))
+        .map(UserDefinedTask::getImplementationPath)
+        .filter(Predicate.not(""::equals))
+        .map(p -> new Path(
+            EclipseUtil.getProjectOf(getDiagram()).getName() + "/" + p))
         .map(p -> ResourcesPlugin.getWorkspace().getRoot().getFile(p))
         .ifPresent(f -> Try.check(() -> IDE.openEditor(page, f, true)));
   }
