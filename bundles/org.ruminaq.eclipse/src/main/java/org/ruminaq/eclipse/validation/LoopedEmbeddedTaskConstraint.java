@@ -27,7 +27,8 @@ import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.util.Result;
 
 /**
- * 
+ * Check there is no circular dependencies among EmbeddedTasks.
+ *
  * @author Marek Jagielski
  */
 public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
