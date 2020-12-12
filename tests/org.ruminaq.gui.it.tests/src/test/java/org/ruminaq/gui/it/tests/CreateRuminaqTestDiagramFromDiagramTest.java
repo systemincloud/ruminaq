@@ -60,10 +60,10 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
         CreateSourceFolders.TASK_FOLDER,
         diagramName + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT };
 
-    SWTBotMenu menu = new SWTBotMenu(ContextMenuHelper.contextMenu(
+    SWTBotMenu newTestmMenu = new SWTBotMenu(ContextMenuHelper.contextMenu(
         SelectView.selectInProjectExplorer(bot, projectName, path),
         new String[] { "Ruminaq", "New Test Diagram" }));
-    menu.click();
+    newTestmMenu.click();
 
     GEFEditor gefEditorTest = new GEFEditor(diagramName + "Test");
     gefEditorTest.activate();
@@ -88,10 +88,18 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
 
     WithBoGraphitiEditPart et = new WithBoGraphitiEditPart(EmbeddedTask.class);
     et.select();
+
+    SWTBotMenu udpateDiagramMenu = new SWTBotMenu(ContextMenuHelper.contextMenu(
+        SelectView.selectInProjectExplorer(bot, projectName,
+            new String[] { CreateSourceFolders.SRC, CreateSourceFolders.TEST,
+                CreateSourceFolders.RESOURCES, CreateSourceFolders.TASK_FOLDER,
+                diagramName + "Test"
+                    + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT }),
+        new String[] { "Ruminaq", "Update User Defined Tasks" }));
+    udpateDiagramMenu.click();
     
-    et.getContextButton("Update").click();
-    
-    
+//    assertDiagram(gefEditorTest,
+//        "CreateRuminaqTestDiagramFromDiagramTest2.xml");
   }
 
 }
