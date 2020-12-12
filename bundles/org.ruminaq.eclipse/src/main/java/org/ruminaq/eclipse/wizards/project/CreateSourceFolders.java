@@ -29,14 +29,15 @@ public final class CreateSourceFolders {
   public static final String MAIN = "main";
   public static final String TEST = "test";
   public static final String RESOURCES = "resources";
-  public static final String MAIN_RESOURCES = SRC + "/" + MAIN + "/"
+  public static final String DELIMITER = "/";
+  public static final String MAIN_RESOURCES = SRC + DELIMITER + MAIN + DELIMITER
       + RESOURCES;
-  public static final String TEST_RESOURCES = SRC + "/" + TEST + "/"
+  public static final String TEST_RESOURCES = SRC + DELIMITER + TEST + DELIMITER
       + RESOURCES;
   public static final String TASK_FOLDER = "tasks";
-  public static final String DIAGRAM_FOLDER = MAIN_RESOURCES + "/"
+  public static final String DIAGRAM_FOLDER = MAIN_RESOURCES + DELIMITER
       + TASK_FOLDER;
-  public static final String TEST_DIAGRAM_FOLDER = TEST_RESOURCES + "/"
+  public static final String TEST_DIAGRAM_FOLDER = TEST_RESOURCES + DELIMITER
       + TASK_FOLDER;
 
   private CreateSourceFolders() {
@@ -46,7 +47,7 @@ public final class CreateSourceFolders {
    * Creates directories for eclipse sources.
    *
    * @param project Eclipse IProject reference
-   * @return Try optionally with RuminaqException 
+   * @return Try optionally with RuminaqException
    */
   public static Try<RuminaqException> execute(IProject project) {
     return Arrays

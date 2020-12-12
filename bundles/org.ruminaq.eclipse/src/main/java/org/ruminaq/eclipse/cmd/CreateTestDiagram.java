@@ -47,11 +47,17 @@ public final class CreateTestDiagram {
   private static final int SEGMENTS_TO_DIAGRAMS = 1
       + CreateSourceFolders.DIAGRAM_FOLDER.split("/").length;
 
+  /**
+   * New diagram with EmbeddedTask wrapping given diagram.
+   *
+   * @param file eclipse resource of diagram
+   */
   public void generateTestDiagram(IResource file) {
     IProject project = file.getProject();
 
     IPath p = file.getFullPath();
-    String dirctoryPath = CreateSourceFolders.TEST_DIAGRAM_FOLDER + "/"
+    String dirctoryPath = CreateSourceFolders.TEST_DIAGRAM_FOLDER
+        + CreateSourceFolders.DELIMITER
         + Stream.of(p.segments()).skip(SEGMENTS_TO_DIAGRAMS)
             .takeWhile(
                 s -> !s.endsWith(CreateDiagramWizard.DIAGRAM_EXTENSION_DOT))
@@ -91,9 +97,9 @@ public final class CreateTestDiagram {
         this.getClass().getResourceAsStream("TestTask.template"),
         StandardCharsets.UTF_8))) {
       String diagramContent = br.lines().collect(Collectors.joining("\n"))
-              .replace("idTestedTaskToFill", modelFileName)
-              .replace("implementationPathFill", modelFilePath)
-              .replace("versionToFill", modelerVersion);
+          .replace("idTestedTaskToFill", modelFileName)
+          .replace("implementationPathFill", modelFilePath)
+          .replace("versionToFill", modelerVersion);
       Try.check(() -> diagramFile.create(
           new ByteArrayInputStream(
               diagramContent.getBytes(StandardCharsets.UTF_8)),
