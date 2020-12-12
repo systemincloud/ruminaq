@@ -63,6 +63,8 @@ public class RuminaqEditor extends DiagramEditor {
 
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(RuminaqEditor.class);
+  
+  public static final String EDITOR_ID = "org.ruminaq.eclipse.editor.ruminaqEditor";
 
   private ExecutorService validationExecutor;
 

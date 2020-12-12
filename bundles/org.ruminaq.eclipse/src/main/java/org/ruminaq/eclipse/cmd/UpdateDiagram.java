@@ -11,12 +11,15 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -27,7 +30,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.Transaction;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
@@ -41,10 +43,16 @@ import org.eclipse.jface.operation.ModalContext;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
+import org.ruminaq.eclipse.editor.RuminaqEditor;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
 
+/**
+ * Update all Tasks.
+ *
+ * @author Marek Jagielski
+ */
 public class UpdateDiagram {
 
   protected final class SaveOperation
@@ -74,10 +82,6 @@ public class UpdateDiagram {
         Job.getJobManager().transferRule(rule, thread);
     }
   }
-
-  private static final String DIAGRAM_EDITOR_ID = "org.ruminaq.eclipse.editor.ruminaqEditor"; //$NON-NLS-1$
-  private static final String TEST_DIAGRAM_EDITOR_ID = "org.ruminaq.eclipse.editor.ruminaqEditorTest"; //$NON-NLS-1$
-
 
   protected Set<Resource> save(final TransactionalEditingDomain ed,
       final Map<Resource, Map<?, ?>> saveOptions, IProgressMonitor monitor) {
@@ -137,39 +141,37 @@ public class UpdateDiagram {
         && resource.isLoaded();
   }
 
+  /**
+   * Iterate over all Tasks and update if needed.
+   *
+   * @param file eclipse resource of diagram
+   */
   public void updateDiagram(IResource file) {
     TransactionalEditingDomain ed = TransactionalEditingDomain.Factory.INSTANCE
         .createEditingDomain();
-    ResourceSet resSet = ed.getResourceSet();
 
-    Resource resource = null;
-    try {
-      resource = resSet
-          .getResource(URI.createURI(file.getFullPath().toOSString()), true);
-    } catch (Exception e) {
+    Optional<Resource> resource = Optional.of(file).map(IResource::getFullPath)
+        .map(IPath::toOSString).map(URI::createURI)
+        .map(uri -> ed.getResourceSet().getResource(uri, true));
+    Optional<RuminaqDiagram> diagram = resource.map(Resource::getContents)
+        .map(EList::stream).orElseGet(Stream::empty).findFirst()
+        .filter(RuminaqDiagram.class::isInstance)
+        .map(RuminaqDiagram.class::cast);
+    Optional<IFeatureProvider> fp = diagram
+        .map(GraphitiUi.getExtensionManager()::createFeatureProvider);
+
+    if (diagram.isPresent() && fp.isPresent()) {
+      diagram.get().getChildren().stream().filter(TaskShape.class::isInstance)
+          .map(TaskShape.class::cast)
+          .forEach(ts -> ModelUtil.runModelChange(() -> fp.get()
+              .updateIfPossible(new UpdateContext(ts)).toBoolean(), ed,
+              "Update diagram"));
+      save(resource.get(), fp.get().getDiagramTypeProvider(), ed);
     }
 
-    if (resource == null || resource.getContents().size() < 2) {
-      return;
-    }
-
-    RuminaqDiagram d = (RuminaqDiagram) resource.getContents().get(0);
-
-    final IFeatureProvider fp = GraphitiUi.getExtensionManager()
-        .createFeatureProvider(d);
-
-    d.getChildren().stream().filter(TaskShape.class::isInstance)
-        .map(TaskShape.class::cast).forEach(ts -> {
-          ModelUtil.runModelChange(() -> {
-            fp.updateIfPossible(new UpdateContext(ts)).toBoolean();
-          }, ed, "Update diagram");
-        });
-
-    save(resource, fp.getDiagramTypeProvider(), ed);
     for (final IEditorReference er : PlatformUI.getWorkbench()
         .getActiveWorkbenchWindow().getActivePage().getEditorReferences()) {
-      if (DIAGRAM_EDITOR_ID.equals(er.getId())
-          || TEST_DIAGRAM_EDITOR_ID.equals(er.getId())) {
+      if (RuminaqEditor.EDITOR_ID.equals(er.getId())) {
         Display.getCurrent().asyncExec(() -> {
           try {
             URL fileUrl = FileLocator.toFileURL(new URL(er.getName()));
