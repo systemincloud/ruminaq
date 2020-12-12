@@ -42,6 +42,9 @@ public class DoubleClickEmbeddedTaskFeature
     super(fp);
   }
 
+  /**
+   * Open Ruminaq editor.
+   */
   @Override
   public void execute(ICustomContext context) {
     IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
