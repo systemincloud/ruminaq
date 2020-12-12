@@ -85,7 +85,7 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
    *
    * @param resource file
    * @param ip       InternalPort domian object
-   * @return
+   * @return breakpoint
    */
   public static Optional<IBreakpoint> breakpointFromModel(IResource resource,
       InternalPort ip) {
@@ -107,7 +107,7 @@ public class InternalPortToggleBreakpointFeature extends AbstractCustomFeature {
    *
    * @param context ICustomContext
    * @param fp      IFeatureProvider
-   * @return
+   * @return breakpoint
    */
   public static Optional<IBreakpoint> breakpointFromContext(
       ICustomContext context, IFeatureProvider fp) {
