@@ -6,11 +6,9 @@
 
 package org.ruminaq.eclipse.cmd;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -18,11 +16,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.BasicCommandStack;
@@ -40,12 +36,9 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.operation.IThreadListener;
 import org.eclipse.jface.operation.ModalContext;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.PlatformUI;
 import org.ruminaq.eclipse.editor.RuminaqEditor;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.model.ruminaq.ModelUtil;
-import org.ruminaq.util.Result;
 import org.ruminaq.util.Try;
 
 /**
@@ -164,28 +157,10 @@ public class UpdateDiagram {
       ModelUtil.runModelChange(() -> RuminaqEditor
           .updateShapes(diagram.get().getChildren(), fp.get()), ed,
           "Update shapes");
-      refreshDiagramIfOpened(resource.get(), fp.get(), ed);
       Display.getCurrent().asyncExec(
           () -> Try.check(() -> file.refreshLocal(IResource.DEPTH_ZERO, null)));
+      save(resource.get(), fp.get().getDiagramTypeProvider(), ed);
     }
-  }
-
-  private void refreshDiagramIfOpened(Resource resource, IFeatureProvider fp,
-      TransactionalEditingDomain ed) {
-    Stream
-        .of(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-            .getEditorReferences())
-        .filter(er -> RuminaqEditor.EDITOR_ID.equals(er.getId()))
-        .map(IEditorReference::getName)
-        .map(name -> Result.attempt(() -> new URL(name)))
-        .map(r -> r.orElse(null)).filter(Objects::nonNull)
-        .map(url -> Result.attempt(() -> FileLocator.toFileURL(url)))
-        .map(r -> r.orElse(null)).filter(Objects::nonNull).map(URL::getPath)
-        .map(Path::new)
-        .map(ResourcesPlugin.getWorkspace().getRoot()::getFileForLocation)
-        .forEach(iFile -> Display.getCurrent().asyncExec(() -> Try
-            .check(() -> iFile.refreshLocal(IResource.DEPTH_ZERO, null))));
-    save(resource, fp.getDiagramTypeProvider(), ed);
   }
 
   private void save(Resource r, IDiagramTypeProvider dtp,
