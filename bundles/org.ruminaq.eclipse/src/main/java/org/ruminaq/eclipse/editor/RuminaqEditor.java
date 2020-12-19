@@ -31,6 +31,7 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.editparts.LayerManager;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
+import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
@@ -63,7 +64,7 @@ public class RuminaqEditor extends DiagramEditor {
 
   private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(RuminaqEditor.class);
-  
+
   public static final String EDITOR_ID = "org.ruminaq.eclipse.editor.ruminaqEditor";
 
   private ExecutorService validationExecutor;
@@ -130,20 +131,19 @@ public class RuminaqEditor extends DiagramEditor {
     addMarkerChangeListener();
 
     ModelUtil.runModelChange(
-        () -> updateShapes(getRuminaqDiagram().getChildren()),
+        () -> updateShapes(getRuminaqDiagram().getChildren(),
+            getDiagramTypeProvider().getFeatureProvider()),
         getDiagramBehavior().getEditingDomain(),
         Messages.modelChangeInitialization);
   }
 
-  private void updateShapes(EList<Shape> shapes) {
+  public static void updateShapes(EList<Shape> shapes, IFeatureProvider fp) {
     shapes.stream().map(UpdateContext::new)
-        .filter(ctx -> getDiagramTypeProvider().getFeatureProvider()
-            .canUpdate(ctx).toBoolean())
-        .forEach(ctx -> getDiagramTypeProvider().getFeatureProvider()
-            .updateIfPossible(ctx));
+        .filter(ctx -> fp.canUpdate(ctx).toBoolean())
+        .forEach(ctx -> fp.updateIfPossible(ctx));
     shapes.stream().filter(ContainerShape.class::isInstance)
         .map(ContainerShape.class::cast).map(ContainerShape::getChildren)
-        .forEach(this::updateShapes);
+        .forEach(s -> updateShapes(s, fp));
   }
 
   private Optional<IOperationHistory> getOperationHistory() {
@@ -182,8 +182,8 @@ public class RuminaqEditor extends DiagramEditor {
     getModelFile().ifPresent((IFile mf) -> {
       try {
         new ValidationStatusLoader().load(getEditingDomain(),
-            Arrays.asList(mf.findMarkers(DefaultValidator.VALIDATION_MARKER, true,
-                IResource.DEPTH_ZERO)));
+            Arrays.asList(mf.findMarkers(DefaultValidator.VALIDATION_MARKER,
+                true, IResource.DEPTH_ZERO)));
       } catch (CoreException e) {
         LOGGER.error(Messages.ruminaqEditorLoadMarkersFailed, e);
       }

@@ -95,11 +95,11 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
                 CreateSourceFolders.RESOURCES, CreateSourceFolders.TASK_FOLDER,
                 diagramName + "Test"
                     + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT }),
-        new String[] { "Ruminaq", "Update User Defined Tasks" }));
+        new String[] { "Ruminaq", "Update all Tasks" }));
     udpateDiagramMenu.click();
     
-//    assertDiagram(gefEditorTest,
-//        "CreateRuminaqTestDiagramFromDiagramTest2.xml");
+    assertDiagram(gefEditorTest,
+        "CreateRuminaqTestDiagramFromDiagramTest2.xml");
   }
 
 }

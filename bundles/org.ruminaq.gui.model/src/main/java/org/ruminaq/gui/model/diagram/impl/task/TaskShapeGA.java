@@ -164,7 +164,7 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
     @Override
     public int getHeight() {
-      return shape.getHeight() - ICON_SIZE - 1;
+      return ((shape.getHeight() -  ICON_SIZE) >> 1) - 1;
     }
 
     @Override
@@ -174,7 +174,7 @@ public class TaskShapeGA extends RoundedRectangleImpl {
 
     @Override
     public int getY() {
-      return ICON_SIZE;
+      return (shape.getHeight() + ICON_SIZE) >> 1;
     }
 
     @Override

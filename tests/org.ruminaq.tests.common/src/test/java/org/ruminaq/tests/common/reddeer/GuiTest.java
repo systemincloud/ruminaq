@@ -107,7 +107,7 @@ public class GuiTest {
             if (Math.abs(Integer
                 .parseInt((String) comparison.getControlDetails().getValue())
                 - Integer.parseInt(
-                    (String) comparison.getTestDetails().getValue())) < 4) {
+                    (String) comparison.getTestDetails().getValue())) < 6) {
               return ComparisonResult.EQUAL;
             }
           }

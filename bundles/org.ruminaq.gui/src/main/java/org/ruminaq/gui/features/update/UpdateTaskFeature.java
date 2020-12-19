@@ -21,6 +21,7 @@ import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo;
+import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.update.UpdateTaskFeature.Filter;
@@ -104,8 +105,7 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
       Collection<T> portShapes, Collection<K> fromModel, Class<K> type) {
     List<K> fromShape = internalPortFrom(portShapes, type);
     return !(fromModel.stream().allMatch(fromShape::contains)
-        && portShapes.stream().map(InternalPortShape::getModelObject)
-            .allMatch(Objects::nonNull));
+        && fromShape.stream().allMatch(fromModel::contains));
   }
 
   /**
@@ -190,6 +190,10 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .filter(task -> updatePortNeeded(taskShape.getInternalPort(),
             task.getOutputPort(), InternalOutputPort.class))
         .ifPresent(task -> updateOutputPort(taskShape, task)));
+    shapeFromContext(context).map(TaskShape::getInternalPort).map(List::stream)
+        .orElseGet(Stream::empty).map(UpdateContext::new)
+        .filter(ctx -> getFeatureProvider().canUpdate(ctx).toBoolean())
+        .forEach(getFeatureProvider()::updateIfPossibleAndNeeded);
   }
 
   private void updateInputPort(TaskShape taskShape, Task task) {
@@ -284,12 +288,11 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .createInternalInputPortShape();
     taskShape.getInternalPort().add(portShape);
     portShape.setModelObject(p);
-    portShape.setShowLabel(
-        portDiagram.map(PortDiagram::label).orElse(Boolean.TRUE));
+    portShape
+        .setShowLabel(portDiagram.map(PortDiagram::label).orElse(Boolean.TRUE));
     Position position = portDiagram.map(PortDiagram::pos).orElse(Position.LEFT);
     portShape.setX(xOfPostion(taskShape, position));
     portShape.setY(yOfPostion(taskShape, position));
-
     redistributePorts(taskShape, position);
   }
 
@@ -302,8 +305,8 @@ public class UpdateTaskFeature extends UpdateBaseElementFeature {
         .createInternalOutputPortShape();
     taskShape.getInternalPort().add(portShape);
     portShape.setModelObject(p);
-    portShape.setShowLabel(
-        portDiagram.map(PortDiagram::label).orElse(Boolean.TRUE));
+    portShape
+        .setShowLabel(portDiagram.map(PortDiagram::label).orElse(Boolean.TRUE));
     Position position = portDiagram.map(PortDiagram::pos)
         .orElse(Position.RIGHT);
     portShape.setX(xOfPostion(taskShape, position));

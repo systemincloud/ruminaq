@@ -26,6 +26,7 @@ public class DeleteFeatureImpl implements DeleteFeatureExtension {
     return Arrays.asList(DeleteLabelFeature.class,
         DeleteSimpleConnectionPointFeature.class,
         DeleteSimpleConnectionFeature.class,
+        DeleteInternalPortShapeFeature.class,
         DeleteLabeledRuminaqShapeFeature.class,
         DeleteRuminaqShapeFeature.class);
   }

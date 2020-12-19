@@ -178,7 +178,7 @@
     <command
         defaultHandler="org.ruminaq.eclipse.cmd.UpdateDiagramCmd"
         id="org.ruminaq.eclipse.cmd.UpdateDiagramCmd"
-        name="Create Test Diagram">
+        name="Update all Tasks">
     </command>
   </extension>
   <extension
@@ -191,9 +191,7 @@
       point="org.eclipse.ui.menus">
     <menuContribution
         locationURI="popup:org.ruminaq.eclipse.popup.ProjectExplorer?after=additions">
-      <command
-          commandId="org.ruminaq.eclipse.cmd.CreateTestDiagramCmd"
-          label="New Test Diagram">
+      <command commandId="org.ruminaq.eclipse.cmd.CreateTestDiagramCmd" label="New Test Diagram">
         <visibleWhen checkEnabled="true">
           <and>
             <with variable="activeMenuSelection">
@@ -208,7 +206,7 @@
       </command>
     </menuContribution>
     <menuContribution locationURI="popup:org.ruminaq.eclipse.popup.ProjectExplorer?after=additions">
-      <command commandId="org.ruminaq.eclipse.cmd.UpdateDiagramCmd" label="Update User Defined Tasks">
+      <command commandId="org.ruminaq.eclipse.cmd.UpdateDiagramCmd" label="Update all Tasks">
         <visibleWhen checkEnabled="true">
           <and>
             <with variable="activeMenuSelection">

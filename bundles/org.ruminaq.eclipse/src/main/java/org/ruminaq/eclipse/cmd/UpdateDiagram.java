@@ -6,11 +6,11 @@
 
 package org.ruminaq.eclipse.cmd;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -35,7 +35,6 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IFeatureProvider;
-import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.ui.services.GraphitiUi;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.operation.IThreadListener;
@@ -45,8 +44,9 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.ruminaq.eclipse.editor.RuminaqEditor;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
-import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
+import org.ruminaq.util.Result;
+import org.ruminaq.util.Try;
 
 /**
  * Update all Tasks.
@@ -160,30 +160,32 @@ public class UpdateDiagram {
     Optional<IFeatureProvider> fp = diagram
         .map(GraphitiUi.getExtensionManager()::createFeatureProvider);
 
-    if (diagram.isPresent() && fp.isPresent()) {
-      diagram.get().getChildren().stream().filter(TaskShape.class::isInstance)
-          .map(TaskShape.class::cast)
-          .forEach(ts -> ModelUtil.runModelChange(() -> fp.get()
-              .updateIfPossible(new UpdateContext(ts)).toBoolean(), ed,
-              "Update diagram"));
-      save(resource.get(), fp.get().getDiagramTypeProvider(), ed);
+    if (diagram.isPresent() && fp.isPresent() && resource.isPresent()) {
+      ModelUtil.runModelChange(() -> RuminaqEditor
+          .updateShapes(diagram.get().getChildren(), fp.get()), ed,
+          "Update shapes");
+      refreshDiagramIfOpened(resource.get(), fp.get(), ed);
+      Display.getCurrent().asyncExec(
+          () -> Try.check(() -> file.refreshLocal(IResource.DEPTH_ZERO, null)));
     }
+  }
 
-    for (final IEditorReference er : PlatformUI.getWorkbench()
-        .getActiveWorkbenchWindow().getActivePage().getEditorReferences()) {
-      if (RuminaqEditor.EDITOR_ID.equals(er.getId())) {
-        Display.getCurrent().asyncExec(() -> {
-          try {
-            URL fileUrl = FileLocator.toFileURL(new URL(er.getName()));
-            ResourcesPlugin.getWorkspace().getRoot()
-                .getFileForLocation(new Path(fileUrl.getPath()))
-                .refreshLocal(IResource.DEPTH_ZERO, null);
-          } catch (IOException | CoreException e) {
-          }
-
-        });
-      }
-    }
+  private void refreshDiagramIfOpened(Resource resource, IFeatureProvider fp,
+      TransactionalEditingDomain ed) {
+    Stream
+        .of(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+            .getEditorReferences())
+        .filter(er -> RuminaqEditor.EDITOR_ID.equals(er.getId()))
+        .map(IEditorReference::getName)
+        .map(name -> Result.attempt(() -> new URL(name)))
+        .map(r -> r.orElse(null)).filter(Objects::nonNull)
+        .map(url -> Result.attempt(() -> FileLocator.toFileURL(url)))
+        .map(r -> r.orElse(null)).filter(Objects::nonNull).map(URL::getPath)
+        .map(Path::new)
+        .map(ResourcesPlugin.getWorkspace().getRoot()::getFileForLocation)
+        .forEach(iFile -> Display.getCurrent().asyncExec(() -> Try
+            .check(() -> iFile.refreshLocal(IResource.DEPTH_ZERO, null))));
+    save(resource, fp.getDiagramTypeProvider(), ed);
   }
 
   private void save(Resource r, IDiagramTypeProvider dtp,
