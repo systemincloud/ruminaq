@@ -11,7 +11,6 @@ import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
 import org.eclipse.swtbot.swt.finder.waits.DefaultCondition;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -62,11 +61,12 @@ public class CreatingRuminaqTestDiagramTest {
     String folder = "modules";
 
     bot.tree().getTreeItem(projectName).expand();
-    bot.tree().getTreeItem(projectName).getNode(CreateSourceFolders.TEST_RESOURCES)
-        .select();
-    bot.tree().getTreeItem(projectName).getNode(CreateSourceFolders.TEST_RESOURCES)
-        .expand();
-    bot.tree().getTreeItem(projectName).getNode(CreateSourceFolders.TEST_RESOURCES)
+    bot.tree().getTreeItem(projectName)
+        .getNode(CreateSourceFolders.TEST_RESOURCES).select();
+    bot.tree().getTreeItem(projectName)
+        .getNode(CreateSourceFolders.TEST_RESOURCES).expand();
+    bot.tree().getTreeItem(projectName)
+        .getNode(CreateSourceFolders.TEST_RESOURCES)
         .getNode(CreateSourceFolders.TASK_FOLDER).select();
     SWTBotMenu menu = bot.tree().contextMenu("New");
     bot.waitUntil(new DefaultCondition() {
@@ -92,19 +92,17 @@ public class CreatingRuminaqTestDiagramTest {
     Thread.sleep(3000);
 
     new CreateRuminaqTestDiagram().openDiagramWizardFromProjectContextMenu(bot,
-        projectName, CreateSourceFolders.TEST_RESOURCES, CreateSourceFolders.TASK_FOLDER,
-        folder);
+        projectName, CreateSourceFolders.TEST_RESOURCES,
+        CreateSourceFolders.TASK_FOLDER, folder);
 
     Assert.assertEquals("Window of title should be set", "New Test Diagram",
         bot.activeShell().getText());
 
-    bot.textWithLabel("New Test Diagram");
-    bot.text("This wizard creates a new Ruminaq Diagram Test.");
-
     bot.textWithLabel("&Project:").setText("");
 
-    SWTBotText msg = bot.text(" Project must be specified");
-
+    Assert.assertFalse("Can't create project when name is empty",
+        bot.button("Finish").isEnabled());
+    String msg = bot.label(" Project must be specified").getText();
     Assert.assertNotNull(msg);
 
     bot.button("Browse...").click();
@@ -115,14 +113,14 @@ public class CreatingRuminaqTestDiagramTest {
 
     bot.textWithLabel("&Container:").setText("");
 
-    msg = bot.text(" File container must be specified");
+    msg = bot.label(" File container must be specified").getText();
 
     Assert.assertNotNull(msg);
 
     bot.textWithLabel("&Container:")
         .setText("src/test/resources/tasks/notexisting");
 
-    msg = bot.text(" File container must exist");
+    msg = bot.label(" File container must exist").getText();
 
     Assert.assertNotNull(msg);
 
@@ -130,7 +128,8 @@ public class CreatingRuminaqTestDiagramTest {
 
     bot.tree().getTreeItem(CreateSourceFolders.TASK_FOLDER).select();
     bot.tree().getTreeItem(CreateSourceFolders.TASK_FOLDER).expand();
-    bot.tree().getTreeItem(CreateSourceFolders.TASK_FOLDER).getNode(folder).select();
+    bot.tree().getTreeItem(CreateSourceFolders.TASK_FOLDER).getNode(folder)
+        .select();
 
     bot.button("OK").click();
 
@@ -140,11 +139,11 @@ public class CreatingRuminaqTestDiagramTest {
 
     bot.textWithLabel("&File name:").setText("");
 
-    msg = bot.text(" File name must be specified");
+    msg = bot.label(" File name must be specified").getText();
 
     bot.textWithLabel("&File name:").setText("Diagram.txt");
 
-    msg = bot.text(" File extension must be rumi");
+    msg = bot.label(" File extension must be rumi").getText();
 
     Assert.assertNotNull(msg);
   }

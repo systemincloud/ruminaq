@@ -118,12 +118,12 @@ Export-Package: org.ruminaq.tasks.javatask.gui,
  org.ruminaq.tasks.javatask.gui.wizards
 Bundle-ClassPath: .
 Eclipse-RegisterBuddy: org.eclipse.swtbot.swt.finder
-Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.gui.Images.xml,
+Service-Component: OSGI-INF/org.ruminaq.tasks.javatask.gui.DoubleClickFeatureImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.UserDefinedTaskExtensionImpl.xml,
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.Images.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.debug.JavaTasksDebugModelerExtension.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.AddFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.EclipseExtensionImpl.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.CreateFeaturesImpl.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.Description.xml,
  OSGI-INF/org.ruminaq.tasks.javatask.gui.UpdateFeatureImpl.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.DoubleClickFeatureImpl.xml,
- OSGI-INF/org.ruminaq.tasks.javatask.gui.UserDefinedTaskExtensionImpl.xml
+ OSGI-INF/org.ruminaq.tasks.javatask.gui.Description.xml

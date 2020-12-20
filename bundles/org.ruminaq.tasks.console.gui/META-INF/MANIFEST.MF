@@ -81,5 +81,5 @@ Service-Component: OSGI-INF/org.ruminaq.tasks.console.gui.Images.xml,
  OSGI-INF/org.ruminaq.tasks.console.gui.UpdateFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.console.gui.AddFeatureImpl.xml,
  OSGI-INF/org.ruminaq.tasks.console.gui.TaskApi.xml,
- OSGI-INF/org.ruminaq.tasks.console.gui.DoubleClickFeatureImpl.xml,
- OSGI-INF/org.ruminaq.tasks.console.gui.Description.xml
+ OSGI-INF/org.ruminaq.tasks.console.gui.Description.xml,
+ OSGI-INF/org.ruminaq.tasks.console.gui.DoubleClickFeatureImpl.xml
