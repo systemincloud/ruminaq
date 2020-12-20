@@ -48,7 +48,7 @@ public class CreatingRuminaqProjectTest {
     Assert.assertEquals("Window of title should be set", "New Ruminaq Project",
         bot.activeShell().getText());
 
-    bot.textWithLabel("Create Ruminaq Project");
-    bot.text("Create Ruminaq Project in the workspace.");
+    bot.label("Create Ruminaq Project");
+    bot.label("Create Ruminaq Project in the workspace.");
   }
 }

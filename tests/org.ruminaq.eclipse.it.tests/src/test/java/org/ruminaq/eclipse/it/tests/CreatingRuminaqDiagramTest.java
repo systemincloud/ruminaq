@@ -60,7 +60,7 @@ public class CreatingRuminaqDiagramTest {
     Assert.assertEquals("Window of title should be set", "New Diagram",
         bot.activeShell().getText());
 
-    bot.textWithLabel("New Diagram");
-    bot.text("This wizard creates a new Ruminaq Diagram.");
+    bot.label("New Diagram");
+    bot.label("This wizard creates a new Ruminaq Diagram.");
   }
 }
