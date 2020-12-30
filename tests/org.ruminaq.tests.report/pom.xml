@@ -76,13 +76,6 @@
 
     <dependency>
       <groupId>org.ruminaq</groupId>
-      <artifactId>org.ruminaq.prefs</artifactId>
-      <version>${project.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.ruminaq</groupId>
       <artifactId>org.ruminaq.tasks.console.gui</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
