@@ -6,7 +6,6 @@
 
 package org.ruminaq.tasks.rtask.it.tests;
 
-import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +20,8 @@ import org.ruminaq.tests.common.reddeer.GuiTest;
 public class AddTest extends GuiTest {
 
   @Test
-  public void testAddRTask() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("R Task", 200, 100);
+  public void testAddRTask() throws InterruptedException {
+    addToolFromPalette("R Task", 200, 100);
   }
 
 }
