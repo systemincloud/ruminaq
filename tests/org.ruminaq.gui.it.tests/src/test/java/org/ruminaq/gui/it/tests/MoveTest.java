@@ -7,11 +7,8 @@
 package org.ruminaq.gui.it.tests;
 
 import static org.junit.Assert.assertEquals;
-
 import java.util.Optional;
-
 import org.eclipse.graphiti.ui.internal.parts.ShapeEditPart;
-import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.graphiti.api.GraphitiEditPart;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
@@ -37,15 +34,14 @@ import org.ruminaq.tests.common.reddeer.WithTextLabel;
 public class MoveTest extends GuiTest {
 
   @Test
-  public void testMovePort() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Input Port", 200, 100);
-    gefEditor.addToolFromPalette("Output Port", 400, 300);
+  public void testMovePort() throws InterruptedException {
+    addToolFromPalette("Input Port", 200, 100);
+    addToolFromPalette("Output Port", 400, 300);
 
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InputPort.class);
     ip.select();
 
-    new MoveShape(gefEditor, ip, -10, -20).execute();
+    new MoveShape(diagramEditor, ip, -10, -20).execute();
     InputPortShape shape = Optional.of(ip).map(GraphitiEditPart::getGEFEditPart)
         .filter(ShapeEditPart.class::isInstance).map(ShapeEditPart.class::cast)
         .map(ShapeEditPart::getPictogramElement)
@@ -57,8 +53,7 @@ public class MoveTest extends GuiTest {
 
   @Test
   public void testMoveOverLabel() throws InterruptedException {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Input Port", 200, 100);
+    addToolFromPalette("Input Port", 200, 100);
 
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InputPort.class);
     ip.select();
@@ -71,17 +66,16 @@ public class MoveTest extends GuiTest {
         .map(InputPortShape.class::cast).map(InputPortShape::getLabel)
         .orElseThrow();
 
-    new MoveShape(gefEditor, ip, 0, 20, labelShape).execute();
+    new MoveShape(diagramEditor, ip, 0, 20, labelShape).execute();
 
     Thread.sleep(1000);
 
-    assertDiagram(gefEditor, "MoveTest.testMoveOverLabel.xml");
+    assertDiagram(diagramEditor, "MoveTest.testMoveOverLabel.xml");
   }
 
   @Test
-  public void testMoveLabel() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Input Port", 200, 100);
+  public void testMoveLabel() throws InterruptedException {
+    addToolFromPalette("Input Port", 200, 100);
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InputPort.class);
 
     WithTextLabel label = new WithTextLabel("My Input Port");
@@ -95,7 +89,7 @@ public class MoveTest extends GuiTest {
     int xBefore = labelShape.getX();
     int yBefore = labelShape.getY();
 
-    new MoveShape(gefEditor, label, 10, 20).execute();
+    new MoveShape(diagramEditor, label, 10, 20).execute();
 
     assertEquals("X shouldn't change", 200, shape.getX());
     assertEquals("Y shouldn't change", 100, shape.getY());
@@ -104,17 +98,16 @@ public class MoveTest extends GuiTest {
   }
 
   @Test
-  public void testConnectionPoint() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Input Port", 200, 100);
-    gefEditor.addToolFromPalette("Output Port", 400, 100);
+  public void testConnectionPoint() throws InterruptedException {
+    addToolFromPalette("Input Port", 200, 100);
+    addToolFromPalette("Output Port", 400, 100);
 
-    new CreateSimpleConnection(gefEditor,
+    new CreateSimpleConnection(diagramEditor,
         new WithBoGraphitiEditPart(InputPort.class),
         new WithBoGraphitiEditPart(OutputPort.class)).execute();
 
-    gefEditor.click(300, 102);
-    gefEditor.getContextMenu().getItem("Create connection point").select();
+    diagramEditor.click(300, 102);
+    diagramEditor.getContextMenu().getItem("Create connection point").select();
 
     WithShapeGraphitiEditPart scp = new WithShapeGraphitiEditPart(
         SimpleConnectionPointShape.class);
@@ -125,7 +118,7 @@ public class MoveTest extends GuiTest {
         .filter(SimpleConnectionPointShape.class::isInstance)
         .map(SimpleConnectionPointShape.class::cast).orElseThrow();
 
-    new MoveShape(gefEditor, scp, 10, 20).execute();
+    new MoveShape(diagramEditor, scp, 10, 20).execute();
 
     assertEquals("X should change", 306, shape.getX());
     assertEquals("Y should change", 123, shape.getY());

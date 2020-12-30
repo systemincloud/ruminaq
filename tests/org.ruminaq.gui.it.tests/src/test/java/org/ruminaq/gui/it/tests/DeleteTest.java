@@ -6,7 +6,6 @@
 
 package org.ruminaq.gui.it.tests;
 
-import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,43 +24,39 @@ import org.ruminaq.tests.common.reddeer.WithShapeGraphitiEditPart;
 @RunWith(RedDeerSuite.class)
 public class DeleteTest extends GuiTest {
 
-  GEFEditor gefEditor;
-
   @Before
   public void initLayout() throws InterruptedException {
-    gefEditor = new GEFEditor(diagramName);
-
-    gefEditor.addToolFromPalette("Input Port", 100, 100);
+    addToolFromPalette("Input Port", 100, 100);
     Thread.sleep(500);
-    gefEditor.addToolFromPalette("Output Port", 500, 100);
+    addToolFromPalette("Output Port", 500, 100);
     Thread.sleep(500);
-    gefEditor.addToolFromPalette("Output Port", 500, 200);
+    addToolFromPalette("Output Port", 500, 200);
     Thread.sleep(500);
-    gefEditor.addToolFromPalette("Output Port", 500, 300);
+    addToolFromPalette("Output Port", 500, 300);
 
     Thread.sleep(500);
 
-    new CreateSimpleConnection(gefEditor,
+    new CreateSimpleConnection(diagramEditor,
         new WithLabelAssociated("My Input Port"),
         new WithLabelAssociated("My Output Port")).execute();
 
-    gefEditor.click(200, 100);
+    diagramEditor.click(200, 100);
 
-    gefEditor.getContextMenu().getItem("Create connection point").select();
+    diagramEditor.getContextMenu().getItem("Create connection point").select();
 
-    new CreateSimpleConnection(gefEditor,
+    new CreateSimpleConnection(diagramEditor,
         new WithShapeGraphitiEditPart(SimpleConnectionPointShape.class),
         new WithLabelAssociated("My Output Port 1")).execute();
 
-    gefEditor.click(300, 130);
+    diagramEditor.click(300, 130);
 
-    gefEditor.getContextMenu().getItem("Create connection point").select();
+    diagramEditor.getContextMenu().getItem("Create connection point").select();
 
-    new CreateSimpleConnection(gefEditor,
+    new CreateSimpleConnection(diagramEditor,
         new WithShapeGraphitiEditPart(SimpleConnectionPointShape.class, 1),
         new WithLabelAssociated("My Output Port 2")).execute();
 
-    assertDiagram(gefEditor, "DeleteTest.initLayout.xml");
+    assertDiagram(diagramEditor, "DeleteTest.initLayout.xml");
   }
 
   @Test
@@ -69,7 +64,7 @@ public class DeleteTest extends GuiTest {
     new WithShapeGraphitiEditPart(SimpleConnectionPointShape.class, 1)
         .getContextButton("Delete").click();
     Thread.sleep(1000);
-    assertDiagram(gefEditor, "DeleteTest.testDeleteConnectionPoint.xml");
+    assertDiagram(diagramEditor, "DeleteTest.testDeleteConnectionPoint.xml");
   }
 
   @Test
@@ -78,7 +73,7 @@ public class DeleteTest extends GuiTest {
     new WithShapeGraphitiEditPart(SimpleConnectionPointShape.class, 0)
         .getContextButton("Delete").click();
     Thread.sleep(1000);
-    assertDiagram(gefEditor,
+    assertDiagram(diagramEditor,
         "DeleteTest.testDeleteConnectionPointPrecedingOtherPoint.xml");
   }
 
@@ -87,7 +82,7 @@ public class DeleteTest extends GuiTest {
     new WithLabelAssociated("My Output Port").getContextButton("Delete")
         .click();
     Thread.sleep(1000);
-    assertDiagram(gefEditor,
+    assertDiagram(diagramEditor,
         "DeleteTest.testDeleteOutputPortWithConnection.xml");
   }
 
@@ -95,7 +90,7 @@ public class DeleteTest extends GuiTest {
   public void testDeleteInputPortWithConnection() throws InterruptedException {
     new WithLabelAssociated("My Input Port").getContextButton("Delete").click();
     Thread.sleep(1000);
-    assertDiagram(gefEditor,
+    assertDiagram(diagramEditor,
         "DeleteTest.testDeleteInputPortWithConnection.xml");
   }
 

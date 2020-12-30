@@ -7,8 +7,6 @@
 package org.ruminaq.gui.it.tests;
 
 import static org.junit.Assert.assertEquals;
-
-import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,20 +24,19 @@ import org.ruminaq.tests.common.reddeer.WithTextLabel;
 public class CopyTest extends GuiTest {
 
   @Test
-  public void testCopyPort() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Input Port", 200, 100);
+  public void testCopyPort() throws InterruptedException {
+    addToolFromPalette("Input Port", 200, 100);
 
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(InputPort.class);
     ip.select();
 
-    gefEditor.getContextMenu().getItem("Copy").select();
+    diagramEditor.getContextMenu().getItem("Copy").select();
 
-    gefEditor.click(300, 200);
+    diagramEditor.click(300, 200);
 
-    gefEditor.getContextMenu().getItem("Paste").select();
+    diagramEditor.getContextMenu().getItem("Paste").select();
 
-    assertEquals("2 elements added", 5, gefEditor.getNumberOfEditParts());
+    assertEquals("2 elements added", 5, diagramEditor.getNumberOfEditParts());
 
     new WithTextLabel("(Copy) My Input Port");
   }

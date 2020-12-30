@@ -6,7 +6,6 @@
 
 package org.ruminaq.gui.it.tests;
 
-import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,30 +25,28 @@ import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 public class ReconnectionTest extends GuiTest {
 
   @Test
-  public void testReconnectionSimpleConnection() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
+  public void testReconnectionSimpleConnection() throws InterruptedException {
+    addToolFromPalette("Input Port", 200, 100);
+    addToolFromPalette("Input Port", 200, 200);
+    addToolFromPalette("Output Port", 400, 100);
+    addToolFromPalette("Output Port", 400, 200);
 
-    gefEditor.addToolFromPalette("Input Port", 200, 100);
-    gefEditor.addToolFromPalette("Input Port", 200, 200);
-    gefEditor.addToolFromPalette("Output Port", 400, 100);
-    gefEditor.addToolFromPalette("Output Port", 400, 200);
-
-    new CreateSimpleConnection(gefEditor,
+    new CreateSimpleConnection(diagramEditor,
         new WithBoGraphitiEditPart(InputPort.class, 0),
         new WithBoGraphitiEditPart(OutputPort.class, 0)).execute();
 
-    new ReconnectConnection(gefEditor,
+    new ReconnectConnection(diagramEditor,
         new WithBoGraphitiEditPart(OutputPort.class, 0),
         new WithBoGraphitiEditPart(OutputPort.class, 1)).execute();
 
-    assertDiagram(gefEditor,
+    assertDiagram(diagramEditor,
         "ReconnectionTest.testReconnectionSimpleConnection.1.xml");
-    
-    new ReconnectConnection(gefEditor,
+
+    new ReconnectConnection(diagramEditor,
         new WithBoGraphitiEditPart(InputPort.class, 0),
         new WithBoGraphitiEditPart(InputPort.class, 1)).execute();
-    
-    assertDiagram(gefEditor,
+
+    assertDiagram(diagramEditor,
         "ReconnectionTest.testReconnectionSimpleConnection.2.xml");
   }
 

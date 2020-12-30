@@ -7,7 +7,6 @@
 package org.ruminaq.tasks.sipo.it.tests;
 
 import org.eclipse.graphiti.features.context.impl.ResizeShapeContext;
-import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,15 +25,14 @@ public class ResizeTest extends GuiTest {
 
   @Test
   public void testResizeSipo() throws InterruptedException {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Sipo", 200, 100);
+    addToolFromPalette("Sipo", 200, 100);
 
     WithBoGraphitiEditPart constant = new WithBoGraphitiEditPart(Sipo.class);
 
-    new ResizeShape(gefEditor, constant,
+    new ResizeShape(diagramEditor, constant,
         ResizeShapeContext.DIRECTION_SOUTH_EAST, 40, 40).execute();
 
-    assertDiagram(gefEditor, "ResizeTest.testResizeSipo.xml");
+    assertDiagram(diagramEditor, "ResizeTest.testResizeSipo.xml");
   }
 
 }

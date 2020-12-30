@@ -48,12 +48,11 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
   @Test
   public void testCreateTestDiagram()
       throws InterruptedException, CoreException {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Input Port", 200, 100);
-    gefEditor.addToolFromPalette("Input Port", 200, 200);
-    gefEditor.addToolFromPalette("Input Port", 200, 300);
-    gefEditor.addToolFromPalette("Output Port", 400, 100);
-    gefEditor.addToolFromPalette("Output Port", 400, 200);
+    addToolFromPalette("Input Port", 200, 100);
+    addToolFromPalette("Input Port", 200, 200);
+    addToolFromPalette("Input Port", 200, 300);
+    addToolFromPalette("Output Port", 400, 100);
+    addToolFromPalette("Output Port", 400, 200);
 
     String[] path = new String[] { CreateSourceFolders.SRC,
         CreateSourceFolders.MAIN, CreateSourceFolders.RESOURCES,
@@ -73,8 +72,8 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     new WithBoGraphitiEditPart(EmbeddedTask.class).select();
     new WithBoGraphitiEditPart(EmbeddedTask.class).doubleClick();
 
-    gefEditor.addToolFromPalette("Input Port", 200, 400);
-    gefEditor.addToolFromPalette("Output Port", 400, 300);
+    addToolFromPalette("Input Port", 200, 400);
+    addToolFromPalette("Output Port", 400, 300);
 
     new SWTBotMenu(ContextMenuHelper.contextMenu(
         SelectView.selectInProjectExplorer(bot, projectName, path),
@@ -99,7 +98,7 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     udpateDiagramMenu.click();
     
     assertDiagram(gefEditorTest,
-        "CreateRuminaqTestDiagramFromDiagramTest2.xml");
+        "CreateRuminaqTestDiagramFromDiagramTest3.xml");
   }
 
 }

@@ -6,7 +6,6 @@
 
 package org.ruminaq.gui.it.tests;
 
-import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.graphiti.impl.graphitieditpart.LabeledGraphitiEditPart;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
@@ -23,8 +22,7 @@ public class DirectEditingTest extends GuiTest {
 
   @Test
   public void testEditLabel() throws InterruptedException {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Input Port", 200, 100);
+    addToolFromPalette("Input Port", 200, 100);
     LabeledGraphitiEditPart ipLabel = new LabeledGraphitiEditPart(
         "My Input Port");
     ipLabel.click();
@@ -32,7 +30,7 @@ public class DirectEditingTest extends GuiTest {
 
     Thread.sleep(1000);
 
-    assertDiagram(gefEditor, "DirectEditingTest.testEditLabel.xml");
+    assertDiagram(diagramEditor, "DirectEditingTest.testEditLabel.xml");
   }
 
 }

@@ -1,6 +1,6 @@
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Gate - Xor UI
-Bundle-Vendor: System in Cloud
+Bundle-Vendor: Ruminaq
+Automatic-Module-Name: org.ruminaq.tasks.gate.xor.ui
 Bundle-SymbolicName: org.ruminaq.tasks.gate.xor.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Import-Package: org.eclipse.core.runtime,

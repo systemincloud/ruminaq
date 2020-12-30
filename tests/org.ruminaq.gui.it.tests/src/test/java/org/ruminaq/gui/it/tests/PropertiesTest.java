@@ -9,9 +9,6 @@ package org.ruminaq.gui.it.tests;
 import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
-import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.tests.common.reddeer.GuiTest;
@@ -23,18 +20,6 @@ import org.ruminaq.tests.common.reddeer.GuiTest;
  */
 @RunWith(RedDeerSuite.class)
 public class PropertiesTest extends GuiTest {
-
-  private static SWTWorkbenchBot bot;
-
-  @BeforeClass
-  public static void initBot() {
-    bot = new SWTWorkbenchBot();
-  }
-
-  @AfterClass
-  public static void after() {
-    bot.resetWorkbench();
-  }
 
   @Test
   public void testMainTaskTab() throws InterruptedException {

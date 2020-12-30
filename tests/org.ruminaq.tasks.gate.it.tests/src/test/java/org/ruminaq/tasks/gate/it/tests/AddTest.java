@@ -6,7 +6,6 @@
 package org.ruminaq.tasks.gate.it.tests;
 
 import static org.junit.Assert.assertEquals;
-import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,46 +28,41 @@ import org.ruminaq.tests.common.reddeer.WithShapeGraphitiEditPart;
 public class AddTest extends GuiTest {
 
   @Test
-  public void testAddNAnd() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("And", 200, 100);
+  public void testAddNAnd() throws InterruptedException {
+    addToolFromPalette("And", 200, 100);
   }
 
   @Test
-  public void testAddNot() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Not", 200, 100);
+  public void testAddNot() throws InterruptedException {
+    addToolFromPalette("Not", 200, 100);
   }
 
   @Test
-  public void testAddOr() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Or", 200, 100);
+  public void testAddOr() throws InterruptedException {
+    addToolFromPalette("Or", 200, 100);
   }
 
   @Test
-  public void testAddXor() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Or", 200, 100);
+  public void testAddXor() throws InterruptedException {
+    addToolFromPalette("Or", 200, 100);
   }
 
   @Test
   public void testAddSimpleConnectionBetweenTasks()
       throws InterruptedException {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("And", 200, 100);
+    addToolFromPalette("And", 200, 100);
 
     WithShapeGraphitiEditPart outputPort = new WithShapeGraphitiEditPart(
         InternalOutputPortShape.class);
     assertEquals("Internal Output Port should have 1 context button.", 1,
         outputPort.getContextButtons().size());
 
-    gefEditor.addToolFromPalette("Not", 300, 200);
+    addToolFromPalette("Not", 300, 200);
 
-    new CreateSimpleConnection(gefEditor,
+    new CreateSimpleConnection(diagramEditor,
         new WithBoGraphitiEditPart(And.class, InternalOutputPort.class),
         new WithBoGraphitiEditPart(Not.class, InternalInputPort.class))
             .execute();
-    assertDiagram(gefEditor, "AddTest.testAddSimpleConnectionBetweenTasks.xml");
+    assertDiagram(diagramEditor, "AddTest.testAddSimpleConnectionBetweenTasks.xml");
   }
 }

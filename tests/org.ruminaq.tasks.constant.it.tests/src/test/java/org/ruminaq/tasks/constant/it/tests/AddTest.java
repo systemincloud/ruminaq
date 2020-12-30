@@ -6,7 +6,6 @@
 
 package org.ruminaq.tasks.constant.it.tests;
 
-import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,12 +21,11 @@ public class AddTest extends GuiTest {
 
   @Test
   public void testAddConstant() throws InterruptedException {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Constant", 200, 100);
+    addToolFromPalette("Constant", 200, 100);
 
     Thread.sleep(1000);
 
-    assertDiagram(gefEditor, "AddTest.testAddConstant.xml");
+    assertDiagram(diagramEditor, "AddTest.testAddConstant.xml");
   }
 
 }

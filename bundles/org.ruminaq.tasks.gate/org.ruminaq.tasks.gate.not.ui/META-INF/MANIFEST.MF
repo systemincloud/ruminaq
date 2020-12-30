@@ -1,5 +1,4 @@
 Bundle-ManifestVersion: 2
-Bundle-Name: Ruminaq - Gate - Not UI
 Bundle-Vendor: Marek Jagielski
 Bundle-SymbolicName: org.ruminaq.tasks.gate.not.ui;singleton:=true
 Bundle-Version: 1.0.0.qualifier

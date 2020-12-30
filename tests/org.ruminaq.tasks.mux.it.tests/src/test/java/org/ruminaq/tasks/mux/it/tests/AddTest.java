@@ -6,7 +6,6 @@
 
 package org.ruminaq.tasks.mux.it.tests;
 
-import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,15 +20,13 @@ import org.ruminaq.tests.common.reddeer.GuiTest;
 public class AddTest extends GuiTest {
 
   @Test
-  public void testAddMux() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Mux", 200, 100);
+  public void testAddMux() throws InterruptedException {
+    addToolFromPalette("Mux", 200, 100);
   }
 
   @Test
-  public void testAddDemux() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Demux", 200, 100);
+  public void testAddDemux() throws InterruptedException {
+    addToolFromPalette("Demux", 200, 100);
   }
 
 }

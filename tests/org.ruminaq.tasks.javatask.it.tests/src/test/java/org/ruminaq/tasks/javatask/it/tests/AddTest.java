@@ -8,7 +8,6 @@ package org.ruminaq.tasks.javatask.it.tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
-import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
@@ -45,8 +44,7 @@ public class AddTest extends GuiTest {
 
   @Test
   public void testAddJavaTask() throws InterruptedException {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Java Task", 200, 100);
+    addToolFromPalette("Java Task", 200, 100);
 
     PropertySheet propertiesView = new PropertySheet();
 
@@ -65,7 +63,7 @@ public class AddTest extends GuiTest {
 
     Thread.sleep(10000);
 
-    gefEditor.activate();
+    diagramEditor.activate();
 
     WithBoGraphitiEditPart jt = new WithBoGraphitiEditPart(JavaTask.class);
     jt.select();
@@ -98,7 +96,7 @@ public class AddTest extends GuiTest {
 
     assertEquals("test.Ports", bot.text().getText(), "Should fill field");
 
-    assertDiagram(gefEditor, "AddTest.testAddJavaTask.1.xml");
+    assertDiagram(diagramEditor, "AddTest.testAddJavaTask.1.xml");
 
     jt.doubleClick();
 
@@ -155,7 +153,7 @@ public class AddTest extends GuiTest {
 
     textEditor.save();
 
-    gefEditor.activate();
+    diagramEditor.activate();
 
     new WithBoGraphitiEditPart(JavaTask.class).select();
 
@@ -166,7 +164,7 @@ public class AddTest extends GuiTest {
 
     Thread.sleep(1000);
 
-    assertDiagram(gefEditor, "AddTest.testAddJavaTask.2.xml");
+    assertDiagram(diagramEditor, "AddTest.testAddJavaTask.2.xml");
 
     textEditor.show();
 
@@ -181,7 +179,7 @@ public class AddTest extends GuiTest {
 
     textEditor.save();
 
-    gefEditor.activate();
+    diagramEditor.activate();
 
     new WithBoGraphitiEditPart(JavaTask.class).select();
 
@@ -192,7 +190,7 @@ public class AddTest extends GuiTest {
 
     Thread.sleep(1000);
 
-    assertDiagram(gefEditor, "AddTest.testAddJavaTask.3.xml");
+    assertDiagram(diagramEditor, "AddTest.testAddJavaTask.3.xml");
   }
 
 }

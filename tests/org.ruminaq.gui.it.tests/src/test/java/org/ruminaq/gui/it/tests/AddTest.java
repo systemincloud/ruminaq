@@ -10,14 +10,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import java.util.List;
+import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.reddeer.core.handler.WidgetHandler;
 import org.eclipse.reddeer.gef.api.Palette;
-import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.graphiti.api.ContextButton;
 import org.eclipse.reddeer.graphiti.impl.graphitieditpart.LabeledGraphitiEditPart;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.reddeer.swt.api.MenuItem;
+import org.eclipse.swt.SWT;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.editor.RuminaqEditor;
@@ -44,19 +46,17 @@ public class AddTest extends GuiTest {
 
   @Test
   public void testPalette() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    Palette palette = gefEditor.getPalette();
+    Palette palette = diagramEditor.getPalette();
     List<String> tools = palette.getTools();
     assertTrue("Input Port in Palette", tools.contains("Input Port"));
     assertTrue("Output Port in Palette", tools.contains("Output Port"));
   }
 
   @Test
-  public void testAddInputPort() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Input Port", 200, 100);
-    assertFalse("Editor is always saved", gefEditor.isDirty());
-    assertEquals("2 elements added", 3, gefEditor.getNumberOfEditParts());
+  public void testAddInputPort() throws InterruptedException {
+    addToolFromPalette("Input Port", 200, 100);
+    assertFalse("Editor is always saved", diagramEditor.isDirty());
+    assertEquals("2 elements added", 3, diagramEditor.getNumberOfEditParts());
     LabeledGraphitiEditPart ipLabel = new LabeledGraphitiEditPart(
         "My Input Port");
     assertEquals("Label shouldn't have any pad buttons", 0,
@@ -71,22 +71,21 @@ public class AddTest extends GuiTest {
     assertEquals("InputPort should have 2 pad buttons", 2, buttons.size());
 
     ip.getContextButton("Delete").click();
-    assertEquals("0 elements left", 1, gefEditor.getNumberOfEditParts());
+    assertEquals("0 elements left", 1, diagramEditor.getNumberOfEditParts());
 
-    gefEditor.addToolFromPalette("Input Port", 200, 100);
+    addToolFromPalette("Input Port", 200, 100);
     new LabeledGraphitiEditPart("My Input Port").select();
-    gefEditor.addToolFromPalette("Input Port", 200, 200);
+    addToolFromPalette("Input Port", 200, 200);
     new LabeledGraphitiEditPart("My Input Port 1").select();
-    gefEditor.addToolFromPalette("Input Port", 200, 300);
+    addToolFromPalette("Input Port", 200, 300);
     new LabeledGraphitiEditPart("My Input Port 2").select();
   }
 
   @Test
   public void testAddOutputPort() throws InterruptedException {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Output Port", 200, 100);
-    assertFalse("Editor is always saved", gefEditor.isDirty());
-    assertEquals("2 elements added", 3, gefEditor.getNumberOfEditParts());
+    addToolFromPalette("Output Port", 200, 100);
+    assertFalse("Editor is always saved", diagramEditor.isDirty());
+    assertEquals("2 elements added", 3, diagramEditor.getNumberOfEditParts());
     LabeledGraphitiEditPart opLabel = new LabeledGraphitiEditPart(
         "My Output Port");
     assertEquals("Label shouldn't have any pad buttons", 0,
@@ -94,52 +93,52 @@ public class AddTest extends GuiTest {
 
     Thread.sleep(1000);
 
-    assertDiagram(gefEditor, "AddTest.testAddOutputPort.xml");
+    assertDiagram(diagramEditor, "AddTest.testAddOutputPort.xml");
   }
 
   @Test
   public void testAddSimpleConnection() throws InterruptedException {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Input Port", 200, 100);
-    gefEditor.addToolFromPalette("Output Port", 400, 300);
+    addToolFromPalette("Input Port", 200, 100);
+    addToolFromPalette("Output Port", 400, 300);
 
-    new CreateSimpleConnection(gefEditor,
+    new CreateSimpleConnection(diagramEditor,
         new WithBoGraphitiEditPart(InputPort.class),
         new WithBoGraphitiEditPart(OutputPort.class)).execute();
-    assertDiagram(gefEditor, "AddTest.testAddSimpleConnection.1.xml");
+    assertDiagram(diagramEditor, "AddTest.testAddSimpleConnection.1.xml");
 
     new WithShapeGraphitiConnection(SimpleConnectionShape.class).select();
-    gefEditor.getContextMenu().getItem("Delete").select();
+    diagramEditor.getContextMenu().getItem("Delete").select();
 
     Thread.sleep(2000);
 
-    assertDiagram(gefEditor, "AddTest.testAddSimpleConnection.2.xml");
+    assertDiagram(diagramEditor, "AddTest.testAddSimpleConnection.2.xml");
   }
 
   @Test
-  public void testAddSimpleConnectionPoint() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Input Port", 200, 100);
-    gefEditor.addToolFromPalette("Output Port", 400, 100);
+  public void testAddSimpleConnectionPoint() throws InterruptedException {
+    addToolFromPalette("Input Port", 200, 100);
+    addToolFromPalette("Output Port", 400, 100);
 
-    new CreateSimpleConnection(gefEditor,
+    new CreateSimpleConnection(diagramEditor,
         new WithBoGraphitiEditPart(InputPort.class),
         new WithBoGraphitiEditPart(OutputPort.class)).execute();
 
-    gefEditor.click(300, 200);
+    diagramEditor.click(300, 200);
 
     assertTrue("Can't create connection point if clicked too far",
-        gefEditor.getContextMenu().getItems().stream().map(MenuItem::getText)
+        diagramEditor.getContextMenu().getItems().stream()
+            .map(MenuItem::getText)
             .noneMatch("Create connection point"::equals));
 
-    gefEditor.click(300, 102);
+    diagramEditor.click(300, 102);
 
     assertTrue("Can create connection point if clicked close",
-        gefEditor.getContextMenu().getItems().stream().map(MenuItem::getText)
+        diagramEditor.getContextMenu().getItems().stream()
+            .map(MenuItem::getText)
             .anyMatch("Create connection point"::equals));
 
-    gefEditor.getContextMenu().getItem("Create connection point").select();
-    assertEquals("6 elements", 6, gefEditor.getNumberOfEditParts());
+    diagramEditor.getContextMenu().getItem("Create connection point").select();
+    assertEquals("6 elements", 6, diagramEditor.getNumberOfEditParts());
 
     WithShapeGraphitiEditPart connectionPoint = new WithShapeGraphitiEditPart(
         SimpleConnectionPointShape.class);
@@ -147,21 +146,21 @@ public class AddTest extends GuiTest {
     assertEquals("Connection point should have 2 buttons.", 2,
         connectionPoint.getContextButtons().size());
 
-    gefEditor.addToolFromPalette("Output Port", 400, 200);
+    addToolFromPalette("Output Port", 400, 200);
 
-    new CreateSimpleConnection(gefEditor, connectionPoint,
+    new CreateSimpleConnection(diagramEditor, connectionPoint,
         new WithLabelAssociated("My Output Port 1")).execute();
 
-    assertEquals("8 elements", 8, gefEditor.getNumberOfEditParts());
+    assertEquals("8 elements", 8, diagramEditor.getNumberOfEditParts());
   }
 
   @Test
-  public void testAddSimpleConnectionPointAfterBend() throws InterruptedException {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Input Port", 200, 100);
-    gefEditor.addToolFromPalette("Output Port", 400, 100);
+  public void testAddSimpleConnectionPointAfterBend()
+      throws InterruptedException {
+    addToolFromPalette("Input Port", 200, 100);
+    addToolFromPalette("Output Port", 400, 100);
 
-    new CreateSimpleConnection(gefEditor,
+    new CreateSimpleConnection(diagramEditor,
         new WithBoGraphitiEditPart(InputPort.class),
         new WithBoGraphitiEditPart(OutputPort.class)).execute();
 
@@ -169,7 +168,8 @@ public class AddTest extends GuiTest {
         SimpleConnectionShape.class);
     connection.select();
 
-    RuminaqEditor ruminaqEditor = ((RuminaqEditor) gefEditor.getEditorPart());
+    RuminaqEditor ruminaqEditor = ((RuminaqEditor) diagramEditor
+        .getEditorPart());
     TransactionalEditingDomain editDomain = ruminaqEditor.getDiagramBehavior()
         .getEditingDomain();
     connection.getConnection().filter(SimpleConnectionShape.class::isInstance)
@@ -178,18 +178,19 @@ public class AddTest extends GuiTest {
         .ifPresent(list -> ModelUtil.runModelChange(
             () -> list.add(Graphiti.getGaService().createPoint(300, 200)),
             editDomain, ""));
-    gefEditor.click(350, 150);
-    gefEditor.getContextMenu().getItem("Create connection point").select();
+    diagramEditor.click(350, 150);
+    diagramEditor.getContextMenu().getItem("Create connection point").select();
 
     Thread.sleep(1000);
 
-    assertDiagram(gefEditor, "AddTest.testAddSimpleConnectionPointAfterBend.xml");
+    assertDiagram(diagramEditor,
+        "AddTest.testAddSimpleConnectionPointAfterBend.xml");
   }
 
   @Test
-  public void testAddEmbeddedTaskFromPalette() {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Embedded Task", 200, 100);
+  public void testAddEmbeddedTaskFromPalette() throws InterruptedException {
+    diagramEditor.getPalette().activateTool("Embedded Task", null);
+    addToolFromPalette("Embedded Task", 200, 100);
 
     WithBoGraphitiEditPart et = new WithBoGraphitiEditPart(EmbeddedTask.class);
     et.select();

@@ -8,9 +8,7 @@ package org.ruminaq.gui.it.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.ruminaq.gui.model.GuiUtil.createPoint;
-
 import java.util.stream.Stream;
-
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

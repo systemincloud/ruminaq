@@ -9,14 +9,19 @@ package org.ruminaq.tests.common.reddeer;
 import static org.junit.Assert.assertFalse;
 import java.util.Arrays;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.reddeer.common.wait.TimePeriod;
 import org.eclipse.reddeer.common.wait.WaitUntil;
+import org.eclipse.reddeer.core.handler.WidgetHandler;
 import org.eclipse.reddeer.eclipse.condition.ProjectExists;
 import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.reddeer.eclipse.utils.DeleteUtils;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.workbench.impl.shell.WorkbenchShell;
+import org.eclipse.swt.SWT;
+import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
@@ -35,6 +40,20 @@ public class GuiTest {
   protected String projectName;
 
   protected String diagramName;
+
+  protected GEFEditor diagramEditor;
+
+  protected static SWTWorkbenchBot bot;
+
+  @BeforeClass
+  public static void initBot() {
+    bot = new SWTWorkbenchBot();
+  }
+
+  @AfterClass
+  public static void after() {
+    bot.resetWorkbench();
+  }
 
   private static int levenshteinDistanceate(String x, String y) {
     int[][] dp = new int[x.length() + 1][y.length() + 1];
@@ -70,7 +89,7 @@ public class GuiTest {
   }
 
   @Before
-  public void createProject() {
+  public void createProject() throws InterruptedException {
     projectName = "test"
         + RandomStringUtils.randomAlphabetic(PROJECT_SUFFIX_LENGTH);
 
@@ -83,6 +102,7 @@ public class GuiTest {
     new RuminaqDiagramWizard().create(projectName,
         CreateSourceFolders.DIAGRAM_FOLDER,
         diagramName + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT);
+    diagramEditor = new GEFEditor(diagramName);
   }
 
   @After
@@ -92,6 +112,18 @@ public class GuiTest {
     projectExplorer.open();
     DeleteUtils.forceProjectDeletion(projectExplorer.getProject(projectName),
         true);
+  }
+
+  protected void addToolFromPalette(String tool, int x, int y) throws InterruptedException {
+    diagramEditor.getPalette().activateTool(tool, null);
+    FigureCanvas figureCanvas = (FigureCanvas) diagramEditor.getControl();
+    WidgetHandler.getInstance().notifyItemMouse(SWT.MouseMove, 0, figureCanvas,
+        null, x, y, 0);
+    WidgetHandler.getInstance().notifyItemMouse(SWT.MouseDown, 0, figureCanvas,
+        null, x, y, 1);
+    Thread.sleep(1000);
+    WidgetHandler.getInstance().notifyItemMouse(SWT.MouseUp, 0, figureCanvas,
+        null, x, y, 1);
   }
 
   protected void assertDiagram(GEFEditor gefEditor, String resourcePath) {
@@ -107,7 +139,7 @@ public class GuiTest {
             if (Math.abs(Integer
                 .parseInt((String) comparison.getControlDetails().getValue())
                 - Integer.parseInt(
-                    (String) comparison.getTestDetails().getValue())) < 6) {
+                    (String) comparison.getTestDetails().getValue())) < 7) {
               return ComparisonResult.EQUAL;
             }
           }
@@ -118,29 +150,30 @@ public class GuiTest {
                   .endsWith("@implementationPath")) {
             if (levenshteinDistanceate(
                 (String) comparison.getControlDetails().getValue(),
-                (String) comparison.getTestDetails().getValue()) <= DIAGRAM_SUFFIX_LENGTH) {
+                (String) comparison.getTestDetails()
+                    .getValue()) <= DIAGRAM_SUFFIX_LENGTH) {
               return ComparisonResult.EQUAL;
             }
           }
-          
+
           if (outcome == ComparisonResult.DIFFERENT
               && comparison.getType() == ComparisonType.ATTR_VALUE
-              && comparison.getControlDetails().getXPath()
-                  .endsWith("@id")) {
+              && comparison.getControlDetails().getXPath().endsWith("@id")) {
             if (levenshteinDistanceate(
                 (String) comparison.getControlDetails().getValue(),
-                (String) comparison.getTestDetails().getValue()) <= DIAGRAM_SUFFIX_LENGTH) {
+                (String) comparison.getTestDetails()
+                    .getValue()) <= DIAGRAM_SUFFIX_LENGTH) {
               return ComparisonResult.EQUAL;
             }
           }
-          
+
           if (outcome == ComparisonResult.DIFFERENT
-              && comparison.getType() == ComparisonType.ATTR_VALUE
-              && comparison.getControlDetails().getXPath()
-                  .endsWith("@description")) {
+              && comparison.getType() == ComparisonType.ATTR_VALUE && comparison
+                  .getControlDetails().getXPath().endsWith("@description")) {
             if (levenshteinDistanceate(
                 (String) comparison.getControlDetails().getValue(),
-                (String) comparison.getTestDetails().getValue()) <= DIAGRAM_SUFFIX_LENGTH) {
+                (String) comparison.getTestDetails()
+                    .getValue()) <= DIAGRAM_SUFFIX_LENGTH) {
               return ComparisonResult.EQUAL;
             }
           }
@@ -149,4 +182,5 @@ public class GuiTest {
         })).build();
     assertFalse(diff.toString(), diff.hasDifferences());
   }
+
 }

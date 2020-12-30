@@ -7,7 +7,6 @@
 package org.ruminaq.tasks.constant.it.tests;
 
 import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
-import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.junit.AfterClass;
@@ -40,8 +39,7 @@ public class PropertiesTest extends GuiTest {
 
   @Test
   public void testDescrptionTab() throws InterruptedException {
-    GEFEditor gefEditor = new GEFEditor(diagramName);
-    gefEditor.addToolFromPalette("Constant", 200, 100);
+    addToolFromPalette("Constant", 200, 100);
 
     WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(Constant.class);
     ip.doubleClick();
