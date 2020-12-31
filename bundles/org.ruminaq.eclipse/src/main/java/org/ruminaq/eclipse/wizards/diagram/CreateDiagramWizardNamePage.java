@@ -68,14 +68,14 @@ public class CreateDiagramWizardNamePage extends WizardPage {
 
   private ISelection selection;
 
-  protected static class ShowOnlyProjects extends ViewerFilter {
+  private static class ShowOnlyProjects extends ViewerFilter {
     @Override
     public boolean select(Viewer arg0, Object parent, Object element) {
       return Selectable.valueOf(element.getClass()) == Selectable.PROJECT;
     }
   }
 
-  protected static class ShowDiagramFolder extends ViewerFilter {
+  private static class ShowDiagramFolder extends ViewerFilter {
 
     private String diagramFolder;
 

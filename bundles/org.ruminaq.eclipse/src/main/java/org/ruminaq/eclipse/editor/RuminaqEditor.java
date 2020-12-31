@@ -93,7 +93,7 @@ public class RuminaqEditor extends DiagramEditor {
         .map(GraphicalViewer::getEditPartRegistry)
         .map(epr -> epr.get(LayerManager.ID))
         .filter(ScalableFreeformRootEditPart.class::isInstance)
-        .map(epr -> (ScalableFreeformRootEditPart) epr)
+        .map(ScalableFreeformRootEditPart.class::cast)
         .map(re -> re.getLayer(LayerConstants.GRID_LAYER))
         .ifPresent(gf -> gf.setVisible(true));
   }
@@ -140,16 +140,16 @@ public class RuminaqEditor extends DiagramEditor {
         Messages.modelChangeInitialization);
   }
 
-  @Override
-  public void setFocus() {
-    super.setFocus();
-    updateShapes();
-  }
-
+  /**
+   * Update chosen shapes in diagram.
+   *
+   * @param shapes Graphiti shapes to update
+   * @param fp IFeatureProvider
+   */
   public static void updateShapes(EList<Shape> shapes, IFeatureProvider fp) {
     shapes.stream().map(UpdateContext::new)
         .filter(ctx -> fp.canUpdate(ctx).toBoolean())
-        .forEach(ctx -> fp.updateIfPossible(ctx));
+        .forEach(fp::updateIfPossible);
     shapes.stream().filter(ContainerShape.class::isInstance)
         .map(ContainerShape.class::cast).map(ContainerShape::getChildren)
         .forEach(s -> updateShapes(s, fp));
@@ -159,8 +159,14 @@ public class RuminaqEditor extends DiagramEditor {
     return Optional.ofNullable(getEditingDomain())
         .map(EditingDomain::getCommandStack)
         .filter(IWorkspaceCommandStack.class::isInstance)
-        .map(ed -> (IWorkspaceCommandStack) ed)
+        .map(IWorkspaceCommandStack.class::cast)
         .map(IWorkspaceCommandStack::getOperationHistory);
+  }
+  
+  @Override
+  public void setFocus() {
+    super.setFocus();
+    updateShapes();
   }
 
   /**

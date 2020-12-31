@@ -34,7 +34,7 @@ public class EditorLinkHelper implements ILinkHelper {
   public IStructuredSelection findSelection(IEditorInput editorInput) {
     return Optional.ofNullable(editorInput).filter(IEditorInput::exists)
         .filter(ei -> ei instanceof DiagramEditorInput)
-        .map(ei -> (DiagramEditorInput) ei).map(DiagramEditorInput::getUri)
+        .map(DiagramEditorInput.class::cast).map(DiagramEditorInput::getUri)
         .map(EditorLinkHelper::getFile).map(StructuredSelection::new)
         .orElse(StructuredSelection.EMPTY);
   }
@@ -44,7 +44,7 @@ public class EditorLinkHelper implements ILinkHelper {
       IStructuredSelection selection) {
     Optional.ofNullable(selection).filter(s -> !s.isEmpty())
         .map(IStructuredSelection::getFirstElement)
-        .filter(o -> o instanceof IFile).map(s -> (IFile) s)
+        .filter(o -> o instanceof IFile).map(IFile.class::cast)
         .map(FileEditorInput::new).map(page::findEditor)
         .ifPresent(page::bringToTop);
   }

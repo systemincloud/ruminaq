@@ -79,7 +79,7 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
     return false;
   }
 
-  private MainTask loadTask(URI uri) {
+  private static MainTask loadTask(URI uri) {
     return Optional.of(uri)
         .map(u -> Result
             .attempt(() -> new ResourceSetImpl().getResource(u, true)))
