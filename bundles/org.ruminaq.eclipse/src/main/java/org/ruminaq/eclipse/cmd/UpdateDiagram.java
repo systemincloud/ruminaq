@@ -24,7 +24,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.transaction.Transaction;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -48,24 +47,16 @@ import org.ruminaq.util.Try;
  */
 public class UpdateDiagram {
 
-  protected final class SaveOperation
+  private final class SaveOperation
       implements IRunnableWithProgress, IThreadListener {
-    private final Map<Resource, Map<?, ?>> saveOptions;
-    private final Set<Resource> savedResources;
     private final TransactionalEditingDomain ed;
 
-    private SaveOperation(Map<Resource, Map<?, ?>> saveOptions,
-        Set<Resource> savedResources, TransactionalEditingDomain ed) {
-      this.saveOptions = saveOptions;
-      this.savedResources = savedResources;
+    private SaveOperation(TransactionalEditingDomain ed) {
       this.ed = ed;
     }
 
     public void run(IProgressMonitor monitor) {
-      try {
-        savedResources.addAll(save(ed, saveOptions, monitor));
-      } catch (final WrappedException e) {
-      }
+      savedResources.addAll(save(ed, saveOptions));
     }
 
     @Override
@@ -76,10 +67,13 @@ public class UpdateDiagram {
     }
   }
 
-  protected Set<Resource> save(final TransactionalEditingDomain ed,
-      final Map<Resource, Map<?, ?>> saveOptions, IProgressMonitor monitor) {
+  private final Map<Resource, Map<?, ?>> saveOptions = new HashMap<>();
+  private final Set<Resource> savedResources = new HashSet<>();
 
-    final Set<Resource> savedResources = new HashSet<Resource>();
+  protected Set<Resource> save(final TransactionalEditingDomain ed,
+      final Map<Resource, Map<?, ?>> saveOptions) {
+
+    final Set<Resource> savedResources = new HashSet<>();
     final IWorkspaceRunnable wsRunnable = new IWorkspaceRunnable() {
       public void run(final IProgressMonitor monitor) throws CoreException {
         final Runnable runnable = () -> {
@@ -90,7 +84,7 @@ public class UpdateDiagram {
             do {
               if (!parentTx.isReadOnly())
                 throw new IllegalStateException(
-                    "saveInWorkspaceRunnable() called from within a command (likely to produce deadlock)"); //$NON-NLS-1$
+                    "saveInWorkspaceRunnable() called from within a command (likely to produce deadlock)");
             } while ((parentTx = ((InternalTransactionalEditingDomain) ed)
                 .getActiveTransaction().getParent()) != null);
           }
@@ -165,27 +159,15 @@ public class UpdateDiagram {
 
   private void save(Resource r, IDiagramTypeProvider dtp,
       TransactionalEditingDomain ed) {
-    final Map<Object, Object> saveOption = new HashMap<Object, Object>();
+    final Map<Object, Object> saveOption = new HashMap<>();
     saveOption.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
         Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-    final Map<Resource, Map<?, ?>> saveOptions = new HashMap<Resource, Map<?, ?>>();
     saveOptions.put(r, saveOption);
-
-    final Set<Resource> savedResources = new HashSet<Resource>();
-    final IRunnableWithProgress operation = new SaveOperation(saveOptions,
-        savedResources, ed);
-
-    try {
-      ModalContext.run(operation, true, new NullProgressMonitor(),
-          Display.getDefault());
-
-      BasicCommandStack commandStack = (BasicCommandStack) ed.getCommandStack();
-      commandStack.saveIsDone();
-    } catch (Exception exception) {
-    }
-
-    Resource[] savedResourcesArray = savedResources
-        .toArray(new Resource[savedResources.size()]);
-    dtp.resourcesSaved(dtp.getDiagram(), savedResourcesArray);
+    Try.check(() -> ModalContext.run(new SaveOperation(ed), true,
+        new NullProgressMonitor(), Display.getDefault()));
+    BasicCommandStack commandStack = (BasicCommandStack) ed.getCommandStack();
+    commandStack.saveIsDone();
+    dtp.resourcesSaved(dtp.getDiagram(),
+        savedResources.stream().toArray(Resource[]::new));
   }
 }
