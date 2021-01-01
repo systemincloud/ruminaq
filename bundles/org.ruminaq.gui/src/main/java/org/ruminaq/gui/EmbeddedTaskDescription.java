@@ -9,7 +9,6 @@ package org.ruminaq.gui;
 import java.util.Optional;
 import java.util.function.Predicate;
 import org.osgi.service.component.annotations.Component;
-import org.ruminaq.gui.EmbeddedTaskDescription.Filter;
 import org.ruminaq.gui.api.PropertyDescriptionExtension;
 import org.ruminaq.gui.properties.MarkdownDescription;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
@@ -22,11 +21,11 @@ import org.ruminaq.util.ServiceFilterArgs;
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=5" })
-@ServiceFilter(Filter.class)
+@ServiceFilter(EmbeddedTaskDescription.Filter.class)
 public class EmbeddedTaskDescription extends MarkdownDescription
     implements PropertyDescriptionExtension {
 
-  protected static class Filter implements Predicate<ServiceFilterArgs> {
+  private static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {
