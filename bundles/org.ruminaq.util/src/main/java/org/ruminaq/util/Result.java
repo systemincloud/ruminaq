@@ -8,6 +8,7 @@ package org.ruminaq.util;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -55,6 +56,11 @@ public class Result<V, E extends Throwable> extends Try<E> {
   public <T> Result<T, E> map(Function<? super V, ? extends T> mapper) {
     return Optional.ofNullable(error).map(e -> Result.<T, E>failure(e))
         .orElseGet(() -> Result.success(mapper.apply(value)));
+  }
+
+  public Result<V, E> peek(Consumer<V> c) {
+    Optional.ofNullable(value).ifPresent(v -> c.accept(v));
+    return this;
   }
 
   public V orElse(V orValue) {
