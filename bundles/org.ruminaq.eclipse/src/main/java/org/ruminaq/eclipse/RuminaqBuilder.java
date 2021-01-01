@@ -38,7 +38,7 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
     public boolean visit(IResourceDelta delta) throws CoreException {
       if (delta.getKind() == IResourceDelta.ADDED
           || delta.getKind() == IResourceDelta.CHANGED) {
-        validate(delta, monitor);
+        ProjectValidator.validate(delta, monitor);
       }
       return true;
     }
@@ -53,7 +53,7 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
 
     @Override
     public boolean visit(IResource resource) {
-      validate(resource, monitor);
+      ProjectValidator.validate(resource, monitor);
       return true;
     }
   }
@@ -77,14 +77,6 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
   protected void incrementalBuild(IResourceDelta delta,
       IProgressMonitor monitor) throws CoreException {
     delta.accept(new RuminaqDeltaVisitor(monitor));
-  }
-
-  void validate(IResourceDelta delta, IProgressMonitor monitor) {
-    ProjectValidator.validate(delta, monitor);
-  }
-
-  void validate(IResource resource, IProgressMonitor monitor) {
-    ProjectValidator.validate(resource, monitor);
   }
 
   protected void fullBuild(IProgressMonitor monitor) {
