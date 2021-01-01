@@ -7,6 +7,7 @@
 package org.ruminaq.eclipse.validation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -48,12 +49,10 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
       return ctx.createSuccessStatus();
     }
     URI modelPath = EclipseUtil.getUriOf(task);
-    String prefix = "/" + modelPath.segment(0) + "/";
-    MainTask embeddedTask = loadTask(modelPath);
-    List<String> deph = new ArrayList<>();
-    deph.add(URI.createURI(Stream.of(modelPath.segments()).skip(1)
-        .collect(Collectors.joining("/"))).toString());
-    return Optional.of(ctx).filter(c -> detectLoop(prefix, embeddedTask, deph))
+    return Optional.of(ctx).filter(c -> detectLoop(
+        "/" + modelPath.segment(0) + "/", loadTask(modelPath),
+        Collections.singletonList(URI.createURI(Stream.of(modelPath.segments())
+            .skip(1).collect(Collectors.joining("/"))).toString())))
         .map(IValidationContext::createFailureStatus)
         .orElseGet(ctx::createSuccessStatus);
   }
@@ -88,5 +87,4 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
         .filter(MainTask.class::isInstance).map(MainTask.class::cast)
         .findFirst().orElse(null);
   }
-
 }
