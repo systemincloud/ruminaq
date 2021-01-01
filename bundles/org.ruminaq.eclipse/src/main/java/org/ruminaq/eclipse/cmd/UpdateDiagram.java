@@ -6,6 +6,7 @@
 
 package org.ruminaq.eclipse.cmd;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -95,10 +96,9 @@ public class UpdateDiagram {
 
   private void save(Resource r, IDiagramTypeProvider dtp,
       TransactionalEditingDomain ed) {
-    Map<Object, Object> saveOption = new HashMap<>();
-    saveOption.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
-        Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-    saveOptions.put(r, saveOption);
+    saveOptions.put(r,
+        Collections.singletonMap(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
+            Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER));
     Try.check(() -> ModalContext.run(new SaveOperation(ed), true,
         new NullProgressMonitor(), Display.getDefault()));
     BasicCommandStack commandStack = (BasicCommandStack) ed.getCommandStack();
