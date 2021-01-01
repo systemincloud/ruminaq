@@ -7,7 +7,6 @@
 package org.ruminaq.eclipse;
 
 import java.util.Map;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
@@ -16,6 +15,7 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.ruminaq.util.Try;
 import org.ruminaq.validation.ProjectValidator;
 
 /**
@@ -36,12 +36,9 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
 
     @Override
     public boolean visit(IResourceDelta delta) throws CoreException {
-      switch (delta.getKind()) {
-        case IResourceDelta.ADDED, IResourceDelta.CHANGED:
-          validate(delta, monitor);
-          break;
-        default:
-          break;
+      if (delta.getKind() == IResourceDelta.ADDED
+          || delta.getKind() == IResourceDelta.CHANGED) {
+        validate(delta, monitor);
       }
       return true;
     }
@@ -62,8 +59,8 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
   }
 
   @Override
-  protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor)
-      throws CoreException {
+  protected IProject[] build(int kind, Map<String, String> args,
+      IProgressMonitor monitor) throws CoreException {
     if (kind == FULL_BUILD) {
       fullBuild(monitor);
     } else {
@@ -90,12 +87,7 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
     ProjectValidator.validate(resource, monitor);
   }
 
-  protected void fullBuild(final IProgressMonitor monitor)
-      throws CoreException {
-    try {
-      getProject().accept(new RuminaqResourceVisitor(monitor));
-    } catch (CoreException e) {
-    }
+  protected void fullBuild(IProgressMonitor monitor) {
+    Try.check(() -> getProject().accept(new RuminaqResourceVisitor(monitor)));
   }
-
 }
