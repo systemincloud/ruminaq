@@ -6,12 +6,12 @@
 
 package org.ruminaq.gui.api;
 
+import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.util.Result;
 
@@ -36,10 +36,13 @@ public interface MultipleFeaturesExtension<T> {
       IFeatureProvider fp) {
     return Optional.ofNullable(features).orElseGet(Collections::emptyList)
         .stream()
-        .map(
-            f -> Result.attempt(() -> f.getConstructor(IFeatureProvider.class)))
+        .map(f -> Result
+            .attempt(() -> f.getDeclaredConstructor(IFeatureProvider.class)))
         .map(r -> Optional.ofNullable(r.orElse(null))).flatMap(Optional::stream)
-        .map(f -> Result.attempt(() -> f.newInstance(fp)))
+        .map((Constructor<? extends T> c) -> {
+          c.setAccessible(true);
+          return c;
+        }).map(f -> Result.attempt(() -> f.newInstance(fp)))
         .map(r -> Optional.ofNullable(r.orElse(null))).flatMap(Optional::stream)
         .collect(Collectors.toList());
   }
