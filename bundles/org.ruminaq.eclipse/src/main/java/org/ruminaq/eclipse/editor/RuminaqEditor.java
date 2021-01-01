@@ -129,10 +129,10 @@ public class RuminaqEditor extends DiagramEditor {
             .ifPresent(e -> doSave(new NullProgressMonitor()))));
 
     addMarkerChangeListener();
-    updateShapes();
+    update();
   }
 
-  private void updateShapes() {
+  private void update() {
     ModelUtil.runModelChange(
         () -> updateShapes(getRuminaqDiagram().getChildren(),
             getDiagramTypeProvider().getFeatureProvider()),
@@ -166,7 +166,7 @@ public class RuminaqEditor extends DiagramEditor {
   @Override
   public void setFocus() {
     super.setFocus();
-    updateShapes();
+    update();
   }
 
   /**
