@@ -7,6 +7,7 @@
 package org.ruminaq.eclipse.editor;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,7 +22,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -146,7 +146,7 @@ public class RuminaqEditor extends DiagramEditor {
    * @param shapes Graphiti shapes to update
    * @param fp IFeatureProvider
    */
-  public static void updateShapes(EList<Shape> shapes, IFeatureProvider fp) {
+  public static void updateShapes(Collection<Shape> shapes, IFeatureProvider fp) {
     shapes.stream().map(UpdateContext::new)
         .filter(ctx -> fp.canUpdate(ctx).toBoolean())
         .forEach(fp::updateIfPossible);

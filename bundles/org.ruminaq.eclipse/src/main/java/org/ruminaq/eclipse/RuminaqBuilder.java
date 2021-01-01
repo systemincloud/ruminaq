@@ -11,8 +11,6 @@ import java.util.Optional;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
-import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -28,37 +26,6 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
 
   public static final String ID = "org.ruminaq.eclipse.ruminaqBuilder";
 
-  class RuminaqDeltaVisitor implements IResourceDeltaVisitor {
-    private IProgressMonitor monitor;
-
-    public RuminaqDeltaVisitor(IProgressMonitor monitor) {
-      this.monitor = monitor;
-    }
-
-    @Override
-    public boolean visit(IResourceDelta delta) throws CoreException {
-      if (delta.getKind() == IResourceDelta.ADDED
-          || delta.getKind() == IResourceDelta.CHANGED) {
-        ProjectValidator.validate(delta, monitor);
-      }
-      return true;
-    }
-  }
-
-  class RuminaqResourceVisitor implements IResourceVisitor {
-    private IProgressMonitor monitor;
-
-    public RuminaqResourceVisitor(IProgressMonitor monitor) {
-      this.monitor = monitor;
-    }
-
-    @Override
-    public boolean visit(IResource resource) {
-      ProjectValidator.validate(resource, monitor);
-      return true;
-    }
-  }
-
   @Override
   protected IProject[] build(int kind, Map<String, String> args,
       IProgressMonitor monitor) {
@@ -73,10 +40,19 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
 
   protected void incrementalBuild(IResourceDelta delta,
       IProgressMonitor monitor) throws CoreException {
-    delta.accept(new RuminaqDeltaVisitor(monitor));
+    delta.accept((IResourceDelta d) -> {
+      if (d.getKind() == IResourceDelta.ADDED
+          || d.getKind() == IResourceDelta.CHANGED) {
+        ProjectValidator.validate(d, monitor);
+      }
+      return true;
+    });
   }
 
   protected void fullBuild(IProgressMonitor monitor) {
-    Try.check(() -> getProject().accept(new RuminaqResourceVisitor(monitor)));
+    Try.check(() -> getProject().accept((IResource resource) -> {
+      ProjectValidator.validate(resource, monitor);
+      return true;
+    }));
   }
 }

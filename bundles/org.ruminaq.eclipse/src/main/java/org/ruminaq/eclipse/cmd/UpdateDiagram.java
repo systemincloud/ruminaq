@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -55,22 +56,32 @@ public class UpdateDiagram {
       Map<Resource, Map<?, ?>> saveOptions) {
     Try.check(() -> ResourcesPlugin.getWorkspace().run(
         (IProgressMonitor monitor) -> Try.check(() -> ed.runExclusive(() -> {
-          Transaction parentTx = ((InternalTransactionalEditingDomain) ed)
-              .getActiveTransaction();
-          if (parentTx != null) {
-            do {
-              if (!parentTx.isReadOnly())
-                throw new IllegalStateException(
-                    "saveInWorkspaceRunnable() called from within a command (likely to produce deadlock)");
-            } while ((parentTx = ((InternalTransactionalEditingDomain) ed)
-                .getActiveTransaction().getParent()) != null);
+          if (Optional.of(ed)
+              .filter(InternalTransactionalEditingDomain.class::isInstance)
+              .map(InternalTransactionalEditingDomain.class::cast)
+              .filter(this::check).isEmpty()) {
+            throw new IllegalStateException(
+                "saveInWorkspaceRunnable() called from within a command "
+                    + "(likely to produce deadlock)");
           }
-
+          ;
           ed.getResourceSet().getResources().stream()
               .filter(r -> shouldSave(r, ed))
               .forEach(r -> Try.check(() -> r.save(saveOptions.get(r)))
                   .ifSuccessed(() -> savedResources.add(r)));
         })), null));
+  }
+
+  private boolean check(InternalTransactionalEditingDomain ted) {
+    return checkIfReady(ted, ted.getActiveTransaction());
+  }
+
+  private boolean checkIfReady(InternalTransactionalEditingDomain ted,
+      Transaction transaction) {
+    return Optional.ofNullable(transaction)
+        .filter(Predicate.not(Transaction::isReadOnly))
+        .map(t -> ted.getActiveTransaction().getParent())
+        .filter(t -> checkIfReady(ted, t)).isEmpty();
   }
 
   private void save(Resource r, IDiagramTypeProvider dtp,
