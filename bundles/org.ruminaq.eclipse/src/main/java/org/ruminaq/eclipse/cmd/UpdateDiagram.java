@@ -67,35 +67,30 @@ public class UpdateDiagram {
   private final Map<Resource, Map<?, ?>> saveOptions = new HashMap<>();
   private final Set<Resource> savedResources = new HashSet<>();
 
-  protected void save(final TransactionalEditingDomain ed,
+  protected void save(TransactionalEditingDomain ed,
       Map<Resource, Map<?, ?>> saveOptions) {
-    IWorkspaceRunnable wsRunnable = new IWorkspaceRunnable() {
-      public void run(IProgressMonitor monitor) {
-        Runnable runnable = () -> {
-          Transaction parentTx;
-          if (ed != null
-              && (parentTx = ((InternalTransactionalEditingDomain) ed)
-                  .getActiveTransaction()) != null) {
-            do {
-              if (!parentTx.isReadOnly())
-                throw new IllegalStateException(
-                    "saveInWorkspaceRunnable() called from within a command (likely to produce deadlock)");
-            } while ((parentTx = ((InternalTransactionalEditingDomain) ed)
-                .getActiveTransaction().getParent()) != null);
-          }
+    Try.check(
+        () -> ResourcesPlugin.getWorkspace().run((IProgressMonitor monitor) -> {
+          Try.check(() -> ed.runExclusive(() -> {
+            Transaction parentTx = ((InternalTransactionalEditingDomain) ed)
+                .getActiveTransaction();
+            if (parentTx != null) {
+              do {
+                if (!parentTx.isReadOnly())
+                  throw new IllegalStateException(
+                      "saveInWorkspaceRunnable() called from within a command (likely to produce deadlock)");
+              } while ((parentTx = ((InternalTransactionalEditingDomain) ed)
+                  .getActiveTransaction().getParent()) != null);
+            }
 
-          ed.getResourceSet().getResources().stream()
-              .filter(r -> shouldSave(r, ed)).forEach((Resource r) -> {
-                if (!Try.check(() -> r.save(saveOptions.get(r))).isFailed()) {
-                  savedResources.add(r);
-                }
-              });
-        };
-        Try.check(() -> ed.runExclusive(runnable));
-      }
-    };
-
-    Try.check(() -> ResourcesPlugin.getWorkspace().run(wsRunnable, null));
+            ed.getResourceSet().getResources().stream()
+                .filter(r -> shouldSave(r, ed)).forEach((Resource r) -> {
+                  if (!Try.check(() -> r.save(saveOptions.get(r))).isFailed()) {
+                    savedResources.add(r);
+                  }
+                });
+          }));
+        }, null));
 
   }
 
