@@ -27,7 +27,7 @@ import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 public class DeleteLabeledRuminaqShapeFeature
     extends DeleteRuminaqShapeFeature {
 
-  public static class Filter implements FeaturePredicate<IContext> {
+  protected static class Filter implements FeaturePredicate<IContext> {
     @Override
     public boolean test(IContext context) {
       return Optional.of(context).filter(IDeleteContext.class::isInstance)

@@ -36,7 +36,7 @@ import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 @FeatureFilter(Filter.class)
 public class DeleteSimpleConnectionPointFeature extends RuminaqDeleteFeature {
 
-  public static class Filter implements FeaturePredicate<IContext> {
+  protected static class Filter implements FeaturePredicate<IContext> {
     @Override
     public boolean test(IContext context) {
       return Optional.of(context).filter(IDeleteContext.class::isInstance)
