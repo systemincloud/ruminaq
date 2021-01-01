@@ -28,7 +28,7 @@ import org.ruminaq.model.ruminaq.InternalPort;
 @FeatureFilter(Filter.class)
 public class UpdateInternalPortFeature extends UpdateBaseElementFeature {
 
-  public static class Filter extends AbstractUpdateFeatureFilter {
+  protected static class Filter extends AbstractUpdateFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return InternalPort.class;

@@ -57,7 +57,7 @@ import org.ruminaq.model.ruminaq.Task;
 @FeatureFilter(Filter.class)
 public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
-  public static class Filter extends AbstractUpdateFeatureFilter {
+  protected static class Filter extends AbstractUpdateFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return Task.class;

@@ -40,7 +40,7 @@ import org.ruminaq.model.ruminaq.MainTask;
 public class UpdateEmbeddedTaskFeature
     extends AbstractUpdateUserDefinedTaskFeature {
 
-  public static class Filter extends AbstractUpdateFeatureFilter {
+  protected static class Filter extends AbstractUpdateFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return EmbeddedTask.class;
@@ -78,7 +78,7 @@ public class UpdateEmbeddedTaskFeature
         .map(List::stream).orElseGet(Stream::empty)
         .map(ip -> new FileInternalInputPort(ip.getId(),
             embeddedTask.getConnection().stream()
-                .filter(c -> c.getSourceRef() == ip)
+                .filter(c -> c.getSourceRef().equals(ip))
                 .map(Connection::getTargetRef)
                 .filter(InternalInputPort.class::isInstance)
                 .map(InternalInputPort.class::cast)
@@ -95,7 +95,7 @@ public class UpdateEmbeddedTaskFeature
         .map(List::stream).orElseGet(Stream::empty)
         .map(ip -> new FileInternalOutputPort(ip.getId(),
             embeddedTask.getConnection().stream()
-                .filter(c -> c.getSourceRef() == ip)
+                .filter(c -> c.getSourceRef().equals(ip))
                 .map(Connection::getTargetRef)
                 .filter(InternalInputPort.class::isInstance)
                 .map(InternalInputPort.class::cast)

@@ -29,7 +29,7 @@ import org.ruminaq.model.ruminaq.NoElement;
 @FeatureFilter(Filter.class)
 public class UpdateInternalPortLabelFeature extends AbstractUpdateFeature {
 
-  public static class Filter extends AbstractUpdateFeatureFilter {
+  protected static class Filter extends AbstractUpdateFeatureFilter {
     @Override
     public Class<? extends RuminaqShape> forShape() {
       return InternalPortLabelShape.class;
