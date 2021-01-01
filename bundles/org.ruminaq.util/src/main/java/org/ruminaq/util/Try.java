@@ -47,7 +47,7 @@ public class Try<E extends Throwable> {
       E err = (E) e;
       return Try.crash(err);
     }
-    
+
     return Try.success();
   }
 
@@ -59,6 +59,12 @@ public class Try<E extends Throwable> {
 
   public boolean isFailed() {
     return Optional.ofNullable(error).isPresent();
+  }
+
+  public void ifSuccessed(Runnable runnable) {
+    if (!isFailed()) {
+      runnable.run();
+    }
   }
 
   public E getError() {
