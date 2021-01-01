@@ -6,7 +6,6 @@
 
 package org.ruminaq.gui.api;
 
-import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -38,11 +37,9 @@ public interface MultipleFeaturesExtension<T> {
         .stream()
         .map(f -> Result
             .attempt(() -> f.getDeclaredConstructor(IFeatureProvider.class)))
+        .map(r -> r.peek(v -> v.setAccessible(true)))
         .map(r -> Optional.ofNullable(r.orElse(null))).flatMap(Optional::stream)
-        .map((Constructor<? extends T> c) -> {
-          c.setAccessible(true);
-          return c;
-        }).map(f -> Result.attempt(() -> f.newInstance(fp)))
+        .map(f -> Result.attempt(() -> f.newInstance(fp)))
         .map(r -> Optional.ofNullable(r.orElse(null))).flatMap(Optional::stream)
         .collect(Collectors.toList());
   }
