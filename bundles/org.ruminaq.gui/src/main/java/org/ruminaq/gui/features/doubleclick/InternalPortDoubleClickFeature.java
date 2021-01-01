@@ -29,7 +29,7 @@ import org.ruminaq.gui.model.diagram.InternalPortShape;
 public class InternalPortDoubleClickFeature
     extends DoubleClickBaseElementFeature {
 
-  public static class Filter implements FeaturePredicate<IContext> {
+  protected static class Filter implements FeaturePredicate<IContext> {
     @Override
     public boolean test(IContext context, IFeatureProvider fp) {
       return Optional.of(context).filter(IDoubleClickContext.class::isInstance)

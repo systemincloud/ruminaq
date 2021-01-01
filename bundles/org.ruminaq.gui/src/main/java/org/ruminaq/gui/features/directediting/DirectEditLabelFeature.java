@@ -28,7 +28,7 @@ import org.ruminaq.model.ruminaq.NoElement;
 @FeatureFilter(Filter.class)
 public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
 
-  public static class Filter extends AbstractDirectEditingFeatureFilter {
+  protected static class Filter extends AbstractDirectEditingFeatureFilter {
     @Override
     public Class<? extends RuminaqShape> forShape() {
       return LabelShape.class;

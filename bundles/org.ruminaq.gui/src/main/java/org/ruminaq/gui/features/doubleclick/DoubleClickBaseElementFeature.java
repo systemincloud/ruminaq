@@ -31,7 +31,7 @@ import org.ruminaq.util.Result;
 @FeatureFilter(Filter.class)
 public class DoubleClickBaseElementFeature extends AbstractCustomFeature {
 
-  public static class Filter implements FeaturePredicate<IContext> {
+  protected static class Filter implements FeaturePredicate<IContext> {
     @Override
     public boolean test(IContext context, IFeatureProvider fp) {
       return Optional.of(context).filter(IDoubleClickContext.class::isInstance)
