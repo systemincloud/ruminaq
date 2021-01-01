@@ -6,8 +6,8 @@
 
 package org.ruminaq.eclipse.cmd;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
@@ -45,26 +45,10 @@ import org.ruminaq.util.Try;
  */
 public class UpdateDiagram {
 
-  private final class SaveOperation
-      implements IRunnableWithProgress, IThreadListener {
-    private final TransactionalEditingDomain ed;
-
-    private SaveOperation(TransactionalEditingDomain ed) {
-      this.ed = ed;
-    }
-
-    public void run(IProgressMonitor monitor) {
-      save(ed, saveOptions);
-    }
-
-    @Override
-    public void threadChange(Thread thread) {
-      Optional.ofNullable(Job.getJobManager().currentRule())
-          .ifPresent(rule -> Job.getJobManager().transferRule(rule, thread));
-    }
+  private interface SaveOperation
+      extends IRunnableWithProgress, IThreadListener {
   }
 
-  private final Map<Resource, Map<?, ?>> saveOptions = new HashMap<>();
   private final Set<Resource> savedResources = new HashSet<>();
 
   protected void save(TransactionalEditingDomain ed,
@@ -91,11 +75,24 @@ public class UpdateDiagram {
 
   private void save(Resource r, IDiagramTypeProvider dtp,
       TransactionalEditingDomain ed) {
-    saveOptions.put(r,
-        Collections.singletonMap(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
-            Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER));
-    Try.check(() -> ModalContext.run(new SaveOperation(ed), true,
-        new NullProgressMonitor(), Display.getDefault()));
+    Try.check(() -> ModalContext.run(new SaveOperation() {
+
+      @Override
+      public void run(IProgressMonitor monitor)
+          throws InvocationTargetException, InterruptedException {
+        save(ed,
+            Collections.singletonMap(r,
+                Collections.singletonMap(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
+                    Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER)));
+      }
+
+      @Override
+      public void threadChange(Thread thread) {
+        Optional.ofNullable(Job.getJobManager().currentRule())
+            .ifPresent(rule -> Job.getJobManager().transferRule(rule, thread));
+      }
+
+    }, true, new NullProgressMonitor(), Display.getDefault()));
     BasicCommandStack commandStack = (BasicCommandStack) ed.getCommandStack();
     commandStack.saveIsDone();
     dtp.resourcesSaved(dtp.getDiagram(),
