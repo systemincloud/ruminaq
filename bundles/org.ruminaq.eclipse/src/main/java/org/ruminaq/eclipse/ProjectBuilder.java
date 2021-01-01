@@ -4,7 +4,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.builder;
+package org.ruminaq.eclipse;
 
 import org.apache.maven.cli.MavenCli;
 import org.eclipse.core.resources.IProject;
