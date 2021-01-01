@@ -3,12 +3,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.util;
 
+import java.lang.reflect.Constructor;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -112,9 +115,13 @@ public final class ServiceUtil {
   private static <T> Predicate<T> filter(ServiceFilterArgs filterArgs) {
     return (T s) -> Optional
         .ofNullable(s.getClass().getAnnotation(ServiceFilter.class))
-        .map(ServiceFilter::value).map(f -> Result.attempt(f::getConstructor))
+        .map(ServiceFilter::value)
+        .map(f -> Result.attempt(f::getDeclaredConstructor))
         .flatMap(r -> Optional.ofNullable(r.orElse(null)))
-        .map(f -> Result.attempt(f::newInstance))
+        .map((Constructor<? extends Predicate<ServiceFilterArgs>> c) -> {
+          c.setAccessible(true);
+          return c;
+        }).map(f -> Result.attempt(f::newInstance))
         .flatMap(r -> Optional.ofNullable(r.orElse(null)))
         .map(f -> f.test(filterArgs)).orElse(Boolean.TRUE);
   }
