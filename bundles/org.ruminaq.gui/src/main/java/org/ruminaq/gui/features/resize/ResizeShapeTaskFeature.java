@@ -30,7 +30,7 @@ import org.ruminaq.model.ruminaq.Task;
 @FeatureFilter(Filter.class)
 public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
 
-  public static class Filter extends AbstractResizeFeatureFilter {
+  protected static class Filter extends AbstractResizeFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return Task.class;

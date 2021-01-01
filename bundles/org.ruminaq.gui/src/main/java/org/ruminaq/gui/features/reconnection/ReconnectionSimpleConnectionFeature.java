@@ -36,7 +36,7 @@ import org.ruminaq.model.ruminaq.SimpleConnection;
 public class ReconnectionSimpleConnectionFeature
     extends DefaultReconnectionFeature {
 
-  public static class Filter extends ReconnectionFilter<SimpleConnectionShape> {
+  protected static class Filter extends ReconnectionFilter<SimpleConnectionShape> {
     public Filter() {
       super(SimpleConnectionShape.class);
     }

@@ -20,7 +20,7 @@ import org.ruminaq.model.ruminaq.Port;
 @FeatureFilter(Filter.class)
 public class ResizePortFeature extends ResizeShapeForbiddenFeature {
 
-  public static class Filter extends AbstractResizeFeatureFilter {
+  protected static class Filter extends AbstractResizeFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return Port.class;

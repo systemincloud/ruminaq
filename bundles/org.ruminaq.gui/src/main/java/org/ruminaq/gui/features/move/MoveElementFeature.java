@@ -27,7 +27,7 @@ import org.ruminaq.model.ruminaq.BaseElement;
 @FeatureFilter(Filter.class)
 public class MoveElementFeature extends DefaultMoveShapeFeature {
 
-  public static class Filter extends AbstractMoveFeatureFilter {
+  protected static class Filter extends AbstractMoveFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return BaseElement.class;

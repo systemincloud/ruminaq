@@ -31,7 +31,7 @@ public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
 
   public static final int EPSILON = 10;
 
-  public static class Filter extends AbstractMoveFeatureFilter {
+  protected static class Filter extends AbstractMoveFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return InternalPort.class;

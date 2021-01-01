@@ -26,7 +26,7 @@ import org.ruminaq.model.ruminaq.NoElement;
 @FeatureFilter(Filter.class)
 public class MoveLabelFeature extends DefaultMoveShapeFeature {
 
-  public static class Filter extends AbstractMoveFeatureFilter {
+  protected static class Filter extends AbstractMoveFeatureFilter {
     @Override
     public Class<? extends RuminaqShape> forShape() {
       return LabelShape.class;

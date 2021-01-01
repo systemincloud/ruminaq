@@ -23,7 +23,7 @@ import org.ruminaq.model.ruminaq.NoElement;
 public class ResizeSimpleConnectionPointFeature
     extends ResizeShapeForbiddenFeature {
 
-  public static class Filter extends AbstractResizeFeatureFilter {
+  protected static class Filter extends AbstractResizeFeatureFilter {
     @Override
     public Class<? extends RuminaqShape> forShape() {
       return SimpleConnectionPointShape.class;
