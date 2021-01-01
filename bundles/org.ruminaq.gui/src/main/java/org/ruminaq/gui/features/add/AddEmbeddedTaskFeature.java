@@ -8,7 +8,6 @@ package org.ruminaq.gui.features.add;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.add.AddEmbeddedTaskFeature.Filter;
 import org.ruminaq.gui.image.Images;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
@@ -18,10 +17,10 @@ import org.ruminaq.model.ruminaq.EmbeddedTask;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(AddEmbeddedTaskFeature.Filter.class)
 public class AddEmbeddedTaskFeature extends AbstractAddTaskFeature {
 
-  protected static class Filter extends AbstractAddFeatureFilter {
+  private static class Filter extends AbstractAddFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return EmbeddedTask.class;
