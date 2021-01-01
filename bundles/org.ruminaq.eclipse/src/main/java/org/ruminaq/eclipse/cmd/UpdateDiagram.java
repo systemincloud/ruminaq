@@ -15,11 +15,9 @@ import java.util.stream.Stream;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.util.EList;
@@ -56,27 +54,24 @@ public class UpdateDiagram {
     }
 
     public void run(IProgressMonitor monitor) {
-      savedResources.addAll(save(ed, saveOptions));
+      save(ed, saveOptions);
     }
 
     @Override
     public void threadChange(Thread thread) {
-      ISchedulingRule rule = Job.getJobManager().currentRule();
-      if (rule != null)
-        Job.getJobManager().transferRule(rule, thread);
+      Optional.ofNullable(Job.getJobManager().currentRule())
+          .ifPresent(rule -> Job.getJobManager().transferRule(rule, thread));
     }
   }
 
   private final Map<Resource, Map<?, ?>> saveOptions = new HashMap<>();
   private final Set<Resource> savedResources = new HashSet<>();
 
-  protected Set<Resource> save(final TransactionalEditingDomain ed,
-      final Map<Resource, Map<?, ?>> saveOptions) {
-
-    final Set<Resource> savedResources = new HashSet<>();
-    final IWorkspaceRunnable wsRunnable = new IWorkspaceRunnable() {
-      public void run(final IProgressMonitor monitor) throws CoreException {
-        final Runnable runnable = () -> {
+  protected void save(final TransactionalEditingDomain ed,
+      Map<Resource, Map<?, ?>> saveOptions) {
+    IWorkspaceRunnable wsRunnable = new IWorkspaceRunnable() {
+      public void run(IProgressMonitor monitor) {
+        Runnable runnable = () -> {
           Transaction parentTx;
           if (ed != null
               && (parentTx = ((InternalTransactionalEditingDomain) ed)
@@ -89,36 +84,33 @@ public class UpdateDiagram {
                 .getActiveTransaction().getParent()) != null);
           }
 
-          final EList<Resource> resources = ed.getResourceSet().getResources();
-          Resource[] resourcesArray = new Resource[resources.size()];
-          resourcesArray = resources.toArray(resourcesArray);
-          for (int i = 0; i < resourcesArray.length; i++) {
-            final Resource resource = resourcesArray[i];
-
-            if (shouldSave(resource, ed)) {
-              try {
-                resource.save(saveOptions.get(resource));
-                savedResources.add(resource);
-              } catch (final Throwable t) {
-              }
-            }
-          }
+          ed.getResourceSet().getResources().stream()
+              .filter(r -> shouldSave(r, ed)).forEach((Resource r) -> {
+                if (!Try.check(() -> r.save(saveOptions.get(r))).isFailed()) {
+                  savedResources.add(r);
+                }
+              });
         };
-
-        try {
-          ed.runExclusive(runnable);
-        } catch (final InterruptedException e) {
-          throw new RuntimeException(e);
-        }
+        Try.check(() -> ed.runExclusive(runnable));
       }
     };
 
-    try {
-      ResourcesPlugin.getWorkspace().run(wsRunnable, null);
-    } catch (final CoreException e) {
-    }
+    Try.check(() -> ResourcesPlugin.getWorkspace().run(wsRunnable, null));
 
-    return savedResources;
+  }
+
+  private void save(Resource r, IDiagramTypeProvider dtp,
+      TransactionalEditingDomain ed) {
+    Map<Object, Object> saveOption = new HashMap<>();
+    saveOption.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
+        Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
+    saveOptions.put(r, saveOption);
+    Try.check(() -> ModalContext.run(new SaveOperation(ed), true,
+        new NullProgressMonitor(), Display.getDefault()));
+    BasicCommandStack commandStack = (BasicCommandStack) ed.getCommandStack();
+    commandStack.saveIsDone();
+    dtp.resourcesSaved(dtp.getDiagram(),
+        savedResources.stream().toArray(Resource[]::new));
   }
 
   protected boolean shouldSave(Resource resource,
@@ -155,19 +147,5 @@ public class UpdateDiagram {
           () -> Try.check(() -> file.refreshLocal(IResource.DEPTH_ZERO, null)));
       save(resource.get(), fp.get().getDiagramTypeProvider(), ed);
     }
-  }
-
-  private void save(Resource r, IDiagramTypeProvider dtp,
-      TransactionalEditingDomain ed) {
-    final Map<Object, Object> saveOption = new HashMap<>();
-    saveOption.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
-        Resource.OPTION_SAVE_ONLY_IF_CHANGED_MEMORY_BUFFER);
-    saveOptions.put(r, saveOption);
-    Try.check(() -> ModalContext.run(new SaveOperation(ed), true,
-        new NullProgressMonitor(), Display.getDefault()));
-    BasicCommandStack commandStack = (BasicCommandStack) ed.getCommandStack();
-    commandStack.saveIsDone();
-    dtp.resourcesSaved(dtp.getDiagram(),
-        savedResources.stream().toArray(Resource[]::new));
   }
 }
