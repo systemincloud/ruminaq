@@ -6,12 +6,14 @@
 
 package org.ruminaq.gui.api;
 
+import java.lang.reflect.Constructor;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.ruminaq.gui.features.FeatureFilter;
+import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.util.Result;
 
 /**
@@ -49,9 +51,12 @@ public interface BestFeatureExtension<T> extends MultipleFeaturesExtension<T> {
     return (Class<? extends T> clazz) -> Optional
         .ofNullable(clazz.getAnnotation(FeatureFilter.class))
         .map(FeatureFilter::value)
-        .map(f -> Result.attempt(f::getConstructor))
+        .map(f -> Result.attempt(f::getDeclaredConstructor))
         .flatMap(r -> Optional.ofNullable(r.orElse(null)))
-        .map(f -> Result.attempt(f::newInstance))
+        .map((Constructor<? extends FeaturePredicate<IContext>> c) -> {
+          c.setAccessible(true);
+          return c;
+        }).map(f -> Result.attempt(f::newInstance))
         .flatMap(r -> Optional.ofNullable(r.orElse(null)))
         .map(f -> f.test(context, fp)).orElse(Boolean.TRUE);
   }
