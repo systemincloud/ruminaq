@@ -30,7 +30,7 @@ import org.ruminaq.util.ServiceFilterArgs;
 public class ContextButtonPadUserDefinedTaskTool
     implements GenericContextButtonPadDataExtension {
 
-  public static class Filter implements Predicate<ServiceFilterArgs> {
+  protected static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {

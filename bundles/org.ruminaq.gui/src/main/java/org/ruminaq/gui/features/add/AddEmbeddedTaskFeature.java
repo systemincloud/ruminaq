@@ -21,7 +21,7 @@ import org.ruminaq.model.ruminaq.EmbeddedTask;
 @FeatureFilter(Filter.class)
 public class AddEmbeddedTaskFeature extends AbstractAddTaskFeature {
 
-  public static class Filter extends AbstractAddFeatureFilter {
+  protected static class Filter extends AbstractAddFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return EmbeddedTask.class;

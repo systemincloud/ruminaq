@@ -24,7 +24,7 @@ import org.ruminaq.model.ruminaq.InputPort;
 @FeatureFilter(Filter.class)
 public class AddInputPortFeature extends AbstractAddPortFeature {
 
-  public static class Filter extends AbstractAddFeatureFilter {
+  protected static class Filter extends AbstractAddFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return InputPort.class;

@@ -32,7 +32,7 @@ import org.ruminaq.model.ruminaq.SimpleConnection;
 @FeatureFilter(Filter.class)
 public class AddSimpleConnectionFeature extends AbstractAddFeature {
 
-  public static class Filter extends AbstractAddFeatureFilter {
+  protected static class Filter extends AbstractAddFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return SimpleConnection.class;
