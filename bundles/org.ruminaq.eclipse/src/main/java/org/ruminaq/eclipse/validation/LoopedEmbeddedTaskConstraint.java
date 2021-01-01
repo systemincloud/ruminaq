@@ -23,7 +23,6 @@ import org.eclipse.emf.validation.IValidationContext;
 import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.MainTask;
-import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.util.Result;
 
 /**
@@ -59,24 +58,23 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
 
   private boolean detectLoop(String prefix, MainTask mainTask,
       List<String> deph) {
-    for (Task t : mainTask.getTask()) {
-      if (t instanceof EmbeddedTask) {
-        String path = ((EmbeddedTask) t).getImplementationPath();
-        if (deph.contains(path))
-          return true;
-        else {
-          MainTask embeddedTask = loadTask(URI.createURI(prefix + path));
-          if (embeddedTask == null)
-            continue;
-          deph.add(path);
-          boolean loop = detectLoop(prefix, embeddedTask, deph);
-          deph.remove(deph.size() - 1);
-          if (loop)
+    return mainTask.getTask().stream().filter(EmbeddedTask.class::isInstance)
+        .map(EmbeddedTask.class::cast).anyMatch(et -> {
+          String path = et.getImplementationPath();
+          if (deph.contains(path))
             return true;
-        }
-      }
-    }
-    return false;
+          else {
+            MainTask embeddedTask = loadTask(URI.createURI(prefix + path));
+            if (embeddedTask == null)
+              return false;
+            deph.add(path);
+            boolean loop = detectLoop(prefix, embeddedTask, deph);
+            deph.remove(deph.size() - 1);
+            if (loop)
+              return true;
+          }
+          return false;
+        });
   }
 
   private static MainTask loadTask(URI uri) {
