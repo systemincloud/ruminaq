@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.core.runtime.IStatus;
@@ -42,9 +43,10 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
   }
 
   private IStatus validate(IValidationContext ctx, EmbeddedTask task) {
-    String path = task.getImplementationPath();
-    if (path == null || path.equals(""))
+    if (Optional.ofNullable(task.getImplementationPath())
+        .filter(Predicate.not(""::equals)).isEmpty()) {
       return ctx.createSuccessStatus();
+    }
     URI modelPath = EclipseUtil.getUriOf(task);
     String prefix = "/" + modelPath.segment(0) + "/";
     MainTask embeddedTask = loadTask(modelPath);
@@ -56,7 +58,7 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
         .orElseGet(ctx::createSuccessStatus);
   }
 
-  private boolean detectLoop(String prefix, MainTask mainTask,
+  private static boolean detectLoop(String prefix, MainTask mainTask,
       List<String> deph) {
     return mainTask.getTask().stream().filter(EmbeddedTask.class::isInstance)
         .map(EmbeddedTask.class::cast).anyMatch(et -> {
