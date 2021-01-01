@@ -7,20 +7,25 @@
 package org.ruminaq.eclipse;
 
 import org.apache.maven.cli.MavenCli;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Status;
+import org.eclipse.core.resources.IResource;
 
+/**
+ * Execute maven package.
+ *
+ * @author Marek Jagielski
+ */
 public enum ProjectBuilder {
   INSTANCE;
 
-  public void build(IProject project) throws CoreException {
+  /**
+   * Eclipse project resource.
+   *
+   * @param project eclipse resource
+   */
+  public void build(IResource project) {
     String path = project.getLocation().toOSString();
-    MavenCli cli = new MavenCli();
     System.setProperty("maven.multiModuleProjectDirectory", "");
-    int result = cli.doMain(new String[] { "package", "-T 4C", "-DskipTests" },
+    new MavenCli().doMain(new String[] { "package", "-T 4C", "-DskipTests" },
         path, null, null);
-    if (result != 0)
-      throw new CoreException(Status.CANCEL_STATUS);
   }
 }
