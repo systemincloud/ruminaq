@@ -7,6 +7,7 @@
 package org.ruminaq.eclipse;
 
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
@@ -60,16 +61,12 @@ public class RuminaqBuilder extends IncrementalProjectBuilder {
 
   @Override
   protected IProject[] build(int kind, Map<String, String> args,
-      IProgressMonitor monitor) throws CoreException {
+      IProgressMonitor monitor) {
     if (kind == FULL_BUILD) {
       fullBuild(monitor);
     } else {
-      IResourceDelta delta = getDelta(getProject());
-      if (delta == null) {
-        fullBuild(monitor);
-      } else {
-        incrementalBuild(delta, monitor);
-      }
+      Optional.ofNullable(getDelta(getProject()))
+          .ifPresent(d -> Try.check(() -> incrementalBuild(d, monitor)));
     }
     return new IProject[0];
   }
