@@ -99,8 +99,8 @@
 
    <extension point="org.eclipse.core.resources.builders"
          name="Ruminaq Builder"
-         id="org.ruminaq.eclipse.ruminaqBuilder">
-      <builder hasNature="true">
+         id="ruminaqBuilder">
+      <builder>
          <run class="org.ruminaq.eclipse.RuminaqBuilder"/>
       </builder>
    </extension>
