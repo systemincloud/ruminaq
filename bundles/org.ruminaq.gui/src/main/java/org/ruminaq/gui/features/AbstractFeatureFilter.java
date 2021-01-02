@@ -54,7 +54,10 @@ public abstract class AbstractFeatureFilter<T extends IContext>
     return BaseElement.class;
   }
 
-  public interface GetPictogramElement
+  /**
+   * Return PictogramElement from IContext.
+   */
+  protected interface GetPictogramElement
       extends Function<IContext, PictogramElement> {
     PictogramElement apply(IContext context);
   }
