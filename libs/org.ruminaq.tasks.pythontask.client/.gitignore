@@ -2,6 +2,7 @@
 /setuptools-*
 /**.pyc
 /*.egg-info
+/*.eggs
 target
 .pydevproject
 .project
