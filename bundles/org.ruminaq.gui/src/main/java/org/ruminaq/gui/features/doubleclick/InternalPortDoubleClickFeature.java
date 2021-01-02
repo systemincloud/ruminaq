@@ -15,7 +15,6 @@ import org.eclipse.graphiti.features.context.IDoubleClickContext;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.custom.InternalPortToggleBreakpointFeature;
-import org.ruminaq.gui.features.doubleclick.InternalPortDoubleClickFeature.Filter;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
 
 /**
@@ -25,11 +24,11 @@ import org.ruminaq.gui.model.diagram.InternalPortShape;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(InternalPortDoubleClickFeature.Filter.class)
 public class InternalPortDoubleClickFeature
     extends DoubleClickBaseElementFeature {
 
-  protected static class Filter implements FeaturePredicate<IContext> {
+  private static class Filter implements FeaturePredicate<IContext> {
     @Override
     public boolean test(IContext context, IFeatureProvider fp) {
       return Optional.of(context).filter(IDoubleClickContext.class::isInstance)

@@ -13,7 +13,6 @@ import org.eclipse.graphiti.features.impl.AbstractDirectEditingFeature;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.directediting.DirectEditLabelFeature.Filter;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
@@ -25,10 +24,10 @@ import org.ruminaq.model.ruminaq.NoElement;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(DirectEditLabelFeature.Filter.class)
 public class DirectEditLabelFeature extends AbstractDirectEditingFeature {
 
-  protected static class Filter extends AbstractDirectEditingFeatureFilter {
+  private static class Filter extends AbstractDirectEditingFeatureFilter {
     @Override
     public Class<? extends RuminaqShape> forShape() {
       return LabelShape.class;

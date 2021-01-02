@@ -7,12 +7,10 @@
 package org.ruminaq.gui.features.move;
 
 import java.util.Optional;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IMoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultMoveShapeFeature;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.move.MoveInternalPortFeature.Filter;
 import org.ruminaq.gui.model.GuiUtil;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
@@ -26,12 +24,12 @@ import org.ruminaq.model.ruminaq.InternalPort;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(MoveInternalPortFeature.Filter.class)
 public class MoveInternalPortFeature extends DefaultMoveShapeFeature {
 
   public static final int EPSILON = 10;
 
-  protected static class Filter extends AbstractMoveFeatureFilter {
+  private static class Filter extends AbstractMoveFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return InternalPort.class;

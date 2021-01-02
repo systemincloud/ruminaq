@@ -8,7 +8,6 @@ package org.ruminaq.gui.features.doubleclick;
 
 import java.util.Optional;
 import java.util.stream.Stream;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.ICustomContext;
@@ -19,7 +18,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
-import org.ruminaq.gui.features.doubleclick.DoubleClickBaseElementFeature.Filter;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.util.Result;
 
@@ -28,10 +26,10 @@ import org.ruminaq.util.Result;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(DoubleClickBaseElementFeature.Filter.class)
 public class DoubleClickBaseElementFeature extends AbstractCustomFeature {
 
-  protected static class Filter implements FeaturePredicate<IContext> {
+  private static class Filter implements FeaturePredicate<IContext> {
     @Override
     public boolean test(IContext context, IFeatureProvider fp) {
       return Optional.of(context).filter(IDoubleClickContext.class::isInstance)
