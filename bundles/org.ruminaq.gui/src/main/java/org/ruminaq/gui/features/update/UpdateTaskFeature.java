@@ -24,7 +24,6 @@ import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.update.UpdateTaskFeature.Filter;
 import org.ruminaq.gui.model.GuiUtil;
 import org.ruminaq.gui.model.PortDiagram;
 import org.ruminaq.gui.model.Position;
@@ -54,10 +53,10 @@ import org.ruminaq.model.ruminaq.Task;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(UpdateTaskFeature.Filter.class)
 public class UpdateTaskFeature extends UpdateBaseElementFeature {
 
-  protected static class Filter extends AbstractUpdateFeatureFilter {
+  private static class Filter extends AbstractUpdateFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return Task.class;

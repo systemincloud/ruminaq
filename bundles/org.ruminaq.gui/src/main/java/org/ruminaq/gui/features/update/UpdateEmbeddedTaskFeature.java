@@ -40,7 +40,7 @@ import org.ruminaq.model.ruminaq.MainTask;
 public class UpdateEmbeddedTaskFeature
     extends AbstractUpdateUserDefinedTaskFeature {
 
-  protected static class Filter extends AbstractUpdateFeatureFilter {
+  private static class Filter extends AbstractUpdateFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return EmbeddedTask.class;

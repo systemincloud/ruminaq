@@ -14,7 +14,6 @@ import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.update.UpdateInternalPortLabelFeature.Filter;
 import org.ruminaq.gui.model.diagram.InternalPortLabelShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.impl.task.InternalPortLabelShapeGA;
@@ -26,10 +25,10 @@ import org.ruminaq.model.ruminaq.NoElement;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(UpdateInternalPortLabelFeature.Filter.class)
 public class UpdateInternalPortLabelFeature extends AbstractUpdateFeature {
 
-  protected static class Filter extends AbstractUpdateFeatureFilter {
+  private static class Filter extends AbstractUpdateFeatureFilter {
     @Override
     public Class<? extends RuminaqShape> forShape() {
       return InternalPortLabelShape.class;

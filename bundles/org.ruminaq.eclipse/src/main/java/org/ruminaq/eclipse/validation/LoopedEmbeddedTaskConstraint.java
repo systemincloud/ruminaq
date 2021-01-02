@@ -6,7 +6,8 @@
 
 package org.ruminaq.eclipse.validation;
 
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -40,10 +41,16 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
       return ctx.createSuccessStatus();
     }
     URI modelPath = EclipseUtil.getUriOf(task);
-    return Optional.of(ctx).filter(c -> detectLoop(
-        "/" + modelPath.segment(0) + "/", loadTask(modelPath),
-        Collections.singletonList(URI.createURI(Stream.of(modelPath.segments())
-            .skip(1).collect(Collectors.joining("/"))).toString())))
+    return Optional.of(ctx)
+        .filter(
+            c -> detectLoop("/" + modelPath.segment(0) + "/",
+                loadTask(modelPath),
+                new LinkedList<String>(
+                    Arrays
+                        .asList(URI
+                            .createURI(Stream.of(modelPath.segments()).skip(1)
+                                .collect(Collectors.joining("/")))
+                            .toString()))))
         .map(IValidationContext::createFailureStatus)
         .orElseGet(ctx::createSuccessStatus);
   }
@@ -63,7 +70,8 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
     return Optional.ofNullable(mainTask).map(MainTask::getTask)
         .map(List::stream).orElseGet(Stream::empty)
         .filter(EmbeddedTask.class::isInstance).map(EmbeddedTask.class::cast)
-        .map(EmbeddedTask::getImplementationPath).anyMatch((String path) -> {
+        .map(EmbeddedTask::getImplementationPath)
+        .filter(Predicate.not(""::equals)).anyMatch((String path) -> {
           if (deph.contains(path)) {
             return true;
           } else {

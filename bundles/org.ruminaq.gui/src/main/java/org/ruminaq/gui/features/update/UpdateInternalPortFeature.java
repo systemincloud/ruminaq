@@ -7,13 +7,11 @@
 package org.ruminaq.gui.features.update;
 
 import java.util.Optional;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.update.UpdateInternalPortFeature.Filter;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.InternalPortLabelShape;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
@@ -25,10 +23,10 @@ import org.ruminaq.model.ruminaq.InternalPort;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(UpdateInternalPortFeature.Filter.class)
 public class UpdateInternalPortFeature extends UpdateBaseElementFeature {
 
-  protected static class Filter extends AbstractUpdateFeatureFilter {
+  private static class Filter extends AbstractUpdateFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return InternalPort.class;
@@ -63,7 +61,7 @@ public class UpdateInternalPortFeature extends UpdateBaseElementFeature {
     }
     return false;
   }
-  
+
   private static void updateLabel(IUpdateContext context) {
     Optional<InternalPortShape> shape = shapeFromContext(context);
     Optional<InternalPort> model = modelFromContext(context);

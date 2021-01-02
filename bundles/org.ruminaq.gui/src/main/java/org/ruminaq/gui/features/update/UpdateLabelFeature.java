@@ -7,14 +7,12 @@
 package org.ruminaq.gui.features.update;
 
 import java.util.Optional;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.IReason;
 import org.eclipse.graphiti.features.context.IUpdateContext;
 import org.eclipse.graphiti.features.impl.AbstractUpdateFeature;
 import org.eclipse.graphiti.features.impl.Reason;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.update.UpdateLabelFeature.Filter;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.impl.label.LabelUtil;
@@ -26,10 +24,10 @@ import org.ruminaq.model.ruminaq.NoElement;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(UpdateLabelFeature.Filter.class)
 public class UpdateLabelFeature extends AbstractUpdateFeature {
 
-  protected static class Filter extends AbstractUpdateFeatureFilter {
+  private static class Filter extends AbstractUpdateFeatureFilter {
     @Override
     public Class<? extends RuminaqShape> forShape() {
       return LabelShape.class;
