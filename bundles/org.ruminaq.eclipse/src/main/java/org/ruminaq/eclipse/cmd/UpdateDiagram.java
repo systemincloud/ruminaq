@@ -87,7 +87,6 @@ public class UpdateDiagram {
   private void save(Resource r, IDiagramTypeProvider dtp,
       TransactionalEditingDomain ed) {
     Try.check(() -> ModalContext.run(new SaveOperation() {
-
       @Override
       public void run(IProgressMonitor monitor) {
         save(ed,
@@ -101,7 +100,6 @@ public class UpdateDiagram {
         Optional.ofNullable(Job.getJobManager().currentRule())
             .ifPresent(rule -> Job.getJobManager().transferRule(rule, thread));
       }
-
     }, true, new NullProgressMonitor(), Display.getDefault()));
     BasicCommandStack commandStack = (BasicCommandStack) ed.getCommandStack();
     commandStack.saveIsDone();
