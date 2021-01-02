@@ -13,7 +13,6 @@ import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.eclipse.graphiti.features.context.impl.RemoveContext;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
-import org.ruminaq.gui.features.delete.DeleteInternalPortShapeFeature.Filter;
 import org.ruminaq.gui.model.diagram.InternalPortLabelShape;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
 
@@ -22,10 +21,10 @@ import org.ruminaq.gui.model.diagram.InternalPortShape;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(DeleteInternalPortShapeFeature.Filter.class)
 public class DeleteInternalPortShapeFeature extends DeleteRuminaqShapeFeature {
 
-  protected static class Filter implements FeaturePredicate<IContext> {
+  private static class Filter implements FeaturePredicate<IContext> {
     @Override
     public boolean test(IContext context) {
       return Optional.of(context).filter(IDeleteContext.class::isInstance)

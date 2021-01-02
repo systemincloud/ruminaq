@@ -7,13 +7,11 @@
 package org.ruminaq.gui.features.delete;
 
 import java.util.Optional;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IContext;
 import org.eclipse.graphiti.features.context.IDeleteContext;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
-import org.ruminaq.gui.features.delete.DeleteLabelFeature.Filter;
 import org.ruminaq.gui.model.diagram.LabelShape;
 
 /**
@@ -21,10 +19,10 @@ import org.ruminaq.gui.model.diagram.LabelShape;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(DeleteLabelFeature.Filter.class)
 public class DeleteLabelFeature extends RuminaqDeleteFeature {
 
-  protected static class Filter implements FeaturePredicate<IContext> {
+  private static class Filter implements FeaturePredicate<IContext> {
     @Override
     public boolean test(IContext context) {
       return Optional.of(context).filter(IDeleteContext.class::isInstance)

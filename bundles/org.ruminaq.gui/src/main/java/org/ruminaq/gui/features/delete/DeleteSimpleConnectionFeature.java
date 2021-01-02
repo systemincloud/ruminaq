@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IDeleteFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -20,7 +19,6 @@ import org.eclipse.graphiti.features.context.impl.DeleteContext;
 import org.eclipse.graphiti.features.context.impl.MultiDeleteInfo;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
-import org.ruminaq.gui.features.delete.DeleteSimpleConnectionFeature.Filter;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 
@@ -29,10 +27,10 @@ import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(DeleteSimpleConnectionFeature.Filter.class)
 public class DeleteSimpleConnectionFeature extends RuminaqDeleteFeature {
 
-  protected static class Filter implements FeaturePredicate<IContext> {
+  private static class Filter implements FeaturePredicate<IContext> {
     @Override
     public boolean test(IContext context) {
       return Optional.of(context).filter(IDeleteContext.class::isInstance)

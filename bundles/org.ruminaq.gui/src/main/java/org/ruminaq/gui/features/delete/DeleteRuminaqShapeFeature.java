@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
@@ -22,7 +21,6 @@ import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
-import org.ruminaq.gui.features.delete.DeleteRuminaqShapeFeature.Filter;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 
 /**
@@ -31,10 +29,10 @@ import org.ruminaq.gui.model.diagram.RuminaqShape;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(DeleteRuminaqShapeFeature.Filter.class)
 public class DeleteRuminaqShapeFeature extends RuminaqDeleteFeature {
 
-  protected static class Filter implements FeaturePredicate<IContext> {
+  private static class Filter implements FeaturePredicate<IContext> {
     @Override
     public boolean test(IContext context) {
       return Optional.of(context).filter(IDeleteContext.class::isInstance)

@@ -69,6 +69,12 @@ public class DecorateTaskFeature implements DecoratorExtension {
         }).stream().collect(Collectors.toList());
   }
 
+  /**
+   * Map status to icon.
+   *
+   * @param status result of validation
+   * @return icon
+   */
   private static IImageDecorator statusToDecorator(IStatus status) {
     return switch (status.getSeverity()) {
       case IStatus.INFO -> new ImageDecorator(

@@ -23,7 +23,6 @@ import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.services.Graphiti;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.FeaturePredicate;
-import org.ruminaq.gui.features.delete.DeleteSimpleConnectionPointFeature.Filter;
 import org.ruminaq.gui.model.diagram.FlowTargetShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
@@ -33,10 +32,10 @@ import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(DeleteSimpleConnectionPointFeature.Filter.class)
 public class DeleteSimpleConnectionPointFeature extends RuminaqDeleteFeature {
 
-  protected static class Filter implements FeaturePredicate<IContext> {
+  private static class Filter implements FeaturePredicate<IContext> {
     @Override
     public boolean test(IContext context) {
       return Optional.of(context).filter(IDeleteContext.class::isInstance)
