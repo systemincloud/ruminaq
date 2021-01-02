@@ -8,13 +8,11 @@ package org.ruminaq.gui.features.contextbuttonpad;
 
 import java.util.Optional;
 import java.util.function.Predicate;
-
 import org.eclipse.graphiti.datatypes.IRectangle;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.internal.datatypes.impl.RectangleImpl;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
-import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadConnectionPointTool.Filter;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
@@ -25,13 +23,13 @@ import org.ruminaq.util.ServiceFilterArgs;
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=5" })
-@ServiceFilter(Filter.class)
+@ServiceFilter(ContextButtonPadConnectionPointTool.Filter.class)
 public class ContextButtonPadConnectionPointTool
     implements ContextButtonPadLocationExtension {
 
   private static final int HEIGHT = 80;
 
-  protected static class Filter implements Predicate<ServiceFilterArgs> {
+  private static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {

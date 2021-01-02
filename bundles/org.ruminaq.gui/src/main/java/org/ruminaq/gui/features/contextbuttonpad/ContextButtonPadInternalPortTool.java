@@ -31,7 +31,7 @@ import org.ruminaq.util.ServiceFilterArgs;
 public class ContextButtonPadInternalPortTool implements
     GenericContextButtonPadDataExtension, ContextButtonPadLocationExtension {
 
-  protected static class Filter implements Predicate<ServiceFilterArgs> {
+  private static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {
