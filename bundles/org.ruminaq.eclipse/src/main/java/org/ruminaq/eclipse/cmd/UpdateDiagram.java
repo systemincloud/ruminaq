@@ -35,8 +35,10 @@ import org.eclipse.jface.operation.ModalContext;
 import org.eclipse.swt.widgets.Display;
 import org.ruminaq.eclipse.editor.RuminaqEditor;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
+import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.util.Try;
+import org.slf4j.Logger;
 
 /**
  * Update all Tasks.
@@ -44,6 +46,9 @@ import org.ruminaq.util.Try;
  * @author Marek Jagielski
  */
 public class UpdateDiagram {
+
+  private static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(UpdateDiagram.class);
 
   private interface SaveOperation
       extends IRunnableWithProgress, IThreadListener {
@@ -69,19 +74,22 @@ public class UpdateDiagram {
         .filter(InternalTransactionalEditingDomain.class::isInstance)
         .map(InternalTransactionalEditingDomain.class::cast)
         .filter(UpdateDiagram::check).isEmpty()) {
-      throw new IllegalStateException(
-          "saveInWorkspaceRunnable() called from within a command "
-              + "(likely to produce deadlock)");
+      LOGGER.error("saveInWorkspaceRunnable() called from within a command "
+          + "(likely to produce deadlock)");
+      return;
     }
-    Try.check(() -> ResourcesPlugin.getWorkspace().run(
-        (IProgressMonitor monitor) -> Try.check(() -> ed.runExclusive(() -> {
-          ed.getResourceSet().getResources().stream()
-              .filter(Predicate.not(ed::isReadOnly))
-              .filter(r -> !r.isTrackingModification() || r.isModified())
-              .filter(Resource::isLoaded)
-              .forEach(r -> Try.check(() -> r.save(saveOptions.get(r)))
-                  .ifSuccessed(() -> savedResources.add(r)));
-        })), null));
+    Try.check(
+        () -> ResourcesPlugin.getWorkspace()
+            .run(
+                (IProgressMonitor monitor) -> Try.check(() -> ed
+                    .runExclusive(() -> ed.getResourceSet().getResources()
+                        .stream().filter(Predicate.not(ed::isReadOnly))
+                        .filter(
+                            r -> !r.isTrackingModification() || r.isModified())
+                        .filter(Resource::isLoaded).forEach(
+                            r -> Try.check(() -> r.save(saveOptions.get(r)))
+                                .ifSuccessed(() -> savedResources.add(r))))),
+                null));
   }
 
   private void save(Resource r, IDiagramTypeProvider dtp,
@@ -125,14 +133,13 @@ public class UpdateDiagram {
         .map(RuminaqDiagram.class::cast);
     Optional<IFeatureProvider> fp = diagram
         .map(GraphitiUi.getExtensionManager()::createFeatureProvider);
-
-    if (diagram.isPresent() && fp.isPresent() && resource.isPresent()) {
-      ModelUtil.runModelChange(() -> RuminaqEditor
-          .updateShapes(diagram.get().getChildren(), fp.get()), ed,
+    diagram.ifPresent(d -> fp.ifPresent(f -> resource.ifPresent((Resource r) -> {
+      ModelUtil.runModelChange(
+          () -> RuminaqEditor.updateShapes(d.getChildren(), f), ed,
           "Update shapes");
       Display.getCurrent().asyncExec(
           () -> Try.check(() -> file.refreshLocal(IResource.DEPTH_ZERO, null)));
-      save(resource.get(), fp.get().getDiagramTypeProvider(), ed);
-    }
+      save(r, f.getDiagramTypeProvider(), ed);
+    })));
   }
 }
