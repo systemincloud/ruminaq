@@ -18,7 +18,6 @@ import org.eclipse.graphiti.features.impl.DefaultReconnectionFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.Connection;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.reconnection.ReconnectionSimpleConnectionFeature.Filter;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
@@ -32,11 +31,11 @@ import org.ruminaq.model.ruminaq.SimpleConnection;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(ReconnectionSimpleConnectionFeature.Filter.class)
 public class ReconnectionSimpleConnectionFeature
     extends DefaultReconnectionFeature {
 
-  protected static class Filter extends ReconnectionFilter<SimpleConnectionShape> {
+  private static class Filter extends ReconnectionFilter<SimpleConnectionShape> {
     public Filter() {
       super(SimpleConnectionShape.class);
     }

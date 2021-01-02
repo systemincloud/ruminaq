@@ -8,7 +8,6 @@ package org.ruminaq.gui.features.resize;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.resize.ResizeLabelFeature.Filter;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
@@ -19,10 +18,10 @@ import org.ruminaq.model.ruminaq.NoElement;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(ResizeLabelFeature.Filter.class)
 public class ResizeLabelFeature extends ResizeShapeForbiddenFeature {
 
-  protected static class Filter extends AbstractResizeFeatureFilter {
+  private static class Filter extends AbstractResizeFeatureFilter {
     @Override
     public Class<? extends RuminaqShape> forShape() {
       return LabelShape.class;

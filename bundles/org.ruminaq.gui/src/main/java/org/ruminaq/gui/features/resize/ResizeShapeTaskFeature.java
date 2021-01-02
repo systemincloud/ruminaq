@@ -14,7 +14,6 @@ import org.eclipse.graphiti.features.context.impl.MoveShapeContext;
 import org.eclipse.graphiti.features.impl.DefaultResizeShapeFeature;
 import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.move.MoveInternalPortFeature;
-import org.ruminaq.gui.features.resize.ResizeShapeTaskFeature.Filter;
 import org.ruminaq.gui.model.GuiUtil;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
@@ -27,10 +26,10 @@ import org.ruminaq.model.ruminaq.Task;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(ResizeShapeTaskFeature.Filter.class)
 public class ResizeShapeTaskFeature extends DefaultResizeShapeFeature {
 
-  protected static class Filter extends AbstractResizeFeatureFilter {
+  private static class Filter extends AbstractResizeFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return Task.class;

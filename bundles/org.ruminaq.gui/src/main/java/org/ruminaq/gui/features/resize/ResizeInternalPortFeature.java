@@ -8,7 +8,6 @@ package org.ruminaq.gui.features.resize;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.resize.ResizeInternalPortFeature.Filter;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InternalPort;
 
@@ -17,10 +16,10 @@ import org.ruminaq.model.ruminaq.InternalPort;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(ResizeInternalPortFeature.Filter.class)
 public class ResizeInternalPortFeature extends ResizeShapeForbiddenFeature {
 
-  protected static class Filter extends AbstractResizeFeatureFilter {
+  private static class Filter extends AbstractResizeFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return InternalPort.class;

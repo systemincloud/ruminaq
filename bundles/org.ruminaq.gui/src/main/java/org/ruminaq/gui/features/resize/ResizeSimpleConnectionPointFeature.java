@@ -8,7 +8,6 @@ package org.ruminaq.gui.features.resize;
 
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.resize.ResizeSimpleConnectionPointFeature.Filter;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.model.ruminaq.BaseElement;
@@ -19,11 +18,11 @@ import org.ruminaq.model.ruminaq.NoElement;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(ResizeSimpleConnectionPointFeature.Filter.class)
 public class ResizeSimpleConnectionPointFeature
     extends ResizeShapeForbiddenFeature {
 
-  protected static class Filter extends AbstractResizeFeatureFilter {
+  private static class Filter extends AbstractResizeFeatureFilter {
     @Override
     public Class<? extends RuminaqShape> forShape() {
       return SimpleConnectionPointShape.class;
