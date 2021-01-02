@@ -49,6 +49,8 @@ public class UpdateDiagram {
       extends IRunnableWithProgress, IThreadListener {
   }
 
+  private final Set<Resource> savedResources = new HashSet<>();
+
   private static boolean checkIfReady(InternalTransactionalEditingDomain ted,
       Transaction transaction) {
     return Optional.ofNullable(transaction)
@@ -57,28 +59,26 @@ public class UpdateDiagram {
         .filter(t -> checkIfReady(ted, t)).isEmpty();
   }
 
-  private final Set<Resource> savedResources = new HashSet<>();
-
-  private boolean check(InternalTransactionalEditingDomain ted) {
+  private static boolean check(InternalTransactionalEditingDomain ted) {
     return checkIfReady(ted, ted.getActiveTransaction());
   }
 
   protected void save(TransactionalEditingDomain ed,
       Map<Resource, Map<?, ?>> saveOptions) {
+    if (Optional.of(ed)
+        .filter(InternalTransactionalEditingDomain.class::isInstance)
+        .map(InternalTransactionalEditingDomain.class::cast)
+        .filter(UpdateDiagram::check).isEmpty()) {
+      throw new IllegalStateException(
+          "saveInWorkspaceRunnable() called from within a command "
+              + "(likely to produce deadlock)");
+    }
     Try.check(() -> ResourcesPlugin.getWorkspace().run(
         (IProgressMonitor monitor) -> Try.check(() -> ed.runExclusive(() -> {
-          if (Optional.of(ed)
-              .filter(InternalTransactionalEditingDomain.class::isInstance)
-              .map(InternalTransactionalEditingDomain.class::cast)
-              .filter(this::check).isEmpty()) {
-            throw new IllegalStateException(
-                "saveInWorkspaceRunnable() called from within a command "
-                    + "(likely to produce deadlock)");
-          }
           ed.getResourceSet().getResources().stream()
               .filter(Predicate.not(ed::isReadOnly))
               .filter(r -> !r.isTrackingModification() || r.isModified())
-              .filter(r -> r.isLoaded())
+              .filter(Resource::isLoaded)
               .forEach(r -> Try.check(() -> r.save(saveOptions.get(r)))
                   .ifSuccessed(() -> savedResources.add(r)));
         })), null));
