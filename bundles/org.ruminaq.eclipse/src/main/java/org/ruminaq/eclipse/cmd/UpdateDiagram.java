@@ -6,7 +6,6 @@
 
 package org.ruminaq.eclipse.cmd;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -64,9 +63,10 @@ public class UpdateDiagram {
                 "saveInWorkspaceRunnable() called from within a command "
                     + "(likely to produce deadlock)");
           }
-          ;
           ed.getResourceSet().getResources().stream()
-              .filter(r -> shouldSave(r, ed))
+              .filter(Predicate.not(ed::isReadOnly))
+              .filter(r -> !r.isTrackingModification() || r.isModified())
+              .filter(r -> r.isLoaded())
               .forEach(r -> Try.check(() -> r.save(saveOptions.get(r)))
                   .ifSuccessed(() -> savedResources.add(r)));
         })), null));
@@ -76,7 +76,7 @@ public class UpdateDiagram {
     return checkIfReady(ted, ted.getActiveTransaction());
   }
 
-  private boolean checkIfReady(InternalTransactionalEditingDomain ted,
+  private static boolean checkIfReady(InternalTransactionalEditingDomain ted,
       Transaction transaction) {
     return Optional.ofNullable(transaction)
         .filter(Predicate.not(Transaction::isReadOnly))
@@ -89,8 +89,7 @@ public class UpdateDiagram {
     Try.check(() -> ModalContext.run(new SaveOperation() {
 
       @Override
-      public void run(IProgressMonitor monitor)
-          throws InvocationTargetException, InterruptedException {
+      public void run(IProgressMonitor monitor) {
         save(ed,
             Collections.singletonMap(r,
                 Collections.singletonMap(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
@@ -108,13 +107,6 @@ public class UpdateDiagram {
     commandStack.saveIsDone();
     dtp.resourcesSaved(dtp.getDiagram(),
         savedResources.stream().toArray(Resource[]::new));
-  }
-
-  protected boolean shouldSave(Resource resource,
-      TransactionalEditingDomain ed) {
-    return !ed.isReadOnly(resource)
-        && (!resource.isTrackingModification() || resource.isModified())
-        && resource.isLoaded();
   }
 
   /**
