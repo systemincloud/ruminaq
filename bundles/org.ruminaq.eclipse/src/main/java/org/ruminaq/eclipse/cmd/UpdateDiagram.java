@@ -49,7 +49,19 @@ public class UpdateDiagram {
       extends IRunnableWithProgress, IThreadListener {
   }
 
+  private static boolean checkIfReady(InternalTransactionalEditingDomain ted,
+      Transaction transaction) {
+    return Optional.ofNullable(transaction)
+        .filter(Predicate.not(Transaction::isReadOnly))
+        .map(t -> ted.getActiveTransaction().getParent())
+        .filter(t -> checkIfReady(ted, t)).isEmpty();
+  }
+
   private final Set<Resource> savedResources = new HashSet<>();
+
+  private boolean check(InternalTransactionalEditingDomain ted) {
+    return checkIfReady(ted, ted.getActiveTransaction());
+  }
 
   protected void save(TransactionalEditingDomain ed,
       Map<Resource, Map<?, ?>> saveOptions) {
@@ -70,18 +82,6 @@ public class UpdateDiagram {
               .forEach(r -> Try.check(() -> r.save(saveOptions.get(r)))
                   .ifSuccessed(() -> savedResources.add(r)));
         })), null));
-  }
-
-  private boolean check(InternalTransactionalEditingDomain ted) {
-    return checkIfReady(ted, ted.getActiveTransaction());
-  }
-
-  private static boolean checkIfReady(InternalTransactionalEditingDomain ted,
-      Transaction transaction) {
-    return Optional.ofNullable(transaction)
-        .filter(Predicate.not(Transaction::isReadOnly))
-        .map(t -> ted.getActiveTransaction().getParent())
-        .filter(t -> checkIfReady(ted, t)).isEmpty();
   }
 
   private void save(Resource r, IDiagramTypeProvider dtp,
