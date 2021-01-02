@@ -21,7 +21,7 @@
       </clientContext>
       <binding context="org.ruminaq.validation.context"
                category="org.ruminaq.validation.category"/>
-   </extension> 
+   </extension>
 
    <extension point="org.eclipse.emf.validation.constraintProviders">
       <category name="Ruminaq" id="org.ruminaq.validation.category"/>

@@ -33,16 +33,8 @@ import org.ruminaq.util.Result;
  */
 public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
 
-  @Override
-  public IStatus validate(IValidationContext ctx) {
-    return Optional.ofNullable(ctx)
-        .filter(c -> c.getEventType() == EMFEventType.NULL)
-        .map(IValidationContext::getTarget)
-        .filter(EmbeddedTask.class::isInstance).map(EmbeddedTask.class::cast)
-        .map(et -> validate(ctx, et)).orElseGet(ctx::createSuccessStatus);
-  }
-
-  private IStatus validate(IValidationContext ctx, EmbeddedTask task) {
+  private static IStatus validateEmbeddedTask(IValidationContext ctx,
+      EmbeddedTask task) {
     if (Optional.ofNullable(task.getImplementationPath())
         .filter(Predicate.not(""::equals)).isEmpty()) {
       return ctx.createSuccessStatus();
@@ -56,24 +48,31 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
         .orElseGet(ctx::createSuccessStatus);
   }
 
+  @Override
+  public IStatus validate(IValidationContext ctx) {
+    return Optional.ofNullable(ctx)
+        .filter(c -> c.getEventType() == EMFEventType.NULL)
+        .map(IValidationContext::getTarget)
+        .filter(EmbeddedTask.class::isInstance).map(EmbeddedTask.class::cast)
+        .map(et -> validateEmbeddedTask(ctx, et))
+        .orElseGet(ctx::createSuccessStatus);
+  }
+
   private static boolean detectLoop(String prefix, MainTask mainTask,
       List<String> deph) {
-    return mainTask.getTask().stream().filter(EmbeddedTask.class::isInstance)
-        .map(EmbeddedTask.class::cast).anyMatch(et -> {
-          String path = et.getImplementationPath();
-          if (deph.contains(path))
+    return Optional.ofNullable(mainTask).map(MainTask::getTask)
+        .map(List::stream).orElseGet(Stream::empty)
+        .filter(EmbeddedTask.class::isInstance).map(EmbeddedTask.class::cast)
+        .map(EmbeddedTask::getImplementationPath).anyMatch(path -> {
+          if (deph.contains(path)) {
             return true;
-          else {
-            MainTask embeddedTask = loadTask(URI.createURI(prefix + path));
-            if (embeddedTask == null)
-              return false;
+          } else {
             deph.add(path);
-            boolean loop = detectLoop(prefix, embeddedTask, deph);
+            boolean loop = detectLoop(prefix,
+                loadTask(URI.createURI(prefix + path)), deph);
             deph.remove(deph.size() - 1);
-            if (loop)
-              return true;
+            return loop;
           }
-          return false;
         });
   }
 
