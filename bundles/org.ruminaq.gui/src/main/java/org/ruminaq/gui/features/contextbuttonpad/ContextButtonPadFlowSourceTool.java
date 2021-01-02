@@ -11,7 +11,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.features.context.impl.CreateConnectionContext;
@@ -23,7 +22,6 @@ import org.eclipse.graphiti.tb.ContextButtonEntry;
 import org.eclipse.graphiti.tb.IContextButtonEntry;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.DomainContextButtonPadDataExtension;
-import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadFlowSourceTool.Filter;
 import org.ruminaq.gui.image.Images;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
@@ -38,14 +36,14 @@ import org.ruminaq.util.ServiceFilterArgs;
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=5" })
-@ServiceFilter(Filter.class)
+@ServiceFilter(ContextButtonPadFlowSourceTool.Filter.class)
 public class ContextButtonPadFlowSourceTool
     implements DomainContextButtonPadDataExtension {
 
   /**
    * Only on SimpleConnectionPoint.
    */
-  public static class Filter implements Predicate<ServiceFilterArgs> {
+  private static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {

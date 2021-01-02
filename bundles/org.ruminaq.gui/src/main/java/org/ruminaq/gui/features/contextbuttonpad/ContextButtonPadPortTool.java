@@ -10,13 +10,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
 import org.eclipse.graphiti.datatypes.IRectangle;
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.eclipse.graphiti.internal.datatypes.impl.RectangleImpl;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
-import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadPortTool.Filter;
 import org.ruminaq.gui.model.diagram.PortShape;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
@@ -27,11 +25,11 @@ import org.ruminaq.util.ServiceFilterArgs;
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=5" })
-@ServiceFilter(Filter.class)
+@ServiceFilter(ContextButtonPadPortTool.Filter.class)
 public class ContextButtonPadPortTool
     implements ContextButtonPadLocationExtension {
 
-  protected static class Filter implements Predicate<ServiceFilterArgs> {
+  private static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {

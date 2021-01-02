@@ -17,7 +17,6 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.ContextButtonPadLocationExtension;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
 import org.ruminaq.gui.diagram.RuminaqBehaviorProvider;
-import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadInternalPortTool.Filter;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
@@ -28,7 +27,7 @@ import org.ruminaq.util.ServiceFilterArgs;
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=5" })
-@ServiceFilter(Filter.class)
+@ServiceFilter(ContextButtonPadInternalPortTool.Filter.class)
 public class ContextButtonPadInternalPortTool implements
     GenericContextButtonPadDataExtension, ContextButtonPadLocationExtension {
 

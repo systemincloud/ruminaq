@@ -8,12 +8,10 @@ package org.ruminaq.gui.features.contextbuttonpad;
 
 import java.util.Optional;
 import java.util.function.Predicate;
-
 import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
 import org.ruminaq.gui.diagram.RuminaqBehaviorProvider;
-import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadLabelFeature.Filter;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.util.ServiceFilter;
 import org.ruminaq.util.ServiceFilterArgs;
@@ -24,11 +22,11 @@ import org.ruminaq.util.ServiceFilterArgs;
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=5" })
-@ServiceFilter(Filter.class)
+@ServiceFilter(ContextButtonPadLabelFeature.Filter.class)
 public class ContextButtonPadLabelFeature
     implements GenericContextButtonPadDataExtension {
 
-  protected static class Filter implements Predicate<ServiceFilterArgs> {
+  private static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {

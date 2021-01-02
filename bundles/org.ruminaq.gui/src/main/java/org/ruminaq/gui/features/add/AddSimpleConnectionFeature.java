@@ -7,7 +7,6 @@
 package org.ruminaq.gui.features.add;
 
 import java.util.Optional;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddConnectionContext;
 import org.eclipse.graphiti.features.context.IAddContext;
@@ -15,7 +14,6 @@ import org.eclipse.graphiti.features.impl.AbstractAddFeature;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.add.AddSimpleConnectionFeature.Filter;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.FlowSourceShape;
 import org.ruminaq.gui.model.diagram.FlowTargetShape;
@@ -29,10 +27,10 @@ import org.ruminaq.model.ruminaq.SimpleConnection;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(AddSimpleConnectionFeature.Filter.class)
 public class AddSimpleConnectionFeature extends AbstractAddFeature {
 
-  protected static class Filter extends AbstractAddFeatureFilter {
+  private static class Filter extends AbstractAddFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return SimpleConnection.class;

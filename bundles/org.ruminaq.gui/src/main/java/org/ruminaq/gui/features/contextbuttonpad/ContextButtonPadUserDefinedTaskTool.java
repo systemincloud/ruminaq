@@ -14,7 +14,6 @@ import org.eclipse.graphiti.features.context.IPictogramElementContext;
 import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.GenericContextButtonPadDataExtension;
 import org.ruminaq.gui.diagram.RuminaqBehaviorProvider;
-import org.ruminaq.gui.features.contextbuttonpad.ContextButtonPadUserDefinedTaskTool.Filter;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 import org.ruminaq.util.ServiceFilter;
@@ -26,11 +25,11 @@ import org.ruminaq.util.ServiceFilterArgs;
  * @author Marek Jagielski
  */
 @Component(property = { "service.ranking:Integer=10" })
-@ServiceFilter(Filter.class)
+@ServiceFilter(ContextButtonPadUserDefinedTaskTool.Filter.class)
 public class ContextButtonPadUserDefinedTaskTool
     implements GenericContextButtonPadDataExtension {
 
-  protected static class Filter implements Predicate<ServiceFilterArgs> {
+  private static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {

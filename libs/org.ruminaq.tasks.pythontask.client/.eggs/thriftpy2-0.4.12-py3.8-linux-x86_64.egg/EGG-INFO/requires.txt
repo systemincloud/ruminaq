@@ -1,0 +1,12 @@
+ply<4.0,>=3.4
+
+[dev]
+cython>=0.28.4
+flake8>=2.5
+pytest>=2.8
+sphinx-rtd-theme>=0.1.9
+sphinx>=1.3
+tornado<6.0,>=4.0
+
+[tornado]
+tornado<6.0,>=4.0

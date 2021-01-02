@@ -10,7 +10,6 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IAddContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.features.FeatureFilter;
-import org.ruminaq.gui.features.add.AddInputPortFeature.Filter;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.InputPortShape;
 import org.ruminaq.model.ruminaq.BaseElement;
@@ -21,10 +20,10 @@ import org.ruminaq.model.ruminaq.InputPort;
  *
  * @author Marek Jagielski
  */
-@FeatureFilter(Filter.class)
+@FeatureFilter(AddInputPortFeature.Filter.class)
 public class AddInputPortFeature extends AbstractAddPortFeature {
 
-  protected static class Filter extends AbstractAddFeatureFilter {
+  private static class Filter extends AbstractAddFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return InputPort.class;
