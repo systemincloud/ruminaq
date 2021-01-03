@@ -20,6 +20,11 @@ import org.ruminaq.gui.api.PasteElementFeatureExtension;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.util.ServiceUtil;
 
+/**
+ * Paste group of RuminaqShapes.
+ *
+ * @author Marek Jagielski
+ */
 public class PasteElementFeature extends AbstractPasteFeature {
 
   public PasteElementFeature(IFeatureProvider fp) {
