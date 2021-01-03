@@ -13,6 +13,11 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.PasteElementFeatureExtension;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 
+/**
+ * Service PasteElementFeatureExtension implementation.
+ *
+ * @author Marek Jagielski
+ */
 @Component(property = { "service.ranking:Integer=5" })
 public class PasteElementFeatures implements PasteElementFeatureExtension {
 

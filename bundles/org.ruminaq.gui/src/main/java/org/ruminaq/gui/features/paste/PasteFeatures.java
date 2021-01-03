@@ -14,7 +14,7 @@ import org.osgi.service.component.annotations.Component;
 import org.ruminaq.gui.api.PasteFeatureExtension;
 
 /**
- * Common paste feature.
+ * Service PasteFeatureExtension implementation.
  *
  * @author Marek Jagielski
  */
