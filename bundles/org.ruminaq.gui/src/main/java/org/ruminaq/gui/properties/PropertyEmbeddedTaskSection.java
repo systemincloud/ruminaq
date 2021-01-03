@@ -131,8 +131,8 @@ public class PropertyEmbeddedTaskSection
           WizardDialog wd = new WizardDialog(
               Display.getDefault().getActiveShell(), wizard);
           wd.setTitle(wizard.getWindowTitle());
+          wizard.setListener(this);
           wd.open();
-          
         });
   }
 }

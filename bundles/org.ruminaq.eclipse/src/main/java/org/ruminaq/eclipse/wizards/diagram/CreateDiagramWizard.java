@@ -7,7 +7,7 @@
 package org.ruminaq.eclipse.wizards.diagram;
 
 import java.lang.reflect.InvocationTargetException;
-
+import java.util.Optional;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -27,6 +27,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.ruminaq.eclipse.Messages;
 import org.ruminaq.eclipse.prefs.ProjectProps;
+import org.ruminaq.eclipse.wizards.task.CreateUserDefinedTaskListener;
 import org.ruminaq.gui.model.FileService;
 import org.ruminaq.gui.model.diagram.DiagramFactory;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
@@ -49,6 +50,12 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
 
   public static final String EXTENSION = "rumi";
   public static final String DIAGRAM_EXTENSION_DOT = "." + EXTENSION;
+
+  private CreateUserDefinedTaskListener listener;
+
+  public void setListener(CreateUserDefinedTaskListener listener) {
+    this.listener = listener;
+  }
 
   /**
    * Set window name.
@@ -94,6 +101,7 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
           e.getTargetException().getMessage());
       return false;
     }
+
     return true;
   }
 
@@ -105,7 +113,7 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
     RuminaqDiagram diagram = DiagramFactory.eINSTANCE.createRuminaqDiagram();
 
     IFolder diagramFolder = container.getFolder(null);
-    final IFile diagramFile = diagramFolder.getFile(fileName);
+    IFile diagramFile = diagramFolder.getFile(fileName);
     MainTask model = RuminaqFactory.eINSTANCE.createMainTask();
     model.setVersion(ProjectProps.getInstance(resource.getProject())
         .get(ProjectProps.RUMINAQ_VERSION));
@@ -115,6 +123,8 @@ public class CreateDiagramWizard extends BasicNewResourceWizard {
     FileService.createEmfFileForDiagram(uri, diagram, model);
 
     getShell().getDisplay().asyncExec(() -> {
+      Optional.ofNullable(listener).ifPresent(l -> l.setImplementation(
+          diagramFile.getFullPath().removeFirstSegments(1).toString()));
       IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
           .getActivePage();
       try {

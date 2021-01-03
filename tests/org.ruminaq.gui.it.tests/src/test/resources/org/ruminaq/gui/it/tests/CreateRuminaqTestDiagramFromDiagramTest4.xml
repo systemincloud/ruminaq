@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagram="http://ruminaq.org/diagram" xmlns:ruminaq="http://ruminaq.org">
+  <diagram:RuminaqDiagram mainTask="/1">
+    <children xsi:type="diagram:InputPortShape" x="200" y="100" modelObject="/1/@inputPort.0" label="/0/@children.1"/>
+    <children xsi:type="diagram:LabelShape" x="181" y="117" labeledShape="/0/@children.0"/>
+    <children xsi:type="diagram:InputPortShape" x="200" y="200" modelObject="/1/@inputPort.1" label="/0/@children.3"/>
+    <children xsi:type="diagram:LabelShape" x="176" y="217" labeledShape="/0/@children.2"/>
+    <children xsi:type="diagram:InputPortShape" x="200" y="300" modelObject="/1/@inputPort.2" label="/0/@children.5"/>
+    <children xsi:type="diagram:LabelShape" x="176" y="317" labeledShape="/0/@children.4"/>
+    <children xsi:type="diagram:OutputPortShape" x="400" y="100" modelObject="/1/@outputPort.0" label="/0/@children.7"/>
+    <children xsi:type="diagram:LabelShape" x="377" y="117" labeledShape="/0/@children.6"/>
+    <children xsi:type="diagram:OutputPortShape" x="400" y="200" modelObject="/1/@outputPort.1" label="/0/@children.9"/>
+    <children xsi:type="diagram:LabelShape" x="372" y="217" labeledShape="/0/@children.8"/>
+    <children xsi:type="diagram:InputPortShape" x="200" y="400" modelObject="/1/@inputPort.3" label="/0/@children.11"/>
+    <children xsi:type="diagram:LabelShape" x="176" y="417" labeledShape="/0/@children.10"/>
+    <children xsi:type="diagram:OutputPortShape" x="400" y="300" modelObject="/1/@outputPort.2" label="/0/@children.13"/>
+    <children xsi:type="diagram:LabelShape" x="372" y="317" labeledShape="/0/@children.12"/>
+    <children xsi:type="diagram:TaskShape" x="250" y="300" width="120" height="70" modelObject="/1/@task.0" label="/0/@children.15" iconId="/icons/diagram.embeddedtask_main.png" description="MyTask.rumi"/>
+    <children xsi:type="diagram:LabelShape" x="261" y="372" labeledShape="/0/@children.14"/>
+  </diagram:RuminaqDiagram>
+  <ruminaq:MainTask version="1.0.0">
+    <inputPort id="My Input Port"/>
+    <inputPort id="My Input Port 1"/>
+    <inputPort id="My Input Port 2"/>
+    <inputPort id="My Input Port 3"/>
+    <outputPort id="My Output Port"/>
+    <outputPort id="My Output Port 1"/>
+    <outputPort id="My Output Port 2"/>
+    <task xsi:type="ruminaq:EmbeddedTask" id="My Embedded Task" implementationPath="src/main/resources/tasks/MyTask.rumi"/>
+  </ruminaq:MainTask>
+</xmi:XMI>
