@@ -6,7 +6,11 @@
 
 package org.ruminaq.gui.it.tests;
 
+import static org.junit.Assert.assertEquals;
+import java.util.List;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.reddeer.eclipse.ui.markers.Marker;
+import org.eclipse.reddeer.eclipse.ui.views.markers.AllMarkersView;
 import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
@@ -126,19 +130,28 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     bot.tree().getTreeItem("src").getNode("test").getNode("resources")
         .getNode("tasks").expand();
     bot.tree().getTreeItem("src").getNode("test").getNode("resources")
-    .getNode("tasks").getNode(diagramName + "Test.rumi").select();
+        .getNode("tasks").getNode(diagramName + "Test.rumi").select();
 
     bot.button("OK").click();
-    
+
     diagramEditor.activate();
+
+    Thread.sleep(1000);
+
+    AllMarkersView markersView = new AllMarkersView();
+    markersView.open();
+    markersView.activate();
+    List<Marker> markers = markersView.getMarker("Ruminaq");
+    assertEquals("Marker should have description",
+        "Loop in embedding tasks detected.", markers.get(0).getDescription());
 
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Embedded Task");
-    
+
     bot.button("Create").click();
     bot.button("Finish").click();
-    
+
     diagramEditor.activate();
 
     assertDiagram(diagramEditor,
