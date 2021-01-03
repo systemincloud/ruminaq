@@ -9,14 +9,12 @@ package org.ruminaq.gui.features.paste;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.ModelFeatureFilter;
-import org.ruminaq.gui.features.paste.PasteInputPortFeature.Filter;
 import org.ruminaq.gui.model.diagram.InputPortShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InputPort;
@@ -26,11 +24,11 @@ import org.ruminaq.model.ruminaq.InputPort;
  *
  * @author Marek Jagielski
  */
-@ModelFeatureFilter(Filter.class)
+@ModelFeatureFilter(PasteInputPortFeature.Filter.class)
 public class PasteInputPortFeature extends
     LabeledRuminaqPasteFeature<InputPortShape> implements PasteAnchorTracker {
 
-  public static class Filter implements FeaturePredicate<BaseElement> {
+  private static class Filter implements FeaturePredicate<BaseElement> {
     @Override
     public boolean test(BaseElement bo) {
       return bo instanceof InputPort;

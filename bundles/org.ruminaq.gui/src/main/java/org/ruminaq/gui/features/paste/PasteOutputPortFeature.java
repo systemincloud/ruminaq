@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
@@ -18,16 +17,20 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.ModelFeatureFilter;
-import org.ruminaq.gui.features.paste.PasteOutputPortFeature.Filter;
 import org.ruminaq.gui.model.diagram.OutputPortShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.OutputPort;
 
-@ModelFeatureFilter(Filter.class)
+/**
+ * IPasteFeature for OutputPort.
+ *
+ * @author Marek Jagielski
+ */
+@ModelFeatureFilter(PasteOutputPortFeature.Filter.class)
 public class PasteOutputPortFeature extends
     LabeledRuminaqPasteFeature<OutputPortShape> implements PasteAnchorTracker {
 
-  public static class Filter implements FeaturePredicate<BaseElement> {
+  private static class Filter implements FeaturePredicate<BaseElement> {
     @Override
     public boolean test(BaseElement bo) {
       return bo instanceof OutputPort;
