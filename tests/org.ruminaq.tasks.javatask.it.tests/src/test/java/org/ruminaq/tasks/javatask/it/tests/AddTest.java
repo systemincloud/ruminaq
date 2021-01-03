@@ -17,8 +17,10 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.tests.common.reddeer.GuiTest;
+import org.ruminaq.tests.common.reddeer.MoveShape;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 
 /**
@@ -191,6 +193,13 @@ public class AddTest extends GuiTest {
     Thread.sleep(1000);
 
     assertDiagram(diagramEditor, "AddTest.testAddJavaTask.3.xml");
+    
+    WithBoGraphitiEditPart ip = new WithBoGraphitiEditPart(
+        InternalOutputPort.class);
+    ip.select();
+    new MoveShape(diagramEditor, ip, -40, -30).execute();
+    
+    assertDiagram(diagramEditor, "AddTest.testAddJavaTask.4.xml");
   }
 
 }
