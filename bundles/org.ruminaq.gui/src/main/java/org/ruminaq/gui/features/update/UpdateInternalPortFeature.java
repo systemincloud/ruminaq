@@ -54,9 +54,9 @@ public class UpdateInternalPortFeature extends UpdateBaseElementFeature {
   private static boolean updateLabelNeeded(IUpdateContext context) {
     Optional<InternalPortShape> shape = shapeFromContext(context);
     if (shape.isPresent()) {
-      return (shape.get().getInternalPortLabel() == null
+      return (shape.map(InternalPortShape::getInternalPortLabel).isEmpty()
           && shape.get().isShowLabel())
-          || (shape.get().getInternalPortLabel() != null
+          || (shape.map(InternalPortShape::getInternalPortLabel).isPresent()
               && !shape.get().isShowLabel());
     }
     return false;
