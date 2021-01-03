@@ -45,7 +45,7 @@ public class UserDefinedTaskExtensionImpl implements UserDefinedTaskExtension {
           Decimal.class, Int32.class, Int64.class, Float32.class, Float64.class,
           Raw.class, Text.class);
 
-  public static class Filter implements Predicate<ServiceFilterArgs> {
+  private static class Filter implements Predicate<ServiceFilterArgs> {
 
     @Override
     public boolean test(ServiceFilterArgs args) {

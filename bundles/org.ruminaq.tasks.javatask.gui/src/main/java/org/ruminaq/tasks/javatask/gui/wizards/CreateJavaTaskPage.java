@@ -575,13 +575,13 @@ public class CreateJavaTaskPage extends AbstractCreateUserDefinedTaskPage {
   }
 
   /**
-   * Get CompilationUnit from ICompilationUnit. s
+   * Get CompilationUnit from ICompilationUnit.
    *
    * @param unit ICompilationUnit that can be retrieved from e.g. IType.
    * @return parsed CompilationUnit
    */
   public static CompilationUnit parse(ICompilationUnit unit) {
-    ASTParser parser = ASTParser.newParser(AST.JLS14);
+    ASTParser parser = ASTParser.newParser(AST.JLS15);
     parser.setKind(ASTParser.K_COMPILATION_UNIT);
     parser.setSource(unit);
     parser.setResolveBindings(true);

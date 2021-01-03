@@ -70,7 +70,7 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
   private static final int QUEUE_INFINITE = -1;
   private static final int DEFAULT_GROUP = -1;
 
-  public static class Filter extends AbstractUpdateFeatureFilter {
+  private static class Filter extends AbstractUpdateFeatureFilter {
     @Override
     public Class<? extends BaseElement> forBusinessObject() {
       return JavaTask.class;

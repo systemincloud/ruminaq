@@ -41,7 +41,7 @@ import org.ruminaq.util.Result;
 public class DoubleClickFeature
     extends AbstractUserDefinedTaskDoubleClickFeature {
 
-  public static class Filter implements FeaturePredicate<IContext> {
+  private static class Filter implements FeaturePredicate<IContext> {
     @Override
     public boolean test(IContext context) {
       return toModel(context, JavaTask.class).isPresent();

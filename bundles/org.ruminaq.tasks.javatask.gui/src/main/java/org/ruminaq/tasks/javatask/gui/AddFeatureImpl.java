@@ -8,7 +8,6 @@ package org.ruminaq.tasks.javatask.gui;
 
 import java.util.Collections;
 import java.util.List;
-
 import org.eclipse.graphiti.features.IAddFeature;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.osgi.service.component.annotations.Component;
@@ -17,7 +16,6 @@ import org.ruminaq.gui.features.FeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddFeatureFilter;
 import org.ruminaq.gui.features.add.AbstractAddTaskFeature;
 import org.ruminaq.model.ruminaq.BaseElement;
-import org.ruminaq.tasks.javatask.gui.AddFeatureImpl.AddFeature.Filter;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 
 /**
@@ -36,10 +34,10 @@ public class AddFeatureImpl implements AddFeatureExtension {
   /**
    * JavaTask AddFeature.
    */
-  @FeatureFilter(Filter.class)
+  @FeatureFilter(AddFeature.Filter.class)
   public static class AddFeature extends AbstractAddTaskFeature {
 
-    public static class Filter extends AbstractAddFeatureFilter {
+    private static class Filter extends AbstractAddFeatureFilter {
       @Override
       public Class<? extends BaseElement> forBusinessObject() {
         return JavaTask.class;
