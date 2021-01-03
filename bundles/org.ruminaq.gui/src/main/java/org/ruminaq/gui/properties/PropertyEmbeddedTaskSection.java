@@ -8,12 +8,10 @@ package org.ruminaq.gui.properties;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -28,7 +26,6 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
-import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.ruminaq.eclipse.EclipseUtil;
@@ -64,107 +61,77 @@ public class PropertyEmbeddedTaskSection
   @Override
   protected SelectionListener selectSelectionListener() {
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
-      ElementTreeSelectionDialog fileDialog = new ElementTreeSelectionDialog(
-          Display.getDefault().getActiveShell(), new WorkbenchLabelProvider(),
-          new BaseWorkbenchContentProvider());
-      fileDialog.setInput(EclipseUtil.getProjectOf(getDiagram()));
-      fileDialog.setTitle("Select Diagram File");
-      fileDialog.setMessage("Select diagram file from the tree:");
-      fileDialog.setAllowMultiple(false);
-      fileDialog.addFilter(new ViewerFilter() {
-        @Override
-        public boolean select(Viewer arg0, Object parent, Object element) {
-          return folderRelativePath(element)
-              .filter(dirs -> dirs.matchingFirstSegments(MAIN_PATH) >= 3)
-              .isPresent()
-              || folderRelativePath(element).filter(p -> IntStream
-                  .range(1, MAIN_PATH.segmentCount())
-                  .mapToObj(i -> MAIN_PATH.uptoSegment(i)).anyMatch(p::equals))
-                  .isPresent()
-              || folderRelativePath(element)
-                  .filter(dirs -> dirs.matchingFirstSegments(TEST_PATH) >= 3)
-                  .isPresent()
-              || folderRelativePath(element).filter(p -> IntStream
-                  .range(1, TEST_PATH.segmentCount())
-                  .mapToObj(i -> TEST_PATH.uptoSegment(i)).anyMatch(p::equals))
-                  .isPresent()
-              || (file(element).map(IFile::getFileExtension)
-                  .filter(CreateDiagramWizard.EXTENSION::equals).isPresent()
-                  && file(element).map(IFile::getFullPath).map(IPath::toString)
-                      .filter(
-                          EclipseUtil.getUriOf(getSelectedPictogramElement())
-                              .path()::equals)
-                      .isEmpty());
-        }
-      });
-      fileDialog.setValidator((Object[] selection) -> {
-        if (Stream.of(selection).findFirst().filter(IFile.class::isInstance)
-            .isPresent()) {
-          return new Status(IStatus.OK, PropertyEmbeddedTaskSection.class, 0,
-              "", null);
-        } else {
-          return new Status(IStatus.ERROR, PropertyEmbeddedTaskSection.class, 0,
-              "", null);
-        }
-      });
+      ElementTreeSelectionDialog fileDialog = createSelectDialog();
       fileDialog.open();
-      Object[] results = fileDialog.getResult();
-
-      if (results != null) {
-////      final IPath selectedPath = ((IFile) results[0]).getFullPath()
-////          .removeFirstSegments(1);
-////      String taskPath = ((IFile) results[0]).getFullPath()
-////          .removeFirstSegments(5).toString();
-////      String show = "";
-////      if (selectedPath.toString().startsWith(SourceFolders.MAIN_RESOURCES))
-////        show = MAIN_PREFIX + taskPath;
-////      if (selectedPath.toString().startsWith(SourceFolders.TEST_RESOURCES))
-////        show = TEST_PREFIX + taskPath;
-////
-////      if (taskPath != null)
-////        txtTaskName.setText(show);
-////
-////      ModelUtil.runModelChange(new Runnable() {
-////        @Override
-////        public void run() {
-////          String implementationPath = txtTaskName.getText();
-////          if (implementationPath == null)
-////            return;
-////
-////          EObject bo = Graphiti.getLinkService()
-////              .getBusinessObjectForLinkedPictogramElement(pe);
-////          if (bo == null || !(bo instanceof EmbeddedTask))
-////            return;
-////          EmbeddedTask et = (EmbeddedTask) bo;
-////
-////          et.setImplementationTask(selectedPath.toString());
-////          UpdateContext context = new UpdateContext(pe);
-////          dtp.getFeatureProvider().updateIfPossible(context);
-////        }
-////      }, ed, "Change embedded diagram");
-////    }
-      }
+      Optional.ofNullable(fileDialog.getResult()).map(Stream::of)
+          .orElseGet(Stream::empty).findFirst().filter(IFile.class::isInstance)
+          .map(IFile.class::cast).map(IFile::getFullPath)
+          .map(p -> p.removeFirstSegments(1)).map(IPath::toString)
+          .ifPresent(this::setImplementation);
     };
+  }
+
+  private ElementTreeSelectionDialog createSelectDialog() {
+    ElementTreeSelectionDialog fileDialog = new ElementTreeSelectionDialog(
+        Display.getDefault().getActiveShell(), new WorkbenchLabelProvider(),
+        new BaseWorkbenchContentProvider());
+    fileDialog.setInput(EclipseUtil.getProjectOf(getDiagram()));
+    fileDialog.setTitle("Select Diagram File");
+    fileDialog.setMessage("Select diagram file from the tree:");
+    fileDialog.setAllowMultiple(false);
+    fileDialog.addFilter(new ViewerFilter() {
+      @Override
+      public boolean select(Viewer arg0, Object parent, Object element) {
+        return folderRelativePath(element)
+            .filter(dirs -> dirs.matchingFirstSegments(MAIN_PATH) >= 3)
+            .isPresent()
+            || folderRelativePath(element).filter(p -> IntStream
+                .range(1, MAIN_PATH.segmentCount())
+                .mapToObj(i -> MAIN_PATH.uptoSegment(i)).anyMatch(p::equals))
+                .isPresent()
+            || folderRelativePath(element)
+                .filter(dirs -> dirs.matchingFirstSegments(TEST_PATH) >= 3)
+                .isPresent()
+            || folderRelativePath(element).filter(p -> IntStream
+                .range(1, TEST_PATH.segmentCount())
+                .mapToObj(i -> TEST_PATH.uptoSegment(i)).anyMatch(p::equals))
+                .isPresent()
+            || (file(element).map(IFile::getFileExtension)
+                .filter(CreateDiagramWizard.EXTENSION::equals).isPresent()
+                && file(element).map(IFile::getFullPath).map(IPath::toString)
+                    .filter(EclipseUtil.getUriOf(getSelectedPictogramElement())
+                        .path()::equals)
+                    .isEmpty());
+      }
+    });
+    fileDialog.setValidator((Object[] selection) -> {
+      if (Stream.of(selection).findFirst().filter(IFile.class::isInstance)
+          .isPresent()) {
+        return new Status(IStatus.OK, PropertyEmbeddedTaskSection.class, 0, "",
+            null);
+      } else {
+        return new Status(IStatus.ERROR, PropertyEmbeddedTaskSection.class, 0,
+            "", null);
+      }
+    });
+    return fileDialog;
   }
 
   @Override
   protected SelectionListener createSelectionListener() {
-    return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
-      Optional
-          .ofNullable(PlatformUI.getWorkbench().getNewWizardRegistry()
-              .findWizard(CreateDiagramWizard.ID))
-          .map(d -> Result.attempt(d::createWizard)).map(r -> r.orElse(null))
-          .filter(Objects::nonNull)
-          .filter(CreateDiagramWizard.class::isInstance)
-          .map(CreateDiagramWizard.class::cast)
-          .ifPresent((CreateDiagramWizard wizard) -> {
-            wizard.init(PlatformUI.getWorkbench(), new StructuredSelection(
-                JavaCore.create(EclipseUtil.getProjectOf(getDiagram()))));
-            WizardDialog wd = new WizardDialog(
-                Display.getDefault().getActiveShell(), wizard);
-            wd.setTitle(wizard.getWindowTitle());
-            wd.open();
-          });
-    };
+    return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> Optional
+        .ofNullable(PlatformUI.getWorkbench().getNewWizardRegistry()
+            .findWizard(CreateDiagramWizard.ID))
+        .map(d -> Result.attempt(d::createWizard)).map(r -> r.orElse(null))
+        .filter(Objects::nonNull).filter(CreateDiagramWizard.class::isInstance)
+        .map(CreateDiagramWizard.class::cast)
+        .ifPresent((CreateDiagramWizard wizard) -> {
+          wizard.init(PlatformUI.getWorkbench(), new StructuredSelection(
+              JavaCore.create(EclipseUtil.getProjectOf(getDiagram()))));
+          WizardDialog wd = new WizardDialog(
+              Display.getDefault().getActiveShell(), wizard);
+          wd.setTitle(wizard.getWindowTitle());
+          wd.open();
+        });
   }
 }
