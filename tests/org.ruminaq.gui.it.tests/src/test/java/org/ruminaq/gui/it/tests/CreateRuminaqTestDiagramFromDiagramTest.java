@@ -129,6 +129,20 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     .getNode("tasks").getNode(diagramName + "Test.rumi").select();
 
     bot.button("OK").click();
+    
+    diagramEditor.activate();
+
+    propertiesView.open();
+    propertiesView.activate();
+    propertiesView.selectTab("Embedded Task");
+    
+    bot.button("Create").click();
+    bot.button("Finish").click();
+    
+    diagramEditor.activate();
+
+    assertDiagram(diagramEditor,
+        "CreateRuminaqTestDiagramFromDiagramTest4.xml");
   }
 
 }

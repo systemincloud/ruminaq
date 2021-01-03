@@ -14,7 +14,7 @@ import org.ruminaq.gui.model.diagram.TaskShape;
 
 /**
  * Task Shape properties filter.
- * 
+ *
  * @author Marek Jagielski
  */
 public class PropertyTaskFilter extends AbstractPropertySectionFilter {

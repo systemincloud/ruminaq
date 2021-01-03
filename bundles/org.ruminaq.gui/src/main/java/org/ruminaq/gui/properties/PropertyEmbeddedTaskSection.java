@@ -132,6 +132,7 @@ public class PropertyEmbeddedTaskSection
               Display.getDefault().getActiveShell(), wizard);
           wd.setTitle(wizard.getWindowTitle());
           wd.open();
+          
         });
   }
 }

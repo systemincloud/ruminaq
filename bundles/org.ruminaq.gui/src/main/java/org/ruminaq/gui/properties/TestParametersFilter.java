@@ -6,24 +6,24 @@
 
 package org.ruminaq.gui.properties;
 
-import org.eclipse.emf.ecore.EObject;
+import java.util.Optional;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.eclipse.RuminaqDiagramUtil;
-import org.ruminaq.model.ruminaq.MainTask;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 
+/**
+ * Test Diagram parameters filter.
+ *
+ * @author Marek Jagielski
+ */
 public class TestParametersFilter extends AbstractPropertySectionFilter {
 
   @Override
   protected boolean accept(PictogramElement pe) {
-    EObject eObject = Graphiti.getLinkService()
-        .getBusinessObjectForLinkedPictogramElement(pe);
-    if (eObject instanceof MainTask
-        && RuminaqDiagramUtil.isTest(EclipseUtil.getUriOf(pe)))
-      return true;
-    else
-      return false;
+    return Optional.of(pe).filter(RuminaqDiagram.class::isInstance)
+        .map(EclipseUtil::getUriOf).filter(RuminaqDiagramUtil::isTest)
+        .isPresent();
   }
 }
