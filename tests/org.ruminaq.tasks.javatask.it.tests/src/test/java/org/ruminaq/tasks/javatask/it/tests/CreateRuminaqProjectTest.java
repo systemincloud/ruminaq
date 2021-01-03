@@ -3,10 +3,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.javatask.it.tests;
 
 import java.io.IOException;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
@@ -18,8 +18,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.junit.SWTBotJunit4ClassRunner;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -39,7 +37,6 @@ import org.ruminaq.tests.common.SelectView;
 public class CreateRuminaqProjectTest {
 
   private static SWTWorkbenchBot bot;
-  private static IWorkbench workbench;
   private static IWorkspace workspace;
 
   /**
@@ -49,7 +46,6 @@ public class CreateRuminaqProjectTest {
   @BeforeClass
   public static void initBot() {
     bot = new SWTWorkbenchBot();
-    workbench = PlatformUI.getWorkbench();
     workspace = ResourcesPlugin.getWorkspace();
     SelectView.closeWelcomeViewIfExists(bot);
   }

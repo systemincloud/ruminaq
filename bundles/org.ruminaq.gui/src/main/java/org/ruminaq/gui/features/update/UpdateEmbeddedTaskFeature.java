@@ -7,7 +7,7 @@
 package org.ruminaq.gui.features.update;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -79,7 +79,7 @@ public class UpdateEmbeddedTaskFeature
         .map(ip -> new FileInternalInputPort(ip.getId(),
             embeddedTask.getConnection().stream()
                 .filter(c -> c.getSourceRef().equals(ip))
-                .map(Connection::getTargetRef)
+                .map(Connection::getSourceRef)
                 .filter(InternalInputPort.class::isInstance)
                 .map(InternalInputPort.class::cast)
                 .map(InternalInputPort::getDataType).flatMap(Collection::stream)
@@ -95,7 +95,7 @@ public class UpdateEmbeddedTaskFeature
         .map(List::stream).orElseGet(Stream::empty)
         .map(ip -> new FileInternalOutputPort(ip.getId(),
             embeddedTask.getConnection().stream()
-                .filter(c -> c.getSourceRef().equals(ip))
+                .filter(c -> c.getTargetRef().equals(ip))
                 .map(Connection::getTargetRef)
                 .filter(InternalInputPort.class::isInstance)
                 .map(InternalInputPort.class::cast)
@@ -112,34 +112,7 @@ public class UpdateEmbeddedTaskFeature
 
   @Override
   protected Map<String, String> getParameters() {
-    final Map<String, String> ret = new HashMap<>();
-//    EmbeddedTask et = (EmbeddedTask) udt;
-//    if (et != null) {
-//      String path = et.getImplementationTask();
-//      if ("".equals(path) || (!path.startsWith(SourceFolders.MAIN_RESOURCES)
-//          && !path.startsWith(SourceFolders.TEST_RESOURCES)))
-//        return ret;
-//      String project = EclipseUtil.getModelPathFromEObject(et).segment(0);
-//      IPath ipath = Path.fromOSString("/" + project + "/" + path);
-//      IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(ipath);
-//      String fullPath = file.getRawLocation().toOSString();
-//      logger.trace("fullPath = {}", fullPath);
-//      byte[] encoded;
-//      try {
-//        encoded = Files.readAllBytes(Paths.get(fullPath));
-//      } catch (IOException e) {
-//        return ret;
-//      }
-//      String fileContent = new String(encoded, Charset.defaultCharset());
-//      Matcher m = Pattern.compile(GlobalUtil.GV).matcher(fileContent);
-//      while (m.find()) {
-//        String tmp = m.group();
-//        tmp = tmp.substring(2, tmp.length() - 1);
-//        if (!ret.keySet().contains(tmp))
-//          ret.put(tmp, "");
-//      }
-//    }
-    return ret;
+    return Optional.ofNullable(embeddedTask).map(MainTask::getParameters)
+        .orElseGet(Collections::emptyMap);
   }
-
 }

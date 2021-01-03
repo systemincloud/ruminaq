@@ -7,6 +7,7 @@
 package org.ruminaq.gui.it.tests;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
@@ -20,6 +21,7 @@ import org.junit.runner.RunWith;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
+import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.tests.common.SelectView;
 import org.ruminaq.tests.common.reddeer.GuiTest;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
@@ -49,6 +51,7 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
   public void testCreateTestDiagram()
       throws InterruptedException, CoreException {
     addToolFromPalette("Input Port", 200, 100);
+    new WithBoGraphitiEditPart(InputPort.class).doubleClick();
     addToolFromPalette("Input Port", 200, 200);
     addToolFromPalette("Input Port", 200, 300);
     addToolFromPalette("Output Port", 400, 100);
@@ -99,6 +102,25 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     
     assertDiagram(gefEditorTest,
         "CreateRuminaqTestDiagramFromDiagramTest3.xml");
+    
+    diagramEditor.activate();
+    addToolFromPalette("Embedded Task", 250, 300);
+    
+    Thread.sleep(1000);
+    new WithBoGraphitiEditPart(EmbeddedTask.class).select();
+    
+    PropertySheet propertiesView = new PropertySheet();
+
+    propertiesView.open();
+    propertiesView.activate();
+    propertiesView.selectTab("Description");
+    propertiesView.selectTab("Embedded Task");
+    
+    bot.button().click();
+    
+    Thread.sleep(1000);
+    
+    bot.button("Cancel").click();
   }
 
 }
