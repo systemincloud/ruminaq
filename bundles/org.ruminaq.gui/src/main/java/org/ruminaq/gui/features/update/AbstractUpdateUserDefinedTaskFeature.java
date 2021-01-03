@@ -38,6 +38,8 @@ import org.ruminaq.model.ruminaq.UserDefinedTask;
  */
 public abstract class AbstractUpdateUserDefinedTaskFeature
     extends UpdateTaskFeature {
+  
+  private static final String DEFAULT_DESCRIPTION = "";
 
   /**
    * Meta information about InternalInputPort retrieved from implementation
@@ -242,8 +244,13 @@ public abstract class AbstractUpdateUserDefinedTaskFeature
 
   public abstract boolean load(String resource);
 
+  /**
+   * Override it if you want to have a text below Task icon.
+   *
+   * @return description
+   */
   protected String iconDesc() {
-    return "";
+    return DEFAULT_DESCRIPTION;
   }
 
   protected abstract List<FileInternalInputPort> inputPorts();
