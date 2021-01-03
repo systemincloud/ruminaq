@@ -99,28 +99,36 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
                     + CreateDiagramWizard.DIAGRAM_EXTENSION_DOT }),
         new String[] { "Ruminaq", "Update all Tasks" }));
     udpateDiagramMenu.click();
-    
+
     assertDiagram(gefEditorTest,
         "CreateRuminaqTestDiagramFromDiagramTest3.xml");
-    
+
     diagramEditor.activate();
     addToolFromPalette("Embedded Task", 250, 300);
-    
+
     Thread.sleep(1000);
     new WithBoGraphitiEditPart(EmbeddedTask.class).select();
-    
+
     PropertySheet propertiesView = new PropertySheet();
 
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Description");
     propertiesView.selectTab("Embedded Task");
-    
+
     bot.button().click();
-    
+
     Thread.sleep(1000);
-    
-    bot.button("Cancel").click();
+
+    bot.tree().getTreeItem("src").expand();
+    bot.tree().getTreeItem("src").getNode("test").expand();
+    bot.tree().getTreeItem("src").getNode("test").getNode("resources").expand();
+    bot.tree().getTreeItem("src").getNode("test").getNode("resources")
+        .getNode("tasks").expand();
+    bot.tree().getTreeItem("src").getNode("test").getNode("resources")
+    .getNode("tasks").getNode(diagramName + "Test.rumi").select();
+
+    bot.button("OK").click();
   }
 
 }
