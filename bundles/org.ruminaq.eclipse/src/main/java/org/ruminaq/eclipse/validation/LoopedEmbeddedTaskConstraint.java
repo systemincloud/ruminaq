@@ -6,7 +6,7 @@
 
 package org.ruminaq.eclipse.validation;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -45,9 +45,9 @@ public class LoopedEmbeddedTaskConstraint extends AbstractModelConstraint {
         .filter(
             c -> detectLoop("/" + modelPath.segment(0) + "/",
                 loadTask(modelPath),
-                new LinkedList<String>(
-                    Arrays
-                        .asList(URI
+                new LinkedList<>(
+                    Collections
+                        .singletonList(URI
                             .createURI(Stream.of(modelPath.segments()).skip(1)
                                 .collect(Collectors.joining("/")))
                             .toString()))))
