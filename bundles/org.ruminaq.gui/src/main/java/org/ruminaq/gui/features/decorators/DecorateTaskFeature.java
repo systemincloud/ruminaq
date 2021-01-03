@@ -7,6 +7,7 @@
 package org.ruminaq.gui.features.decorators;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.core.runtime.IStatus;
@@ -66,7 +67,7 @@ public class DecorateTaskFeature implements DecoratorExtension {
             d.setMessage(status.getMessage());
           });
           return decorator;
-        }).stream().collect(Collectors.toList());
+        }).filter(Objects::nonNull).stream().collect(Collectors.toList());
   }
 
   /**
