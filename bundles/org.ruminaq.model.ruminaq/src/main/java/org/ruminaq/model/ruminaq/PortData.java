@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.model.ruminaq;
 
 import java.lang.annotation.ElementType;
@@ -17,7 +18,8 @@ import org.ruminaq.model.ruminaq.dt.DatatypeFactory;
 import org.ruminaq.model.ruminaq.dt.DatatypePackage;
 
 /**
- * 
+ * Data that Port can process.
+ *
  * @author Marek Jagielski
  */
 @Retention(RetentionPolicy.RUNTIME)
