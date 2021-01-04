@@ -24,6 +24,6 @@ public class PasteElementFeatures implements PasteElementFeatureExtension {
   @Override
   public List<Class<? extends RuminaqShapePasteFeature<? extends RuminaqShape>>> getFeatures() {
     return Arrays.asList(PasteInputPortFeature.class,
-        PasteOutputPortFeature.class);
+        PasteOutputPortFeature.class, PasteTaskFeature.class);
   }
 }

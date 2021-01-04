@@ -6,11 +6,11 @@
 
 package org.ruminaq.gui.features.paste;
 
+import java.util.stream.Stream;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.features.create.AbstractCreateElementFeature;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
@@ -48,8 +48,8 @@ public class RuminaqShapePasteFeature<T extends RuminaqShape>
 
   @Override
   public boolean canPaste(IPasteContext context) {
-    PictogramElement[] pes = context.getPictogramElements();
-    return pes.length == 1 && pes[0] instanceof RuminaqDiagram;
+    return Stream.of(context.getPictogramElements()).findFirst()
+        .filter(RuminaqDiagram.class::isInstance).isPresent();
   }
 
   @Override

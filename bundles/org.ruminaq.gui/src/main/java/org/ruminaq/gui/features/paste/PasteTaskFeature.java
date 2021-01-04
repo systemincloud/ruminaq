@@ -19,25 +19,36 @@ import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
+import org.ruminaq.gui.features.FeaturePredicate;
+import org.ruminaq.gui.features.ModelFeatureFilter;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.gui.model.diagram.TaskShape;
+import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.Task;
 
-public class PasteTaskFeature extends RuminaqShapePasteFeature<RuminaqShape>
+/**
+ * IPasteFeature for Task.
+ *
+ * @author Marek Jagielski
+ */
+@ModelFeatureFilter(PasteTaskFeature.Filter.class)
+public class PasteTaskFeature extends LabeledRuminaqPasteFeature<TaskShape>
     implements PasteAnchorTracker {
+
+  private static class Filter implements FeaturePredicate<BaseElement> {
+    @Override
+    public boolean test(BaseElement bo) {
+      return bo instanceof Task;
+    }
+  }
 
   private Map<Anchor, Anchor> anchors = new HashMap<>();
 
   public PasteTaskFeature(IFeatureProvider fp, RuminaqShape oldPe, int xMin,
       int yMin) {
-    super(fp, oldPe, xMin, yMin);
-  }
-
-  @Override
-  public boolean canPaste(IPasteContext context) {
-    PictogramElement[] pes = context.getPictogramElements();
-    return pes.length == 1 && pes[0] instanceof Diagram;
+    super(fp, (TaskShape) oldPe, xMin, yMin);
   }
 
   @Override
