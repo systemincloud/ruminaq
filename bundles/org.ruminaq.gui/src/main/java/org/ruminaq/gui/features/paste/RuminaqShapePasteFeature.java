@@ -16,6 +16,13 @@ import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 
+/**
+ * IPasteFeature for Ruminaq shape.
+ *
+ * @author Marek Jagielski
+ *
+ * @param <T> RuminaqShape
+ */
 public class RuminaqShapePasteFeature<T extends RuminaqShape>
     extends PictogramElementPasteFeature<T> {
 
