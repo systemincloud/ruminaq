@@ -20,6 +20,7 @@ import org.eclipse.reddeer.gef.editor.GEFEditor;
 import org.eclipse.reddeer.workbench.impl.shell.WorkbenchShell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -47,6 +48,7 @@ public class GuiTest {
 
   @BeforeClass
   public static void initBot() {
+    SWTBotPreferences.KEYBOARD_LAYOUT = "EN_US";
     bot = new SWTWorkbenchBot();
   }
 
@@ -114,7 +116,8 @@ public class GuiTest {
         true);
   }
 
-  protected void addToolFromPalette(String tool, int x, int y) throws InterruptedException {
+  protected void addToolFromPalette(String tool, int x, int y)
+      throws InterruptedException {
     diagramEditor.getPalette().activateTool(tool, null);
     FigureCanvas figureCanvas = (FigureCanvas) diagramEditor.getControl();
     WidgetHandler.getInstance().notifyItemMouse(SWT.MouseMove, 0, figureCanvas,

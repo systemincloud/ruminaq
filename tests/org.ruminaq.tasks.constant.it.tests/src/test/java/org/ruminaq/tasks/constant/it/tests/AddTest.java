@@ -7,9 +7,14 @@
 package org.ruminaq.tasks.constant.it.tests;
 
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
+import org.eclipse.swt.SWT;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.model.ruminaq.InternalOutputPort;
+import org.ruminaq.model.ruminaq.OutputPort;
+import org.ruminaq.tests.common.reddeer.CreateSimpleConnection;
 import org.ruminaq.tests.common.reddeer.GuiTest;
+import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 
 /**
  * Test adding basic elements to diagram.
@@ -26,6 +31,19 @@ public class AddTest extends GuiTest {
     Thread.sleep(1000);
 
     assertDiagram(diagramEditor, "AddTest.testAddConstant.xml");
+    
+    addToolFromPalette("Output Port", 400, 150);
+
+    new CreateSimpleConnection(diagramEditor,
+        new WithBoGraphitiEditPart(InternalOutputPort.class, 0),
+        new WithBoGraphitiEditPart(OutputPort.class, 0)).execute();
+    
+    bot.canvas().pressShortcut(SWT.CTRL, 'a');
+    bot.canvas().pressShortcut(SWT.CTRL, 'c');
+    bot.canvas().click(600, 200);
+    bot.canvas().pressShortcut(SWT.CTRL, 'v');
+
+//    assertDiagram(diagramEditor, "AddTest.testAddConstant.xml");
   }
 
 }

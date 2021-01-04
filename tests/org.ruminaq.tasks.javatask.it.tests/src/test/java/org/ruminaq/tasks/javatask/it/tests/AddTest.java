@@ -10,11 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.swt.SWT;
-import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
-import org.eclipse.swtbot.swt.finder.utils.SWTBotPreferences;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
@@ -30,19 +26,6 @@ import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
  */
 @RunWith(RedDeerSuite.class)
 public class AddTest extends GuiTest {
-
-  private static SWTWorkbenchBot bot;
-
-  @BeforeClass
-  public static void initBot() {
-    SWTBotPreferences.KEYBOARD_LAYOUT = "EN_US";
-    bot = new SWTWorkbenchBot();
-  }
-
-  @AfterClass
-  public static void after() {
-    bot.resetWorkbench();
-  }
 
   @Test
   public void testAddJavaTask() throws InterruptedException {

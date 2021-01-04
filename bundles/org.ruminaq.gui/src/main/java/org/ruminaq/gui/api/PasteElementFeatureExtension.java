@@ -82,7 +82,8 @@ public interface PasteElementFeatureExtension extends
     return clazz -> Optional
         .ofNullable(clazz.getAnnotation(ModelFeatureFilter.class))
         .map(ModelFeatureFilter::value)
-        .map(f -> Result.attempt(f::getConstructor))
+        .map(f -> Result.attempt(f::getDeclaredConstructor))
+        .map(r -> r.peek(v -> v.setAccessible(true)))
         .flatMap(r -> Optional.ofNullable(r.orElse(null)))
         .map(f -> Result.attempt(f::newInstance))
         .flatMap(r -> Optional.ofNullable(r.orElse(null)))
