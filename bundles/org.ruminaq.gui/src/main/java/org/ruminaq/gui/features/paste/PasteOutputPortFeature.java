@@ -8,7 +8,6 @@ package org.ruminaq.gui.features.paste;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
@@ -38,15 +37,9 @@ public class PasteOutputPortFeature extends
 
   private Map<Anchor, Anchor> anchors = new HashMap<>();
 
-  @Override
-  public List<PictogramElement> getNewPictogramElements() {
-    return newPes;
-  }
-
   public PasteOutputPortFeature(IFeatureProvider fp, PictogramElement oldPe,
       int xMin, int yMin) {
     super(fp, (OutputPortShape) oldPe, xMin, yMin);
-
   }
 
   @Override
