@@ -12,12 +12,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
@@ -73,7 +73,7 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
     InternalPortShape shape = shapeFromPictogramElement(pe).orElseThrow();
     return modelFromPictogramElement(pe).map((InternalPort ip) -> {
       List<IDecorator> decorators = new LinkedList<>();
-      validationDecorator(shape).ifPresent(decorators::add);
+      decorators.addAll(validationDecorator(shape));
       breakpointDecorator(ip, fp).ifPresent(decorators::add);
       return decorators;
     }).orElseGet(Collections::emptyList);
@@ -85,7 +85,7 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
    * @param shape model object
    * @return BorderDecorator
    */
-  private static Optional<IDecorator> validationDecorator(
+  private static List<IBorderDecorator> validationDecorator(
       InternalPortShape shape) {
     return Optional.of(shape).map(InternalPortShape::getAnchors)
         .map(EList::stream).orElseGet(Stream::empty).findFirst()
@@ -93,8 +93,9 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
         .orElseGet(Stream::empty)
         .filter(SimpleConnectionShape.class::isInstance)
         .map(SimpleConnectionShape.class::cast).findFirst()
-        .map(SimpleConnectionShape::getModelObject)
-        .map(sc -> EcoreUtil.getRegisteredAdapter((EObject) sc,
+        .map(SimpleConnectionShape::getModelObject).map(List::stream)
+        .orElseGet(Stream::empty)
+        .map(sc -> EcoreUtil.getRegisteredAdapter(sc,
             ValidationStatusAdapter.class))
         .filter(ValidationStatusAdapter.class::isInstance)
         .map(ValidationStatusAdapter.class::cast)
@@ -104,7 +105,7 @@ public class DecorateInternalPortFeature implements DecoratorExtension {
           Optional.ofNullable(decorator)
               .ifPresent(d -> d.setMessage(status.getMessage()));
           return decorator;
-        });
+        }).collect(Collectors.toList());
   }
 
   private static IBorderDecorator statusToDecorator(IStatus status) {
