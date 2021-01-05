@@ -66,28 +66,25 @@ public class PasteTaskFeature extends LabeledRuminaqPasteFeature<TaskShape>
   }
 
   private void updateInternalPorts(Task newBo, TaskShape newPe) {
-    for (Shape newPortShape : newPe.getChildren()) {
-//      if (AbstractAddTaskFeature.isInternalPortLabel(newPortShape))
-//        continue;
-      EList<EObject> os = newPortShape.getLink().getBusinessObjects();
-      String id = null;
-      ContainerShape l = null;
-      for (EObject o : os)
-        if (o instanceof InternalPort)
-          id = ((InternalPort) o).getId();
-        else if (o instanceof ContainerShape)
-          l = (ContainerShape) o;
-      InternalPort ip = newBo.getInputPort(id);
-//      InternalPort ip = newBo.getOutputPort(id);
-
-      while (newPortShape.getLink().getBusinessObjects().size() > 0)
-        newPortShape.getLink().getBusinessObjects().remove(0);
-      while (newPortShape.getLink().getBusinessObjects().size() > 0)
-        newPortShape.getLink().getBusinessObjects().remove(0);
-
-      link(newPortShape, new Object[] { ip, l });
-      link(l, new Object[] { ip, newPortShape });
-    }
+//    for (Shape newPortShape : newPe.getChildren()) {
+////      if (AbstractAddTaskFeature.isInternalPortLabel(newPortShape))
+////        continue;
+//      EList<EObject> os = newPortShape.getLink().getBusinessObjects();
+//      String id = null;
+//      ContainerShape l = null;
+//      for (EObject o : os)
+//        if (o instanceof InternalPort)
+//          id = ((InternalPort) o).getId();
+//        else if (o instanceof ContainerShape)
+//          l = (ContainerShape) o;
+//      InternalPort ip = newBo.getInputPort(id);
+////      InternalPort ip = newBo.getOutputPort(id);
+//
+//      while (newPortShape.getLink().getBusinessObjects().size() > 0)
+//        newPortShape.getLink().getBusinessObjects().remove(0);
+//      while (newPortShape.getLink().getBusinessObjects().size() > 0)
+//        newPortShape.getLink().getBusinessObjects().remove(0);
+//    }
   }
 
   @Override
