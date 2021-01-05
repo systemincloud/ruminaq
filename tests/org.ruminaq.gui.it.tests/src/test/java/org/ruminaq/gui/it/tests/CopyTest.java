@@ -39,6 +39,14 @@ public class CopyTest extends GuiTest {
     assertEquals("2 elements added", 5, diagramEditor.getNumberOfEditParts());
 
     new WithTextLabel("(Copy) My Input Port");
+    
+    diagramEditor.click(400, 300);
+
+    diagramEditor.getContextMenu().getItem("Paste").select();
+    
+    assertEquals("3 elements added", 7, diagramEditor.getNumberOfEditParts());
+
+    new WithTextLabel("(Copy) My Input Port 1");
   }
 
 }
