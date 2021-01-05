@@ -11,21 +11,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
-import org.eclipse.graphiti.mm.algorithms.AbstractText;
-import org.eclipse.graphiti.mm.algorithms.GraphicsAlgorithm;
-import org.eclipse.graphiti.mm.algorithms.styles.AbstractStyle;
-import org.eclipse.graphiti.mm.algorithms.styles.Color;
-import org.eclipse.graphiti.mm.algorithms.styles.Font;
-import org.eclipse.graphiti.mm.algorithms.styles.Style;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.Connection;
-import org.eclipse.graphiti.mm.pictograms.ConnectionDecorator;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
@@ -36,9 +27,6 @@ import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.model.ruminaq.FlowTarget;
 import org.ruminaq.model.ruminaq.SimpleConnection;
-import org.ruminaq.util.ColorUtil;
-import org.ruminaq.util.FontUtil;
-import org.ruminaq.util.StyleUtil;
 
 public class PictogramElementPasteFeature<T extends PictogramElement>
     extends AbstractPasteFeature {
@@ -70,50 +58,6 @@ public class PictogramElementPasteFeature<T extends PictogramElement>
   @Override
   public boolean canPaste(IPasteContext context) {
     return false;
-  }
-
-  protected Style cloneStylesAndFonts(Style s) {
-    Style sTmp = EcoreUtil.copy(s);
-    getDiagram().getStyles().add(sTmp);
-    if (sTmp.getFont() != null) {
-      Font f = FontUtil.findFont(getDiagram(), sTmp.getFont().getName(),
-          sTmp.getFont().getSize());
-      if (f == null) {
-        f = EcoreUtil.copy(sTmp.getFont());
-        getDiagram().getFonts().add(f);
-      }
-      sTmp.setFont(f);
-    }
-    cloneStylesAndFonts((AbstractStyle) sTmp);
-
-    return sTmp;
-  }
-
-  private void cloneStylesAndFonts(GraphicsAlgorithm ga) {
-    Style s = ga.getStyle();
-    Style sTmp;
-    if (s != null) {
-      sTmp = StyleUtil.findStyle(getDiagram(), s.getId());
-      if (sTmp != null)
-        ga.setStyle(sTmp);
-      else
-        ga.setStyle(cloneStylesAndFonts(s));
-    }
-    cloneStylesAndFonts((AbstractStyle) ga);
-    if (ga instanceof AbstractText) {
-      AbstractText txt = (AbstractText) ga;
-      Font f = FontUtil.findFont(getDiagram(), txt.getFont().getName(),
-          txt.getFont().getSize());
-      if (f != null)
-        txt.setFont(f);
-      else {
-        f = EcoreUtil.copy(txt.getFont());
-        getDiagram().getFonts().add(f);
-        txt.setFont(f);
-      }
-    }
-    for (GraphicsAlgorithm gac : ga.getGraphicsAlgorithmChildren())
-      cloneStylesAndFonts(gac);
   }
 
   private void pasteSimpleConnections(
@@ -167,49 +111,6 @@ public class PictogramElementPasteFeature<T extends PictogramElement>
     PasteSimpleConnections psc = new PasteSimpleConnections(flowSources,
         flowTargets, peBos, anchors, fp);
     psc.paste(null);
-    cloneStylesAndFonts(psc.getNewPictogramElements());
-  }
-
-  private void cloneStylesAndFonts(AbstractStyle as) {
-    if (as.getForeground() != null) {
-      Color c = ColorUtil.findColor(getDiagram(), as.getForeground().getRed(),
-          as.getForeground().getGreen(), as.getForeground().getBlue());
-      if (c == null) {
-        c = EcoreUtil.copy(as.getForeground());
-        getDiagram().getColors().add(c);
-      }
-      as.setForeground(c);
-    }
-    if (as.getBackground() != null) {
-      Color c = ColorUtil.findColor(getDiagram(), as.getBackground().getRed(),
-          as.getBackground().getGreen(), as.getBackground().getBlue());
-      if (c == null) {
-        c = EcoreUtil.copy(as.getBackground());
-        getDiagram().getColors().add(c);
-      }
-      as.setBackground(c);
-    }
-  }
-
-  private void cloneStylesAndFonts(List<PictogramElement> pes) {
-    for (PictogramElement p : pes)
-      cloneStylesAndFonts(p);
-  }
-
-  private void cloneStylesAndFonts(PictogramElement p) {
-    cloneStylesAndFonts(p.getGraphicsAlgorithm());
-
-    if (p instanceof Connection) {
-      Connection con = (Connection) p;
-      for (ConnectionDecorator cd : con.getConnectionDecorators())
-        cloneStylesAndFonts(cd.getGraphicsAlgorithm());
-    }
-
-    if (p instanceof ContainerShape) {
-      ContainerShape cs = (ContainerShape) p;
-      for (Shape ch : cs.getChildren())
-        cloneStylesAndFonts(ch);
-    }
   }
 
   private Diagram getDiagram(Shape shape) {
