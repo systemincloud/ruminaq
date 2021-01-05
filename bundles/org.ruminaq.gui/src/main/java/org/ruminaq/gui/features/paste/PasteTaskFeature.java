@@ -49,17 +49,6 @@ public class PasteTaskFeature extends LabeledRuminaqPasteFeature<TaskShape>
     Task newBo = (Task) newPe.getModelObject();
     getRuminaqDiagram().getMainTask().getTask().add(newBo);
     updateInternalPorts(newBo, newPe);
-//
-//    Iterator<Shape> itNewChild = ((ContainerShape) newPe).getChildren()
-//        .iterator();
-//    Iterator<Shape> itOldChild = ((ContainerShape) oldPe).getChildren()
-//        .iterator();
-//    while (itNewChild.hasNext() && itOldChild.hasNext()) {
-//      Iterator<Anchor> itOld = itOldChild.next().getAnchors().iterator();
-//      Iterator<Anchor> itNew = itNewChild.next().getAnchors().iterator();
-//      while (itOld.hasNext() && itNew.hasNext())
-//        anchors.put(itOld.next(), itNew.next());
-//    }
   }
 
   private void updateInternalPorts(Task newTask, TaskShape newTaskShape) {
