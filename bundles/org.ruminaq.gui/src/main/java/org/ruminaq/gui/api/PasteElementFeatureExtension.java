@@ -44,8 +44,9 @@ public interface PasteElementFeatureExtension extends
       IFeatureProvider fp, PictogramElement oldPe, int xMin, int yMin) {
     return Optional.ofNullable(features).orElseGet(Collections::emptyList)
         .stream()
-        .map(f -> Result.attempt(() -> f.getConstructor(IFeatureProvider.class,
+        .map(f -> Result.attempt(() -> f.getDeclaredConstructor(IFeatureProvider.class,
             PictogramElement.class, Integer.TYPE, Integer.TYPE)))
+        .map(r -> r.peek(v -> v.setAccessible(true)))
         .map(r -> r.orElse(null)).filter(Objects::nonNull)
         .map(f -> Result.attempt(() -> f.newInstance(fp, oldPe, xMin, yMin)))
         .map(r -> r.orElse(null)).filter(Objects::nonNull)
