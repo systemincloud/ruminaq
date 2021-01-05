@@ -53,38 +53,43 @@ public class PasteTaskFeature extends LabeledRuminaqPasteFeature<TaskShape>
 
   @Override
   public void paste(IPasteContext context) {
-    PictogramElement[] pes = context.getPictogramElements();
-    int x = context.getX();
-    int y = context.getY();
-
-    Diagram diagram = (Diagram) pes[0];
-
-    Task oldBo = null;
-    ContainerShape oldLabel = null;
-
-    for (Object o : getAllBusinessObjectsForPictogramElement(oldPe)) {
-      if (o instanceof Task) {
-        oldBo = (Task) o;
-      } else if (LabelShape.class.isInstance(o)) {
-        oldLabel = (ContainerShape) o;
-      }
-    }
-
-    PictogramElement newPe = EcoreUtil.copy(oldPe);
-    newPes.add(newPe);
-    Task newBo = EcoreUtil.copy(oldBo);
-
-    getRuminaqDiagram().getMainTask().getTask().add(newBo);
-
-    newPe.getGraphicsAlgorithm()
-        .setX(x + newPe.getGraphicsAlgorithm().getX() - xMin);
-    newPe.getGraphicsAlgorithm()
-        .setY(y + newPe.getGraphicsAlgorithm().getY() - yMin);
+    super.paste(context);
+    getRuminaqDiagram().getMainTask().getTask()
+        .add((Task) newPe.getModelObject());
+    
+    
+//    PictogramElement[] pes = context.getPictogramElements();
+//    int x = context.getX();
+//    int y = context.getY();
+//
+//    Diagram diagram = (Diagram) pes[0];
+//
+//    Task oldBo = null;
+//    ContainerShape oldLabel = null;
+//
+//    for (Object o : getAllBusinessObjectsForPictogramElement(oldPe)) {
+//      if (o instanceof Task) {
+//        oldBo = (Task) o;
+//      } else if (LabelShape.class.isInstance(o)) {
+//        oldLabel = (ContainerShape) o;
+//      }
+//    }
+//
+//    PictogramElement newPe = EcoreUtil.copy(oldPe);
+//    newPes.add(newPe);
+//    Task newBo = EcoreUtil.copy(oldBo);
+//
+//    getRuminaqDiagram().getMainTask().getTask().add(newBo);
+//
+//    newPe.getGraphicsAlgorithm()
+//        .setX(x + newPe.getGraphicsAlgorithm().getX() - xMin);
+//    newPe.getGraphicsAlgorithm()
+//        .setY(y + newPe.getGraphicsAlgorithm().getY() - yMin);
 
 //    String newId = PasteDefaultElementFeature.setId(newBo.getId(), newBo,
 //        diagram);
 
-    diagram.getChildren().add((Shape) newPe);
+//    diagram.getChildren().add((Shape) newPe);
 //
 //    ContainerShape newLabel = PasteDefaultElementFeature.addLabel(oldPe,
 //        oldLabel, x, y, newId, diagram, newPe);
@@ -98,18 +103,18 @@ public class PasteTaskFeature extends LabeledRuminaqPasteFeature<TaskShape>
 //    updatePictogramElement(newLabel);
 //    layoutPictogramElement(newLabel);
 
-    updateInternalPorts(newBo, (ContainerShape) newPe);
-
-    Iterator<Shape> itNewChild = ((ContainerShape) newPe).getChildren()
-        .iterator();
-    Iterator<Shape> itOldChild = ((ContainerShape) oldPe).getChildren()
-        .iterator();
-    while (itNewChild.hasNext() && itOldChild.hasNext()) {
-      Iterator<Anchor> itOld = itOldChild.next().getAnchors().iterator();
-      Iterator<Anchor> itNew = itNewChild.next().getAnchors().iterator();
-      while (itOld.hasNext() && itNew.hasNext())
-        anchors.put(itOld.next(), itNew.next());
-    }
+//    updateInternalPorts(newBo, (ContainerShape) newPe);
+//
+//    Iterator<Shape> itNewChild = ((ContainerShape) newPe).getChildren()
+//        .iterator();
+//    Iterator<Shape> itOldChild = ((ContainerShape) oldPe).getChildren()
+//        .iterator();
+//    while (itNewChild.hasNext() && itOldChild.hasNext()) {
+//      Iterator<Anchor> itOld = itOldChild.next().getAnchors().iterator();
+//      Iterator<Anchor> itNew = itNewChild.next().getAnchors().iterator();
+//      while (itOld.hasNext() && itNew.hasNext())
+//        anchors.put(itOld.next(), itNew.next());
+//    }
   }
 
   private void updateInternalPorts(Task newBo, ContainerShape newPe) {

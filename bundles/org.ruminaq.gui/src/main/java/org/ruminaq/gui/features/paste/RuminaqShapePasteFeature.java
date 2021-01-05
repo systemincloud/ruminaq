@@ -29,7 +29,7 @@ public class RuminaqShapePasteFeature<T extends RuminaqShape>
   protected int xMin;
   protected int yMin;
 
-  public RuminaqShapePasteFeature(IFeatureProvider fp, T oldPe, int xMin,
+  protected RuminaqShapePasteFeature(IFeatureProvider fp, T oldPe, int xMin,
       int yMin) {
     super(fp, oldPe);
     this.xMin = xMin;

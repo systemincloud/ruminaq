@@ -14,7 +14,6 @@ import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.ModelFeatureFilter;
 import org.ruminaq.gui.model.diagram.OutputPortShape;
@@ -56,8 +55,8 @@ public class PasteOutputPortFeature extends
     getRuminaqDiagram().getMainTask().getOutputPort()
         .add((OutputPort) newPe.getModelObject());
 
-    Iterator<Anchor> itOld = ((Shape) oldPe).getAnchors().iterator();
-    Iterator<Anchor> itNew = ((Shape) newPe).getAnchors().iterator();
+    Iterator<Anchor> itOld = oldPe.getAnchors().iterator();
+    Iterator<Anchor> itNew = newPe.getAnchors().iterator();
     while (itOld.hasNext() && itNew.hasNext()) {
       anchors.put(itOld.next(), itNew.next());
     }

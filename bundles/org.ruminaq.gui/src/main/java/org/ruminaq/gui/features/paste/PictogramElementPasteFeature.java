@@ -48,7 +48,7 @@ public class PictogramElementPasteFeature<T extends PictogramElement>
   protected T oldPe;
   protected T newPe;
 
-  public PictogramElementPasteFeature(IFeatureProvider fp, T oldPe) {
+  protected PictogramElementPasteFeature(IFeatureProvider fp, T oldPe) {
     super(fp);
     this.oldPe = oldPe;
   }
