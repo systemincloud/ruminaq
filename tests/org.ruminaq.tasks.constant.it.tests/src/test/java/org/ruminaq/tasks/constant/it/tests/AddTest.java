@@ -30,20 +30,22 @@ public class AddTest extends GuiTest {
 
     Thread.sleep(1000);
 
-    assertDiagram(diagramEditor, "AddTest.testAddConstant.xml");
-    
+    assertDiagram(diagramEditor, "AddTest.testAddConstant.1.xml");
+
     addToolFromPalette("Output Port", 400, 150);
 
     new CreateSimpleConnection(diagramEditor,
         new WithBoGraphitiEditPart(InternalOutputPort.class, 0),
         new WithBoGraphitiEditPart(OutputPort.class, 0)).execute();
-    
+
     bot.canvas().pressShortcut(SWT.CTRL, 'a');
     bot.canvas().pressShortcut(SWT.CTRL, 'c');
-    bot.canvas().click(600, 200);
+    diagramEditor.click(600, 200);
     bot.canvas().pressShortcut(SWT.CTRL, 'v');
 
-//    assertDiagram(diagramEditor, "AddTest.testAddConstant.xml");
+    Thread.sleep(1000);
+
+    assertDiagram(diagramEditor, "AddTest.testAddConstant.2.xml");
   }
 
 }
