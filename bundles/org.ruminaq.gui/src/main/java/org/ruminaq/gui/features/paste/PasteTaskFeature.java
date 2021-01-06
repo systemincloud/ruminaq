@@ -6,8 +6,10 @@
 
 package org.ruminaq.gui.features.paste;
 
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
@@ -16,6 +18,7 @@ import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.ModelFeatureFilter;
 import org.ruminaq.gui.model.diagram.InternalInputPortShape;
 import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
+import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.Task;
@@ -35,8 +38,6 @@ public class PasteTaskFeature extends LabeledRuminaqPasteFeature<TaskShape>
       return bo instanceof Task;
     }
   }
-
-  private Map<Anchor, Anchor> anchors = new HashMap<>();
 
   public PasteTaskFeature(IFeatureProvider fp, PictogramElement oldPe, int xMin,
       int yMin) {
@@ -67,6 +68,10 @@ public class PasteTaskFeature extends LabeledRuminaqPasteFeature<TaskShape>
 
   @Override
   public Map<Anchor, Anchor> getAnchors() {
-    return anchors;
+    Iterator<InternalPortShape> keyIter = oldPe.getInternalPort().iterator();
+    Iterator<InternalPortShape> valIter = newPe.getInternalPort().iterator();
+    return IntStream.range(0, oldPe.getInternalPort().size()).boxed()
+        .collect(Collectors.toMap(_i -> keyIter.next().getAnchors().get(0),
+            _i -> valIter.next().getAnchors().get(0)));
   }
 }

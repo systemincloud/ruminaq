@@ -6,12 +6,8 @@
 
 package org.ruminaq.gui.features.paste;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
-import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.ruminaq.gui.features.FeaturePredicate;
 import org.ruminaq.gui.features.ModelFeatureFilter;
@@ -25,8 +21,7 @@ import org.ruminaq.model.ruminaq.OutputPort;
  * @author Marek Jagielski
  */
 @ModelFeatureFilter(PasteOutputPortFeature.Filter.class)
-public class PasteOutputPortFeature extends
-    LabeledRuminaqPasteFeature<OutputPortShape> implements PasteAnchorTracker {
+public class PasteOutputPortFeature extends PastePortFeature<OutputPortShape> {
 
   private static class Filter implements FeaturePredicate<BaseElement> {
     @Override
@@ -34,8 +29,6 @@ public class PasteOutputPortFeature extends
       return bo instanceof OutputPort;
     }
   }
-
-  private Map<Anchor, Anchor> anchors = new HashMap<>();
 
   public PasteOutputPortFeature(IFeatureProvider fp, PictogramElement oldPe,
       int xMin, int yMin) {
@@ -47,16 +40,5 @@ public class PasteOutputPortFeature extends
     super.paste(context);
     getRuminaqDiagram().getMainTask().getOutputPort()
         .add((OutputPort) newPe.getModelObject());
-
-    Iterator<Anchor> itOld = oldPe.getAnchors().iterator();
-    Iterator<Anchor> itNew = newPe.getAnchors().iterator();
-    while (itOld.hasNext() && itNew.hasNext()) {
-      anchors.put(itOld.next(), itNew.next());
-    }
-  }
-
-  @Override
-  public Map<Anchor, Anchor> getAnchors() {
-    return anchors;
   }
 }
