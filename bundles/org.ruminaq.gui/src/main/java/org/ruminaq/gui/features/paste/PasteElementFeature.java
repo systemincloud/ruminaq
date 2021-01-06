@@ -67,5 +67,6 @@ public class PasteElementFeature extends AbstractPasteFeature {
   @Override
   public void paste(IPasteContext context) {
     getPasteFeatures().stream().forEach(pf -> pf.paste(context));
+    
   }
 }

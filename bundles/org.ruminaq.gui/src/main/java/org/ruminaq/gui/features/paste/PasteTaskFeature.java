@@ -51,19 +51,18 @@ public class PasteTaskFeature extends LabeledRuminaqPasteFeature<TaskShape>
     updateInternalPorts(newBo, newPe);
   }
 
-  private void updateInternalPorts(Task newTask, TaskShape newTaskShape) {
+  private static void updateInternalPorts(Task newTask,
+      TaskShape newTaskShape) {
     newTaskShape.getInternalPort().stream()
-        .filter(InternalInputPortShape.class::isInstance).forEach(ips -> {
-          newTask.getInputPort().stream()
-              .filter(ip -> ip.getId().equals(ips.getModelObject().getId()))
-              .findFirst().ifPresent(ips::setModelObject);
-        });
+        .filter(InternalInputPortShape.class::isInstance)
+        .forEach(ips -> newTask.getInputPort().stream()
+            .filter(ip -> ip.getId().equals(ips.getModelObject().getId()))
+            .findFirst().ifPresent(ips::setModelObject));
     newTaskShape.getInternalPort().stream()
-    .filter(InternalOutputPortShape.class::isInstance).forEach(ips -> {
-      newTask.getOutputPort().stream()
-          .filter(ip -> ip.getId().equals(ips.getModelObject().getId()))
-          .findFirst().ifPresent(ips::setModelObject);
-    });
+        .filter(InternalOutputPortShape.class::isInstance)
+        .forEach(ips -> newTask.getOutputPort().stream()
+            .filter(ip -> ip.getId().equals(ips.getModelObject().getId()))
+            .findFirst().ifPresent(ips::setModelObject));
   }
 
   @Override
