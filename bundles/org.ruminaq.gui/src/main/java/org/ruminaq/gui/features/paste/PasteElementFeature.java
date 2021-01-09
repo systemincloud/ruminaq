@@ -121,9 +121,10 @@ public class PasteElementFeature extends AbstractPasteFeature {
         .map(FlowTarget.class::cast);
   }
 
-  private static Optional<SimpleConnection> simpleConnection(
+  private static Stream<SimpleConnection> simpleConnection(
       SimpleConnectionShape scs) {
     return Optional.of(scs).map(SimpleConnectionShape::getModelObject)
+        .map(List::stream).orElseGet(Stream::empty)
         .filter(SimpleConnection.class::isInstance)
         .map(SimpleConnection.class::cast);
 
@@ -153,9 +154,9 @@ public class PasteElementFeature extends AbstractPasteFeature {
         .filter(SimpleConnectionShape.class::isInstance)
         .map(SimpleConnectionShape.class::cast)
         .filter(scs -> simpleConnection(scs).map(SimpleConnection::getSourceRef)
-            .filter(oldSources::contains).isPresent())
+            .anyMatch(oldSources::contains))
         .filter(scs -> simpleConnection(scs).map(SimpleConnection::getTargetRef)
-            .filter(oldTargets::contains).isPresent())
+            .anyMatch(oldTargets::contains))
         .collect(Collectors.toList());
 
     List<SimpleConnectionPointShape> simpleConnectionPointsToCopy = oldDiagram
