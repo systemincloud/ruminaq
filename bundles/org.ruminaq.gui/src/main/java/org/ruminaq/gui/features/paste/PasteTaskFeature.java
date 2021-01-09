@@ -71,7 +71,7 @@ public class PasteTaskFeature extends LabeledRuminaqPasteFeature<TaskShape>
     Iterator<InternalPortShape> keyIter = oldPe.getInternalPort().iterator();
     Iterator<InternalPortShape> valIter = newPe.getInternalPort().iterator();
     return IntStream.range(0, oldPe.getInternalPort().size()).boxed()
-        .collect(Collectors.toMap(_i -> keyIter.next().getAnchors().get(0),
-            _i -> valIter.next().getAnchors().get(0)));
+        .collect(Collectors.toMap(i -> keyIter.next().getAnchors().get(0),
+            i -> valIter.next().getAnchors().get(0)));
   }
 }
