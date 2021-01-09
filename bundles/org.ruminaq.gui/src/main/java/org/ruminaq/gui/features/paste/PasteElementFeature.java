@@ -82,7 +82,7 @@ public class PasteElementFeature extends AbstractPasteFeature {
   public void paste(IPasteContext context) {
     List<RuminaqShapePasteFeature<? extends RuminaqShape>> pasteFeatures = getPasteFeatures();
     pasteFeatures.stream().forEach(pf -> pf.paste(context));
-    pasteSimpleConnections(pasteFeatures, getFeatureProvider());
+    pasteSimpleConnections(context, pasteFeatures, getFeatureProvider());
   }
 
   private static Stream<Map.Entry<Anchor, Anchor>> anchors(
@@ -131,7 +131,7 @@ public class PasteElementFeature extends AbstractPasteFeature {
   }
 
   private void pasteSimpleConnections(
-      List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
+      IPasteContext context, List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
       IFeatureProvider fp) {
     Map<Anchor, Anchor> anchors = anchors(pfs)
         .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
@@ -159,6 +159,8 @@ public class PasteElementFeature extends AbstractPasteFeature {
     if (!simpleConnectionsToCopy.isEmpty()) {
       PasteContext ctx = new PasteContext(simpleConnectionsToCopy.stream()
           .toArray(SimpleConnectionShape[]::new));
+      ctx.setX(context.getX());
+      ctx.setY(context.getY());
       PasteSimpleConnections feature = new PasteSimpleConnections(null, null,
           null, anchors, fp);
       feature.canPaste(ctx);

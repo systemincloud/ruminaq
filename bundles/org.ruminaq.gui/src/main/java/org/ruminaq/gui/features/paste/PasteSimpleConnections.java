@@ -51,7 +51,7 @@ public class PasteSimpleConnections
 
   @Override
   public void paste(IPasteContext context) {
-//    // Create business objects
+    
 //    for (List<SimpleConnection> lsc : oldDiagramElementBusinessObjects.values())
 //      for (SimpleConnection sc : lsc)
 //        if (!oldSCnewSC.containsKey(sc)) {
