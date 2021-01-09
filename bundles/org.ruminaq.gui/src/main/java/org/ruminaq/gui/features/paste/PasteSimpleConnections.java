@@ -27,7 +27,7 @@ import org.ruminaq.model.ruminaq.FlowSource;
 import org.ruminaq.model.ruminaq.FlowTarget;
 import org.ruminaq.model.ruminaq.SimpleConnection;
 
-public class PasteSimpleConnection
+public class PasteSimpleConnections
     extends PictogramElementPasteFeature<SimpleConnectionShape> {
 
   private Map<FlowSource, Anchor> oldFlowSources;
@@ -38,7 +38,7 @@ public class PasteSimpleConnection
   private Map<SimpleConnection, SimpleConnection> oldSCnewSC = new HashMap<>();
   private Map<Connection, Connection> newColdC = new HashMap<>();
 
-  public PasteSimpleConnection(Map<FlowSource, Anchor> flowSources,
+  public PasteSimpleConnections(Map<FlowSource, Anchor> flowSources,
       Map<FlowTarget, Anchor> flowTargets,
       Map<Connection, List<SimpleConnection>> peBos,
       Map<Anchor, Anchor> anchors, IFeatureProvider fp) {

@@ -35,8 +35,8 @@ public class LabeledRuminaqPasteFeature<T extends LabeledRuminaqShape>
   public void paste(IPasteContext context) {
     super.paste(context);
     LabelShape newLabel = EcoreUtil.copy(oldLabel);
-    newLabel.setX(newLabel.getX() + context.getX() - oldPe.getX());
-    newLabel.setY(newLabel.getY() + context.getY() - oldPe.getY());
+    newLabel.setX(newLabel.getX() + context.getX() - xMin);
+    newLabel.setY(newLabel.getY() + context.getY() - yMin);
     newLabel.setLabeledShape(newPe);
     newPe.setLabel(newLabel);
     newPes.add(newLabel);
