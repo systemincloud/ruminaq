@@ -14,15 +14,20 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
+import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
 import org.ruminaq.gui.api.PasteElementFeatureExtension;
 import org.ruminaq.gui.model.diagram.FlowSourceShape;
 import org.ruminaq.gui.model.diagram.FlowTargetShape;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
+import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
+import org.ruminaq.model.ruminaq.SimpleConnection;
 import org.ruminaq.util.ServiceUtil;
 
 /**
@@ -93,36 +98,33 @@ public class PasteElementFeature extends AbstractPasteFeature {
             .filter(FlowTargetShape.class::isInstance).isPresent())
         .collect(Collectors.toList());
 
-//    Optional<RuminaqDiagram> oldDiagram = anchors.entrySet().stream().findFirst().map(Map.Entry::getKey)
-//        .map(Anchor::getParent).filter(RuminaqShape.class::isInstance)
-//        .map(RuminaqShape.class::cast).map(PasteElementFeature::getDiagram);
-//
-//    Map<Connection, AnchorContainer> simpleConnectionPointAtTheEnd = new HashMap<>();
-//    Map<Connection, AnchorContainer> simpleConnectionPointAtTheStart = new HashMap<>();
-//    for (Connection c : oldDiagram.get().getConnections()) {
-//          if (oldFlowSources.contains(c.getStart())
-//              && oldFlowTargets.contains(c.getEnd())) {
-//            
-//          }
-//      Optional<Anchor> sa = Optional.of(c).map(Connection::getStart);
-//      Optional<Anchor> ea = Optional.of(c).map(Connection::getEnd);
-//      if (ea.map(Anchor::getParent)
-//          .filter(SimpleConnectionPointShape.class::isInstance).isPresent()) {
-//        simpleConnectionPointAtTheEnd.put(c, ea.get().getParent());
-//      }
-//      if (sa.map(Anchor::getParent)
-//          .filter(SimpleConnectionPointShape.class::isInstance).isPresent()) {
-//        simpleConnectionPointAtTheStart.put(c, sa.get().getParent());
-//      }
-//    }
-//    PasteSimpleConnections psc = new PasteSimpleConnections(flowSources,
-//        flowTargets, peBos, anchors, fp);
-//    psc.paste(null);
+    Optional<RuminaqDiagram> oldDiagram = oldFlowSources.stream().findFirst()
+        .map(Anchor::getParent).filter(RuminaqShape.class::isInstance)
+        .map(RuminaqShape.class::cast).map(PasteElementFeature::getDiagram);
+
+    List<SimpleConnectionShape> simpleConnectionsToCopy = oldDiagram
+        .map(RuminaqDiagram::getConnections).map(EList::stream)
+        .orElseGet(Stream::empty)
+        .filter(SimpleConnectionShape.class::isInstance)
+        .map(SimpleConnectionShape.class::cast).filter(scs -> {
+          return false;
+        }).collect(Collectors.toList());
+
+    List<SimpleConnectionPointShape> simpleConnectionPointsToCopy = oldDiagram
+        .map(RuminaqDiagram::getChildren).map(EList::stream)
+        .orElseGet(Stream::empty)
+        .filter(SimpleConnectionPointShape.class::isInstance)
+        .map(SimpleConnectionPointShape.class::cast).filter(scs -> {
+          return false;
+        }).collect(Collectors.toList());
   }
 
-  private static RuminaqDiagram getDiagram(RuminaqShape shape) {
+  private static RuminaqDiagram getDiagram(ContainerShape shape) {
     return Optional.ofNullable(shape).filter(RuminaqDiagram.class::isInstance)
-        .map(RuminaqDiagram.class::cast).orElseGet(() -> getDiagram(Optional
-            .ofNullable(shape).map(RuminaqShape::getParent).orElse(null)));
+        .map(RuminaqDiagram.class::cast)
+        .orElseGet(() -> getDiagram(
+            Optional.ofNullable(shape).map(ContainerShape::eContainer)
+                .filter(ContainerShape.class::isInstance)
+                .map(ContainerShape.class::cast).orElse(null)));
   }
 }
