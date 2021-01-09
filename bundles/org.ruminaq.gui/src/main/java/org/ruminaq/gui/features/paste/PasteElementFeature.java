@@ -18,6 +18,7 @@ import java.util.stream.Stream;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
+import org.eclipse.graphiti.features.context.impl.PasteContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
@@ -154,8 +155,15 @@ public class PasteElementFeature extends AbstractPasteFeature {
         .filter(scs -> simpleConnection(scs).map(SimpleConnection::getTargetRef)
             .anyMatch(oldTargets::contains))
         .collect(Collectors.toList());
-    
 
+    if (!simpleConnectionsToCopy.isEmpty()) {
+      PasteContext ctx = new PasteContext(simpleConnectionsToCopy.stream()
+          .toArray(SimpleConnectionShape[]::new));
+      PasteSimpleConnections feature = new PasteSimpleConnections(null, null,
+          null, anchors, fp);
+      feature.canPaste(ctx);
+      feature.paste(ctx);
+    }
   }
 
   private static RuminaqDiagram getDiagram(ContainerShape shape) {
