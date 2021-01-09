@@ -19,10 +19,11 @@ import org.ruminaq.gui.model.diagram.PortShape;
  *
  * @author Marek Jagielski
  */
-public abstract class PastePortFeature<T extends PortShape>
+public abstract class AbstractPastePortFeature<T extends PortShape>
     extends LabeledRuminaqPasteFeature<T> implements PasteAnchorTracker {
 
-  protected PastePortFeature(IFeatureProvider fp, T oldPe, int xMin, int yMin) {
+  protected AbstractPastePortFeature(IFeatureProvider fp, T oldPe, int xMin,
+      int yMin) {
     super(fp, oldPe, xMin, yMin);
   }
 
@@ -31,6 +32,6 @@ public abstract class PastePortFeature<T extends PortShape>
     Iterator<Anchor> keyIter = oldPe.getAnchors().iterator();
     Iterator<Anchor> valIter = newPe.getAnchors().iterator();
     return IntStream.range(0, oldPe.getAnchors().size()).boxed()
-        .collect(Collectors.toMap(_i -> keyIter.next(), _i -> valIter.next()));
+        .collect(Collectors.toMap(i -> keyIter.next(), i -> valIter.next()));
   }
 }

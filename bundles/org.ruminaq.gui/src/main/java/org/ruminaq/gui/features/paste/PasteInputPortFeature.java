@@ -21,7 +21,7 @@ import org.ruminaq.model.ruminaq.InputPort;
  * @author Marek Jagielski
  */
 @ModelFeatureFilter(PasteInputPortFeature.Filter.class)
-public class PasteInputPortFeature extends PastePortFeature<InputPortShape> {
+public class PasteInputPortFeature extends AbstractPastePortFeature<InputPortShape> {
 
   private static class Filter implements FeaturePredicate<BaseElement> {
     @Override
