@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
 import org.eclipse.graphiti.mm.pictograms.Anchor;
+import org.eclipse.graphiti.mm.pictograms.AnchorContainer;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.ui.features.AbstractPasteFeature;
 import org.ruminaq.gui.api.PasteElementFeatureExtension;
@@ -27,6 +28,8 @@ import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
+import org.ruminaq.model.ruminaq.FlowSource;
+import org.ruminaq.model.ruminaq.FlowTarget;
 import org.ruminaq.model.ruminaq.SimpleConnection;
 import org.ruminaq.util.ServiceUtil;
 
@@ -81,21 +84,63 @@ public class PasteElementFeature extends AbstractPasteFeature {
     pasteSimpleConnections(pasteFeatures, getFeatureProvider());
   }
 
+  private static Stream<Map.Entry<Anchor, Anchor>> anchors(
+      List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs) {
+    return pfs.stream().filter(PasteAnchorTracker.class::isInstance)
+        .map(PasteAnchorTracker.class::cast).map(PasteAnchorTracker::getAnchors)
+        .flatMap(map -> map.entrySet().stream());
+  }
+
+  private static <T> Stream<Anchor> anchors(
+      List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
+      Class<T> type) {
+    return anchors(pfs).map(Map.Entry::getKey)
+        .filter(a -> Optional.of(a.getParent())
+            .filter(FlowSourceShape.class::isInstance).isPresent());
+  }
+
+  private static <T> Stream<AnchorContainer> anchorContainers(
+      List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
+      Class<T> type) {
+    return anchors(pfs, type).map(Anchor::getParent);
+  }
+
+  private static Stream<FlowSource> modelSources(
+      List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs) {
+    return anchorContainers(pfs, FlowSourceShape.class)
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+        .map(RuminaqShape::getModelObject).filter(FlowSource.class::isInstance)
+        .map(FlowSource.class::cast);
+  }
+
+  private static Stream<FlowTarget> modelTargets(
+      List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs) {
+    return anchorContainers(pfs, FlowTargetShape.class)
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+        .map(RuminaqShape::getModelObject).filter(FlowTarget.class::isInstance)
+        .map(FlowTarget.class::cast);
+  }
+
+  private static Optional<SimpleConnection> simpleConnection(
+      SimpleConnectionShape scs) {
+    return Optional.of(scs).map(SimpleConnectionShape::getModelObject)
+        .filter(SimpleConnection.class::isInstance)
+        .map(SimpleConnection.class::cast);
+
+  }
+
   private void pasteSimpleConnections(
       List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
       IFeatureProvider fp) {
-    Map<Anchor, Anchor> anchors = pfs.stream()
-        .filter(PasteAnchorTracker.class::isInstance)
-        .map(PasteAnchorTracker.class::cast).map(PasteAnchorTracker::getAnchors)
-        .flatMap(map -> map.entrySet().stream())
+    Map<Anchor, Anchor> anchors = anchors(pfs)
         .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
-    List<Anchor> oldFlowSources = anchors.keySet().stream()
-        .filter(a -> Optional.of(a.getParent())
-            .filter(FlowSourceShape.class::isInstance).isPresent())
+    List<Anchor> oldFlowSources = anchors(pfs, FlowSourceShape.class)
         .collect(Collectors.toList());
-    List<Anchor> oldFlowTargets = anchors.keySet().stream()
-        .filter(a -> Optional.of(a.getParent())
-            .filter(FlowTargetShape.class::isInstance).isPresent())
+    List<FlowSource> oldSources = modelSources(pfs)
+        .collect(Collectors.toList());
+    List<Anchor> oldFlowTargets = anchors(pfs, FlowTargetShape.class)
+        .collect(Collectors.toList());
+    List<FlowTarget> oldTargets = modelTargets(pfs)
         .collect(Collectors.toList());
 
     Optional<RuminaqDiagram> oldDiagram = oldFlowSources.stream().findFirst()
@@ -106,9 +151,12 @@ public class PasteElementFeature extends AbstractPasteFeature {
         .map(RuminaqDiagram::getConnections).map(EList::stream)
         .orElseGet(Stream::empty)
         .filter(SimpleConnectionShape.class::isInstance)
-        .map(SimpleConnectionShape.class::cast).filter(scs -> {
-          return false;
-        }).collect(Collectors.toList());
+        .map(SimpleConnectionShape.class::cast)
+        .filter(scs -> simpleConnection(scs).map(SimpleConnection::getSourceRef)
+            .filter(oldSources::contains).isPresent())
+        .filter(scs -> simpleConnection(scs).map(SimpleConnection::getTargetRef)
+            .filter(oldTargets::contains).isPresent())
+        .collect(Collectors.toList());
 
     List<SimpleConnectionPointShape> simpleConnectionPointsToCopy = oldDiagram
         .map(RuminaqDiagram::getChildren).map(EList::stream)
