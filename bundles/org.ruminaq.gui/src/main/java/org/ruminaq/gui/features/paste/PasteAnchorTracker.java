@@ -10,6 +10,11 @@ import java.util.Map;
 
 import org.eclipse.graphiti.mm.pictograms.Anchor;
 
+/**
+ * Return pasted Anchors.
+ *
+ * @author Marek Jagielski
+ */
 public interface PasteAnchorTracker {
   Map<Anchor, Anchor> getAnchors();
 }

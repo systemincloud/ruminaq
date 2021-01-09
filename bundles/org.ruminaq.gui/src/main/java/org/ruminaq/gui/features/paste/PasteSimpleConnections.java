@@ -6,13 +6,15 @@
 
 package org.ruminaq.gui.features.paste;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
@@ -51,7 +53,14 @@ public class PasteSimpleConnections
 
   @Override
   public void paste(IPasteContext context) {
+    LinkedList<SimpleConnectionShape> connectionShapes = Stream
+        .of(context.getPictogramElements())
+        .filter(SimpleConnectionShape.class::isInstance)
+        .map(SimpleConnectionShape.class::cast)
+        .collect(Collectors.toCollection(LinkedList::new));
     
+    connectionShapes.remove();
+    EcoreUtil.copy(oldPe);
 //    for (List<SimpleConnection> lsc : oldDiagramElementBusinessObjects.values())
 //      for (SimpleConnection sc : lsc)
 //        if (!oldSCnewSC.containsKey(sc)) {
