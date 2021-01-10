@@ -8,12 +8,13 @@
     <children xsi:type="diagram:OutputPortShape" x="400" y="150" modelObject="/1/@outputPort.0" label="/0/@children.3" incomingConnections="/0/@connections.0"/>
     <children xsi:type="diagram:LabelShape" x="377" y="167" labeledShape="/0/@children.2"/>
     <children xsi:type="constantshape:ConstantShape" x="600" y="200" width="50" height="50" modelObject="/1/@task.1" label="/0/@children.5">
-      <internalPort xsi:type="diagram:InternalOutputPortShape" x="40" y="20" modelObject="/1/@task.1/@outputPort.0" showLabel="false"/>
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="40" y="20" modelObject="/1/@task.1/@outputPort.0" showLabel="false" outgoingConnections="/0/@connections.1"/>
     </children>
     <children xsi:type="diagram:LabelShape" x="575" y="252" labeledShape="/0/@children.4"/>
-    <children xsi:type="diagram:OutputPortShape" x="800" y="250" modelObject="/1/@outputPort.1" label="/0/@children.7"/>
+    <children xsi:type="diagram:OutputPortShape" x="800" y="250" modelObject="/1/@outputPort.1" label="/0/@children.7" incomingConnections="/0/@connections.1"/>
     <children xsi:type="diagram:LabelShape" x="759" y="267" labeledShape="/0/@children.6"/>
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.0" source="/0/@children.0/@internalPort.0" target="/0/@children.2"/>
+    <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.1" source="/0/@children.4/@internalPort.0" target="/0/@children.6"/>
   </diagram:RuminaqDiagram>
   <ruminaq:MainTask version="1.0.0">
     <outputPort id="My Output Port"/>
@@ -29,5 +30,6 @@
       </outputPort>
     </task>
     <connection xsi:type="ruminaq:SimpleConnection" sourceRef="/1/@task.0/@outputPort.0" targetRef="/1/@outputPort.0"/>
+    <connection xsi:type="ruminaq:SimpleConnection" sourceRef="/1/@task.1/@outputPort.0" targetRef="/1/@outputPort.1"/>
   </ruminaq:MainTask>
 </xmi:XMI>

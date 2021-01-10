@@ -82,7 +82,9 @@ public class PasteElementFeature extends AbstractPasteFeature {
   public void paste(IPasteContext context) {
     List<RuminaqShapePasteFeature<? extends RuminaqShape>> pasteFeatures = getPasteFeatures();
     pasteFeatures.stream().forEach(pf -> pf.paste(context));
-    pasteSimpleConnections(context, pasteFeatures, getFeatureProvider());
+    pasteFeatures.stream().findAny()
+        .ifPresent(pf -> pasteSimpleConnections(context, pf.xMin, pf.yMin,
+            pasteFeatures, getFeatureProvider()));
   }
 
   private static Stream<Map.Entry<Anchor, Anchor>> anchors(
@@ -93,7 +95,7 @@ public class PasteElementFeature extends AbstractPasteFeature {
   }
 
   private static <T> Stream<Anchor> anchors(
-      List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
+      Collection<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
       Class<T> type) {
     return anchors(pfs).map(Map.Entry::getKey).filter(
         a -> Optional.of(a.getParent()).filter(type::isInstance).isPresent());
@@ -130,11 +132,11 @@ public class PasteElementFeature extends AbstractPasteFeature {
 
   }
 
-  private void pasteSimpleConnections(
-      IPasteContext context, List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
+  private void pasteSimpleConnections(IPasteContext context, int xMin, int yMin,
+      List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
       IFeatureProvider fp) {
     Map<Anchor, Anchor> anchors = anchors(pfs)
-        .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     List<FlowSource> oldSources = modelSources(pfs)
         .collect(Collectors.toList());
     List<FlowTarget> oldTargets = modelTargets(pfs)
@@ -159,12 +161,9 @@ public class PasteElementFeature extends AbstractPasteFeature {
     if (!simpleConnectionsToCopy.isEmpty()) {
       PasteContext ctx = new PasteContext(simpleConnectionsToCopy.stream()
           .toArray(SimpleConnectionShape[]::new));
-      ctx.setX(context.getX());
-      ctx.setY(context.getY());
-      PasteSimpleConnections feature = new PasteSimpleConnections(null, null,
-          null, anchors, fp);
-      feature.canPaste(ctx);
-      feature.paste(ctx);
+      ctx.setX(context.getX() - xMin);
+      ctx.setY(context.getY() - yMin);
+      new PasteSimpleConnections(anchors, fp).paste(ctx);
     }
   }
 
