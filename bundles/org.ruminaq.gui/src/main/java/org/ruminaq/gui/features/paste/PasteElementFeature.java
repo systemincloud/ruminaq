@@ -35,7 +35,8 @@ import org.ruminaq.model.ruminaq.SimpleConnection;
 import org.ruminaq.util.ServiceUtil;
 
 /**
- * Paste group of RuminaqShapes.
+ * Paste group of RuminaqShapes followed by pasting 
+ * appropriate SimpleConnections.
  *
  * @author Marek Jagielski
  */
@@ -102,7 +103,7 @@ public class PasteElementFeature extends AbstractPasteFeature {
   }
 
   private static <T> Stream<AnchorContainer> anchorContainers(
-      List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
+      Collection<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
       Class<T> type) {
     return anchors(pfs, type).map(Anchor::getParent);
   }
