@@ -10,11 +10,13 @@ import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.swt.SWT;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.tests.common.reddeer.CreateSimpleConnection;
 import org.ruminaq.tests.common.reddeer.GuiTest;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
+import org.ruminaq.tests.common.reddeer.WithShapeGraphitiEditPart;
 
 /**
  * Test adding basic elements to diagram.
@@ -45,6 +47,14 @@ public class AddTest extends GuiTest {
 
     diagramEditor.click(500, 125);
     diagramEditor.getContextMenu().getItem("Create connection point").select();
+
+    new CreateSimpleConnection(diagramEditor,
+        new WithShapeGraphitiEditPart(SimpleConnectionPointShape.class, 0),
+        new WithBoGraphitiEditPart(OutputPort.class, 2)).execute();
+    
+    new CreateSimpleConnection(diagramEditor,
+        new WithShapeGraphitiEditPart(SimpleConnectionPointShape.class, 1),
+        new WithBoGraphitiEditPart(OutputPort.class, 1)).execute();
 
     bot.canvas().pressShortcut(SWT.CTRL, 'a');
     bot.canvas().pressShortcut(SWT.CTRL, 'c');
