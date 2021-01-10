@@ -109,7 +109,7 @@ public class PasteElementFeature extends AbstractPasteFeature {
   }
 
   private static Stream<FlowSource> modelSources(
-      List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs) {
+      Collection<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs) {
     return anchorContainers(pfs, FlowSourceShape.class)
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
         .map(RuminaqShape::getModelObject).filter(FlowSource.class::isInstance)
@@ -117,7 +117,7 @@ public class PasteElementFeature extends AbstractPasteFeature {
   }
 
   private static Stream<FlowTarget> modelTargets(
-      List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs) {
+      Collection<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs) {
     return anchorContainers(pfs, FlowTargetShape.class)
         .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
         .map(RuminaqShape::getModelObject).filter(FlowTarget.class::isInstance)
