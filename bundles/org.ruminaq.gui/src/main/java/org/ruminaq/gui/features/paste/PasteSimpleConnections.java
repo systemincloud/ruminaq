@@ -7,6 +7,7 @@
 package org.ruminaq.gui.features.paste;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,8 @@ public class PasteSimpleConnections
     int deltaX = context.getX();
     int deltaY = context.getY();
 
+    Map<SimpleConnectionPointShape, SimpleConnectionPointShape> oldConnectionPoitNewConnectionPoint = new HashMap<>();
+
     while (!connectionShapes.isEmpty()) {
       notEndedByPoint(connectionShapes).ifPresentOrElse(scs -> {
         connectionShapes.remove(scs);
@@ -88,12 +91,20 @@ public class PasteSimpleConnections
             .filter(SimpleConnectionPointShape.class::isInstance)
             .map(SimpleConnectionPointShape.class::cast)
             .ifPresentOrElse(scp -> {
-              SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
-                  .copy(scp);
-              newSimpleConnectionPointShape.setX(scp.getX() + deltaX);
-              newSimpleConnectionPointShape.setY(scp.getY() + deltaY);
-              newSimpleConnectionShape.setSource(newSimpleConnectionPointShape);
-              getDiagram().getChildren().add(newSimpleConnectionPointShape);
+              if (oldConnectionPoitNewConnectionPoint.containsKey(scp)) {
+                newSimpleConnectionShape
+                    .setSource(oldConnectionPoitNewConnectionPoint.get(scp));
+              } else {
+                SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
+                    .copy(scp);
+                newSimpleConnectionPointShape.setX(scp.getX() + deltaX);
+                newSimpleConnectionPointShape.setY(scp.getY() + deltaY);
+                newSimpleConnectionShape
+                    .setSource(newSimpleConnectionPointShape);
+                getDiagram().getChildren().add(newSimpleConnectionPointShape);
+                oldConnectionPoitNewConnectionPoint.put(scp,
+                    newSimpleConnectionPointShape);
+              }
             }, () -> {
               Anchor newStartAnchor = oldAnchorNewAnchor.get(scs.getStart());
               newSimpleConnectionShape.setStart(newStartAnchor);
