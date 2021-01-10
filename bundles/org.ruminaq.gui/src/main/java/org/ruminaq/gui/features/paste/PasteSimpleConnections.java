@@ -49,7 +49,7 @@ public class PasteSimpleConnections
         .map(SimpleConnectionShape.class::cast);
   }
 
-  private Optional<SimpleConnectionShape> notEndedByPoint(
+  private static Optional<SimpleConnectionShape> notEndedByPoint(
       Collection<SimpleConnectionShape> connectionShapes) {
     return connectionShapes.stream()
         .filter(cs -> Optional.of(cs).map(SimpleConnectionShape::getTarget)
@@ -78,69 +78,75 @@ public class PasteSimpleConnections
     int deltaX = context.getX();
     int deltaY = context.getY();
 
-    Map<SimpleConnectionPointShape, SimpleConnectionPointShape> oldConnectionPoitNewConnectionPoint = new HashMap<>();
+    Map<SimpleConnectionPointShape, SimpleConnectionPointShape> oldPoitNewPoint = new HashMap<>();
 
     while (!connectionShapes.isEmpty()) {
-      notEndedByPoint(connectionShapes).ifPresentOrElse(scs -> {
-        connectionShapes.remove(scs);
-        SimpleConnectionShape newSimpleConnectionShape = EcoreUtil.copy(scs);
-        newSimpleConnectionShape.getModelObject().clear();
-        SimpleConnection newSimpleConnection = Optional.of(scs)
-            .map(SimpleConnectionShape::getModelObject).map(List::stream)
-            .orElseGet(Stream::empty).filter(SimpleConnection.class::isInstance)
-            .map(SimpleConnection.class::cast).findFirst().map(EcoreUtil::copy)
-            .orElseThrow();
-        newSimpleConnectionShape.getModelObject().add(newSimpleConnection);
-        newSimpleConnection.setSourceRef(null);
-        newSimpleConnection.setTargetRef(null);
-        getRuminaqDiagram().getMainTask().getConnection()
-            .add(newSimpleConnection);
-        Anchor newEndAnchor = oldAnchorNewAnchor.get(scs.getEnd());
-        newSimpleConnectionShape.setEnd(newEndAnchor);
-        Optional.of(newEndAnchor).map(Anchor::getParent)
-            .filter(RuminaqShape.class::isInstance)
-            .map(RuminaqShape.class::cast).map(RuminaqShape::getModelObject)
-            .filter(FlowTarget.class::isInstance).map(FlowTarget.class::cast)
-            .ifPresent(newSimpleConnection::setTargetRef);
-        Optional.of(scs.getSource())
-            .filter(SimpleConnectionPointShape.class::isInstance)
-            .map(SimpleConnectionPointShape.class::cast)
-            .ifPresentOrElse(scp -> {
-              if (oldConnectionPoitNewConnectionPoint.containsKey(scp)) {
-                newSimpleConnectionShape
-                    .setSource(oldConnectionPoitNewConnectionPoint.get(scp));
-                addModelObjectsBeforConnectionPoint(
-                    oldConnectionPoitNewConnectionPoint.get(scp),
-                    Collections.singletonList(newSimpleConnection));
-              } else {
-                SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
-                    .copy(scp);
-                newSimpleConnectionPointShape.setX(scp.getX() + deltaX);
-                newSimpleConnectionPointShape.setY(scp.getY() + deltaY);
-                newSimpleConnectionShape
-                    .setSource(newSimpleConnectionPointShape);
-                getDiagram().getChildren().add(newSimpleConnectionPointShape);
-                oldConnectionPoitNewConnectionPoint.put(scp,
-                    newSimpleConnectionPointShape);
-                // TODO: recurence
-              }
-            }, () -> {
-              Anchor newStartAnchor = oldAnchorNewAnchor.get(scs.getStart());
-              newSimpleConnectionShape.setStart(newStartAnchor);
-              Optional.of(newStartAnchor).map(Anchor::getParent)
-                  .filter(RuminaqShape.class::isInstance)
-                  .map(RuminaqShape.class::cast)
-                  .map(RuminaqShape::getModelObject)
-                  .filter(FlowSource.class::isInstance)
-                  .map(FlowSource.class::cast)
-                  .ifPresent(newSimpleConnection::setSourceRef);
-            });
-        newSimpleConnectionShape.getBendpoints().stream().forEach((Point p) -> {
-          p.setX(p.getX() + deltaX);
-          p.setY(p.getY() + deltaY);
-        });
-        getDiagram().getConnections().add(newSimpleConnectionShape);
-      }, () -> connectionShapes.clear());
+      notEndedByPoint(connectionShapes)
+          .ifPresentOrElse((SimpleConnectionShape scs) -> {
+            connectionShapes.remove(scs);
+            SimpleConnectionShape newSimpleConnectionShape = EcoreUtil
+                .copy(scs);
+            newSimpleConnectionShape.getModelObject().clear();
+            SimpleConnection newSimpleConnection = Optional.of(scs)
+                .map(SimpleConnectionShape::getModelObject).map(List::stream)
+                .orElseGet(Stream::empty)
+                .filter(SimpleConnection.class::isInstance)
+                .map(SimpleConnection.class::cast).findFirst()
+                .map(EcoreUtil::copy).orElseThrow();
+            newSimpleConnectionShape.getModelObject().add(newSimpleConnection);
+            newSimpleConnection.setSourceRef(null);
+            newSimpleConnection.setTargetRef(null);
+            getRuminaqDiagram().getMainTask().getConnection()
+                .add(newSimpleConnection);
+            Anchor newEndAnchor = oldAnchorNewAnchor.get(scs.getEnd());
+            newSimpleConnectionShape.setEnd(newEndAnchor);
+            Optional.of(newEndAnchor).map(Anchor::getParent)
+                .filter(RuminaqShape.class::isInstance)
+                .map(RuminaqShape.class::cast).map(RuminaqShape::getModelObject)
+                .filter(FlowTarget.class::isInstance)
+                .map(FlowTarget.class::cast)
+                .ifPresent(newSimpleConnection::setTargetRef);
+            Optional.of(scs.getSource())
+                .filter(SimpleConnectionPointShape.class::isInstance)
+                .map(SimpleConnectionPointShape.class::cast)
+                .ifPresentOrElse(scp -> {
+                  if (oldPoitNewPoint.containsKey(scp)) {
+                    newSimpleConnectionShape
+                        .setSource(oldPoitNewPoint.get(scp));
+                    addModelObjectsBeforConnectionPoint(
+                        oldPoitNewPoint.get(scp),
+                        Collections.singletonList(newSimpleConnection));
+                  } else {
+                    SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
+                        .copy(scp);
+                    newSimpleConnectionPointShape.setX(scp.getX() + deltaX);
+                    newSimpleConnectionPointShape.setY(scp.getY() + deltaY);
+                    newSimpleConnectionShape
+                        .setSource(newSimpleConnectionPointShape);
+                    getDiagram().getChildren()
+                        .add(newSimpleConnectionPointShape);
+                    oldPoitNewPoint.put(scp, newSimpleConnectionPointShape);
+                    // TODO: recurence
+                  }
+                }, () -> {
+                  Anchor newStartAnchor = oldAnchorNewAnchor
+                      .get(scs.getStart());
+                  newSimpleConnectionShape.setStart(newStartAnchor);
+                  Optional.of(newStartAnchor).map(Anchor::getParent)
+                      .filter(RuminaqShape.class::isInstance)
+                      .map(RuminaqShape.class::cast)
+                      .map(RuminaqShape::getModelObject)
+                      .filter(FlowSource.class::isInstance)
+                      .map(FlowSource.class::cast)
+                      .ifPresent(newSimpleConnection::setSourceRef);
+                });
+            newSimpleConnectionShape.getBendpoints().stream()
+                .forEach((Point p) -> {
+                  p.setX(p.getX() + deltaX);
+                  p.setY(p.getY() + deltaY);
+                });
+            getDiagram().getConnections().add(newSimpleConnectionShape);
+          }, connectionShapes::clear);
     }
   }
 }
