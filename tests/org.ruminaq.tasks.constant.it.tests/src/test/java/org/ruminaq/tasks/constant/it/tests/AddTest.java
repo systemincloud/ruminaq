@@ -37,6 +37,7 @@ public class AddTest extends GuiTest {
     addToolFromPalette("Output Port", 600, 120);
     addToolFromPalette("Output Port", 600, 200);
     addToolFromPalette("Output Port", 600, 300);
+    addToolFromPalette("Output Port", 600, 400);
 
     new CreateSimpleConnection(diagramEditor,
         new WithBoGraphitiEditPart(InternalOutputPort.class, 0),
@@ -55,6 +56,10 @@ public class AddTest extends GuiTest {
     new CreateSimpleConnection(diagramEditor,
         new WithShapeGraphitiEditPart(SimpleConnectionPointShape.class, 1),
         new WithBoGraphitiEditPart(OutputPort.class, 1)).execute();
+    
+    new CreateSimpleConnection(diagramEditor,
+        new WithBoGraphitiEditPart(InternalOutputPort.class, 0),
+        new WithBoGraphitiEditPart(OutputPort.class, 3)).execute();
 
     bot.canvas().pressShortcut(SWT.CTRL, 'a');
     bot.canvas().pressShortcut(SWT.CTRL, 'c');
