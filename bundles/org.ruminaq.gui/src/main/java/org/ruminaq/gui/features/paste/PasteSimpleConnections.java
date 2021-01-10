@@ -7,6 +7,7 @@
 package org.ruminaq.gui.features.paste;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,6 +57,20 @@ public class PasteSimpleConnections
         .findFirst();
   }
 
+  private static void addModelObjectsBeforConnectionPoint(
+      SimpleConnectionPointShape simpleConnectionPointShape,
+      Collection<SimpleConnection> simpleConnections) {
+    simpleConnectionPointShape.getIncomingConnections()
+        .forEach((SimpleConnectionShape scs) -> {
+          scs.getModelObject().addAll(simpleConnections);
+          Optional.of(scs).map(SimpleConnectionShape::getSource)
+              .filter(SimpleConnectionPointShape.class::isInstance)
+              .map(SimpleConnectionPointShape.class::cast)
+              .ifPresent(scps -> addModelObjectsBeforConnectionPoint(scps,
+                  simpleConnections));
+        });
+  }
+
   @Override
   public void paste(IPasteContext context) {
     LinkedList<SimpleConnectionShape> connectionShapes = shapes(context)
@@ -94,6 +109,9 @@ public class PasteSimpleConnections
               if (oldConnectionPoitNewConnectionPoint.containsKey(scp)) {
                 newSimpleConnectionShape
                     .setSource(oldConnectionPoitNewConnectionPoint.get(scp));
+                addModelObjectsBeforConnectionPoint(
+                    oldConnectionPoitNewConnectionPoint.get(scp),
+                    Collections.singletonList(newSimpleConnection));
               } else {
                 SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
                     .copy(scp);
@@ -104,6 +122,7 @@ public class PasteSimpleConnections
                 getDiagram().getChildren().add(newSimpleConnectionPointShape);
                 oldConnectionPoitNewConnectionPoint.put(scp,
                     newSimpleConnectionPointShape);
+                // TODO: recurence
               }
             }, () -> {
               Anchor newStartAnchor = oldAnchorNewAnchor.get(scs.getStart());
