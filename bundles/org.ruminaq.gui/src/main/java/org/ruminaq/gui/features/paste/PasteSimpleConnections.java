@@ -71,6 +71,40 @@ public class PasteSimpleConnections
         });
   }
 
+  private void copyConnectionBeforePoint(
+      SimpleConnectionPointShape oldConnectionPoint,
+      SimpleConnectionPointShape newConnectionPoint,
+      Map<SimpleConnectionPointShape, SimpleConnectionPointShape> oldPoitNewPoint,
+      int deltaX, int deltaY) {
+    oldConnectionPoint.getIncomingConnections().stream().forEach(scs -> {
+      SimpleConnectionShape newSimpleConnectionShape = EcoreUtil.copy(scs);
+      getDiagram().getConnections().add(newSimpleConnectionShape);
+      newSimpleConnectionShape.getModelObject().clear();
+      newSimpleConnectionShape.setTarget(newConnectionPoint);
+      Optional.of(scs.getSource())
+          .filter(SimpleConnectionPointShape.class::isInstance)
+          .map(SimpleConnectionPointShape.class::cast)
+          .ifPresentOrElse((SimpleConnectionPointShape scp) -> {
+            if (oldPoitNewPoint.containsKey(scp)) {
+              newSimpleConnectionShape.setSource(oldPoitNewPoint.get(scp));
+            } else {
+              SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
+                  .copy(scp);
+              newSimpleConnectionPointShape.setX(scp.getX() + deltaX);
+              newSimpleConnectionPointShape.setY(scp.getY() + deltaY);
+              newSimpleConnectionShape.setSource(newSimpleConnectionPointShape);
+              getDiagram().getChildren().add(newSimpleConnectionPointShape);
+              oldPoitNewPoint.put(scp, newSimpleConnectionPointShape);
+              copyConnectionBeforePoint(scp, newSimpleConnectionPointShape,
+                  oldPoitNewPoint, deltaX, deltaY);
+            }
+          }, () -> {
+            Anchor newStartAnchor = oldAnchorNewAnchor.get(scs.getStart());
+            newSimpleConnectionShape.setStart(newStartAnchor);
+          });
+    });
+  }
+
   @Override
   public void paste(IPasteContext context) {
     LinkedList<SimpleConnectionShape> connectionShapes = shapes(context)
@@ -109,13 +143,10 @@ public class PasteSimpleConnections
             Optional.of(scs.getSource())
                 .filter(SimpleConnectionPointShape.class::isInstance)
                 .map(SimpleConnectionPointShape.class::cast)
-                .ifPresentOrElse(scp -> {
+                .ifPresentOrElse((SimpleConnectionPointShape scp) -> {
                   if (oldPoitNewPoint.containsKey(scp)) {
                     newSimpleConnectionShape
                         .setSource(oldPoitNewPoint.get(scp));
-                    addModelObjectsBeforConnectionPoint(
-                        oldPoitNewPoint.get(scp),
-                        Collections.singletonList(newSimpleConnection));
                   } else {
                     SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
                         .copy(scp);
@@ -126,8 +157,12 @@ public class PasteSimpleConnections
                     getDiagram().getChildren()
                         .add(newSimpleConnectionPointShape);
                     oldPoitNewPoint.put(scp, newSimpleConnectionPointShape);
-                    // TODO: recurence
+                    copyConnectionBeforePoint(scp,
+                        newSimpleConnectionPointShape, oldPoitNewPoint, deltaX,
+                        deltaY);
                   }
+                  addModelObjectsBeforConnectionPoint(oldPoitNewPoint.get(scp),
+                      Collections.singletonList(newSimpleConnection));
                 }, () -> {
                   Anchor newStartAnchor = oldAnchorNewAnchor
                       .get(scs.getStart());
