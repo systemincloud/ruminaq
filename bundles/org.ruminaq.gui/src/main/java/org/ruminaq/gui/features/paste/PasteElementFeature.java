@@ -134,7 +134,7 @@ public class PasteElementFeature extends AbstractPasteFeature {
   }
 
   private void pasteSimpleConnections(IPasteContext context, int xMin, int yMin,
-      List<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
+      Collection<RuminaqShapePasteFeature<? extends RuminaqShape>> pfs,
       IFeatureProvider fp) {
     Map<Anchor, Anchor> anchors = anchors(pfs)
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));

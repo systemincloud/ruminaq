@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.graphiti.features.IFeatureProvider;
 import org.eclipse.graphiti.features.context.IPasteContext;
@@ -102,7 +103,30 @@ public class PasteSimpleConnections
             Anchor newStartAnchor = oldAnchorNewAnchor.get(scs.getStart());
             newSimpleConnectionShape.setStart(newStartAnchor);
           });
+      newSimpleConnectionShape.getBendpoints().stream().forEach((Point p) -> {
+        p.setX(p.getX() + deltaX);
+        p.setY(p.getY() + deltaY);
+      });
     });
+  }
+
+  private static Optional<Anchor> findStartAnchor(
+      SimpleConnectionPointShape simpleConnectionPointShape) {
+    return simpleConnectionPointShape.getAnchors().stream().findFirst()
+        .map(Anchor::getIncomingConnections).map(EList::stream)
+        .orElseGet(Stream::empty)
+        .filter(SimpleConnectionShape.class::isInstance)
+        .map(SimpleConnectionShape.class::cast).findFirst()
+        .map(SimpleConnectionShape::getStart)
+        .filter(a -> Optional.of(a).map(Anchor::getParent)
+            .filter(SimpleConnectionPointShape.class::isInstance).isPresent())
+        .map(a -> findStartAnchor((SimpleConnectionPointShape) a.getParent()))
+        .orElseGet(() -> simpleConnectionPointShape.getAnchors().stream()
+            .findFirst().map(Anchor::getIncomingConnections).map(EList::stream)
+            .orElseGet(Stream::empty)
+            .filter(SimpleConnectionShape.class::isInstance)
+            .map(SimpleConnectionShape.class::cast).findFirst()
+            .map(SimpleConnectionShape::getStart));
   }
 
   @Override
@@ -160,6 +184,14 @@ public class PasteSimpleConnections
                     copyConnectionBeforePoint(scp,
                         newSimpleConnectionPointShape, oldPoitNewPoint, deltaX,
                         deltaY);
+                    findStartAnchor(newSimpleConnectionPointShape)
+                        .map(Anchor::getParent)
+                        .filter(RuminaqShape.class::isInstance)
+                        .map(RuminaqShape.class::cast)
+                        .map(RuminaqShape::getModelObject)
+                        .filter(FlowSource.class::isInstance)
+                        .map(FlowSource.class::cast)
+                        .ifPresent(newSimpleConnection::setSourceRef);
                   }
                   addModelObjectsBeforConnectionPoint(oldPoitNewPoint.get(scp),
                       Collections.singletonList(newSimpleConnection));
