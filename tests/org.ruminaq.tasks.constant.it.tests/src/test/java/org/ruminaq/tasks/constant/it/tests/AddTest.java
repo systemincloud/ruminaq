@@ -11,11 +11,13 @@ import org.eclipse.swt.SWT;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
+import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.OutputPort;
 import org.ruminaq.tests.common.reddeer.CreateSimpleConnection;
 import org.ruminaq.tests.common.reddeer.GuiTest;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
+import org.ruminaq.tests.common.reddeer.WithShapeGraphitiConnection;
 import org.ruminaq.tests.common.reddeer.WithShapeGraphitiEditPart;
 
 /**
@@ -60,7 +62,12 @@ public class AddTest extends GuiTest {
     new CreateSimpleConnection(diagramEditor,
         new WithBoGraphitiEditPart(InternalOutputPort.class, 0),
         new WithBoGraphitiEditPart(OutputPort.class, 3)).execute();
-
+    
+    WithShapeGraphitiConnection connection = new WithShapeGraphitiConnection(
+        SimpleConnectionShape.class);
+    connection.select();
+    addBendpoint(connection, 280, 200);
+    
     bot.canvas().pressShortcut(SWT.CTRL, 'a');
     bot.canvas().pressShortcut(SWT.CTRL, 'c');
     diagramEditor.click(400, 400);
@@ -68,7 +75,7 @@ public class AddTest extends GuiTest {
 
     Thread.sleep(1000);
 
-//    assertDiagram(diagramEditor, "AddTest.testAddConstant.2.xml");
+    assertDiagram(diagramEditor, "AddTest.testAddConstant.2.xml");
   }
 
 }

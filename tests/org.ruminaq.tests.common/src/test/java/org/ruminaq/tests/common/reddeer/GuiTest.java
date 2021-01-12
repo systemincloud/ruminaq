@@ -10,6 +10,7 @@ import static org.junit.Assert.assertFalse;
 import java.util.Arrays;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.draw2d.FigureCanvas;
+import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.reddeer.common.wait.TimePeriod;
 import org.eclipse.reddeer.common.wait.WaitUntil;
 import org.eclipse.reddeer.core.handler.WidgetHandler;
@@ -25,8 +26,11 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.ruminaq.eclipse.editor.RuminaqEditor;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
+import org.ruminaq.gui.model.diagram.SimpleConnectionShape;
+import org.ruminaq.model.ruminaq.ModelUtil;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.ComparisonResult;
@@ -184,6 +188,18 @@ public class GuiTest {
           return outcome;
         })).build();
     assertFalse(diff.toString(), diff.hasDifferences());
+  }
+
+  protected void addBendpoint(WithShapeGraphitiConnection connection, int x,
+      int y) {
+    connection.getConnection().filter(SimpleConnectionShape.class::isInstance)
+        .map(SimpleConnectionShape.class::cast)
+        .map(SimpleConnectionShape::getBendpoints)
+        .ifPresent(list -> ModelUtil.runModelChange(
+            () -> list.add(Graphiti.getGaService().createPoint(x, y)),
+            ((RuminaqEditor) diagramEditor.getEditorPart()).getDiagramBehavior()
+                .getEditingDomain(),
+            ""));
   }
 
 }

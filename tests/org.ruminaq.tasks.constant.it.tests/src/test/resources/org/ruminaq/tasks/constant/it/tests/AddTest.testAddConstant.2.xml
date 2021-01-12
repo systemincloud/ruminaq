@@ -34,13 +34,17 @@
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.0" source="/0/@children.11" target="/0/@children.2"/>
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.1" source="/0/@children.10" target="/0/@children.6"/>
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.2" source="/0/@children.11" target="/0/@children.4"/>
-    <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.3" source="/0/@children.0/@internalPort.0" target="/0/@children.8"/>
+    <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.3" source="/0/@children.0/@internalPort.0" target="/0/@children.8">
+      <bendpoints x="280" y="200"/>
+    </connections>
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.4 /1/@connection.6" source="/0/@children.23" target="/0/@children.22"/>
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.4 /1/@connection.5 /1/@connection.6" source="/0/@children.12/@internalPort.0" target="/0/@children.23"/>
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.4" source="/0/@children.22" target="/0/@children.14"/>
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.5" source="/0/@children.23" target="/0/@children.18"/>
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.6" source="/0/@children.22" target="/0/@children.16"/>
-    <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.7" source="/0/@children.12/@internalPort.0" target="/0/@children.20"/>
+    <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.7" source="/0/@children.12/@internalPort.0" target="/0/@children.20">
+      <bendpoints x="480" y="500"/>
+    </connections>
   </diagram:RuminaqDiagram>
   <ruminaq:MainTask version="1.0.0">
     <outputPort id="My Output Port"/>
@@ -65,9 +69,9 @@
     <connection xsi:type="ruminaq:SimpleConnection" sourceRef="/1/@task.0/@outputPort.0" targetRef="/1/@outputPort.2"/>
     <connection xsi:type="ruminaq:SimpleConnection" sourceRef="/1/@task.0/@outputPort.0" targetRef="/1/@outputPort.1"/>
     <connection xsi:type="ruminaq:SimpleConnection" sourceRef="/1/@task.0/@outputPort.0" targetRef="/1/@outputPort.3"/>
-    <connection xsi:type="ruminaq:SimpleConnection" targetRef="/1/@outputPort.4"/>
-    <connection xsi:type="ruminaq:SimpleConnection" targetRef="/1/@outputPort.6"/>
-    <connection xsi:type="ruminaq:SimpleConnection" targetRef="/1/@outputPort.5"/>
+    <connection xsi:type="ruminaq:SimpleConnection" sourceRef="/1/@task.1/@outputPort.0" targetRef="/1/@outputPort.4"/>
+    <connection xsi:type="ruminaq:SimpleConnection" sourceRef="/1/@task.1/@outputPort.0" targetRef="/1/@outputPort.6"/>
+    <connection xsi:type="ruminaq:SimpleConnection" sourceRef="/1/@task.1/@outputPort.0" targetRef="/1/@outputPort.5"/>
     <connection xsi:type="ruminaq:SimpleConnection" sourceRef="/1/@task.1/@outputPort.0" targetRef="/1/@outputPort.7"/>
   </ruminaq:MainTask>
 </xmi:XMI>
