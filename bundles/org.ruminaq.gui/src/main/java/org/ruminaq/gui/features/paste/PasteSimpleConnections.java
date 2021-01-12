@@ -171,6 +171,14 @@ public class PasteSimpleConnections
                   if (oldPoitNewPoint.containsKey(scp)) {
                     newSimpleConnectionShape
                         .setSource(oldPoitNewPoint.get(scp));
+                    findStartAnchor(oldPoitNewPoint.get(scp))
+                        .map(Anchor::getParent)
+                        .filter(RuminaqShape.class::isInstance)
+                        .map(RuminaqShape.class::cast)
+                        .map(RuminaqShape::getModelObject)
+                        .filter(FlowSource.class::isInstance)
+                        .map(FlowSource.class::cast)
+                        .ifPresent(newSimpleConnection::setSourceRef);
                   } else {
                     SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
                         .copy(scp);
