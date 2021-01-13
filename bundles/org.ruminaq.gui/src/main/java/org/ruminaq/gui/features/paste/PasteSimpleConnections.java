@@ -89,11 +89,9 @@ public class PasteSimpleConnections
             if (oldPoitNewPoint.containsKey(scp)) {
               newSimpleConnectionShape.setSource(oldPoitNewPoint.get(scp));
             } else {
-              SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
-                  .copy(scp);
-              moveConnectionPoint(newConnectionPoint, deltaX, deltaY);
+              SimpleConnectionPointShape newSimpleConnectionPointShape = copy(
+                  scp);
               newSimpleConnectionShape.setSource(newSimpleConnectionPointShape);
-              getDiagram().getChildren().add(newSimpleConnectionPointShape);
               oldPoitNewPoint.put(scp, newSimpleConnectionPointShape);
               copyConnectionBeforePoint(scp, newSimpleConnectionPointShape,
                   oldPoitNewPoint, deltaX, deltaY);
@@ -196,14 +194,11 @@ public class PasteSimpleConnections
                     findStartAnchor(oldPoitNewPoint.get(scp))
                         .ifPresent(a -> setModelSource(newSimpleConnection, a));
                   } else {
-                    SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
-                        .copy(scp);
-                    moveConnectionPoint(newSimpleConnectionPointShape, deltaX,
-                        deltaY);
+                    SimpleConnectionPointShape newSimpleConnectionPointShape = copy(
+                        scp, deltaX, deltaY);
                     newSimpleConnectionShape
                         .setSource(newSimpleConnectionPointShape);
-                    getDiagram().getChildren()
-                        .add(newSimpleConnectionPointShape);
+
                     oldPoitNewPoint.put(scp, newSimpleConnectionPointShape);
                     copyConnectionBeforePoint(scp,
                         newSimpleConnectionPointShape, oldPoitNewPoint, deltaX,
@@ -222,5 +217,13 @@ public class PasteSimpleConnections
             moveBendpoints(newSimpleConnectionShape, deltaX, deltaY);
           }, connectionShapes::clear);
     }
+  }
+
+  private SimpleConnectionPointShape copy(SimpleConnectionPointShape point,
+      int deltaX, int deltaY) {
+    SimpleConnectionPointShape newPoint = EcoreUtil.copy(point);
+    getDiagram().getChildren().add(newPoint);
+    moveConnectionPoint(point, deltaX, deltaY);
+    return newPoint;
   }
 }
