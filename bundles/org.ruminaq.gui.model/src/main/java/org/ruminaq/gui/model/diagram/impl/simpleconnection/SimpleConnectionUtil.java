@@ -12,7 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
-
 import org.eclipse.graphiti.mm.algorithms.styles.Point;
 import org.eclipse.graphiti.mm.algorithms.styles.StylesFactory;
 import org.eclipse.graphiti.mm.pictograms.FreeFormConnection;
@@ -91,7 +90,7 @@ public final class SimpleConnectionUtil {
    * @param ffc connection shape
    * @return list of Points
    */
-  public static LinkedList<Point> getBendpointsWithEndings(
+  public static List<Point> getBendpointsWithEndings(
       FreeFormConnection ffc) {
     Point startPoint = StylesFactory.eINSTANCE.createPoint();
     Optional<RuminaqShape> start = Optional.of(ffc.getStart().getParent())
