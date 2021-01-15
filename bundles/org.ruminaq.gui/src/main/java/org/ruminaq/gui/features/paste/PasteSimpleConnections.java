@@ -92,8 +92,8 @@ public class PasteSimpleConnections
                 } else {
                   SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
                       .copy(scp);
-                  newSimpleConnectionPointShape.setX(scp.getX() + deltaX);
-                  newSimpleConnectionPointShape.setY(scp.getY() + deltaY);
+                  moveConnectionPoint(newSimpleConnectionPointShape, deltaX,
+                      deltaY);
                   newSimpleConnectionShape
                       .setSource(newSimpleConnectionPointShape);
                   getDiagram().getChildren().add(newSimpleConnectionPointShape);
@@ -134,6 +134,12 @@ public class PasteSimpleConnections
       p.setX(p.getX() + deltaX);
       p.setY(p.getY() + deltaY);
     });
+  }
+
+  private static void moveConnectionPoint(SimpleConnectionPointShape point,
+      int deltaX, int deltaY) {
+    point.setX(point.getX() + deltaX);
+    point.setY(point.getY() + deltaY);
   }
 
   private static SimpleConnection copyModel(SimpleConnectionShape shape) {
@@ -190,21 +196,18 @@ public class PasteSimpleConnections
                         findStartAnchor(newScp).ifPresent(
                             a -> setModelSource(newSimpleConnection, a));
                       }, () -> {
-                        SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
+                        SimpleConnectionPointShape newConnectionPointShape = EcoreUtil
                             .copy(scp);
-                        newSimpleConnectionPointShape.setX(scp.getX() + deltaX);
-                        newSimpleConnectionPointShape.setY(scp.getY() + deltaY);
+                        moveConnectionPoint(newConnectionPointShape, deltaX,
+                            deltaY);
                         newSimpleConnectionShape
-                            .setSource(newSimpleConnectionPointShape);
-                        getDiagram().getChildren()
-                            .add(newSimpleConnectionPointShape);
-                        oldPoitNewPoint.put(scp, newSimpleConnectionPointShape);
-                        copyConnectionBeforePoint(scp,
-                            newSimpleConnectionPointShape, oldPoitNewPoint,
-                            deltaX, deltaY);
-                        findStartAnchor(newSimpleConnectionPointShape)
-                            .ifPresent(
-                                a -> setModelSource(newSimpleConnection, a));
+                            .setSource(newConnectionPointShape);
+                        getDiagram().getChildren().add(newConnectionPointShape);
+                        oldPoitNewPoint.put(scp, newConnectionPointShape);
+                        copyConnectionBeforePoint(scp, newConnectionPointShape,
+                            oldPoitNewPoint, deltaX, deltaY);
+                        findStartAnchor(newConnectionPointShape).ifPresent(
+                            a -> setModelSource(newSimpleConnection, a));
                       });
                   addModelObjectsBeforConnectionPoint(oldPoitNewPoint.get(scp),
                       Collections.singletonList(newSimpleConnection));
