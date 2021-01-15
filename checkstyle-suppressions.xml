@@ -5,6 +5,8 @@
      "https://checkstyle.org/dtds/suppressions_1_0.dtd">
 
 <suppressions>
+  <suppress checks="AbbreviationAsWordInNameCheck"
+             files=".*"/>
   <suppress checks="IndentationCheck"
              files=".*"/>
   <suppress checks="MethodNameCheck"

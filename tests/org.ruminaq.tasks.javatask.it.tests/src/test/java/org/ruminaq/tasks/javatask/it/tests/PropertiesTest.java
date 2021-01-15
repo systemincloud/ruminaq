@@ -8,7 +8,6 @@ package org.ruminaq.tasks.javatask.it.tests;
 
 import static org.junit.Assert.assertTrue;
 import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
-import org.eclipse.reddeer.gef.api.EditPart;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.junit.AfterClass;
@@ -44,7 +43,7 @@ public class PropertiesTest extends GuiTest {
     addToolFromPalette("Java Task", 200, 100);
 
     WithBoGraphitiEditPart jt = new WithBoGraphitiEditPart(JavaTask.class);
-    ((EditPart) jt).select();
+    jt.select();
 
     Thread.sleep(1000);
 
@@ -58,6 +57,25 @@ public class PropertiesTest extends GuiTest {
 
     assertTrue("Description should be filled",
         bot.browser().getText().startsWith("<h3>JavaTask</h3>"));
+    
+    propertiesView.selectTab("Java Task");
+
+    bot.button("Create").click();
+    
+    bot.textWithLabel("Package:").setText("test");
+    bot.textWithLabel("Name:").setText("Parameters");
+
+    bot.button("Next >").click();
+    
+    bot.button("Finish").click();
+
+    Thread.sleep(3000);
+
+    diagramEditor.activate();
+    
+    propertiesView.open();
+    propertiesView.activate();
+    propertiesView.selectTab("Parameters");
   }
 
 }

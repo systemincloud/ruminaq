@@ -45,9 +45,6 @@ public abstract class AbstractParametersSection extends GFPropertySection
 
   protected TableEditor tblEdParameters;
 
-  /**
-   * @wbp.parser.entryPoint
-   */
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {

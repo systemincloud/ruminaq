@@ -10,24 +10,16 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.graphiti.dt.IDiagramTypeProvider;
-import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.swt.widgets.Composite;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Parameter;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 
-public class ParametersSection extends AbstractParametersSection {
+public class UserDefinedParametersSection extends AbstractParametersSection {
 
   private UserDefinedTask bo;
 
   private TransactionalEditingDomain ed;
-
-  public ParametersSection(Composite parent, PictogramElement pe,
-      TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
-    super.createControls(parent, null);
-  }
 
   @Override
   protected boolean isDefault() {

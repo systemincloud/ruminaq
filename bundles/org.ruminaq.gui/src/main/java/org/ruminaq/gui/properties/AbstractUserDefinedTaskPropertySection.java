@@ -54,6 +54,11 @@ public abstract class AbstractUserDefinedTaskPropertySection
     return toModelObject(getSelectedPictogramElement(), type);
   }
 
+  /**
+   *                 _______________  ________ ________
+   * Implementation: |              | |Select| |Create|
+   *                 ```````````````` ```````` ````````
+   */
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {

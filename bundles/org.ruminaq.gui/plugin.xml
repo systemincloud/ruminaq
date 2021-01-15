@@ -77,6 +77,11 @@
           id="org.ruminaq.gui.embeddedTaskTab"
           afterTab="org.ruminaq.gui.generalTab"
           category="Graphiti" />
+      <propertyTab
+          label="Parameters"
+          id="org.ruminaq.gui.userDefinedTaskParametersTab"
+          afterTab="org.ruminaq.gui.generalTab"
+          category="Graphiti" />
     </propertyTabs>
   </extension>
   <extension
@@ -124,9 +129,14 @@
           id="org.ruminaq.gui.synchronizationTab.PortSection"
           filter="org.ruminaq.gui.properties.PropertyTaskFilter" />
       <propertySection
+          tab="org.ruminaq.gui.userDefinedTaskParametersTab"
+          class="org.ruminaq.gui.properties.UserDefinedParametersSection"
+          id="org.ruminaq.gui.userDefinedTaskParametersTab.Section"
+          filter="org.ruminaq.gui.properties.PropertyUserTaskTaskFilter" />
+      <propertySection
           tab="org.ruminaq.gui.embeddedTaskTab"
           class="org.ruminaq.gui.properties.PropertyEmbeddedTaskSection"
-          id="org.ruminaq.tasks.javaTaskTab.Section"
+          id="org.ruminaq.gui.embeddedTaskTab.Section"
           filter="org.ruminaq.gui.properties.PropertyEmbeddedTaskFilter" />
     </propertySections>
   </extension>

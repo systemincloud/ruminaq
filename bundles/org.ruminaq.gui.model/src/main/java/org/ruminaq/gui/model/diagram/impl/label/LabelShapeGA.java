@@ -40,6 +40,8 @@ public class LabelShapeGA extends TextImpl {
   }
 
   private static final int TEXT_PADDING = 5;
+  
+  private static final double TRANSPARENCY = 0.4D;
 
   private LabelShape shape;
 
@@ -108,7 +110,7 @@ public class LabelShapeGA extends TextImpl {
   
   @Override
   public Double getTransparency() {
-    return 0.5D;
+    return TRANSPARENCY;
   }
 
   @Override
