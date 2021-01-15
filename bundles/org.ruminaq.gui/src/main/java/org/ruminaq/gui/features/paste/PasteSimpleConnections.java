@@ -79,33 +79,30 @@ public class PasteSimpleConnections
       int deltaX, int deltaY) {
     oldConnectionPoint.getIncomingConnections().stream()
         .forEach((SimpleConnectionShape scs) -> {
-          SimpleConnectionShape newSimpleConnectionShape = EcoreUtil.copy(scs);
-          getDiagram().getConnections().add(newSimpleConnectionShape);
-          newSimpleConnectionShape.getModelObject().clear();
-          newSimpleConnectionShape.setTarget(newConnectionPoint);
+          SimpleConnectionShape newConnectionShape = EcoreUtil.copy(scs);
+          getDiagram().getConnections().add(newConnectionShape);
+          newConnectionShape.getModelObject().clear();
+          newConnectionShape.setTarget(newConnectionPoint);
           Optional.of(scs.getSource())
               .filter(SimpleConnectionPointShape.class::isInstance)
               .map(SimpleConnectionPointShape.class::cast)
               .ifPresentOrElse((SimpleConnectionPointShape scp) -> {
-                if (oldPoitNewPoint.containsKey(scp)) {
-                  newSimpleConnectionShape.setSource(oldPoitNewPoint.get(scp));
-                } else {
-                  SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
-                      .copy(scp);
-                  moveConnectionPoint(newSimpleConnectionPointShape, deltaX,
-                      deltaY);
-                  newSimpleConnectionShape
-                      .setSource(newSimpleConnectionPointShape);
-                  getDiagram().getChildren().add(newSimpleConnectionPointShape);
-                  oldPoitNewPoint.put(scp, newSimpleConnectionPointShape);
-                  copyConnectionBeforePoint(scp, newSimpleConnectionPointShape,
-                      oldPoitNewPoint, deltaX, deltaY);
-                }
+                Optional.ofNullable(scp).map(oldPoitNewPoint::get)
+                    .ifPresentOrElse(newConnectionShape::setSource, () -> {
+                      SimpleConnectionPointShape newPointShape = EcoreUtil
+                          .copy(scp);
+                      moveConnectionPoint(newPointShape, deltaX, deltaY);
+                      newConnectionShape.setSource(newPointShape);
+                      getDiagram().getChildren().add(newPointShape);
+                      oldPoitNewPoint.put(scp, newPointShape);
+                      copyConnectionBeforePoint(scp, newPointShape,
+                          oldPoitNewPoint, deltaX, deltaY);
+                    });
               }, () -> {
                 Anchor newStartAnchor = oldAnchorNewAnchor.get(scs.getStart());
-                newSimpleConnectionShape.setStart(newStartAnchor);
+                newConnectionShape.setStart(newStartAnchor);
               });
-          moveBendpoints(newSimpleConnectionShape, deltaX, deltaY);
+          moveBendpoints(newConnectionShape, deltaX, deltaY);
         });
   }
 
