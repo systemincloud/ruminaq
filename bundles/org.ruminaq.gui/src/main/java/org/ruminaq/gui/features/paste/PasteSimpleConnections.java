@@ -136,6 +136,14 @@ public class PasteSimpleConnections
     });
   }
 
+  private static void setModelSource(SimpleConnection connection,
+      Anchor anchor) {
+    Optional.of(anchor).map(Anchor::getParent)
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+        .map(RuminaqShape::getModelObject).filter(FlowSource.class::isInstance)
+        .map(FlowSource.class::cast).ifPresent(connection::setSourceRef);
+  }
+
   @Override
   public void paste(IPasteContext context) {
     LinkedList<SimpleConnectionShape> connectionShapes = shapes(context)
@@ -179,13 +187,7 @@ public class PasteSimpleConnections
                     newSimpleConnectionShape
                         .setSource(oldPoitNewPoint.get(scp));
                     findStartAnchor(oldPoitNewPoint.get(scp))
-                        .map(Anchor::getParent)
-                        .filter(RuminaqShape.class::isInstance)
-                        .map(RuminaqShape.class::cast)
-                        .map(RuminaqShape::getModelObject)
-                        .filter(FlowSource.class::isInstance)
-                        .map(FlowSource.class::cast)
-                        .ifPresent(newSimpleConnection::setSourceRef);
+                        .ifPresent(a -> setModelSource(newSimpleConnection, a));
                   } else {
                     SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
                         .copy(scp);
@@ -200,13 +202,7 @@ public class PasteSimpleConnections
                         newSimpleConnectionPointShape, oldPoitNewPoint, deltaX,
                         deltaY);
                     findStartAnchor(newSimpleConnectionPointShape)
-                        .map(Anchor::getParent)
-                        .filter(RuminaqShape.class::isInstance)
-                        .map(RuminaqShape.class::cast)
-                        .map(RuminaqShape::getModelObject)
-                        .filter(FlowSource.class::isInstance)
-                        .map(FlowSource.class::cast)
-                        .ifPresent(newSimpleConnection::setSourceRef);
+                        .ifPresent(a -> setModelSource(newSimpleConnection, a));
                   }
                   addModelObjectsBeforConnectionPoint(oldPoitNewPoint.get(scp),
                       Collections.singletonList(newSimpleConnection));
@@ -214,13 +210,7 @@ public class PasteSimpleConnections
                   Anchor newStartAnchor = oldAnchorNewAnchor
                       .get(scs.getStart());
                   newSimpleConnectionShape.setStart(newStartAnchor);
-                  Optional.of(newStartAnchor).map(Anchor::getParent)
-                      .filter(RuminaqShape.class::isInstance)
-                      .map(RuminaqShape.class::cast)
-                      .map(RuminaqShape::getModelObject)
-                      .filter(FlowSource.class::isInstance)
-                      .map(FlowSource.class::cast)
-                      .ifPresent(newSimpleConnection::setSourceRef);
+                  setModelSource(newSimpleConnection, newStartAnchor);
                 });
             moveBendpoints(newSimpleConnectionShape, deltaX, deltaY);
             getDiagram().getConnections().add(newSimpleConnectionShape);
