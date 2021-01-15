@@ -136,6 +136,14 @@ public class PasteSimpleConnections
     });
   }
 
+  private static SimpleConnection copyModel(SimpleConnectionShape shape) {
+    return Optional.of(shape).map(SimpleConnectionShape::getModelObject)
+        .map(List::stream).orElseGet(Stream::empty)
+        .filter(SimpleConnection.class::isInstance)
+        .map(SimpleConnection.class::cast).findFirst().map(EcoreUtil::copy)
+        .orElseThrow();
+  }
+
   private static void setModelSource(SimpleConnection connection,
       Anchor anchor) {
     Optional.of(anchor).map(Anchor::getParent)
@@ -160,12 +168,7 @@ public class PasteSimpleConnections
             SimpleConnectionShape newSimpleConnectionShape = EcoreUtil
                 .copy(scs);
             newSimpleConnectionShape.getModelObject().clear();
-            SimpleConnection newSimpleConnection = Optional.of(scs)
-                .map(SimpleConnectionShape::getModelObject).map(List::stream)
-                .orElseGet(Stream::empty)
-                .filter(SimpleConnection.class::isInstance)
-                .map(SimpleConnection.class::cast).findFirst()
-                .map(EcoreUtil::copy).orElseThrow();
+            SimpleConnection newSimpleConnection = copyModel(scs);
             newSimpleConnectionShape.getModelObject().add(newSimpleConnection);
             newSimpleConnection.setSourceRef(null);
             newSimpleConnection.setTargetRef(null);
