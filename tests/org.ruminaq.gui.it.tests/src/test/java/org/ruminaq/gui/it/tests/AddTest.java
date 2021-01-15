@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import java.util.List;
+import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.gef.api.Palette;
 import org.eclipse.reddeer.graphiti.api.ContextButton;
 import org.eclipse.reddeer.graphiti.impl.graphitieditpart.LabeledGraphitiEditPart;
@@ -47,6 +48,8 @@ public class AddTest extends GuiTest {
 
   @Test
   public void testAddInputPort() throws InterruptedException {
+    PropertySheet propertiesView = new PropertySheet();
+
     addToolFromPalette("Input Port", 200, 100);
     assertFalse("Editor is always saved", diagramEditor.isDirty());
     assertEquals("2 elements added", 3, diagramEditor.getNumberOfEditParts());
@@ -72,6 +75,13 @@ public class AddTest extends GuiTest {
     new LabeledGraphitiEditPart("My Input Port 1").select();
     addToolFromPalette("Input Port", 200, 300);
     new LabeledGraphitiEditPart("My Input Port 2").select();
+
+    ip = new WithBoGraphitiEditPart(InputPort.class);
+    ip.select();
+
+    propertiesView.open();
+    propertiesView.activate();
+    propertiesView.selectTab("General");
   }
 
   @Test
