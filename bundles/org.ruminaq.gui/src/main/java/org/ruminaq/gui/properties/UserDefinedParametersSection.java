@@ -14,6 +14,10 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Parameter;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 public class UserDefinedParametersSection extends AbstractParametersSection {
 
   private Optional<UserDefinedTask> model() {
