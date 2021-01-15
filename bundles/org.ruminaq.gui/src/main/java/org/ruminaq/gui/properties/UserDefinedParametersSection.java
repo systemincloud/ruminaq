@@ -9,7 +9,6 @@ package org.ruminaq.gui.properties;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Parameter;
@@ -17,9 +16,13 @@ import org.ruminaq.model.ruminaq.UserDefinedTask;
 
 public class UserDefinedParametersSection extends AbstractParametersSection {
 
-  private UserDefinedTask bo;
-
-  private TransactionalEditingDomain ed;
+  private Optional<UserDefinedTask> model() {
+    return Optional.ofNullable(getSelectedPictogramElement())
+        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
+        .map(RuminaqShape::getModelObject)
+        .filter(UserDefinedTask.class::isInstance)
+        .map(UserDefinedTask.class::cast);
+  }
 
   @Override
   protected boolean isDefault() {
@@ -27,36 +30,24 @@ public class UserDefinedParametersSection extends AbstractParametersSection {
   }
 
   @Override
-  public void refresh() {
-    this.bo = Optional.ofNullable(getSelectedPictogramElement())
-        .filter(RuminaqShape.class::isInstance).map(RuminaqShape.class::cast)
-        .map(RuminaqShape::getModelObject)
-        .filter(UserDefinedTask.class::isInstance)
-        .map(UserDefinedTask.class::cast).get();
-    super.refresh();
-  }
-
-  @Override
   protected Map<String, String> getActualParams() {
-    return bo.getParameter().stream()
+    return model().get().getParameter().stream()
         .collect(Collectors.toMap(Parameter::getKey, Parameter::getValue));
   }
 
   @Override
   protected Map<String, String> getDefaultParams() {
-    return bo.getParameter().stream().collect(
+    return model().get().getParameter().stream().collect(
         Collectors.toMap(Parameter::getKey, Parameter::getDefaultValue));
   }
 
   @Override
   protected void saveParameter(final String key, final String value) {
-    ModelUtil.runModelChange(new Runnable() {
-      public void run() {
-        if (bo == null)
-          return;
-        bo.getParameter().stream().filter(p -> p.getKey().equals(key))
-            .findFirst().ifPresent(p -> p.setValue(value));
-      }
-    }, ed, "Change parameter");
+    ModelUtil.runModelChange(
+        () -> model().get().getParameter().stream()
+            .filter(p -> p.getKey().equals(key)).findFirst()
+            .ifPresent(p -> p.setValue(value)),
+        getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+        "Change parameter");
   }
 }
