@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.simpleconnectionpoint;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -25,7 +26,7 @@ public class SimpleConnectionPointAnchor extends ChopboxAnchorImpl {
 
   /**
    * Anchor of SimpleConnectionPointShape.
-   * 
+   *
    * @param shape parent SimpleConnectionPointShape
    */
   public SimpleConnectionPointAnchor(SimpleConnectionPointShape shape) {

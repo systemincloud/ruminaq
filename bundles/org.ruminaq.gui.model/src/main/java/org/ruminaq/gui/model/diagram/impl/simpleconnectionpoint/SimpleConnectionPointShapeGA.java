@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.simpleconnectionpoint;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -25,7 +26,7 @@ public class SimpleConnectionPointShapeGA extends EllipseImpl {
 
   /**
    * GraphicsAlgorithm for SimpleConnectionPoint.
-   * 
+   *
    * @param shape parent SimpleConnectionPointShape
    */
   public SimpleConnectionPointShapeGA(SimpleConnectionPointShape shape) {
