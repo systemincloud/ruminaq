@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.task;
 
 import java.util.Optional;
@@ -23,7 +24,7 @@ public class InternalInputPortShapeGA extends InternalPortShapeGA {
 
   /**
    * GraphicsAlgorithm for InternalOutputPort.
-   * 
+   *
    * @param shape parent InternalOutputPortShape
    */
   public InternalInputPortShapeGA(InternalInputPortShape shape) {

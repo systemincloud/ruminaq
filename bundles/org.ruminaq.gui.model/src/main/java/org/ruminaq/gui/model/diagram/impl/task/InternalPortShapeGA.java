@@ -3,6 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.gui.model.diagram.impl.task;
 
 import org.eclipse.emf.common.util.ECollections;
@@ -18,7 +19,7 @@ import org.ruminaq.gui.model.diagram.impl.NoResource;
 
 /**
  * GraphicsAlgorithm for InternalOutputPort.
- * 
+ *
  * <p>
  * InternalPort is presented rectangle with rounded corner.
  *
