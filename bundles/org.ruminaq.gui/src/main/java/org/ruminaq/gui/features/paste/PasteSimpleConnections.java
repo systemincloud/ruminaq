@@ -170,8 +170,6 @@ public class PasteSimpleConnections
             newSimpleConnectionShape.getModelObject().clear();
             SimpleConnection newSimpleConnection = copyModel(scs);
             newSimpleConnectionShape.getModelObject().add(newSimpleConnection);
-            newSimpleConnection.setSourceRef(null);
-            newSimpleConnection.setTargetRef(null);
             getRuminaqDiagram().getMainTask().getConnection()
                 .add(newSimpleConnection);
             Anchor newEndAnchor = oldAnchorNewAnchor.get(scs.getEnd());
@@ -186,27 +184,28 @@ public class PasteSimpleConnections
                 .filter(SimpleConnectionPointShape.class::isInstance)
                 .map(SimpleConnectionPointShape.class::cast)
                 .ifPresentOrElse((SimpleConnectionPointShape scp) -> {
-                  if (oldPoitNewPoint.containsKey(scp)) {
-                    newSimpleConnectionShape
-                        .setSource(oldPoitNewPoint.get(scp));
-                    findStartAnchor(oldPoitNewPoint.get(scp))
-                        .ifPresent(a -> setModelSource(newSimpleConnection, a));
-                  } else {
-                    SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
-                        .copy(scp);
-                    newSimpleConnectionPointShape.setX(scp.getX() + deltaX);
-                    newSimpleConnectionPointShape.setY(scp.getY() + deltaY);
-                    newSimpleConnectionShape
-                        .setSource(newSimpleConnectionPointShape);
-                    getDiagram().getChildren()
-                        .add(newSimpleConnectionPointShape);
-                    oldPoitNewPoint.put(scp, newSimpleConnectionPointShape);
-                    copyConnectionBeforePoint(scp,
-                        newSimpleConnectionPointShape, oldPoitNewPoint, deltaX,
-                        deltaY);
-                    findStartAnchor(newSimpleConnectionPointShape)
-                        .ifPresent(a -> setModelSource(newSimpleConnection, a));
-                  }
+                  Optional.ofNullable(scp).map(oldPoitNewPoint::get)
+                      .ifPresentOrElse((SimpleConnectionPointShape newScp) -> {
+                        newSimpleConnectionShape.setSource(newScp);
+                        findStartAnchor(newScp).ifPresent(
+                            a -> setModelSource(newSimpleConnection, a));
+                      }, () -> {
+                        SimpleConnectionPointShape newSimpleConnectionPointShape = EcoreUtil
+                            .copy(scp);
+                        newSimpleConnectionPointShape.setX(scp.getX() + deltaX);
+                        newSimpleConnectionPointShape.setY(scp.getY() + deltaY);
+                        newSimpleConnectionShape
+                            .setSource(newSimpleConnectionPointShape);
+                        getDiagram().getChildren()
+                            .add(newSimpleConnectionPointShape);
+                        oldPoitNewPoint.put(scp, newSimpleConnectionPointShape);
+                        copyConnectionBeforePoint(scp,
+                            newSimpleConnectionPointShape, oldPoitNewPoint,
+                            deltaX, deltaY);
+                        findStartAnchor(newSimpleConnectionPointShape)
+                            .ifPresent(
+                                a -> setModelSource(newSimpleConnection, a));
+                      });
                   addModelObjectsBeforConnectionPoint(oldPoitNewPoint.get(scp),
                       Collections.singletonList(newSimpleConnection));
                 }, () -> {
