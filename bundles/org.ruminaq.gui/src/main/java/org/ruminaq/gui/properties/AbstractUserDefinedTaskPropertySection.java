@@ -29,7 +29,8 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 
 /**
- * 
+ * Common property section for all UserDefinedTasks.
+ *
  * @author Marek Jagielski
  */
 public abstract class AbstractUserDefinedTaskPropertySection
