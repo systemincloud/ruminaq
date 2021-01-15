@@ -105,11 +105,7 @@ public class PasteSimpleConnections
                 Anchor newStartAnchor = oldAnchorNewAnchor.get(scs.getStart());
                 newSimpleConnectionShape.setStart(newStartAnchor);
               });
-          newSimpleConnectionShape.getBendpoints().stream()
-              .forEach((Point p) -> {
-                p.setX(p.getX() + deltaX);
-                p.setY(p.getY() + deltaY);
-              });
+          moveBendpoints(newSimpleConnectionShape, deltaX, deltaY);
         });
   }
 
@@ -130,6 +126,14 @@ public class PasteSimpleConnections
             .filter(SimpleConnectionShape.class::isInstance)
             .map(SimpleConnectionShape.class::cast).findFirst()
             .map(SimpleConnectionShape::getStart));
+  }
+
+  private static void moveBendpoints(
+      SimpleConnectionShape newSimpleConnectionShape, int deltaX, int deltaY) {
+    newSimpleConnectionShape.getBendpoints().stream().forEach((Point p) -> {
+      p.setX(p.getX() + deltaX);
+      p.setY(p.getY() + deltaY);
+    });
   }
 
   @Override
@@ -218,11 +222,7 @@ public class PasteSimpleConnections
                       .map(FlowSource.class::cast)
                       .ifPresent(newSimpleConnection::setSourceRef);
                 });
-            newSimpleConnectionShape.getBendpoints().stream()
-                .forEach((Point p) -> {
-                  p.setX(p.getX() + deltaX);
-                  p.setY(p.getY() + deltaY);
-                });
+            moveBendpoints(newSimpleConnectionShape, deltaX, deltaY);
             getDiagram().getConnections().add(newSimpleConnectionShape);
           }, connectionShapes::clear);
     }
