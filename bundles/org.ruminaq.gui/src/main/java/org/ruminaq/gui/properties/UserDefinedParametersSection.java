@@ -6,9 +6,11 @@
 
 package org.ruminaq.gui.properties;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Parameter;
@@ -28,6 +30,11 @@ public class UserDefinedParametersSection extends AbstractParametersSection {
         .map(UserDefinedTask.class::cast);
   }
 
+  private Stream<Parameter> parameters() {
+    return model().map(UserDefinedTask::getParameter).map(List::stream)
+        .orElseGet(Stream::empty);
+  }
+
   @Override
   protected boolean isDefault() {
     return true;
@@ -35,13 +42,13 @@ public class UserDefinedParametersSection extends AbstractParametersSection {
 
   @Override
   protected Map<String, String> getActualParams() {
-    return model().get().getParameter().stream()
+    return parameters()
         .collect(Collectors.toMap(Parameter::getKey, Parameter::getValue));
   }
 
   @Override
   protected Map<String, String> getDefaultParams() {
-    return model().get().getParameter().stream().collect(
+    return parameters().collect(
         Collectors.toMap(Parameter::getKey, Parameter::getDefaultValue));
   }
 
