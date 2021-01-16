@@ -20,7 +20,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -53,7 +52,6 @@ public abstract class AbstractParametersSection extends GFPropertySection
     initLayout(parent);
     initActions();
     initComponents();
-    addStyles();
   }
 
   protected RuminaqDiagram getRuminaqDiagram() {
@@ -138,10 +136,6 @@ public abstract class AbstractParametersSection extends GFPropertySection
     tblEdParameters.horizontalAlignment = SWT.LEFT;
     tblEdParameters.grabHorizontal = true;
     tblEdParameters.minimumWidth = 50;
-  }
-
-  private void addStyles() {
-    root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
   @Override
