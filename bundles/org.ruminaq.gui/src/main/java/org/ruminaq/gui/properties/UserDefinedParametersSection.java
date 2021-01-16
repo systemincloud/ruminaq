@@ -6,10 +6,10 @@
 
 package org.ruminaq.gui.properties;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
@@ -42,14 +42,14 @@ public class UserDefinedParametersSection extends AbstractParametersSection {
 
   @Override
   protected Map<String, String> getActualParams() {
-    return parameters()
-        .collect(Collectors.toMap(Parameter::getKey, Parameter::getValue));
+    return parameters().collect(HashMap::new,
+        (m, v) -> m.put(v.getKey(), v.getValue()), HashMap::putAll);
   }
 
   @Override
   protected Map<String, String> getDefaultParams() {
-    return parameters().collect(
-        Collectors.toMap(Parameter::getKey, Parameter::getDefaultValue));
+    return parameters().collect(HashMap::new,
+        (m, v) -> m.put(v.getKey(), v.getDefaultValue()), HashMap::putAll);
   }
 
   @Override

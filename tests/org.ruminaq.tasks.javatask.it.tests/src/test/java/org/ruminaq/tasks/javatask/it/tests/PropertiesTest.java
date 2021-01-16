@@ -9,6 +9,7 @@ package org.ruminaq.tasks.javatask.it.tests;
 import static org.junit.Assert.assertTrue;
 import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
+import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -80,6 +81,13 @@ public class PropertiesTest extends GuiTest {
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Parameters");
+    
+    bot.table(0).select(0);
+    bot.text().setText("5");
+    
+    bot.text().pressShortcut(SWT.CR, SWT.LF);
+    
+    assertDiagram(diagramEditor,
+        "PropertiesTest.testPropertiesTab.xml");
   }
-
 }
