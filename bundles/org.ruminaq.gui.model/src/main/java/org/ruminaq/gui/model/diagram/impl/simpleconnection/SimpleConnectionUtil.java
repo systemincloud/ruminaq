@@ -104,7 +104,7 @@ public final class SimpleConnectionUtil {
     end.map(SimpleConnectionUtil::xOnDiagram).ifPresent(endPoint::setX);
     end.map(SimpleConnectionUtil::yOnDiagram).ifPresent(endPoint::setY);
 
-    LinkedList<Point> points = new LinkedList<>(ffc.getBendpoints());
+    List<Point> points = new LinkedList<>(ffc.getBendpoints());
     points.add(0, startPoint);
     points.add(endPoint);
 

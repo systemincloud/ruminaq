@@ -100,8 +100,8 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
    * Delete bendpoint which is closed than d from point p.
    *
    * @param ffc connection with bendpoints
-   * @param p reference point
-   * @param d distance to refenrece point
+   * @param p   reference point
+   * @param d   distance to refenrece point
    */
   private static void deleteBendpointsNear(FreeFormConnection ffc, Point p,
       int d) {
@@ -113,8 +113,8 @@ public class CreateSimpleConnectionPointFeature extends AbstractCustomFeature {
 
   private static List<Point> followingBendpoints(FreeFormConnection ffc,
       Point p) {
-    LinkedList<Point> points = SimpleConnectionUtil
-        .getBendpointsWithEndings(ffc);
+    LinkedList<Point> points = new LinkedList<>(
+        SimpleConnectionUtil.getBendpointsWithEndings(ffc));
     LinkedList<Point> notFollowingPoints = IntStream.range(0, points.size() - 1)
         .mapToObj(i -> new SimpleEntry<Point, Point>(points.get(i),
             points.get(i + 1)))
