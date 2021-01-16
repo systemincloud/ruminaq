@@ -105,6 +105,12 @@ public class PasteSimpleConnections
         });
   }
 
+  /**
+   * It goes to the beginning of connection shapes through connection points.
+   *
+   * @param simpleConnectionPointShape initial connection point
+   * @return anchor of the non connection point end of connection
+   */
   private static Optional<Anchor> findStartAnchor(
       SimpleConnectionPointShape simpleConnectionPointShape) {
     return simpleConnectionPointShape.getAnchors().stream().findFirst()
