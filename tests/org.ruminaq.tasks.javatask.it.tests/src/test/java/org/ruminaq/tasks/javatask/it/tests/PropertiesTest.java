@@ -80,9 +80,6 @@ public class PropertiesTest extends GuiTest {
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Parameters");
-    
-    Thread.sleep(3000);
-
   }
 
 }
