@@ -39,7 +39,7 @@ public class PropertiesTest extends GuiTest {
   }
 
   @Test
-  public void testDescrptionTab() throws InterruptedException {
+  public void testPropertiesTab() throws InterruptedException {
     addToolFromPalette("Java Task", 200, 100);
 
     WithBoGraphitiEditPart jt = new WithBoGraphitiEditPart(JavaTask.class);
@@ -67,6 +67,10 @@ public class PropertiesTest extends GuiTest {
 
     bot.button("Next >").click();
     
+    bot.textWithLabel("Name:", 2).setText("x");
+    bot.textWithLabel("Default value:", 0).setText("0");
+    bot.button("Add", 2).click();
+
     bot.button("Finish").click();
 
     Thread.sleep(3000);
@@ -76,6 +80,9 @@ public class PropertiesTest extends GuiTest {
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Parameters");
+    
+    Thread.sleep(3000);
+
   }
 
 }

@@ -115,8 +115,8 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
         .map(QualifiedName.class::cast).map(QualifiedName::resolveBinding)
         .filter(IVariableBinding.class::isInstance)
         .map(IVariableBinding.class::cast)
-        .map(IVariableBinding::getConstantValue).map(String.class::isInstance)
-        .map(String.class::cast)
+        .map(IVariableBinding::getConstantValue)
+        .filter(String.class::isInstance).map(String.class::cast)
         .orElseGet(() -> memberValuePairFromAnnotation(na, name)
             .map(MemberValuePair::getValue)
             .filter(StringLiteral.class::isInstance)
@@ -221,8 +221,8 @@ public class UpdateFeature extends AbstractUpdateUserDefinedTaskFeature {
     SearchParticipant[] participants = new SearchParticipant[] {
         SearchEngine.getDefaultSearchParticipant() };
     IJavaSearchScope scope = SearchEngine
-        .createJavaSearchScope(new IJavaElement[] { JavaCore
-            .create(EclipseUtil.getProjectOf(getDiagram())) });
+        .createJavaSearchScope(new IJavaElement[] {
+            JavaCore.create(EclipseUtil.getProjectOf(getDiagram())) });
     SearchRequestor searchRequestor = new SearchRequestor() {
       @Override
       public void acceptSearchMatch(SearchMatch sm) {
