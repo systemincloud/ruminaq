@@ -36,11 +36,6 @@ public class UserDefinedParametersSection extends AbstractParametersSection {
   }
 
   @Override
-  protected boolean isDefault() {
-    return true;
-  }
-
-  @Override
   protected Map<String, String> getActualParams() {
     return parameters().collect(HashMap::new,
         (m, v) -> m.put(v.getKey(), v.getValue()), HashMap::putAll);

@@ -7,9 +7,11 @@
 package org.ruminaq.eclipse;
 
 import java.io.ByteArrayInputStream;
+import java.text.Collator;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -31,7 +33,9 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.ruminaq.util.Result;
@@ -207,5 +211,24 @@ public final class EclipseUtil {
     int[] s = table.getSelectionIndices();
     return IntStream.range(0, s.length - 1)
         .noneMatch(i -> Math.abs(s[i] - s[i + 1]) > 1);
+  }
+  
+  public static void sortTable(Table table, int sortIndex) {
+    TableItem[] items = table.getItems();
+    Collator collator = Collator.getInstance(Locale.getDefault());
+    for (int i = 1; i < items.length; i++) {
+      String value1 = items[i].getText(sortIndex);
+      for (int j = 0; j < i; j++) {
+        String value2 = items[j].getText(sortIndex);
+        if (collator.compare(value1, value2) < 0) {
+          String[] values = { items[i].getText(0) };
+          items[i].dispose();
+          TableItem item = new TableItem(table, SWT.NONE, j);
+          item.setText(values);
+          items = table.getItems();
+          break;
+        }
+      }
+    }
   }
 }

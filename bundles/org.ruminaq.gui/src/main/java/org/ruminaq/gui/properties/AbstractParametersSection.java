@@ -6,10 +6,10 @@
 
 package org.ruminaq.gui.properties;
 
-import java.text.Collator;
-import java.util.Locale;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Stream;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -26,6 +26,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
@@ -77,10 +78,6 @@ public abstract class AbstractParametersSection extends GFPropertySection
     tblEdParameters = new TableEditor(tblParameters);
   }
 
-  protected boolean isDefault() {
-    return false;
-  }
-
   private void initActions() {
     tblParameters.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
@@ -130,8 +127,7 @@ public abstract class AbstractParametersSection extends GFPropertySection
     tblclParametersKey.setText("Key");
     tblclParametersValue.setText("Value");
 
-    for (TableColumn tc : tblParameters.getColumns())
-      tc.pack();
+    Stream.of(tblParameters.getColumns()).forEach(TableColumn::pack);
 
     tblEdParameters.horizontalAlignment = SWT.LEFT;
     tblEdParameters.grabHorizontal = true;
@@ -140,44 +136,23 @@ public abstract class AbstractParametersSection extends GFPropertySection
 
   @Override
   public void refresh() {
-    if (tblParameters.isDisposed())
-      return;
-    tblParameters.removeAll();
-    Map<String, String> params = getActualParams();
+    if (!tblParameters.isDisposed()) {
+      tblParameters.removeAll();
 //		Map<String, String> defaultParams = getDefaultParams();
-    for (Entry<String, String> param : params.entrySet()) {
-      TableItem item = new TableItem(tblParameters, SWT.NONE);
-      item.setText(new String[] { param.getKey(), param.getValue() });
-    }
-    sortParameters();
-    for (TableColumn tc : tblParameters.getColumns())
-      tc.pack();
-    root.layout();
-  }
-
-  private void sortParameters() {
-    TableItem[] items = tblParameters.getItems();
-    Collator collator = Collator.getInstance(Locale.getDefault());
-    for (int i = 1; i < items.length; i++) {
-      String value1 = items[i].getText(0);
-      for (int j = 0; j < i; j++) {
-        String value2 = items[j].getText(0);
-        if (collator.compare(value1, value2) < 0) {
-          String[] values = { items[i].getText(0), items[i].getText(1) };
-          items[i].dispose();
-          TableItem item = new TableItem(tblParameters, SWT.NONE, j);
-          item.setText(values);
-          items = tblParameters.getItems();
-          break;
-        }
+      for (Entry<String, String> param : getActualParams().entrySet()) {
+        TableItem item = new TableItem(tblParameters, SWT.NONE);
+        item.setText(new String[] { param.getKey(), param.getValue() });
       }
+      EclipseUtil.sortTable(tblParameters, 0);
+      Stream.of(tblParameters.getColumns()).forEach(TableColumn::pack);
+      root.layout();
     }
   }
 
   protected abstract Map<String, String> getActualParams();
 
   protected Map<String, String> getDefaultParams() {
-    return null;
+    return Collections.emptyMap();
   }
 
   protected abstract void saveParameter(String key, String value);
