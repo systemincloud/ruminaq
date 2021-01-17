@@ -213,6 +213,12 @@ public final class EclipseUtil {
         .noneMatch(i -> Math.abs(s[i] - s[i + 1]) > 1);
   }
   
+  /**
+   * Sort rows in table based on chosen column
+   *
+   * @param table table to sort
+   * @param sortIndex sort based on column
+   */
   public static void sortTable(Table table, int sortIndex) {
     TableItem[] items = table.getItems();
     Collator collator = Collator.getInstance(Locale.getDefault());
