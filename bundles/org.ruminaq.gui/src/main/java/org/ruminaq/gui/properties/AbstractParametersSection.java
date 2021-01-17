@@ -139,10 +139,10 @@ public abstract class AbstractParametersSection extends GFPropertySection
     if (!tblParameters.isDisposed()) {
       tblParameters.removeAll();
 //		Map<String, String> defaultParams = getDefaultParams();
-      for (Entry<String, String> param : getActualParams().entrySet()) {
+      getActualParams().entrySet().forEach((Entry<String, String> param) -> {
         TableItem item = new TableItem(tblParameters, SWT.NONE);
         item.setText(new String[] { param.getKey(), param.getValue() });
-      }
+      });
       EclipseUtil.sortTable(tblParameters, 0);
       Stream.of(tblParameters.getColumns()).forEach(TableColumn::pack);
       root.layout();

@@ -128,8 +128,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="group" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="-1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EmbeddedTask" eSuperTypes="#//UserDefinedTask">
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EmbeddedTask" eSuperTypes="#//UserDefinedTask"/>
   <eClassifiers xsi:type="ecore:EClass" name="UserDefinedTask" abstract="true" eSuperTypes="#//Task">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="implementationPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral=""/>
@@ -156,8 +155,10 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultValue" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
   </eClassifiers>
   <eSubpackages name="debug" nsURI="http://ruminaq.org/debug" nsPrefix="debug">
     <eClassifiers xsi:type="ecore:EClass" name="Debug" abstract="true"/>
