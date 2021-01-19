@@ -89,7 +89,7 @@ public abstract class AbstractParametersSection extends GFPropertySection
           if (item == null)
             return;
 
-          final Text newEditor = new Text(tblParameters, SWT.NONE);
+          Text newEditor = new Text(tblParameters, SWT.NONE);
           newEditor.setText(item.getText(1));
           newEditor.addTraverseListener((TraverseEvent event) -> {
             switch (event.detail) {
@@ -97,14 +97,14 @@ public abstract class AbstractParametersSection extends GFPropertySection
                 String key = tblEdParameters.getItem().getText(0);
                 String newValue = tblEdParameters.getItem().getText(1);
                 saveParameter(key, newValue);
-                ((Text) tblEdParameters.getEditor()).dispose();
+                tblEdParameters.getEditor().dispose();
                 break;
               case SWT.TRAVERSE_ESCAPE:
                 String actual = getActualParams()
                     .get(tblEdParameters.getItem().getText(0));
                 String tmp = actual != null ? actual : "";
                 tblEdParameters.getItem().setText(1, tmp);
-                ((Text) tblEdParameters.getEditor()).dispose();
+                tblEdParameters.getEditor().dispose();
                 break;
               default:
                 break;
