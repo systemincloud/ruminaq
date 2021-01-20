@@ -54,12 +54,12 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
   @Test
   public void testCreateTestDiagram()
       throws InterruptedException, CoreException {
-    addToolFromPalette("Input Port", 200, 100);
+    addToolFromPalette("Input Port", 200, 50);
     new WithBoGraphitiEditPart(InputPort.class).doubleClick();
-    addToolFromPalette("Input Port", 200, 200);
-    addToolFromPalette("Input Port", 200, 300);
+    addToolFromPalette("Input Port", 200, 100);
+    addToolFromPalette("Input Port", 200, 150);
+    addToolFromPalette("Output Port", 400, 50);
     addToolFromPalette("Output Port", 400, 100);
-    addToolFromPalette("Output Port", 400, 200);
 
     String[] path = new String[] { CreateSourceFolders.SRC,
         CreateSourceFolders.MAIN, CreateSourceFolders.RESOURCES,
@@ -82,8 +82,8 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     new WithBoGraphitiEditPart(EmbeddedTask.class).select();
     new WithBoGraphitiEditPart(EmbeddedTask.class).doubleClick();
 
-    addToolFromPalette("Input Port", 200, 400);
-    addToolFromPalette("Output Port", 400, 300);
+    addToolFromPalette("Input Port", 200, 200);
+    addToolFromPalette("Output Port", 400, 150);
 
     new SWTBotMenu(ContextMenuHelper.contextMenu(
         SelectView.selectInProjectExplorer(bot, projectName, path),
@@ -111,9 +111,8 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
         "CreateRuminaqTestDiagramFromDiagramTest3.xml");
 
     diagramEditor.activate();
-    addToolFromPalette("Embedded Task", 250, 300);
+    addToolFromPalette("Embedded Task", 50, 50);
 
-    Thread.sleep(1000);
     new WithBoGraphitiEditPart(EmbeddedTask.class).select();
 
     PropertySheet propertiesView = new PropertySheet();
@@ -124,8 +123,6 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     propertiesView.selectTab("Embedded Task");
 
     bot.button().click();
-
-    Thread.sleep(1000);
 
     bot.tree().getTreeItem("src").expand();
     bot.tree().getTreeItem("src").getNode("test").expand();
@@ -138,8 +135,6 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     bot.button("OK").click();
 
     diagramEditor.activate();
-
-    Thread.sleep(1000);
 
     AllMarkersView markersView = new AllMarkersView();
     markersView.open();
@@ -156,8 +151,6 @@ public class CreateRuminaqTestDiagramFromDiagramTest extends GuiTest {
     bot.button("Finish").click();
 
     diagramEditor.activate();
-
-    Thread.sleep(2000);
 
     assertDiagram(diagramEditor,
         "CreateRuminaqTestDiagramFromDiagramTest4.xml");
