@@ -7,6 +7,7 @@
   <ruminaq:MainTask version="1.0.0">
     <task xsi:type="javatask:JavaTask" id="My Java Task" implementationPath="test.Parameters">
       <parameter key="x" value="5" defaultValue="0"/>
+      <parameter key="y" defaultValue="2"/>
     </task>
   </ruminaq:MainTask>
 </xmi:XMI>

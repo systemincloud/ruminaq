@@ -68,6 +68,10 @@ public class PropertiesTest extends GuiTest {
 
     bot.button("Next >").click();
     
+    bot.textWithLabel("Name:", 2).setText("y");
+    bot.textWithLabel("Default value:", 0).setText("2");
+    bot.button("Add", 2).click();
+    
     bot.textWithLabel("Name:", 2).setText("x");
     bot.textWithLabel("Default value:", 0).setText("0");
     bot.button("Add", 2).click();

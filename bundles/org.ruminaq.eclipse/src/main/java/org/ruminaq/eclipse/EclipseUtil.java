@@ -214,7 +214,7 @@ public final class EclipseUtil {
   }
   
   /**
-   * Sort rows in table based on chosen column
+   * Sort rows in table based on chosen column.
    *
    * @param table table to sort
    * @param sortIndex sort based on column
