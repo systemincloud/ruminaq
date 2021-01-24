@@ -6,7 +6,9 @@ Bundle-SymbolicName: org.ruminaq.util;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.workbench
-Import-Package: com.google.common.base,
+Import-Package: ch.qos.logback.classic,
+ ch.qos.logback.core,
+ com.google.common.base,
  groovy.lang,
  org.apache.commons.lang3,
  org.eclipse.core.internal.resources,
@@ -35,7 +37,9 @@ Import-Package: com.google.common.base,
  org.eclipse.swt.widgets,
  org.eclipse.ui.ide,
  org.osgi.framework,
- org.osgi.util.tracker
+ org.osgi.util.tracker,
+ org.ruminaq.logs,
+ org.slf4j;version="1.7.30"
 Export-Package: org.ruminaq.util,
  org.ruminaq.util.platform
 Bundle-ClassPath: .

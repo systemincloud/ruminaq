@@ -1,7 +1,7 @@
 Automatic-Module-Name: org.ruminaq.tasks.constant.gui
 Bundle-ManifestVersion: 2
 Bundle-Vendor: Marek Jagielski
-Bundle-SymbolicName: org.ruminaq.tasks.constant.gui
+Bundle-SymbolicName: org.ruminaq.tasks.constant.gui;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Import-Package: ch.qos.logback.classic,
  ch.qos.logback.core,
@@ -34,7 +34,9 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.graphiti.mm.algorithms.styles.impl,
  org.eclipse.graphiti.mm.pictograms,
  org.eclipse.graphiti.mm.pictograms.impl,
+ org.eclipse.graphiti.platform;version="0.17.0",
  org.eclipse.graphiti.services,
+ org.eclipse.graphiti.ui.platform,
  org.eclipse.jface.dialogs,
  org.eclipse.osgi.util,
  org.eclipse.swt,
@@ -43,6 +45,7 @@ Import-Package: ch.qos.logback.classic,
  org.eclipse.swt.layout,
  org.eclipse.swt.widgets,
  org.eclipse.ui.plugin,
+ org.eclipse.ui.views.properties.tabbed,
  org.osgi.framework,
  org.osgi.service.component.annotations,
  org.ruminaq.eclipse.api,

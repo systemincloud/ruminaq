@@ -16,6 +16,7 @@ import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.StackLayout;
@@ -26,7 +27,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Text;
-import org.osgi.service.component.annotations.Reference;
+import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.DataTypeManager;
 import org.ruminaq.model.ruminaq.ModelUtil;
@@ -50,9 +51,12 @@ import org.ruminaq.tasks.constant.properties.NumericPropertyValue;
 import org.ruminaq.tasks.constant.properties.TextPropertyValue;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
-public class PropertySection implements ValueSaveListener {
+/**
+ * 
+ * @author Marek Jagielski
+ */
+public class PropertySection extends GFPropertySection {
 
-  @Reference
   private ConstantExtensionHandler extensions;
 
   private Composite root;
@@ -70,14 +74,14 @@ public class PropertySection implements ValueSaveListener {
   private PictogramElement pe;
   private IDiagramTypeProvider dtp;
 
-  public PropertySection(Composite parent, PictogramElement pe,
-      TransactionalEditingDomain ed, IDiagramTypeProvider dtp) {
-    this.pe = pe;
-    this.dtp = dtp;
+  @Override
+  public void createControls(Composite parent,
+      TabbedPropertySheetPage tabbedPropertySheetPage) {
+    super.createControls(parent, tabbedPropertySheetPage);
+
     initLayout(parent);
-    initActions(ed);
-    initComponents(ed);
-    addStyles();
+    initComponents();
+    initActions();
   }
 
   private void initLayout(Composite parent) {
@@ -105,7 +109,7 @@ public class PropertySection implements ValueSaveListener {
     valueRoot.setLayoutData(valueLayoutData);
   }
 
-  private void initComponents(TransactionalEditingDomain ed) {
+  private void initComponents() {
     lblType.setText("Type:");
 
     List<String> types = new LinkedList<>();
@@ -127,49 +131,49 @@ public class PropertySection implements ValueSaveListener {
 
     lblValue.setText("Value:");
 
-    this.noValue = new PropertyValueComposite(this, valueRoot, pe, ed) {
-      {
-        composite = new Composite(this.valueRoot, SWT.NONE);
-        composite.setBackground(
-            Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-      }
+//    this.noValue = new PropertyValueComposite(this, valueRoot, pe, ed) {
+//      {
+//        composite = new Composite(this.valueRoot, SWT.NONE);
+//        composite.setBackground(
+//            Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
+//      }
+//
+//      @Override
+//      public String getValue() {
+//        return "";
+//      }
+//
+//      @Override
+//      public void refresh(String value) {
+//      }
+//    };
+//
+//    valueComposites.put(Bool.class.getSimpleName(),
+//        new BoolPropertyValue(this, valueRoot, pe, ed));
+//    valueComposites.put(Complex32.class.getSimpleName(),
+//        new ComplexPropertyValue(this, valueRoot, pe, ed));
+//    valueComposites.put(Complex64.class.getSimpleName(),
+//        new ComplexPropertyValue(this, valueRoot, pe, ed));
+//    valueComposites.put(Control.class.getSimpleName(),
+//        new ControlPropertyValue(this, valueRoot, pe, ed));
+//    valueComposites.put(Int32.class.getSimpleName(),
+//        new NumericPropertyValue(this, valueRoot, pe, ed));
+//    valueComposites.put(Int64.class.getSimpleName(),
+//        new NumericPropertyValue(this, valueRoot, pe, ed));
+//    valueComposites.put(Float32.class.getSimpleName(),
+//        new NumericPropertyValue(this, valueRoot, pe, ed));
+//    valueComposites.put(Float64.class.getSimpleName(),
+//        new NumericPropertyValue(this, valueRoot, pe, ed));
+//    valueComposites.put(Decimal.class.getSimpleName(),
+//        new NumericPropertyValue(this, valueRoot, pe, ed));
+//    valueComposites.put(Text.class.getSimpleName(),
+//        new TextPropertyValue(this, valueRoot, pe, ed));
 
-      @Override
-      public String getValue() {
-        return "";
-      }
-
-      @Override
-      public void refresh(String value) {
-      }
-    };
-
-    valueComposites.put(Bool.class.getSimpleName(),
-        new BoolPropertyValue(this, valueRoot, pe, ed));
-    valueComposites.put(Complex32.class.getSimpleName(),
-        new ComplexPropertyValue(this, valueRoot, pe, ed));
-    valueComposites.put(Complex64.class.getSimpleName(),
-        new ComplexPropertyValue(this, valueRoot, pe, ed));
-    valueComposites.put(Control.class.getSimpleName(),
-        new ControlPropertyValue(this, valueRoot, pe, ed));
-    valueComposites.put(Int32.class.getSimpleName(),
-        new NumericPropertyValue(this, valueRoot, pe, ed));
-    valueComposites.put(Int64.class.getSimpleName(),
-        new NumericPropertyValue(this, valueRoot, pe, ed));
-    valueComposites.put(Float32.class.getSimpleName(),
-        new NumericPropertyValue(this, valueRoot, pe, ed));
-    valueComposites.put(Float64.class.getSimpleName(),
-        new NumericPropertyValue(this, valueRoot, pe, ed));
-    valueComposites.put(Decimal.class.getSimpleName(),
-        new NumericPropertyValue(this, valueRoot, pe, ed));
-    valueComposites.put(Text.class.getSimpleName(),
-        new TextPropertyValue(this, valueRoot, pe, ed));
-
-    valueComposites
-        .putAll(extensions.getValueComposites(this, valueRoot, pe, ed));
+//    valueComposites
+//        .putAll(extensions.getValueComposites(this, valueRoot, pe, ed));
   }
 
-  private void initActions(final TransactionalEditingDomain ed) {
+  private void initActions() {
     cmbType.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
           final DataType dt = DataTypeManager.INSTANCE
@@ -201,18 +205,12 @@ public class PropertySection implements ValueSaveListener {
                 }
                 valueRoot.layout();
 
-                update();
+//                update();
               }
-            }, ed, "Change constant value");
+            }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+                "Change constant value");
           }
         });
-  }
-
-  private void addStyles() {
-    root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    lblType.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    lblValue
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
   public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
@@ -247,14 +245,14 @@ public class PropertySection implements ValueSaveListener {
     }
   }
 
-  @Override
-  public void setFocus() {
-    root.setFocus();
-  }
-
-  @Override
-  public void update() {
-    UpdateContext context = new UpdateContext(pe);
-    dtp.getFeatureProvider().updateIfPossible(context);
-  }
+//  @Override
+//  public void setFocus() {
+//    root.setFocus();
+//  }
+//
+//  @Override
+//  public void update() {
+//    UpdateContext context = new UpdateContext(pe);
+//    dtp.getFeatureProvider().updateIfPossible(context);
+//  }
 }

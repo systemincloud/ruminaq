@@ -37,7 +37,6 @@
     <module>org.ruminaq.tasks.constant.gui</module>
     <module>org.ruminaq.tasks.constant.impl</module>
     <module>org.ruminaq.tasks.constant.model</module>
-    <module>org.ruminaq.tasks.constant.ui</module>
 
     <module>org.ruminaq.tasks.demux</module>
 

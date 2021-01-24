@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import org.ruminaq.logs.ModelerLoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Helper class to wrap Errors in streams.
@@ -21,6 +23,9 @@ import java.util.function.Supplier;
  * @param <E>
  */
 public class Result<V, E extends Throwable> extends Try<E> {
+
+  private static final Logger LOGGER = ModelerLoggerFactory
+      .getLogger(Result.class);
 
   @FunctionalInterface
   public interface CheckedSupplier<V, E extends Throwable> {
@@ -49,6 +54,7 @@ public class Result<V, E extends Throwable> extends Try<E> {
     } catch (Throwable e) {
       @SuppressWarnings("unchecked")
       E err = (E) e;
+      LOGGER.trace("ResultFailed", err);
       return Result.failure(err);
     }
   }

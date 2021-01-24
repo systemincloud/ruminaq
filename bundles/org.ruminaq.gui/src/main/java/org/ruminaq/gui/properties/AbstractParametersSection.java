@@ -6,9 +6,8 @@
 
 package org.ruminaq.gui.properties;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.swt.SWT;
@@ -28,22 +27,31 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.eclipse.EclipseUtil;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
+import org.ruminaq.model.ruminaq.Parameter;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**
+ * Parameters property tab.
  * 
  * @author Marek Jagielski
  */
 public abstract class AbstractParametersSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
+  private static final int COLUMN_WIDTH_MINIMAL = 50;
+
   protected Composite root;
 
-  protected Table tblParameters;
-  protected TableColumn tblclParametersKey;
-  protected TableColumn tblclParametersValue;
+  protected Table table;
+  protected TableColumn columnKey;
+  protected TableColumn columnValue;
 
   protected TableEditor tblEdParameters;
+
+  private static String getValue(Parameter p) {
+    return Optional.of(p).filter(Parameter::isDefault)
+        .map(Parameter::getDefaultValue).orElseGet(p::getValue);
+  }
 
   @Override
   public void createControls(Composite parent,
@@ -59,7 +67,7 @@ public abstract class AbstractParametersSection extends GFPropertySection
     return (RuminaqDiagram) getDiagram();
   }
 
-  private void initLayout(Composite parent) {
+  protected void initLayout(Composite parent) {
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).horizontalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
@@ -68,18 +76,17 @@ public abstract class AbstractParametersSection extends GFPropertySection
     root = new Composite(parent, SWT.NULL);
     root.setLayout(new GridLayout(1, false));
 
-    tblParameters = new Table(root, SWT.FULL_SELECTION | SWT.MULTI | SWT.FILL);
-    tblParameters
-        .setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+    table = new Table(root, SWT.FULL_SELECTION | SWT.MULTI | SWT.FILL);
+    table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 
-    tblclParametersKey = new TableColumn(tblParameters, SWT.NONE);
-    tblclParametersValue = new TableColumn(tblParameters, SWT.NONE);
+    columnKey = new TableColumn(table, SWT.NONE);
+    columnValue = new TableColumn(table, SWT.NONE);
 
-    tblEdParameters = new TableEditor(tblParameters);
+    tblEdParameters = new TableEditor(table);
   }
 
   private void initActions() {
-    tblParameters.addSelectionListener(
+    table.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
           Control oldEditor = tblEdParameters.getEditor();
           if (oldEditor != null)
@@ -89,7 +96,7 @@ public abstract class AbstractParametersSection extends GFPropertySection
           if (item == null)
             return;
 
-          Text newEditor = new Text(tblParameters, SWT.NONE);
+          Text newEditor = new Text(table, SWT.NONE);
           newEditor.setText(item.getText(1));
           newEditor.addTraverseListener((TraverseEvent event) -> {
             switch (event.detail) {
@@ -100,10 +107,12 @@ public abstract class AbstractParametersSection extends GFPropertySection
                 tblEdParameters.getEditor().dispose();
                 break;
               case SWT.TRAVERSE_ESCAPE:
-                String actual = getActualParams()
-                    .get(tblEdParameters.getItem().getText(0));
-                String tmp = actual != null ? actual : "";
-                tblEdParameters.getItem().setText(1, tmp);
+                String actual = getParameters().stream()
+                    .filter(p -> p.getKey()
+                        .equals(tblEdParameters.getItem().getText(0)))
+                    .findFirst().map(AbstractParametersSection::getValue)
+                    .orElse("");
+                tblEdParameters.getItem().setText(1, actual);
                 tblEdParameters.getEditor().dispose();
                 break;
               default:
@@ -121,39 +130,32 @@ public abstract class AbstractParametersSection extends GFPropertySection
   }
 
   private void initComponents() {
-    tblParameters.setHeaderVisible(true);
-    tblParameters.setLinesVisible(true);
+    table.setHeaderVisible(true);
+    table.setLinesVisible(true);
 
-    tblclParametersKey.setText("Key");
-    tblclParametersValue.setText("Value");
-
-    Stream.of(tblParameters.getColumns()).forEach(TableColumn::pack);
+    columnKey.setText("Key");
+    columnValue.setText("Value");
 
     tblEdParameters.horizontalAlignment = SWT.LEFT;
     tblEdParameters.grabHorizontal = true;
-    tblEdParameters.minimumWidth = 50;
+    tblEdParameters.minimumWidth = COLUMN_WIDTH_MINIMAL;
   }
 
   @Override
   public void refresh() {
-    if (!tblParameters.isDisposed()) {
-      tblParameters.removeAll();
-//		Map<String, String> defaultParams = getDefaultParams();
-      getActualParams().entrySet().forEach((Entry<String, String> param) -> {
-        TableItem item = new TableItem(tblParameters, SWT.NONE);
+    if (!table.isDisposed()) {
+      table.removeAll();
+      getParameters().forEach((Parameter param) -> {
+        TableItem item = new TableItem(table, SWT.NONE);
         item.setText(new String[] { param.getKey(), param.getValue() });
       });
-      EclipseUtil.sortTable(tblParameters, 0);
-      Stream.of(tblParameters.getColumns()).forEach(TableColumn::pack);
+      EclipseUtil.sortTable(table, 0);
+      Stream.of(table.getColumns()).forEach(TableColumn::pack);
       root.layout();
     }
   }
 
-  protected abstract Map<String, String> getActualParams();
-
-  protected Map<String, String> getDefaultParams() {
-    return Collections.emptyMap();
-  }
+  protected abstract Collection<Parameter> getParameters();
 
   protected abstract void saveParameter(String key, String value);
 }

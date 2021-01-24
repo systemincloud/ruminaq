@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 
-<!--
--->
-
 <plugin>
 
    <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
@@ -11,11 +8,14 @@
          <propertyTab label="Constant" id="org.ruminaq.tasks.constantTab" afterTab="org.ruminaq.gui.generalTab" category="Graphiti" />
       </propertyTabs>
    </extension>
-   <!--extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
       <propertySections contributorId="Ruminaq.PropertyContributor">
-         <propertySection tab="org.ruminsaq.tasks.constantTab"          class="org.ruminaq.tasks.constant.ui.properties.PropertySection"
-                           id="org.ruminaq.tasks.constantTab.Section" filter="org.ruminaq.tasks.constant.ui.properties.PropertyFilter" />
+         <propertySection
+               tab="org.ruminsaq.tasks.constantTab"
+               class="org.ruminaq.tasks.constant.gui.PropertySection"
+               id="org.ruminaq.tasks.constantTab.Section"
+               filter="org.ruminaq.tasks.constant.gui.PropertyFilter" />
       </propertySections>
-   </extension-->
+   </extension>
 
 </plugin>

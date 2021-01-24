@@ -6,21 +6,32 @@
 
 package org.ruminaq.gui.properties;
 
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.TableColumn;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Parameter;
 import org.ruminaq.model.ruminaq.UserDefinedTask;
 
 /**
- * 
+ * Retrieve parameters from UserDefinedTask.
+ *
  * @author Marek Jagielski
  */
 public class UserDefinedParametersSection extends AbstractParametersSection {
+
+  protected TableColumn columnSetDefault;
+
+  protected void initLayout(Composite parent) {
+    super.initLayout(parent);
+    columnSetDefault = new TableColumn(table, SWT.NONE);
+  }
 
   private Optional<UserDefinedTask> model() {
     return Optional.ofNullable(getSelectedPictogramElement())
@@ -36,22 +47,14 @@ public class UserDefinedParametersSection extends AbstractParametersSection {
   }
 
   @Override
-  protected Map<String, String> getActualParams() {
-    return parameters().collect(HashMap::new,
-        (m, v) -> m.put(v.getKey(), v.getValue()), HashMap::putAll);
-  }
-
-  @Override
-  protected Map<String, String> getDefaultParams() {
-    return parameters().collect(HashMap::new,
-        (m, v) -> m.put(v.getKey(), v.getDefaultValue()), HashMap::putAll);
+  protected Collection<Parameter> getParameters() {
+    return parameters().collect(Collectors.toList());
   }
 
   @Override
   protected void saveParameter(final String key, final String value) {
     ModelUtil.runModelChange(
-        () -> model().get().getParameter().stream()
-            .filter(p -> p.getKey().equals(key)).findFirst()
+        () -> parameters().filter(p -> p.getKey().equals(key)).findFirst()
             .ifPresent(p -> p.setValue(value)),
         getDiagramContainer().getDiagramBehavior().getEditingDomain(),
         "Change parameter");

@@ -90,8 +90,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//InputPort/holdLast"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//InputPort/group"/>
     </genClasses>
-    <genClasses ecoreClass="model.ecore#//EmbeddedTask">
-    </genClasses>
+    <genClasses ecoreClass="model.ecore#//EmbeddedTask"/>
     <genClasses image="false" ecoreClass="model.ecore#//UserDefinedTask">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//UserDefinedTask/implementationPath"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference model.ecore#//UserDefinedTask/parameter"/>
@@ -113,6 +112,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Parameter/key"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Parameter/value"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Parameter/defaultValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Parameter/default"/>
     </genClasses>
     <nestedGenPackages prefix="Debug" disposableProviderFactory="true" ecorePackage="model.ecore#//debug">
       <genClasses image="false" ecoreClass="model.ecore#//debug/Debug"/>
