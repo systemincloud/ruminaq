@@ -95,9 +95,9 @@
           filter="org.ruminaq.gui.properties.PropertyRuminaqDiagramFilter" />
       <propertySection
           tab="org.ruminaq.gui.parameters"
-          class="org.ruminaq.gui.properties.TestParametersSection"
+          class="org.ruminaq.gui.properties.MainTaskParametersSection"
           id="org.ruminaq.gui.parameters.ParamersSection"
-          filter="org.ruminaq.gui.properties.TestParametersFilter" />
+          filter="org.ruminaq.gui.properties.PropertyRuminaqDiagramFilter" />
       <propertySection
           tab="org.ruminaq.gui.descriptionTab"
           class="org.ruminaq.gui.properties.PropertyDescriptionSection"
