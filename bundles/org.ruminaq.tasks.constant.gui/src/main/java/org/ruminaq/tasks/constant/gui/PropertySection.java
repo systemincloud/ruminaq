@@ -71,9 +71,6 @@ public class PropertySection extends GFPropertySection {
 
   private PropertyValueComposite noValue;
 
-  private PictogramElement pe;
-  private IDiagramTypeProvider dtp;
-
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -181,7 +178,8 @@ public class PropertySection extends GFPropertySection {
           if (dt != null) {
             ModelUtil.runModelChange(() -> {
               Object bo = Graphiti.getLinkService()
-                  .getBusinessObjectForLinkedPictogramElement(pe);
+                  .getBusinessObjectForLinkedPictogramElement(
+                      getSelectedPictogramElement());
               if (bo instanceof Constant) {
                 Constant constant = (Constant) bo;
                 constant.getOutputPort().get(0).getDataType().clear();

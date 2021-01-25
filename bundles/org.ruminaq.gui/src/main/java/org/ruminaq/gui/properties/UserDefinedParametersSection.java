@@ -53,10 +53,12 @@ public class UserDefinedParametersSection extends AbstractParametersSection {
 
   @Override
   protected void saveParameter(final String key, final String value) {
-    ModelUtil.runModelChange(
-        () -> parameters().filter(p -> p.getKey().equals(key)).findFirst()
-            .ifPresent(p -> p.setValue(value)),
-        getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-        "Change parameter");
+    ModelUtil
+        .runModelChange(() -> parameters().filter(p -> p.getKey().equals(key))
+            .findFirst().ifPresent((Parameter p) -> {
+              p.setDefault(p.getDefaultValue() == value);
+              p.setValue(value);
+            }), getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+            "Change parameter");
   }
 }

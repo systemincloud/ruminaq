@@ -11,6 +11,7 @@ import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
+import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -58,20 +59,20 @@ public class PropertiesTest extends GuiTest {
 
     assertTrue("Description should be filled",
         bot.browser().getText().startsWith("<h3>JavaTask</h3>"));
-    
+
     propertiesView.selectTab("Java Task");
 
     bot.button("Create").click();
-    
+
     bot.textWithLabel("Package:").setText("test");
     bot.textWithLabel("Name:").setText("Parameters");
 
     bot.button("Next >").click();
-    
+
     bot.textWithLabel("Name:", 2).setText("y");
     bot.textWithLabel("Default value:", 0).setText("2");
     bot.button("Add", 2).click();
-    
+
     bot.textWithLabel("Name:", 2).setText("x");
     bot.textWithLabel("Default value:", 0).setText("0");
     bot.button("Add", 2).click();
@@ -81,19 +82,23 @@ public class PropertiesTest extends GuiTest {
     Thread.sleep(3000);
 
     diagramEditor.activate();
-    
+
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Parameters");
-    
+
     bot.table(0).select(0);
     bot.text().setText("5");
-    
+
     bot.text().pressShortcut(SWT.CR, SWT.LF);
-    
+
+    bot.table(0).select(0);
+    bot.text().setText("6");
+
+    bot.text().pressShortcut(Keystrokes.ESC);
+
     Thread.sleep(2000);
 
-    assertDiagram(diagramEditor,
-        "PropertiesTest.testPropertiesTab.xml");
+    assertDiagram(diagramEditor, "PropertiesTest.testPropertiesTab.xml");
   }
 }
