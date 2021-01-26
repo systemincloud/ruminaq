@@ -28,6 +28,7 @@ public class UserDefinedParametersSection extends AbstractParametersSection {
 
   protected TableColumn columnSetDefault;
 
+  @Override
   protected void initLayout(Composite parent) {
     super.initLayout(parent);
     columnSetDefault = new TableColumn(table, SWT.NONE);
