@@ -6,8 +6,9 @@
 
 package org.ruminaq.eclipse.prefs;
 
-import java.util.Hashtable;
-
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import org.eclipse.core.resources.IProject;
 
 /**
@@ -21,7 +22,8 @@ public final class ProjectProps extends AbstractProps {
 
   public static final String RUMINAQ_VERSION = "ruminaq.version";
 
-  private static Hashtable<IProject, AbstractProps> instances = new Hashtable<>();
+  private static Map<IProject, AbstractProps> instances = Collections
+      .synchronizedMap(new HashMap<>());
 
   private ProjectProps(IProject project) {
     super(project, PROJECT_PROPS, false);
