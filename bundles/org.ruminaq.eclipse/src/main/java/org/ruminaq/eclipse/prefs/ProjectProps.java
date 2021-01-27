@@ -29,10 +29,14 @@ public final class ProjectProps extends AbstractProps {
     super(project, PROJECT_PROPS, false);
   }
 
+  /**
+   * Get project properties.
+   *
+   * @param project eclipse project
+   * @return
+   */
   public static AbstractProps getInstance(IProject project) {
-    if (!instances.containsKey(project)) {
-      instances.put(project, new ProjectProps(project));
-    }
+    instances.putIfAbsent(project, new ProjectProps(project));
     return instances.get(project);
   }
 }
