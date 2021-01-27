@@ -7,8 +7,8 @@
 package org.ruminaq.eclipse.prefs;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 import org.eclipse.core.resources.IProject;
 
 /**
@@ -23,7 +23,7 @@ public final class ProjectProps extends AbstractProps {
   public static final String RUMINAQ_VERSION = "ruminaq.version";
 
   private static Map<IProject, AbstractProps> instances = Collections
-      .synchronizedMap(new HashMap<>());
+      .synchronizedMap(new WeakHashMap<>());
 
   private ProjectProps(IProject project) {
     super(project, PROJECT_PROPS, false);
