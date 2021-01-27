@@ -42,8 +42,6 @@ public abstract class AbstractProps implements IPreferenceChangeListener {
 
     String get(String key, String defaultValue);
 
-    List<String> getStartingBy(String prefix);
-
     void remove(String key);
 
     void saveProps();
@@ -68,12 +66,6 @@ public abstract class AbstractProps implements IPreferenceChangeListener {
     @Override
     public String get(String key, String defaultValue) {
       return Result.attempt(() -> node.get(key, defaultValue)).orElse(null);
-    }
-
-    @Override
-    public List<String> getStartingBy(String prefix) {
-      return Stream.of(node.childrenNames()).filter(n -> n.startsWith(prefix))
-          .collect(Collectors.toList());
     }
 
     @Override
@@ -106,13 +98,6 @@ public abstract class AbstractProps implements IPreferenceChangeListener {
     @Override
     public String get(String key, String defaultValue) {
       return node.get(key, defaultValue);
-    }
-
-    @Override
-    public List<String> getStartingBy(String prefix) {
-      return Result.attempt(() -> Stream.of(node.childrenNames()))
-          .orElseGet(Stream::empty).filter(n -> n.startsWith(prefix))
-          .collect(Collectors.toList());
     }
 
     @Override
@@ -162,10 +147,6 @@ public abstract class AbstractProps implements IPreferenceChangeListener {
 
   public String get(String key, String defaultValue) {
     return strategy.get(key, defaultValue);
-  }
-
-  public List<String> getStartingBy(String prefix) {
-    return strategy.getStartingBy(prefix);
   }
 
   public void remove(String key) {
