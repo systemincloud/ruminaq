@@ -28,7 +28,8 @@ import org.ruminaq.util.Result;
 import org.ruminaq.util.Try;
 
 /**
- * 
+ * Handles secured and unsecured property file.
+ *
  * @author Marek Jagielski
  */
 public abstract class AbstractProps implements IPreferenceChangeListener {
