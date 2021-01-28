@@ -32,7 +32,7 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**
  * Parameters property tab.
- * 
+ *
  * @author Marek Jagielski
  */
 public abstract class AbstractParametersSection extends GFPropertySection
@@ -89,8 +89,9 @@ public abstract class AbstractParametersSection extends GFPropertySection
     table.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
           Control oldEditor = tblEdParameters.getEditor();
-          if (oldEditor != null)
+          if (oldEditor != null) {
             oldEditor.dispose();
+          }
 
           TableItem item = (TableItem) e.item;
 
@@ -99,18 +100,11 @@ public abstract class AbstractParametersSection extends GFPropertySection
           newEditor.addTraverseListener((TraverseEvent event) -> {
             switch (event.detail) {
               case SWT.TRAVERSE_RETURN:
-                String key = tblEdParameters.getItem().getText(0);
-                String newValue = tblEdParameters.getItem().getText(1);
-                saveParameter(key, newValue);
+                saveSelectedParameter();
                 tblEdParameters.getEditor().dispose();
                 break;
               case SWT.TRAVERSE_ESCAPE:
-                String actual = getParameters().stream()
-                    .filter(p -> p.getKey()
-                        .equals(tblEdParameters.getItem().getText(0)))
-                    .findFirst().map(AbstractParametersSection::getValue)
-                    .orElse("");
-                tblEdParameters.getItem().setText(1, actual);
+                setActualParameter();
                 tblEdParameters.getEditor().dispose();
                 break;
               default:
@@ -152,6 +146,21 @@ public abstract class AbstractParametersSection extends GFPropertySection
       root.layout();
     }
   }
+  
+  private void saveSelectedParameter() {
+    saveParameter(tblEdParameters.getItem().getText(0),
+        tblEdParameters.getItem().getText(1));
+  }
+  
+  private void setActualParameter() {
+    tblEdParameters.getItem().setText(1,
+        getParameters().stream()
+            .filter(p -> p.getKey()
+                .equals(tblEdParameters.getItem().getText(0)))
+            .findFirst().map(AbstractParametersSection::getValue)
+            .orElse(""));
+  }
+
 
   protected abstract Collection<Parameter> getParameters();
 
