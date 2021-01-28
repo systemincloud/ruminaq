@@ -45,6 +45,9 @@ public abstract class AbstractProps implements IPreferenceChangeListener {
 
   }
 
+  /**
+   * Store properties in encrypted file.
+   */
   private static class Secured implements Strategy {
 
     private ISecurePreferences node;
