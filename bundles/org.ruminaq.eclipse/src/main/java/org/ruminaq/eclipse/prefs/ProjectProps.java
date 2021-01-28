@@ -6,7 +6,6 @@
 
 package org.ruminaq.eclipse.prefs;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
 import org.eclipse.core.resources.IProject;
