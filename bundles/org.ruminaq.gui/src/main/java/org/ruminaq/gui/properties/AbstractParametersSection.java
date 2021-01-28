@@ -93,8 +93,6 @@ public abstract class AbstractParametersSection extends GFPropertySection
             oldEditor.dispose();
 
           TableItem item = (TableItem) e.item;
-          if (item == null)
-            return;
 
           Text newEditor = new Text(table, SWT.NONE);
           newEditor.setText(item.getText(1));

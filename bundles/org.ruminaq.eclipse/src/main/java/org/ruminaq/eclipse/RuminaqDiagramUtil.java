@@ -6,13 +6,10 @@
 
 package org.ruminaq.eclipse;
 
-import java.io.File;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.osgi.framework.util.FilePath;
 import org.ruminaq.eclipse.wizards.diagram.CreateDiagramWizard;
 import org.ruminaq.eclipse.wizards.project.CreateSourceFolders;
 
@@ -46,18 +43,6 @@ public final class RuminaqDiagramUtil {
         .startsWith(CreateSourceFolders.TEST_DIAGRAM_FOLDER);
   }
 
-  private static boolean isInTestDirectory(URI uri, String basePath) {
-    String file = uri.toFileString()
-        .replace(Stream.of(new FilePath(basePath).getSegments()).collect(
-            Collectors.joining(File.separator, File.separator, "")), "");
-    String folder = file.replace(basePath, "");
-    if (folder.contains(":")) {
-      folder = folder.substring(folder.indexOf(':') + 1);
-    }
-    folder = folder.replace(File.separator, "/");
-    return folder.startsWith(CreateSourceFolders.TEST_DIAGRAM_FOLDER);
-  }
-
   public static boolean isTest(URI uri) {
     return CreateDiagramWizard.EXTENSION.equals(uri.fileExtension())
         && isInTestDirectory(uri);
@@ -66,10 +51,5 @@ public final class RuminaqDiagramUtil {
   public static boolean isTest(IFile file) {
     return CreateDiagramWizard.EXTENSION.equals(file.getFileExtension())
         && isInTestDirectory(file);
-  }
-
-  public static boolean isTest(URI uri, String basePath) {
-    return CreateDiagramWizard.EXTENSION.equals(uri.fileExtension())
-        && isInTestDirectory(uri, basePath);
   }
 }

@@ -35,11 +35,4 @@ class RuminaqDiagramUtilTest {
     assertFalse("Isn't test", RuminaqDiagramUtil.isTest(uri));
   }
 
-  @ParameterizedTest
-  @ValueSource(strings = { "resource:/project/src/test/resources/tasks/MyTask.rumi" })
-  void testIsTestByUriWithBase(String input) {
-    URI uri = URI.createFileURI(input);
-    assertTrue("Is test", RuminaqDiagramUtil.isTest(uri, "resource:/project/"));
-  }
-
 }
