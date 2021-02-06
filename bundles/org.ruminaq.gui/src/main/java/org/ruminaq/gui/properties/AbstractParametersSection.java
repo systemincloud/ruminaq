@@ -88,37 +88,40 @@ public abstract class AbstractParametersSection extends GFPropertySection
   private void initActions() {
     table.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
-          Control oldEditor = tblEdParameters.getEditor();
-          if (oldEditor != null) {
-            oldEditor.dispose();
-          }
-
-          TableItem item = (TableItem) e.item;
-
-          Text newEditor = new Text(table, SWT.NONE);
-          newEditor.setText(item.getText(1));
-          newEditor.addTraverseListener((TraverseEvent event) -> {
-            switch (event.detail) {
-              case SWT.TRAVERSE_RETURN:
-                saveSelectedParameter();
-                tblEdParameters.getEditor().dispose();
-                break;
-              case SWT.TRAVERSE_ESCAPE:
-                setActualParameter();
-                tblEdParameters.getEditor().dispose();
-                break;
-              default:
-                break;
-            }
-          });
-          newEditor.addModifyListener((ModifyEvent me) -> {
-            Text text = (Text) tblEdParameters.getEditor();
-            tblEdParameters.getItem().setText(1, text.getText());
-          });
-          newEditor.selectAll();
-          newEditor.setFocus();
-          tblEdParameters.setEditor(newEditor, item, 1);
+          disposeEditor();
+          createEditor((TableItem) e.item);
         });
+  }
+
+  private void disposeEditor() {
+    Optional.ofNullable(tblEdParameters.getEditor())
+        .ifPresent(Control::dispose);
+  }
+  
+  private void createEditor(TableItem item) {
+    Text newEditor = new Text(table, SWT.NONE);
+    newEditor.setText(item.getText(1));
+    newEditor.addTraverseListener((TraverseEvent event) -> {
+      switch (event.detail) {
+        case SWT.TRAVERSE_RETURN:
+          saveSelectedParameter();
+          tblEdParameters.getEditor().dispose();
+          break;
+        case SWT.TRAVERSE_ESCAPE:
+          setActualParameter();
+          tblEdParameters.getEditor().dispose();
+          break;
+        default:
+          break;
+      }
+    });
+    newEditor.addModifyListener((ModifyEvent me) -> {
+      Text text = (Text) tblEdParameters.getEditor();
+      tblEdParameters.getItem().setText(1, text.getText());
+    });
+    newEditor.selectAll();
+    newEditor.setFocus();
+    tblEdParameters.setEditor(newEditor, item, 1);
   }
 
   private void initComponents() {
@@ -146,21 +149,17 @@ public abstract class AbstractParametersSection extends GFPropertySection
       root.layout();
     }
   }
-  
+
   private void saveSelectedParameter() {
     saveParameter(tblEdParameters.getItem().getText(0),
         tblEdParameters.getItem().getText(1));
   }
-  
-  private void setActualParameter() {
-    tblEdParameters.getItem().setText(1,
-        getParameters().stream()
-            .filter(p -> p.getKey()
-                .equals(tblEdParameters.getItem().getText(0)))
-            .findFirst().map(AbstractParametersSection::getValue)
-            .orElse(""));
-  }
 
+  private void setActualParameter() {
+    tblEdParameters.getItem().setText(1, getParameters().stream()
+        .filter(p -> p.getKey().equals(tblEdParameters.getItem().getText(0)))
+        .findFirst().map(AbstractParametersSection::getValue).orElse(""));
+  }
 
   protected abstract Collection<Parameter> getParameters();
 
