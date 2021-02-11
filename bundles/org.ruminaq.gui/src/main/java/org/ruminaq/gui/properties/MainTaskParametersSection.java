@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.function.Predicate;
 import java.util.Set;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
@@ -48,19 +49,17 @@ public class MainTaskParametersSection extends AbstractParametersSection {
     Set<String> is = getMainTask().getParameters().keySet();
     LOGGER.trace("should be {}", shouldBe.toArray());
     LOGGER.trace("is {}", is.toArray());
-    final List<String> toRemove = new LinkedList<>();
-    for (String s : is)
-      if (!shouldBe.contains(s))
-        toRemove.add(s);
+    List<String> toRemove = is.stream()
+        .filter(Predicate.not(shouldBe::contains)).collect(Collectors.toList());
+
     ModelUtil.runModelChange(
         () -> toRemove.stream().forEach(getMainTask().getParameters()::remove),
         getDiagramContainer().getDiagramBehavior().getEditingDomain(),
         "Change parameter");
 
-    final List<String> toAdd = new LinkedList<>();
-    for (String s : shouldBe)
-      if (!is.contains(s))
-        toAdd.add(s);
+    List<String> toAdd = shouldBe.stream().filter(Predicate.not(is::contains))
+        .collect(Collectors.toList());
+
     ModelUtil.runModelChange(() -> {
       for (String s : toAdd)
         getMainTask().getParameters().put(s, "");
