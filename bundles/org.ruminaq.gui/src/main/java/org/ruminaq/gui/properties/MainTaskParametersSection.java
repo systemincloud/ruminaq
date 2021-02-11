@@ -60,10 +60,10 @@ public class MainTaskParametersSection extends AbstractParametersSection {
     List<String> toAdd = shouldBe.stream().filter(Predicate.not(is::contains))
         .collect(Collectors.toList());
 
-    ModelUtil.runModelChange(() -> {
-      for (String s : toAdd)
-        getMainTask().getParameters().put(s, "");
-    }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+    ModelUtil.runModelChange(
+        () -> toAdd.stream()
+            .forEach(s -> getMainTask().getParameters().put(s, "")),
+        getDiagramContainer().getDiagramBehavior().getEditingDomain(),
         "Change parameter");
 
     return getMainTask().getParameters().entrySet().stream()
