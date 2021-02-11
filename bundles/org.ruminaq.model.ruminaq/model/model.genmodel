@@ -48,6 +48,7 @@
           body="return getOutputPort().stream().filter(ip -> ip.getId().matches(String.format(&quot;%s [1-9][0-9]*&quot;, prefix))) .collect(java.util.stream.Collectors.toList());">
         <genParameters ecoreParameter="model.ecore#//Task/getMutlipleInternalOutputPorts/prefix"/>
       </genOperations>
+      <genOperations ecoreOperation="model.ecore#//Task/getParameter" body="return java.util.Collections.emptyList();"/>
     </genClasses>
     <genClasses ecoreClass="model.ecore#//Port"/>
     <genClasses ecoreClass="model.ecore#//InternalInputPort">
@@ -113,6 +114,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Parameter/value"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Parameter/defaultValue"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute model.ecore#//Parameter/default"/>
+      <genOperations ecoreOperation="model.ecore#//Parameter/getCurrentValue" body="return java.util.Optional.of(this).filter(Parameter::isDefault) .map(Parameter::getDefaultValue).orElseGet(this::getValue);"/>
     </genClasses>
     <nestedGenPackages prefix="Debug" disposableProviderFactory="true" ecorePackage="model.ecore#//debug">
       <genClasses image="false" ecoreClass="model.ecore#//debug/Debug"/>

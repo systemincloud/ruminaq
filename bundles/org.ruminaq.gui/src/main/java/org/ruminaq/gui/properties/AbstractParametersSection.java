@@ -48,11 +48,6 @@ public abstract class AbstractParametersSection extends GFPropertySection
 
   protected TableEditor tblEdParameters;
 
-  private static String getValue(Parameter p) {
-    return Optional.of(p).filter(Parameter::isDefault)
-        .map(Parameter::getDefaultValue).orElseGet(p::getValue);
-  }
-
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -158,7 +153,7 @@ public abstract class AbstractParametersSection extends GFPropertySection
   private void setActualParameter() {
     tblEdParameters.getItem().setText(1, getParameters().stream()
         .filter(p -> p.getKey().equals(tblEdParameters.getItem().getText(0)))
-        .findFirst().map(AbstractParametersSection::getValue).orElse(""));
+        .findFirst().map(Parameter::getCurrentValue).orElse(""));
   }
 
   protected abstract Collection<Parameter> getParameters();

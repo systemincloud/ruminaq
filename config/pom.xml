@@ -23,14 +23,23 @@
     <pluginRepository>
       <id>tycho-snapshots</id>
       <url>https://repo.eclipse.org/content/repositories/tycho-snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
     </pluginRepository>
     <pluginRepository>
       <id>aspectj-snapshots</id>
       <url>https://repo.spring.io/snapshot/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
     </pluginRepository>
     <pluginRepository>
       <id>jacoco-snapshots</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
     </pluginRepository>
   </pluginRepositories>
 

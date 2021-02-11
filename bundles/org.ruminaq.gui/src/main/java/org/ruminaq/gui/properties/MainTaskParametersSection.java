@@ -11,12 +11,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import org.ruminaq.logs.ModelerLoggerFactory;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.Parameter;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
+import org.ruminaq.model.ruminaq.Task;
+import org.ruminaq.util.GlobalUtil;
 import ch.qos.logback.classic.Logger;
 
 /**
@@ -26,7 +30,7 @@ import ch.qos.logback.classic.Logger;
  */
 public class MainTaskParametersSection extends AbstractParametersSection {
 
-  private final Logger logger = ModelerLoggerFactory
+  private static final Logger LOGGER = ModelerLoggerFactory
       .getLogger(MainTaskParametersSection.class);
 
   private MainTask getMainTask() {
@@ -35,18 +39,15 @@ public class MainTaskParametersSection extends AbstractParametersSection {
 
   @Override
   protected Collection<Parameter> getParameters() {
-//    Matcher m = Pattern.compile(GlobalUtil.GV).matcher(fileContent);
-//    while (m.find()) {
-//      String tmp2 = m.group();
-//      tmp2 = tmp2.substring(2, tmp2.length() - 1);
-//      if (!ret.contains(tmp2))
-//        ret.add(tmp2);
-//    }
-//    getMainTask().getTask().stream().map(Task::)
-    Set<String> shouldBe = getMainTask().getParameters().keySet();
+    List<String> shouldBe = getMainTask().getTask().stream()
+        .map(Task::getParameter).flatMap(Collection::stream)
+        .map(Parameter::getCurrentValue)
+        .map(GlobalUtil.PARAMETER_PATTERN::matcher).flatMap(Matcher::results)
+        .map(MatchResult::group).distinct()
+        .map(s -> s.substring(2, s.length() - 1)).collect(Collectors.toList());
     Set<String> is = getMainTask().getParameters().keySet();
-    logger.trace("should be {}", shouldBe.toArray());
-    logger.trace("is {}", is.toArray());
+    LOGGER.trace("should be {}", shouldBe.toArray());
+    LOGGER.trace("is {}", is.toArray());
     final List<String> toRemove = new LinkedList<>();
     for (String s : is)
       if (!shouldBe.contains(s))

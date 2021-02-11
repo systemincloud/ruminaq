@@ -23,12 +23,14 @@ package org.ruminaq.util;
 
 import java.util.LinkedList;
 import java.util.List;
-
+import java.util.regex.Pattern;
 import com.google.common.base.CharMatcher;
 
 public class GlobalUtil {
 
   public static final String GV = "\\$\\{[^\\},]+\\}";
+  
+  public static final Pattern PARAMETER_PATTERN = Pattern.compile(GlobalUtil.GV);
 
   public static boolean isGlobalVariable(String value) {
     return value.matches(GV);
