@@ -16,9 +16,11 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.tasks.javatask.model.javatask.JavaTask;
 import org.ruminaq.tests.common.reddeer.GuiTest;
 import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
+import org.ruminaq.tests.common.reddeer.WithShapeGraphitiEditPart;
 
 /**
  * Test properties view.
@@ -106,6 +108,11 @@ public class PropertiesTest extends GuiTest {
     
     bot.text().pressShortcut(SWT.CR, SWT.LF);
 
-    bot.canvas().click(10, 10);
+    WithShapeGraphitiEditPart rd = new WithShapeGraphitiEditPart(RuminaqDiagram.class);
+    rd.click();
+    
+    propertiesView.open();
+    propertiesView.activate();
+    propertiesView.selectTab("Parameters");
   }
 }
