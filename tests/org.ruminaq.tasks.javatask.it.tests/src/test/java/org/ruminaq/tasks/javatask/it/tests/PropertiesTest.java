@@ -6,6 +6,7 @@
 
 package org.ruminaq.tasks.javatask.it.tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
@@ -114,5 +115,8 @@ public class PropertiesTest extends GuiTest {
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Parameters");
+    
+    bot.table(0).select(0);
+    assertEquals("x", bot.table().cell(0, 0));
   }
 }
