@@ -7,7 +7,6 @@
 package org.ruminaq.gui.properties;
 
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.Predicate;

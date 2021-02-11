@@ -102,7 +102,7 @@ public class PropertiesTest extends GuiTest {
 
     Thread.sleep(2000);
 
-    assertDiagram(diagramEditor, "PropertiesTest.testPropertiesTab.xml");
+    assertDiagram(diagramEditor, "PropertiesTest.testPropertiesTab.1.xml");
     
     bot.table(0).select(0);
     bot.text().setText("${x}");
@@ -118,5 +118,9 @@ public class PropertiesTest extends GuiTest {
     
     bot.table(0).select(0);
     assertEquals("x", bot.table().cell(0, 0));
+    
+    bot.text().setText("6");
+    bot.text().pressShortcut(SWT.CR, SWT.LF);
+    assertDiagram(diagramEditor, "PropertiesTest.testPropertiesTab.2.xml");
   }
 }

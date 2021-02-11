@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagram="http://ruminaq.org/diagram" xmlns:javatask="http://ruminaq.org/tasks/javatask" xmlns:ruminaq="http://ruminaq.org">
+  <diagram:RuminaqDiagram mainTask="/1">
+    <children xsi:type="diagram:TaskShape" x="200" y="100" width="120" height="70" modelObject="/1/@task.0" label="/0/@children.1" iconId="/icons/diagram.javatask.png" description="Parameters"/>
+    <children xsi:type="diagram:LabelShape" x="226" y="172" labeledShape="/0/@children.0"/>
+  </diagram:RuminaqDiagram>
+  <ruminaq:MainTask version="1.0.0">
+    <task xsi:type="javatask:JavaTask" id="My Java Task" implementationPath="test.Parameters">
+      <parameter key="x" value="${x}" defaultValue="0" default="false"/>
+      <parameter key="y" defaultValue="2"/>
+    </task>
+    <parameters key="x" value="6"/>
+  </ruminaq:MainTask>
+</xmi:XMI>
