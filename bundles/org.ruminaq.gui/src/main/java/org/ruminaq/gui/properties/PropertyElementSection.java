@@ -9,7 +9,6 @@ package org.ruminaq.gui.properties;
 import java.util.Optional;
 import java.util.function.Predicate;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
 import org.eclipse.graphiti.services.Graphiti;
@@ -42,8 +41,6 @@ public class PropertyElementSection extends GFPropertySection
   private String created;
   private Composite parent;
 
-  private Composite composite;
-
   private CLabel lblId;
   private Text txtId;
 
@@ -64,7 +61,7 @@ public class PropertyElementSection extends GFPropertySection
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
-    composite = new Composite(parent, SWT.NULL);
+    Composite composite = new Composite(parent, SWT.NULL);
     composite.setLayout(new GridLayout(2, false));
 
     lblId = new CLabel(composite, SWT.NONE);
