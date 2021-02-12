@@ -28,19 +28,23 @@ import com.google.common.base.CharMatcher;
 
 public class GlobalUtil {
 
-  public static final String GV = "\\$\\{[^\\},]+\\}";
+  public static final String PARAMETER_PREFIX = "${";
   
-  public static final Pattern PARAMETER_PATTERN = Pattern.compile(GlobalUtil.GV);
+  public static final String PARAMETER_SUFFIX = "}";
+
+  public static final String PARAMETER_REGEX = "\\$\\{[^\\},]+\\}";
+  
+  public static final Pattern PARAMETER_PATTERN = Pattern.compile(GlobalUtil.PARAMETER_REGEX);
 
   public static boolean isGlobalVariable(String value) {
-    return value.matches(GV);
+    return value.matches(PARAMETER_REGEX);
   }
 
   /*
    * Example: '4, %n[5,6] , 3, 4,5'
    */
   public static boolean isDimensionsAlsoGVandRand(String value) {
-    String tmp = value.replaceAll(GV, "1");
+    String tmp = value.replaceAll(PARAMETER_REGEX, "1");
     tmp = RandomUtil.replaceAllRandomsWith(tmp, "1");
     return isDimensions(tmp);
   }
@@ -49,7 +53,7 @@ public class GlobalUtil {
    * Example: '4, ${xxx} , 3, 4,5'
    */
   public static boolean isDimensionsAlsoGV(String value) {
-    String tmp = value.replaceAll(GV, "1");
+    String tmp = value.replaceAll(PARAMETER_REGEX, "1");
     return isDimensions(tmp);
   }
 
@@ -71,13 +75,13 @@ public class GlobalUtil {
   }
 
   public static boolean isIntegerAlsoGVandRand(String value) {
-    String tmp = value.replaceAll(GV, "1");
+    String tmp = value.replaceAll(PARAMETER_REGEX, "1");
     tmp = RandomUtil.replaceAllRandomsWith(tmp, "1");
     return isInteger(tmp);
   }
 
   public static boolean isIntegerAlsoGV(String value) {
-    String tmp = value.replaceAll(GV, "1");
+    String tmp = value.replaceAll(PARAMETER_REGEX, "1");
     return isInteger(tmp);
   }
 
@@ -88,13 +92,13 @@ public class GlobalUtil {
   public static boolean isTimeAlsoGVandRand(String time) {
     if (GlobalUtil.isGlobalVariable(time))
       return true;
-    String tmp = time.replaceAll(GV, "1");
+    String tmp = time.replaceAll(PARAMETER_REGEX, "1");
     tmp = RandomUtil.replaceAllRandomsWith(tmp, "1");
     return isTime(tmp);
   }
 
   public static boolean isTimeAlsoGV(String time) {
-    String tmp = time.replaceAll(GV, "1");
+    String tmp = time.replaceAll(PARAMETER_REGEX, "1");
     return isTime(tmp);
   }
 

@@ -413,7 +413,7 @@ public class EmbeddedTaskI extends TaskI {
     String ret = string;
     String tmp;
     StringBuffer sb = new StringBuffer();
-    Matcher m = Pattern.compile(GlobalUtil.GV).matcher(string);
+    Matcher m = Pattern.compile(GlobalUtil.PARAMETER_REGEX).matcher(string);
     int lastIdx = 0;
     while (m.find()) {
       int start = m.start();

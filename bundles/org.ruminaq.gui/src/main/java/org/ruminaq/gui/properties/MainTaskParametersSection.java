@@ -44,26 +44,22 @@ public class MainTaskParametersSection extends AbstractParametersSection {
         .map(Parameter::getCurrentValue)
         .map(GlobalUtil.PARAMETER_PATTERN::matcher).flatMap(Matcher::results)
         .map(MatchResult::group).distinct()
-        .map(s -> s.substring(2, s.length() - 1)).collect(Collectors.toList());
+        .map(s -> s.substring(GlobalUtil.PARAMETER_PREFIX.length(),
+            s.length() - GlobalUtil.PARAMETER_SUFFIX.length()))
+        .collect(Collectors.toList());
     Set<String> is = getMainTask().getParameters().keySet();
     LOGGER.trace("should be {}", shouldBe.toArray());
     LOGGER.trace("is {}", is.toArray());
     List<String> toRemove = is.stream()
         .filter(Predicate.not(shouldBe::contains)).collect(Collectors.toList());
-
-    ModelUtil.runModelChange(
-        () -> toRemove.stream().forEach(getMainTask().getParameters()::remove),
-        getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-        "Change parameter");
-
     List<String> toAdd = shouldBe.stream().filter(Predicate.not(is::contains))
         .collect(Collectors.toList());
 
-    ModelUtil.runModelChange(
-        () -> toAdd.stream()
-            .forEach(s -> getMainTask().getParameters().put(s, "")),
-        getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-        "Change parameter");
+    ModelUtil.runModelChange(() -> {
+      toRemove.stream().forEach(getMainTask().getParameters()::remove);
+      toAdd.stream().forEach(s -> getMainTask().getParameters().put(s, ""));
+    }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+        "Update parameters");
 
     return getMainTask().getParameters().entrySet().stream()
         .map((Entry<String, String> e) -> {

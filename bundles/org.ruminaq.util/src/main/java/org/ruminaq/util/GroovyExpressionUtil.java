@@ -30,7 +30,7 @@ public class GroovyExpressionUtil {
   public static boolean isOneDimIntegerAlsoGV(String value) {
     if (GlobalUtil.isGlobalVariable(value))
       return true;
-    String expression = value.replaceAll(GlobalUtil.GV, "1");
+    String expression = value.replaceAll(GlobalUtil.PARAMETER_REGEX, "1");
     if (expression.contains(";"))
       return false;
     GroovyShell shell = new GroovyShell(new Binding());
@@ -43,7 +43,7 @@ public class GroovyExpressionUtil {
   public static boolean isOneDimNumericAlsoGV(String value) {
     if (GlobalUtil.isGlobalVariable(value))
       return true;
-    String expression = value.replaceAll(GlobalUtil.GV, "1");
+    String expression = value.replaceAll(GlobalUtil.PARAMETER_REGEX, "1");
     if (expression.contains(";"))
       return false;
     GroovyShell shell = new GroovyShell(new Binding());
