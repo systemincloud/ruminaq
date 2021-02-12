@@ -121,6 +121,9 @@ public class PropertiesTest extends GuiTest {
     
     bot.text().setText("6");
     bot.text().pressShortcut(SWT.CR, SWT.LF);
+
+    Thread.sleep(2000);
+
     assertDiagram(diagramEditor, "PropertiesTest.testPropertiesTab.2.xml");
   }
 }
