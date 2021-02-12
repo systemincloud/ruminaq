@@ -44,7 +44,7 @@ public class FlowTargetAnchor extends ChopboxAnchorImpl {
 
   @Override
   public EList<Connection> getIncomingConnections() {
-    return new BasicInternalEList<Connection>(Connection.class,
+    return new BasicInternalEList<>(Connection.class,
         shape.getIncomingConnections());
   }
 
