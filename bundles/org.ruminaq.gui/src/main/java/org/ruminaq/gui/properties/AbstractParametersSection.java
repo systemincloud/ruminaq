@@ -48,6 +48,14 @@ public abstract class AbstractParametersSection extends GFPropertySection
 
   protected TableEditor tblEdParameters;
 
+  /**
+   *  _________________________
+   *  |   Key    |   Value    |
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~
+   *  | paramKey | paramValue |
+   *  |          |            |
+   *  ~~~~~~~~~~~~~~~~~~~~~~~~~
+   */
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {

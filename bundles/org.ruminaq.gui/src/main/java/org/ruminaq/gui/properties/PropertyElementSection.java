@@ -58,14 +58,6 @@ public class PropertyElementSection extends GFPropertySection
     initLayout(parent);
     initActions();
     initComponents();
-
-    Object bo = Graphiti.getLinkService()
-        .getBusinessObjectForLinkedPictogramElement(
-            getSelectedPictogramElement());
-//		if (bo != null && bo instanceof Task) {
-//			taskManager.addToGeneralTab(composite, (Task) bo,
-//			    getDiagramContainer().getDiagramBehavior().getEditingDomain());
-//		}
   }
 
   private void initLayout(Composite parent) {
@@ -84,25 +76,9 @@ public class PropertyElementSection extends GFPropertySection
   private void initActions() {
     txtId.addTraverseListener((TraverseEvent event) -> {
       if (event.detail == SWT.TRAVERSE_RETURN) {
-        Shell shell = txtId.getShell();
-
-        if (txtId.getText().length() < 1) {
-          MessageDialog.openError(shell, "Can not edit value",
-              "Please enter any text as element id.");
-          return;
-        } else if (txtId.getText().contains("\n")) {
-          MessageDialog.openError(shell, "Can not edit value",
-              "Line breakes are not allowed in class names.");
-          return;
-        } else if (DirectEditLabelFeature.hasId(getDiagram(),
-            getSelectedPictogramElement(), txtId.getText())) {
-          MessageDialog.openError(shell, "Can not edit value",
-              "Model has already id " + txtId.getText() + ".");
+        if (!validate(txtId)) {
           return;
         }
-
-        TransactionalEditingDomain editingDomain = getDiagramContainer()
-            .getDiagramBehavior().getEditingDomain();
 
         ModelUtil.runModelChange(() -> {
           Object bo = Graphiti.getLinkService()
@@ -128,9 +104,31 @@ public class PropertyElementSection extends GFPropertySection
               }
             }
           }
-        }, editingDomain, "Model Update");
+        }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+            "Model Update");
       }
     });
+  }
+
+  private boolean validate(Text txt) {
+    String id = txt.getText();
+    Shell shell = txt.getShell();
+    if (id.length() < 1) {
+      MessageDialog.openError(shell, "Can not edit value",
+          "Please enter any text as element id.");
+      return false;
+    } else if (id.contains("\n")) {
+      MessageDialog.openError(shell, "Can not edit value",
+          "Line breakes are not allowed in class names.");
+      return false;
+    } else if (DirectEditLabelFeature.hasId(getDiagram(),
+        getSelectedPictogramElement(), id)) {
+      MessageDialog.openError(shell, "Can not edit value",
+          "Model has already id " + id + ".");
+      return false;
+    }
+
+    return true;
   }
 
   private void initComponents() {
@@ -157,10 +155,7 @@ public class PropertyElementSection extends GFPropertySection
               .map(LabeledRuminaqShape::getModelObject).map(BaseElement::getId);
 
         });
-    id.ifPresent((String i) -> {
-      this.created = i;
-    });
-
+    id.ifPresent(i -> this.created = i);
     id.ifPresent(txtId::setText);
   }
 }
