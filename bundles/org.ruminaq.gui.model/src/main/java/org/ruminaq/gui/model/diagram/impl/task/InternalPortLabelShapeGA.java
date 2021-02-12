@@ -8,6 +8,7 @@ package org.ruminaq.gui.model.diagram.impl.task;
 
 import java.util.Optional;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.graphiti.datatypes.IDimension;
 import org.eclipse.graphiti.mm.algorithms.impl.TextImpl;
 import org.eclipse.graphiti.mm.algorithms.styles.Color;
 import org.eclipse.graphiti.mm.algorithms.styles.Font;
@@ -29,6 +30,12 @@ import org.ruminaq.model.ruminaq.BaseElement;
  * @author Marek Jagielski
  */
 public class InternalPortLabelShapeGA extends TextImpl {
+
+  private static double ROTATION_HORIZONTAL = 0.0;
+
+  private static double ROTATION_VERTICAL = -90.0;
+
+  private static double TRANSPARENCY_LABEL = 0.5;
 
   public static final Font FONT = StylesFactory.eINSTANCE.createFont();
 
@@ -82,19 +89,17 @@ public class InternalPortLabelShapeGA extends TextImpl {
 
     @Override
     public int getWidth() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getHeight();
+      return valueTextSize().getHeight();
     }
 
     @Override
     public int getHeight() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getWidth();
+      return valueTextSize().getWidth();
     }
 
     @Override
     public Double getRotation() {
-      return -90.0;
+      return ROTATION_VERTICAL;
     }
   }
 
@@ -121,19 +126,17 @@ public class InternalPortLabelShapeGA extends TextImpl {
 
     @Override
     public int getWidth() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getHeight();
+      return valueTextSize().getHeight();
     }
 
     @Override
     public int getHeight() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getWidth();
+      return valueTextSize().getWidth();
     }
 
     @Override
     public Double getRotation() {
-      return -90.0;
+      return ROTATION_VERTICAL;
     }
   }
 
@@ -154,24 +157,22 @@ public class InternalPortLabelShapeGA extends TextImpl {
     @Override
     public int getY() {
       return internalPortShape.getY()
-          - (getHeight() - internalPortShape.getHeight() >> 1);
+          - ((getHeight() - internalPortShape.getHeight()) >> 1);
     }
 
     @Override
     public int getWidth() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getWidth();
+      return valueTextSize().getWidth();
     }
 
     @Override
     public int getHeight() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getHeight();
+      return valueTextSize().getHeight();
     }
 
     @Override
     public Double getRotation() {
-      return 0.0;
+      return ROTATION_HORIZONTAL;
     }
   }
 
@@ -193,24 +194,22 @@ public class InternalPortLabelShapeGA extends TextImpl {
     @Override
     public int getY() {
       return internalPortShape.getY()
-          - (getHeight() - internalPortShape.getWidth() >> 1);
+          - ((getHeight() - internalPortShape.getWidth()) >> 1);
     }
 
     @Override
     public int getWidth() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getWidth();
+      return valueTextSize().getWidth();
     }
 
     @Override
     public int getHeight() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getHeight();
+      return valueTextSize().getHeight();
     }
 
     @Override
     public Double getRotation() {
-      return 0.0;
+      return ROTATION_HORIZONTAL;
     }
   }
 
@@ -235,19 +234,17 @@ public class InternalPortLabelShapeGA extends TextImpl {
 
     @Override
     public int getWidth() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getWidth();
+      return valueTextSize().getWidth();
     }
 
     @Override
     public int getHeight() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getHeight();
+      return valueTextSize().getHeight();
     }
 
     @Override
     public Double getRotation() {
-      return 0.0;
+      return ROTATION_HORIZONTAL;
     }
 
   }
@@ -271,19 +268,17 @@ public class InternalPortLabelShapeGA extends TextImpl {
 
     @Override
     public int getWidth() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getWidth();
+      return valueTextSize().getWidth();
     }
 
     @Override
     public int getHeight() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getHeight();
+      return valueTextSize().getHeight();
     }
 
     @Override
     public Double getRotation() {
-      return 0.0;
+      return ROTATION_HORIZONTAL;
     }
 
   }
@@ -310,19 +305,17 @@ public class InternalPortLabelShapeGA extends TextImpl {
 
     @Override
     public int getWidth() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getWidth();
+      return valueTextSize().getWidth();
     }
 
     @Override
     public int getHeight() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getHeight();
+      return valueTextSize().getHeight();
     }
 
     @Override
     public Double getRotation() {
-      return 0.0;
+      return ROTATION_HORIZONTAL;
     }
 
   }
@@ -347,21 +340,23 @@ public class InternalPortLabelShapeGA extends TextImpl {
 
     @Override
     public int getWidth() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getWidth();
+      return valueTextSize().getWidth();
     }
 
     @Override
     public int getHeight() {
-      return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT)
-          .getHeight();
+      return valueTextSize().getHeight();
     }
 
     @Override
     public Double getRotation() {
-      return 0.0;
+      return ROTATION_HORIZONTAL;
     }
 
+  }
+
+  private IDimension valueTextSize() {
+    return GraphitiUi.getUiLayoutService().calculateTextSize(getValue(), FONT);
   }
 
   /**
@@ -458,7 +453,7 @@ public class InternalPortLabelShapeGA extends TextImpl {
 
   @Override
   public Double getTransparency() {
-    return 0.5D;
+    return TRANSPARENCY_LABEL;
   }
 
   @Override
