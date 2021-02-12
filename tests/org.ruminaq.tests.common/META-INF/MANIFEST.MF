@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.reddeer.junit,
  org.hamcrest.core,
  org.opentest4j,
  org.apiguardian,
- org.eclipse.swt
+ org.eclipse.swt,
+ org.eclipse.swtbot.swt.finder
 Export-Package: org.ruminaq.tests.common,
  org.ruminaq.tests.common.reddeer
 Import-Package: org.apache.commons.lang3,
@@ -76,6 +77,7 @@ Import-Package: org.apache.commons.lang3,
  org.eclipse.reddeer.swt.api,
  org.eclipse.reddeer.workbench.workbenchmenu,
  org.eclipse.swtbot.eclipse.finder,
+ org.eclipse.swtbot.swt.finder.keyboard,
  org.eclipse.swtbot.eclipse.finder.matchers,
  org.eclipse.swtbot.eclipse.finder.waits,
  org.eclipse.swtbot.eclipse.finder.widgets,
