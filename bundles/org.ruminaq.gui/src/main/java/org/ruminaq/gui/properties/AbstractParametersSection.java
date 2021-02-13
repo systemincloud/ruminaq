@@ -49,6 +49,8 @@ public abstract class AbstractParametersSection extends GFPropertySection
   protected TableEditor tblEdParameters;
 
   /**
+   * Table with key and value.
+   *
    *  _________________________
    *  |   Key    |   Value    |
    *  ~~~~~~~~~~~~~~~~~~~~~~~~~
