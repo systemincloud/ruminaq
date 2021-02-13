@@ -8,6 +8,7 @@ package org.ruminaq.gui.properties;
 
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.ContainerShape;
@@ -142,8 +143,7 @@ public class PropertyElementSection extends GFPropertySection
         .map(BaseElement::getId);
     id = id.filter(Predicate.not(i -> i.equals(created)))
         .flatMap((String i) -> {
-          for (Control control : parent.getChildren())
-            control.dispose();
+          Stream.of(parent.getChildren()).forEach(Control::dispose);
           create(parent);
           parent.layout();
           return Optional.of(getSelectedPictogramElement())
