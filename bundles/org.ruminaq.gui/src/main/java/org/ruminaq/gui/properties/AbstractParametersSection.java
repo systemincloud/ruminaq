@@ -51,12 +51,14 @@ public abstract class AbstractParametersSection extends GFPropertySection
   /**
    * Table with key and value.
    *
+   * <p>
    *  _________________________
    *  |   Key    |   Value    |
    *  ~~~~~~~~~~~~~~~~~~~~~~~~~
    *  | paramKey | paramValue |
    *  |          |            |
    *  ~~~~~~~~~~~~~~~~~~~~~~~~~
+   * </p>
    */
   @Override
   public void createControls(Composite parent,
