@@ -9,10 +9,8 @@ package org.ruminaq.gui.properties;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
-import org.eclipse.graphiti.mm.pictograms.ContainerShape;
-import org.eclipse.graphiti.services.Graphiti;
+import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -29,10 +27,12 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.gui.features.directediting.DirectEditLabelFeature;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.LabeledRuminaqShape;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
 import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.ModelUtil;
 
 /**
+ * Base configuration of RuminaqShapes.
  *
  * @author Marek Jagielski
  */
@@ -44,6 +44,15 @@ public class PropertyElementSection extends GFPropertySection
 
   private CLabel lblId;
   private Text txtId;
+
+  private static Optional<RuminaqShape> shapeFrom(PictogramElement pe) {
+    return Optional.ofNullable(pe).filter(RuminaqShape.class::isInstance)
+        .map(RuminaqShape.class::cast);
+  }
+
+  private static Optional<BaseElement> modelFrom(PictogramElement pe) {
+    return shapeFrom(pe).map(RuminaqShape::getModelObject);
+  }
 
   @Override
   public void createControls(Composite parent,
@@ -77,31 +86,22 @@ public class PropertyElementSection extends GFPropertySection
         if (!validate(txtId)) {
           return;
         }
-
         ModelUtil.runModelChange(() -> {
-          Object bo = Graphiti.getLinkService()
-              .getBusinessObjectForLinkedPictogramElement(
-                  getSelectedPictogramElement());
-          if (bo == null)
-            return;
-          String id = txtId.getText();
-          if (id != null) {
-            if (bo instanceof BaseElement) {
-              BaseElement element = (BaseElement) bo;
-              element.setId(id);
-
-              for (EObject o : getSelectedPictogramElement().getLink()
-                  .getBusinessObjects()) {
-                if (o instanceof ContainerShape
-                    && LabelShape.class.isInstance(o)) {
-                  UpdateContext context = new UpdateContext((ContainerShape) o);
-                  getDiagramTypeProvider().getFeatureProvider()
-                      .updateIfPossible(context);
-                  break;
-                }
-              }
+          modelFrom(getSelectedPictogramElement()).ifPresent(bo -> {
+            String id = txtId.getText();
+            if (id != null) {
+              bo.setId(id);
+              shapeFrom(getSelectedPictogramElement())
+                  .filter(LabeledRuminaqShape.class::isInstance)
+                  .map(LabeledRuminaqShape.class::cast)
+                  .map(LabeledRuminaqShape::getLabel)
+                  .ifPresent((LabelShape ls) -> {
+                    UpdateContext context = new UpdateContext(ls);
+                    getDiagramTypeProvider().getFeatureProvider()
+                        .updateIfPossible(context);
+                  });
             }
-          }
+          });
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Model Update");
       }
