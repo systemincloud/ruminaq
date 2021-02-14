@@ -39,6 +39,8 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 public class PropertyElementSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
+  private static final String VALIDATION_WINDOW_NAME = "Can not edit value";
+
   private String created;
   private Composite parent;
 
@@ -112,16 +114,16 @@ public class PropertyElementSection extends GFPropertySection
     String id = txt.getText();
     Shell shell = txt.getShell();
     if (id.length() < 1) {
-      MessageDialog.openError(shell, "Can not edit value",
+      MessageDialog.openError(shell, VALIDATION_WINDOW_NAME,
           "Please enter any text as element id.");
       return false;
     } else if (id.contains("\n")) {
-      MessageDialog.openError(shell, "Can not edit value",
+      MessageDialog.openError(shell, VALIDATION_WINDOW_NAME,
           "Line breakes are not allowed in class names.");
       return false;
     } else if (DirectEditLabelFeature.hasId(getDiagram(),
         getSelectedPictogramElement(), id)) {
-      MessageDialog.openError(shell, "Can not edit value",
+      MessageDialog.openError(shell, VALIDATION_WINDOW_NAME,
           "Model has already id " + id + ".");
       return false;
     }
