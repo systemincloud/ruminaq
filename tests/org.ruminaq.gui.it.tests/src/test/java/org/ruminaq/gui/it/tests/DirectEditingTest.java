@@ -36,6 +36,8 @@ public class DirectEditingTest extends GuiTest {
 
     assertDiagram(diagramEditor, "DirectEditingTest.testEditLabel.xml");
     
+    addToolFromPalette("Output Port", 300, 300);
+
     new WithBoGraphitiEditPart(InputPort.class).select();
     
     PropertySheet propertiesView = new PropertySheet();
@@ -46,6 +48,13 @@ public class DirectEditingTest extends GuiTest {
     
     bot.text().setText("");
     
+    bot.text().pressShortcut(SWT.CR, SWT.LF);
+
+    bot.button("OK").click();
+
+    propertiesView.activate();
+    bot.text().setText("My Output Port");
+
     bot.text().pressShortcut(SWT.CR, SWT.LF);
 
     bot.button("OK").click();
