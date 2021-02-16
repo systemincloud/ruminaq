@@ -34,7 +34,7 @@ public class DirectEditingTest extends GuiTest {
 
     Thread.sleep(1000);
 
-    assertDiagram(diagramEditor, "DirectEditingTest.testEditLabel.xml");
+    assertDiagram(diagramEditor, "DirectEditingTest.testEditLabel.1.xml");
     
     addToolFromPalette("Output Port", 300, 300);
 
@@ -58,6 +58,12 @@ public class DirectEditingTest extends GuiTest {
     bot.text().pressShortcut(SWT.CR, SWT.LF);
 
     bot.button("OK").click();
+    
+    bot.text().setText("New Label");
+
+    bot.text().pressShortcut(SWT.CR, SWT.LF);
+    
+    assertDiagram(diagramEditor, "DirectEditingTest.testEditLabel.2.xml");
   }
 
 }
