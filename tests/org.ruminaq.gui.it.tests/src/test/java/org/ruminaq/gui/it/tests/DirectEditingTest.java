@@ -6,11 +6,15 @@
 
 package org.ruminaq.gui.it.tests;
 
+import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.graphiti.impl.graphitieditpart.LabeledGraphitiEditPart;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
+import org.eclipse.swt.SWT;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.tests.common.reddeer.GuiTest;
+import org.ruminaq.tests.common.reddeer.WithBoGraphitiEditPart;
 
 /**
  * Test adding basic elements to diagram.
@@ -31,6 +35,20 @@ public class DirectEditingTest extends GuiTest {
     Thread.sleep(1000);
 
     assertDiagram(diagramEditor, "DirectEditingTest.testEditLabel.xml");
+    
+    new WithBoGraphitiEditPart(InputPort.class).select();
+    
+    PropertySheet propertiesView = new PropertySheet();
+
+    propertiesView.open();
+    propertiesView.activate();
+    propertiesView.selectTab("General");
+    
+    bot.text().setText("");
+    
+    bot.text().pressShortcut(SWT.CR, SWT.LF);
+
+    bot.button("OK").click();
   }
 
 }
