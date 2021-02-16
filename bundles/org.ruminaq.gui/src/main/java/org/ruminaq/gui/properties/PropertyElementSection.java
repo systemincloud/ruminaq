@@ -88,26 +88,27 @@ public class PropertyElementSection extends GFPropertySection
         if (!validate(txtId)) {
           return;
         }
-        ModelUtil.runModelChange(() -> {
-          modelFrom(getSelectedPictogramElement()).ifPresent(bo -> {
-            String id = txtId.getText();
-            if (id != null) {
-              bo.setId(id);
-              shapeFrom(getSelectedPictogramElement())
-                  .filter(LabeledRuminaqShape.class::isInstance)
-                  .map(LabeledRuminaqShape.class::cast)
-                  .map(LabeledRuminaqShape::getLabel)
-                  .ifPresent((LabelShape ls) -> {
-                    UpdateContext context = new UpdateContext(ls);
-                    getDiagramTypeProvider().getFeatureProvider()
-                        .updateIfPossible(context);
-                  });
-            }
-          });
-        }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+        ModelUtil.runModelChange(() -> modelFrom(getSelectedPictogramElement())
+            .ifPresent(bo -> Optional.ofNullable(txtId.getText())
+                .ifPresent((String id) -> {
+                  bo.setId(id);
+                  refreshLabel();
+                })),
+            getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Model Update");
       }
     });
+  }
+
+  private void refreshLabel() {
+    shapeFrom(getSelectedPictogramElement())
+        .filter(LabeledRuminaqShape.class::isInstance)
+        .map(LabeledRuminaqShape.class::cast).map(LabeledRuminaqShape::getLabel)
+        .ifPresent((LabelShape ls) -> {
+          UpdateContext context = new UpdateContext(ls);
+          getDiagramTypeProvider().getFeatureProvider()
+              .updateIfPossible(context);
+        });
   }
 
   private boolean validate(Text txt) {
