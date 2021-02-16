@@ -39,6 +39,8 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 public class PropertyElementSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
+  protected static final int TWO_COLUMNS = 2;
+
   private static final String VALIDATION_WINDOW_NAME = "Can not edit value";
 
   private String created;
@@ -74,7 +76,7 @@ public class PropertyElementSection extends GFPropertySection
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
     Composite composite = new Composite(parent, SWT.NULL);
-    composite.setLayout(new GridLayout(2, false));
+    composite.setLayout(new GridLayout(TWO_COLUMNS, false));
 
     lblId = new CLabel(composite, SWT.NONE);
 
