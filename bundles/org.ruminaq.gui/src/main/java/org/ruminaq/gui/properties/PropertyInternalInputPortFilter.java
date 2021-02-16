@@ -11,11 +11,17 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 import org.ruminaq.gui.model.diagram.InternalInputPortShape;
 
+/**
+ * InternalInputPort properties filter.
+ *
+ * @author Marek Jagielski
+ */
 public class PropertyInternalInputPortFilter
     extends AbstractPropertySectionFilter {
 
   @Override
   protected boolean accept(PictogramElement pe) {
-    return Optional.of(pe).filter(InternalInputPortShape.class::isInstance).isPresent();
+    return Optional.of(pe).filter(InternalInputPortShape.class::isInstance)
+        .isPresent();
   }
 }
