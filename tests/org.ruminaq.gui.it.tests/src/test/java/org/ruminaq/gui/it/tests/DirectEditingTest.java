@@ -63,6 +63,8 @@ public class DirectEditingTest extends GuiTest {
 
     bot.text().pressShortcut(SWT.CR, SWT.LF);
     
+    Thread.sleep(1000);
+
     assertDiagram(diagramEditor, "DirectEditingTest.testEditLabel.2.xml");
   }
 
