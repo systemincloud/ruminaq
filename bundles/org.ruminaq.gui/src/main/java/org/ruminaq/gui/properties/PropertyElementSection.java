@@ -20,7 +20,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
@@ -49,6 +48,56 @@ public class PropertyElementSection extends GFPropertySection
   private CLabel lblId;
   private Text txtId;
 
+  private interface Validator extends Predicate<String> {
+    String getMessage();
+  }
+
+  private class EmptyValidator implements Validator {
+
+    private static final String MSG = "Please enter any text as element id.";
+
+    @Override
+    public boolean test(String id) {
+      return id.length() > 0;
+    }
+
+    @Override
+    public String getMessage() {
+      return MSG;
+    }
+  }
+
+  private class NewLineValidator implements Validator {
+
+    private static final String MSG = "Line breakes are not allowed in class names.";
+
+    @Override
+    public boolean test(String id) {
+      return !id.contains("\n");
+    }
+
+    @Override
+    public String getMessage() {
+      return MSG;
+    }
+  }
+
+  private class ExistsValidator implements Validator {
+
+    private static final String MSG = "Model has already id.";
+
+    @Override
+    public boolean test(String id) {
+      return !DirectEditLabelFeature.hasId(getDiagram(),
+          getSelectedPictogramElement(), id);
+    }
+
+    @Override
+    public String getMessage() {
+      return MSG;
+    }
+  }
+
   private static Optional<RuminaqShape> shapeFrom(PictogramElement pe) {
     return Optional.ofNullable(pe).filter(RuminaqShape.class::isInstance)
         .map(RuminaqShape.class::cast);
@@ -58,6 +107,13 @@ public class PropertyElementSection extends GFPropertySection
     return shapeFrom(pe).map(RuminaqShape::getModelObject);
   }
 
+  /**
+   * Layout.
+   *
+   *     __________
+   * Id: |        |
+   *     ~~~~~~~~~~
+   */
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -115,23 +171,13 @@ public class PropertyElementSection extends GFPropertySection
 
   private boolean validate(Text txt) {
     String id = txt.getText();
-    Shell shell = txt.getShell();
-    if (id.length() < 1) {
-      MessageDialog.openError(shell, VALIDATION_WINDOW_NAME,
-          "Please enter any text as element id.");
-      return false;
-    } else if (id.contains("\n")) {
-      MessageDialog.openError(shell, VALIDATION_WINDOW_NAME,
-          "Line breakes are not allowed in class names.");
-      return false;
-    } else if (DirectEditLabelFeature.hasId(getDiagram(),
-        getSelectedPictogramElement(), id)) {
-      MessageDialog.openError(shell, VALIDATION_WINDOW_NAME,
-          "Model has already id " + id + ".");
-      return false;
-    }
-
-    return true;
+    Optional<Validator> error = Stream
+        .<Validator>of(new EmptyValidator(), new NewLineValidator(),
+            new ExistsValidator())
+        .filter(Predicate.not(v -> v.test(id))).findFirst();
+    error.ifPresent(e -> MessageDialog.openError(txt.getShell(),
+        VALIDATION_WINDOW_NAME, e.getMessage()));
+    return error.isEmpty();
   }
 
   private void initComponents() {
