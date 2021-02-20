@@ -68,6 +68,9 @@ public class PropertyEmbeddedTaskSection
             .isPresent();
   }
 
+  /**
+   * Use customized 'Open Resource' dialog.
+   */
   @Override
   protected SelectionListener selectSelectionListener() {
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {

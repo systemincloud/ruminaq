@@ -12,7 +12,6 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.FocusAdapter;
@@ -23,12 +22,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.eclipse.SelectionNotDefaultListener;
@@ -39,6 +36,10 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.util.GlobalUtil;
 import org.ruminaq.util.NumericUtil;
 
+/**
+ * 
+ * @author Marek Jagielski
+ */
 public class PropertyInputPortSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
@@ -58,7 +59,6 @@ public class PropertyInputPortSection extends GFPropertySection
     initLayout(parent);
     initComponents();
     initActions();
-    addStyles();
   }
 
   private void initLayout(Composite parent) {
@@ -184,18 +184,6 @@ public class PropertyInputPortSection extends GFPropertySection
         });
   }
 
-  private void addStyles() {
-    root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    lblQueueSize
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    txtQueueSize
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    lblGroup
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    spnGroup
-        .setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-  }
-
   @Override
   public void refresh() {
     PictogramElement pe = getSelectedPictogramElement();
@@ -215,10 +203,5 @@ public class PropertyInputPortSection extends GFPropertySection
 
     btnHoldLast.setEnabled(!btnAsync.getSelection());
     spnGroup.setEnabled(!btnAsync.getSelection());
-  }
-
-  @Override
-  public void setInput(IWorkbenchPart part, ISelection selection) {
-    super.setInput(part, selection);
   }
 }
