@@ -58,6 +58,15 @@ public class PropertyEmbeddedTaskSection
         .map(IFile.class::cast);
   }
 
+  private static boolean startsWithPath(Object element, Path path) {
+    return folderRelativePath(element)
+        .filter(dirs -> dirs.matchingFirstSegments(path) >= 3).isPresent()
+        || folderRelativePath(element)
+            .filter(p -> IntStream.range(1, path.segmentCount())
+                .mapToObj(path::uptoSegment).anyMatch(p::equals))
+            .isPresent();
+  }
+
   @Override
   protected SelectionListener selectSelectionListener() {
     return (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
@@ -82,20 +91,8 @@ public class PropertyEmbeddedTaskSection
     fileDialog.addFilter(new ViewerFilter() {
       @Override
       public boolean select(Viewer arg0, Object parent, Object element) {
-        return folderRelativePath(element)
-            .filter(dirs -> dirs.matchingFirstSegments(MAIN_PATH) >= 3)
-            .isPresent()
-            || folderRelativePath(element)
-                .filter(p -> IntStream.range(1, MAIN_PATH.segmentCount())
-                    .mapToObj(MAIN_PATH::uptoSegment).anyMatch(p::equals))
-                .isPresent()
-            || folderRelativePath(element)
-                .filter(dirs -> dirs.matchingFirstSegments(TEST_PATH) >= 3)
-                .isPresent()
-            || folderRelativePath(element)
-                .filter(p -> IntStream.range(1, TEST_PATH.segmentCount())
-                    .mapToObj(TEST_PATH::uptoSegment).anyMatch(p::equals))
-                .isPresent()
+        return startsWithPath(element, MAIN_PATH)
+            || startsWithPath(element, TEST_PATH)
             || (file(element).map(IFile::getFileExtension)
                 .filter(CreateDiagramWizard.EXTENSION::equals).isPresent()
                 && file(element).map(IFile::getFullPath).map(IPath::toString)
