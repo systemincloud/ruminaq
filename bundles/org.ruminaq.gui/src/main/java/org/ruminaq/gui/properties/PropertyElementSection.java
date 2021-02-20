@@ -52,7 +52,7 @@ public class PropertyElementSection extends GFPropertySection
     String getMessage();
   }
 
-  private class EmptyValidator implements Validator {
+  private static class EmptyValidator implements Validator {
 
     private static final String MSG = "Please enter any text as element id.";
 
@@ -67,7 +67,7 @@ public class PropertyElementSection extends GFPropertySection
     }
   }
 
-  private class NewLineValidator implements Validator {
+  private static class NewLineValidator implements Validator {
 
     private static final String MSG = "Line breakes are not allowed in class names.";
 
@@ -110,9 +110,11 @@ public class PropertyElementSection extends GFPropertySection
   /**
    * Layout.
    *
+   * <p>
    *     __________
    * Id: |        |
    *     ~~~~~~~~~~
+   * </p>
    */
   @Override
   public void createControls(Composite parent,
