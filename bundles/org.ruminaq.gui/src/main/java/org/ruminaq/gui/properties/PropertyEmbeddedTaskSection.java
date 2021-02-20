@@ -60,7 +60,8 @@ public class PropertyEmbeddedTaskSection
 
   private static boolean startsWithPath(Object element, Path path) {
     return folderRelativePath(element)
-        .filter(dirs -> dirs.matchingFirstSegments(path) >= 3).isPresent()
+        .filter(dirs -> dirs.matchingFirstSegments(path) >= path.segmentCount())
+        .isPresent()
         || folderRelativePath(element)
             .filter(p -> IntStream.range(1, path.segmentCount())
                 .mapToObj(path::uptoSegment).anyMatch(p::equals))
