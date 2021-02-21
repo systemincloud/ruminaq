@@ -163,19 +163,10 @@ public class PropertyInputPortSection extends GFPropertySection
     });
     spnGroup.addSelectionListener(
         (SelectionNotDefaultListener) (SelectionEvent se) -> {
-          ModelUtil.runModelChange(() -> {
-            PictogramElement pe = getSelectedPictogramElement();
-            if (pe == null)
-              return;
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            if (bo == null)
-              return;
-            if (bo instanceof InputPort) {
-              InputPort p = (InputPort) bo;
-              p.setGroup(spnGroup.getSelection());
-            }
-          }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+          ModelUtil.runModelChange(
+              () -> modelFrom(getSelectedPictogramElement())
+                  .ifPresent(p -> p.setGroup(spnGroup.getSelection())),
+              getDiagramContainer().getDiagramBehavior().getEditingDomain(),
               "Model Update");
           refresh();
         });
