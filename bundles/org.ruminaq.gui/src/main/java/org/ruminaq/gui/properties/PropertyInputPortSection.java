@@ -9,7 +9,6 @@ package org.ruminaq.gui.properties;
 import java.util.Optional;
 import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
@@ -37,13 +36,13 @@ import org.ruminaq.util.GlobalUtil;
 import org.ruminaq.util.NumericUtil;
 
 /**
- * 
+ * PropertySection for InputPort.
+ *
  * @author Marek Jagielski
  */
 public class PropertyInputPortSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
-  private Composite root;
   private Button btnAsync;
   private Button btnHoldLast;
   private Label lblQueueSize;
@@ -75,7 +74,7 @@ public class PropertyInputPortSection extends GFPropertySection
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
-    root = new Composite(parent, SWT.NULL);
+    Composite root = new Composite(parent, SWT.NULL);
     root.setLayout(new GridLayout(2, false));
 
     btnAsync = new Button(root, SWT.CHECK);
@@ -118,15 +117,14 @@ public class PropertyInputPortSection extends GFPropertySection
                   spnGroup.setEnabled(!btnAsync.getSelection());
                 }),
                 getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-                "Model Update"));
+                "Change InputPort async"));
     btnHoldLast.addSelectionListener(
-        (SelectionNotDefaultListener) (SelectionEvent se) -> {
-          ModelUtil.runModelChange(
-              () -> modelFrom(getSelectedPictogramElement())
-                  .ifPresent(p -> p.setHoldLast(btnHoldLast.getSelection())),
-              getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-              "Model Update");
-        });
+        (SelectionNotDefaultListener) (SelectionEvent se) -> ModelUtil
+            .runModelChange(
+                () -> modelFrom(getSelectedPictogramElement())
+                    .ifPresent(p -> p.setHoldLast(btnHoldLast.getSelection())),
+                getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+                "Change InputPort hold"));
     txtQueueSize.addFocusListener(new FocusAdapter() {
       @Override
       public void focusLost(FocusEvent event) {
@@ -137,29 +135,24 @@ public class PropertyInputPortSection extends GFPropertySection
             || GlobalUtil.isGlobalVariable(txtQueueSize.getText())
             || AbstractCreateUserDefinedTaskPage.INF
                 .equals(txtQueueSize.getText());
-        PictogramElement pe = getSelectedPictogramElement();
-        if (pe == null)
-          return;
-        Object bo = Graphiti.getLinkService()
-            .getBusinessObjectForLinkedPictogramElement(pe);
-        if (bo == null || !(bo instanceof InputPort))
-          return;
-        final InputPort ip = (InputPort) bo;
-        if (parse) {
-          ModelUtil.runModelChange(
-              () -> ip.setQueueSize(txtQueueSize.getText()),
-              getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-              "Change queque size");
-        } else {
-          MessageDialog.openError(shell, "Can't edit value",
-              "Don't understant value");
-          txtQueueSize.setText(ip.getQueueSize());
-        }
+        modelFrom(getSelectedPictogramElement()).ifPresent((InputPort ip) -> {
+          if (parse) {
+            ModelUtil.runModelChange(
+                () -> ip.setQueueSize(txtQueueSize.getText()),
+                getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+                "Change queque size");
+          } else {
+            MessageDialog.openError(shell, "Can't edit value",
+                "Don't understant value");
+            txtQueueSize.setText(ip.getQueueSize());
+          }
+        });
       }
     });
     txtQueueSize.addTraverseListener((TraverseEvent event) -> {
-      if (event.detail == SWT.TRAVERSE_RETURN)
+      if (event.detail == SWT.TRAVERSE_RETURN) {
         btnAsync.setFocus();
+      }
     });
     spnGroup.addSelectionListener(
         (SelectionNotDefaultListener) (SelectionEvent se) -> {
