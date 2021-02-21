@@ -121,14 +121,10 @@ public class PropertyInputPortSection extends GFPropertySection
                 "Model Update"));
     btnHoldLast.addSelectionListener(
         (SelectionNotDefaultListener) (SelectionEvent se) -> {
-          ModelUtil.runModelChange(() -> {
-            Optional.ofNullable(getSelectedPictogramElement())
-                .filter(InputPortShape.class::isInstance)
-                .map(InputPortShape.class::cast)
-                .map(InputPortShape::getModelObject)
-                .filter(InputPort.class::isInstance).map(InputPort.class::cast)
-                .ifPresent(p -> p.setHoldLast(btnHoldLast.getSelection()));
-          }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+          ModelUtil.runModelChange(
+              () -> modelFrom(getSelectedPictogramElement())
+                  .ifPresent(p -> p.setHoldLast(btnHoldLast.getSelection())),
+              getDiagramContainer().getDiagramBehavior().getEditingDomain(),
               "Model Update");
         });
     txtQueueSize.addFocusListener(new FocusAdapter() {
