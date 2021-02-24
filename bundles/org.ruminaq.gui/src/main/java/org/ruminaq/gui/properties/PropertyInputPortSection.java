@@ -66,6 +66,7 @@ public class PropertyInputPortSection extends GFPropertySection
   /**
    * Layout.
    *
+   *<p>
    * [] Asynchronous [] Hold last
    *             _______
    * Queue size: |     |
@@ -73,6 +74,7 @@ public class PropertyInputPortSection extends GFPropertySection
    *             ___________
    * Group:      |     |-|+|
    *             ~~~~~~~~~~~
+   *</p>
    */
   @Override
   public void createControls(Composite parent,
