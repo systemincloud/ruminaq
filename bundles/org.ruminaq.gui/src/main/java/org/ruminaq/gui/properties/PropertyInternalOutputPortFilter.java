@@ -11,6 +11,11 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
 import org.ruminaq.gui.model.diagram.InternalOutputPortShape;
 
+/**
+ * InternalOutputPort properties filter.
+ *
+ * @author Marek Jagielski
+ */
 public class PropertyInternalOutputPortFilter
     extends AbstractPropertySectionFilter {
 
