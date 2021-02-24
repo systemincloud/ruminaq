@@ -81,7 +81,9 @@ public class AddTest extends GuiTest {
 
     propertiesView.open();
     propertiesView.activate();
+    propertiesView.selectTab("Description");
     propertiesView.selectTab("General");
+    propertiesView.selectTab("Input Port");
   }
 
   @Test
