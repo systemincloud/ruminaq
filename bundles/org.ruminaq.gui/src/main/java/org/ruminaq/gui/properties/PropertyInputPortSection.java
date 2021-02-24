@@ -128,21 +128,14 @@ public class PropertyInputPortSection extends GFPropertySection
     txtQueueSize.addFocusListener(new FocusAdapter() {
       @Override
       public void focusLost(FocusEvent event) {
-        Shell shell = txtQueueSize.getShell();
-        boolean parse = (NumericUtil
-            .isOneDimPositiveInteger(txtQueueSize.getText())
-            && Integer.parseInt(txtQueueSize.getText()) != 0)
-            || GlobalUtil.isGlobalVariable(txtQueueSize.getText())
-            || AbstractCreateUserDefinedTaskPage.INF
-                .equals(txtQueueSize.getText());
         modelFrom(getSelectedPictogramElement()).ifPresent((InputPort ip) -> {
-          if (parse) {
+          if (validateQueueSize()) {
             ModelUtil.runModelChange(
                 () -> ip.setQueueSize(txtQueueSize.getText()),
                 getDiagramContainer().getDiagramBehavior().getEditingDomain(),
                 "Change queque size");
           } else {
-            MessageDialog.openError(shell, "Can't edit value",
+            MessageDialog.openError(txtQueueSize.getShell(), "Can't edit value",
                 "Don't understant value");
             txtQueueSize.setText(ip.getQueueSize());
           }
@@ -163,6 +156,13 @@ public class PropertyInputPortSection extends GFPropertySection
               "Model Update");
           refresh();
         });
+  }
+
+  private boolean validateQueueSize() {
+    return (NumericUtil.isOneDimPositiveInteger(txtQueueSize.getText())
+        && Integer.parseInt(txtQueueSize.getText()) != 0)
+        || GlobalUtil.isGlobalVariable(txtQueueSize.getText())
+        || AbstractCreateUserDefinedTaskPage.INF.equals(txtQueueSize.getText());
   }
 
   @Override
