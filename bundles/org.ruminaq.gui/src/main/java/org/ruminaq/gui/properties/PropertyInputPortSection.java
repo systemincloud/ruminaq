@@ -63,6 +63,17 @@ public class PropertyInputPortSection extends GFPropertySection
         .filter(InputPort.class::isInstance).map(InputPort.class::cast);
   }
 
+  /**
+   * Layout.
+   *
+   * [] Asynchronous [] Hold last
+   *             _______
+   * Queue size: |     |
+   *             ~~~~~~~
+   *             ___________
+   * Group:      |     |-|+|
+   *             ~~~~~~~~~~~
+   */
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {
