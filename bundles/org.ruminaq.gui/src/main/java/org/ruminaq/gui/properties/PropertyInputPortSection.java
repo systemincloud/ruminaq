@@ -22,7 +22,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
@@ -42,6 +41,10 @@ import org.ruminaq.util.NumericUtil;
  */
 public class PropertyInputPortSection extends GFPropertySection
     implements ITabbedPropertyConstants {
+
+  private static final int TWO_COLUMNS = 2;
+  private static final int QUEUE_WIDTH = 40;
+  private static final int GROUP_WIDTH = 80;
 
   private Button btnAsync;
   private Button btnHoldLast;
@@ -75,22 +78,22 @@ public class PropertyInputPortSection extends GFPropertySection
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
 
     Composite root = new Composite(parent, SWT.NULL);
-    root.setLayout(new GridLayout(2, false));
+    root.setLayout(new GridLayout(TWO_COLUMNS, false));
 
     btnAsync = new Button(root, SWT.CHECK);
     btnHoldLast = new Button(root, SWT.CHECK);
     lblQueueSize = new Label(root, SWT.NONE);
     txtQueueSize = new Text(root, SWT.BORDER);
     GridData lytQueue = new GridData();
-    lytQueue.minimumWidth = 40;
-    lytQueue.widthHint = 40;
+    lytQueue.minimumWidth = QUEUE_WIDTH;
+    lytQueue.widthHint = QUEUE_WIDTH;
     txtQueueSize.setLayoutData(lytQueue);
 
     lblGroup = new CLabel(root, SWT.NONE);
     spnGroup = new Spinner(root, SWT.BORDER);
     GridData lytGroup = new GridData();
-    lytGroup.minimumWidth = 80;
-    lytGroup.widthHint = 80;
+    lytGroup.minimumWidth = GROUP_WIDTH;
+    lytGroup.widthHint = GROUP_WIDTH;
     spnGroup.setLayoutData(lytGroup);
   }
 
