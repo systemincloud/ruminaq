@@ -84,6 +84,10 @@ public class AddTest extends GuiTest {
     propertiesView.selectTab("Description");
     propertiesView.selectTab("General");
     propertiesView.selectTab("Input Port");
+    
+    bot.checkBox("Asynchronous").click();
+    Thread.sleep(1000);
+    assertDiagram(diagramEditor, "AddTest.testAddInputPort.1.xml");
   }
 
   @Test
