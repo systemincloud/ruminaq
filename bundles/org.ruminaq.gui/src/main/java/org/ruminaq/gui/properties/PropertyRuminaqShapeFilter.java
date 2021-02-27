@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.AbstractPropertySectionFilter;
+import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.gui.model.diagram.LabelShape;
 import org.ruminaq.gui.model.diagram.RuminaqShape;
 
@@ -24,6 +25,7 @@ public class PropertyRuminaqShapeFilter extends AbstractPropertySectionFilter {
   @Override
   protected boolean accept(PictogramElement pe) {
     return Optional.of(pe).filter(RuminaqShape.class::isInstance)
-        .filter(Predicate.not(LabelShape.class::isInstance)).isPresent();
+        .filter(Predicate.not(LabelShape.class::isInstance))
+        .filter(Predicate.not(InternalPortShape.class::isInstance)).isPresent();
   }
 }
