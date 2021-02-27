@@ -7,7 +7,6 @@
 package org.ruminaq.gui.properties;
 
 import java.util.Optional;
-import org.eclipse.graphiti.features.context.impl.UpdateContext;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -66,15 +65,15 @@ public class PropertyInputPortSection extends GFPropertySection
   /**
    * Layout.
    *
-   *<p>
+   * <p>
    * [] Asynchronous [] Hold last
-   *             _______
-   * Queue size: |     |
-   *             ~~~~~~~
-   *             ___________
-   * Group:      |     |-|+|
-   *             ~~~~~~~~~~~
-   *</p>
+   * _______
+   * Queue size: | |
+   * ~~~~~~~
+   * ___________
+   * Group: | |-|+|
+   * ~~~~~~~~~~~
+   * </p>
    */
   @Override
   public void createControls(Composite parent,
@@ -125,10 +124,6 @@ public class PropertyInputPortSection extends GFPropertySection
             .runModelChange(() -> modelFrom(getSelectedPictogramElement())
                 .ifPresent((InputPort p) -> {
                   p.setAsynchronous(btnAsync.getSelection());
-                  UpdateContext context = new UpdateContext(
-                      getSelectedPictogramElement());
-                  getDiagramTypeProvider().getFeatureProvider()
-                      .updateIfPossible(context);
                   btnHoldLast.setEnabled(!btnAsync.getSelection());
                   spnGroup.setEnabled(!btnAsync.getSelection());
                 }),

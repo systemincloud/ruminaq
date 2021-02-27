@@ -88,6 +88,10 @@ public class AddTest extends GuiTest {
     bot.checkBox("Asynchronous").click();
     Thread.sleep(1000);
     assertDiagram(diagramEditor, "AddTest.testAddInputPort.1.xml");
+    bot.checkBox("Asynchronous").click();
+    bot.checkBox("Hold last").click();
+    Thread.sleep(1000);
+    assertDiagram(diagramEditor, "AddTest.testAddInputPort.2.xml");
   }
 
   @Test
