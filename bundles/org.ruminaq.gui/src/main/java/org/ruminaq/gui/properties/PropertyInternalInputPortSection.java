@@ -39,6 +39,11 @@ import org.ruminaq.util.GlobalUtil;
 import org.ruminaq.util.NumericUtil;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
+/**
+ * PropertySection for InternalInputPort.
+ *
+ * @author Marek Jagielski
+ */
 public class PropertyInternalInputPortSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
@@ -66,9 +71,6 @@ public class PropertyInternalInputPortSection extends GFPropertySection
   private Button btnHoldLast;
   private Button btnDefaultHoldLast;
 
-  /**
-   * @wbp.parser.entryPoint
-   */
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {
@@ -363,10 +365,5 @@ public class PropertyInternalInputPortSection extends GFPropertySection
 
     }
     lblTypeOfData.getParent().layout();
-  }
-
-  @Override
-  public void setInput(IWorkbenchPart part, ISelection selection) {
-    super.setInput(part, selection);
   }
 }
