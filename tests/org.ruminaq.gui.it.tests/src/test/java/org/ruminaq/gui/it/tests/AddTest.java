@@ -95,6 +95,8 @@ public class AddTest extends GuiTest {
     assertDiagram(diagramEditor, "AddTest.testAddInputPort.2.xml");
     bot.text().setText("2");
     bot.text().pressShortcut(SWT.CR, SWT.LF);
+    bot.spinner().setSelection(3);
+    Thread.sleep(1000);
     assertDiagram(diagramEditor, "AddTest.testAddInputPort.3.xml");
   }
 

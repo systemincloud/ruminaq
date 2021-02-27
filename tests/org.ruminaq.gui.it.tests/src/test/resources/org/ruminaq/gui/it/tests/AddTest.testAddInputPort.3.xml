@@ -9,7 +9,7 @@
     <children xsi:type="diagram:LabelShape" x="176" y="317" labeledShape="/0/@children.4"/>
   </diagram:RuminaqDiagram>
   <ruminaq:MainTask version="1.0.0">
-    <inputPort id="My Input Port" queueSize="2" holdLast="true"/>
+    <inputPort id="My Input Port" queueSize="2" holdLast="true" group="3"/>
     <inputPort id="My Input Port 1"/>
     <inputPort id="My Input Port 2"/>
   </ruminaq:MainTask>
