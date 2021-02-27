@@ -16,6 +16,7 @@ import org.eclipse.reddeer.graphiti.api.ContextButton;
 import org.eclipse.reddeer.graphiti.impl.graphitieditpart.LabeledGraphitiEditPart;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
 import org.eclipse.reddeer.swt.api.MenuItem;
+import org.eclipse.swt.SWT;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.gui.model.diagram.SimpleConnectionPointShape;
@@ -92,6 +93,9 @@ public class AddTest extends GuiTest {
     bot.checkBox("Hold last").click();
     Thread.sleep(1000);
     assertDiagram(diagramEditor, "AddTest.testAddInputPort.2.xml");
+    bot.text().setText("2");
+    bot.text().pressShortcut(SWT.CR, SWT.LF);
+    assertDiagram(diagramEditor, "AddTest.testAddInputPort.3.xml");
   }
 
   @Test
