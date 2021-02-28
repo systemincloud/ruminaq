@@ -22,7 +22,8 @@ import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
 
 /**
- * 
+ * PropertySection for InternalOutputPort.
+ *
  * @author Marek Jagielski
  */
 public class PropertyInternalOutputPortSection extends GFPropertySection
@@ -39,7 +40,6 @@ public class PropertyInternalOutputPortSection extends GFPropertySection
     super.createControls(parent, tabbedPropertySheetPage);
 
     initLayout(parent);
-    initActions();
     initComponents();
     addStyles();
   }
@@ -54,9 +54,6 @@ public class PropertyInternalOutputPortSection extends GFPropertySection
 
     lblTypeOfData = toolkit.createLabel(composite, "", SWT.NONE);
     dataTypeValue = toolkit.createLabel(composite, "", SWT.NONE);
-  }
-
-  private void initActions() {
   }
 
   private void initComponents() {
