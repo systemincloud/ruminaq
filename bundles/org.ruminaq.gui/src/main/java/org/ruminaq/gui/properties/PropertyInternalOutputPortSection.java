@@ -6,8 +6,8 @@
 
 package org.ruminaq.gui.properties;
 
+import java.util.Optional;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -17,8 +17,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
+import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.model.ruminaq.DataType;
-import org.ruminaq.model.ruminaq.InternalOutputPort;
+import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
 
 /**
@@ -29,10 +30,22 @@ import org.ruminaq.model.ruminaq.ModelUtil;
 public class PropertyInternalOutputPortSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
+  private static final int TWO_COLUMNS = 2;
+
   private Label lblId;
   private Label lblIdValue;
   private Label lblTypeOfData;
   private Label dataTypeValue;
+
+  private static Optional<InternalPortShape> shapeFrom(PictogramElement pe) {
+    return Optional.ofNullable(pe).filter(InternalPortShape.class::isInstance)
+        .map(InternalPortShape.class::cast);
+  }
+
+  private static Optional<InternalPort> modelFrom(PictogramElement pe) {
+    return shapeFrom(pe).map(InternalPortShape::getModelObject)
+        .filter(InternalPort.class::isInstance).map(InternalPort.class::cast);
+  }
 
   @Override
   public void createControls(Composite parent,
@@ -47,7 +60,7 @@ public class PropertyInternalOutputPortSection extends GFPropertySection
   private void initLayout(Composite parent) {
     FormToolkit toolkit = new FormToolkit(parent.getDisplay());
     Composite composite = toolkit.createComposite(parent, SWT.WRAP);
-    composite.setLayout(new GridLayout(2, false));
+    composite.setLayout(new GridLayout(TWO_COLUMNS, false));
 
     lblId = toolkit.createLabel(composite, "", SWT.NONE);
     lblIdValue = toolkit.createLabel(composite, "", SWT.NONE);
@@ -67,17 +80,8 @@ public class PropertyInternalOutputPortSection extends GFPropertySection
 
   @Override
   public void refresh() {
-    PictogramElement pe = getSelectedPictogramElement();
-    if (pe != null) {
-      Object bo = Graphiti.getLinkService()
-          .getBusinessObjectForLinkedPictogramElement(pe);
-      if (bo == null)
-        return;
-      final InternalOutputPort ip = (InternalOutputPort) bo;
-
+    modelFrom(getSelectedPictogramElement()).ifPresent(ip -> {
       lblIdValue.setText(ip.getId());
-
-      // Data type
       StringBuilder dataType = new StringBuilder();
       for (DataType dt : ip.getDataType())
         dataType.append(ModelUtil.getName(dt.getClass(), false)).append(", ");
@@ -85,7 +89,8 @@ public class PropertyInternalOutputPortSection extends GFPropertySection
         dataType.delete(dataType.length() - 2, dataType.length());
 
       dataTypeValue.setText(dataType.toString());
-    }
-    lblTypeOfData.getParent().layout();
+
+      lblTypeOfData.getParent().layout();
+    });
   }
 }
