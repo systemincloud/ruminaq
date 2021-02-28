@@ -135,8 +135,8 @@ public class PropertyInternalInputPortSection extends GFPropertySection
   }
 
   private void initActions() {
-    btnPreventLostDefault.addSelectionListener(
-        (WidgetSelectedSelectionListener) (SelectionEvent se) -> ModelUtil
+    btnPreventLostDefault
+        .addSelectionListener((WidgetSelectedSelectionListener) se -> ModelUtil
             .runModelChange(() -> modelFrom(getSelectedPictogramElement())
                 .ifPresent((InternalInputPort iip) -> {
                   iip.setPreventLostDefault(
@@ -151,31 +151,17 @@ public class PropertyInternalInputPortSection extends GFPropertySection
                 getDiagramContainer().getDiagramBehavior().getEditingDomain(),
                 "Model Update"));
     btnPreventLost.addSelectionListener(
-        (WidgetSelectedSelectionListener) (SelectionEvent se) -> ModelUtil
-            .runModelChange(
-                () -> modelFrom(getSelectedPictogramElement()).ifPresent(
-                    iip -> iip.setPreventLost(btnPreventLost.getSelection())),
-                getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-                "Model Update"));
+        (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
+            () -> modelFrom(getSelectedPictogramElement()).ifPresent(
+                iip -> iip.setPreventLost(btnPreventLost.getSelection())),
+            getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+            "Model Update"));
     btnIgnoreLossyCast.addSelectionListener(
-        (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
-          ModelUtil.runModelChange(new Runnable() {
-            public void run() {
-              PictogramElement pe = getSelectedPictogramElement();
-              if (pe == null)
-                return;
-              Object bo = Graphiti.getLinkService()
-                  .getBusinessObjectForLinkedPictogramElement(pe);
-              if (bo == null)
-                return;
-              if (bo instanceof InternalInputPort) {
-                InternalInputPort iip = (InternalInputPort) bo;
-                iip.setIgnoreLossyCast(btnIgnoreLossyCast.getSelection());
-              }
-            }
-          }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-              "Change console type");
-        });
+        (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
+            () -> modelFrom(getSelectedPictogramElement()).ifPresent(iip -> iip
+                .setIgnoreLossyCast(btnIgnoreLossyCast.getSelection())),
+            getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+            "Change console type"));
     txtQueueSize.addFocusListener(new FocusAdapter() {
       @Override
       public void focusLost(FocusEvent event) {
@@ -227,32 +213,28 @@ public class PropertyInternalInputPortSection extends GFPropertySection
         if (bo == null || !(bo instanceof InternalInputPort))
           return;
         final InternalInputPort iip = (InternalInputPort) bo;
-        ModelUtil.runModelChange(new Runnable() {
-          public void run() {
-            iip.setQueueSize(iip.getDefaultQueueSize());
-            refresh();
-          }
+        ModelUtil.runModelChange(() -> {
+          iip.setQueueSize(iip.getDefaultQueueSize());
+          refresh();
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Change console type");
       }
     });
     btnHoldLast.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
-          ModelUtil.runModelChange(new Runnable() {
-            public void run() {
-              PictogramElement pe = getSelectedPictogramElement();
-              if (pe == null)
-                return;
-              Object bo = Graphiti.getLinkService()
-                  .getBusinessObjectForLinkedPictogramElement(pe);
-              if (bo == null)
-                return;
-              if (bo instanceof InternalInputPort) {
-                InternalInputPort iip = (InternalInputPort) bo;
-                iip.setHoldLast(btnHoldLast.getSelection());
-                btnDefaultHoldLast
-                    .setEnabled(iip.isDefaultHoldLast() != iip.isHoldLast());
-              }
+          ModelUtil.runModelChange(() -> {
+            PictogramElement pe = getSelectedPictogramElement();
+            if (pe == null)
+              return;
+            Object bo = Graphiti.getLinkService()
+                .getBusinessObjectForLinkedPictogramElement(pe);
+            if (bo == null)
+              return;
+            if (bo instanceof InternalInputPort) {
+              InternalInputPort iip = (InternalInputPort) bo;
+              iip.setHoldLast(btnHoldLast.getSelection());
+              btnDefaultHoldLast
+                  .setEnabled(iip.isDefaultHoldLast() != iip.isHoldLast());
             }
           }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
               "Change console type");
