@@ -15,8 +15,6 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.layout.GridData;
@@ -212,42 +210,21 @@ public class PropertyInternalInputPortSection extends GFPropertySection
                 }, getDiagramContainer().getDiagramBehavior()
                     .getEditingDomain(), "Change console type")));
     btnHoldLast.addSelectionListener(
-        (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
-          ModelUtil.runModelChange(() -> {
-            PictogramElement pe = getSelectedPictogramElement();
-            if (pe == null)
-              return;
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            if (bo == null)
-              return;
-            if (bo instanceof InternalInputPort) {
-              InternalInputPort iip = (InternalInputPort) bo;
+        (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
+            () -> modelFrom(getSelectedPictogramElement()).ifPresent(iip -> {
               iip.setHoldLast(btnHoldLast.getSelection());
               btnDefaultHoldLast
                   .setEnabled(iip.isDefaultHoldLast() != iip.isHoldLast());
-            }
-          }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-              "Change console type");
-        });
+            }), getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+            "Change console type"));
     btnDefaultHoldLast
-        .addSelectionListener((WidgetSelectedSelectionListener) se -> {
-          PictogramElement pe = getSelectedPictogramElement();
-          if (pe == null)
-            return;
-          Object bo = Graphiti.getLinkService()
-              .getBusinessObjectForLinkedPictogramElement(pe);
-          if (bo == null || !(bo instanceof InternalInputPort))
-            return;
-          final InternalInputPort iip = (InternalInputPort) bo;
-          ModelUtil.runModelChange(new Runnable() {
-            public void run() {
-              iip.setHoldLast(iip.isDefaultHoldLast());
-              refresh();
-            }
-          }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-              "Change console type");
-        });
+        .addSelectionListener((WidgetSelectedSelectionListener) se -> modelFrom(
+            getSelectedPictogramElement())
+                .ifPresent(iip -> ModelUtil.runModelChange(() -> {
+                  iip.setHoldLast(iip.isDefaultHoldLast());
+                  refresh();
+                }, getDiagramContainer().getDiagramBehavior()
+                    .getEditingDomain(), "Change console type")));
   }
 
   private void initComponents() {
