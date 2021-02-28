@@ -45,7 +45,6 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
 public class PropertyInternalInputPortSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
-  private Composite root;
   private Label lblId;
   private Label lblIdValue;
   private Label lblTypeOfData;
@@ -54,7 +53,6 @@ public class PropertyInternalInputPortSection extends GFPropertySection
   private Label lblGroup;
   private Label lblGroupValue;
   private Label lblSyncConn;
-  private Composite cmpPreventLost;
   private Button btnPreventLostDefault;
   private Button btnPreventLost;
   private Label lblAsynchronousValue;
@@ -82,7 +80,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
 
   private void initLayout(Composite parent) {
     FormToolkit toolkit = new FormToolkit(parent.getDisplay());
-    root = toolkit.createComposite(parent, SWT.WRAP);
+    Composite root = toolkit.createComposite(parent, SWT.WRAP);
     root.setLayout(new GridLayout(2, false));
 
     lblId = toolkit.createLabel(root, "", SWT.NONE);
@@ -98,7 +96,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     lblGroupValue = toolkit.createLabel(root, "", SWT.NONE);
 
     lblSyncConn = toolkit.createLabel(root, "", SWT.NONE);
-    cmpPreventLost = toolkit.createComposite(root, SWT.NONE);
+    Composite cmpPreventLost = toolkit.createComposite(root, SWT.NONE);
     cmpPreventLost.setLayout(new GridLayout(2, false));
     btnPreventLostDefault = new Button(cmpPreventLost, SWT.CHECK);
     btnPreventLost = new Button(cmpPreventLost, SWT.CHECK);
