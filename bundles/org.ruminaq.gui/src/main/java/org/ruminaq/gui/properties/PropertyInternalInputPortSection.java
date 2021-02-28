@@ -136,34 +136,27 @@ public class PropertyInternalInputPortSection extends GFPropertySection
 
   private void initActions() {
     btnPreventLostDefault.addSelectionListener(
-        (WidgetSelectedSelectionListener) (SelectionEvent se) -> {
-          ModelUtil.runModelChange(new Runnable() {
-            public void run() {
-              modelFrom(getSelectedPictogramElement())
-                  .ifPresent((InternalInputPort iip) -> {
-                    iip.setPreventLostDefault(
-                        btnPreventLostDefault.getSelection());
-                    btnPreventLost
-                        .setEnabled(!btnPreventLostDefault.getSelection());
-                    if (btnPreventLostDefault.getSelection()) {
-                      iip.setPreventLost(iip.isPreventLostDefault());
-                      btnPreventLost.setSelection(iip.isPreventLostDefault());
-                    }
-                  });
-            }
-          }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-              "Model Update");
-        });
+        (WidgetSelectedSelectionListener) (SelectionEvent se) -> ModelUtil
+            .runModelChange(() -> modelFrom(getSelectedPictogramElement())
+                .ifPresent((InternalInputPort iip) -> {
+                  iip.setPreventLostDefault(
+                      btnPreventLostDefault.getSelection());
+                  btnPreventLost
+                      .setEnabled(!btnPreventLostDefault.getSelection());
+                  if (btnPreventLostDefault.getSelection()) {
+                    iip.setPreventLost(iip.isPreventLostDefault());
+                    btnPreventLost.setSelection(iip.isPreventLostDefault());
+                  }
+                }),
+                getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+                "Model Update"));
     btnPreventLost.addSelectionListener(
-        (WidgetSelectedSelectionListener) (SelectionEvent se) -> {
-          ModelUtil
-              .runModelChange(() -> modelFrom(getSelectedPictogramElement())
-                  .ifPresent((InternalInputPort iip) -> {
-                    iip.setPreventLost(btnPreventLost.getSelection());
-                  }),
-                  getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-                  "Model Update");
-        });
+        (WidgetSelectedSelectionListener) (SelectionEvent se) -> ModelUtil
+            .runModelChange(
+                () -> modelFrom(getSelectedPictogramElement()).ifPresent(
+                    iip -> iip.setPreventLost(btnPreventLost.getSelection())),
+                getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+                "Model Update"));
     btnIgnoreLossyCast.addSelectionListener(
         (WidgetSelectedSelectionListener) (SelectionEvent e) -> {
           ModelUtil.runModelChange(new Runnable() {
