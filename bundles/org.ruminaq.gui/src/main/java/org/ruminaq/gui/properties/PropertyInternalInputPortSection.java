@@ -6,6 +6,7 @@
 
 package org.ruminaq.gui.properties;
 
+import java.util.Optional;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
@@ -29,6 +30,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
+import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.InternalInputPort;
@@ -66,6 +68,17 @@ public class PropertyInternalInputPortSection extends GFPropertySection
   private Label lblHoldLast;
   private Button btnHoldLast;
   private Button btnDefaultHoldLast;
+
+  private static Optional<InternalPortShape> shapeFrom(PictogramElement pe) {
+    return Optional.ofNullable(pe).filter(InternalPortShape.class::isInstance)
+        .map(InternalPortShape.class::cast);
+  }
+
+  private static Optional<InternalInputPort> modelFrom(PictogramElement pe) {
+    return shapeFrom(pe).map(InternalPortShape::getModelObject)
+        .filter(InternalInputPort.class::isInstance)
+        .map(InternalInputPort.class::cast);
+  }
 
   @Override
   public void createControls(Composite parent,
@@ -309,58 +322,55 @@ public class PropertyInternalInputPortSection extends GFPropertySection
 
   @Override
   public void refresh() {
-    PictogramElement pe = getSelectedPictogramElement();
-    if (pe != null) {
-      Object bo = Graphiti.getLinkService()
-          .getBusinessObjectForLinkedPictogramElement(pe);
-      if (bo == null)
-        return;
-      final InternalInputPort ip = (InternalInputPort) bo;
+    modelFrom(getSelectedPictogramElement())
+        .ifPresent((InternalInputPort ip) -> {
+          lblIdValue.setText(ip.getId());
 
-      lblIdValue.setText(ip.getId());
+          // Data type
+          StringBuilder dataType = new StringBuilder();
+          for (DataType dt : ip.getDataType())
+            dataType.append(ModelUtil.getName(dt.getClass(), false))
+                .append(", ");
+          if (dataType.length() > 2)
+            dataType.delete(dataType.length() - 2, dataType.length());
 
-      // Data type
-      StringBuilder dataType = new StringBuilder();
-      for (DataType dt : ip.getDataType())
-        dataType.append(ModelUtil.getName(dt.getClass(), false)).append(", ");
-      if (dataType.length() > 2)
-        dataType.delete(dataType.length() - 2, dataType.length());
+          dataTypeValue.setText(dataType.toString());
 
-      dataTypeValue.setText(dataType.toString());
+          lblAsynchronousValue.setText(Boolean.toString(ip.isAsynchronous()));
+          lblGroupValue.setText(
+              ip.getGroup() == -1 ? "None" : Integer.toString(ip.getGroup()));
 
-      lblAsynchronousValue.setText(Boolean.toString(ip.isAsynchronous()));
-      lblGroupValue.setText(
-          ip.getGroup() == -1 ? "None" : Integer.toString(ip.getGroup()));
+          if (ip.isPreventLostDefault()) {
+            btnPreventLostDefault.setSelection(true);
+            btnPreventLost.setEnabled(false);
+          } else {
+            btnPreventLostDefault.setSelection(false);
+            btnPreventLost.setSelection(ip.isPreventLost());
+            btnPreventLost.setEnabled(true);
+          }
 
-      if (ip.isPreventLostDefault()) {
-        btnPreventLostDefault.setSelection(true);
-        btnPreventLost.setEnabled(false);
-      } else {
-        btnPreventLostDefault.setSelection(false);
-        btnPreventLost.setSelection(ip.isPreventLost());
-        btnPreventLost.setEnabled(true);
-      }
+          btnIgnoreLossyCast.setSelection(ip.isIgnoreLossyCast());
+          txtQueueSize.setText(ip.getQueueSize());
+          btnHoldLast.setSelection(ip.isHoldLast());
 
-      btnIgnoreLossyCast.setSelection(ip.isIgnoreLossyCast());
-      txtQueueSize.setText(ip.getQueueSize());
-      btnHoldLast.setSelection(ip.isHoldLast());
+          boolean quequeVisible = !((ip.isAsynchronous()
+              || !ip.getTask().isAtomic())
+              && ip.getTask() instanceof EmbeddedTask);
+          lblQueueSize.setVisible(quequeVisible);
+          cmpQueueSize.setVisible(quequeVisible);
+          if (quequeVisible)
+            btnDefaultQueueSize.setEnabled(
+                !ip.getDefaultQueueSize().equals(ip.getQueueSize()));
 
-      boolean quequeVisible = !((ip.isAsynchronous()
-          || !ip.getTask().isAtomic()) && ip.getTask() instanceof EmbeddedTask);
-      lblQueueSize.setVisible(quequeVisible);
-      cmpQueueSize.setVisible(quequeVisible);
-      if (quequeVisible)
-        btnDefaultQueueSize
-            .setEnabled(!ip.getDefaultQueueSize().equals(ip.getQueueSize()));
+          boolean holdVisible = !(ip.isAsynchronous()
+              || !ip.getTask().isAtomic());
+          lblHoldLast.setVisible(holdVisible);
+          cmpHoldLast.setVisible(holdVisible);
+          if (holdVisible)
+            btnDefaultHoldLast
+                .setEnabled(ip.isDefaultHoldLast() != ip.isHoldLast());
 
-      boolean holdVisible = !(ip.isAsynchronous() || !ip.getTask().isAtomic());
-      lblHoldLast.setVisible(holdVisible);
-      cmpHoldLast.setVisible(holdVisible);
-      if (holdVisible)
-        btnDefaultHoldLast
-            .setEnabled(ip.isDefaultHoldLast() != ip.isHoldLast());
-
-    }
-    lblTypeOfData.getParent().layout();
+          lblTypeOfData.getParent().layout();
+        });
   }
 }

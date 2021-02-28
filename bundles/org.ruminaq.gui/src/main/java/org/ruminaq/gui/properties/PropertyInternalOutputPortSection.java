@@ -19,7 +19,7 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
 import org.ruminaq.model.ruminaq.DataType;
-import org.ruminaq.model.ruminaq.InternalPort;
+import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
 
 /**
@@ -42,9 +42,10 @@ public class PropertyInternalOutputPortSection extends GFPropertySection
         .map(InternalPortShape.class::cast);
   }
 
-  private static Optional<InternalPort> modelFrom(PictogramElement pe) {
+  private static Optional<InternalOutputPort> modelFrom(PictogramElement pe) {
     return shapeFrom(pe).map(InternalPortShape::getModelObject)
-        .filter(InternalPort.class::isInstance).map(InternalPort.class::cast);
+        .filter(InternalOutputPort.class::isInstance)
+        .map(InternalOutputPort.class::cast);
   }
 
   @Override
@@ -80,17 +81,17 @@ public class PropertyInternalOutputPortSection extends GFPropertySection
 
   @Override
   public void refresh() {
-    modelFrom(getSelectedPictogramElement()).ifPresent(ip -> {
-      lblIdValue.setText(ip.getId());
-      StringBuilder dataType = new StringBuilder();
-      for (DataType dt : ip.getDataType())
-        dataType.append(ModelUtil.getName(dt.getClass(), false)).append(", ");
-      if (dataType.length() > 2)
-        dataType.delete(dataType.length() - 2, dataType.length());
-
-      dataTypeValue.setText(dataType.toString());
-
-      lblTypeOfData.getParent().layout();
-    });
+    modelFrom(getSelectedPictogramElement())
+        .ifPresent((InternalOutputPort ip) -> {
+          lblIdValue.setText(ip.getId());
+          StringBuilder dataType = new StringBuilder();
+          for (DataType dt : ip.getDataType())
+            dataType.append(ModelUtil.getName(dt.getClass(), false))
+                .append(", ");
+          if (dataType.length() > 2)
+            dataType.delete(dataType.length() - 2, dataType.length());
+          dataTypeValue.setText(dataType.toString());
+          lblTypeOfData.getParent().layout();
+        });
   }
 }
