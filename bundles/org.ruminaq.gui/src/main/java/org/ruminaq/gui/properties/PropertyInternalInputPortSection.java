@@ -8,7 +8,6 @@ package org.ruminaq.gui.properties;
 
 import java.util.Optional;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
-import org.eclipse.graphiti.services.Graphiti;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.JFaceResources;
@@ -22,7 +21,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
@@ -163,35 +161,27 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     txtQueueSize.addFocusListener(new FocusAdapter() {
       @Override
       public void focusLost(FocusEvent event) {
-        Shell shell = txtQueueSize.getShell();
         boolean parse = (NumericUtil
             .isOneDimPositiveInteger(txtQueueSize.getText())
             && Integer.parseInt(txtQueueSize.getText()) != 0)
             || GlobalUtil.isGlobalVariable(txtQueueSize.getText())
             || AbstractCreateUserDefinedTaskPage.INF
                 .equals(txtQueueSize.getText());
-        PictogramElement pe = getSelectedPictogramElement();
-        if (pe == null)
-          return;
-        Object bo = Graphiti.getLinkService()
-            .getBusinessObjectForLinkedPictogramElement(pe);
-        if (bo == null || !(bo instanceof InternalInputPort))
-          return;
-        final InternalInputPort iip = (InternalInputPort) bo;
-        if (parse) {
-          ModelUtil.runModelChange(new Runnable() {
-            public void run() {
-              iip.setQueueSize(txtQueueSize.getText());
-              btnDefaultQueueSize.setEnabled(
-                  !iip.getDefaultQueueSize().equals(iip.getQueueSize()));
-            }
-          }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-              "Change queque size");
-        } else {
-          MessageDialog.openError(shell, "Can't edit value",
-              "Don't understant value");
-          txtQueueSize.setText(iip.getQueueSize());
-        }
+        modelFrom(getSelectedPictogramElement())
+            .ifPresent((InternalInputPort iip) -> {
+              if (parse) {
+                ModelUtil.runModelChange(() -> {
+                  iip.setQueueSize(txtQueueSize.getText());
+                  btnDefaultQueueSize.setEnabled(
+                      !iip.getDefaultQueueSize().equals(iip.getQueueSize()));
+                }, getDiagramContainer().getDiagramBehavior()
+                    .getEditingDomain(), "Change queque size");
+              } else {
+                MessageDialog.openError(txtQueueSize.getShell(),
+                    "Can't edit value", "Don't understant value");
+                txtQueueSize.setText(iip.getQueueSize());
+              }
+            });
       }
     });
     txtQueueSize.addTraverseListener(new TraverseListener() {
