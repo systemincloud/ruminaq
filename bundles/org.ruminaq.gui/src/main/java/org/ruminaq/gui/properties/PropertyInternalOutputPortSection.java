@@ -7,6 +7,7 @@
 package org.ruminaq.gui.properties;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.resource.JFaceResources;
@@ -85,11 +86,9 @@ public class PropertyInternalOutputPortSection extends GFPropertySection
         .ifPresent((InternalOutputPort ip) -> {
           lblIdValue.setText(ip.getId());
           StringBuilder dataType = new StringBuilder();
-          for (DataType dt : ip.getDataType())
-            dataType.append(ModelUtil.getName(dt.getClass(), false))
-                .append(", ");
-          if (dataType.length() > 2)
-            dataType.delete(dataType.length() - 2, dataType.length());
+          ip.getDataType().stream().map(DataType::getClass)
+              .map(c -> ModelUtil.getName(c, false))
+              .collect(Collectors.joining(", "));
           dataTypeValue.setText(dataType.toString());
           lblTypeOfData.getParent().layout();
         });
