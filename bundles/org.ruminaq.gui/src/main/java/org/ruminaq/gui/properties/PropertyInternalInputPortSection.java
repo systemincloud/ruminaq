@@ -7,6 +7,7 @@
 package org.ruminaq.gui.properties;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -243,16 +244,9 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     modelFrom(getSelectedPictogramElement())
         .ifPresent((InternalInputPort ip) -> {
           lblIdValue.setText(ip.getId());
-
-          // Data type
-          StringBuilder dataType = new StringBuilder();
-          for (DataType dt : ip.getDataType())
-            dataType.append(ModelUtil.getName(dt.getClass(), false))
-                .append(", ");
-          if (dataType.length() > 2)
-            dataType.delete(dataType.length() - 2, dataType.length());
-
-          dataTypeValue.setText(dataType.toString());
+          dataTypeValue.setText(ip.getDataType().stream()
+              .map(DataType::getClass).map(c -> ModelUtil.getName(c, false))
+              .collect(Collectors.joining(", ")));
 
           lblAsynchronousValue.setText(Boolean.toString(ip.isAsynchronous()));
           lblGroupValue.setText(

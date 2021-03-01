@@ -85,11 +85,9 @@ public class PropertyInternalOutputPortSection extends GFPropertySection
     modelFrom(getSelectedPictogramElement())
         .ifPresent((InternalOutputPort ip) -> {
           lblIdValue.setText(ip.getId());
-          StringBuilder dataType = new StringBuilder();
-          ip.getDataType().stream().map(DataType::getClass)
-              .map(c -> ModelUtil.getName(c, false))
-              .collect(Collectors.joining(", "));
-          dataTypeValue.setText(dataType.toString());
+          dataTypeValue.setText(ip.getDataType().stream()
+              .map(DataType::getClass).map(c -> ModelUtil.getName(c, false))
+              .collect(Collectors.joining(", ")));
           lblTypeOfData.getParent().layout();
         });
   }
