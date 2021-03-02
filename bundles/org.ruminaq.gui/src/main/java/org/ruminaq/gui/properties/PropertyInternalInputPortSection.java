@@ -46,21 +46,29 @@ public class PropertyInternalInputPortSection extends GFPropertySection
 
   private Label lblId;
   private Label lblIdValue;
-  private Label lblTypeOfData;
-  private Label dataTypeValue;
-  private Label lblAsynchronus;
+
+  private Label lblDataType;
+  private Label lblDataTypeValue;
+
   private Label lblGroup;
   private Label lblGroupValue;
+
   private Label lblSyncConn;
+
   private Button btnPreventLostDefault;
   private Button btnPreventLost;
+
+  private Label lblAsynchronous;
   private Label lblAsynchronousValue;
+
   private Label lblIgnoreLossyCast;
   private Button btnIgnoreLossyCast;
+
   private Composite cmpQueueSize;
   private Label lblQueueSize;
   private Text txtQueueSize;
   private Button btnDefaultQueueSize;
+
   private Composite cmpHoldLast;
   private Label lblHoldLast;
   private Button btnHoldLast;
@@ -96,10 +104,10 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     lblId = toolkit.createLabel(root, "", SWT.NONE);
     lblIdValue = toolkit.createLabel(root, "", SWT.NONE);
 
-    lblTypeOfData = toolkit.createLabel(root, "", SWT.NONE);
-    dataTypeValue = toolkit.createLabel(root, "", SWT.NONE);
+    lblDataType = toolkit.createLabel(root, "", SWT.NONE);
+    lblDataTypeValue = toolkit.createLabel(root, "", SWT.NONE);
 
-    lblAsynchronus = toolkit.createLabel(root, "", SWT.NONE);
+    lblAsynchronous = toolkit.createLabel(root, "", SWT.NONE);
     lblAsynchronousValue = toolkit.createLabel(root, "", SWT.NONE);
 
     lblGroup = toolkit.createLabel(root, "", SWT.NONE);
@@ -185,11 +193,9 @@ public class PropertyInternalInputPortSection extends GFPropertySection
             });
       }
     });
-    txtQueueSize.addTraverseListener(new TraverseListener() {
-      @Override
-      public void keyTraversed(TraverseEvent event) {
-        if (event.detail == SWT.TRAVERSE_RETURN)
-          btnIgnoreLossyCast.setFocus();
+    txtQueueSize.addTraverseListener((TraverseEvent event) -> {
+      if (event.detail == SWT.TRAVERSE_RETURN) {
+        btnIgnoreLossyCast.setFocus();
       }
     });
     btnDefaultQueueSize
@@ -200,14 +206,16 @@ public class PropertyInternalInputPortSection extends GFPropertySection
                   refresh();
                 }, getDiagramContainer().getDiagramBehavior()
                     .getEditingDomain(), "Change console type")));
-    btnHoldLast.addSelectionListener(
-        (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
-            () -> modelFrom(getSelectedPictogramElement()).ifPresent(iip -> {
-              iip.setHoldLast(btnHoldLast.getSelection());
-              btnDefaultHoldLast
-                  .setEnabled(iip.isDefaultHoldLast() != iip.isHoldLast());
-            }), getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-            "Change console type"));
+    btnHoldLast
+        .addSelectionListener((WidgetSelectedSelectionListener) se -> ModelUtil
+            .runModelChange(() -> modelFrom(getSelectedPictogramElement())
+                .ifPresent((InternalInputPort iip) -> {
+                  iip.setHoldLast(btnHoldLast.getSelection());
+                  btnDefaultHoldLast
+                      .setEnabled(iip.isDefaultHoldLast() != iip.isHoldLast());
+                }),
+                getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+                "Change console type"));
     btnDefaultHoldLast
         .addSelectionListener((WidgetSelectedSelectionListener) se -> modelFrom(
             getSelectedPictogramElement())
@@ -220,8 +228,8 @@ public class PropertyInternalInputPortSection extends GFPropertySection
 
   private void initComponents() {
     lblId.setText("Name:");
-    lblTypeOfData.setText("Type of data:");
-    lblAsynchronus.setText("Asynchronus:");
+    lblDataType.setText("Type of data:");
+    lblAsynchronous.setText("Asynchronus:");
     lblGroup.setText("Group:");
     lblSyncConn.setText("Prevent data lost:");
     btnPreventLostDefault.setText("default");
@@ -234,7 +242,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
   }
 
   private void addStyles() {
-    dataTypeValue.setFont(JFaceResources.getFontRegistry().getItalic(""));
+    lblDataTypeValue.setFont(JFaceResources.getFontRegistry().getItalic(""));
     lblAsynchronousValue
         .setFont(JFaceResources.getFontRegistry().getItalic(""));
   }
@@ -244,7 +252,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     modelFrom(getSelectedPictogramElement())
         .ifPresent((InternalInputPort ip) -> {
           lblIdValue.setText(ip.getId());
-          dataTypeValue.setText(ip.getDataType().stream()
+          lblDataTypeValue.setText(ip.getDataType().stream()
               .map(DataType::getClass).map(c -> ModelUtil.getName(c, false))
               .collect(Collectors.joining(", ")));
 
@@ -282,7 +290,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
             btnDefaultHoldLast
                 .setEnabled(ip.isDefaultHoldLast() != ip.isHoldLast());
 
-          lblTypeOfData.getParent().layout();
+          lblDataType.getParent().layout();
         });
   }
 }
