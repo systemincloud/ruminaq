@@ -27,6 +27,7 @@ import org.ruminaq.model.ruminaq.BaseElement;
 import org.ruminaq.model.ruminaq.Connection;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.InternalInputPort;
+import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.MainTask;
 
 /**
@@ -79,7 +80,7 @@ public class UpdateEmbeddedTaskFeature
         .map(ip -> new FileInternalInputPort(ip.getId(),
             embeddedTask.getConnection().stream()
                 .filter(c -> c.getSourceRef().equals(ip))
-                .map(Connection::getSourceRef)
+                .map(Connection::getTargetRef)
                 .filter(InternalInputPort.class::isInstance)
                 .map(InternalInputPort.class::cast)
                 .map(InternalInputPort::getDataType).flatMap(Collection::stream)
@@ -96,10 +97,10 @@ public class UpdateEmbeddedTaskFeature
         .map(ip -> new FileInternalOutputPort(ip.getId(),
             embeddedTask.getConnection().stream()
                 .filter(c -> c.getTargetRef().equals(ip))
-                .map(Connection::getTargetRef)
-                .filter(InternalInputPort.class::isInstance)
-                .map(InternalInputPort.class::cast)
-                .map(InternalInputPort::getDataType).flatMap(Collection::stream)
+                .map(Connection::getSourceRef)
+                .filter(InternalOutputPort.class::isInstance)
+                .map(InternalOutputPort.class::cast)
+                .map(InternalOutputPort::getDataType).flatMap(Collection::stream)
                 .distinct().collect(Collectors.toList())))
         .collect(Collectors.toList());
   }
