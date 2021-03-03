@@ -16,7 +16,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.TraverseEvent;
-import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -53,10 +52,9 @@ public class PropertyInternalInputPortSection extends GFPropertySection
   private Label lblGroup;
   private Label lblGroupValue;
 
-  private Label lblSyncConn;
-
-  private Button btnPreventLostDefault;
+  private Label lblPreventLost;
   private Button btnPreventLost;
+  private Button btnPreventLostDefault;
 
   private Label lblAsynchronous;
   private Label lblAsynchronousValue;
@@ -69,10 +67,65 @@ public class PropertyInternalInputPortSection extends GFPropertySection
   private Text txtQueueSize;
   private Button btnDefaultQueueSize;
 
-  private Composite cmpHoldLast;
   private Label lblHoldLast;
-  private Button btnHoldLast;
-  private Button btnDefaultHoldLast;
+  private HoldLast holdLast;
+
+  private class HoldLast {
+    private Composite root;
+    private FormToolkit toolkit;
+    private Composite cmpHoldLast;
+    private Button btnHoldLast;
+    private Button btnDefaultHoldLast;
+
+    public HoldLast(Composite root, FormToolkit toolkit) {
+      this.root = root;
+      this.toolkit = toolkit;
+    }
+
+    private void initLayout() {
+      cmpHoldLast = toolkit.createComposite(root, SWT.NONE);
+      cmpHoldLast.setLayout(new GridLayout(2, false));
+      btnHoldLast = new Button(cmpHoldLast, SWT.CHECK);
+      btnDefaultHoldLast = new Button(cmpHoldLast, SWT.PUSH);
+    }
+
+    private void initActions() {
+      btnHoldLast.addSelectionListener(
+          (WidgetSelectedSelectionListener) se -> ModelUtil
+              .runModelChange(() -> modelFrom(getSelectedPictogramElement())
+                  .ifPresent((InternalInputPort iip) -> {
+                    iip.setHoldLast(btnHoldLast.getSelection());
+                    btnDefaultHoldLast.setEnabled(
+                        iip.isDefaultHoldLast() != iip.isHoldLast());
+                  }),
+                  getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+                  "Change hold last"));
+      btnDefaultHoldLast.addSelectionListener(
+          (WidgetSelectedSelectionListener) se -> modelFrom(
+              getSelectedPictogramElement())
+                  .ifPresent(iip -> ModelUtil.runModelChange(() -> {
+                    iip.setHoldLast(iip.isDefaultHoldLast());
+                    PropertyInternalInputPortSection.this.refresh();
+                  }, getDiagramContainer().getDiagramBehavior()
+                      .getEditingDomain(), "Set hold last to default")));
+    }
+
+    private void initComponents() {
+      btnDefaultHoldLast.setText("set to default");
+    }
+
+    private void refresh(InternalInputPort ip) {
+      btnHoldLast.setSelection(ip.isHoldLast());
+      boolean holdVisible = !(ip.isAsynchronous() || !ip.getTask().isAtomic());
+      lblHoldLast.setVisible(holdVisible);
+      cmpHoldLast.setVisible(holdVisible);
+      if (holdVisible) {
+        btnDefaultHoldLast
+            .setEnabled(ip.isDefaultHoldLast() != ip.isHoldLast());
+      }
+    }
+
+  }
 
   private static Optional<InternalPortShape> shapeFrom(PictogramElement pe) {
     return Optional.ofNullable(pe).filter(InternalPortShape.class::isInstance)
@@ -113,7 +166,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     lblGroup = toolkit.createLabel(root, "", SWT.NONE);
     lblGroupValue = toolkit.createLabel(root, "", SWT.NONE);
 
-    lblSyncConn = toolkit.createLabel(root, "", SWT.NONE);
+    lblPreventLost = toolkit.createLabel(root, "", SWT.NONE);
     Composite cmpPreventLost = toolkit.createComposite(root, SWT.NONE);
     cmpPreventLost.setLayout(new GridLayout(2, false));
     btnPreventLostDefault = new Button(cmpPreventLost, SWT.CHECK);
@@ -132,11 +185,10 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     lytQuequeSize.widthHint = 25;
     txtQueueSize.setLayoutData(lytQuequeSize);
     btnDefaultQueueSize = new Button(cmpQueueSize, SWT.PUSH);
+
     lblHoldLast = toolkit.createLabel(root, "", SWT.NONE);
-    cmpHoldLast = toolkit.createComposite(root, SWT.NONE);
-    cmpHoldLast.setLayout(new GridLayout(2, false));
-    btnHoldLast = new Button(cmpHoldLast, SWT.CHECK);
-    btnDefaultHoldLast = new Button(cmpHoldLast, SWT.PUSH);
+    holdLast = new HoldLast(root, toolkit);
+    holdLast.initLayout();
   }
 
   private void initActions() {
@@ -206,24 +258,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
                   refresh();
                 }, getDiagramContainer().getDiagramBehavior()
                     .getEditingDomain(), "Change console type")));
-    btnHoldLast
-        .addSelectionListener((WidgetSelectedSelectionListener) se -> ModelUtil
-            .runModelChange(() -> modelFrom(getSelectedPictogramElement())
-                .ifPresent((InternalInputPort iip) -> {
-                  iip.setHoldLast(btnHoldLast.getSelection());
-                  btnDefaultHoldLast
-                      .setEnabled(iip.isDefaultHoldLast() != iip.isHoldLast());
-                }),
-                getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-                "Change console type"));
-    btnDefaultHoldLast
-        .addSelectionListener((WidgetSelectedSelectionListener) se -> modelFrom(
-            getSelectedPictogramElement())
-                .ifPresent(iip -> ModelUtil.runModelChange(() -> {
-                  iip.setHoldLast(iip.isDefaultHoldLast());
-                  refresh();
-                }, getDiagramContainer().getDiagramBehavior()
-                    .getEditingDomain(), "Change console type")));
+    holdLast.initActions();
   }
 
   private void initComponents() {
@@ -231,14 +266,14 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     lblDataType.setText("Type of data:");
     lblAsynchronous.setText("Asynchronus:");
     lblGroup.setText("Group:");
-    lblSyncConn.setText("Prevent data lost:");
+    lblPreventLost.setText("Prevent data lost:");
     btnPreventLostDefault.setText("default");
     btnPreventLost.setText("custom");
     lblIgnoreLossyCast.setText("Ignore lossy cast");
     lblQueueSize.setText("Data queue size");
     btnDefaultQueueSize.setText("set to default");
     lblHoldLast.setText("Hold last data");
-    btnDefaultHoldLast.setText("set to default");
+    holdLast.initComponents();
   }
 
   private void addStyles() {
@@ -271,7 +306,6 @@ public class PropertyInternalInputPortSection extends GFPropertySection
 
           btnIgnoreLossyCast.setSelection(ip.isIgnoreLossyCast());
           txtQueueSize.setText(ip.getQueueSize());
-          btnHoldLast.setSelection(ip.isHoldLast());
 
           boolean quequeVisible = !((ip.isAsynchronous()
               || !ip.getTask().isAtomic())
@@ -281,15 +315,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
           if (quequeVisible)
             btnDefaultQueueSize.setEnabled(
                 !ip.getDefaultQueueSize().equals(ip.getQueueSize()));
-
-          boolean holdVisible = !(ip.isAsynchronous()
-              || !ip.getTask().isAtomic());
-          lblHoldLast.setVisible(holdVisible);
-          cmpHoldLast.setVisible(holdVisible);
-          if (holdVisible)
-            btnDefaultHoldLast
-                .setEnabled(ip.isDefaultHoldLast() != ip.isHoldLast());
-
+          holdLast.refresh(ip);
           lblDataType.getParent().layout();
         });
   }
