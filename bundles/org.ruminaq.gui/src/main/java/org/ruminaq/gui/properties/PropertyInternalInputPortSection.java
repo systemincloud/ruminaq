@@ -43,6 +43,8 @@ import org.ruminaq.util.WidgetSelectedSelectionListener;
 public class PropertyInternalInputPortSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
+  private static final int TWO_ELEMENTS = 2;
+
   private FormToolkit toolkit;
   private Composite root;
 
@@ -78,7 +80,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     private void initLayout() {
       lblQueueSize = toolkit.createLabel(root, "", SWT.NONE);
       cmpQueueSize = toolkit.createComposite(root, SWT.NONE);
-      cmpQueueSize.setLayout(new GridLayout(2, false));
+      cmpQueueSize.setLayout(new GridLayout(TWO_ELEMENTS, false));
       txtQueueSize = toolkit.createText(cmpQueueSize, "", SWT.BORDER);
       GridData lytQuequeSize = new GridData(SWT.LEFT, SWT.CENTER, false, false,
           1, 1);
@@ -158,7 +160,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     private void initLayout() {
       lblHoldLast = toolkit.createLabel(root, "", SWT.NONE);
       cmpHoldLast = toolkit.createComposite(root, SWT.NONE);
-      cmpHoldLast.setLayout(new GridLayout(2, false));
+      cmpHoldLast.setLayout(new GridLayout(TWO_ELEMENTS, false));
       btnHoldLast = new Button(cmpHoldLast, SWT.CHECK);
       btnHoldLastDefault = new Button(cmpHoldLast, SWT.PUSH);
     }
@@ -216,20 +218,22 @@ public class PropertyInternalInputPortSection extends GFPropertySection
   /**
    * Layout.
    *
-   *  Name:              <myName>
-   *  Type of data:      <dataType>
-   *  Asynchronous:      <true|false>
-   *  Group:             <None|1|2..>
-   *                         __________________
-   *  Prevent data lost: [x] | set to default |
-   *                         ~~~~~~~~~~~~~~~~~~
-   *  Ignore lossy cast: [x]
-   *                     _____ __________________
-   *  Data queue size:   |   | | set to default |
-   *                     ~~~~~ ~~~~~~~~~~~~~~~~~~
-   *                         __________________
-   *  Hold last data:    [x] | set to default |
-   *                         ~~~~~~~~~~~~~~~~~~
+   * <p>
+   * Name:              <myName>
+   * Type of data:      <dataType>
+   * Asynchronous:      <true|false>
+   * Group:             <None|1|2..>
+   *                        __________________
+   * Prevent data lost: [x] | set to default |
+   *                        ~~~~~~~~~~~~~~~~~~
+   * Ignore lossy cast: [x]
+   *                    _____ __________________
+   * Data queue size:   |   | | set to default |
+   *                    ~~~~~ ~~~~~~~~~~~~~~~~~~
+   *                        __________________
+   * Hold last data:    [x] | set to default |
+   *                        ~~~~~~~~~~~~~~~~~~
+   * </p>
    */
   @Override
   public void createControls(Composite parent,
@@ -245,7 +249,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
   private void initLayout(Composite parent) {
     toolkit = new FormToolkit(parent.getDisplay());
     root = toolkit.createComposite(parent, SWT.WRAP);
-    root.setLayout(new GridLayout(2, false));
+    root.setLayout(new GridLayout(TWO_ELEMENTS, false));
 
     lblId = toolkit.createLabel(root, "", SWT.NONE);
     lblIdValue = toolkit.createLabel(root, "", SWT.NONE);
