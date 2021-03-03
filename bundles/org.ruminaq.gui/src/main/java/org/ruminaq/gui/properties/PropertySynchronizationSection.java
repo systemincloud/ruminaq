@@ -8,8 +8,11 @@ package org.ruminaq.gui.properties;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -116,8 +119,7 @@ public class PropertySynchronizationSection extends GFPropertySection
 
     @Override
     public void dispose() {
-      for (Button b : buttons.values())
-        b.dispose();
+      buttons.values().stream().forEach(Button::dispose);
     }
 
     @Override
@@ -146,10 +148,10 @@ public class PropertySynchronizationSection extends GFPropertySection
 
     @Override
     public boolean hasChildren(Object o) {
-      if (o instanceof InternalOutputPort)
-        return ((InternalOutputPort) o).getSynchronization().size() > 0;
-      else
-        return false;
+      return Optional.of(o).filter(InternalOutputPort.class::isInstance)
+          .map(InternalOutputPort.class::cast)
+          .map(InternalOutputPort::getSynchronization).map(l -> !l.isEmpty())
+          .orElse(false);
     }
 
   }
@@ -320,27 +322,23 @@ public class PropertySynchronizationSection extends GFPropertySection
     protected void setValue(Object o, final Object value) {
       if (o instanceof Synchronization) {
         final Synchronization s = (Synchronization) o;
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            String newValue = (String) value;
-            if (NONE.equals(newValue))
-              s.setWaitForPort(null);
-            else {
-              for (Task t : mt.getTask()) {
-                if (t.getId().equals(newValue)) {
-                  if (t.getOutputPort().size() > 0)
-                    s.setWaitForPort(t.getOutputPort().get(0));
-                  else if (t.getInputPort().size() > 0)
-                    s.setWaitForPort(t.getInputPort().get(0));
-                }
+        ModelUtil.runModelChange(() -> {
+          String newValue = (String) value;
+          if (NONE.equals(newValue))
+            s.setWaitForPort(null);
+          else {
+            for (Task t : mt.getTask()) {
+              if (t.getId().equals(newValue)) {
+                if (t.getOutputPort().size() > 0)
+                  s.setWaitForPort(t.getOutputPort().get(0));
+                else if (t.getInputPort().size() > 0)
+                  s.setWaitForPort(t.getInputPort().get(0));
               }
             }
-            treVwOutputPorts.refresh();
-            for (TreeColumn tc : treOutputPorts.getColumns())
-              tc.pack();
-            root.layout();
           }
+          treVwOutputPorts.refresh();
+          Stream.of(treOutputPorts.getColumns()).forEach(TreeColumn::pack);
+          root.layout();
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Change");
       }
@@ -405,29 +403,25 @@ public class PropertySynchronizationSection extends GFPropertySection
     protected void setValue(Object o, final Object value) {
       if (o instanceof Synchronization) {
         final Synchronization s = (Synchronization) o;
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            String newValue = (String) value;
+        ModelUtil.runModelChange(() -> {
+          String newValue = (String) value;
 
-            if (newValue.startsWith(IN)) {
-              for (InternalInputPort ip : s.getWaitForPort().getTask()
-                  .getInputPort())
-                if (ip.getId().equals(newValue.substring(IN.length())))
-                  s.setWaitForPort(ip);
+          if (newValue.startsWith(IN)) {
+            for (InternalInputPort ip : s.getWaitForPort().getTask()
+                .getInputPort())
+              if (ip.getId().equals(newValue.substring(IN.length())))
+                s.setWaitForPort(ip);
 
-            } else if (newValue.startsWith(OUT)) {
-              for (InternalOutputPort op : s.getWaitForPort().getTask()
-                  .getOutputPort())
-                if (op.getId().equals(newValue.substring(OUT.length())))
-                  s.setWaitForPort(op);
-            }
-
-            treVwOutputPorts.refresh();
-            for (TreeColumn tc : treOutputPorts.getColumns())
-              tc.pack();
-            root.layout();
+          } else if (newValue.startsWith(OUT)) {
+            for (InternalOutputPort op : s.getWaitForPort().getTask()
+                .getOutputPort())
+              if (op.getId().equals(newValue.substring(OUT.length())))
+                s.setWaitForPort(op);
           }
+
+          treVwOutputPorts.refresh();
+          Stream.of(treOutputPorts.getColumns()).forEach(TreeColumn::pack);
+          root.layout();
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Change");
       }
@@ -482,27 +476,23 @@ public class PropertySynchronizationSection extends GFPropertySection
     protected void setValue(Object o, final Object value) {
       if (o instanceof InternalOutputPort) {
         final InternalOutputPort op = (InternalOutputPort) o;
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            String newValue = (String) value;
-            if (NONE.equals(newValue))
-              op.setResetPort(null);
-            else {
-              for (Task t : mt.getTask()) {
-                if (t.getId().equals(newValue)) {
-                  if (t.getOutputPort().size() > 0)
-                    op.setResetPort(t.getOutputPort().get(0));
-                  else if (t.getInputPort().size() > 0)
-                    op.setResetPort(t.getInputPort().get(0));
-                }
+        ModelUtil.runModelChange(() -> {
+          String newValue = (String) value;
+          if (NONE.equals(newValue))
+            op.setResetPort(null);
+          else {
+            for (Task t : mt.getTask()) {
+              if (t.getId().equals(newValue)) {
+                if (t.getOutputPort().size() > 0)
+                  op.setResetPort(t.getOutputPort().get(0));
+                else if (t.getInputPort().size() > 0)
+                  op.setResetPort(t.getInputPort().get(0));
               }
             }
-            treVwOutputPorts.refresh();
-            for (TreeColumn tc : treOutputPorts.getColumns())
-              tc.pack();
-            root.layout();
           }
+          treVwOutputPorts.refresh();
+          Stream.of(treOutputPorts.getColumns()).forEach(TreeColumn::pack);
+          root.layout();
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Change");
       }
@@ -567,28 +557,24 @@ public class PropertySynchronizationSection extends GFPropertySection
     protected void setValue(Object o, final Object value) {
       if (o instanceof InternalOutputPort) {
         final InternalOutputPort el = (InternalOutputPort) o;
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            String newValue = (String) value;
+        ModelUtil.runModelChange(() -> {
+          String newValue = (String) value;
 
-            if (newValue.startsWith(IN))
-              for (InternalInputPort ip : el.getResetPort().getTask()
-                  .getInputPort())
-                if (ip.getId().equals(newValue.substring(IN.length())))
-                  el.setResetPort(ip);
+          if (newValue.startsWith(IN))
+            for (InternalInputPort ip : el.getResetPort().getTask()
+                .getInputPort())
+              if (ip.getId().equals(newValue.substring(IN.length())))
+                el.setResetPort(ip);
 
-                else if (newValue.startsWith(OUT))
-                  for (InternalOutputPort op : el.getResetPort().getTask()
-                      .getOutputPort())
-                    if (op.getId().equals(newValue.substring(OUT.length())))
-                      el.setResetPort(op);
+              else if (newValue.startsWith(OUT))
+                for (InternalOutputPort op : el.getResetPort().getTask()
+                    .getOutputPort())
+                  if (op.getId().equals(newValue.substring(OUT.length())))
+                    el.setResetPort(op);
 
-            treVwOutputPorts.refresh();
-            for (TreeColumn tc : treOutputPorts.getColumns())
-              tc.pack();
-            root.layout();
-          }
+          treVwOutputPorts.refresh();
+          Stream.of(treOutputPorts.getColumns()).forEach(TreeColumn::pack);
+          root.layout();
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Change");
       }
@@ -699,15 +685,12 @@ public class PropertySynchronizationSection extends GFPropertySection
       final boolean boolValue = (Boolean) value;
       if (o instanceof InternalOutputPort) {
         final InternalOutputPort op = (InternalOutputPort) o;
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            op.setLoop(boolValue);
-            if (boolValue)
-              for (Synchronization s : op.getSynchronization())
-                s.setLoop(false);
-            treVwOutputPorts.refresh();
-          }
+        ModelUtil.runModelChange(() -> {
+          op.setLoop(boolValue);
+          if (boolValue)
+            for (Synchronization s : op.getSynchronization())
+              s.setLoop(false);
+          treVwOutputPorts.refresh();
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Change");
       } else if (o instanceof Synchronization) {
@@ -715,14 +698,11 @@ public class PropertySynchronizationSection extends GFPropertySection
         if (s.getParent().getSynchronization()
             .lastIndexOf(o) != s.getParent().getSynchronization().size() - 1)
           return;
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            s.setLoop(boolValue);
-            if (boolValue)
-              s.getParent().setLoop(false);
-            treVwOutputPorts.refresh();
-          }
+        ModelUtil.runModelChange(() -> {
+          s.setLoop(boolValue);
+          if (boolValue)
+            s.getParent().setLoop(false);
+          treVwOutputPorts.refresh();
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Change");
       }
@@ -762,25 +742,19 @@ public class PropertySynchronizationSection extends GFPropertySection
       final boolean boolValue = (Boolean) value;
       if (o instanceof InternalOutputPort) {
         final InternalOutputPort op = (InternalOutputPort) o;
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            op.setLoop(boolValue);
-            if (boolValue)
-              for (Synchronization s : op.getSynchronization())
-                s.setSkipLoop(false);
-            treVwOutputPorts.refresh();
-          }
+        ModelUtil.runModelChange(() -> {
+          op.setLoop(boolValue);
+          if (boolValue)
+            for (Synchronization s : op.getSynchronization())
+              s.setSkipLoop(false);
+          treVwOutputPorts.refresh();
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Change");
       } else if (o instanceof Synchronization) {
         final Synchronization s = (Synchronization) o;
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            s.setSkipLoop(boolValue);
-            treVwOutputPorts.refresh();
-          }
+        ModelUtil.runModelChange(() -> {
+          s.setSkipLoop(boolValue);
+          treVwOutputPorts.refresh();
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Change");
       }
@@ -860,21 +834,17 @@ public class PropertySynchronizationSection extends GFPropertySection
               final InternalOutputPort iop = (InternalOutputPort) o;
               final Synchronization s = RuminaqFactory.eINSTANCE
                   .createSynchronization();
-              ModelUtil.runModelChange(new Runnable() {
-                @Override
-                public void run() {
-                  if (iop.getSynchronization().size() != 0)
-                    iop.getSynchronization()
-                        .get(iop.getSynchronization().size() - 1)
-                        .setLoop(false);
-                  if (iop.getSynchronization().size() != 0)
-                    iop.getSynchronization()
-                        .get(iop.getSynchronization().size() - 1)
-                        .setSkipLoop(false);
+              ModelUtil.runModelChange(() -> {
+                if (iop.getSynchronization().size() != 0)
+                  iop.getSynchronization()
+                      .get(iop.getSynchronization().size() - 1).setLoop(false);
+                if (iop.getSynchronization().size() != 0)
+                  iop.getSynchronization()
+                      .get(iop.getSynchronization().size() - 1)
+                      .setSkipLoop(false);
 
-                  s.setParent(iop);
-                  iop.getSynchronization().add(s);
-                }
+                s.setParent(iop);
+                iop.getSynchronization().add(s);
               }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
                   "Add Synchronization");
               for (TreeItem it : treOutputPorts.getItems()) {
@@ -887,12 +857,9 @@ public class PropertySynchronizationSection extends GFPropertySection
 
             } else if (o instanceof Synchronization) {
               final Synchronization snc = (Synchronization) o;
-              ModelUtil.runModelChange(new Runnable() {
-                @Override
-                public void run() {
-                  snc.getParent().getSynchronization().remove(snc);
-                }
-              }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+              ModelUtil.runModelChange(
+                  () -> snc.getParent().getSynchronization().remove(snc),
+                  getDiagramContainer().getDiagramBehavior().getEditingDomain(),
                   "Remove synchronization");
               for (TreeItem it1 : treOutputPorts.getItems())
                 for (TreeItem it2 : it1.getItems())
