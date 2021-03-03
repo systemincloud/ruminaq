@@ -213,6 +213,24 @@ public class PropertyInternalInputPortSection extends GFPropertySection
         .map(InternalInputPort.class::cast);
   }
 
+  /**
+   * Layout.
+   *
+   *  Name:              <myName>
+   *  Type of data:      <dataType>
+   *  Asynchronous:      <true|false>
+   *  Group:             <None|1|2..>
+   *                         __________________
+   *  Prevent data lost: [x] | set to default |
+   *                         ~~~~~~~~~~~~~~~~~~
+   *  Ignore lossy cast: [x]
+   *                     _____ __________________
+   *  Data queue size:   |   | | set to default |
+   *                     ~~~~~ ~~~~~~~~~~~~~~~~~~
+   *                         __________________
+   *  Hold last data:    [x] | set to default |
+   *                         ~~~~~~~~~~~~~~~~~~
+   */
   @Override
   public void createControls(Composite parent,
       TabbedPropertySheetPage tabbedPropertySheetPage) {
