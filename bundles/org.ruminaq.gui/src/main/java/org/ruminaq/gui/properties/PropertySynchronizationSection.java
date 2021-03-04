@@ -8,10 +8,8 @@ package org.ruminaq.gui.properties;
 
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
@@ -72,6 +70,9 @@ public class PropertySynchronizationSection extends GFPropertySection
   private static final String IN = "[IN] ";
   private static final String OUT = "[OUT] ";
 
+  private static final Image CHECKED = getImage("checked.gif");
+  private static final Image UNCHECKED = getImage("unchecked.gif");
+
   private Composite root;
 
   private TreeViewer treVwOutputPorts;
@@ -101,10 +102,7 @@ public class PropertySynchronizationSection extends GFPropertySection
   private ResetTaskEditingSupport treclEdOutputResetTask;
   private ResetPortEditingSupport treclEdOutputResetPort;
 
-  private Map<Object, Button> buttons = new HashMap<Object, Button>();
-
-  private static final Image CHECKED = getImage("checked.gif");
-  private static final Image UNCHECKED = getImage("unchecked.gif");
+  private Map<Object, Button> buttons = new HashMap<>();
 
   private static Image getImage(String file) {
     Bundle bundle = FrameworkUtil
@@ -156,7 +154,7 @@ public class PropertySynchronizationSection extends GFPropertySection
 
   }
 
-  private final class TreeLabelProvider extends LabelProvider
+  private final static class TreeLabelProvider extends LabelProvider
       implements ITableLabelProvider {
     @Override
     public String getColumnText(Object o, int columnIndex) {
@@ -262,19 +260,16 @@ public class PropertySynchronizationSection extends GFPropertySection
         if (!NumericUtil.isOneDimPositiveInteger((String) value))
           return;
         final Synchronization s = (Synchronization) o;
-        ModelUtil.runModelChange(new Runnable() {
-          @Override
-          public void run() {
-            s.setGroup(Integer.parseInt((String) value));
-            treVwOutputPorts.refresh();
-          }
+        ModelUtil.runModelChange(() -> {
+          s.setGroup(Integer.parseInt((String) value));
+          treVwOutputPorts.refresh();
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Change");
       }
     }
   }
 
-  private class TaskEditingSupport extends EditingSupport {
+  private final class TaskEditingSupport extends EditingSupport {
     private ComboBoxViewerCellEditor cellEditor = null;
     private MainTask mt;
 
