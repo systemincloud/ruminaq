@@ -1024,9 +1024,4 @@ public class PropertySynchronizationSection extends GFPropertySection
       tc.pack();
     root.layout();
   }
-
-  @Override
-  public void setInput(IWorkbenchPart part, ISelection selection) {
-    super.setInput(part, selection);
-  }
 }
