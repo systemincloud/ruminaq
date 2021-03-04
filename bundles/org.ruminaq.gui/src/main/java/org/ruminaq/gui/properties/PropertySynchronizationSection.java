@@ -54,6 +54,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
+import org.ruminaq.gui.model.diagram.RuminaqShape;
+import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
 import org.ruminaq.model.ruminaq.MainTask;
@@ -110,6 +112,16 @@ public class PropertySynchronizationSection extends GFPropertySection
     URL url = FileLocator.find(bundle, new Path("icons/" + file), null);
     ImageDescriptor image = ImageDescriptor.createFromURL(url);
     return image.createImage();
+  }
+
+  private static Optional<TaskShape> shapeFrom(PictogramElement pe) {
+    return Optional.ofNullable(pe).filter(TaskShape.class::isInstance)
+        .map(TaskShape.class::cast);
+  }
+
+  private static Optional<Task> taskFrom(PictogramElement pe) {
+    return shapeFrom(pe).map(TaskShape::getModelObject)
+        .filter(Task.class::isInstance).map(Task.class::cast);
   }
 
   private final class SynchronizationContentProvider
@@ -960,13 +972,7 @@ public class PropertySynchronizationSection extends GFPropertySection
     if (treOutputPorts.isDisposed())
       return;
     treOutputPorts.removeAll();
-    PictogramElement pe = getSelectedPictogramElement();
-    if (pe != null) {
-      Object bo = Graphiti.getLinkService()
-          .getBusinessObjectForLinkedPictogramElement(pe);
-      if (bo == null)
-        return;
-      final Task t = (Task) bo;
+    taskFrom(getSelectedPictogramElement()).ifPresent((Task t) -> {
       treVwOutputPorts.setInput(t.getOutputPort());
 
       treclEdOutputPortsGrp = new GroupEditingSupport(
@@ -1010,7 +1016,7 @@ public class PropertySynchronizationSection extends GFPropertySection
               .getMainTask(),
           t);
       treclVwOutputResetTask.setEditingSupport(treclEdOutputResetTask);
-    }
+    });
     for (TreeItem ti : treVwOutputPorts.getTree().getItems())
       ti.setExpanded(true);
     treVwOutputPorts.refresh();
