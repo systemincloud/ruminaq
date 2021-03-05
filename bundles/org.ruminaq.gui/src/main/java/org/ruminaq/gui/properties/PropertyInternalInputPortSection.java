@@ -99,7 +99,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     }
   }
 
-  private class PreventLost extends CheckboxDefault {
+  private final class PreventLost extends CheckboxDefault {
 
     private void initActions() {
       btnCheck.addSelectionListener(
@@ -125,6 +125,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
                   "Model Update"));
     }
 
+    @Override
     protected void initComponents() {
       super.initComponents();
       lbl.setText("Prevent data lost:");
@@ -195,6 +196,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
                       .getEditingDomain(), "Change console type")));
     }
 
+    @Override
     protected void initComponents() {
       super.initComponents();
       lbl.setText("Data queue size");
@@ -234,6 +236,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
                       .getEditingDomain(), "Set hold last to default")));
     }
 
+    @Override
     protected void initComponents() {
       super.initComponents();
       lbl.setText("Hold last data");
