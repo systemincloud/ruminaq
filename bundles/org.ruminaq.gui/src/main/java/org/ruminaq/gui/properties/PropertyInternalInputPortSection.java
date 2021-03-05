@@ -141,7 +141,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     }
   }
 
-  private class QueueSize extends Default {
+  private final class QueueSize extends Default {
 
     private Text txtQueueSize;
 
@@ -214,7 +214,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     }
   }
 
-  private class HoldLast extends CheckboxDefault {
+  private final class HoldLast extends CheckboxDefault {
 
     private void initActions() {
       btnCheck.addSelectionListener(
@@ -272,22 +272,22 @@ public class PropertyInternalInputPortSection extends GFPropertySection
   /**
    * Layout.
    *
-   * <p>
-   * Name: <myName>
-   * Type of data: <dataType>
-   * Asynchronous: <true|false>
-   * Group: <None|1|2..>
-   * __________________
+   * <pre>
+   * Name:              myName
+   * Type of data:      dataType
+   * Asynchronous:      true|false
+   * Group:             None|1|2..
+   *                        __________________
    * Prevent data lost: [x] | set to default |
-   * ~~~~~~~~~~~~~~~~~~
+   *                        ~~~~~~~~~~~~~~~~~~
    * Ignore lossy cast: [x]
-   * _____ __________________
-   * Data queue size: | | | set to default |
-   * ~~~~~ ~~~~~~~~~~~~~~~~~~
-   * __________________
-   * Hold last data: [x] | set to default |
-   * ~~~~~~~~~~~~~~~~~~
-   * </p>
+   *                    _____ __________________
+   * Data queue size:   |   | | set to default |
+   *                    ~~~~~ ~~~~~~~~~~~~~~~~~~
+   *                        __________________
+   * Hold last data:    [x] | set to default |
+   *                        ~~~~~~~~~~~~~~~~~~
+   * </pre>
    */
   @Override
   public void createControls(Composite parent,
