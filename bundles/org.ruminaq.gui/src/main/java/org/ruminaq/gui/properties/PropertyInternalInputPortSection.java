@@ -68,83 +68,81 @@ public class PropertyInternalInputPortSection extends GFPropertySection
   private QueueSize queueSize;
   private HoldLast holdLast;
 
-  private class CheckboxDefault {
+  private class LabelComposite {
+    protected Label lbl;
     protected Composite cmp;
+
+    private LabelComposite() {
+      lbl = toolkit.createLabel(root, "", SWT.NONE);
+      cmp = toolkit.createComposite(root, SWT.NONE);
+      cmp.setLayout(new GridLayout(TWO_ELEMENTS, false));
+    }
+  }
+
+  private class Default extends LabelComposite {
+
+    protected Button btnDefault;
+
+    protected void initComponents() {
+      btnDefault.setText("set to default");
+    }
+  }
+
+  private class CheckboxDefault extends Default {
+    protected Button btnCheck;
+
+    private CheckboxDefault() {
+      btnCheck = new Button(cmp, SWT.CHECK);
+      btnDefault = new Button(cmp, SWT.PUSH);
+    }
   }
 
   private class PreventLost extends CheckboxDefault {
 
-    private Label lblPreventLost;
-    private Button btnPreventLost;
-    private Button btnPreventLostDefault;
-
-    private PreventLost() {
-      lblPreventLost = toolkit.createLabel(root, "", SWT.NONE);
-      cmp = toolkit.createComposite(root, SWT.NONE);
-      cmp.setLayout(new GridLayout(TWO_ELEMENTS, false));
-      btnPreventLostDefault = new Button(cmp, SWT.CHECK);
-      btnPreventLost = new Button(cmp, SWT.CHECK);
-    }
-
     private void initActions() {
-      btnPreventLostDefault.addSelectionListener(
+      btnCheck.addSelectionListener(
           (WidgetSelectedSelectionListener) se -> ModelUtil
               .runModelChange(() -> modelFrom(getSelectedPictogramElement())
                   .ifPresent((InternalInputPort iip) -> {
-                    iip.setPreventLostDefault(
-                        btnPreventLostDefault.getSelection());
-                    btnPreventLost
-                        .setEnabled(!btnPreventLostDefault.getSelection());
-                    if (btnPreventLostDefault.getSelection()) {
-                      iip.setPreventLost(iip.isPreventLostDefault());
-                      btnPreventLost.setSelection(iip.isPreventLostDefault());
-                    }
+                    iip.setPreventLost(btnCheck.getSelection());
+                    refresh(iip);
+                  }),
+                  getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+                  "Change prevent lost"));
+      btnDefault.addSelectionListener(
+          (WidgetSelectedSelectionListener) se -> ModelUtil
+              .runModelChange(() -> modelFrom(getSelectedPictogramElement())
+                  .ifPresent((InternalInputPort iip) -> {
+                    iip.setPreventLost(btnDefault.getSelection());
+                    refresh(iip);
                   }),
                   getDiagramContainer().getDiagramBehavior().getEditingDomain(),
                   "Model Update"));
-      btnPreventLost.addSelectionListener(
-          (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
-              () -> modelFrom(getSelectedPictogramElement()).ifPresent(
-                  iip -> iip.setPreventLost(btnPreventLost.getSelection())),
-              getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-              "Model Update"));
     }
 
-    private void initComponents() {
-      lblPreventLost.setText("Prevent data lost:");
-      btnPreventLostDefault.setText("default");
-      btnPreventLost.setText("custom");
+    protected void initComponents() {
+      super.initComponents();
+      lbl.setText("Prevent data lost:");
     }
 
     private void refresh(InternalInputPort ip) {
-      if (ip.isPreventLostDefault()) {
-        btnPreventLostDefault.setSelection(true);
-        btnPreventLost.setEnabled(false);
-      } else {
-        btnPreventLostDefault.setSelection(false);
-        btnPreventLost.setSelection(ip.isPreventLost());
-        btnPreventLost.setEnabled(true);
-      }
+      btnCheck.setSelection(ip.isPreventLost());
+      btnDefault.setEnabled(ip.isPreventLostDefault() != ip.isPreventLost());
     }
   }
 
-  private class QueueSize extends CheckboxDefault {
+  private class QueueSize extends Default {
 
-    private Label lblQueueSize;
     private Text txtQueueSize;
-    private Button btnQueueSizeDefault;
 
     private QueueSize() {
-      lblQueueSize = toolkit.createLabel(root, "", SWT.NONE);
-      cmp = toolkit.createComposite(root, SWT.NONE);
-      cmp.setLayout(new GridLayout(TWO_ELEMENTS, false));
       txtQueueSize = toolkit.createText(cmp, "", SWT.BORDER);
       GridData lytQuequeSize = new GridData(SWT.LEFT, SWT.CENTER, false, false,
           1, 1);
       lytQuequeSize.minimumWidth = 25;
       lytQuequeSize.widthHint = 25;
       txtQueueSize.setLayoutData(lytQuequeSize);
-      btnQueueSizeDefault = new Button(cmp, SWT.PUSH);
+      btnDefault = new Button(cmp, SWT.PUSH);
     }
 
     private void initActions() {
@@ -162,8 +160,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
                 if (parse) {
                   ModelUtil.runModelChange(() -> {
                     iip.setQueueSize(txtQueueSize.getText());
-                    btnQueueSizeDefault.setEnabled(
-                        !iip.getDefaultQueueSize().equals(iip.getQueueSize()));
+                    refresh(iip);
                   }, getDiagramContainer().getDiagramBehavior()
                       .getEditingDomain(), "Change queque size");
                 } else {
@@ -179,60 +176,46 @@ public class PropertyInternalInputPortSection extends GFPropertySection
           btnIgnoreLossyCast.setFocus();
         }
       });
-      btnQueueSizeDefault.addSelectionListener(
+      btnDefault.addSelectionListener(
           (WidgetSelectedSelectionListener) se -> modelFrom(
               getSelectedPictogramElement())
                   .ifPresent(iip -> ModelUtil.runModelChange(() -> {
                     iip.setQueueSize(iip.getDefaultQueueSize());
-                    PropertyInternalInputPortSection.this.refresh();
+                    refresh(iip);
                   }, getDiagramContainer().getDiagramBehavior()
                       .getEditingDomain(), "Change console type")));
     }
 
-    private void initComponents() {
-      lblQueueSize.setText("Data queue size");
-      btnQueueSizeDefault.setText("set to default");
+    protected void initComponents() {
+      super.initComponents();
+      lbl.setText("Data queue size");
     }
 
     private void refresh(InternalInputPort ip) {
       txtQueueSize.setText(ip.getQueueSize());
       boolean quequeVisible = !((ip.isAsynchronous()
           || !ip.getTask().isAtomic()) && ip.getTask() instanceof EmbeddedTask);
-      lblQueueSize.setVisible(quequeVisible);
+      lbl.setVisible(quequeVisible);
       cmp.setVisible(quequeVisible);
-      if (quequeVisible) {
-        btnQueueSizeDefault
-            .setEnabled(!ip.getDefaultQueueSize().equals(ip.getQueueSize()));
-      }
+      btnDefault
+          .setEnabled(!ip.getDefaultQueueSize().equals(ip.getQueueSize()));
+
     }
   }
 
   private class HoldLast extends CheckboxDefault {
 
-    private Label lblHoldLast;
-    private Button btnHoldLast;
-    private Button btnHoldLastDefault;
-
-    private HoldLast() {
-      lblHoldLast = toolkit.createLabel(root, "", SWT.NONE);
-      cmp = toolkit.createComposite(root, SWT.NONE);
-      cmp.setLayout(new GridLayout(TWO_ELEMENTS, false));
-      btnHoldLast = new Button(cmp, SWT.CHECK);
-      btnHoldLastDefault = new Button(cmp, SWT.PUSH);
-    }
-
     private void initActions() {
-      btnHoldLast.addSelectionListener(
+      btnCheck.addSelectionListener(
           (WidgetSelectedSelectionListener) se -> ModelUtil
               .runModelChange(() -> modelFrom(getSelectedPictogramElement())
                   .ifPresent((InternalInputPort iip) -> {
-                    iip.setHoldLast(btnHoldLast.getSelection());
-                    btnHoldLastDefault.setEnabled(
-                        iip.isDefaultHoldLast() != iip.isHoldLast());
+                    iip.setHoldLast(btnCheck.getSelection());
+                    refresh(iip);
                   }),
                   getDiagramContainer().getDiagramBehavior().getEditingDomain(),
                   "Change hold last"));
-      btnHoldLastDefault.addSelectionListener(
+      btnDefault.addSelectionListener(
           (WidgetSelectedSelectionListener) se -> modelFrom(
               getSelectedPictogramElement())
                   .ifPresent(iip -> ModelUtil.runModelChange(() -> {
@@ -242,22 +225,19 @@ public class PropertyInternalInputPortSection extends GFPropertySection
                       .getEditingDomain(), "Set hold last to default")));
     }
 
-    private void initComponents() {
-      lblHoldLast.setText("Hold last data");
-      btnHoldLastDefault.setText("set to default");
+    protected void initComponents() {
+      super.initComponents();
+      lbl.setText("Hold last data");
     }
 
     private void refresh(InternalInputPort ip) {
-      btnHoldLast.setSelection(ip.isHoldLast());
+      btnCheck.setSelection(ip.isHoldLast());
       boolean holdVisible = !(ip.isAsynchronous() || !ip.getTask().isAtomic());
-      lblHoldLast.setVisible(holdVisible);
+      lbl.setVisible(holdVisible);
       cmp.setVisible(holdVisible);
-      if (holdVisible) {
-        btnHoldLastDefault
-            .setEnabled(ip.isDefaultHoldLast() != ip.isHoldLast());
-      }
-    }
+      btnDefault.setEnabled(ip.isDefaultHoldLast() != ip.isHoldLast());
 
+    }
   }
 
   private static Optional<InternalPortShape> shapeFrom(PictogramElement pe) {
