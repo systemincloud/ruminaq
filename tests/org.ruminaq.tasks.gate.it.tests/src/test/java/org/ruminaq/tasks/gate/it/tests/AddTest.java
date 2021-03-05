@@ -54,6 +54,13 @@ public class AddTest extends GuiTest {
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Internal Input Port");
+    
+    bot.checkBox(2).click();
+    
+    Thread.sleep(1000);
+
+    assertDiagram(diagramEditor,
+        "AddTest.testAddXor.1.xml");
   }
 
   @Test
