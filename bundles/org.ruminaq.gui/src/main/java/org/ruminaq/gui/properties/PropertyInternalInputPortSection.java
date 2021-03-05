@@ -54,15 +54,13 @@ public class PropertyInternalInputPortSection extends GFPropertySection
   private Label lblDataType;
   private Label lblDataTypeValue;
 
+  private Label lblAsynchronous;
+  private Label lblAsynchronousValue;
+
   private Label lblGroup;
   private Label lblGroupValue;
 
-  private Label lblPreventLost;
-  private Button btnPreventLost;
-  private Button btnPreventLostDefault;
-
-  private Label lblAsynchronous;
-  private Label lblAsynchronousValue;
+  private PreventLost preventLost;
 
   private Label lblIgnoreLossyCast;
   private Button btnIgnoreLossyCast;
@@ -70,24 +68,83 @@ public class PropertyInternalInputPortSection extends GFPropertySection
   private QueueSize queueSize;
   private HoldLast holdLast;
 
-  private class QueueSize {
+  private class CheckboxDefault {
+    protected Composite cmp;
+  }
 
-    private Composite cmpQueueSize;
+  private class PreventLost extends CheckboxDefault {
+
+    private Label lblPreventLost;
+    private Button btnPreventLost;
+    private Button btnPreventLostDefault;
+
+    private PreventLost() {
+      lblPreventLost = toolkit.createLabel(root, "", SWT.NONE);
+      cmp = toolkit.createComposite(root, SWT.NONE);
+      cmp.setLayout(new GridLayout(TWO_ELEMENTS, false));
+      btnPreventLostDefault = new Button(cmp, SWT.CHECK);
+      btnPreventLost = new Button(cmp, SWT.CHECK);
+    }
+
+    private void initActions() {
+      btnPreventLostDefault.addSelectionListener(
+          (WidgetSelectedSelectionListener) se -> ModelUtil
+              .runModelChange(() -> modelFrom(getSelectedPictogramElement())
+                  .ifPresent((InternalInputPort iip) -> {
+                    iip.setPreventLostDefault(
+                        btnPreventLostDefault.getSelection());
+                    btnPreventLost
+                        .setEnabled(!btnPreventLostDefault.getSelection());
+                    if (btnPreventLostDefault.getSelection()) {
+                      iip.setPreventLost(iip.isPreventLostDefault());
+                      btnPreventLost.setSelection(iip.isPreventLostDefault());
+                    }
+                  }),
+                  getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+                  "Model Update"));
+      btnPreventLost.addSelectionListener(
+          (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
+              () -> modelFrom(getSelectedPictogramElement()).ifPresent(
+                  iip -> iip.setPreventLost(btnPreventLost.getSelection())),
+              getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+              "Model Update"));
+    }
+
+    private void initComponents() {
+      lblPreventLost.setText("Prevent data lost:");
+      btnPreventLostDefault.setText("default");
+      btnPreventLost.setText("custom");
+    }
+
+    private void refresh(InternalInputPort ip) {
+      if (ip.isPreventLostDefault()) {
+        btnPreventLostDefault.setSelection(true);
+        btnPreventLost.setEnabled(false);
+      } else {
+        btnPreventLostDefault.setSelection(false);
+        btnPreventLost.setSelection(ip.isPreventLost());
+        btnPreventLost.setEnabled(true);
+      }
+    }
+  }
+
+  private class QueueSize extends CheckboxDefault {
+
     private Label lblQueueSize;
     private Text txtQueueSize;
-    private Button btnDefaultQueueSize;
+    private Button btnQueueSizeDefault;
 
-    private void initLayout() {
+    private QueueSize() {
       lblQueueSize = toolkit.createLabel(root, "", SWT.NONE);
-      cmpQueueSize = toolkit.createComposite(root, SWT.NONE);
-      cmpQueueSize.setLayout(new GridLayout(TWO_ELEMENTS, false));
-      txtQueueSize = toolkit.createText(cmpQueueSize, "", SWT.BORDER);
+      cmp = toolkit.createComposite(root, SWT.NONE);
+      cmp.setLayout(new GridLayout(TWO_ELEMENTS, false));
+      txtQueueSize = toolkit.createText(cmp, "", SWT.BORDER);
       GridData lytQuequeSize = new GridData(SWT.LEFT, SWT.CENTER, false, false,
           1, 1);
       lytQuequeSize.minimumWidth = 25;
       lytQuequeSize.widthHint = 25;
       txtQueueSize.setLayoutData(lytQuequeSize);
-      btnDefaultQueueSize = new Button(cmpQueueSize, SWT.PUSH);
+      btnQueueSizeDefault = new Button(cmp, SWT.PUSH);
     }
 
     private void initActions() {
@@ -105,7 +162,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
                 if (parse) {
                   ModelUtil.runModelChange(() -> {
                     iip.setQueueSize(txtQueueSize.getText());
-                    btnDefaultQueueSize.setEnabled(
+                    btnQueueSizeDefault.setEnabled(
                         !iip.getDefaultQueueSize().equals(iip.getQueueSize()));
                   }, getDiagramContainer().getDiagramBehavior()
                       .getEditingDomain(), "Change queque size");
@@ -122,7 +179,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
           btnIgnoreLossyCast.setFocus();
         }
       });
-      btnDefaultQueueSize.addSelectionListener(
+      btnQueueSizeDefault.addSelectionListener(
           (WidgetSelectedSelectionListener) se -> modelFrom(
               getSelectedPictogramElement())
                   .ifPresent(iip -> ModelUtil.runModelChange(() -> {
@@ -134,7 +191,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
 
     private void initComponents() {
       lblQueueSize.setText("Data queue size");
-      btnDefaultQueueSize.setText("set to default");
+      btnQueueSizeDefault.setText("set to default");
     }
 
     private void refresh(InternalInputPort ip) {
@@ -142,27 +199,26 @@ public class PropertyInternalInputPortSection extends GFPropertySection
       boolean quequeVisible = !((ip.isAsynchronous()
           || !ip.getTask().isAtomic()) && ip.getTask() instanceof EmbeddedTask);
       lblQueueSize.setVisible(quequeVisible);
-      cmpQueueSize.setVisible(quequeVisible);
+      cmp.setVisible(quequeVisible);
       if (quequeVisible) {
-        btnDefaultQueueSize
+        btnQueueSizeDefault
             .setEnabled(!ip.getDefaultQueueSize().equals(ip.getQueueSize()));
       }
     }
   }
 
-  private class HoldLast {
+  private class HoldLast extends CheckboxDefault {
 
-    private Composite cmpHoldLast;
     private Label lblHoldLast;
     private Button btnHoldLast;
     private Button btnHoldLastDefault;
 
-    private void initLayout() {
+    private HoldLast() {
       lblHoldLast = toolkit.createLabel(root, "", SWT.NONE);
-      cmpHoldLast = toolkit.createComposite(root, SWT.NONE);
-      cmpHoldLast.setLayout(new GridLayout(TWO_ELEMENTS, false));
-      btnHoldLast = new Button(cmpHoldLast, SWT.CHECK);
-      btnHoldLastDefault = new Button(cmpHoldLast, SWT.PUSH);
+      cmp = toolkit.createComposite(root, SWT.NONE);
+      cmp.setLayout(new GridLayout(TWO_ELEMENTS, false));
+      btnHoldLast = new Button(cmp, SWT.CHECK);
+      btnHoldLastDefault = new Button(cmp, SWT.PUSH);
     }
 
     private void initActions() {
@@ -195,7 +251,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
       btnHoldLast.setSelection(ip.isHoldLast());
       boolean holdVisible = !(ip.isAsynchronous() || !ip.getTask().isAtomic());
       lblHoldLast.setVisible(holdVisible);
-      cmpHoldLast.setVisible(holdVisible);
+      cmp.setVisible(holdVisible);
       if (holdVisible) {
         btnHoldLastDefault
             .setEnabled(ip.isDefaultHoldLast() != ip.isHoldLast());
@@ -219,20 +275,20 @@ public class PropertyInternalInputPortSection extends GFPropertySection
    * Layout.
    *
    * <p>
-   * Name:              <myName>
-   * Type of data:      <dataType>
-   * Asynchronous:      <true|false>
-   * Group:             <None|1|2..>
-   *                        __________________
+   * Name: <myName>
+   * Type of data: <dataType>
+   * Asynchronous: <true|false>
+   * Group: <None|1|2..>
+   * __________________
    * Prevent data lost: [x] | set to default |
-   *                        ~~~~~~~~~~~~~~~~~~
+   * ~~~~~~~~~~~~~~~~~~
    * Ignore lossy cast: [x]
-   *                    _____ __________________
-   * Data queue size:   |   | | set to default |
-   *                    ~~~~~ ~~~~~~~~~~~~~~~~~~
-   *                        __________________
-   * Hold last data:    [x] | set to default |
-   *                        ~~~~~~~~~~~~~~~~~~
+   * _____ __________________
+   * Data queue size: | | | set to default |
+   * ~~~~~ ~~~~~~~~~~~~~~~~~~
+   * __________________
+   * Hold last data: [x] | set to default |
+   * ~~~~~~~~~~~~~~~~~~
    * </p>
    */
   @Override
@@ -263,44 +319,17 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     lblGroup = toolkit.createLabel(root, "", SWT.NONE);
     lblGroupValue = toolkit.createLabel(root, "", SWT.NONE);
 
-    lblPreventLost = toolkit.createLabel(root, "", SWT.NONE);
-    Composite cmpPreventLost = toolkit.createComposite(root, SWT.NONE);
-    cmpPreventLost.setLayout(new GridLayout(2, false));
-    btnPreventLostDefault = new Button(cmpPreventLost, SWT.CHECK);
-    btnPreventLost = new Button(cmpPreventLost, SWT.CHECK);
+    preventLost = new PreventLost();
 
     lblIgnoreLossyCast = toolkit.createLabel(root, "", SWT.NONE);
     btnIgnoreLossyCast = new Button(root, SWT.CHECK);
 
     queueSize = new QueueSize();
-    queueSize.initLayout();
-
     holdLast = new HoldLast();
-    holdLast.initLayout();
   }
 
   private void initActions() {
-    btnPreventLostDefault
-        .addSelectionListener((WidgetSelectedSelectionListener) se -> ModelUtil
-            .runModelChange(() -> modelFrom(getSelectedPictogramElement())
-                .ifPresent((InternalInputPort iip) -> {
-                  iip.setPreventLostDefault(
-                      btnPreventLostDefault.getSelection());
-                  btnPreventLost
-                      .setEnabled(!btnPreventLostDefault.getSelection());
-                  if (btnPreventLostDefault.getSelection()) {
-                    iip.setPreventLost(iip.isPreventLostDefault());
-                    btnPreventLost.setSelection(iip.isPreventLostDefault());
-                  }
-                }),
-                getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-                "Model Update"));
-    btnPreventLost.addSelectionListener(
-        (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
-            () -> modelFrom(getSelectedPictogramElement()).ifPresent(
-                iip -> iip.setPreventLost(btnPreventLost.getSelection())),
-            getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-            "Model Update"));
+    preventLost.initActions();
     btnIgnoreLossyCast.addSelectionListener(
         (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
             () -> modelFrom(getSelectedPictogramElement()).ifPresent(iip -> iip
@@ -317,9 +346,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     lblDataType.setText("Type of data:");
     lblAsynchronous.setText("Asynchronus:");
     lblGroup.setText("Group:");
-    lblPreventLost.setText("Prevent data lost:");
-    btnPreventLostDefault.setText("default");
-    btnPreventLost.setText("custom");
+    preventLost.initComponents();
     lblIgnoreLossyCast.setText("Ignore lossy cast");
     queueSize.initComponents();
     holdLast.initComponents();
@@ -341,18 +368,11 @@ public class PropertyInternalInputPortSection extends GFPropertySection
               .collect(Collectors.joining(", ")));
 
           lblAsynchronousValue.setText(Boolean.toString(ip.isAsynchronous()));
-          lblGroupValue.setText(
-              ip.getGroup() == -1 ? "None" : Integer.toString(ip.getGroup()));
-
-          if (ip.isPreventLostDefault()) {
-            btnPreventLostDefault.setSelection(true);
-            btnPreventLost.setEnabled(false);
-          } else {
-            btnPreventLostDefault.setSelection(false);
-            btnPreventLost.setSelection(ip.isPreventLost());
-            btnPreventLost.setEnabled(true);
-          }
-
+          lblGroupValue.setText(switch (ip.getGroup()) {
+            case -1 -> "None";
+            default -> Integer.toString(ip.getGroup());
+          });
+          preventLost.refresh(ip);
           btnIgnoreLossyCast.setSelection(ip.isIgnoreLossyCast());
           queueSize.refresh(ip);
           holdLast.refresh(ip);
