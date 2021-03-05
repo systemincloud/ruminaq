@@ -137,7 +137,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
       } else {
         btnCheck.setSelection(ip.isPreventLost());
       }
-      btnDefault.setEnabled(ip.isPreventLostDefault());
+      btnDefault.setEnabled(!ip.isPreventLostDefault());
     }
   }
 
