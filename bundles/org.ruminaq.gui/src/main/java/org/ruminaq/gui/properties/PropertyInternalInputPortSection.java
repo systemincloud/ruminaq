@@ -27,9 +27,11 @@ import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
 import org.ruminaq.gui.model.diagram.InternalPortShape;
+import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.model.ruminaq.DataType;
 import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.InternalInputPort;
+import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.util.GlobalUtil;
 import org.ruminaq.util.NumericUtil;
@@ -105,6 +107,8 @@ public class PropertyInternalInputPortSection extends GFPropertySection
               .runModelChange(() -> modelFrom(getSelectedPictogramElement())
                   .ifPresent((InternalInputPort iip) -> {
                     iip.setPreventLost(btnCheck.getSelection());
+                    iip.setPreventLostDefault(
+                        btnCheck.getSelection() == diagramDefaultPreventLost());
                     refresh(iip);
                   }),
                   getDiagramContainer().getDiagramBehavior().getEditingDomain(),
@@ -113,7 +117,8 @@ public class PropertyInternalInputPortSection extends GFPropertySection
           (WidgetSelectedSelectionListener) se -> ModelUtil
               .runModelChange(() -> modelFrom(getSelectedPictogramElement())
                   .ifPresent((InternalInputPort iip) -> {
-                    iip.setPreventLost(btnDefault.getSelection());
+                    iip.setPreventLost(diagramDefaultPreventLost());
+                    iip.setPreventLostDefault(true);
                     refresh(iip);
                   }),
                   getDiagramContainer().getDiagramBehavior().getEditingDomain(),
@@ -126,8 +131,12 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     }
 
     private void refresh(InternalInputPort ip) {
-      btnCheck.setSelection(ip.isPreventLost());
-      btnDefault.setEnabled(ip.isPreventLostDefault() != ip.isPreventLost());
+      if (ip.isPreventLostDefault()) {
+        btnCheck.setSelection(diagramDefaultPreventLost());
+      } else {
+        btnCheck.setSelection(ip.isPreventLost());
+      }
+      btnDefault.setEnabled(ip.isPreventLostDefault());
     }
   }
 
@@ -251,6 +260,12 @@ public class PropertyInternalInputPortSection extends GFPropertySection
         .map(InternalInputPort.class::cast);
   }
 
+  private boolean diagramDefaultPreventLost() {
+    return Optional.of(getDiagram()).filter(RuminaqDiagram.class::isInstance)
+        .map(RuminaqDiagram.class::cast).map(RuminaqDiagram::getMainTask)
+        .map(MainTask::isPreventLosts).orElse(Boolean.FALSE);
+  }
+
   /**
    * Layout.
    *
@@ -348,10 +363,11 @@ public class PropertyInternalInputPortSection extends GFPropertySection
               .collect(Collectors.joining(", ")));
 
           lblAsynchronousValue.setText(Boolean.toString(ip.isAsynchronous()));
-          lblGroupValue.setText(switch (ip.getGroup()) {
+          String group = switch (ip.getGroup()) {
             case -1 -> "None";
             default -> Integer.toString(ip.getGroup());
-          });
+          };
+          lblGroupValue.setText(group);
           preventLost.refresh(ip);
           btnIgnoreLossyCast.setSelection(ip.isIgnoreLossyCast());
           queueSize.refresh(ip);

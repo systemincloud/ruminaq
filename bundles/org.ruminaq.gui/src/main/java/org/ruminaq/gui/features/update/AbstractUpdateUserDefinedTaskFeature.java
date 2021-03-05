@@ -38,7 +38,7 @@ import org.ruminaq.model.ruminaq.UserDefinedTask;
  */
 public abstract class AbstractUpdateUserDefinedTaskFeature
     extends UpdateTaskFeature {
-  
+
   private static final String DEFAULT_DESCRIPTION = "";
 
   /**

@@ -94,14 +94,13 @@ public class UpdateEmbeddedTaskFeature
   protected List<FileInternalOutputPort> outputPorts() {
     return Optional.ofNullable(embeddedTask).map(MainTask::getOutputPort)
         .map(List::stream).orElseGet(Stream::empty)
-        .map(ip -> new FileInternalOutputPort(ip.getId(),
-            embeddedTask.getConnection().stream()
-                .filter(c -> c.getTargetRef().equals(ip))
-                .map(Connection::getSourceRef)
-                .filter(InternalOutputPort.class::isInstance)
-                .map(InternalOutputPort.class::cast)
-                .map(InternalOutputPort::getDataType).flatMap(Collection::stream)
-                .distinct().collect(Collectors.toList())))
+        .map(ip -> new FileInternalOutputPort(ip.getId(), embeddedTask
+            .getConnection().stream().filter(c -> c.getTargetRef().equals(ip))
+            .map(Connection::getSourceRef)
+            .filter(InternalOutputPort.class::isInstance)
+            .map(InternalOutputPort.class::cast)
+            .map(InternalOutputPort::getDataType).flatMap(Collection::stream)
+            .distinct().collect(Collectors.toList())))
         .collect(Collectors.toList());
   }
 
