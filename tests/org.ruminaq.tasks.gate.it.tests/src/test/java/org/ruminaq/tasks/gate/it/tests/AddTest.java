@@ -63,6 +63,12 @@ public class AddTest extends GuiTest {
 
     assertDiagram(diagramEditor,
         "AddTest.testAddXor.1.xml");
+    
+    bot.button(0).click();
+    bot.button(2).click();
+    
+    assertDiagram(diagramEditor,
+        "AddTest.testAddXor.2.xml");
   }
 
   @Test
