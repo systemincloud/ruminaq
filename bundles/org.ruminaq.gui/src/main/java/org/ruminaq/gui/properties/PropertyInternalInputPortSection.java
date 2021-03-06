@@ -89,7 +89,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     protected void initComponents() {
       btnDefault.setText("set to default");
     }
-    
+
     protected void initActions() {
       btnDefault.addSelectionListener(
           (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
@@ -98,7 +98,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
               getDiagramContainer().getDiagramBehavior().getEditingDomain(),
               btnDefaultActionMessage()));
     }
-    
+
     protected abstract void btnDefaultAction(InternalInputPort iip);
 
     protected abstract String btnDefaultActionMessage();
@@ -196,15 +196,9 @@ public class PropertyInternalInputPortSection extends GFPropertySection
       txtQueueSize.addFocusListener(new FocusAdapter() {
         @Override
         public void focusLost(FocusEvent event) {
-          boolean parse = (NumericUtil
-              .isOneDimPositiveInteger(txtQueueSize.getText())
-              && Integer.parseInt(txtQueueSize.getText()) != 0)
-              || GlobalUtil.isGlobalVariable(txtQueueSize.getText())
-              || AbstractCreateUserDefinedTaskPage.INF
-                  .equals(txtQueueSize.getText());
           modelFrom(getSelectedPictogramElement())
               .ifPresent((InternalInputPort iip) -> {
-                if (parse) {
+                if (validateQueueSize(txtQueueSize.getText())) {
                   ModelUtil.runModelChange(() -> {
                     iip.setQueueSize(txtQueueSize.getText());
                     refresh(iip);
@@ -303,6 +297,12 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     return shapeFrom(pe).map(InternalPortShape::getModelObject)
         .filter(InternalInputPort.class::isInstance)
         .map(InternalInputPort.class::cast);
+  }
+
+  private static boolean validateQueueSize(String value) {
+    return (NumericUtil.isOneDimPositiveInteger(value)
+        && Integer.parseInt(value) != 0) || GlobalUtil.isGlobalVariable(value)
+        || AbstractCreateUserDefinedTaskPage.INF.equals(value);
   }
 
   /**
