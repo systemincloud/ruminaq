@@ -46,6 +46,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
   private static final int TWO_ELEMENTS = 2;
+  private static final int QUEUE_TXT_WIDTH = 25;
 
   private FormToolkit toolkit;
   private Composite root;
@@ -90,39 +91,63 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     }
   }
 
-  private class CheckboxDefault extends Default {
+  private abstract class AbstractCheckboxDefault extends Default {
     protected Button btnCheck;
 
-    private CheckboxDefault() {
+    private AbstractCheckboxDefault() {
       btnCheck = new Button(cmp, SWT.CHECK);
       btnDefault = new Button(cmp, SWT.PUSH);
     }
+
+    protected void initActions() {
+      btnCheck.addSelectionListener(
+          (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
+              () -> modelFrom(getSelectedPictogramElement())
+                  .ifPresent(this::btnCheckAction),
+              getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+              btnCheckActionMessage()));
+      btnDefault.addSelectionListener(
+          (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
+              () -> modelFrom(getSelectedPictogramElement())
+                  .ifPresent(this::btnDefaultAction),
+              getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+              btnDefaultActionMessage()));
+    }
+
+    protected abstract void btnCheckAction(InternalInputPort iip);
+
+    protected abstract String btnCheckActionMessage();
+
+    protected abstract void btnDefaultAction(InternalInputPort iip);
+
+    protected abstract String btnDefaultActionMessage();
   }
 
-  private final class PreventLost extends CheckboxDefault {
+  private final class PreventLost extends AbstractCheckboxDefault {
 
-    private void initActions() {
-      btnCheck.addSelectionListener(
-          (WidgetSelectedSelectionListener) se -> ModelUtil
-              .runModelChange(() -> modelFrom(getSelectedPictogramElement())
-                  .ifPresent((InternalInputPort iip) -> {
-                    iip.setPreventLost(btnCheck.getSelection());
-                    iip.setPreventLostDefault(
-                        btnCheck.getSelection() == diagramDefaultPreventLost());
-                    refresh(iip);
-                  }),
-                  getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-                  "Change prevent lost"));
-      btnDefault.addSelectionListener(
-          (WidgetSelectedSelectionListener) se -> ModelUtil
-              .runModelChange(() -> modelFrom(getSelectedPictogramElement())
-                  .ifPresent((InternalInputPort iip) -> {
-                    iip.setPreventLost(diagramDefaultPreventLost());
-                    iip.setPreventLostDefault(true);
-                    refresh(iip);
-                  }),
-                  getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-                  "Model Update"));
+    @Override
+    protected void btnCheckAction(InternalInputPort iip) {
+      iip.setPreventLost(btnCheck.getSelection());
+      iip.setPreventLostDefault(
+          btnCheck.getSelection() == diagramDefaultPreventLost());
+      refresh(iip);
+    }
+
+    @Override
+    protected String btnCheckActionMessage() {
+      return "Change prevent lost";
+    }
+
+    @Override
+    protected void btnDefaultAction(InternalInputPort iip) {
+      iip.setPreventLost(diagramDefaultPreventLost());
+      iip.setPreventLostDefault(true);
+      refresh(iip);
+    }
+
+    @Override
+    protected String btnDefaultActionMessage() {
+      return "Set prevent lost to default";
     }
 
     @Override
@@ -155,8 +180,8 @@ public class PropertyInternalInputPortSection extends GFPropertySection
       txtQueueSize = toolkit.createText(cmp, "", SWT.BORDER);
       GridData lytQuequeSize = new GridData(SWT.LEFT, SWT.CENTER, false, false,
           1, 1);
-      lytQuequeSize.minimumWidth = 25;
-      lytQuequeSize.widthHint = 25;
+      lytQuequeSize.minimumWidth = QUEUE_TXT_WIDTH;
+      lytQuequeSize.widthHint = QUEUE_TXT_WIDTH;
       txtQueueSize.setLayoutData(lytQuequeSize);
       btnDefault = new Button(cmp, SWT.PUSH);
     }
@@ -220,26 +245,28 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     }
   }
 
-  private final class HoldLast extends CheckboxDefault {
+  private final class HoldLast extends AbstractCheckboxDefault {
 
-    private void initActions() {
-      btnCheck.addSelectionListener(
-          (WidgetSelectedSelectionListener) se -> ModelUtil
-              .runModelChange(() -> modelFrom(getSelectedPictogramElement())
-                  .ifPresent((InternalInputPort iip) -> {
-                    iip.setHoldLast(btnCheck.getSelection());
-                    refresh(iip);
-                  }),
-                  getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-                  "Change hold last"));
-      btnDefault.addSelectionListener(
-          (WidgetSelectedSelectionListener) se -> modelFrom(
-              getSelectedPictogramElement())
-                  .ifPresent(iip -> ModelUtil.runModelChange(() -> {
-                    iip.setHoldLast(iip.isDefaultHoldLast());
-                    PropertyInternalInputPortSection.this.refresh();
-                  }, getDiagramContainer().getDiagramBehavior()
-                      .getEditingDomain(), "Set hold last to default")));
+    @Override
+    protected void btnCheckAction(InternalInputPort iip) {
+      iip.setHoldLast(btnCheck.getSelection());
+      refresh(iip);
+    }
+
+    @Override
+    protected String btnCheckActionMessage() {
+      return "Change hold last";
+    }
+
+    @Override
+    protected void btnDefaultAction(InternalInputPort iip) {
+      iip.setHoldLast(iip.isDefaultHoldLast());
+      refresh(iip);
+    }
+
+    @Override
+    protected String btnDefaultActionMessage() {
+      return "Set hold last to default";
     }
 
     @Override
