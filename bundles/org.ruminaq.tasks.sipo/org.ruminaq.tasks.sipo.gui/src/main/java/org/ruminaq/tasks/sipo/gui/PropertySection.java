@@ -3,8 +3,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
+
 package org.ruminaq.tasks.sipo.gui;
 
+import java.util.Optional;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.impl.InternalTransaction;
 import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
@@ -25,9 +27,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
+import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.tasks.sipo.model.sipo.Sipo;
 import org.ruminaq.util.GroovyExpressionUtil;
@@ -53,7 +55,16 @@ public class PropertySection {
     initLayout(parent);
     initComponents();
     initActions(pe, ed, dtp);
-    addStyles();
+  }
+
+  public static Optional<TaskShape> shapeFrom(PictogramElement pe) {
+    return Optional.ofNullable(pe).filter(TaskShape.class::isInstance)
+        .map(TaskShape.class::cast);
+  }
+
+  public static Optional<Sipo> modelFrom(PictogramElement pe) {
+    return shapeFrom(pe).map(TaskShape::getModelObject)
+        .filter(Sipo.class::isInstance).map(Sipo.class::cast);
   }
 
   private void initLayout(Composite parent) {
@@ -99,24 +110,17 @@ public class PropertySection {
     spnSize.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent se) {
-        ModelUtil.runModelChange(new Runnable() {
-          public void run() {
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
-                .getActiveTransaction();
-            if (a == null || a.isReadOnly() == true)
-              return;
-            if (bo == null)
-              return;
-            if (bo instanceof Sipo) {
-              Sipo element = (Sipo) bo;
-              element.setSize(Integer.toString(spnSize.getSelection()));
-              UpdateContext context = new UpdateContext(pe);
-              dtp.getFeatureProvider().updateIfPossible(context);
-            }
-            root.layout();
-          }
+        ModelUtil.runModelChange(() -> {
+          InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
+              .getActiveTransaction();
+          if (a == null || a.isReadOnly() == true)
+            return;
+          modelFrom(pe).ifPresent((Sipo sipo) -> {
+            sipo.setSize(Integer.toString(spnSize.getSelection()));
+            UpdateContext context = new UpdateContext(pe);
+            dtp.getFeatureProvider().updateIfPossible(context);
+          });
+          root.layout();
         }, ed, "Model Update");
       }
     });
@@ -124,28 +128,18 @@ public class PropertySection {
       @Override
       public void keyTraversed(TraverseEvent event) {
         if (event.detail == SWT.TRAVERSE_RETURN) {
-          ModelUtil.runModelChange(new Runnable() {
-            public void run() {
-              Shell shell = txtSize.getShell();
-              boolean parse = GroovyExpressionUtil
-                  .isOneDimIntegerAlsoGV(txtSize.getText());
-              if (parse) {
-                Object bo = Graphiti.getLinkService()
-                    .getBusinessObjectForLinkedPictogramElement(pe);
-                InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
-                    .getActiveTransaction();
-                if (a == null || a.isReadOnly() == true)
-                  return;
-                if (bo == null)
-                  return;
-                if (bo instanceof Sipo) {
-                  Sipo element = (Sipo) bo;
-                  element.setSize(txtSize.getText());
-                }
-              } else
-                MessageDialog.openError(shell, "Can't edit value",
-                    "Don't understant numeric value");
-            }
+          ModelUtil.runModelChange(() -> {
+            boolean parse = GroovyExpressionUtil
+                .isOneDimIntegerAlsoGV(txtSize.getText());
+            if (parse) {
+              InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
+                  .getActiveTransaction();
+              if (a == null || a.isReadOnly() == true)
+                return;
+              modelFrom(pe).ifPresent(sipo -> sipo.setSize(txtSize.getText()));
+            } else
+              MessageDialog.openError(txtSize.getShell(), "Can't edit value",
+                  "Don't understant numeric value");
           }, ed, "Model Update");
         }
       }
@@ -153,111 +147,83 @@ public class PropertySection {
     btnIdx.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent se) {
-        ModelUtil.runModelChange(new Runnable() {
-          public void run() {
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
-                .getActiveTransaction();
-            if (a == null || a.isReadOnly() == true)
-              return;
-            if (bo instanceof Sipo) {
-              Sipo element = (Sipo) bo;
-              element.setIndex(btnIdx.getSelection());
-              if (btnIdx.getSelection()) {
-                txtSize.setVisible(true);
-                spnSize.setVisible(false);
-                txtSize.setText(Integer.toString(spnSize.getSelection()));
-              } else {
-                txtSize.setVisible(false);
-                spnSize.setVisible(true);
-                if (NumericUtil.isOneDimPositiveInteger(txtSize.getText()))
-                  spnSize.setSelection(Integer.parseInt(txtSize.getText()));
-                else
-                  element.setSize(Integer.toString(spnSize.getSelection()));
-              }
-              UpdateContext context = new UpdateContext(pe);
-              dtp.getFeatureProvider().updateIfPossible(context);
-              if (btnIdx.getSelection())
-                btnTrig.setEnabled(false);
+        ModelUtil.runModelChange(() -> {
+          InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
+              .getActiveTransaction();
+          if (a == null || a.isReadOnly() == true)
+            return;
+          modelFrom(pe).ifPresent((Sipo sipo) -> {
+            sipo.setIndex(btnIdx.getSelection());
+            if (btnIdx.getSelection()) {
+              txtSize.setVisible(true);
+              spnSize.setVisible(false);
+              txtSize.setText(Integer.toString(spnSize.getSelection()));
+            } else {
+              txtSize.setVisible(false);
+              spnSize.setVisible(true);
+              if (NumericUtil.isOneDimPositiveInteger(txtSize.getText()))
+                spnSize.setSelection(Integer.parseInt(txtSize.getText()));
               else
-                btnTrig.setEnabled(true);
+                sipo.setSize(Integer.toString(spnSize.getSelection()));
             }
-          }
+            UpdateContext context = new UpdateContext(pe);
+            dtp.getFeatureProvider().updateIfPossible(context);
+            if (btnIdx.getSelection())
+              btnTrig.setEnabled(false);
+            else
+              btnTrig.setEnabled(true);
+          });
         }, ed, "Model Update");
       }
     });
     btnClk.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent se) {
-        ModelUtil.runModelChange(new Runnable() {
-          public void run() {
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
-                .getActiveTransaction();
-            if (a == null || a.isReadOnly() == true)
-              return;
-            if (bo instanceof Sipo) {
-              Sipo element = (Sipo) bo;
-              element.setClock(btnClk.getSelection());
-              UpdateContext context = new UpdateContext(pe);
-              dtp.getFeatureProvider().updateIfPossible(context);
-            }
-          }
+        ModelUtil.runModelChange(() -> {
+          InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
+              .getActiveTransaction();
+          if (a == null || a.isReadOnly() == true)
+            return;
+          modelFrom(pe).ifPresent((Sipo sipo) -> {
+            sipo.setClock(btnClk.getSelection());
+            UpdateContext context = new UpdateContext(pe);
+            dtp.getFeatureProvider().updateIfPossible(context);
+          });
         }, ed, "Model Update");
       }
     });
     btnTrig.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent se) {
-        ModelUtil.runModelChange(new Runnable() {
-          public void run() {
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
-                .getActiveTransaction();
-            if (a == null || a.isReadOnly() == true)
-              return;
-            if (bo instanceof Sipo) {
-              Sipo element = (Sipo) bo;
-              element.setTrigger(btnTrig.getSelection());
-              UpdateContext context = new UpdateContext(pe);
-              dtp.getFeatureProvider().updateIfPossible(context);
-            }
-          }
+        ModelUtil.runModelChange(() -> {
+          InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
+              .getActiveTransaction();
+          if (a == null || a.isReadOnly() == true)
+            return;
+          modelFrom(pe).ifPresent((Sipo sipo) -> {
+            sipo.setTrigger(btnTrig.getSelection());
+            UpdateContext context = new UpdateContext(pe);
+            dtp.getFeatureProvider().updateIfPossible(context);
+          });
         }, ed, "Model Update");
       }
     });
     btnSizeOut.addSelectionListener(new SelectionAdapter() {
       @Override
       public void widgetSelected(SelectionEvent se) {
-        ModelUtil.runModelChange(new Runnable() {
-          public void run() {
-            Object bo = Graphiti.getLinkService()
-                .getBusinessObjectForLinkedPictogramElement(pe);
-            InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
-                .getActiveTransaction();
-            if (a == null || a.isReadOnly() == true)
-              return;
-            if (bo instanceof Sipo) {
-              Sipo element = (Sipo) bo;
-              element.setSizeOut(btnSizeOut.getSelection());
-              UpdateContext context = new UpdateContext(pe);
-              dtp.getFeatureProvider().updateIfPossible(context);
-            }
-          }
+        ModelUtil.runModelChange(() -> {
+          InternalTransaction a = ((InternalTransactionalEditingDomain) ed)
+              .getActiveTransaction();
+          if (a == null || a.isReadOnly() == true)
+            return;
+          modelFrom(pe).ifPresent((Sipo sipo) -> {
+            sipo.setSizeOut(btnSizeOut.getSelection());
+            UpdateContext context = new UpdateContext(pe);
+            dtp.getFeatureProvider().updateIfPossible(context);
+          });
         }, ed, "Model Update");
       }
     });
-  }
-
-  private void addStyles() {
-    root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    lblSize.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    cmpSize.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    spnSize.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
-    txtSize.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
   public void refresh(PictogramElement pe, TransactionalEditingDomain ed) {
