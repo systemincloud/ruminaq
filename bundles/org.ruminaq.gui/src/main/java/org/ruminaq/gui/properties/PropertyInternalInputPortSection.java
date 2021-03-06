@@ -82,30 +82,15 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     }
   }
 
-  private class Default extends LabelComposite {
+  private abstract class AbstractDefault extends LabelComposite {
 
     protected Button btnDefault;
 
     protected void initComponents() {
       btnDefault.setText("set to default");
     }
-  }
-
-  private abstract class AbstractCheckboxDefault extends Default {
-    protected Button btnCheck;
-
-    private AbstractCheckboxDefault() {
-      btnCheck = new Button(cmp, SWT.CHECK);
-      btnDefault = new Button(cmp, SWT.PUSH);
-    }
-
+    
     protected void initActions() {
-      btnCheck.addSelectionListener(
-          (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
-              () -> modelFrom(getSelectedPictogramElement())
-                  .ifPresent(this::btnCheckAction),
-              getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-              btnCheckActionMessage()));
       btnDefault.addSelectionListener(
           (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
               () -> modelFrom(getSelectedPictogramElement())
@@ -113,14 +98,34 @@ public class PropertyInternalInputPortSection extends GFPropertySection
               getDiagramContainer().getDiagramBehavior().getEditingDomain(),
               btnDefaultActionMessage()));
     }
+    
+    protected abstract void btnDefaultAction(InternalInputPort iip);
+
+    protected abstract String btnDefaultActionMessage();
+  }
+
+  private abstract class AbstractCheckboxDefault extends AbstractDefault {
+    protected Button btnCheck;
+
+    private AbstractCheckboxDefault() {
+      btnCheck = new Button(cmp, SWT.CHECK);
+      btnDefault = new Button(cmp, SWT.PUSH);
+    }
+
+    @Override
+    protected void initActions() {
+      super.initActions();
+      btnCheck.addSelectionListener(
+          (WidgetSelectedSelectionListener) se -> ModelUtil.runModelChange(
+              () -> modelFrom(getSelectedPictogramElement())
+                  .ifPresent(this::btnCheckAction),
+              getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+              btnCheckActionMessage()));
+    }
 
     protected abstract void btnCheckAction(InternalInputPort iip);
 
     protected abstract String btnCheckActionMessage();
-
-    protected abstract void btnDefaultAction(InternalInputPort iip);
-
-    protected abstract String btnDefaultActionMessage();
   }
 
   private final class PreventLost extends AbstractCheckboxDefault {
@@ -172,7 +177,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     }
   }
 
-  private final class QueueSize extends Default {
+  private final class QueueSize extends AbstractDefault {
 
     private Text txtQueueSize;
 
@@ -186,7 +191,8 @@ public class PropertyInternalInputPortSection extends GFPropertySection
       btnDefault = new Button(cmp, SWT.PUSH);
     }
 
-    private void initActions() {
+    @Override
+    protected void initActions() {
       txtQueueSize.addFocusListener(new FocusAdapter() {
         @Override
         public void focusLost(FocusEvent event) {
@@ -217,14 +223,6 @@ public class PropertyInternalInputPortSection extends GFPropertySection
           btnIgnoreLossyCast.setFocus();
         }
       });
-      btnDefault.addSelectionListener(
-          (WidgetSelectedSelectionListener) se -> modelFrom(
-              getSelectedPictogramElement())
-                  .ifPresent(iip -> ModelUtil.runModelChange(() -> {
-                    iip.setQueueSize(iip.getDefaultQueueSize());
-                    refresh(iip);
-                  }, getDiagramContainer().getDiagramBehavior()
-                      .getEditingDomain(), "Change console type")));
     }
 
     @Override
@@ -242,6 +240,17 @@ public class PropertyInternalInputPortSection extends GFPropertySection
       btnDefault
           .setEnabled(!ip.getDefaultQueueSize().equals(ip.getQueueSize()));
 
+    }
+
+    @Override
+    protected void btnDefaultAction(InternalInputPort iip) {
+      iip.setQueueSize(iip.getDefaultQueueSize());
+      refresh(iip);
+    }
+
+    @Override
+    protected String btnDefaultActionMessage() {
+      return "Set queue size to default";
     }
   }
 
