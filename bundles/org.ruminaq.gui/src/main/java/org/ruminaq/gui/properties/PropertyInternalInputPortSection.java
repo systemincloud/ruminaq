@@ -139,6 +139,12 @@ public class PropertyInternalInputPortSection extends GFPropertySection
       }
       btnDefault.setEnabled(!ip.isPreventLostDefault());
     }
+
+    private boolean diagramDefaultPreventLost() {
+      return Optional.of(getDiagram()).filter(RuminaqDiagram.class::isInstance)
+          .map(RuminaqDiagram.class::cast).map(RuminaqDiagram::getMainTask)
+          .map(MainTask::isPreventLosts).orElse(Boolean.FALSE);
+    }
   }
 
   private final class QueueSize extends Default {
@@ -261,12 +267,6 @@ public class PropertyInternalInputPortSection extends GFPropertySection
     return shapeFrom(pe).map(InternalPortShape::getModelObject)
         .filter(InternalInputPort.class::isInstance)
         .map(InternalInputPort.class::cast);
-  }
-
-  private boolean diagramDefaultPreventLost() {
-    return Optional.of(getDiagram()).filter(RuminaqDiagram.class::isInstance)
-        .map(RuminaqDiagram.class::cast).map(RuminaqDiagram::getMainTask)
-        .map(MainTask::isPreventLosts).orElse(Boolean.FALSE);
   }
 
   /**
