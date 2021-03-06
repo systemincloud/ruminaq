@@ -55,6 +55,8 @@ public class AddTest extends GuiTest {
     propertiesView.activate();
     propertiesView.selectTab("Internal Input Port");
     
+    bot.checkBox(0).click();
+    bot.checkBox(1).click();
     bot.checkBox(2).click();
     
     Thread.sleep(1000);
