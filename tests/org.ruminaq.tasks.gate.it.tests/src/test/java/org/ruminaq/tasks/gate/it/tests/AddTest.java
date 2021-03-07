@@ -92,5 +92,7 @@ public class AddTest extends GuiTest {
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Synchronization");
+    
+    Thread.sleep(1000);  
   }
 }
