@@ -281,7 +281,7 @@ public class PropertySynchronizationSection extends GFPropertySection
 
   private final class GroupEditingSupport
       extends AbstractSynchronizationEditingSupport {
-    private TextCellEditor cellEditor = null;
+    private TextCellEditor cellEditor;
 
     private GroupEditingSupport(ColumnViewer viewer) {
       super(viewer);
@@ -312,7 +312,7 @@ public class PropertySynchronizationSection extends GFPropertySection
 
   private final class TaskEditingSupport
       extends AbstractSynchronizationEditingSupport {
-    private ComboBoxViewerCellEditor cellEditor = null;
+    private ComboBoxViewerCellEditor cellEditor;
     private MainTask mt;
 
     private TaskEditingSupport(ColumnViewer viewer, MainTask mt,
@@ -443,7 +443,7 @@ public class PropertySynchronizationSection extends GFPropertySection
   }
 
   private class ResetTaskEditingSupport extends EditingSupport {
-    private ComboBoxViewerCellEditor cellEditor = null;
+    private ComboBoxViewerCellEditor cellEditor;
     private MainTask mt;
 
     private ResetTaskEditingSupport(ColumnViewer viewer, MainTask mt,
@@ -597,7 +597,7 @@ public class PropertySynchronizationSection extends GFPropertySection
 
   private class SkipEditingSupport
       extends AbstractSynchronizationEditingSupport {
-    private TextCellEditor cellEditor = null;
+    private TextCellEditor cellEditor;
 
     private SkipEditingSupport(ColumnViewer viewer) {
       super(viewer);
@@ -616,20 +616,12 @@ public class PropertySynchronizationSection extends GFPropertySection
 
     @Override
     protected void setValue(Synchronization synchronization, Object value) {
-      ModelUtil.runModelChange(new Runnable() {
-        @Override
-        public void run() {
-          set(synchronization, (String) value);
-          treVwOutputPorts.refresh();
-          for (TreeColumn tc : treOutputPorts.getColumns())
-            tc.pack();
-        }
+      ModelUtil.runModelChange(() -> {
+        synchronization.setSkipFirst((String) value);
+        treVwOutputPorts.refresh();
+        Stream.of(treOutputPorts.getColumns()).forEach(TreeColumn::pack);
       }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
           "Change");
-    }
-
-    protected void set(Synchronization s, String value) {
-      s.setSkipFirst(value);
     }
   }
 
@@ -644,13 +636,18 @@ public class PropertySynchronizationSection extends GFPropertySection
     }
 
     @Override
-    protected void set(Synchronization s, String value) {
-      s.setWaitForTicks(value);
+    protected void setValue(Synchronization synchronization, Object value) {
+      ModelUtil.runModelChange(() -> {
+        synchronization.setWaitForTicks((String) value);
+        treVwOutputPorts.refresh();
+        Stream.of(treOutputPorts.getColumns()).forEach(TreeColumn::pack);
+      }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+          "Change");
     }
   }
 
   private final class NotifyLoopEditingSupport extends EditingSupport {
-    private CheckboxCellEditor cellEditor = null;
+    private CheckboxCellEditor cellEditor;
 
     private NotifyLoopEditingSupport(ColumnViewer viewer) {
       super(viewer);
@@ -688,8 +685,7 @@ public class PropertySynchronizationSection extends GFPropertySection
         ModelUtil.runModelChange(() -> {
           op.setLoop(boolValue);
           if (boolValue)
-            for (Synchronization s : op.getSynchronization())
-              s.setLoop(false);
+            op.getSynchronization().stream().forEach(s -> s.setLoop(false));
           treVwOutputPorts.refresh();
         }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
             "Change");
@@ -710,7 +706,7 @@ public class PropertySynchronizationSection extends GFPropertySection
   }
 
   private final class SkipLoopEditingSupport extends EditingSupport {
-    private CheckboxCellEditor cellEditor = null;
+    private CheckboxCellEditor cellEditor;
 
     private SkipLoopEditingSupport(ColumnViewer viewer) {
       super(viewer);
