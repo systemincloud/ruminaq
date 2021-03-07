@@ -240,7 +240,43 @@ public class PropertySynchronizationSection extends GFPropertySection
     }
   }
 
-  private final class GroupEditingSupport extends EditingSupport {
+  private abstract class AbstractSynchronizationEditingSupport
+      extends EditingSupport {
+
+    public AbstractSynchronizationEditingSupport(ColumnViewer viewer) {
+      super(viewer);
+    }
+
+    @Override
+    protected CellEditor getCellEditor(Object element) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    protected boolean canEdit(Object element) {
+      return Optional.of(element).filter(Synchronization.class::isInstance)
+          .isPresent();
+    }
+
+    @Override
+    protected Object getValue(Object element) {
+      return Optional.of(element).filter(Synchronization.class::isInstance)
+          .map(Synchronization.class::cast).map(this::getValue).orElse(NONE);
+    }
+
+    protected abstract Object getValue(Synchronization synchronization);
+
+    @Override
+    protected void setValue(Object element, Object value) {
+      // TODO Auto-generated method stub
+
+    }
+
+  }
+
+  private final class GroupEditingSupport
+      extends AbstractSynchronizationEditingSupport {
     private TextCellEditor cellEditor = null;
 
     private GroupEditingSupport(ColumnViewer viewer) {
@@ -254,16 +290,8 @@ public class PropertySynchronizationSection extends GFPropertySection
     }
 
     @Override
-    protected boolean canEdit(Object o) {
-      return o instanceof Synchronization;
-    }
-
-    @Override
-    protected Object getValue(Object o) {
-      if (o instanceof Synchronization)
-        return "" + ((Synchronization) o).getGroup();
-      else
-        return "";
+    protected Object getValue(Synchronization synchronization) {
+      return synchronization.getGroup();
     }
 
     @Override
@@ -281,7 +309,8 @@ public class PropertySynchronizationSection extends GFPropertySection
     }
   }
 
-  private final class TaskEditingSupport extends EditingSupport {
+  private final class TaskEditingSupport
+      extends AbstractSynchronizationEditingSupport {
     private ComboBoxViewerCellEditor cellEditor = null;
     private MainTask mt;
 
@@ -311,18 +340,8 @@ public class PropertySynchronizationSection extends GFPropertySection
     }
 
     @Override
-    protected boolean canEdit(Object o) {
-      return o instanceof Synchronization;
-    }
-
-    @Override
-    protected Object getValue(Object o) {
-      if (o instanceof Synchronization) {
-        Synchronization s = (Synchronization) o;
-        return s.getWaitForPort() != null ? s.getWaitForPort().getTask().getId()
-            : NONE;
-      }
-      return null;
+    protected Object getValue(Synchronization synchronization) {
+      return synchronization.getWaitForPort().getTask().getId();
     }
 
     @Override
@@ -352,7 +371,8 @@ public class PropertySynchronizationSection extends GFPropertySection
     }
   }
 
-  private class PortEditingSupport extends EditingSupport {
+  private class PortEditingSupport
+      extends AbstractSynchronizationEditingSupport {
     private PortEditingSupport(ColumnViewer viewer) {
       super(viewer);
     }
@@ -390,20 +410,10 @@ public class PropertySynchronizationSection extends GFPropertySection
     }
 
     @Override
-    protected boolean canEdit(Object o) {
-      return o instanceof Synchronization;
-    }
-
-    @Override
-    protected Object getValue(Object o) {
-      if (o instanceof Synchronization) {
-        Synchronization s = (Synchronization) o;
-        return s.getWaitForPort() == null ? NONE
-            : s.getWaitForPort() instanceof InternalOutputPort
-                ? OUT + s.getWaitForPort().getId()
-                : IN + s.getWaitForPort().getId();
-      }
-      return null;
+    protected Object getValue(Synchronization synchronization) {
+      return synchronization.getWaitForPort() instanceof InternalOutputPort
+          ? OUT + synchronization.getWaitForPort().getId()
+          : IN + synchronization.getWaitForPort().getId();
     }
 
     @Override
@@ -588,7 +598,8 @@ public class PropertySynchronizationSection extends GFPropertySection
     }
   }
 
-  private class SkipEditingSupport extends EditingSupport {
+  private class SkipEditingSupport
+      extends AbstractSynchronizationEditingSupport {
     private TextCellEditor cellEditor = null;
 
     private SkipEditingSupport(ColumnViewer viewer) {
@@ -602,16 +613,8 @@ public class PropertySynchronizationSection extends GFPropertySection
     }
 
     @Override
-    protected boolean canEdit(Object o) {
-      return o instanceof Synchronization;
-    }
-
-    @Override
-    protected Object getValue(Object o) {
-      if (o instanceof Synchronization)
-        return get((Synchronization) o);
-      else
-        return null;
+    protected Object getValue(Synchronization synchronization) {
+      return synchronization.getSkipFirst();
     }
 
     @Override
@@ -631,10 +634,6 @@ public class PropertySynchronizationSection extends GFPropertySection
       }
     }
 
-    protected Object get(Synchronization s) {
-      return s.getSkipFirst();
-    }
-
     protected void set(Synchronization s, String value) {
       s.setSkipFirst(value);
     }
@@ -646,8 +645,8 @@ public class PropertySynchronizationSection extends GFPropertySection
     }
 
     @Override
-    protected Object get(Synchronization s) {
-      return s.getWaitForTicks();
+    protected Object getValue(Synchronization synchronization) {
+      return synchronization.getWaitForTicks();
     }
 
     @Override
