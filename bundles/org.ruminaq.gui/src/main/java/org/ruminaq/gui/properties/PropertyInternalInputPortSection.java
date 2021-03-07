@@ -193,6 +193,7 @@ public class PropertyInternalInputPortSection extends GFPropertySection
 
     @Override
     protected void initActions() {
+      super.initActions();
       txtQueueSize.addFocusListener(new FocusAdapter() {
         @Override
         public void focusLost(FocusEvent event) {

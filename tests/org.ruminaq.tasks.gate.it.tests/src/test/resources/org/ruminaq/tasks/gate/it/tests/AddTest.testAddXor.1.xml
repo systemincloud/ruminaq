@@ -16,7 +16,7 @@
       <inputPort id="In 1">
         <dataType xsi:type="dt:Bool"/>
       </inputPort>
-      <inputPort id="In 2" ignoreLossyCast="true" holdLast="true" preventLostDefault="false" preventLost="false">
+      <inputPort id="In 2" ignoreLossyCast="true" queueSize="4" holdLast="true" preventLostDefault="false" preventLost="false">
         <dataType xsi:type="dt:Bool"/>
       </inputPort>
     </task>

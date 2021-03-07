@@ -74,7 +74,6 @@ public class JythonInterpreter extends PyInterpreter {
   }
 
   public class PtListener extends PyObject {
-    private static final long serialVersionUID = 1L;
 
     public void externalData(String taskid, int i) {
       idToPythonTaskMap.get(taskid).externalData(i);

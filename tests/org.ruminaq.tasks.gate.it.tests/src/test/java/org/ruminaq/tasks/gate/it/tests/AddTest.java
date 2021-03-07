@@ -9,6 +9,7 @@ package org.ruminaq.tasks.gate.it.tests;
 import static org.junit.Assert.assertEquals;
 import org.eclipse.reddeer.eclipse.ui.views.properties.PropertySheet;
 import org.eclipse.reddeer.junit.runner.RedDeerSuite;
+import org.eclipse.swt.SWT;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ruminaq.gui.model.diagram.InternalInputPortShape;
@@ -54,23 +55,24 @@ public class AddTest extends GuiTest {
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Internal Input Port");
-    
+
     bot.checkBox(0).click();
     bot.checkBox(1).click();
     bot.checkBox(2).click();
-    
+    bot.text().setText("4");
+    bot.text().pressShortcut(SWT.CR, SWT.LF);
+
     Thread.sleep(1000);
 
-    assertDiagram(diagramEditor,
-        "AddTest.testAddXor.1.xml");
-    
+    assertDiagram(diagramEditor, "AddTest.testAddXor.1.xml");
+
     bot.button(0).click();
+    bot.button(1).click();
     bot.button(2).click();
-    
+
     Thread.sleep(1000);
 
-    assertDiagram(diagramEditor,
-        "AddTest.testAddXor.2.xml");
+    assertDiagram(diagramEditor, "AddTest.testAddXor.2.xml");
   }
 
   @Test
