@@ -42,7 +42,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
@@ -772,12 +771,14 @@ public class PropertySynchronizationSection extends GFPropertySection
   /**
    * Layout.
    *
+   * <pre>
    * _________________________________________________________________________________________________________
    * | Output Port | Group | Sync Task | Sync Port | Ticks | L | Skips | L | U | D | Reset Task | Reset Port |
    * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    * |             |       |           |           |       |   |       |   |   |   |            |            |
    * |             |       |           |           |       |   |       |   |   |   |            |            |
    * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * </pre>
    */
   @Override
   public void createControls(Composite parent,
@@ -792,7 +793,8 @@ public class PropertySynchronizationSection extends GFPropertySection
   private void initLayout(Composite parent) {
     ((GridData) parent.getLayoutData()).verticalAlignment = SWT.FILL;
     ((GridData) parent.getLayoutData()).grabExcessVerticalSpace = true;
-
+    ((GridData) parent.getLayoutData()).horizontalAlignment = SWT.FILL;
+    ((GridData) parent.getLayoutData()).grabExcessHorizontalSpace = true;
     root = new Composite(parent, SWT.NULL);
     root.setLayout(new GridLayout(1, false));
 
@@ -966,8 +968,7 @@ public class PropertySynchronizationSection extends GFPropertySection
       }
     });
 
-    for (TreeColumn tc : treOutputPorts.getColumns())
-      tc.pack();
+    Stream.of(treOutputPorts.getColumns()).forEach(TreeColumn::pack);
   }
 
   @Override
@@ -1020,11 +1021,10 @@ public class PropertySynchronizationSection extends GFPropertySection
           t);
       treclVwOutputResetTask.setEditingSupport(treclEdOutputResetTask);
     });
-    for (TreeItem ti : treVwOutputPorts.getTree().getItems())
-      ti.setExpanded(true);
+    Stream.of(treVwOutputPorts.getTree().getItems())
+        .forEach(ti -> ti.setExpanded(true));
     treVwOutputPorts.refresh();
-    for (TreeColumn tc : treOutputPorts.getColumns())
-      tc.pack();
+    Stream.of(treOutputPorts.getColumns()).forEach(TreeColumn::pack);
     root.layout();
   }
 }
