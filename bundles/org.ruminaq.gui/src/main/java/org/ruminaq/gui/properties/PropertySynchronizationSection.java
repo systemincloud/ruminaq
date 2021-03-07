@@ -61,6 +61,11 @@ import org.ruminaq.model.ruminaq.Synchronization;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.util.NumericUtil;
 
+/**
+ * SynchronizationSection for InternalOutputPort.
+ *
+ * @author Marek Jagielski
+ */
 public class PropertySynchronizationSection extends GFPropertySection
     implements ITabbedPropertyConstants {
 
