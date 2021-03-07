@@ -67,6 +67,8 @@ public class AddTest extends GuiTest {
     bot.button(0).click();
     bot.button(2).click();
     
+    Thread.sleep(1000);
+
     assertDiagram(diagramEditor,
         "AddTest.testAddXor.2.xml");
   }
