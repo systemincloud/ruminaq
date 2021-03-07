@@ -787,7 +787,6 @@ public class PropertySynchronizationSection extends GFPropertySection
     initLayout(parent);
     initActions();
     initComponents();
-    addStyles();
   }
 
   private void initLayout(Composite parent) {
@@ -969,10 +968,6 @@ public class PropertySynchronizationSection extends GFPropertySection
 
     for (TreeColumn tc : treOutputPorts.getColumns())
       tc.pack();
-  }
-
-  private void addStyles() {
-    root.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
   }
 
   @Override
