@@ -87,12 +87,12 @@ public class AddTest extends GuiTest {
     addToolFromPalette("And", 300, 200);
     addToolFromPalette("Not", 400, 300);
 
-    new WithShapeGraphitiEditPart(Or.class).select();
+    new WithBoGraphitiEditPart(Or.class).select();
     PropertySheet propertiesView = new PropertySheet();
     propertiesView.open();
     propertiesView.activate();
     propertiesView.selectTab("Synchronization");
-    
-    Thread.sleep(1000);  
+
+    Thread.sleep(1000);
   }
 }
