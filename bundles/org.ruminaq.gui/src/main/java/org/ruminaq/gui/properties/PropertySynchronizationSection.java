@@ -53,6 +53,7 @@ import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.InternalOutputPort;
+import org.ruminaq.model.ruminaq.InternalPort;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.ModelUtil;
 import org.ruminaq.model.ruminaq.RuminaqFactory;
@@ -261,7 +262,8 @@ public class PropertySynchronizationSection extends GFPropertySection
 
     @Override
     protected Object getValue(Object element) {
-      return Optional.of(element).filter(Synchronization.class::isInstance)
+      return Optional.ofNullable(element)
+          .filter(Synchronization.class::isInstance)
           .map(Synchronization.class::cast).map(this::getValue).orElse(NONE);
     }
 
@@ -293,7 +295,7 @@ public class PropertySynchronizationSection extends GFPropertySection
 
     @Override
     protected Object getValue(Synchronization synchronization) {
-      return synchronization.getGroup();
+      return "" + synchronization.getGroup();
     }
 
     @Override
@@ -340,7 +342,9 @@ public class PropertySynchronizationSection extends GFPropertySection
 
     @Override
     protected Object getValue(Synchronization synchronization) {
-      return synchronization.getWaitForPort().getTask().getId();
+      return Optional.ofNullable(synchronization)
+          .map(Synchronization::getWaitForPort).map(InternalPort::getTask)
+          .map(Task::getId).orElse("");
     }
 
     @Override
