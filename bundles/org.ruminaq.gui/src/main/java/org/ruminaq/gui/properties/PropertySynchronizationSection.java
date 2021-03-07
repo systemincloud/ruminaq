@@ -770,7 +770,14 @@ public class PropertySynchronizationSection extends GFPropertySection
   }
 
   /**
-   * @wbp.parser.entryPoint
+   * Layout.
+   *
+   * _________________________________________________________________________________________________________
+   * | Output Port | Group | Sync Task | Sync Port | Ticks | L | Skips | L | U | D | Reset Task | Reset Port |
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * |             |       |           |           |       |   |       |   |   |   |            |            |
+   * |             |       |           |           |       |   |       |   |   |   |            |            |
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    */
   @Override
   public void createControls(Composite parent,
