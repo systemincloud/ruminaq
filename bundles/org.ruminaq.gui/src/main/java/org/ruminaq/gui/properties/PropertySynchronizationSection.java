@@ -162,12 +162,12 @@ public class PropertySynchronizationSection extends GFPropertySection
       return Optional.of(o).filter(InternalOutputPort.class::isInstance)
           .map(InternalOutputPort.class::cast)
           .map(InternalOutputPort::getSynchronization).map(l -> !l.isEmpty())
-          .orElse(false);
+          .orElse(Boolean.FALSE);
     }
 
   }
 
-  private final static class TreeLabelProvider extends LabelProvider
+  private static final class TreeLabelProvider extends LabelProvider
       implements ITableLabelProvider {
     @Override
     public String getColumnText(Object o, int columnIndex) {
