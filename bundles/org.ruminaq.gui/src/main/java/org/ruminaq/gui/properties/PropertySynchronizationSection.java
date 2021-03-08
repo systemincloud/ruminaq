@@ -513,7 +513,7 @@ public class PropertySynchronizationSection extends GFPropertySection
     }
   }
 
-  private class ResetPortEditingSupport extends EditingSupport {
+  private final class ResetPortEditingSupport extends EditingSupport {
     private ResetPortEditingSupport(ColumnViewer viewer) {
       super(viewer);
     }
