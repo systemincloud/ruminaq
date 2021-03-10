@@ -139,17 +139,16 @@ public class PropertySynchronizationSection extends GFPropertySection
 
     @Override
     public Object[] getChildren(Object o) {
-      return ((InternalOutputPort) o).getSynchronization()
-          .toArray(new Synchronization[((InternalOutputPort) o)
-              .getSynchronization().size()]);
+      return Optional.of(o).filter(InternalOutputPort.class::isInstance)
+          .map(InternalOutputPort.class::cast).stream()
+          .toArray(Synchronization[]::new);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Object[] getElements(Object o) {
-      return ((EObjectContainmentEList<InternalOutputPort>) o).toArray(
-          new InternalOutputPort[((EObjectContainmentEList<InternalOutputPort>) o)
-              .size()]);
+      return Optional.of(o).filter(EObjectContainmentEList.class::isInstance)
+          .map(EObjectContainmentEList.class::cast).stream()
+          .toArray(InternalOutputPort[]::new);
     }
 
     @Override
