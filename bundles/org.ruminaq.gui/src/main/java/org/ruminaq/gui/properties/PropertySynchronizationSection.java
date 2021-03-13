@@ -8,6 +8,7 @@ package org.ruminaq.gui.properties;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -140,15 +141,17 @@ public class PropertySynchronizationSection extends GFPropertySection
     @Override
     public Object[] getChildren(Object o) {
       return Optional.of(o).filter(InternalOutputPort.class::isInstance)
-          .map(InternalOutputPort.class::cast).stream()
-          .toArray(Synchronization[]::new);
+          .map(InternalOutputPort.class::cast)
+          .map(InternalOutputPort::getSynchronization).map(List::stream)
+          .orElseGet(Stream::empty).toArray(Synchronization[]::new);
     }
 
     @Override
     public Object[] getElements(Object o) {
       return Optional.of(o).filter(EObjectContainmentEList.class::isInstance)
-          .map(EObjectContainmentEList.class::cast).stream()
-          .toArray(InternalOutputPort[]::new);
+          .map(EObjectContainmentEList.class::cast)
+          .map(EObjectContainmentEList<InternalOutputPort>::stream)
+          .orElseGet(Stream::empty).toArray(InternalOutputPort[]::new);
     }
 
     @Override
