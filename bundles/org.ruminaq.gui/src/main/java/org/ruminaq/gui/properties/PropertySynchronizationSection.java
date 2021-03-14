@@ -6,18 +6,14 @@
 
 package org.ruminaq.gui.properties;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
@@ -49,8 +45,6 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertyConstants;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
 import org.ruminaq.gui.model.diagram.RuminaqDiagram;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.ruminaq.InternalInputPort;
@@ -74,9 +68,6 @@ public class PropertySynchronizationSection extends GFPropertySection
   private static final String NONE = "-";
   private static final String IN = "[IN] ";
   private static final String OUT = "[OUT] ";
-
-  private static final Image CHECKED = getImage("checked.gif");
-  private static final Image UNCHECKED = getImage("unchecked.gif");
 
   private Composite root;
 
@@ -108,14 +99,6 @@ public class PropertySynchronizationSection extends GFPropertySection
   private ResetPortEditingSupport treclEdOutputResetPort;
 
   private Map<Object, Button> buttons = new HashMap<>();
-
-  private static Image getImage(String file) {
-    Bundle bundle = FrameworkUtil
-        .getBundle(PropertySynchronizationSection.class);
-    URL url = FileLocator.find(bundle, new Path("icons/" + file), null);
-    ImageDescriptor image = ImageDescriptor.createFromURL(url);
-    return image.createImage();
-  }
 
   private static Optional<TaskShape> shapeFrom(PictogramElement pe) {
     return Optional.ofNullable(pe).filter(TaskShape.class::isInstance)
@@ -910,49 +893,70 @@ public class PropertySynchronizationSection extends GFPropertySection
     treVwOutputPorts.setLabelProvider(new TreeLabelProvider());
 
     treclVwOutputPortsNLoop.setLabelProvider(new ColumnLabelProvider() {
-      @Override
-      public String getText(Object o) {
-        return null;
-      }
+      Map<Object, Button> buttons = new HashMap<>();
 
       @Override
-      public Image getImage(Object o) {
-        if (o instanceof InternalOutputPort) {
-          if (((InternalOutputPort) o).isLoop())
-            return CHECKED;
-          else
-            return UNCHECKED;
-        } else if (o instanceof Synchronization) {
-          Synchronization s = (Synchronization) o;
-          if (s.getParent().getSynchronization().lastIndexOf(
-              o) == s.getParent().getSynchronization().size() - 1) {
-            if (s.isLoop())
-              return CHECKED;
-            else
-              return UNCHECKED;
-          } else
-            return null;
-        } else
-          return null;
+      public void update(ViewerCell cell) {
+        TreeItem item = (TreeItem) cell.getItem();
+        Button button;
+        if (buttons.containsKey(cell.getElement())) {
+          button = buttons.get(cell.getElement());
+        }
+
+        if (cell.getElement() instanceof InternalOutputPort) {
+          button = new Button((Composite) cell.getViewerRow().getControl(),
+              SWT.CHECK);
+          button.setData(((InternalOutputPort) cell.getElement()).isLoop());
+          TreeEditor editor = new TreeEditor(item.getParent());
+          editor.grabHorizontal = true;
+          editor.grabVertical = true;
+          editor.setEditor(button, item, cell.getColumnIndex());
+          editor.layout();
+        } else if (cell.getElement() instanceof Synchronization) {
+          Synchronization s = (Synchronization) cell.getElement();
+          if (s.getParent().getSynchronization().lastIndexOf(cell
+              .getElement()) == s.getParent().getSynchronization().size() - 1) {
+            button = new Button((Composite) cell.getViewerRow().getControl(),
+                SWT.CHECK);
+            button.setData(s.isLoop());
+            TreeEditor editor = new TreeEditor(item.getParent());
+            editor.grabHorizontal = true;
+            editor.grabVertical = true;
+            editor.setEditor(button, item, cell.getColumnIndex());
+            editor.layout();
+          }
+        }
       }
     });
 
     treclVwOutputPortsSLoop.setLabelProvider(new ColumnLabelProvider() {
-      @Override
-      public String getText(Object o) {
-        return null;
-      }
+      Map<Object, Button> buttons = new HashMap<>();
 
       @Override
-      public Image getImage(Object o) {
-        if (o instanceof Synchronization) {
-          Synchronization s = (Synchronization) o;
-          if (s.isSkipLoop())
-            return CHECKED;
-          else
-            return UNCHECKED;
-        } else
-          return null;
+      public void update(ViewerCell cell) {
+        TreeItem item = (TreeItem) cell.getItem();
+        Button button;
+
+        if (cell.getElement() instanceof Synchronization) {
+          if (buttons.containsKey(cell.getElement())) {
+            button = buttons.get(cell.getElement());
+          } else {
+            button = new Button((Composite) cell.getViewerRow().getControl(),
+                SWT.CHECK);
+            if (((Synchronization) cell.getElement()).isSkipLoop()) {
+              button.setData(true);
+            } else {
+              button.setData(false);
+            }
+            buttons.put(cell.getElement(), button);
+          }
+
+          TreeEditor editor = new TreeEditor(item.getParent());
+          editor.grabHorizontal = true;
+          editor.grabVertical = true;
+          editor.setEditor(button, item, cell.getColumnIndex());
+          editor.layout();
+        }
       }
     });
 
