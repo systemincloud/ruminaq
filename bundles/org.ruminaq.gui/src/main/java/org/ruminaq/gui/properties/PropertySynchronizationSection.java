@@ -35,6 +35,7 @@ import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.TreeEditor;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
@@ -763,12 +764,18 @@ public class PropertySynchronizationSection extends GFPropertySection
    * Layout.
    *
    * <pre>
-   * _________________________________________________________________________________________________________
-   * | Output Port | Group | Sync Task | Sync Port | Ticks | L | Skips | L | U | D | Reset Task | Reset Port |
-   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   * |             |       |           |           |       |   |       |   |   |   |            |            |
-   * |             |       |           |           |       |   |       |   |   |   |            |            |
-   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * ___________________________________________________________
+   * | Output Port | Group | Sync Task | Sync Port | Ticks | L | ...
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * |             |       |           |           |       |   | ...
+   * |             |       |           |           |       |   | ...
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *     _______________________________________________
+   * ... | Skips | L | U | D | Reset Task | Reset Port |
+   *     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * ... |       |   |   |   |            |            |
+   * ... |       |   |   |   |            |            |
+   *     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    * </pre>
    */
   @Override
@@ -863,7 +870,7 @@ public class PropertySynchronizationSection extends GFPropertySection
               refresh();
 
             } else if (o instanceof Synchronization) {
-              final Synchronization snc = (Synchronization) o;
+              Synchronization snc = (Synchronization) o;
               ModelUtil.runModelChange(
                   () -> snc.getParent().getSynchronization().remove(snc),
                   getDiagramContainer().getDiagramBehavior().getEditingDomain(),
@@ -950,13 +957,31 @@ public class PropertySynchronizationSection extends GFPropertySection
     });
 
     treclVwOutputPortsBtn.setLabelProvider(new ColumnLabelProvider() {
+      Map<Object, Button> buttons = new HashMap<>();
+
       @Override
-      public String getText(Object o) {
-        if (o instanceof InternalOutputPort)
-          return "+";
-        else
-          return "-";
+      public void update(ViewerCell cell) {
+        TreeItem item = (TreeItem) cell.getItem();
+        Button button;
+        if (buttons.containsKey(cell.getElement())) {
+          button = buttons.get(cell.getElement());
+        } else {
+          button = new Button((Composite) cell.getViewerRow().getControl(),
+              SWT.NONE);
+          if (cell.getElement() instanceof InternalOutputPort) {
+            button.setText("+");
+          } else {
+            button.setText("-");
+          }
+          buttons.put(cell.getElement(), button);
+        }
+        TreeEditor editor = new TreeEditor(item.getParent());
+        editor.grabHorizontal = true;
+        editor.grabVertical = true;
+        editor.setEditor(button, item, cell.getColumnIndex());
+        editor.layout();
       }
+
     });
 
     Stream.of(treOutputPorts.getColumns()).forEach(TreeColumn::pack);
