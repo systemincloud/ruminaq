@@ -202,4 +202,8 @@ public class GuiTest {
             ""));
   }
 
+  protected void waitSeconds(int seconds) throws InterruptedException {
+    Thread.sleep(seconds * 1000);
+  }
+
 }

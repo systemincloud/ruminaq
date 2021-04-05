@@ -5,30 +5,30 @@
       <internalPort xsi:type="diagram:InternalOutputPortShape" x="40" y="20" modelObject="/1/@task.0/@outputPort.0" showLabel="false" outgoingConnections="/0/@connections.0 /0/@connections.5"/>
     </children>
     <children xsi:type="diagram:LabelShape" x="193" y="152" labeledShape="/0/@children.0"/>
-    <children xsi:type="diagram:OutputPortShape" x="600" y="120" modelObject="/1/@outputPort.0" label="/0/@children.3" incomingConnections="/0/@connections.2"/>
-    <children xsi:type="diagram:LabelShape" x="577" y="137" labeledShape="/0/@children.2"/>
-    <children xsi:type="diagram:OutputPortShape" x="600" y="200" modelObject="/1/@outputPort.1" label="/0/@children.5" incomingConnections="/0/@connections.4"/>
-    <children xsi:type="diagram:LabelShape" x="572" y="217" labeledShape="/0/@children.4"/>
-    <children xsi:type="diagram:OutputPortShape" x="600" y="300" modelObject="/1/@outputPort.2" label="/0/@children.7" incomingConnections="/0/@connections.3"/>
-    <children xsi:type="diagram:LabelShape" x="572" y="317" labeledShape="/0/@children.6"/>
-    <children xsi:type="diagram:OutputPortShape" x="600" y="400" modelObject="/1/@outputPort.3" label="/0/@children.9" incomingConnections="/0/@connections.5"/>
-    <children xsi:type="diagram:LabelShape" x="572" y="417" labeledShape="/0/@children.8"/>
+    <children xsi:type="diagram:OutputPortShape" x="590" y="120" modelObject="/1/@outputPort.0" label="/0/@children.3" incomingConnections="/0/@connections.2"/>
+    <children xsi:type="diagram:LabelShape" x="567" y="137" labeledShape="/0/@children.2"/>
+    <children xsi:type="diagram:OutputPortShape" x="590" y="160" modelObject="/1/@outputPort.1" label="/0/@children.5" incomingConnections="/0/@connections.4"/>
+    <children xsi:type="diagram:LabelShape" x="562" y="177" labeledShape="/0/@children.4"/>
+    <children xsi:type="diagram:OutputPortShape" x="590" y="200" modelObject="/1/@outputPort.2" label="/0/@children.7" incomingConnections="/0/@connections.3"/>
+    <children xsi:type="diagram:LabelShape" x="562" y="217" labeledShape="/0/@children.6"/>
+    <children xsi:type="diagram:OutputPortShape" x="590" y="240" modelObject="/1/@outputPort.3" label="/0/@children.9" incomingConnections="/0/@connections.5"/>
+    <children xsi:type="diagram:LabelShape" x="562" y="257" labeledShape="/0/@children.8"/>
     <children xsi:type="diagram:SimpleConnectionPointShape" x="295" y="121" outgoingConnections="/0/@connections.1 /0/@connections.3" incomingConnections="/0/@connections.0"/>
     <children xsi:type="diagram:SimpleConnectionPointShape" x="496" y="120" outgoingConnections="/0/@connections.2 /0/@connections.4" incomingConnections="/0/@connections.1"/>
-    <children xsi:type="constantshape:ConstantShape" x="400" y="400" width="50" height="50" modelObject="/1/@task.1" label="/0/@children.13">
+    <children xsi:type="constantshape:ConstantShape" x="200" y="250" width="50" height="50" modelObject="/1/@task.1" label="/0/@children.13">
       <internalPort xsi:type="diagram:InternalOutputPortShape" x="40" y="20" modelObject="/1/@task.1/@outputPort.0" showLabel="false" outgoingConnections="/0/@connections.7 /0/@connections.11"/>
     </children>
-    <children xsi:type="diagram:LabelShape" x="375" y="452" labeledShape="/0/@children.12"/>
-    <children xsi:type="diagram:OutputPortShape" x="800" y="420" modelObject="/1/@outputPort.4" label="/0/@children.15" incomingConnections="/0/@connections.8"/>
-    <children xsi:type="diagram:LabelShape" x="759" y="437" labeledShape="/0/@children.14"/>
-    <children xsi:type="diagram:OutputPortShape" x="800" y="500" modelObject="/1/@outputPort.5" label="/0/@children.17" incomingConnections="/0/@connections.10"/>
-    <children xsi:type="diagram:LabelShape" x="754" y="517" labeledShape="/0/@children.16"/>
-    <children xsi:type="diagram:OutputPortShape" x="800" y="600" modelObject="/1/@outputPort.6" label="/0/@children.19" incomingConnections="/0/@connections.9"/>
-    <children xsi:type="diagram:LabelShape" x="754" y="617" labeledShape="/0/@children.18"/>
-    <children xsi:type="diagram:OutputPortShape" x="800" y="700" modelObject="/1/@outputPort.7" label="/0/@children.21" incomingConnections="/0/@connections.11"/>
-    <children xsi:type="diagram:LabelShape" x="754" y="717" labeledShape="/0/@children.20"/>
-    <children xsi:type="diagram:SimpleConnectionPointShape" x="696" y="420" outgoingConnections="/0/@connections.8 /0/@connections.10" incomingConnections="/0/@connections.6"/>
-    <children xsi:type="diagram:SimpleConnectionPointShape" x="495" y="421" outgoingConnections="/0/@connections.6 /0/@connections.9" incomingConnections="/0/@connections.7"/>
+    <children xsi:type="diagram:LabelShape" x="175" y="302" labeledShape="/0/@children.12"/>
+    <children xsi:type="diagram:OutputPortShape" x="590" y="270" modelObject="/1/@outputPort.4" label="/0/@children.15" incomingConnections="/0/@connections.8"/>
+    <children xsi:type="diagram:LabelShape" x="549" y="287" labeledShape="/0/@children.14"/>
+    <children xsi:type="diagram:OutputPortShape" x="590" y="310" modelObject="/1/@outputPort.5" label="/0/@children.17" incomingConnections="/0/@connections.10"/>
+    <children xsi:type="diagram:LabelShape" x="544" y="327" labeledShape="/0/@children.16"/>
+    <children xsi:type="diagram:OutputPortShape" x="590" y="350" modelObject="/1/@outputPort.6" label="/0/@children.19" incomingConnections="/0/@connections.9"/>
+    <children xsi:type="diagram:LabelShape" x="544" y="367" labeledShape="/0/@children.18"/>
+    <children xsi:type="diagram:OutputPortShape" x="590" y="390" modelObject="/1/@outputPort.7" label="/0/@children.21" incomingConnections="/0/@connections.11"/>
+    <children xsi:type="diagram:LabelShape" x="544" y="407" labeledShape="/0/@children.20"/>
+    <children xsi:type="diagram:SimpleConnectionPointShape" x="496" y="270" outgoingConnections="/0/@connections.8 /0/@connections.10" incomingConnections="/0/@connections.6"/>
+    <children xsi:type="diagram:SimpleConnectionPointShape" x="295" y="271" outgoingConnections="/0/@connections.6 /0/@connections.9" incomingConnections="/0/@connections.7"/>
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.0 /1/@connection.1 /1/@connection.2" source="/0/@children.0/@internalPort.0" target="/0/@children.10"/>
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.0 /1/@connection.2" source="/0/@children.10" target="/0/@children.11"/>
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.0" source="/0/@children.11" target="/0/@children.2"/>
@@ -43,7 +43,7 @@
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.5" source="/0/@children.23" target="/0/@children.18"/>
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.6" source="/0/@children.22" target="/0/@children.16"/>
     <connections xsi:type="diagram:SimpleConnectionShape" modelObject="/1/@connection.7" source="/0/@children.12/@internalPort.0" target="/0/@children.20">
-      <bendpoints x="480" y="500"/>
+      <bendpoints x="280" y="350"/>
     </connections>
   </diagram:RuminaqDiagram>
   <ruminaq:MainTask version="1.0.0">

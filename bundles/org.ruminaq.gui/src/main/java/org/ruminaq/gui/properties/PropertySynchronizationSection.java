@@ -6,11 +6,13 @@
 
 package org.ruminaq.gui.properties;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.platform.GFPropertySection;
@@ -21,8 +23,6 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnViewer;
 import org.eclipse.jface.viewers.ComboBoxViewerCellEditor;
 import org.eclipse.jface.viewers.EditingSupport;
-import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TextCellEditor;
@@ -32,10 +32,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TreeEditor;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -56,6 +53,7 @@ import org.ruminaq.model.ruminaq.RuminaqFactory;
 import org.ruminaq.model.ruminaq.Synchronization;
 import org.ruminaq.model.ruminaq.Task;
 import org.ruminaq.util.NumericUtil;
+import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**
  * SynchronizationSection for InternalOutputPort.
@@ -74,31 +72,16 @@ public class PropertySynchronizationSection extends GFPropertySection
   private TreeViewer treVwOutputPorts;
 
   private Tree treOutputPorts;
-  private TreeViewerColumn treclVwOutputPortsName;
-  private TreeViewerColumn treclVwOutputPortsGrp;
-  private TreeViewerColumn treclVwOutputPortsTask;
-  private TreeViewerColumn treclVwOutputPortsPort;
-  private TreeViewerColumn treclVwOutputPortsNotify;
-  private TreeViewerColumn treclVwOutputPortsNLoop;
-  private TreeViewerColumn treclVwOutputPortsSkip;
-  private TreeViewerColumn treclVwOutputPortsSLoop;
-  private TreeViewerColumn treclVwOutputPortsUp;
-  private TreeViewerColumn treclVwOutputPortsDown;
-  private TreeViewerColumn treclVwOutputResetTask;
-  private TreeViewerColumn treclVwOutputResetPort;
-  private TreeViewerColumn treclVwOutputPortsBtn;
+  private Group group;
+  private SyncTaskPort syncTaskPort;
+  private Notify notify;
+  private Skip skip;
+  private Up up;
+  private Down down;
+  private Reset reset;
+  private AddRemove addRemove;
 
-  private GroupEditingSupport treclEdOutputPortsGrp;
-  private TaskEditingSupport treclEdOutputPortsTask;
-  private PortEditingSupport treclEdOutputPortsPort;
-  private NotifyEditingSupport treclEdOutputPortsNotify;
-  private NotifyLoopEditingSupport treclEdOutputPortsNLoop;
-  private SkipEditingSupport treclEdOutputPortsSkip;
-  private SkipLoopEditingSupport treclEdOutputPortsSLoop;
-  private ResetTaskEditingSupport treclEdOutputResetTask;
-  private ResetPortEditingSupport treclEdOutputResetPort;
-
-  private Map<Object, Button> buttons = new HashMap<>();
+  private Map<Object, List<Button>> buttons = new HashMap<>();
 
   private static Optional<TaskShape> shapeFrom(PictogramElement pe) {
     return Optional.ofNullable(pe).filter(TaskShape.class::isInstance)
@@ -110,12 +93,438 @@ public class PropertySynchronizationSection extends GFPropertySection
         .filter(Task.class::isInstance).map(Task.class::cast);
   }
 
+  private class Disposable {
+    protected Map<Object, Button> buttons = new HashMap<>();
+
+    public void dispose(Object o) {
+      Optional.ofNullable(buttons.remove(o)).ifPresent(Button::dispose);
+    }
+  }
+
+  private final class PortName {
+    private TreeViewerColumn treclVwOutputPortsName;
+
+    private PortName(TreeViewer treVwOutputPorts) {
+      treclVwOutputPortsName = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
+      treclVwOutputPortsName.getColumn().setText("Output Port");
+      treclVwOutputPortsName.setLabelProvider(new ColumnLabelProvider() {
+        @Override
+        public String getText(Object element) {
+          return Optional.of(element)
+              .filter(InternalOutputPort.class::isInstance)
+              .map(InternalOutputPort.class::cast)
+              .map(InternalOutputPort::getId).orElse("");
+        }
+      });
+    }
+  }
+
+  private final class Group {
+    private TreeViewerColumn treclVwOutputPortsGrp;
+
+    private Group(TreeViewer treVwOutputPorts) {
+      treclVwOutputPortsGrp = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
+      treclVwOutputPortsGrp.getColumn().setAlignment(SWT.CENTER);
+      treclVwOutputPortsGrp.getColumn().setText("Group");
+      treclVwOutputPortsGrp.setLabelProvider(new ColumnLabelProvider() {
+        @Override
+        public String getText(Object element) {
+          return Optional.of(element).filter(Synchronization.class::isInstance)
+              .map(Synchronization.class::cast)
+              .map(s -> s.getGroup() == 0 ? NONE : "" + s.getGroup())
+              .orElse("");
+        }
+      });
+
+    }
+
+    public void refresh() {
+      treclVwOutputPortsGrp.setEditingSupport(
+          new GroupEditingSupport(treclVwOutputPortsGrp.getViewer()));
+    }
+  }
+
+  private final class SyncTaskPort {
+    private TreeViewerColumn treclVwOutputPortsTask;
+    private TreeViewerColumn treclVwOutputPortsPort;
+
+    private SyncTaskPort(TreeViewer treVwOutputPorts) {
+      treclVwOutputPortsTask = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
+      treclVwOutputPortsPort = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
+      treclVwOutputPortsTask.getColumn().setText("Sync Task");
+      treclVwOutputPortsPort.getColumn().setText("Sync Port");
+      treclVwOutputPortsTask.setLabelProvider(new ColumnLabelProvider() {
+        @Override
+        public String getText(Object element) {
+          return Optional.of(element).filter(Synchronization.class::isInstance)
+              .map(Synchronization.class::cast)
+              .map(s -> s.getWaitForPort() == null ? NONE
+                  : s.getWaitForPort().getTask().getId())
+              .orElse("");
+        }
+      });
+      treclVwOutputPortsPort.setLabelProvider(new ColumnLabelProvider() {
+        @Override
+        public String getText(Object element) {
+          return Optional.of(element).filter(Synchronization.class::isInstance)
+              .map(Synchronization.class::cast)
+              .map(s -> s.getWaitForPort() == null ? NONE
+                  : s.getWaitForPort() instanceof InternalOutputPort
+                      ? OUT + s.getWaitForPort().getId()
+                      : IN + s.getWaitForPort().getId())
+              .orElse("");
+        }
+      });
+    }
+
+    public void refresh(Task t) {
+      treclVwOutputPortsPort.setEditingSupport(
+          new PortEditingSupport(treclVwOutputPortsPort.getViewer()));
+
+      treclVwOutputPortsTask.setEditingSupport(
+          new TaskEditingSupport(treclVwOutputPortsTask.getViewer(),
+              ((RuminaqDiagram) getDiagramTypeProvider().getDiagram())
+                  .getMainTask(),
+              t));
+    }
+  }
+
+  private final class Notify extends Disposable {
+    private TreeViewerColumn treclVwOutputPortsNotify;
+    private TreeViewerColumn treclVwOutputPortsLoop;
+
+    private Notify(TreeViewer treVwOutputPorts) {
+      treclVwOutputPortsNotify = new TreeViewerColumn(treVwOutputPorts,
+          SWT.NONE);
+      treclVwOutputPortsLoop = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
+      treclVwOutputPortsNotify.getColumn().setAlignment(SWT.CENTER);
+      treclVwOutputPortsNotify.getColumn().setText("Ticks");
+      treclVwOutputPortsLoop.getColumn().setText("Loop");
+      treclVwOutputPortsNotify.setLabelProvider(new ColumnLabelProvider() {
+        @Override
+        public String getText(Object element) {
+          return Optional.of(element).filter(Synchronization.class::isInstance)
+              .map(Synchronization.class::cast)
+              .map(Synchronization::getWaitForTicks).orElse("");
+        }
+      });
+      treclVwOutputPortsLoop.setLabelProvider(new ColumnLabelProvider() {
+        @Override
+        public void update(ViewerCell cell) {
+          TreeItem item = (TreeItem) cell.getItem();
+          Button button;
+          if (buttons.containsKey(cell.getElement())) {
+            button = buttons.get(cell.getElement());
+          }
+
+          if (cell.getElement() instanceof InternalOutputPort) {
+            button = new Button((Composite) cell.getViewerRow().getControl(),
+                SWT.CHECK);
+            button.setData(((InternalOutputPort) cell.getElement()).isLoop());
+            TreeEditor editor = new TreeEditor(item.getParent());
+            editor.grabHorizontal = true;
+            editor.grabVertical = true;
+            editor.setEditor(button, item, cell.getColumnIndex());
+            editor.layout();
+          } else if (cell.getElement() instanceof Synchronization) {
+            Synchronization s = (Synchronization) cell.getElement();
+            if (s.getParent().getSynchronization().lastIndexOf(
+                cell.getElement()) == s.getParent().getSynchronization().size()
+                    - 1) {
+              button = new Button((Composite) cell.getViewerRow().getControl(),
+                  SWT.CHECK);
+              button.setData(s.isLoop());
+              TreeEditor editor = new TreeEditor(item.getParent());
+              editor.grabHorizontal = true;
+              editor.grabVertical = true;
+              editor.setEditor(button, item, cell.getColumnIndex());
+              editor.layout();
+            }
+          }
+        }
+      });
+      treclVwOutputPortsNotify.setEditingSupport(
+          new SkipEditingSupport(treclVwOutputPortsNotify.getViewer()) {
+
+            @Override
+            protected Object getValue(Synchronization synchronization) {
+              return synchronization.getWaitForTicks();
+            }
+
+            @Override
+            protected void setValue(Synchronization synchronization,
+                Object value) {
+              ModelUtil.runModelChange(() -> {
+                synchronization.setWaitForTicks((String) value);
+                treVwOutputPorts.refresh();
+                treclVwOutputPortsNotify.getColumn().pack();
+              }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
+                  "Change");
+            }
+          });
+      treclVwOutputPortsLoop.setEditingSupport(
+          new NotifyLoopEditingSupport(treclVwOutputPortsLoop.getViewer()));
+    }
+  }
+
+  private final class Skip extends Disposable {
+    private TreeViewerColumn treclVwOutputPortsSkip;
+    private TreeViewerColumn treclVwOutputPortsLoop;
+
+    private Skip() {
+      treclVwOutputPortsSkip = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
+      treclVwOutputPortsSkip.getColumn().setAlignment(SWT.CENTER);
+      treclVwOutputPortsLoop = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
+      treclVwOutputPortsSkip.getColumn().setText("Skips");
+      treclVwOutputPortsLoop.getColumn().setText("Loop");
+      treclVwOutputPortsSkip.setLabelProvider(new ColumnLabelProvider() {
+        @Override
+        public String getText(Object element) {
+          return Optional.of(element).filter(Synchronization.class::isInstance)
+              .map(Synchronization.class::cast)
+              .map(Synchronization::getSkipFirst).orElse("");
+        }
+      });
+      treclVwOutputPortsLoop.setLabelProvider(new ColumnLabelProvider() {
+        @Override
+        public void update(ViewerCell cell) {
+          TreeItem item = (TreeItem) cell.getItem();
+          Optional.of(cell.getElement())
+              .filter(Synchronization.class::isInstance)
+              .map(Synchronization.class::cast)
+              .ifPresent((Synchronization s) -> {
+                Button button = Optional.of(cell.getElement())
+                    .filter(buttons::containsKey).map(buttons::get)
+                    .orElseGet(() -> {
+                      Button b = new Button(
+                          (Composite) cell.getViewerRow().getControl(),
+                          SWT.CHECK);
+                      b.setData(s.isSkipLoop());
+                      buttons.put(cell.getElement(), b);
+                      return b;
+                    });
+                TreeEditor editor = new TreeEditor(item.getParent());
+                editor.grabHorizontal = true;
+                editor.grabVertical = true;
+                editor.setEditor(button, item, cell.getColumnIndex());
+                editor.layout();
+              });
+        }
+      });
+      treclVwOutputPortsSkip.setEditingSupport(
+          new SkipEditingSupport(treclVwOutputPortsSkip.getViewer()));
+      treclVwOutputPortsLoop.setEditingSupport(
+          new SkipLoopEditingSupport(treclVwOutputPortsLoop.getViewer()));
+    }
+  }
+
+  private final class Up extends Disposable {
+    private TreeViewerColumn treclVwOutputPortsUp;
+
+    private Up(TreeViewer treVwOutputPorts) {
+      treclVwOutputPortsUp = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
+      treclVwOutputPortsUp.getColumn().setText(" ");
+      treclVwOutputPortsUp.setLabelProvider(new ColumnLabelProvider() {
+        @Override
+        public void update(ViewerCell cell) {
+          TreeItem item = (TreeItem) cell.getItem();
+          Optional.of(cell.getElement())
+              .filter(Synchronization.class::isInstance)
+              .map(Synchronization.class::cast).ifPresent(s -> {
+                Button button = Optional.of(cell.getElement())
+                    .filter(buttons::containsKey).map(buttons::get)
+                    .orElseGet(() -> {
+                      Button b = new Button(
+                          (Composite) cell.getViewerRow().getControl(),
+                          SWT.PUSH);
+                      b.setData(s.isSkipLoop());
+                      buttons.put(cell.getElement(), b);
+                      return b;
+                    });
+                button.setText("\u21E7");
+                TreeEditor editor = new TreeEditor(item.getParent());
+                editor.grabHorizontal = true;
+                editor.grabVertical = true;
+                editor.setEditor(button, item, cell.getColumnIndex());
+                editor.layout();
+              });
+        }
+      });
+    }
+  }
+
+  private final class Down extends Disposable {
+    private TreeViewerColumn treclVwOutputPortsDown;
+
+    private Down(TreeViewer treVwOutputPorts) {
+      treclVwOutputPortsDown = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
+      treclVwOutputPortsDown.getColumn().setText(" ");
+      treclVwOutputPortsDown.setLabelProvider(new ColumnLabelProvider() {
+        @Override
+        public void update(ViewerCell cell) {
+          TreeItem item = (TreeItem) cell.getItem();
+          Optional.of(cell.getElement())
+              .filter(Synchronization.class::isInstance)
+              .map(Synchronization.class::cast)
+              .ifPresent((Synchronization s) -> {
+                Button button = Optional.of(cell.getElement())
+                    .filter(buttons::containsKey).map(buttons::get)
+                    .orElseGet(() -> {
+                      Button b = new Button(
+                          (Composite) cell.getViewerRow().getControl(),
+                          SWT.PUSH);
+                      b.setData(s.isSkipLoop());
+                      buttons.put(cell.getElement(), b);
+                      return b;
+                    });
+                button.setText("\u21E9");
+                TreeEditor editor = new TreeEditor(item.getParent());
+                editor.grabHorizontal = true;
+                editor.grabVertical = true;
+                editor.setEditor(button, item, cell.getColumnIndex());
+                editor.layout();
+              });
+        }
+      });
+    }
+  }
+
+  private final class Reset {
+    private TreeViewerColumn treclVwOutputResetTask;
+    private TreeViewerColumn treclVwOutputResetPort;
+
+    private Reset(TreeViewer treVwOutputPorts) {
+      treclVwOutputResetTask = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
+      treclVwOutputResetPort = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
+      treclVwOutputResetTask.getColumn().setText("Reset Task");
+      treclVwOutputResetPort.getColumn().setText("Reset Port");
+      treclVwOutputResetTask.setLabelProvider(new ColumnLabelProvider() {
+        @Override
+        public String getText(Object element) {
+          return Optional.of(element)
+              .filter(InternalOutputPort.class::isInstance)
+              .map(InternalOutputPort.class::cast)
+              .map(op -> op.getResetPort() == null ? NONE
+                  : op.getResetPort().getTask().getId())
+              .orElse("");
+        }
+      });
+      treclVwOutputResetPort.setLabelProvider(new ColumnLabelProvider() {
+        @Override
+        public String getText(Object element) {
+          return Optional.of(element)
+              .filter(InternalOutputPort.class::isInstance)
+              .map(InternalOutputPort.class::cast)
+              .map(op -> op.getResetPort() == null ? NONE
+                  : op.getResetPort() instanceof InternalOutputPort
+                      ? OUT + op.getResetPort().getId()
+                      : IN + op.getResetPort().getId())
+              .orElse("");
+        }
+      });
+    }
+
+    public void refresh(Task t) {
+      treclVwOutputResetPort.setEditingSupport(
+          new ResetPortEditingSupport(treclVwOutputResetPort.getViewer()));
+      treclVwOutputResetTask.setEditingSupport(
+          new ResetTaskEditingSupport(treclVwOutputResetTask.getViewer(),
+              ((RuminaqDiagram) getDiagramTypeProvider().getDiagram())
+                  .getMainTask(),
+              t));
+    }
+  }
+
+  private final class AddRemove extends Disposable {
+    private TreeViewerColumn treclVwOutputPortsBtn;
+
+    private AddRemove(TreeViewer treVwOutputPorts) {
+      treclVwOutputPortsBtn = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
+      treclVwOutputPortsBtn.getColumn().setText(" ");
+      treclVwOutputPortsBtn.setLabelProvider(new ColumnLabelProvider() {
+        @Override
+        public void update(ViewerCell cell) {
+          TreeItem item = (TreeItem) cell.getItem();
+          Button button = Optional.of(cell.getElement())
+              .filter(buttons::containsKey).map(buttons::get).orElseGet(() -> {
+                Button b = new Button(
+                    (Composite) cell.getViewerRow().getControl(), SWT.NONE);
+                return Optional.of(cell.getElement())
+                    .filter(InternalOutputPort.class::isInstance)
+                    .map(InternalOutputPort.class::cast)
+                    .map(iop -> addNewSynchronizationButton(iop, b))
+                    .orElseGet(() -> Optional.of(cell.getElement())
+                        .filter(Synchronization.class::isInstance)
+                        .map(Synchronization.class::cast)
+                        .map(s -> removeSynchronizationButton(s, b))
+                        .orElseThrow());
+              });
+          buttons.put(cell.getElement(), button);
+          TreeEditor editor = new TreeEditor(item.getParent());
+          editor.grabHorizontal = true;
+          editor.grabVertical = true;
+          editor.setEditor(button, item, cell.getColumnIndex());
+          editor.layout();
+          treclVwOutputPortsBtn.getColumn().pack();
+
+        }
+
+        private Button addNewSynchronizationButton(InternalOutputPort iop,
+            Button b) {
+          b.setText("+");
+          b.addSelectionListener(
+              (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
+                Synchronization s = RuminaqFactory.eINSTANCE
+                    .createSynchronization();
+                ModelUtil.runModelChange(() -> {
+                  if (iop.getSynchronization().size() != 0)
+                    iop.getSynchronization()
+                        .get(iop.getSynchronization().size() - 1)
+                        .setLoop(false);
+                  if (iop.getSynchronization().size() != 0)
+                    iop.getSynchronization()
+                        .get(iop.getSynchronization().size() - 1)
+                        .setSkipLoop(false);
+                  iop.getSynchronization().add(s);
+                }, getDiagramContainer().getDiagramBehavior()
+                    .getEditingDomain(), "Add Synchronization");
+                Stream.of(treOutputPorts.getItems())
+                    .filter(it -> it.getData() == iop).findFirst()
+                    .ifPresent(it -> {
+                      new TreeItem(it, SWT.NONE).setData(s);
+                      it.setExpanded(true);
+                    });
+                refresh();
+              });
+          return b;
+        }
+
+        private Button removeSynchronizationButton(Synchronization s,
+            Button b) {
+          b.setText("-");
+          b.addSelectionListener(
+              (WidgetSelectedSelectionListener) (SelectionEvent evt) -> {
+                ModelUtil.runModelChange(
+                    () -> s.getParent().getSynchronization().remove(s),
+                    getDiagramContainer().getDiagramBehavior()
+                        .getEditingDomain(),
+                    "Remove synchronization");
+                disposeAll(s);
+                refresh();
+              });
+          return b;
+        }
+      });
+    }
+  }
+
   private final class SynchronizationContentProvider
       implements ITreeContentProvider {
 
     @Override
     public void dispose() {
-      buttons.values().stream().forEach(Button::dispose);
+      buttons.values().stream().flatMap(Collection::stream)
+          .forEach(Button::dispose);
     }
 
     @Override
@@ -150,81 +559,6 @@ public class PropertySynchronizationSection extends GFPropertySection
           .map(InternalOutputPort::getSynchronization).map(l -> !l.isEmpty())
           .orElse(Boolean.FALSE);
     }
-
-  }
-
-  private static final class TreeLabelProvider extends LabelProvider
-      implements ITableLabelProvider {
-    @Override
-    public String getColumnText(Object o, int columnIndex) {
-      if (o instanceof InternalOutputPort) {
-        InternalOutputPort op = (InternalOutputPort) o;
-        switch (columnIndex) {
-          case 0:
-            return op.getId();
-          case 10:
-            return op.getResetPort() == null ? NONE
-                : op.getResetPort().getTask().getId();
-          case 11:
-            return op.getResetPort() == null ? NONE
-                : op.getResetPort() instanceof InternalOutputPort
-                    ? OUT + op.getResetPort().getId()
-                    : IN + op.getResetPort().getId();
-          default:
-            return "";
-        }
-      } else if (o instanceof Synchronization) {
-        Synchronization s = (Synchronization) o;
-        switch (columnIndex) {
-          case 1:
-            return s.getGroup() == 0 ? NONE : "" + s.getGroup();
-          case 2:
-            return s.getWaitForPort() == null ? NONE
-                : s.getWaitForPort().getTask().getId();
-          case 3:
-            return s.getWaitForPort() == null ? NONE
-                : s.getWaitForPort() instanceof InternalOutputPort
-                    ? OUT + s.getWaitForPort().getId()
-                    : IN + s.getWaitForPort().getId();
-          case 4:
-            return s.getWaitForTicks();
-          case 6:
-            return s.getSkipFirst();
-          default:
-            return "";
-        }
-      }
-      return "";
-    }
-
-    @Override
-    public Image getColumnImage(Object paramObject, int paramInt) {
-      return null;
-    }
-
-    @Override
-    public void addListener(ILabelProviderListener arg0) {
-      // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void dispose() {
-      // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public boolean isLabelProperty(Object arg0, String arg1) {
-      // TODO Auto-generated method stub
-      return false;
-    }
-
-    @Override
-    public void removeListener(ILabelProviderListener arg0) {
-      // TODO Auto-generated method stub
-
-    }
   }
 
   private abstract class AbstractSynchronizationEditingSupport
@@ -236,7 +570,6 @@ public class PropertySynchronizationSection extends GFPropertySection
 
     @Override
     protected CellEditor getCellEditor(Object element) {
-      // TODO Auto-generated method stub
       return null;
     }
 
@@ -611,27 +944,6 @@ public class PropertySynchronizationSection extends GFPropertySection
     }
   }
 
-  private class NotifyEditingSupport extends SkipEditingSupport {
-    private NotifyEditingSupport(ColumnViewer viewer) {
-      super(viewer);
-    }
-
-    @Override
-    protected Object getValue(Synchronization synchronization) {
-      return synchronization.getWaitForTicks();
-    }
-
-    @Override
-    protected void setValue(Synchronization synchronization, Object value) {
-      ModelUtil.runModelChange(() -> {
-        synchronization.setWaitForTicks((String) value);
-        treVwOutputPorts.refresh();
-        Stream.of(treOutputPorts.getColumns()).forEach(TreeColumn::pack);
-      }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-          "Change");
-    }
-  }
-
   private final class NotifyLoopEditingSupport extends EditingSupport {
     private CheckboxCellEditor cellEditor;
 
@@ -741,24 +1053,25 @@ public class PropertySynchronizationSection extends GFPropertySection
             "Change");
       }
     }
+
   }
 
   /**
    * Layout.
    *
    * <pre>
-   * ___________________________________________________________
-   * | Output Port | Group | Sync Task | Sync Port | Ticks | L | ...
-   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   * |             |       |           |           |       |   | ...
-   * |             |       |           |           |       |   | ...
-   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   *     _______________________________________________
-   * ... | Skips | L | U | D | Reset Task | Reset Port |
-   *     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   * ... |       |   |   |   |            |            |
-   * ... |       |   |   |   |            |            |
-   *     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * ______________________________________________________________
+   * | Output Port | Group | Sync Task | Sync Port | Ticks | Loop | ...
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * |             |       |           |           |       |      | ...
+   * |             |       |           |           |       |      | ...
+   * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   *     ______________________________________________________
+   * ... | Skips | Loop |   |   | Reset Task | Reset Port |   |
+   *     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   * ... |       |      | ^ | v |            |            | + |
+   * ... |       |      |   |   |            |            | - |
+   *     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    * </pre>
    */
   @Override
@@ -767,7 +1080,6 @@ public class PropertySynchronizationSection extends GFPropertySection
     super.createControls(parent, tabbedPropertySheetPage);
 
     initLayout(parent);
-    initActions();
     initComponents();
   }
 
@@ -778,216 +1090,25 @@ public class PropertySynchronizationSection extends GFPropertySection
     ((GridData) parent.getLayoutData()).grabExcessHorizontalSpace = true;
     root = new Composite(parent, SWT.NULL);
     root.setLayout(new GridLayout(1, false));
-
     treOutputPorts = new Tree(root, SWT.FULL_SELECTION);
     treOutputPorts
         .setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1));
     treVwOutputPorts = new TreeViewer(treOutputPorts);
-
-    treclVwOutputPortsName = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
-    treclVwOutputPortsGrp = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
-    treclVwOutputPortsGrp.getColumn().setAlignment(SWT.CENTER);
-    treclVwOutputPortsTask = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
-    treclVwOutputPortsPort = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
-    treclVwOutputPortsNotify = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
-    treclVwOutputPortsNotify.getColumn().setAlignment(SWT.CENTER);
-    treclVwOutputPortsNLoop = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
-    treclVwOutputPortsSkip = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
-    treclVwOutputPortsSkip.getColumn().setAlignment(SWT.CENTER);
-    treclVwOutputPortsSLoop = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
-    treclVwOutputPortsUp = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
-    treclVwOutputPortsDown = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
-    treclVwOutputResetTask = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
-    treclVwOutputResetPort = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
-    treclVwOutputPortsBtn = new TreeViewerColumn(treVwOutputPorts, SWT.NONE);
-  }
-
-  private void initActions() {
-    treOutputPorts.addMouseListener(new MouseListener() {
-
-      @Override
-      public void mouseDoubleClick(MouseEvent arg0) {
-      }
-
-      @Override
-      public void mouseDown(MouseEvent arg0) {
-      }
-
-      @Override
-      public void mouseUp(MouseEvent arg0) {
-        Point pt = new Point(arg0.x, arg0.y);
-        ColumnViewer viewer = treclVwOutputPortsBtn.getViewer();
-        TreeColumn column = treclVwOutputPortsBtn.getColumn();
-        ViewerCell cell = viewer.getCell(pt);
-        if (cell != null) {
-          TreeColumn clickedColumn = treOutputPorts
-              .getColumn(cell.getColumnIndex());
-
-          if (clickedColumn == column) {
-            TreeItem item = (TreeItem) cell.getItem();
-            Object o = item.getData();
-
-            if (o instanceof InternalOutputPort) {
-              final InternalOutputPort iop = (InternalOutputPort) o;
-              final Synchronization s = RuminaqFactory.eINSTANCE
-                  .createSynchronization();
-              ModelUtil.runModelChange(() -> {
-                if (iop.getSynchronization().size() != 0)
-                  iop.getSynchronization()
-                      .get(iop.getSynchronization().size() - 1).setLoop(false);
-                if (iop.getSynchronization().size() != 0)
-                  iop.getSynchronization()
-                      .get(iop.getSynchronization().size() - 1)
-                      .setSkipLoop(false);
-
-                s.setParent(iop);
-                iop.getSynchronization().add(s);
-              }, getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-                  "Add Synchronization");
-              for (TreeItem it : treOutputPorts.getItems()) {
-                if (it.getData() == iop) {
-                  new TreeItem(it, SWT.NONE).setData(s);
-                  it.setExpanded(true);
-                }
-              }
-              refresh();
-
-            } else if (o instanceof Synchronization) {
-              Synchronization snc = (Synchronization) o;
-              ModelUtil.runModelChange(
-                  () -> snc.getParent().getSynchronization().remove(snc),
-                  getDiagramContainer().getDiagramBehavior().getEditingDomain(),
-                  "Remove synchronization");
-              for (TreeItem it1 : treOutputPorts.getItems())
-                for (TreeItem it2 : it1.getItems())
-                  if (it2.getData() == snc)
-                    it2.dispose();
-              if (buttons.remove(snc) != null)
-                buttons.remove(snc).dispose();
-              refresh();
-            }
-          }
-        }
-      }
-    });
+    new PortName(treVwOutputPorts);
+    group = new Group(treVwOutputPorts);
+    syncTaskPort = new SyncTaskPort(treVwOutputPorts);
+    notify = new Notify(treVwOutputPorts);
+    skip = new Skip();
+    up = new Up(treVwOutputPorts);
+    down = new Down(treVwOutputPorts);
+    reset = new Reset(treVwOutputPorts);
+    addRemove = new AddRemove(treVwOutputPorts);
   }
 
   private void initComponents() {
     treOutputPorts.setHeaderVisible(true);
     treOutputPorts.setLinesVisible(true);
-    treclVwOutputPortsName.getColumn().setText("Output Port");
-    treclVwOutputPortsGrp.getColumn().setText("Group");
-    treclVwOutputPortsTask.getColumn().setText("Sync Task");
-    treclVwOutputPortsPort.getColumn().setText("Sync Port");
-    treclVwOutputPortsNotify.getColumn().setText("Ticks");
-    treclVwOutputPortsNLoop.getColumn().setText("L");
-    treclVwOutputPortsSkip.getColumn().setText("Skips");
-    treclVwOutputPortsSLoop.getColumn().setText("L");
-    treclVwOutputPortsUp.getColumn().setText("U");
-    treclVwOutputPortsDown.getColumn().setText("D");
-    treclVwOutputResetTask.getColumn().setText("Reset Task");
-    treclVwOutputResetPort.getColumn().setText("Reset Port");
-    treclVwOutputPortsBtn.getColumn().setText(" ");
-
     treVwOutputPorts.setContentProvider(new SynchronizationContentProvider());
-    treVwOutputPorts.setLabelProvider(new TreeLabelProvider());
-
-    treclVwOutputPortsNLoop.setLabelProvider(new ColumnLabelProvider() {
-      Map<Object, Button> buttons = new HashMap<>();
-
-      @Override
-      public void update(ViewerCell cell) {
-        TreeItem item = (TreeItem) cell.getItem();
-        Button button;
-        if (buttons.containsKey(cell.getElement())) {
-          button = buttons.get(cell.getElement());
-        }
-
-        if (cell.getElement() instanceof InternalOutputPort) {
-          button = new Button((Composite) cell.getViewerRow().getControl(),
-              SWT.CHECK);
-          button.setData(((InternalOutputPort) cell.getElement()).isLoop());
-          TreeEditor editor = new TreeEditor(item.getParent());
-          editor.grabHorizontal = true;
-          editor.grabVertical = true;
-          editor.setEditor(button, item, cell.getColumnIndex());
-          editor.layout();
-        } else if (cell.getElement() instanceof Synchronization) {
-          Synchronization s = (Synchronization) cell.getElement();
-          if (s.getParent().getSynchronization().lastIndexOf(cell
-              .getElement()) == s.getParent().getSynchronization().size() - 1) {
-            button = new Button((Composite) cell.getViewerRow().getControl(),
-                SWT.CHECK);
-            button.setData(s.isLoop());
-            TreeEditor editor = new TreeEditor(item.getParent());
-            editor.grabHorizontal = true;
-            editor.grabVertical = true;
-            editor.setEditor(button, item, cell.getColumnIndex());
-            editor.layout();
-          }
-        }
-      }
-    });
-
-    treclVwOutputPortsSLoop.setLabelProvider(new ColumnLabelProvider() {
-      Map<Object, Button> buttons = new HashMap<>();
-
-      @Override
-      public void update(ViewerCell cell) {
-        TreeItem item = (TreeItem) cell.getItem();
-        Button button;
-
-        if (cell.getElement() instanceof Synchronization) {
-          if (buttons.containsKey(cell.getElement())) {
-            button = buttons.get(cell.getElement());
-          } else {
-            button = new Button((Composite) cell.getViewerRow().getControl(),
-                SWT.CHECK);
-            if (((Synchronization) cell.getElement()).isSkipLoop()) {
-              button.setData(true);
-            } else {
-              button.setData(false);
-            }
-            buttons.put(cell.getElement(), button);
-          }
-
-          TreeEditor editor = new TreeEditor(item.getParent());
-          editor.grabHorizontal = true;
-          editor.grabVertical = true;
-          editor.setEditor(button, item, cell.getColumnIndex());
-          editor.layout();
-        }
-      }
-    });
-
-    treclVwOutputPortsBtn.setLabelProvider(new ColumnLabelProvider() {
-      Map<Object, Button> buttons = new HashMap<>();
-
-      @Override
-      public void update(ViewerCell cell) {
-        TreeItem item = (TreeItem) cell.getItem();
-        Button button;
-        if (buttons.containsKey(cell.getElement())) {
-          button = buttons.get(cell.getElement());
-        } else {
-          button = new Button((Composite) cell.getViewerRow().getControl(),
-              SWT.NONE);
-          if (cell.getElement() instanceof InternalOutputPort) {
-            button.setText("+");
-          } else {
-            button.setText("-");
-          }
-          buttons.put(cell.getElement(), button);
-        }
-        TreeEditor editor = new TreeEditor(item.getParent());
-        editor.grabHorizontal = true;
-        editor.grabVertical = true;
-        editor.setEditor(button, item, cell.getColumnIndex());
-        editor.layout();
-      }
-
-    });
-
     Stream.of(treOutputPorts.getColumns()).forEach(TreeColumn::pack);
   }
 
@@ -998,53 +1119,25 @@ public class PropertySynchronizationSection extends GFPropertySection
     treOutputPorts.removeAll();
     taskFrom(getSelectedPictogramElement()).ifPresent((Task t) -> {
       treVwOutputPorts.setInput(t.getOutputPort());
-
-      treclEdOutputPortsGrp = new GroupEditingSupport(
-          treclVwOutputPortsGrp.getViewer());
-      treclVwOutputPortsGrp.setEditingSupport(treclEdOutputPortsGrp);
-
-      treclEdOutputPortsPort = new PortEditingSupport(
-          treclVwOutputPortsPort.getViewer());
-      treclVwOutputPortsPort.setEditingSupport(treclEdOutputPortsPort);
-
-      treclEdOutputPortsTask = new TaskEditingSupport(
-          treclVwOutputPortsTask.getViewer(),
-          ((RuminaqDiagram) getDiagramTypeProvider().getDiagram())
-              .getMainTask(),
-          t);
-      treclVwOutputPortsTask.setEditingSupport(treclEdOutputPortsTask);
-
-      treclEdOutputPortsSkip = new SkipEditingSupport(
-          treclVwOutputPortsSkip.getViewer());
-      treclVwOutputPortsSkip.setEditingSupport(treclEdOutputPortsSkip);
-
-      treclEdOutputPortsSLoop = new SkipLoopEditingSupport(
-          treclVwOutputPortsSLoop.getViewer());
-      treclVwOutputPortsSLoop.setEditingSupport(treclEdOutputPortsSLoop);
-
-      treclEdOutputPortsNotify = new NotifyEditingSupport(
-          treclVwOutputPortsNotify.getViewer());
-      treclVwOutputPortsNotify.setEditingSupport(treclEdOutputPortsNotify);
-
-      treclEdOutputPortsNLoop = new NotifyLoopEditingSupport(
-          treclVwOutputPortsNLoop.getViewer());
-      treclVwOutputPortsNLoop.setEditingSupport(treclEdOutputPortsNLoop);
-
-      treclEdOutputResetPort = new ResetPortEditingSupport(
-          treclVwOutputResetPort.getViewer());
-      treclVwOutputResetPort.setEditingSupport(treclEdOutputResetPort);
-
-      treclEdOutputResetTask = new ResetTaskEditingSupport(
-          treclVwOutputResetTask.getViewer(),
-          ((RuminaqDiagram) getDiagramTypeProvider().getDiagram())
-              .getMainTask(),
-          t);
-      treclVwOutputResetTask.setEditingSupport(treclEdOutputResetTask);
+      group.refresh();
+      syncTaskPort.refresh(t);
+      reset.refresh(t);
     });
     Stream.of(treVwOutputPorts.getTree().getItems())
         .forEach(ti -> ti.setExpanded(true));
     treVwOutputPorts.refresh();
     Stream.of(treOutputPorts.getColumns()).forEach(TreeColumn::pack);
     root.layout();
+  }
+
+  private void disposeAll(EObject o) {
+    Stream.of(treOutputPorts.getItems()).map(TreeItem::getItems)
+        .flatMap(Stream::of).filter(it -> it.getData().equals(o))
+        .forEach(TreeItem::dispose);
+    notify.dispose(o);
+    skip.dispose(o);
+    up.dispose(o);
+    down.dispose(o);
+    addRemove.dispose(o);
   }
 }

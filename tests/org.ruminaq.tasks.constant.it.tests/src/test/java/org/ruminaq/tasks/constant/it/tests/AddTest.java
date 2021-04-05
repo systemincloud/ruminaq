@@ -36,10 +36,10 @@ public class AddTest extends GuiTest {
 
     assertDiagram(diagramEditor, "AddTest.testAddConstant.1.xml");
 
-    addToolFromPalette("Output Port", 600, 120);
-    addToolFromPalette("Output Port", 600, 200);
-    addToolFromPalette("Output Port", 600, 300);
-    addToolFromPalette("Output Port", 600, 400);
+    addToolFromPalette("Output Port", 590, 120);
+    addToolFromPalette("Output Port", 590, 160);
+    addToolFromPalette("Output Port", 590, 200);
+    addToolFromPalette("Output Port", 590, 240);
 
     new CreateSimpleConnection(diagramEditor,
         new WithBoGraphitiEditPart(InternalOutputPort.class, 0),
@@ -54,26 +54,29 @@ public class AddTest extends GuiTest {
     new CreateSimpleConnection(diagramEditor,
         new WithShapeGraphitiEditPart(SimpleConnectionPointShape.class, 0),
         new WithBoGraphitiEditPart(OutputPort.class, 2)).execute();
-    
+
     new CreateSimpleConnection(diagramEditor,
         new WithShapeGraphitiEditPart(SimpleConnectionPointShape.class, 1),
         new WithBoGraphitiEditPart(OutputPort.class, 1)).execute();
-    
+
     new CreateSimpleConnection(diagramEditor,
         new WithBoGraphitiEditPart(InternalOutputPort.class, 0),
         new WithBoGraphitiEditPart(OutputPort.class, 3)).execute();
-    
+
     WithShapeGraphitiConnection connection = new WithShapeGraphitiConnection(
         SimpleConnectionShape.class);
     connection.select();
     addBendpoint(connection, 280, 200);
-    
+
     bot.canvas().pressShortcut(SWT.CTRL, 'a');
     bot.canvas().pressShortcut(SWT.CTRL, 'c');
-    diagramEditor.click(400, 400);
+
+    waitSeconds(1);
+
+    diagramEditor.click(200, 250);
     bot.canvas().pressShortcut(SWT.CTRL, 'v');
 
-    Thread.sleep(1000);
+    waitSeconds(1);
 
     assertDiagram(diagramEditor, "AddTest.testAddConstant.2.xml");
   }

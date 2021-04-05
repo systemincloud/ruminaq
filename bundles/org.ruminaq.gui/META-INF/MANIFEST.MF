@@ -144,5 +144,5 @@ Service-Component: OSGI-INF/org.ruminaq.gui.features.create.CreateConnectionFeat
  OSGI-INF/org.ruminaq.gui.features.directediting.DirectEditingFeatureImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.doubleclick.DoubleClickFeatureImpl.xml,
  OSGI-INF/org.ruminaq.gui.features.contextmenu.CreateSimpleConnectionPointContextMenu.xml,
- OSGI-INF/org.ruminaq.gui.features.contextmenu.InternalPortBreakpointContextMenu.xml,
- OSGI-INF/org.ruminaq.gui.properties.InputPortDescription.xml
+ OSGI-INF/org.ruminaq.gui.properties.InputPortDescription.xml,
+ OSGI-INF/org.ruminaq.gui.features.contextmenu.InternalPortBreakpointContextMenu.xml
