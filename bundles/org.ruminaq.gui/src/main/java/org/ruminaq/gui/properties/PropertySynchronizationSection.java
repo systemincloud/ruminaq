@@ -871,7 +871,8 @@ public class PropertySynchronizationSection extends GFPropertySection
 
     @Override
     protected boolean canEdit(Object o) {
-      return o instanceof InternalOutputPort;
+      return Optional.of(o).filter(InternalOutputPort.class::isInstance)
+          .isPresent();
     }
 
     @Override
