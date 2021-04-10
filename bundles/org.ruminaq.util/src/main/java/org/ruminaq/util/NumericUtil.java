@@ -60,17 +60,11 @@ public class NumericUtil {
   }
 
   public static boolean isOneElementTableNumeric(String value) {
-    if (value.matches("^\\s*\\[\\s*" + numericExp + "\\s*\\]\\s*$"))
-      return true;
-    else
-      return false;
+    return value.matches("^\\s*\\[\\s*" + numericExp + "\\s*\\]\\s*$");
   }
 
   public static boolean isOneRowTableNumeric(String value) {
-    if (value.matches("^\\s*\\[" + numericRow + "\\]\\s*$"))
-      return true;
-    else
-      return false;
+    return value.matches("^\\s*\\[" + numericRow + "\\]\\s*$");
   }
 
   public static boolean isMutliDimsNumericAlsoGV(String text) {
@@ -172,10 +166,7 @@ public class NumericUtil {
   }
 
   public static boolean isOneDimPositiveInteger(String value) {
-    if (value.matches("^" + intPositive + "\\s*$"))
-      return true;
-    else
-      return false;
+    return value.matches("^" + intPositive + "\\s*$");
   }
 
   public static boolean isMultiDimsIntegerAlsoGV(String value) {
@@ -185,17 +176,11 @@ public class NumericUtil {
   }
 
   public static boolean isOneElementTableInteger(String value) {
-    if (value.matches("^\\s*\\[\\s*" + integer + "\\s*\\]\\s*$"))
-      return true;
-    else
-      return false;
+    return value.matches("^\\s*\\[\\s*" + integer + "\\s*\\]\\s*$");
   }
 
   public static boolean isOneRowTableInteger(String value) {
-    if (value.matches("^\\s*\\[" + integerRow + "\\]\\s*$"))
-      return true;
-    else
-      return false;
+    return value.matches("^\\s*\\[" + integerRow + "\\]\\s*$");
   }
 
   public static boolean isMultiDimsInteger(String value) {
@@ -212,10 +197,7 @@ public class NumericUtil {
   }
 
   public static boolean isOneDimComplex(String value) {
-    if (value.matches("^" + complex + "\\s*$"))
-      return true;
-    else
-      return false;
+    return value.matches("^" + complex + "\\s*$");
   }
 
   public static boolean isMultiDimsComplexAlsoGV(String value) {
@@ -225,17 +207,11 @@ public class NumericUtil {
   }
 
   public static boolean isOneElementTableComplex(String value) {
-    if (value.matches("^\\s*\\[\\s*" + complex + "\\s*\\]\\s*$"))
-      return true;
-    else
-      return false;
+    return value.matches("^\\s*\\[\\s*" + complex + "\\s*\\]\\s*$");
   }
 
   public static boolean isOneRowTableComplex(String value) {
-    if (value.matches("^\\s*\\[" + complexRow + "\\]\\s*$"))
-      return true;
-    else
-      return false;
+    return value.matches("^\\s*\\[" + complexRow + "\\]\\s*$");
   }
 
   private static boolean isMultiDimsComplex(String value) {
@@ -271,24 +247,15 @@ public class NumericUtil {
   }
 
   private static boolean isOneRowTableBool(String value) {
-    if (value.matches("^\\s*\\[" + boolRow + "\\]\\s*$"))
-      return true;
-    else
-      return false;
+    return value.matches("^\\s*\\[" + boolRow + "\\]\\s*$");
   }
 
   private static boolean isOneElementTableBool(String value) {
-    if (value.matches("^\\s*\\[\\s*" + bool + "\\s*\\]\\s*$"))
-      return true;
-    else
-      return false;
+    return value.matches("^\\s*\\[\\s*" + bool + "\\s*\\]\\s*$");
   }
 
   private static boolean isOneDimBool(String value) {
-    if (value.matches("^" + bool + "\\s*$"))
-      return true;
-    else
-      return false;
+    return value.matches("^" + bool + "\\s*$");
   }
 
   private static boolean checkTableSize(String value) {
