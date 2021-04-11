@@ -47,10 +47,7 @@ public class NumericUtil {
       + boolRow + ")";
 
   public static boolean isOneDimNumeric(String value) {
-    if (value.matches("^" + numericExp + "\\s*$"))
-      return true;
-    else
-      return false;
+    return value.matches("^" + numericExp + "\\s*$");
   }
 
   public static boolean isOneDimNumericAlsoGV(String value) {
