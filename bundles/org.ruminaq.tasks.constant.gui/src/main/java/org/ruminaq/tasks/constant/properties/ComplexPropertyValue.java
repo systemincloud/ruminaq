@@ -23,8 +23,8 @@ package org.ruminaq.tasks.constant.properties;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.swt.widgets.Composite;
+import org.ruminaq.model.ruminaq.NumericUtil;
 import org.ruminaq.tasks.constant.api.ValueSaveListener;
-import org.ruminaq.util.NumericUtil;
 
 public class ComplexPropertyValue
     extends AbstractPropertyValueNumericComposite {

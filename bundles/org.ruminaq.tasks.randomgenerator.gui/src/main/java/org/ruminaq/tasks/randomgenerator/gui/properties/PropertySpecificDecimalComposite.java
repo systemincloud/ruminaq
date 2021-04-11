@@ -22,11 +22,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.ruminaq.model.ruminaq.ModelUtil;
+import org.ruminaq.model.ruminaq.NumericUtil;
 import org.ruminaq.tasks.randomgenerator.gui.ValueSaveListener;
 import org.ruminaq.tasks.randomgenerator.impl.strategy.DecimalStrategy;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
 import org.ruminaq.util.GlobalUtil;
-import org.ruminaq.util.NumericUtil;
 
 public class PropertySpecificDecimalComposite
     extends PropertySpecificNumericComposite {

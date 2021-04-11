@@ -11,13 +11,12 @@ package org.ruminaq.tasks.randomgenerator.impl.strategy;
 import java.util.List;
 
 import org.eclipse.emf.common.util.EMap;
+import org.ruminaq.model.ruminaq.NumericUtil;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.DataI;
 import org.ruminaq.runner.impl.data.Int32I;
 import org.ruminaq.tasks.randomgenerator.impl.RandomGeneratorI;
 import org.ruminaq.tasks.randomgenerator.model.Port;
-import org.ruminaq.util.NumericUtil;
-
 import ch.qos.logback.classic.Logger;
 
 public class Int32Strategy extends RandomGeneratorNumericStrategy {

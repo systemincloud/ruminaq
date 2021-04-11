@@ -4,14 +4,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  ******************************************************************************/
 
-package org.ruminaq.util;
+package org.ruminaq.model.ruminaq;
 
 import java.util.LinkedList;
 import java.util.List;
-
+import java.util.Optional;
+import java.util.function.Predicate;
 import org.apache.commons.lang3.StringUtils;
-
-import com.google.common.base.CharMatcher;
+import org.ruminaq.util.GlobalUtil;
 
 public class NumericUtil {
 
@@ -153,10 +153,7 @@ public class NumericUtil {
   }
 
   public static boolean isOneDimInteger(String value) {
-    if (value.matches("^" + integer + "\\s*$"))
-      return true;
-    else
-      return false;
+    return value.matches("^" + integer + "\\s*$");
   }
 
   public static boolean isOneDimPositiveIntegerAlsoGV(String value) {
@@ -170,9 +167,9 @@ public class NumericUtil {
   }
 
   public static boolean isMultiDimsIntegerAlsoGV(String value) {
-    if (GlobalUtil.isGlobalVariable(value))
-      return true;
-    return isMultiDimsInteger(value);
+    return Optional.of(value)
+        .filter(Predicate.not(GlobalUtil::isGlobalVariable))
+        .map(NumericUtil::isMultiDimsInteger).orElse(Boolean.TRUE);
   }
 
   public static boolean isOneElementTableInteger(String value) {
@@ -259,25 +256,25 @@ public class NumericUtil {
   }
 
   private static boolean checkTableSize(String value) {
-    String tmp = value.replace(",", "");
-    tmp = tmp.replace("[", "").replace("]", "");
-    tmp = CharMatcher.whitespace().trimAndCollapseFrom(tmp, ' ');
-    tmp = tmp.replace(" ;", ";").replace("; ", ";");
-    int semicolonIdx = 0;
-    int newSemicolonIdx = 0;
-    int cols = -1;
-    do {
-      newSemicolonIdx = tmp.indexOf(";", semicolonIdx);
-      if (newSemicolonIdx == -1)
-        newSemicolonIdx = tmp.length() - 1;
-      int n = CharMatcher.whitespace()
-          .countIn(tmp.substring(semicolonIdx, newSemicolonIdx));
-      if (cols == -1)
-        cols = n;
-      else if (n != cols)
-        return false;
-      semicolonIdx = newSemicolonIdx + 1;
-    } while (newSemicolonIdx < tmp.length() - 1);
+//    String tmp = value.replace(",", "");
+//    tmp = tmp.replace("[", "").replace("]", "");
+//    tmp = CharMatcher.whitespace().trimAndCollapseFrom(tmp, ' ');
+//    tmp = tmp.replace(" ;", ";").replace("; ", ";");
+//    int semicolonIdx = 0;
+//    int newSemicolonIdx = 0;
+//    int cols = -1;
+//    do {
+//      newSemicolonIdx = tmp.indexOf(";", semicolonIdx);
+//      if (newSemicolonIdx == -1)
+//        newSemicolonIdx = tmp.length() - 1;
+//      int n = CharMatcher.whitespace()
+//          .countIn(tmp.substring(semicolonIdx, newSemicolonIdx));
+//      if (cols == -1)
+//        cols = n;
+//      else if (n != cols)
+//        return false;
+//      semicolonIdx = newSemicolonIdx + 1;
+//    } while (newSemicolonIdx < tmp.length() - 1);
     return true;
   }
 }

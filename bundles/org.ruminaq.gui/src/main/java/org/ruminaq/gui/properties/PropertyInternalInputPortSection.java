@@ -33,8 +33,8 @@ import org.ruminaq.model.ruminaq.EmbeddedTask;
 import org.ruminaq.model.ruminaq.InternalInputPort;
 import org.ruminaq.model.ruminaq.MainTask;
 import org.ruminaq.model.ruminaq.ModelUtil;
+import org.ruminaq.model.ruminaq.NumericUtil;
 import org.ruminaq.util.GlobalUtil;
-import org.ruminaq.util.NumericUtil;
 import org.ruminaq.util.WidgetSelectedSelectionListener;
 
 /**

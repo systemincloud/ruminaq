@@ -26,11 +26,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.ruminaq.model.ruminaq.ModelUtil;
+import org.ruminaq.model.ruminaq.NumericUtil;
 import org.ruminaq.tasks.randomgenerator.gui.PropertySpecificComposite;
 import org.ruminaq.tasks.randomgenerator.gui.ValueSaveListener;
 import org.ruminaq.tasks.randomgenerator.impl.strategy.RandomGeneratorComplexStrategy;
 import org.ruminaq.tasks.randomgenerator.model.randomgenerator.RandomGenerator;
-import org.ruminaq.util.NumericUtil;
 import org.ruminaq.util.RandomUtil;
 
 public class PropertySpecificComplexComposite

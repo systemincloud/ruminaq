@@ -30,8 +30,8 @@ import org.ruminaq.eclipse.wizards.task.AbstractCreateUserDefinedTaskPage;
 import org.ruminaq.gui.model.diagram.InputPortShape;
 import org.ruminaq.model.ruminaq.InputPort;
 import org.ruminaq.model.ruminaq.ModelUtil;
+import org.ruminaq.model.ruminaq.NumericUtil;
 import org.ruminaq.util.GlobalUtil;
-import org.ruminaq.util.NumericUtil;
 
 /**
  * PropertySection for InputPort.

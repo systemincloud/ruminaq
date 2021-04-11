@@ -21,13 +21,12 @@
 package org.ruminaq.tasks.constant.impl.strategy;
 
 import java.util.List;
-
+import org.ruminaq.model.ruminaq.NumericUtil;
 import org.ruminaq.runner.RunnerLoggerFactory;
 import org.ruminaq.runner.impl.data.Float32I;
 import org.ruminaq.tasks.constant.impl.AbstractConstantStrategy;
 import org.ruminaq.tasks.constant.impl.ConstantI;
 import org.ruminaq.tasks.constant.model.Port;
-import org.ruminaq.util.NumericUtil;
 import ch.qos.logback.classic.Logger;
 
 public class Float32Strategy extends AbstractConstantStrategy {

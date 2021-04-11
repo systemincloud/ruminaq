@@ -31,9 +31,9 @@ import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.ruminaq.gui.model.diagram.TaskShape;
 import org.ruminaq.model.ruminaq.ModelUtil;
+import org.ruminaq.model.ruminaq.NumericUtil;
 import org.ruminaq.tasks.sipo.model.sipo.Sipo;
 import org.ruminaq.util.GroovyExpressionUtil;
-import org.ruminaq.util.NumericUtil;
 
 public class PropertySection {
 
