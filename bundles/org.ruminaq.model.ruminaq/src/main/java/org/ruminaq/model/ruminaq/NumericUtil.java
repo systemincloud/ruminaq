@@ -157,9 +157,9 @@ public class NumericUtil {
   }
 
   public static boolean isOneDimPositiveIntegerAlsoGV(String value) {
-    if (GlobalUtil.isGlobalVariable(value))
-      return true;
-    return isOneDimPositiveInteger(value);
+    return Optional.of(value)
+        .filter(Predicate.not(GlobalUtil::isGlobalVariable))
+        .map(NumericUtil::isOneDimPositiveInteger).orElse(Boolean.TRUE);
   }
 
   public static boolean isOneDimPositiveInteger(String value) {
@@ -225,9 +225,9 @@ public class NumericUtil {
   }
 
   public static boolean isMultiDimsBoolAlsoGV(String value) {
-    if (GlobalUtil.isGlobalVariable(value))
-      return true;
-    return isMultiDimsBool(value);
+    return Optional.of(value)
+        .filter(Predicate.not(GlobalUtil::isGlobalVariable))
+        .map(NumericUtil::isMultiDimsBool).orElse(Boolean.TRUE);
   }
 
   private static boolean isMultiDimsBool(String value) {
