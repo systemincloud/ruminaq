@@ -15,35 +15,35 @@ import org.ruminaq.util.GlobalUtil;
 
 public class NumericUtil {
 
-  public static final String numPositive = "\\d+([.]\\d+)?";
-  public static final String numeric = "[+-]?" + numPositive;
-  public static final String numPosExp = numPositive + "(e[+-]?\\d+)?";
-  public static final String numericExp = "[+-]?" + numPositive;
-  public static final String numericRow = "(\\s*" + numericExp
+  private static final String numPositive = "\\d+([.]\\d+)?";
+  private static final String numeric = "[+-]?" + numPositive;
+  private static final String numPosExp = numPositive + "(e[+-]?\\d+)?";
+  private static final String numericExp = "[+-]?" + numPositive;
+  private static final String numericRow = "(\\s*" + numericExp
       + "\\s*(,)?\\s*)*(" + numericExp + "\\s*)";
-  public static final String numericRowCol = "(" + numericRow + "(;)?\\s*)*("
+  private static final String numericRowCol = "(" + numericRow + "(;)?\\s*)*("
       + numericRow + ")";
 
-  public static final String integer = "[+-]?\\d+";
-  public static final String intPositive = "\\d+";
-  public static final String integerRow = "(\\s*" + integer + "\\s*(,)?\\s*)*("
+  private static final String integer = "[+-]?\\d+";
+  private static final String intPositive = "\\d+";
+  private static final String integerRow = "(\\s*" + integer + "\\s*(,)?\\s*)*("
       + integer + "\\s*)";
-  public static final String integerRowCol = "(" + integerRow + "(;)?\\s*)*("
+  private static final String integerRowCol = "(" + integerRow + "(;)?\\s*)*("
       + integerRow + ")";
 
-  public static final String imagPos = numPositive + "i";
-  public static final String imag = "[+-]?" + imagPos;
-  public static final String complex = "(" + numericExp + "|" + imag + "|" + "("
+  private static final String imagPos = numPositive + "i";
+  private static final String imag = "[+-]?" + imagPos;
+  private static final String complex = "(" + numericExp + "|" + imag + "|" + "("
       + numericExp + "\\s*[+-]\\s*" + imagPos + "))";
-  public static final String complexRow = "(\\s*" + complex + "\\s*(,)?\\s*)*("
+  private static final String complexRow = "(\\s*" + complex + "\\s*(,)?\\s*)*("
       + complex + "\\s*)";
-  public static final String complexRowCol = "(" + complexRow + "(;)?\\s*)*("
+  private static final String complexRowCol = "(" + complexRow + "(;)?\\s*)*("
       + complexRow + ")";
 
-  public static final String bool = "(true|false)";
-  public static final String boolRow = "(\\s*" + bool + "\\s*(,)?\\s*)*(" + bool
+  private static final String bool = "(true|false)";
+  private static final String boolRow = "(\\s*" + bool + "\\s*(,)?\\s*)*(" + bool
       + "\\s*)";
-  public static final String boolRowCol = "(" + boolRow + "(;)?\\s*)*("
+  private static final String boolRowCol = "(" + boolRow + "(;)?\\s*)*("
       + boolRow + ")";
 
   public static boolean isOneDimNumeric(String value) {
