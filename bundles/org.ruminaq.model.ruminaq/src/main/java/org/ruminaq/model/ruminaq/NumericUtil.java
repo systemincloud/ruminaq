@@ -33,16 +33,16 @@ public class NumericUtil {
 
   private static final String imagPos = numPositive + "i";
   private static final String imag = "[+-]?" + imagPos;
-  private static final String complex = "(" + numericExp + "|" + imag + "|" + "("
-      + numericExp + "\\s*[+-]\\s*" + imagPos + "))";
+  private static final String complex = "(" + numericExp + "|" + imag + "|"
+      + "(" + numericExp + "\\s*[+-]\\s*" + imagPos + "))";
   private static final String complexRow = "(\\s*" + complex + "\\s*(,)?\\s*)*("
       + complex + "\\s*)";
   private static final String complexRowCol = "(" + complexRow + "(;)?\\s*)*("
       + complexRow + ")";
 
   private static final String bool = "(true|false)";
-  private static final String boolRow = "(\\s*" + bool + "\\s*(,)?\\s*)*(" + bool
-      + "\\s*)";
+  private static final String boolRow = "(\\s*" + bool + "\\s*(,)?\\s*)*("
+      + bool + "\\s*)";
   private static final String boolRowCol = "(" + boolRow + "(;)?\\s*)*("
       + boolRow + ")";
 
@@ -51,9 +51,9 @@ public class NumericUtil {
   }
 
   public static boolean isOneDimNumericAlsoGV(String value) {
-    if (GlobalUtil.isGlobalVariable(value))
-      return true;
-    return isOneDimNumeric(value);
+    return Optional.of(value)
+        .filter(Predicate.not(GlobalUtil::isGlobalVariable))
+        .map(NumericUtil::isOneDimNumeric).orElse(Boolean.TRUE);
   }
 
   public static boolean isOneElementTableNumeric(String value) {
@@ -64,10 +64,10 @@ public class NumericUtil {
     return value.matches("^\\s*\\[" + numericRow + "\\]\\s*$");
   }
 
-  public static boolean isMutliDimsNumericAlsoGV(String text) {
-    if (GlobalUtil.isGlobalVariable(text))
-      return true;
-    return isMultiDimsNumeric(text);
+  public static boolean isMutliDimsNumericAlsoGV(String value) {
+    return Optional.of(value)
+        .filter(Predicate.not(GlobalUtil::isGlobalVariable))
+        .map(NumericUtil::isMultiDimsNumeric).orElse(Boolean.TRUE);
   }
 
   public static boolean isMultiDimsNumeric(String value) {
@@ -144,9 +144,8 @@ public class NumericUtil {
   }
 
   public static String[] getMutliDimsValues(String value) {
-    String tmp = value.trim().replace("[", "").replace("]", "")
-        .replace(";", ",").replace(" ", "");
-    return tmp.split(",");
+    return value.trim().replace("[", "").replace("]", "").replace(";", ",")
+        .replace(" ", "").split(",");
   }
 
   public static boolean isOneDimInteger(String value) {
@@ -195,9 +194,9 @@ public class NumericUtil {
   }
 
   public static boolean isMultiDimsComplexAlsoGV(String value) {
-    if (GlobalUtil.isGlobalVariable(value))
-      return true;
-    return isMultiDimsComplex(value);
+    return Optional.of(value)
+        .filter(Predicate.not(GlobalUtil::isGlobalVariable))
+        .map(NumericUtil::isMultiDimsComplex).orElse(Boolean.TRUE);
   }
 
   public static boolean isOneElementTableComplex(String value) {
@@ -209,16 +208,14 @@ public class NumericUtil {
   }
 
   private static boolean isMultiDimsComplex(String value) {
-    if (isOneDimComplex(value))
-      return true;
-    if (isOneElementTableComplex(value))
-      return true;
-    if (isOneRowTableComplex(value))
-      return true;
-    if (value.matches("^\\s*\\[" + complexRowCol + "\\]\\s*$"))
-      if (checkTableSize(value))
-        return true;
-    return false;
+    return Optional.of(value)
+        .filter(Predicate.not(NumericUtil::isOneDimComplex))
+        .filter(Predicate.not(NumericUtil::isOneElementTableComplex))
+        .filter(Predicate.not(NumericUtil::isOneRowTableComplex))
+        .filter(Predicate
+            .not(v -> v.matches("^\\s*\\[" + complexRowCol + "\\]\\s*$")
+                && checkTableSize(v)))
+        .map(v -> Boolean.FALSE).orElse(Boolean.TRUE);
   }
 
   public static boolean isMultiDimsBoolAlsoGV(String value) {
