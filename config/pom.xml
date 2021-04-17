@@ -236,6 +236,11 @@
             </dependency>
           </dependencies>
         </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.8.0.2131</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -542,11 +547,11 @@
         </configuration>
       </plugin>
       <!-- enable source feature generation -->
-      <!--plugin> <groupId>org.eclipse.tycho.extras</groupId> <artifactId>tycho-source-feature-plugin</artifactId>
-        <version>${tycho.version}</version> <executions> <execution> <id>source-feature</id>
-        <phase>package</phase> <goals> <goal>source-feature</goal> </goals> </execution>
-        </executions> </plugin> <plugin> <groupId>org.eclipse.tycho</groupId> <artifactId>tycho-source-plugin</artifactId>
-        <executions> <execution> <id>plugin-source</id> <goals> <goal>plugin-source</goal>
+      <!--plugin> <groupId>org.eclipse.tycho.extras</groupId> <artifactId>tycho-source-feature-plugin</artifactId> 
+        <version>${tycho.version}</version> <executions> <execution> <id>source-feature</id> 
+        <phase>package</phase> <goals> <goal>source-feature</goal> </goals> </execution> 
+        </executions> </plugin> <plugin> <groupId>org.eclipse.tycho</groupId> <artifactId>tycho-source-plugin</artifactId> 
+        <executions> <execution> <id>plugin-source</id> <goals> <goal>plugin-source</goal> 
         </goals> </execution> </executions> </plugin -->
     </plugins>
   </build>
