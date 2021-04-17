@@ -177,16 +177,14 @@ public class NumericUtil {
   }
 
   public static boolean isMultiDimsInteger(String value) {
-    if (isOneDimInteger(value))
-      return true;
-    if (isOneElementTableInteger(value))
-      return true;
-    if (isOneRowTableInteger(value))
-      return true;
-    if (value.matches("^\\s*\\[" + integerRowCol + "\\]\\s*$"))
-      if (checkTableSize(value))
-        return true;
-    return false;
+    return Optional.of(value)
+        .filter(Predicate.not(NumericUtil::isOneDimInteger))
+        .filter(Predicate.not(NumericUtil::isOneElementTableInteger))
+        .filter(Predicate.not(NumericUtil::isOneRowTableInteger))
+        .filter(Predicate
+            .not(v -> v.matches("^\\s*\\[" + integerRowCol + "\\]\\s*$")
+                && checkTableSize(v)))
+        .map(v -> Boolean.FALSE).orElse(Boolean.TRUE);
   }
 
   public static boolean isOneDimComplex(String value) {
