@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:diagram="http://ruminaq.org/diagram" xmlns:dt="http://ruminaq.org/dt" xmlns:gate="http://ruminaq.org/tasks/gate" xmlns:ruminaq="http://ruminaq.org">
+  <diagram:RuminaqDiagram mainTask="/1">
+    <children xsi:type="diagram:TaskShape" x="200" y="100" width="50" height="50" modelObject="/1/@task.0" label="/0/@children.1" iconId="/icons/diagram.or.png">
+      <internalPort xsi:type="diagram:InternalInputPortShape" y="32" modelObject="/1/@task.0/@inputPort.0" showLabel="false"/>
+      <internalPort xsi:type="diagram:InternalInputPortShape" y="7" modelObject="/1/@task.0/@inputPort.1" showLabel="false"/>
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="40" y="20" modelObject="/1/@task.0/@outputPort.0" showLabel="false"/>
+    </children>
+    <children xsi:type="diagram:LabelShape" x="208" y="152" labeledShape="/0/@children.0"/>
+    <children xsi:type="diagram:TaskShape" x="300" y="200" width="50" height="50" modelObject="/1/@task.1" label="/0/@children.3" iconId="/icons/diagram.and.png">
+      <internalPort xsi:type="diagram:InternalInputPortShape" y="32" modelObject="/1/@task.1/@inputPort.0" showLabel="false"/>
+      <internalPort xsi:type="diagram:InternalInputPortShape" y="7" modelObject="/1/@task.1/@inputPort.1" showLabel="false"/>
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="40" y="20" modelObject="/1/@task.1/@outputPort.0" showLabel="false"/>
+    </children>
+    <children xsi:type="diagram:LabelShape" x="305" y="252" labeledShape="/0/@children.2"/>
+    <children xsi:type="diagram:TaskShape" x="400" y="300" width="50" height="50" modelObject="/1/@task.2" label="/0/@children.5" iconId="/icons/diagram.not.png">
+      <internalPort xsi:type="diagram:InternalInputPortShape" y="20" modelObject="/1/@task.2/@inputPort.0" showLabel="false"/>
+      <internalPort xsi:type="diagram:InternalOutputPortShape" x="40" y="20" modelObject="/1/@task.2/@outputPort.0" showLabel="false"/>
+    </children>
+    <children xsi:type="diagram:LabelShape" x="406" y="352" labeledShape="/0/@children.4"/>
+  </diagram:RuminaqDiagram>
+  <ruminaq:MainTask version="1.0.0">
+    <task xsi:type="gate:Or" id="My Or">
+      <outputPort id="Out">
+        <dataType xsi:type="dt:Bool"/>
+        <synchronization/>
+      </outputPort>
+      <inputPort id="In 1">
+        <dataType xsi:type="dt:Bool"/>
+      </inputPort>
+      <inputPort id="In 2">
+        <dataType xsi:type="dt:Bool"/>
+      </inputPort>
+    </task>
+    <task xsi:type="gate:And" id="My And">
+      <outputPort id="Out">
+        <dataType xsi:type="dt:Bool"/>
+      </outputPort>
+      <inputPort id="In 1">
+        <dataType xsi:type="dt:Bool"/>
+      </inputPort>
+      <inputPort id="In 2">
+        <dataType xsi:type="dt:Bool"/>
+      </inputPort>
+    </task>
+    <task xsi:type="gate:Not" id="My Not" inputNumber="1">
+      <outputPort id="Out">
+        <dataType xsi:type="dt:Bool"/>
+      </outputPort>
+      <inputPort id="In">
+        <dataType xsi:type="dt:Bool"/>
+      </inputPort>
+    </task>
+  </ruminaq:MainTask>
+</xmi:XMI>

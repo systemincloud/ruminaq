@@ -93,6 +93,13 @@ public class AddTest extends GuiTest {
     propertiesView.activate();
     propertiesView.selectTab("Synchronization");
 
-    Thread.sleep(1000);
-  }
+    waitSeconds(1);
+    
+    bot.button(0).click();
+
+    waitSeconds(1);
+    
+    assertDiagram(diagramEditor,
+        "AddTest.testSynchronization.1.xml");
+ }
 }
